@@ -1,0 +1,11 @@
+{
+  "name": "ethiroli-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix ethiroli-vue run build",
+    "build:vue": "npm --prefix ethiroli-vue run build",
+    "build:react": "npm --prefix ethiroli-react/frontend run build",
+    "postinstall": "npm --prefix ethiroli-vue install"
+  }
+}

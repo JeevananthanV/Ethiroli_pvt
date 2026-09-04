@@ -1,0 +1,83 @@
+.premium-route-enter {
+    animation: premiumFadeIn 0.68s cubic-bezier(0.2, 0.75, 0.2, 1) both;
+}
+
+.premium-reveal {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0) scale(0.988);
+    filter: saturate(0.88);
+}
+
+.premium-reveal.is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: saturate(1);
+    animation: premiumFadeInUp 0.92s cubic-bezier(0.22, 0.8, 0.22, 1) both;
+    animation-delay: var(--premium-delay, 0ms);
+}
+
+.premium-motion-ready .main-nav {
+    animation: premiumFadeInDown 0.72s ease both;
+}
+
+.premium-motion-ready .logo img {
+    animation: premiumZoomIn 0.75s ease both;
+}
+
+.premium-motion-ready .btn,
+.premium-motion-ready .et-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.premium-motion-ready .btn::before,
+.premium-motion-ready .et-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        105deg,
+        rgba(255, 255, 255, 0) 12%,
+        rgba(255, 255, 255, 0.18) 35%,
+        rgba(255, 255, 255, 0) 52%
+    );
+    transform: translateX(-120%);
+    transition: transform 0.72s cubic-bezier(0.2, 0.75, 0.2, 1);
+    pointer-events: none;
+}
+
+.premium-motion-ready .btn:hover::before,
+.premium-motion-ready .et-btn:hover::before {
+    transform: translateX(120%);
+}
+
+.premium-motion-ready .et-glass-card:hover,
+.premium-motion-ready .ab-card-premium:hover,
+.premium-motion-ready .et-card:hover {
+    animation: premiumPulse 0.85s ease;
+}
+
+.premium-motion-ready .et-footer-dark {
+    animation: premiumFadeInUp 1s ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .premium-route-enter,
+    .premium-reveal,
+    .premium-reveal.is-visible,
+    .premium-motion-ready .main-nav,
+    .premium-motion-ready .logo img,
+    .premium-motion-ready .et-glass-card:hover,
+    .premium-motion-ready .ab-card-premium:hover,
+    .premium-motion-ready .et-card:hover,
+    .premium-motion-ready .et-footer-dark {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
+    }
+
+    .premium-reveal {
+        opacity: 1 !important;
+        filter: none !important;
+    }
+}

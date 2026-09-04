@@ -1,0 +1,145 @@
+/* Home Hero - Same Design as JCI Project */
+
+.et-home-hero {
+    --color-primary: #819E35;
+    --color-secondary: #AF431E;
+    --color-accent: #1A4B48;
+    --color-bg: #fafaed;
+    --transition-smooth: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    
+    position: relative;
+    padding: 120px 5% 80px;
+    background-color: var(--color-bg);
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    align-items: center;
+    gap: 60px;
+    min-height: 90vh;
+    overflow: hidden;
+}
+
+.et-hero-content {
+    text-align: left;
+    max-width: 600px;
+}
+
+.et-hero-tag {
+    display: inline-block;
+    padding: 6px 16px;
+    background: rgba(129, 158, 53, 0.1);
+    color: var(--color-primary);
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+}
+
+.et-hero-content h1 {
+    font-family: 'Alice', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    margin: 1.5rem 0;
+    line-height: 1.1;
+    color: var(--color-accent);
+}
+
+.et-hero-content p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    color: #454839;
+}
+
+.et-hero-media {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.et-hero-img-main {
+    width: 100%;
+    height: 600px;
+    object-fit: cover;
+    border-radius: 150px 30px 30px 30px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.05);
+}
+
+.et-hero-img-float {
+    position: absolute;
+    top: -40px;
+    right: -20px;
+    width: 240px;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 30px;
+    border: 8px solid white;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    z-index: 2;
+}
+
+.et-hero-btns {
+    display: flex;
+    gap: 20px;
+}
+
+.et-btn-primary {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 1.1rem 2.5rem;
+    border-radius: 8px;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.et-btn-outline {
+    background: transparent;
+    color: var(--color-accent);
+    border: 2px solid var(--color-accent);
+    padding: 1.1rem 2.5rem;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.et-btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(129, 158, 53, 0.2);
+}
+
+.et-btn-outline:hover {
+    background: var(--color-accent);
+    color: white;
+}
+
+@media (max-width: 992px) {
+    .et-home-hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding-top: 160px;
+    }
+    .et-hero-content {
+        margin: 0 auto;
+        order: 2;
+    }
+    .et-hero-media {
+        order: 1;
+        margin-bottom: 40px;
+    }
+    .et-hero-img-main {
+        height: 400px;
+    }
+    .et-hero-img-float {
+        width: 150px;
+        height: 150px;
+        top: -20px;
+    }
+    .et-hero-btns {
+        justify-content: center;
+    }
+}

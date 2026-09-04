@@ -1,0 +1,14 @@
+type Query {
+  me: User!
+  globalSearch(query: String!): SearchResult!
+}
+
+type User {
+  id: ID!
+  email: String!
+  full_name: String!
+}
+
+type SearchResult {
+  message: String!
+}

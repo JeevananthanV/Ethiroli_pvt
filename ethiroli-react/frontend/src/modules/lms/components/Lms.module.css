@@ -1,0 +1,362 @@
+/* --- LMS Premium Styles --- */
+.container {
+  padding: 30px;
+  background: var(--color-bg-main, #F1ECE6);
+  border-radius: 12px;
+}
+
+.header {
+  margin-bottom: 24px;
+}
+
+.header h3 {
+  font-family: 'Alice', serif;
+  font-size: 26px;
+  color: var(--base-teal, #1A4B48);
+  margin: 0 0 6px 0;
+}
+
+.header p {
+  margin: 0;
+  color: var(--color-text-muted, #555555);
+}
+
+.searchBar {
+  margin-bottom: 24px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.15);
+  font-family: 'Montserrat', sans-serif;
+  background: var(--base-white, #FFFFFF);
+}
+
+.courseGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.courseCard {
+  background: var(--base-white, #FFFFFF);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border-top: 4px solid var(--color-primary, #819E35);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.courseBadge {
+  background: rgba(129, 158, 53, 0.15);
+  color: var(--color-primary, #819E35);
+  padding: 4px 8px;
+  border-radius: 4px;
+  align-self: flex-start;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.courseCard h4 {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+  color: var(--base-dark, #0c1a19);
+}
+
+.instructor, .duration {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-text-muted, #555555);
+}
+
+.progressContainer {
+  margin-top: auto;
+  font-size: 12px;
+}
+
+.progressBarWrapper {
+  height: 6px;
+  background: #E0E0E0;
+  border-radius: 3px;
+  margin-bottom: 6px;
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  background: var(--color-primary, #819E35);
+  border-radius: 3px;
+}
+
+.actionBtn {
+  background: var(--color-primary, #819E35);
+  color: var(--color-text-on-primary, #FFFFFF);
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.actionBtn:hover {
+  background: var(--base-teal, #1A4B48);
+}
+
+/* Player Layout */
+.playerLayout {
+  display: flex;
+  gap: 20px;
+  min-height: 500px;
+}
+
+.sidebar {
+  width: 280px;
+  background: var(--base-white, #FFFFFF);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.sidebar h4 {
+  margin: 0 0 16px 0;
+  font-family: 'Alice', serif;
+}
+
+.moduleGroup {
+  margin-bottom: 20px;
+}
+
+.moduleGroup h5 {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  color: var(--color-text-muted, #555555);
+}
+
+.moduleGroup ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.moduleGroup li {
+  padding: 8px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.3s ease;
+}
+
+.moduleGroup li:hover {
+  background: var(--color-bg-main, #F1ECE6);
+}
+
+.activeLessonItem {
+  background: var(--color-primary, #819E35) !important;
+  color: var(--color-text-on-primary, #FFFFFF);
+  font-weight: 600;
+}
+
+.playerContent {
+  flex: 1;
+  background: var(--base-white, #FFFFFF);
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.lessonViewer h3 {
+  margin: 0 0 8px 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.badge {
+  background: var(--color-bg-main, #F1ECE6);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.videoPlayerPlaceholder {
+  height: 300px;
+  background: linear-gradient(135deg, var(--base-teal, #1A4B48), var(--base-dark, #0c1a19));
+  border-radius: 8px;
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--base-white, #FFFFFF);
+}
+
+.playIcon {
+  font-size: 48px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.playIcon:hover {
+  transform: scale(1.1);
+}
+
+.navigationRow {
+  display: flex;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.primaryBtn, .secondaryBtn, .successBtn {
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.primaryBtn { background: var(--color-primary, #819E35); color: #fff; }
+.secondaryBtn { background: var(--color-bg-main, #F1ECE6); color: var(--color-text-main, #2d2d2d); }
+.successBtn { background: var(--base-teal, #1A4B48); color: #fff; }
+
+/* Quiz */
+.questionBlock {
+  background: var(--color-bg-main, #F1ECE6);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.questionMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.timer {
+  color: var(--base-clay, #AF431E);
+  font-weight: bold;
+}
+
+.fullWidthBtn {
+  width: 100%;
+}
+
+.leaderboardList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.leaderboardItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.leaderboardItemHighlight {
+  font-weight: bold;
+  color: var(--color-primary, #819E35);
+}
+
+.optionsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.optionLabel {
+  background: #fff;
+  padding: 10px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.successCard {
+  text-align: center;
+  padding: 40px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+/* Certificate */
+.certificateCard {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.certificateBorder {
+  border: 4px solid var(--color-primary, #819E35);
+  padding: 40px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.certificateBorder h2 {
+  font-family: 'Alice', serif;
+  letter-spacing: 2px;
+  color: var(--base-clay, #AF431E);
+}
+
+.certSub {
+  font-style: italic;
+  font-size: 14px;
+}
+
+.certMeta {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 40px;
+  font-size: 12px;
+  text-align: left;
+}
+
+.qrPlaceholder {
+  border: 1px solid #ccc;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Forum */
+.threadList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.threadItem {
+  background: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.pinBadge {
+  background: #FFD700;
+  color: #000;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+}

@@ -32,7 +32,7 @@ onMounted(() => {
                 class="et-project-card scroll-reveal-up"
                 :class="{ 'is-revealed': isVisibleRow }"
             >
-                <img src="/assets/images/activities/activity1.png" alt="Workshops and training sessions" />
+                <img src="/assets/images/founder/WhatsApp Image 2026-03-16 at 2.11.29 PM.jpeg" alt="Workshops and training sessions" />
                 <div class="et-project-card-content">
                     <h3>Women Entrepreneur Workshops</h3>
                     <p>Workshops and training sessions tailored to women entrepreneurs.</p>
@@ -44,7 +44,7 @@ onMounted(() => {
                 class="et-project-card scroll-reveal-up delay-1"
                 :class="{ 'is-revealed': isVisibleRow }"
             >
-                <img src="/assets/images/activities/activity2.png" alt="Networking events and mentorship programs" />
+                <img src="/assets/images/banner/gals.png" alt="Networking events and mentorship programs" />
                 <div class="et-project-card-content">
                     <h3>Mentorship and Networking</h3>
                     <p>Networking events and mentorship programs that foster collaboration and growth.</p>

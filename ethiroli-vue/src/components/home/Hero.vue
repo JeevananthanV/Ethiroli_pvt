@@ -25,11 +25,10 @@ onMounted(() => {
                 muted 
                 loop 
                 playsinline 
-                poster="/assets/images/ethiroli_video_poster.jpg" 
+                poster="/assets/images/banner/banner.png" 
                 class="bg-video"
             >
                 <source src="/assets/images/ethiroli.mp4" type="video/mp4" />
-                <source src="/assets/images/ethiroli.webm" type="video/webm" />
             </video>
             <div class="video-overlay"></div>
             <div class="video-content">

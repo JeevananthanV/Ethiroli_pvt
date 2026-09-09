@@ -137,7 +137,9 @@ export default function AdminApp() {
 
                 {/* Authentication Routes */}
                 <Route path="/app/login" element={<LoginPage />} />
-                <Route path="/admin/login" element={<LoginPage />} />
+                <Route path="/admin/login" element={<AdminLoginPage />} />
+                <Route path="/vendor/login" element={<VendorLoginPage />} />
+                <Route path="/client/login" element={<ClientLoginPage />} />
                 <Route path="/login" element={<Navigate to="/app/login" replace />} />
 
                 {/* Canonical Role Redirection Gates */}

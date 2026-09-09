@@ -29,9 +29,10 @@ async function runTests() {
   // 2. Test Holidays
   console.log('\n2. Testing Holiday registration...');
   try {
+    const holidayDate = `2026-10-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`;
     const holidayId = await Holiday.create({
       name: 'Gandhi Jayanti ' + Date.now(),
-      date: '2026-10-02',
+      date: holidayDate,
       is_restricted: false
     });
     console.log(`   ✅ Holiday.create successful. ID: ${holidayId}`);
@@ -45,19 +46,20 @@ async function runTests() {
   // 3. Test Company Settings
   console.log('\n3. Testing Company settings encryption...');
   try {
-    const settingId = await CompanySetting.save({
+    const settingId = await CompanySetting.create({
+      tenant_id: '368f5c88-12cd-11ed-861d-0242ac120002',
       company_name: 'Ethiroli Tech Solutions',
-      gst: '33AAAAA1111A1Z1',
+      gstin: '33AAAAA1111A1Z1',
       pan: 'AAAAA1111A',
       bank_name: 'State Bank of India',
-      bank_account: '999888777666',
+      bank_account_number: '999888777666',
       bank_ifsc: 'SBIN0001234',
       address: '123 Tech Park, Coimbatore'
     });
-    console.log(`   ✅ CompanySetting.save successful. ID: ${settingId}`);
+    console.log(`   ✅ CompanySetting.create successful. ID: ${settingId}`);
 
-    const settings = await CompanySetting.get();
-    if (settings && settings.gst === '33AAAAA1111A1Z1' && settings.bank_account === '999888777666') {
+    const settings = await CompanySetting.findById(settingId);
+    if (settings && settings.gstin === '33AAAAA1111A1Z1' && settings.bank_account_number === '999888777666') {
       console.log('   ✅ Company Settings PII decryption verified successfully.');
     }
   } catch (error) {

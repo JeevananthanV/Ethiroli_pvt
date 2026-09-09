@@ -65,9 +65,10 @@ async function runTests() {
   // 3. Test Integrations Config Encryption
   console.log('\n3. Testing Integrations Key encryption...');
   try {
+    const serviceName = 'twilio-' + Date.now();
     const configData = { api_key: 'twilio-secret-token-value', sender_phone: '+123456789' };
     const integrationId = await Integration.create({
-      service_name: 'twilio',
+      service_name: serviceName,
       category: 'COMMUNICATION',
       config: configData,
       is_enabled: true
@@ -75,7 +76,7 @@ async function runTests() {
     console.log(`   ✅ Integration.create successful. ID: ${integrationId}`);
 
     const integrations = await Integration.list();
-    const twilioInt = integrations.find(item => item.service_name === 'twilio');
+    const twilioInt = integrations.find(item => item.service_name === serviceName);
     if (twilioInt && twilioInt.config.api_key === 'twilio-secret-token-value') {
       console.log('   ✅ Integration configuration decrypted successfully in memory.');
     }

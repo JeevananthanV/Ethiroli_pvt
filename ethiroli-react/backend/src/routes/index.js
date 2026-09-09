@@ -5,6 +5,7 @@ import leadRoutes from './leadRoutes.js';
 import feedRoutes from './feedRoutes.js';
 import auditRoutes from './auditRoutes.js';
 import systemRoutes from './systemRoutes.js';
+import healthRoutes from './healthRoutes.js';
 
 // Phase 2 Routes
 import employeeRoutes from './employeeRoutes.js';
@@ -46,6 +47,7 @@ import holidayRoutes from './holidayRoutes.js';
 import workflowRoutes from './workflowRoutes.js';
 import approvalRoutes from './approvalRoutes.js';
 import companySettingRoutes from './companySettingRoutes.js';
+import recurringScheduleRoutes from './recurringScheduleRoutes.js';
 
 // Phase 6 Routes
 import jobBoardRoutes from './jobBoardRoutes.js';
@@ -63,6 +65,7 @@ import reportRoutes from './reportRoutes.js';
 import scheduledReportRoutes from './scheduledReportRoutes.js';
 import apiKeyRoutes from './apiKeyRoutes.js';
 import webhookRoutes from './webhookRoutes.js';
+import orderRoutes from './orderRoutes.js';
 
 // Phase 8 Routes
 import predictiveRoutes from './predictiveRoutes.js';
@@ -81,6 +84,7 @@ router.use('/v1/users', userRoutes);
 router.use('/v1/leads', leadRoutes);
 router.use('/v1/activity-feed', feedRoutes);
 router.use('/v1/audit-logs', auditRoutes);
+router.use('/health', healthRoutes);
 router.use('/v1/system', systemRoutes);
 
 // Mount Phase 2 Routes
@@ -123,6 +127,7 @@ router.use('/v1', holidayRoutes);
 router.use('/v1', workflowRoutes);
 router.use('/v1', approvalRoutes);
 router.use('/v1', companySettingRoutes);
+router.use('/v1', recurringScheduleRoutes);
 
 // Mount Phase 6 Routes
 router.use('/v1', jobBoardRoutes);
@@ -140,6 +145,7 @@ router.use('/v1', reportRoutes);
 router.use('/v1', scheduledReportRoutes);
 router.use('/v1', apiKeyRoutes);
 router.use('/v1', webhookRoutes);
+router.use('/v1', orderRoutes);
 
 // Mount Phase 8 Routes
 router.use('/v1', predictiveRoutes);

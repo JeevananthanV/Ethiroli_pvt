@@ -1,43 +1,122 @@
 import http from 'http';
+import https from 'https';
 import app from './app.js';
-import initSocketServer from './socket/index.js';
-import pool from './config/database.js';
+import initSocketServer, { httpServer as socketHttpServer } from './socket/index.js';
+import pool, { logPoolStatus } from './config/database.js';
 import bcrypt from 'bcrypt';
 
 const PORT = process.env.PORT || 5000;
 const SOCKET_PORT = 3003;
+const SHUTDOWN_TIMEOUT_MS = Number(process.env.SHUTDOWN_TIMEOUT_MS || 10000);
+
+if (process.env.NODE_ENV === 'development') {
+  https.globalAgent.options.rejectUnauthorized = false;
+}
+
+let isShuttingDown = false;
+
+const gracefulShutdown = (signal) => {
+  if (isShuttingDown) {
+    console.log(`${signal} received again. Forcing exit.`);
+    process.exit(1);
+  }
+
+  isShuttingDown = true;
+  console.log(`${signal} received. Starting graceful shutdown...`);
+
+  const closeServers = async () => {
+    try {
+      console.log('Closing Socket.IO server...');
+      await new Promise((resolve) => {
+        socketHttpServer.close(() => {
+          console.log('Socket.IO server closed.');
+          resolve();
+        });
+        setTimeout(resolve, SHUTDOWN_TIMEOUT_MS);
+      });
+
+      console.log('Closing HTTP server...');
+      await new Promise((resolve) => {
+        server.close(() => {
+          console.log('HTTP server closed.');
+          resolve();
+        });
+        setTimeout(resolve, SHUTDOWN_TIMEOUT_MS);
+      });
+
+      console.log('Closing database connections...');
+      await pool.end();
+      console.log('Database connections closed.');
+
+      console.log('Graceful shutdown complete.');
+      process.exit(0);
+    } catch (error) {
+      console.error('Error during graceful shutdown:', error);
+      process.exit(1);
+    }
+  };
+
+  closeServers();
+};
+
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
 const seedAdminUser = async () => {
+  const adminEmail = process.env.SEED_ADMIN_EMAIL;
+  const adminPassword = process.env.SEED_ADMIN_PASSWORD;
+
+  if (!adminEmail || !adminPassword) {
+    console.log('Skipping admin seed: SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD not set.');
+    return;
+  }
+
   try {
-    const [rows] = await pool.execute("SELECT id FROM users WHERE email = 'admin@ethiroli.com' OR role = 'SUPER_ADMIN'");
+    const [rows] = await pool.execute(
+      "SELECT id FROM users WHERE email = ? OR role = 'SUPER_ADMIN' LIMIT 1",
+      [adminEmail]
+    );
+
     if (rows.length === 0) {
-      // Seed default SUPER_ADMIN
-      const passwordHash = await bcrypt.hash('123', 10);
-      const email = 'admin@ethiroli.com'; // Note: In User model email is deterministic-encrypted. Let's use User.create or insert manually
-      // We will insert manually or let User.create do it. Since User.create does it correctly, let's import User.
       const { default: User } = await import('./models/User.js');
-      await User.create({
-        email,
+      const passwordHash = await bcrypt.hash(adminPassword, 12);
+      const id = await User.create({
+        email: adminEmail,
         password_hash: passwordHash,
         full_name: 'Super Administrator',
         role: 'SUPER_ADMIN'
       });
-      console.log('Seeded default SUPER_ADMIN user.');
+      console.log(`Seeded default SUPER_ADMIN user with id: ${id}`);
     }
   } catch (error) {
     console.error('Error seeding default admin user:', error);
   }
 };
 
-// Start Express Server
-app.listen(PORT, async () => {
-  console.log(`API Server running on http://localhost:${PORT}`);
-  await seedAdminUser();
-});
+const startServers = async () => {
+  try {
+    await pool.execute('SELECT 1 AS health_check');
+    console.log('Database connectivity verified.');
 
-// Start standalone Socket.IO Server on port 3003
-const socketServer = http.createServer();
-initSocketServer(socketServer);
-socketServer.listen(SOCKET_PORT, () => {
-  console.log(`Socket.IO Server running on http://localhost:${SOCKET_PORT}`);
-});
+    const server = app.listen(PORT, async () => {
+      console.log(`API Server running on http://localhost:${PORT}`);
+      await seedAdminUser();
+    });
+
+    const io = initSocketServer(socketHttpServer);
+    socketHttpServer.listen(SOCKET_PORT, () => {
+      console.log(`Socket.IO Server running on http://localhost:${SOCKET_PORT}`);
+    });
+
+    setInterval(() => {
+      logPoolStatus(pool);
+    }, 5 * 60 * 1000);
+
+    return { server, socketHttpServer, io };
+  } catch (error) {
+    console.error('Failed to start servers:', error);
+    process.exit(1);
+  }
+};
+
+startServers();

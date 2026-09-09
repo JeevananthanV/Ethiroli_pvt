@@ -47,19 +47,17 @@ async function runTests() {
   console.log('\n3. Testing Company settings encryption...');
   try {
     const settingId = await CompanySetting.create({
-      tenant_id: '368f5c88-12cd-11ed-861d-0242ac120002',
       company_name: 'Ethiroli Tech Solutions',
-      gstin: '33AAAAA1111A1Z1',
+      gst: '33AAAAA1111A1Z1',
       pan: 'AAAAA1111A',
       bank_name: 'State Bank of India',
-      bank_account_number: '999888777666',
-      bank_ifsc: 'SBIN0001234',
+      bank_account: '999888777666',
       address: '123 Tech Park, Coimbatore'
     });
     console.log(`   ✅ CompanySetting.create successful. ID: ${settingId}`);
 
     const settings = await CompanySetting.findById(settingId);
-    if (settings && settings.gstin === '33AAAAA1111A1Z1' && settings.bank_account_number === '999888777666') {
+    if (settings && settings.gst === '33AAAAA1111A1Z1' && settings.bank_account === '999888777666') {
       console.log('   ✅ Company Settings PII decryption verified successfully.');
     }
   } catch (error) {

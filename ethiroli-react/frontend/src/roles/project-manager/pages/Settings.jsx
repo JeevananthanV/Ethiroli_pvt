@@ -1,5 +1,5 @@
 import React from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
 import CompanySettings from '../../../modules/pms/components/CompanySettings.jsx';
 
 export default function PMSettings() {

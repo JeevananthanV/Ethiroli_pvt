@@ -1,5 +1,5 @@
 import React from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
 
 export default function InternDashboard() {
   const goals = [

@@ -7,9 +7,9 @@ export default class CompanySetting {
     if (!row) return null;
     return {
       ...row,
-      gstin: row.gstin ? decrypt(row.gstin) : null,
+      gst: row.gst ? decrypt(row.gst) : null,
       pan: row.pan ? decrypt(row.pan) : null,
-      bank_account_number: row.bank_account_number ? decrypt(row.bank_account_number) : null,
+      bank_account: row.bank_account ? decrypt(row.bank_account) : null,
       bank_ifsc: row.bank_ifsc ? decrypt(row.bank_ifsc) : null,
       bank_name: row.bank_name ? decrypt(row.bank_name) : null
     };
@@ -25,12 +25,12 @@ export default class CompanySetting {
     return rows.length > 0 ? this.format(rows[0]) : null;
   }
 
-  static async create({ tenant_id, company_name, gstin = null, pan = null, address = null, phone = null, email = null, logo_url = null, bank_account_number = null, bank_ifsc = null, bank_name = null }) {
+  static async create({ company_name, gst = null, pan = null, address = null, phone = null, email = null, logo_url = null, bank_account = null, bank_ifsc = null, bank_name = null }) {
     const id = crypto.randomUUID();
     await pool.execute(
-      `INSERT INTO company_settings (id, tenant_id, company_name, gstin, pan, address, phone, email, logo_url, bank_account_number, bank_ifsc, bank_name)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [id, tenant_id, company_name, gstin ? encrypt(gstin) : null, pan ? encrypt(pan) : null, address, phone, email, logo_url, bank_account_number ? encrypt(bank_account_number) : null, bank_ifsc ? encrypt(bank_ifsc) : null, bank_name ? encrypt(bank_name) : null]
+      `INSERT INTO company_settings (id, company_name, gst, pan, address, phone, email, logo_url, bank_account, bank_ifsc, bank_name)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [id, company_name, gst ? encrypt(gst) : null, pan ? encrypt(pan) : null, address, phone, email, logo_url, bank_account ? encrypt(bank_account) : null, bank_ifsc ? encrypt(bank_ifsc) : null, bank_name ? encrypt(bank_name) : null]
     );
     return id;
   }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
 import { listReviews } from '../../../services/api/performanceApi.js';
 
 function getStatusClass(status) {

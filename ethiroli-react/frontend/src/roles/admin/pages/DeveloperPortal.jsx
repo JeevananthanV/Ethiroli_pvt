@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { getApiKeys, createApiKey } from '../../../services/api/apiKeyApi.js';
 
 export default function AdminDeveloperPortal() {

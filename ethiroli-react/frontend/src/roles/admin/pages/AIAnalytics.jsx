@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { getStudentChurn, getLeadScore } from '../../../services/api/predictiveApi.js';
 
 export default function AdminAIAnalytics() {

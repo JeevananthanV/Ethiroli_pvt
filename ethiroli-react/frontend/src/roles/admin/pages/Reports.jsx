@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { listReportDefinitions, executeReport } from '../../../services/api/reportApi.js';
 
 export default function AdminReports() {

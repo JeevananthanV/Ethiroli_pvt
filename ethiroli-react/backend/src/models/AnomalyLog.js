@@ -3,9 +3,14 @@ import pool from '../config/database.js';
 export default class AnomalyLog {
   static format(row) {
     if (!row) return null;
+    const parseJson = (val) => {
+      if (!val) return null;
+      if (typeof val === 'object') return val;
+      try { return JSON.parse(val); } catch { return null; }
+    };
     return {
       ...row,
-      details: row.details ? JSON.parse(row.details) : null
+      details: parseJson(row.details)
     };
   }
 

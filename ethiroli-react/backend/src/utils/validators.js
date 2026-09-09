@@ -1,52 +1,69 @@
+export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const PHONE_REGEX = /^\+?[1-9]\d{1,14}$/;
+export const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+export const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+export const DATETIME_REGEX = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z?$/;
+
 export const validateEmail = (email) => {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return re.test(String(email).toLowerCase());
+  return EMAIL_REGEX.test(String(email).toLowerCase());
 };
 
-export const validateLogin = (data) => {
-  const errors = {};
-  if (!data.email || !validateEmail(data.email)) {
-    errors.email = 'Valid email is required.';
-  }
-  if (!data.password || data.password.length < 3) {
-    errors.password = 'Password must be at least 3 characters.';
-  }
-  return {
-    isValid: Object.keys(errors).length === 0,
-    errors
-  };
+export const validatePhone = (phone) => {
+  if (!phone) return true;
+  return PHONE_REGEX.test(String(phone).replace(/[\s()-]/g, ''));
 };
 
-export const validateCreateUser = (data) => {
-  const errors = {};
-  if (!data.email || !validateEmail(data.email)) {
-    errors.email = 'Valid email is required.';
-  }
-  if (!data.password || data.password.length < 3) {
-    errors.password = 'Password must be at least 3 characters.';
-  }
-  if (!data.full_name || data.full_name.trim().length === 0) {
-    errors.full_name = 'Full name is required.';
-  }
-  if (!data.role) {
-    errors.role = 'Role is required.';
-  }
-  return {
-    isValid: Object.keys(errors).length === 0,
-    errors
-  };
+export const validateUUID = (value) => {
+  if (!value) return true;
+  return UUID_REGEX.test(String(value));
 };
 
-export const validateCreateLead = (data) => {
-  const errors = {};
-  if (!data.name || data.name.trim().length === 0) {
-    errors.name = 'Lead name is required.';
+export const validateDate = (value) => {
+  if (!value) return true;
+  return DATE_REGEX.test(String(value));
+};
+
+export const validateDateTime = (value) => {
+  if (!value) return true;
+  return DATETIME_REGEX.test(String(value));
+};
+
+export const validateEnum = (value, allowedValues) => {
+  if (!value) return true;
+  return allowedValues.includes(String(value).toUpperCase());
+};
+
+export const validateRequired = (body, fields) => {
+  const missing = [];
+  for (const field of fields) {
+    const value = body[field];
+    if (value === undefined || value === null || String(value).trim() === '') {
+      missing.push(field);
+    }
   }
-  if (data.email && !validateEmail(data.email)) {
-    errors.email = 'Provided email is invalid.';
+  return missing;
+};
+
+export const sanitizeInput = (input) => {
+  if (input === null || input === undefined) {
+    return input;
   }
-  return {
-    isValid: Object.keys(errors).length === 0,
-    errors
-  };
+
+  if (typeof input === 'string') {
+    return input.replace(/\0/g, '').trim();
+  }
+
+  if (Array.isArray(input)) {
+    return input.map(sanitizeInput);
+  }
+
+  if (typeof input === 'object') {
+    const sanitized = {};
+    for (const key of Object.keys(input)) {
+      sanitized[key] = sanitizeInput(input[key]);
+    }
+    return sanitized;
+  }
+
+  return input;
 };

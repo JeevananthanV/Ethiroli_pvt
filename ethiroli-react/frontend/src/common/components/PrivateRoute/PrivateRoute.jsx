@@ -1,9 +1,12 @@
 import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext.jsx';
+import { isRoleAuthorized } from '../../utils/roleRouting.js';
+import Unauthorized from '../Unauthorized/Unauthorized.jsx';
 
 export default function PrivateRoute({ allowedRoles }) {
   const { isAuthenticated, user, loading } = useAuth();
+  const location = useLocation();
 
   if (loading) {
     return (
@@ -17,11 +20,11 @@ export default function PrivateRoute({ allowedRoles }) {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/app/login" state={{ from: location }} replace />;
   }
 
-  if (allowedRoles && !allowedRoles.includes(user?.role)) {
-    return <Navigate to="/" replace />;
+  if (allowedRoles && !isRoleAuthorized(user?.role, allowedRoles)) {
+    return <Unauthorized requiredRoles={allowedRoles} />;
   }
 
   return <Outlet />;

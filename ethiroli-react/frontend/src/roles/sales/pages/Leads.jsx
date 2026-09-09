@@ -1,5 +1,6 @@
 import React from 'react';
+import KanbanBoard from '../../../modules/crm/components/KanbanBoard.jsx';
 
-export default function Component() {
-  return <div>Component: Leads.jsx</div>;
+export default function SalesLeads() {
+  return <KanbanBoard />;
 }

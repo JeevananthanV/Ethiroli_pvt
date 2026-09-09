@@ -12,7 +12,6 @@ export default function Integrations() {
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [saving, setSaving] = useState(false);
 
   const fetchData = async () => {
     setLoading(true);

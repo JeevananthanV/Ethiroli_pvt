@@ -2,14 +2,20 @@ import pool from '../config/database.js';
 import { encrypt, decrypt, encryptDeterministic } from '../config/encryption.js';
 
 export default class User {
-  static formatUser(row) {
+  static format(row) {
     if (!row) return null;
     return {
       ...row,
       email: decrypt(row.email),
       full_name: decrypt(row.full_name),
-      phone: row.phone ? decrypt(row.phone) : null
+      phone: row.phone ? decrypt(row.phone) : null,
+      preferences: row.preferences ? JSON.parse(row.preferences) : null
     };
+  }
+
+  static async findById(id) {
+    const [rows] = await pool.execute('SELECT * FROM users WHERE id = ?', [id]);
+    return rows.length > 0 ? this.format(rows[0]) : null;
   }
 
   static async findByEmail(email) {
@@ -18,15 +24,7 @@ export default class User {
       'SELECT * FROM users WHERE email = ? AND is_active = TRUE',
       [hashedEmail]
     );
-    return rows.length > 0 ? this.formatUser(rows[0]) : null;
-  }
-
-  static async findById(id) {
-    const [rows] = await pool.execute(
-      'SELECT * FROM users WHERE id = ?',
-      [id]
-    );
-    return rows.length > 0 ? this.formatUser(rows[0]) : null;
+    return rows.length > 0 ? this.format(rows[0]) : null;
   }
 
   static async create({ email, password_hash, full_name, phone, role, preferences = null }) {
@@ -80,6 +78,10 @@ export default class User {
       queryParts.push('last_login_at = ?');
       values.push(updates.last_login_at);
     }
+    if (updates.avatar_url !== undefined) {
+      queryParts.push('avatar_url = ?');
+      values.push(updates.avatar_url);
+    }
 
     if (queryParts.length === 0) return;
 
@@ -90,7 +92,11 @@ export default class User {
     );
   }
 
-  static async list({ role, is_active, limit = 50, offset = 0 } = {}) {
+  static async delete(id) {
+    await pool.execute('DELETE FROM users WHERE id = ?', [id]);
+  }
+
+  static async list({ role, is_active, search, limit = 50, offset = 0 } = {}) {
     let query = 'SELECT * FROM users WHERE 1=1';
     const values = [];
 
@@ -102,12 +108,37 @@ export default class User {
       query += ' AND is_active = ?';
       values.push(is_active);
     }
+    if (search) {
+      query += ' AND full_name LIKE ?';
+      values.push(`%${search}%`);
+    }
 
-    query += ' LIMIT ? OFFSET ?';
+    query += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
     values.push(limit, offset);
 
     const [rows] = await pool.execute(query, values);
-    return rows.map(row => this.formatUser(row));
+    return rows.map(row => this.format(row));
+  }
+
+  static async count({ role, is_active, search } = {}) {
+    let query = 'SELECT COUNT(*) as total FROM users WHERE 1=1';
+    const values = [];
+
+    if (role) {
+      query += ' AND role = ?';
+      values.push(role);
+    }
+    if (is_active !== undefined) {
+      query += ' AND is_active = ?';
+      values.push(is_active);
+    }
+    if (search) {
+      query += ' AND full_name LIKE ?';
+      values.push(`%${search}%`);
+    }
+
+    const [rows] = await pool.execute(query, values);
+    return rows[0].total;
   }
 
   static async softDelete(id) {

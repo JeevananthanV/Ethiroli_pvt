@@ -1,6 +1,6 @@
 import React from 'react';
-import Users from '../super-admin/pages/Users.jsx';
+import UserTable from '../../../modules/users/components/UserTable.jsx';
 
-export default function AdminUsersPage() {
-  return <Users />;
+export default function AdminUsers() {
+  return <UserTable />;
 }

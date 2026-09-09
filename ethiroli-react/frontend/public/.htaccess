@@ -1,7 +1,14 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
+
+  # Route application URLs to admin.html
+  RewriteRule ^app(/.*)?$ /admin.html [L,QSA]
+  RewriteRule ^admin(/.*)?$ /admin.html [L,QSA]
+
+  # Direct file requests
   RewriteRule ^index\.html$ - [L]
+  RewriteRule ^admin\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-l

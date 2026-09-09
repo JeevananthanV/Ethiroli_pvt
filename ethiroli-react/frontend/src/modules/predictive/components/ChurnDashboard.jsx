@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { getLeadScore } from '../../../services/api/predictiveApi.js';
-import { getStudentChurn } from '../../../services/api/predictiveApi.js';
 import { getLeads } from '../../../services/api/leadApi.js';
 
 export default function ChurnDashboard() {
   const [leadScores, setLeadScores] = useState([]);
-  const [churnData, setChurnData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [leads, setLeads] = useState([]);
 

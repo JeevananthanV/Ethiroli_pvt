@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getCourses } from '../../services/api/courseApi.js';
-import { getEnrollments } from '../../services/api/enrollmentApi.js';
+import { getMyEnrollments } from '../../services/api/enrollmentApi.js';
 import { getQuizzes } from '../../services/api/quizApi.js';
 
 export default function LMS() {

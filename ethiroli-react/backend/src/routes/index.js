@@ -72,6 +72,16 @@ import predictiveRoutes from './predictiveRoutes.js';
 import automationRoutes from './automationRoutes.js';
 import notificationRoutes from './notificationRoutes.js';
 
+// Role-isolated auth routes
+import adminAuthRoutes from './admin/authRoutes.js';
+import vendorAuthRoutes from './vendor/authRoutes.js';
+import clientAuthRoutes from './client/authRoutes.js';
+
+// Role-isolated data routes
+import adminRoutes from './admin/adminRoutes.js';
+import vendorRoutes from './vendor/vendorRoutes.js';
+import clientRoutes from './client/clientRoutes.js';
+
 import { resolveTenant } from '../middleware/tenantResolver.js';
 
 const router = express.Router();
@@ -86,6 +96,16 @@ router.use('/v1/activity-feed', feedRoutes);
 router.use('/v1/audit-logs', auditRoutes);
 router.use('/health', healthRoutes);
 router.use('/v1/system', systemRoutes);
+
+// Role-isolated auth endpoints
+router.use('/v1/admin/auth', adminAuthRoutes);
+router.use('/v1/vendor/auth', vendorAuthRoutes);
+router.use('/v1/client/auth', clientAuthRoutes);
+
+// Role-isolated data endpoints
+router.use('/v1/admin', adminRoutes);
+router.use('/v1/vendor', vendorRoutes);
+router.use('/v1/client', clientRoutes);
 
 // Mount Phase 2 Routes
 router.use('/v1', employeeRoutes);
@@ -153,3 +173,4 @@ router.use('/v1', automationRoutes);
 router.use('/v1', notificationRoutes);
 
 export default router;
+

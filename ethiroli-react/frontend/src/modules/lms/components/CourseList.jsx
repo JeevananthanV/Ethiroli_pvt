@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { listCourses } from '../../../services/api/courseApi.js';
 import { getMyEnrollments } from '../../../services/api/enrollmentApi.js';
 import styles from './Lms.module.css';
 
-export default function CourseList({ view = 'tutor', courseId: propCourseId }) {
+export default function CourseList({ view = 'tutor' }) {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const fetchCourses = async () => {
+  const fetchCourses = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -26,11 +26,11 @@ export default function CourseList({ view = 'tutor', courseId: propCourseId }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [view]);
 
   useEffect(() => {
     fetchCourses();
-  }, [view]);
+  }, [fetchCourses]);
 
   const filtered = courses.filter(c =>
     c.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||

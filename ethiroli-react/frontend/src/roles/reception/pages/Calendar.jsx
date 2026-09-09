@@ -1,5 +1,6 @@
 import React from 'react';
+import CalendarView from '../../../modules/calendar/components/CalendarView.jsx';
 
-export default function Component() {
-  return <div>Component: Calendar.jsx</div>;
+export default function ReceptionCalendar() {
+  return <CalendarView />;
 }

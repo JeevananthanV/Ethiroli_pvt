@@ -15,7 +15,7 @@ export default function LiveQuizSession({ sessionId }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [timeLeft, setTimeLeft] = useState(24);
-  const [leaderboard, setLeaderboard] = useState(LEADERBOARD_MOCK);
+  const [leaderboard] = useState(LEADERBOARD_MOCK);
 
   useEffect(() => {
     const fetchSession = async () => {

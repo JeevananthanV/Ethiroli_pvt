@@ -12,7 +12,6 @@ export default function MainLayout() {
   const dispatch = useAppDispatch();
   const sidebarOpen = useAppSelector((state) => state.ui.sidebarOpen);
   const feedItems = useAppSelector((state) => state.feed.items);
-
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState({ users: [], leads: [] });
@@ -76,7 +75,6 @@ export default function MainLayout() {
       <div className={`mainWrapper ${sidebarOpen ? 'sidebarOpen' : ''}`}>
         <Navbar 
           onSearchClick={() => setSearchOpen(true)} 
-          onFeedToggle={() => setFeedOpen((prev) => !prev)}
         />
         
         <div className="contentArea">

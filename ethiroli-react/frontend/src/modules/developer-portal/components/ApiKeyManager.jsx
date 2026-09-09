@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { getApiKeys, createApiKey } from '../../../services/api/apiKeyApi.js';
 import { getWebhooks, createWebhook } from '../../../services/api/webhookApi.js';
 
@@ -10,9 +11,11 @@ export default function ApiKeyManager() {
   const [showWebhookForm, setShowWebhookForm] = useState(false);
   const [newKey, setNewKey] = useState({ name: '', scopes: '' });
   const [newWebhook, setNewWebhook] = useState({ url: '', events: '', secret: '' });
+  const [error, setError] = useState(null);
 
   const loadData = async () => {
     setLoading(true);
+    setError(null);
     try {
       const [keysRes, webRes] = await Promise.all([
         getApiKeys().catch(() => []),
@@ -21,7 +24,7 @@ export default function ApiKeyManager() {
       setApiKeys(Array.isArray(keysRes) ? keysRes : []);
       setWebhooks(Array.isArray(webRes) ? webRes : []);
     } catch (err) {
-      console.error('Failed to load developer portal data:', err);
+      setError(err.message || 'Failed to load developer portal data');
     } finally {
       setLoading(false);
     }
@@ -39,7 +42,7 @@ export default function ApiKeyManager() {
       setNewKey({ name: '', scopes: '' });
       loadData();
     } catch (err) {
-      console.error('Failed to create API key:', err);
+      setError(err.message || 'Failed to create API key');
     }
   };
 
@@ -51,43 +54,45 @@ export default function ApiKeyManager() {
       setNewWebhook({ url: '', events: '', secret: '' });
       loadData();
     } catch (err) {
-      console.error('Failed to create webhook:', err);
+      setError(err.message || 'Failed to create webhook');
     }
   };
 
-  if (loading) return <div className="loading">Loading developer portal...</div>;
-
   return (
-    <div>
-      <div className="pageHeader">
-        <div>
-          <h2 className="pageTitle">Developer Portal</h2>
-          <p className="pageSubtitle">API keys, webhooks, and system integrations</p>
-        </div>
-        <div className="pageActions" style={{ display: 'flex', gap: '10px' }}>
+    <AdminPage
+      title="Developer Portal"
+      subtitle="API keys, webhooks, and system integrations"
+      loading={loading}
+      error={error}
+      onRetry={loadData}
+      actions={
+        <>
           <button onClick={() => setShowKeyForm(true)} className="btn btnPrimary">+ New API Key</button>
           <button onClick={() => setShowWebhookForm(true)} className="btn">+ New Webhook</button>
-        </div>
-      </div>
-      <div style={{ display: 'grid', gap: '20px', marginTop: '20px' }}>
+        </>
+      }
+    >
+      <div style={{ display: 'grid', gap: 20 }}>
         <div className="card">
           <div className="cardHeader"><h3 className="cardTitle">API Keys ({apiKeys.length})</h3></div>
           <div className="cardBody">
             {apiKeys.length === 0 ? (
               <p style={{ color: 'var(--admin-text-secondary)' }}>No API keys created yet.</p>
             ) : (
-              <table className="table">
-                <thead><tr><th>Name</th><th>Key</th><th>Scopes</th></tr></thead>
-                <tbody>
-                  {apiKeys.map((key) => (
-                    <tr key={key.id}>
-                      <td>{key.name}</td>
-                      <td><code>{key.key?.slice(0, 8)}...</code></td>
-                      <td>{key.scopes || 'all'}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <div className="overflowAuto">
+                <table className="table">
+                  <thead><tr><th>Name</th><th>Key</th><th>Scopes</th></tr></thead>
+                  <tbody>
+                    {apiKeys.map((key) => (
+                      <tr key={key.id}>
+                        <td className="textPrimary" style={{ fontWeight: 500 }}>{key.name}</td>
+                        <td><code>{key.key?.slice(0, 8)}...</code></td>
+                        <td className="textSecondary">{key.scopes || 'all'}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
           </div>
         </div>
@@ -97,67 +102,79 @@ export default function ApiKeyManager() {
             {webhooks.length === 0 ? (
               <p style={{ color: 'var(--admin-text-secondary)' }}>No webhooks configured.</p>
             ) : (
-              <table className="table">
-                <thead><tr><th>URL</th><th>Events</th></tr></thead>
-                <tbody>
-                  {webhooks.map((wh) => (
-                    <tr key={wh.id}>
-                      <td><code>{wh.url}</code></td>
-                      <td>{wh.events || 'all'}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <div className="overflowAuto">
+                <table className="table">
+                  <thead><tr><th>URL</th><th>Events</th></tr></thead>
+                  <tbody>
+                    {webhooks.map((wh) => (
+                      <tr key={wh.id}>
+                        <td><code>{wh.url}</code></td>
+                        <td className="textSecondary">{wh.events || 'all'}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
           </div>
         </div>
       </div>
       {showKeyForm && (
-        <div className="modalOverlay" onClick={() => setShowKeyForm(false)}>
+        <div className="overlay" onClick={() => setShowKeyForm(false)}>
           <div className="modalContent" onClick={(e) => e.stopPropagation()}>
-            <h3>Create API Key</h3>
-            <form onSubmit={handleCreateKey}>
-              <div className="formGroup">
-                <label className="label">Key Name</label>
-                <input className="input" value={newKey.name} onChange={(e) => setNewKey({ ...newKey, name: e.target.value })} required />
-              </div>
-              <div className="formGroup">
-                <label className="label">Scopes</label>
-                <input className="input" value={newKey.scopes} onChange={(e) => setNewKey({ ...newKey, scopes: e.target.value })} required />
-              </div>
-              <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '20px' }}>
-                <button type="button" onClick={() => setShowKeyForm(false)} className="btn">Cancel</button>
-                <button type="submit" className="btn btnPrimary">Create Key</button>
-              </div>
-            </form>
+            <div className="modalHeader">
+              <h3 className="modalTitle">Create API Key</h3>
+              <button className="closeBtn" onClick={() => setShowKeyForm(false)}>&times;</button>
+            </div>
+            <div className="modalBody">
+              <form onSubmit={handleCreateKey}>
+                <div className="formGroup">
+                  <label className="label">Key Name</label>
+                  <input className="inputField" value={newKey.name} onChange={(e) => setNewKey({ ...newKey, name: e.target.value })} required />
+                </div>
+                <div className="formGroup">
+                  <label className="label">Scopes</label>
+                  <input className="inputField" value={newKey.scopes} onChange={(e) => setNewKey({ ...newKey, scopes: e.target.value })} required />
+                </div>
+                <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '20px' }}>
+                  <button type="button" onClick={() => setShowKeyForm(false)} className="btn secondary">Cancel</button>
+                  <button type="submit" className="btn primary">Create Key</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       )}
       {showWebhookForm && (
-        <div className="modalOverlay" onClick={() => setShowWebhookForm(false)}>
+        <div className="overlay" onClick={() => setShowWebhookForm(false)}>
           <div className="modalContent" onClick={(e) => e.stopPropagation()}>
-            <h3>Create Webhook</h3>
-            <form onSubmit={handleCreateWebhook}>
-              <div className="formGroup">
-                <label className="label">Webhook URL</label>
-                <input className="input" value={newWebhook.url} onChange={(e) => setNewWebhook({ ...newWebhook, url: e.target.value })} required />
-              </div>
-              <div className="formGroup">
-                <label className="label">Events</label>
-                <input className="input" value={newWebhook.events} onChange={(e) => setNewWebhook({ ...newWebhook, events: e.target.value })} required />
-              </div>
-              <div className="formGroup">
-                <label className="label">Secret</label>
-                <input className="input" value={newWebhook.secret} onChange={(e) => setNewWebhook({ ...newWebhook, secret: e.target.value })} required />
-              </div>
-              <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '20px' }}>
-                <button type="button" onClick={() => setShowWebhookForm(false)} className="btn">Cancel</button>
-                <button type="submit" className="btn btnPrimary">Create Webhook</button>
-              </div>
-            </form>
+            <div className="modalHeader">
+              <h3 className="modalTitle">Create Webhook</h3>
+              <button className="closeBtn" onClick={() => setShowWebhookForm(false)}>&times;</button>
+            </div>
+            <div className="modalBody">
+              <form onSubmit={handleCreateWebhook}>
+                <div className="formGroup">
+                  <label className="label">Webhook URL</label>
+                  <input className="inputField" value={newWebhook.url} onChange={(e) => setNewWebhook({ ...newWebhook, url: e.target.value })} required />
+                </div>
+                <div className="formGroup">
+                  <label className="label">Events</label>
+                  <input className="inputField" value={newWebhook.events} onChange={(e) => setNewWebhook({ ...newWebhook, events: e.target.value })} required />
+                </div>
+                <div className="formGroup">
+                  <label className="label">Secret</label>
+                  <input className="inputField" value={newWebhook.secret} onChange={(e) => setNewWebhook({ ...newWebhook, secret: e.target.value })} required />
+                </div>
+                <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '20px' }}>
+                  <button type="button" onClick={() => setShowWebhookForm(false)} className="btn secondary">Cancel</button>
+                  <button type="submit" className="btn primary">Create Webhook</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       )}
-    </div>
+    </AdminPage>
   );
 }

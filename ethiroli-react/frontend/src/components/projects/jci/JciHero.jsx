@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const JciHero = ({ title, subtitle, tag, mainImage, floatImage, primaryCta, secondaryCta }) => {
+const JciHero = ({ title, subtitle, tag, primaryCta, secondaryCta }) => {
     return (
         <section
             className="jci-hero"

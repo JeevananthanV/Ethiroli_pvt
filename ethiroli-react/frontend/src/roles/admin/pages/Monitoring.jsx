@@ -1,6 +1,6 @@
 import React from 'react';
-import ServiceHealthWidget from '../../../modules/monitoring/components/ServiceHealthWidget.jsx';
+import HealthDashboard from '../../../modules/monitoring/components/HealthDashboard.jsx';
 
 export default function AdminMonitoring() {
-  return <ServiceHealthWidget />;
+  return <HealthDashboard />;
 }

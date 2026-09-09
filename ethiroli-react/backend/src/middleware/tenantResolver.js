@@ -1,7 +1,7 @@
+import { AppError, NotFoundError } from '../utils/errors.js';
 import pool from '../config/database.js';
 
 export const resolveTenant = async (req, res, next) => {
-  // Extract tenant from subdomain, custom headers, or query params for testing
   const host = req.headers.host || '';
   const subdomain = host.split('.')[0];
   const tenantHeader = req.headers['x-tenant-id'] || req.query.tenant_id;
@@ -10,22 +10,47 @@ export const resolveTenant = async (req, res, next) => {
     let tenant = null;
 
     if (tenantHeader) {
-      const [rows] = await pool.execute('SELECT * FROM tenants WHERE id = ? OR subdomain = ?', [tenantHeader, tenantHeader]);
+      const [rows] = await pool.execute(
+        'SELECT * FROM tenants WHERE id = ? OR subdomain = ?',
+        [tenantHeader, tenantHeader]
+      );
       if (rows.length > 0) tenant = rows[0];
-    } else if (subdomain && subdomain !== 'localhost' && subdomain !== 'www') {
-      const [rows] = await pool.execute('SELECT * FROM tenants WHERE subdomain = ?', [subdomain]);
+    } else if (subdomain && subdomain !== 'localhost' && subdomain !== 'www' && subdomain !== '127.0.0.1') {
+      const [rows] = await pool.execute(
+        'SELECT * FROM tenants WHERE subdomain = ?',
+        [subdomain]
+      );
       if (rows.length > 0) tenant = rows[0];
     }
 
-    // Default fallback tenant to prevent application failure on local dev
     if (!tenant) {
-      const [rows] = await pool.execute('SELECT * FROM tenants ORDER BY created_at ASC LIMIT 1');
-      if (rows.length > 0) tenant = rows[0];
+      req.tenant = undefined;
+      return next();
     }
 
-    req.tenant = tenant;
+    let settings = {};
+    if (tenant.settings) {
+      try {
+        settings = JSON.parse(tenant.settings);
+      } catch {
+        settings = {};
+      }
+    }
+
+    req.tenant = {
+      id: tenant.id,
+      domain: tenant.domain,
+      subdomain: tenant.subdomain,
+      settings,
+      is_active: tenant.is_active
+    };
+
     next();
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    if (error instanceof AppError) {
+      next(error);
+    } else {
+      next(new NotFoundError('Tenant resolution failed.', { original: error.message }));
+    }
   }
 };

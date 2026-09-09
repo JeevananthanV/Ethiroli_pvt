@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { listTasks, updateTaskStatus, deleteTask, createTask } from '../../../services/api/taskApi.js';
 
 const COLUMNS = [

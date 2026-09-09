@@ -13,7 +13,7 @@ export default function ConfigForm() {
       const parsed = JSON.parse(origins);
       await updateConfigs({ ALLOWED_ORIGINS: parsed });
       alert('Configurations updated successfully!');
-    } catch (err) {
+    } catch {
       alert('Invalid JSON array format.');
     } finally {
       setSaving(false);

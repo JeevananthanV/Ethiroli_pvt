@@ -5,7 +5,7 @@ import LessonViewer from './LessonViewer.jsx';
 import styles from './Lms.module.css';
 
 export default function CoursePlayer({ courseId }) {
-  const [course, setCourse] = useState(null);
+  const [, setCourse] = useState(null);
   const [modules, setModules] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

@@ -12,7 +12,6 @@ export default function ClientList() {
   const [form, setForm] = useState(emptyForm);
   const [submitting, setSubmitting] = useState(false);
   const [search, setSearch] = useState('');
-  const [retryCount, setRetryCount] = useState(0);
   const searchTimerRef = useRef(null);
 
   const fetchClients = useCallback(async () => {
@@ -21,7 +20,6 @@ export default function ClientList() {
       setError(null);
       const data = await listClients({ search: search.trim() || undefined });
       setClients(Array.isArray(data) ? data : data.clients || data.data || []);
-      setRetryCount(0);
     } catch (err) {
       const msg = err.response?.data?.message || err.message || 'Failed to load clients';
       setError(msg);
@@ -88,7 +86,7 @@ export default function ClientList() {
   };
 
   const handleRetry = () => {
-    setRetryCount((c) => c + 1);
+    
     fetchClients();
   };
 

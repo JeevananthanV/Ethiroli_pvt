@@ -1,6 +1,6 @@
 import React from 'react';
-import AuditLogs from '../super-admin/pages/AuditLogs.jsx';
+import AuditTable from '../../../modules/audit/components/AuditTable.jsx';
 
-export default function AdminAuditLogsPage() {
-  return <AuditLogs />;
+export default function AdminAuditLogs() {
+  return <AuditTable />;
 }

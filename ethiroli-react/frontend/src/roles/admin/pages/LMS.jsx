@@ -1,6 +1,6 @@
 import React from 'react';
-import LMS from '../super-admin/pages/LMS.jsx';
+import CourseList from '../../../modules/lms/components/CourseList.jsx';
 
 export default function AdminLMS() {
-  return <LMS />;
+  return <CourseList />;
 }

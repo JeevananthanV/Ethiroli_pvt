@@ -1,11 +1,16 @@
+import { AuthorizationError } from '../utils/errors.js';
+
 export const requireRole = (...allowedRoles) => {
   return (req, res, next) => {
     if (!req.user) {
-      return res.status(401).json({ message: 'Authentication required.' });
+      throw new AuthorizationError('Authentication required.');
     }
 
     if (!allowedRoles.includes(req.user.role)) {
-      return res.status(403).json({ message: 'Forbidden. Insufficient permissions.' });
+      throw new AuthorizationError(
+        `Forbidden. Role '${req.user.role}' is not authorized.`,
+        { allowedRoles, currentRole: req.user.role }
+      );
     }
 
     next();
@@ -14,14 +19,16 @@ export const requireRole = (...allowedRoles) => {
 
 export const requireLeadOwnerOrAdmin = (req, res, next) => {
   if (!req.user) {
-    return res.status(401).json({ message: 'Authentication required.' });
+    throw new AuthorizationError('Authentication required.');
   }
 
-  // SUPER_ADMIN and ADMIN have full access
-  if (['SUPER_ADMIN', 'ADMIN'].includes(req.user.role)) {
+  const allowedRoles = ['SUPER_ADMIN', 'ADMIN'];
+  if (allowedRoles.includes(req.user.role)) {
     return next();
   }
 
-  // SALES PM etc. can proceed, but the controller will filter or verify record ownership
-  next();
+  throw new AuthorizationError(
+    'Forbidden. You must be an ADMIN or the lead owner to perform this action.',
+    { requiredRoles: allowedRoles }
+  );
 };

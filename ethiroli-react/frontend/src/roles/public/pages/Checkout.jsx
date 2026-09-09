@@ -89,7 +89,7 @@ export default function CheckoutPage() {
       } else {
         alert('Order placed successfully! Confirmation sent to your email.');
       }
-    } catch (err) {
+    } catch {
       alert('Checkout failed: ' + (err.message || 'Please try again'));
     } finally {
       setSubmitting(false);

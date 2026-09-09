@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { listClients } from '../../../services/api/clientApi.js';
 import { createSubscription, updateSubscription, listSubscriptions } from '../../../services/api/subscriptionApi.js';
 
@@ -26,7 +26,7 @@ export default function SubscriptionForm({ editingId, onClose, onSaved }) {
         const data = await listClients({ per_page: 100 });
         const list = Array.isArray(data) ? data : data.clients || data.data || [];
         setClients(list);
-      } catch (err) {
+      } catch {
         setFormError('Failed to load client list. Please try again.');
       } finally {
         setClientsLoading(false);
@@ -57,7 +57,7 @@ export default function SubscriptionForm({ editingId, onClose, onSaved }) {
             status: found.status || 'active',
           });
         }
-      } catch (err) {
+      } catch {
         setFormError('Failed to load subscription details.');
       }
     })();

@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable react-hooks/set-state-in-effect */
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useAuth } from './AuthContext.jsx';
 import { connectSocket, disconnectSocket } from '../../socket.js';
@@ -27,7 +29,6 @@ export const SocketProvider = ({ children }) => {
 
       s.on('new_activity', (activity) => {
         dispatch(addFeedItem(activity));
-        // Trigger a simple native browser notification if allowed
         if (Notification.permission === 'granted') {
           new Notification('Ethiroli Alert', { body: activity.message });
         }
@@ -44,7 +45,7 @@ export const SocketProvider = ({ children }) => {
       disconnectSocket();
       setSocket(null);
     }
-  }, [isAuthenticated, socketToken]);
+  }, [isAuthenticated, socketToken, dispatch]);
 
   return (
     <SocketContext.Provider value={socket}>

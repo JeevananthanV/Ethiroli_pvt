@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getPendingApprovals, getWorkflows } from '../../../services/api/approvalApi.js';
+import { getPendingApprovals, getWorkflows, createApprovalInstance } from '../../../services/api/approvalApi.js';
 
 export default function Approvals() {
   const [approvals, setApprovals] = useState([]);

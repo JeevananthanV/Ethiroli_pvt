@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import KanbanColumn from './KanbanColumn.jsx';
 import LeadModal from './LeadModal.jsx';
 import Button from '../../../common/components/Button/Button.jsx';
@@ -13,7 +13,7 @@ const COLUMNS = ['NEW', 'CONTACTED', 'DEMO', 'COUNSELLING', 'ADMISSION', 'PAYMEN
 export default function KanbanBoard() {
   const dispatch = useAppDispatch();
   const { items: leads, loading } = useAppSelector((state) => state.leads);
-  
+
   const [selectedLead, setSelectedLead] = useState(null);
   const [createOpen, setCreateOpen] = useState(false);
   const [newLeadName, setNewLeadName] = useState('');
@@ -21,7 +21,7 @@ export default function KanbanBoard() {
   const [newLeadPhone, setNewLeadPhone] = useState('');
   const [newLeadSource, setNewLeadSource] = useState('WEBSITE');
 
-  const loadLeads = async () => {
+  const loadLeads = useCallback(async () => {
     dispatch(fetchLeadsStart());
     try {
       const data = await getLeads();
@@ -29,11 +29,11 @@ export default function KanbanBoard() {
     } catch (err) {
       dispatch(fetchLeadsFailure(err.message));
     }
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     loadLeads();
-  }, [dispatch]);
+  }, [loadLeads]);
 
   const handleLeadDrop = async (leadId, targetStatus) => {
     try {
@@ -55,8 +55,8 @@ export default function KanbanBoard() {
         phone: newLeadPhone || null,
         source: newLeadSource
       });
-      
-      loadLeads();
+
+      dispatch(addLead(data));
       setCreateOpen(false);
       setNewLeadName('');
       setNewLeadEmail('');
@@ -91,7 +91,6 @@ export default function KanbanBoard() {
         </div>
       )}
 
-      {/* View Lead Details Modal */}
       {selectedLead && (
         <LeadModal
           isOpen={!!selectedLead}
@@ -101,31 +100,30 @@ export default function KanbanBoard() {
         />
       )}
 
-      {/* Create Lead Modal */}
       <Modal isOpen={createOpen} onClose={() => setCreateOpen(false)} title="Add New Lead">
         <form onSubmit={handleCreateLead} className="form">
-          <Input 
-            label="Name" 
-            value={newLeadName} 
-            onChange={(e) => setNewLeadName(e.target.value)} 
-            required 
+          <Input
+            label="Name"
+            value={newLeadName}
+            onChange={(e) => setNewLeadName(e.target.value)}
+            required
           />
-          <Input 
-            label="Email" 
-            type="email" 
-            value={newLeadEmail} 
-            onChange={(e) => setNewLeadEmail(e.target.value)} 
+          <Input
+            label="Email"
+            type="email"
+            value={newLeadEmail}
+            onChange={(e) => setNewLeadEmail(e.target.value)}
           />
-          <Input 
-            label="Phone" 
-            value={newLeadPhone} 
-            onChange={(e) => setNewLeadPhone(e.target.value)} 
+          <Input
+            label="Phone"
+            value={newLeadPhone}
+            onChange={(e) => setNewLeadPhone(e.target.value)}
           />
           <div className="inputGroup">
             <label className="label">Source</label>
-            <select 
+            <select
               className="select"
-              value={newLeadSource} 
+              value={newLeadSource}
               onChange={(e) => setNewLeadSource(e.target.value)}
             >
               <option value="WEBSITE">Website</option>

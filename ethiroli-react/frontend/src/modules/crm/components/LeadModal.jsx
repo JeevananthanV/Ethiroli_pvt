@@ -5,11 +5,9 @@ import Button from '../../../common/components/Button/Button.jsx';
 import { updateLead, sendFollowUp } from '../../../services/api/leadApi.js';
 
 export default function LeadModal({ isOpen, onClose, lead, onLeadUpdate }) {
-  if (!lead) return null;
-
-  const [notes, setNotes] = useState(lead.notes || '');
+  const [notes, setNotes] = useState(lead?.notes || '');
   const [followUpMsg, setFollowUpMsg] = useState('');
-  const [followUpDate, setFollowUpDate] = useState(lead.follow_up_date || '');
+  const [followUpDate, setFollowUpDate] = useState(lead?.follow_up_date || '');
   const [updating, setUpdating] = useState(false);
 
   const handleUpdate = async () => {
@@ -39,6 +37,8 @@ export default function LeadModal({ isOpen, onClose, lead, onLeadUpdate }) {
     }
   };
 
+  if (!lead) return null;
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={`Lead: ${lead.name}`}>
       <div className="modalBody">
@@ -60,18 +60,18 @@ export default function LeadModal({ isOpen, onClose, lead, onLeadUpdate }) {
             <span className={`statusTag ${lead.status === 'PAYMENT' || lead.status === 'ADMISSION' ? 'active' : lead.status === 'LOST' ? 'error' : 'pending'}`}>{lead.status}</span>
           </div>
 
-          <Input 
-            label="Follow-up Date" 
-            type="date" 
-            value={followUpDate} 
+          <Input
+            label="Follow-up Date"
+            type="date"
+            value={followUpDate}
             onChange={(e) => setFollowUpDate(e.target.value)}
           />
 
           <div className="textareaGroup">
             <label className="label">Notes</label>
-            <textarea 
-              className="textarea" 
-              value={notes} 
+            <textarea
+              className="textarea"
+              value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Add internal notes..."
               rows={4}
@@ -83,11 +83,11 @@ export default function LeadModal({ isOpen, onClose, lead, onLeadUpdate }) {
           </Button>
 
           {lead.email && (
-            <div style={{marginTop: 20, paddingTop: 20, borderTop: '1px solid var(--admin-border-subtle)', display: 'flex', flexDirection: 'column', gap: 12}}>
-              <label className="label" style={{fontSize: 14, fontWeight: 600}}>Send Follow-up Email</label>
-              <textarea 
+            <div style={{ marginTop: 20, paddingTop: 20, borderTop: '1px solid var(--admin-border-subtle)', display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <label className="label" style={{ fontSize: 14, fontWeight: 600 }}>Send Follow-up Email</label>
+              <textarea
                 className="textarea"
-                value={followUpMsg} 
+                value={followUpMsg}
                 onChange={(e) => setFollowUpMsg(e.target.value)}
                 placeholder="Enter follow-up email message..."
                 rows={4}

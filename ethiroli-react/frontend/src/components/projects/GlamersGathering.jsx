@@ -5,7 +5,7 @@ import { motion, animate } from 'framer-motion';
 const GlamersGathering = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxSrc, setLightboxSrc] = useState('');
-  const [countersStarted, setCountersStarted] = useState(false);
+  const countersStartedRef = useRef(false);
   const revealRefs = useRef([]);
   const impactRef = useRef(null);
 
@@ -14,8 +14,8 @@ const GlamersGathering = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && !countersStarted) {
-            setCountersStarted(true);
+          if (entry.isIntersecting && !countersStartedRef.current) {
+            countersStartedRef.current = true;
           }
         });
       },
@@ -24,7 +24,7 @@ const GlamersGathering = () => {
 
     if (impactRef.current) observer.observe(impactRef.current);
     return () => observer.disconnect();
-  }, [countersStarted]);
+  }, []);
 
   const fadeUp = {
     hidden: { opacity: 0, y: 28 },
@@ -40,14 +40,14 @@ const GlamersGathering = () => {
     const [count, setCount] = useState(0);
 
     useEffect(() => {
-      if (!countersStarted) return;
+      if (!countersStartedRef.current) return;
       const controls = animate(0, target, {
         duration: 2,
         ease: 'easeOut',
         onUpdate: (latest) => setCount(Math.round(latest)),
       });
       return () => controls.stop();
-    }, [countersStarted, target]);
+    }, [target]);
 
     return <span>{count}</span>;
   };

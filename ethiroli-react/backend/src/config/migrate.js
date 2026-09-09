@@ -1,32 +1,64 @@
 import fs from 'fs';
 import path from 'path';
 import pool from './database.js';
+import logger from './logger.js';
 
 async function migrate() {
-  console.log('Starting migrations...');
+  logger.info('Starting database migrations...');
+
   const schemaPath = path.join(process.cwd(), 'schema.sql');
+
+  if (!fs.existsSync(schemaPath)) {
+    logger.warn('schema.sql not found, skipping migrations.');
+    return;
+  }
+
   const schemaSql = fs.readFileSync(schemaPath, 'utf8');
 
-  const queries = schemaSql
+  const statements = schemaSql
     .split(';')
-    .map(q => q.trim())
-    .filter(q => q.length > 0);
+    .map(s => s.trim())
+    .filter(s => s.length > 0 && !s.startsWith('--'));
 
-  for (const query of queries) {
+  let successCount = 0;
+  let skipCount = 0;
+  let errorCount = 0;
+
+  for (const statement of statements) {
     try {
-      await pool.query(query); // Use pool.query instead of pool.execute
+      await pool.query(statement);
+      successCount++;
     } catch (err) {
-      if (!err.message.includes('already exists') && !err.message.includes('Duplicate')) {
-        console.error(`Error executing query: ${query.slice(0, 100)}...`, err.message);
+      const normalizedMessage = err.message.toLowerCase();
+
+      if (
+        normalizedMessage.includes('already exists') ||
+        normalizedMessage.includes('duplicate') ||
+        normalizedMessage.includes('duplicate entry')
+      ) {
+        skipCount++;
+      } else {
+        errorCount++;
+        logger.error('Migration statement failed', {
+          statement: statement.slice(0, 200),
+          error: err.message
+        });
       }
     }
   }
 
-  console.log('Migrations completed successfully.');
-  process.exit(0);
+  logger.info('Migrations completed', {
+    successCount,
+    skipCount,
+    errorCount
+  });
+
+  if (errorCount > 0) {
+    logger.warn(`${errorCount} migration(s) encountered errors. Review logs.`);
+  }
 }
 
-migrate().catch(err => {
-  console.error('Migration failed:', err);
+migrate().catch((err) => {
+  logger.error('Migration process failed', { error: err.message });
   process.exit(1);
 });

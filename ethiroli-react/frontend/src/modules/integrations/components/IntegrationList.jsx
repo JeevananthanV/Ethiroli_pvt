@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getIntegrations, saveIntegration } from '../../../services/api/integrationApi.js';
+import { getIntegrations } from '../../../services/api/integrationApi.js';
 import { getProviders, saveProvider } from '../../../services/api/providerApi.js';
 import { getTemplates, createTemplate } from '../../../services/api/templateApi.js';
 

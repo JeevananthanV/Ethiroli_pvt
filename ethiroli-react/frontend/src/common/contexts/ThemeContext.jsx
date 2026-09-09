@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks.js';
 import { toggleTheme } from '../../store/slices/uiSlice.js';

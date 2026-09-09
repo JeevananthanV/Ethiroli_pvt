@@ -52,7 +52,7 @@ export default function Users() {
         const data = await updateUser(editingUser.id, form);
         setUsers(prev => prev.map(u => (u.id === editingUser.id ? { ...u, ...form } : u)));
       } else {
-        const data = await createUser(form);
+        await createUser(form);
         setUsers(prev => [...prev, data?.data || data]);
       }
       setShowForm(false);

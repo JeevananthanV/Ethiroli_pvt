@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Lms.module.css';
 
-export default function LessonViewer({ lessonId, lesson }) {
+export default function LessonViewer({ lesson }) {
   const lessonData = lesson || {
     title: 'Select a lesson',
     duration: '—',

@@ -1,18 +1,25 @@
 import { Server } from 'socket.io';
 import Session from '../models/Session.js';
+import { logger } from '../config/logger.js';
+import { ALLOWED_ORIGINS } from '../config/constants.js';
 
 let io = null;
 
 export const initSocketServer = (server) => {
   io = new Server(server, {
     cors: {
-      origin: '*', // We can restrict this or read ALLOWED_ORIGINS
-      methods: ['GET', 'POST']
-    }
+      origin: ALLOWED_ORIGINS,
+      methods: ['GET', 'POST'],
+      credentials: true
+    },
+    transports: ['websocket', 'polling'],
+    pingTimeout: Number(process.env.SOCKET_PING_TIMEOUT || 60000),
+    pingInterval: Number(process.env.SOCKET_PING_INTERVAL || 25000)
   });
 
   io.use(async (socket, next) => {
     const token = socket.handshake.auth?.token || socket.handshake.query?.token;
+
     if (!token) {
       return next(new Error('Authentication failed. No token provided.'));
     }
@@ -25,23 +32,40 @@ export const initSocketServer = (server) => {
 
       socket.user = {
         id: session.user_id,
-        role: session.role
+        role: session.role,
+        email: session.email
       };
+
+      logger.info('Socket client authenticated', {
+        socketId: socket.id,
+        userId: session.user_id,
+        role: session.role
+      });
+
       next();
     } catch (err) {
+      logger.error('Socket authentication error', { error: err.message });
       next(new Error('Authentication failed. Database error.'));
     }
   });
 
   io.on('connection', (socket) => {
-    console.log(`Socket client connected: ${socket.id} (User: ${socket.user.id}, Role: ${socket.user.role})`);
+    logger.info('Socket client connected', {
+      socketId: socket.id,
+      userId: socket.user.id,
+      role: socket.user.role
+    });
 
-    // Subscribe to rooms
     socket.join(`user:${socket.user.id}`);
     socket.join(`role:${socket.user.role}`);
 
-    socket.on('disconnect', () => {
-      console.log(`Socket client disconnected: ${socket.id}`);
+    socket.on('disconnect', (reason) => {
+      logger.info('Socket client disconnected', {
+        socketId: socket.id,
+        userId: socket.user.id,
+        role: socket.user.role,
+        reason
+      });
     });
   });
 
@@ -57,6 +81,12 @@ export const broadcastToRole = (role, event, data) => {
 export const broadcastToUser = (userId, event, data) => {
   if (io) {
     io.to(`user:${userId}`).emit(event, data);
+  }
+};
+
+export const broadcastToRoom = (room, event, data) => {
+  if (io) {
+    io.to(room).emit(event, data);
   }
 };
 

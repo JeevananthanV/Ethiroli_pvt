@@ -8,7 +8,6 @@ export default function Navbar({ onSearchClick }) {
   const dispatch = useAppDispatch();
   const { user, logout } = useAuth();
   const { theme, toggle } = useTheme();
-  const sidebarOpen = useAppSelector((state) => state.ui.sidebarOpen);
   const unreadCount = useAppSelector((state) => state.feed.unreadCount);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 

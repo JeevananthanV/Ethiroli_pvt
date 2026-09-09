@@ -1,6 +1,6 @@
 import React from 'react';
-import Communications from '../super-admin/pages/Communications.jsx';
+import CommunicationCenter from '../../../modules/communication/components/CommunicationCenter.jsx';
 
 export default function AdminCommunications() {
-  return <Communications />;
+  return <CommunicationCenter />;
 }

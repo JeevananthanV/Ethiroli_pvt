@@ -2,7 +2,7 @@ import pool from '../config/database.js';
 import { encrypt, decrypt, encryptDeterministic } from '../config/encryption.js';
 
 export default class Lead {
-  static formatLead(row) {
+  static format(row) {
     if (!row) return null;
     return {
       ...row,
@@ -84,6 +84,10 @@ export default class Lead {
     );
   }
 
+  static async delete(id) {
+    await pool.execute('DELETE FROM leads WHERE id = ?', [id]);
+  }
+
   static async list({ assigned_to, status, source, limit = 50, offset = 0 } = {}) {
     let query = 'SELECT * FROM leads WHERE 1=1';
     const values = [];
@@ -108,7 +112,34 @@ export default class Lead {
     return rows.map(row => this.formatLead(row));
   }
 
-  static async delete(id) {
-    await pool.execute('DELETE FROM leads WHERE id = ?', [id]);
+  static async count({ assigned_to, status, source } = {}) {
+    let query = 'SELECT COUNT(*) as total FROM leads WHERE 1=1';
+    const values = [];
+
+    if (assigned_to) {
+      query += ' AND assigned_to = ?';
+      values.push(assigned_to);
+    }
+    if (status) {
+      query += ' AND status = ?';
+      values.push(status);
+    }
+    if (source) {
+      query += ' AND source = ?';
+      values.push(source);
+    }
+
+    const [rows] = await pool.execute(query, values);
+    return rows[0].total;
+  }
+
+  static formatLead(row) {
+    if (!row) return null;
+    return {
+      ...row,
+      name: decrypt(row.name),
+      email: row.email ? decrypt(row.email) : null,
+      phone: row.phone ? decrypt(row.phone) : null
+    };
   }
 }

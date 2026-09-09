@@ -1,6 +1,6 @@
 import React from 'react';
-import Leads from '../super-admin/pages/Leads.jsx';
+import KanbanBoard from '../../../modules/crm/components/KanbanBoard.jsx';
 
-export default function AdminLeadsPage() {
-  return <Leads />;
+export default function AdminLeads() {
+  return <KanbanBoard />;
 }

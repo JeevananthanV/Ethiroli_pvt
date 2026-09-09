@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { listReportDefinitions, executeReport } from '../../../services/api/reportApi.js';
-import { listSchedules } from '../../../services/api/scheduledReportApi.js';
 
 export default function ReportBuilder() {
   const [reports, setReports] = useState([]);
-  const [schedules, setSchedules] = useState([]);
   const [loading, setLoading] = useState(true);
   const [executing, setExecuting] = useState(false);
   const [results, setResults] = useState(null);
@@ -12,12 +10,8 @@ export default function ReportBuilder() {
   const loadData = async () => {
     setLoading(true);
     try {
-      const [repRes, schedRes] = await Promise.all([
-        listReportDefinitions().catch(() => []),
-        listSchedules().catch(() => []),
-      ]);
+      const repRes = await listReportDefinitions().catch(() => []);
       setReports(Array.isArray(repRes) ? repRes : []);
-      setSchedules(Array.isArray(schedRes) ? schedRes : []);
     } catch (err) {
       console.error('Failed to load reports:', err);
     } finally {

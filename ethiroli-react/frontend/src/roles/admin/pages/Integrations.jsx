@@ -1,6 +1,6 @@
 import React from 'react';
-import IntegrationList from '../../../modules/integrations/components/IntegrationList.jsx';
+import IntegrationCard from '../../../modules/integrations/components/IntegrationCard.jsx';
 
 export default function AdminIntegrations() {
-  return <IntegrationList />;
+  return <IntegrationCard />;
 }

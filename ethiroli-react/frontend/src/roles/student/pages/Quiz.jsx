@@ -1,5 +1,6 @@
 import React from 'react';
+import QuizTaking from '../../../modules/lms/components/QuizTaking.jsx';
 
-export default function Component() {
-  return <div>Component: Quiz.jsx</div>;
+export default function StudentQuiz() {
+  return <QuizTaking />;
 }

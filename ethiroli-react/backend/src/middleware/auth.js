@@ -1,23 +1,26 @@
+import { AppError, AuthenticationError, AuthorizationError } from '../utils/errors.js';
 import Session from '../models/Session.js';
-import User from '../models/User.js';
+import TenantUser from '../models/TenantUser.js';
+import { ERROR_MESSAGES } from '../config/constants.js';
 
 export const authenticate = async (req, res, next) => {
   const token = req.cookies?.session_token;
 
   if (!token) {
-    return res.status(401).json({ message: 'Authentication required. No session token provided.' });
+    throw new AuthenticationError(ERROR_MESSAGES.AUTHENTICATION_REQUIRED);
   }
 
   try {
     const sessionRecord = await Session.findByToken(token);
+
     if (!sessionRecord) {
       res.clearCookie('session_token');
-      return res.status(401).json({ message: 'Invalid or expired session.' });
+      throw new AuthenticationError(ERROR_MESSAGES.SESSION_EXPIRED);
     }
 
     if (!sessionRecord.is_active) {
       res.clearCookie('session_token');
-      return res.status(403).json({ message: 'User account is deactivated.' });
+      throw new AuthorizationError(ERROR_MESSAGES.ACCOUNT_DEACTIVATED, { code: 'ACCOUNT_DEACTIVATED' });
     }
 
     req.user = {
@@ -25,12 +28,19 @@ export const authenticate = async (req, res, next) => {
       email: sessionRecord.email,
       full_name: sessionRecord.full_name,
       role: sessionRecord.role,
+      is_active: sessionRecord.is_active,
+      tenant_id: sessionRecord.tenant_id || null,
+      tenant_role: sessionRecord.tenant_role || null
     };
     req.sessionToken = token;
+    req.ip = req.ip || req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown';
 
     next();
   } catch (error) {
-    console.error('Authentication middleware error:', error);
-    res.status(500).json({ message: 'Internal server error during authentication.' });
+    if (error instanceof AppError) {
+      next(error);
+    } else {
+      next(new AuthenticationError(ERROR_MESSAGES.AUTHENTICATION_REQUIRED, { original: error.message }));
+    }
   }
 };

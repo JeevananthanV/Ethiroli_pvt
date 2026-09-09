@@ -1,6 +1,6 @@
 import React from 'react';
-import Finance from '../super-admin/pages/Finance.jsx';
+import FinanceDashboard from '../../../modules/finance/components/FinanceDashboard.jsx';
 
 export default function AdminFinance() {
-  return <Finance />;
+  return <FinanceDashboard />;
 }

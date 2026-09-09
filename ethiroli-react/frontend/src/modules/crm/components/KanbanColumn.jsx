@@ -15,7 +15,7 @@ export default function KanbanColumn({ status, leads, onLeadClick, onLeadDrop })
   };
 
   return (
-    <div 
+    <div
       className="column"
       onDragOver={handleDragOver}
       onDrop={handleDrop}
@@ -26,10 +26,10 @@ export default function KanbanColumn({ status, leads, onLeadClick, onLeadDrop })
       </div>
       <div className="columnBody">
         {leads.map((lead) => (
-          <LeadCard 
-            key={lead.id} 
-            lead={lead} 
-            onClick={onLeadClick} 
+          <LeadCard
+            key={lead.id}
+            lead={lead}
+            onClick={onLeadClick}
           />
         ))}
       </div>

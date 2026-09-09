@@ -1,6 +1,6 @@
 import React from 'react';
-import JobPostingForm from '../../../modules/jobsBoard/components/JobPostingForm.jsx';
+import JobPostingList from '../../../modules/jobsBoard/components/JobPostingList.jsx';
 
 export default function AdminJobsBoard() {
-  return <JobPostingForm />;
+  return <JobPostingList />;
 }

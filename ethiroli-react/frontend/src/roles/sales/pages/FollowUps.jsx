@@ -1,5 +1,6 @@
 import React from 'react';
+import FollowUpDrawer from '../../../modules/crm/components/FollowUpDrawer.jsx';
 
-export default function Component() {
-  return <div>Component: FollowUps.jsx</div>;
+export default function SalesFollowUps() {
+  return <FollowUpDrawer isOpen={true} onClose={() => {}} />;
 }

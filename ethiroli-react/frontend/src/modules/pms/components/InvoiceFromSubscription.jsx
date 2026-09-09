@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getSubscription } from '../../../services/api/subscriptionApi.js';
-import { generateInvoice, batchGenerateInvoices } from '../../../services/api/invoiceApi.js';
+import { generateInvoice } from '../../../services/api/invoiceApi.js';
 
 export default function InvoiceFromSubscription({ subscriptionId, onClose, onSaved }) {
   const [sub, setSub] = useState(null);
@@ -24,7 +24,7 @@ export default function InvoiceFromSubscription({ subscriptionId, onClose, onSav
           const renewal = data.renewalDate || data.endDate;
           if (renewal) setDueDate(new Date(renewal).toISOString().split('T')[0]);
         }
-      } catch (err) {
+      } catch {
         if (!cancelled) setFormError('Failed to load subscription details');
       } finally {
         if (!cancelled) setLoading(false);

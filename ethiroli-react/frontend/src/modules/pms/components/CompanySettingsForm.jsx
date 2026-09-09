@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const emptyForm = {
   companyName: '',
@@ -20,12 +20,8 @@ const emptyForm = {
 };
 
 export default function CompanySettingsForm({ initialData = {}, onSave, onCancel, saving = false }) {
-  const [form, setForm] = useState(emptyForm);
+  const [form, setForm] = useState(() => ({ ...emptyForm, ...initialData }));
   const [formError, setFormError] = useState(null);
-
-  useEffect(() => {
-    setForm((prev) => ({ ...prev, ...initialData }));
-  }, [initialData]);
 
   const handleChange = (field) => (e) => {
     setForm({ ...form, [field]: e.target.value });

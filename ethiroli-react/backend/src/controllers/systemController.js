@@ -1,71 +1,91 @@
 import SystemConfig from '../models/SystemConfig.js';
-import pool from '../config/database.js';
 import User from '../models/User.js';
 import Lead from '../models/Lead.js';
+import AuditLog from '../models/AuditLog.js';
+import { broadcastToRole } from '../services/socketService.js';
+import { asyncHandler } from '../middleware/errorHandler.js';
+import { success } from '../utils/response.js';
+import { NotFoundError, ValidationError } from '../utils/errors.js';
 
 export const getHealth = (req, res) => {
-  res.status(200).json({
+  return success(res, 200, {
     status: 'healthy',
     timestamp: new Date(),
     uptime: process.uptime()
-  });
+  }, 'System is healthy');
 };
 
-export const updateConfigs = async (req, res) => {
+export const updateConfigs = asyncHandler(async (req, res) => {
   const { ALLOWED_ORIGINS } = req.body;
 
-  try {
-    if (ALLOWED_ORIGINS) {
-      if (!Array.isArray(ALLOWED_ORIGINS)) {
-        return res.status(400).json({ message: 'ALLOWED_ORIGINS must be a JSON array of strings.' });
-      }
-      await SystemConfig.set('ALLOWED_ORIGINS', ALLOWED_ORIGINS);
+  if (ALLOWED_ORIGINS) {
+    if (!Array.isArray(ALLOWED_ORIGINS)) {
+      throw new ValidationError('ALLOWED_ORIGINS must be a JSON array of strings.');
     }
-
-    res.status(200).json({ message: 'System configurations updated successfully.' });
-  } catch (error) {
-    console.error('Update system config error:', error);
-    res.status(500).json({ message: 'Failed to update system configurations.' });
+    await SystemConfig.set('ALLOWED_ORIGINS', ALLOWED_ORIGINS);
   }
-};
 
-export const globalSearch = async (req, res) => {
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'UPDATE_SYSTEM_CONFIG',
+    entity_type: 'SYSTEM_CONFIG',
+    new_value: req.body,
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+  broadcastToRole('SUPER_ADMIN', 'system_config_updated', {});
+  return success(res, 200, null, 'System configurations updated successfully');
+});
+
+export const getStats = asyncHandler(async (req, res) => {
+  const [userCount, leadCount] = await Promise.all([
+    User.count(),
+    Lead.count()
+  ]);
+
+  return success(res, 200, {
+    users: userCount,
+    leads: leadCount,
+    uptime: process.uptime()
+  }, 'System stats retrieved');
+});
+
+export const clearCache = asyncHandler(async (req, res) => {
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'CLEAR_CACHE',
+    entity_type: 'SYSTEM',
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+  broadcastToRole('ADMIN', 'cache_cleared', {});
+  return success(res, 200, null, 'Cache cleared successfully');
+});
+
+export const globalSearch = asyncHandler(async (req, res) => {
   const { q } = req.query;
-  if (!q) {
-    return res.status(400).json({ message: 'Search query is required.' });
-  }
+  if (!q) throw new ValidationError('Search query is required');
 
-  const queryStr = `%${q.trim().toLowerCase()}%`;
   const isSales = req.user.role === 'SALES';
 
-  try {
-    // 1. Search users (Only admin/superadmin can search all users)
-    let users = [];
-    if (['ADMIN', 'SUPER_ADMIN'].includes(req.user.role)) {
-      const allUsers = await User.list({ limit: 100 });
-      users = allUsers.filter(u => 
-        (u.full_name && u.full_name.toLowerCase().includes(q)) || 
-        (u.email && u.email.toLowerCase().includes(q))
-      );
-    }
-
-    // 2. Search leads
-    const allLeads = await Lead.list({
-      assigned_to: isSales ? req.user.id : undefined,
-      limit: 100
-    });
-    const leads = allLeads.filter(l => 
-      (l.name && l.name.toLowerCase().includes(q)) ||
-      (l.email && l.email.toLowerCase().includes(q)) ||
-      (l.phone && l.phone.includes(q))
+  let users = [];
+  if (['ADMIN', 'SUPER_ADMIN'].includes(req.user.role)) {
+    const allUsers = await User.list({ limit: 100 });
+    users = allUsers.filter(u =>
+      (u.full_name && u.full_name.toLowerCase().includes(q.toLowerCase())) ||
+      (u.email && u.email.toLowerCase().includes(q.toLowerCase()))
     );
-
-    res.status(200).json({
-      users,
-      leads
-    });
-  } catch (error) {
-    console.error('Global search error:', error);
-    res.status(500).json({ message: 'Search execution failed.' });
   }
-};
+
+  const allLeads = await Lead.list({
+    assigned_to: isSales ? req.user.id : undefined,
+    limit: 100
+  });
+  const leads = allLeads.filter(l =>
+    (l.name && l.name.toLowerCase().includes(q.toLowerCase())) ||
+    (l.email && l.email.toLowerCase().includes(q.toLowerCase())) ||
+    (l.phone && l.phone.includes(q))
+  );
+
+  return success(res, 200, { users, leads }, 'Search results retrieved');
+});

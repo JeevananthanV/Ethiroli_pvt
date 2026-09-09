@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import Navbar from './components/shared/Navbar';
 import Footer from './components/shared/Footer';
@@ -20,9 +20,6 @@ const ProjectHome = lazy(() => import('./pages/project_home'));
 const Ethiroliseminarjayarani = lazy(() => import('./components/projects/Ethiroliseminarjayarani'));
 
 const AppContent = ({ showLoader }) => {
-  const location = useLocation();
-  const isStudentRoute = location.pathname.startsWith('/student');
-
   return (
     <>
       {showLoader ? (
@@ -34,7 +31,7 @@ const AppContent = ({ showLoader }) => {
         </div>
       ) : null}
       <PremiumMotionProvider />
-      {!isStudentRoute ? <Navbar /> : null}
+      <Navbar />
       <main>
         <Suspense fallback={
           <div id="preloader" aria-live="polite" aria-busy="true">
@@ -56,12 +53,13 @@ const AppContent = ({ showLoader }) => {
             <Route path="/projects/Ethiroliseminarjayarani" element={<Ethiroliseminarjayarani />} />
             <Route path="/projects/Ethiroliseminarksrct" element={<Ethiroliseminarksrct />} />
             <Route path="/services" element={<Services />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>
       </main>
-      {!isStudentRoute ? <Footer /> : null}
-      {!isStudentRoute ? <ScrollToTopBtn /> : null}
-      {!isStudentRoute ? <WhatsAppBtn /> : null}
+      <Footer />
+      <ScrollToTopBtn />
+      <WhatsAppBtn />
     </>
   );
 };

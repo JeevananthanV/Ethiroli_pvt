@@ -1,6 +1,6 @@
 import React from 'react';
-import HR from '../super-admin/pages/HR.jsx';
+import EmployeeTable from '../../../modules/hrms/components/EmployeeTable.jsx';
 
 export default function AdminHR() {
-  return <HR />;
+  return <EmployeeTable />;
 }

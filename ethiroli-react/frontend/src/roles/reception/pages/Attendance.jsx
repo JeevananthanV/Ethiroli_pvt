@@ -1,5 +1,6 @@
 import React from 'react';
+import AttendanceGrid from '../../../modules/hrms/components/AttendanceGrid.jsx';
 
-export default function Component() {
-  return <div>Component: Attendance.jsx</div>;
+export default function ReceptionAttendance() {
+  return <AttendanceGrid />;
 }

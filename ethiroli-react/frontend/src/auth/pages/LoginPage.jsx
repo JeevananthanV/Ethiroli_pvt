@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../common/contexts/AuthContext.jsx';
+import { getRoleDefaultPath } from '../../common/utils/roleRouting.js';
 import Input from '../../common/components/Input/Input.jsx';
 import Button from '../../common/components/Button/Button.jsx';
 import styles from './Auth.module.css';
 
-export default function LoginPage() {
+export default function LoginPage({ portal }) {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,8 +21,9 @@ export default function LoginPage() {
     setError(null);
     setLoading(true);
     try {
-      await login(email, password);
-      navigate('/dashboard');
+      const loggedUser = await login(email, password, portal);
+      const redirectPath = location.state?.from?.pathname || getRoleDefaultPath(loggedUser?.role);
+      navigate(redirectPath, { replace: true });
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed.');
     } finally {
@@ -33,7 +36,7 @@ export default function LoginPage() {
       <div className={styles.authCard}>
         <div className={styles.header}>
           <h2>ETHIROLI</h2>
-          <p>Login to your account</p>
+          <p>{portal ? `${portal} Portal` : 'Login to your account'}</p>
         </div>
 
         {error && <div className={styles.error}>{error}</div>}

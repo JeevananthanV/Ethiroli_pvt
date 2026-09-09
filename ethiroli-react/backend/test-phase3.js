@@ -74,8 +74,12 @@ async function runTests() {
 
     const activeBadges = await Badge.list();
     console.log(`   ✅ Badge.list returned ${activeBadges.length} active achievements.`);
+    for (const badge of activeBadges) {
+      console.log('   -', badge.name, 'criteria:', JSON.stringify(badge.criteria));
+    }
   } catch (error) {
     console.error('❌ Badge tests failed:', error.message);
+    console.error(error.stack);
   }
 
   console.log('\n--- Phase 3 Test Suite Complete ---');

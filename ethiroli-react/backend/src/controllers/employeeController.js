@@ -1,38 +1,63 @@
 import Employee from '../models/Employee.js';
+import AuditLog from '../models/AuditLog.js';
+import { asyncHandler } from '../middleware/errorHandler.js';
+import { success } from '../utils/response.js';
+import { NotFoundError } from '../utils/errors.js';
 
-export const listEmployees = async (req, res) => {
-  try {
-    const list = await Employee.list();
-    res.status(200).json(list);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
+export const listEmployees = asyncHandler(async (req, res) => {
+  const list = await Employee.list();
+  return success(res, 200, list);
+});
 
-export const createEmployee = async (req, res) => {
-  try {
-    const id = await Employee.create(req.body);
-    res.status(201).json({ message: 'Employee created successfully.', id });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
+export const createEmployee = asyncHandler(async (req, res) => {
+  const id = await Employee.create(req.body);
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'CREATE_EMPLOYEE',
+    entity_type: 'EMPLOYEE',
+    entity_id: id,
+    new_value: req.body,
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+  return success(res, 201, { id }, 'Employee created successfully');
+});
 
-export const getEmployee = async (req, res) => {
-  try {
-    const emp = await Employee.findById(req.params.id);
-    if (!emp) return res.status(404).json({ message: 'Employee not found.' });
-    res.status(200).json(emp);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
+export const getEmployee = asyncHandler(async (req, res) => {
+  const emp = await Employee.findById(req.params.id);
+  if (!emp) throw new NotFoundError('Employee not found');
+  return success(res, 200, emp);
+});
 
-export const updateEmployee = async (req, res) => {
-  try {
-    await Employee.update(req.params.id, req.body);
-    res.status(200).json({ message: 'Employee updated successfully.' });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
+export const updateEmployee = asyncHandler(async (req, res) => {
+  const emp = await Employee.findById(req.params.id);
+  if (!emp) throw new NotFoundError('Employee not found');
+  await Employee.update(req.params.id, req.body);
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'UPDATE_EMPLOYEE',
+    entity_type: 'EMPLOYEE',
+    entity_id: req.params.id,
+    old_value: emp,
+    new_value: req.body,
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+  return success(res, 200, null, 'Employee updated successfully');
+});
+
+export const deleteEmployee = asyncHandler(async (req, res) => {
+  const emp = await Employee.findById(req.params.id);
+  if (!emp) throw new NotFoundError('Employee not found');
+  await Employee.delete(req.params.id);
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'DELETE_EMPLOYEE',
+    entity_type: 'EMPLOYEE',
+    entity_id: req.params.id,
+    old_value: emp,
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+  return success(res, 200, null, 'Employee deleted successfully');
+});

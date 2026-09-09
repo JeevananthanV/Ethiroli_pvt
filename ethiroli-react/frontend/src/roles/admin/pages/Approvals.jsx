@@ -1,6 +1,6 @@
 import React from 'react';
-import WorkflowBuilder from '../../../modules/approvals/components/WorkflowBuilder.jsx';
+import ApprovalQueue from '../../../modules/approvals/components/ApprovalQueue.jsx';
 
 export default function AdminApprovals() {
-  return <WorkflowBuilder />;
+  return <ApprovalQueue />;
 }

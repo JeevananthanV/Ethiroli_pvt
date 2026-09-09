@@ -166,7 +166,6 @@ CREATE TABLE IF NOT EXISTS leaves (
     INDEX idx_status (status),
     INDEX idx_dates (start_date, end_date)
 );
-
 -- Table 11: courses
 CREATE TABLE IF NOT EXISTS courses (
     id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
@@ -328,7 +327,6 @@ CREATE TABLE IF NOT EXISTS invoices (
     INDEX idx_due_date (due_date),
     INDEX idx_invoice_number (invoice_number)
 );
-
 -- Table 21: transactions
 CREATE TABLE IF NOT EXISTS transactions (
     id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
@@ -700,7 +698,6 @@ CREATE TABLE IF NOT EXISTS performance_reviews (
     INDEX idx_reviewer (reviewer_id),
     INDEX idx_status (status)
 );
-
 -- Table 41: calendar_events
 CREATE TABLE IF NOT EXISTS calendar_events (
     id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
@@ -912,7 +909,6 @@ CREATE TABLE IF NOT EXISTS system_error_logs (
     INDEX idx_resolved (is_resolved),
     INDEX idx_created (created_at)
 );
-
 -- Table 52: tenants
 CREATE TABLE IF NOT EXISTS tenants (
     id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
@@ -1088,7 +1084,6 @@ CREATE TABLE IF NOT EXISTS scheduled_reports (
     INDEX idx_tenant (tenant_id),
     INDEX idx_next_send (next_send_at)
 );
-
 -- Table 61: api_keys
 CREATE TABLE IF NOT EXISTS api_keys (
     id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
@@ -1248,20 +1243,329 @@ CREATE TABLE IF NOT EXISTS anomaly_logs (
 );
 
 -- Initial seed data
-INSERT INTO users (id, email, password_hash, full_name, role, is_active) 
+INSERT INTO users (id, email, password_hash, full_name, role, is_active)
 VALUES (
-  '368f5c88-12cd-11ed-861d-0242ac120002', 
-  'admin@ethiroli.com', 
-  '$2a$10$EPYtG8pA4U4.3vQc2y5cO.vA0Fq9l.Jj1Ww/W/8z.lV3nE5tL7j7S', 
-  'Super Administrator', 
-  'SUPER_ADMIN', 
+  '368f5c88-12cd-11ed-861d-0242ac120002',
+  'admin@ethiroli.com',
+  '$2a$10$EPYtG8pA4U4.3vQc2y5cO.vA0Fq9l.Jj1Ww/W/8z.lV3nE5tL7j7S',
+  'Super Administrator',
+  'SUPER_ADMIN',
   TRUE
 ) ON DUPLICATE KEY UPDATE id=id;
 
 -- Initial config seeds
 INSERT INTO system_configs (config_key, config_value, is_encrypted)
 VALUES (
-  'ALLOWED_ORIGINS', 
-  '["http://localhost:5173", "http://localhost:3000"]', 
+  'ALLOWED_ORIGINS',
+  '["http://localhost:5173", "http://localhost:3000"]',
   FALSE
 ) ON DUPLICATE KEY UPDATE config_key=config_key;
+
+-- ============================================
+-- LOOKUP TABLES (Tables 69-72)
+-- ============================================
+
+-- Table 69: departments
+CREATE TABLE IF NOT EXISTS departments (
+    department_id INT AUTO_INCREMENT PRIMARY KEY,
+    department_name VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT DEFAULT NULL,
+    location VARCHAR(255) DEFAULT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Table 70: job_categories
+CREATE TABLE IF NOT EXISTS job_categories (
+    category_id INT AUTO_INCREMENT PRIMARY KEY,
+    category_name VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT DEFAULT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Table 71: job_types
+CREATE TABLE IF NOT EXISTS job_types (
+    job_type_id INT AUTO_INCREMENT PRIMARY KEY,
+    type_name VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT DEFAULT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Table 72: application_statuses
+CREATE TABLE IF NOT EXISTS application_statuses (
+    status_id INT AUTO_INCREMENT PRIMARY KEY,
+    status_name VARCHAR(100) NOT NULL UNIQUE,
+    status_code VARCHAR(50) NOT NULL UNIQUE,
+    display_order INT NOT NULL DEFAULT 0,
+    is_final BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CHECK (display_order >= 0)
+);
+
+-- ============================================
+-- CONTACT US MODULE (Tables 73-74)
+-- ============================================
+
+-- Table 73: contact_inquiries
+CREATE TABLE IF NOT EXISTS contact_inquiries (
+    inquiry_id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(50) DEFAULT NULL,
+    subject VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    inquiry_source ENUM('WEBSITE','REFERRAL','SOCIAL_MEDIA','WALK_IN','PHONE','OTHER') DEFAULT 'WEBSITE',
+    is_read BOOLEAN DEFAULT FALSE,
+    is_resolved BOOLEAN DEFAULT FALSE,
+    resolved_at DATETIME DEFAULT NULL,
+    notes TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    is_deleted BOOLEAN DEFAULT FALSE,
+    deleted_at DATETIME DEFAULT NULL,
+    INDEX idx_email (email),
+    INDEX idx_is_read (is_read),
+    INDEX idx_is_resolved (is_resolved),
+    INDEX idx_created_at (created_at)
+);
+
+-- Table 74: contact_inquiry_attachments
+CREATE TABLE IF NOT EXISTS contact_inquiry_attachments (
+    attachment_id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    inquiry_id CHAR(36) NOT NULL,
+    file_name VARCHAR(255) NOT NULL,
+    file_path VARCHAR(500) NOT NULL,
+    file_size_bytes BIGINT DEFAULT NULL,
+    mime_type VARCHAR(100) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (inquiry_id) REFERENCES contact_inquiries(inquiry_id) ON DELETE CASCADE,
+    INDEX idx_inquiry (inquiry_id)
+);
+
+-- ============================================
+-- CAREERS MODULE ENHANCEMENTS (Tables 75-78)
+-- ============================================
+
+-- Table 75: applications
+CREATE TABLE IF NOT EXISTS applications (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    candidate_id CHAR(36) NOT NULL,
+    job_id CHAR(36) NOT NULL,
+    status_id INT DEFAULT NULL,
+    cover_letter TEXT DEFAULT NULL,
+    applied_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (candidate_id) REFERENCES candidates(id) ON DELETE CASCADE,
+    FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE,
+    FOREIGN KEY (status_id) REFERENCES application_statuses(status_id) ON DELETE SET NULL,
+    INDEX idx_candidate (candidate_id),
+    INDEX idx_job (job_id),
+    INDEX idx_status (status_id)
+);
+
+-- Table 76: application_status_history
+CREATE TABLE IF NOT EXISTS application_status_history (
+    history_id INT AUTO_INCREMENT PRIMARY KEY,
+    application_id CHAR(36) NOT NULL,
+    status_id INT NOT NULL,
+    changed_by CHAR(36) DEFAULT NULL,
+    change_notes TEXT DEFAULT NULL,
+    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (application_id) REFERENCES applications(id) ON DELETE CASCADE,
+    FOREIGN KEY (status_id) REFERENCES application_statuses(status_id) ON DELETE CASCADE,
+    FOREIGN KEY (changed_by) REFERENCES users(id) ON DELETE SET NULL,
+    INDEX idx_application (application_id),
+    INDEX idx_changed_at (changed_at)
+);
+
+-- Table 77: candidate_documents
+CREATE TABLE IF NOT EXISTS candidate_documents (
+    document_id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    candidate_id CHAR(36) NOT NULL,
+    application_id CHAR(36) DEFAULT NULL,
+    document_type VARCHAR(100) NOT NULL,
+    file_name VARCHAR(255) NOT NULL,
+    file_path VARCHAR(500) NOT NULL,
+    file_size_bytes BIGINT DEFAULT NULL,
+    mime_type VARCHAR(100) DEFAULT NULL,
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_verified BOOLEAN DEFAULT FALSE,
+    verified_at TIMESTAMP DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (candidate_id) REFERENCES candidates(id) ON DELETE CASCADE,
+    FOREIGN KEY (application_id) REFERENCES applications(id) ON DELETE CASCADE,
+    INDEX idx_candidate (candidate_id),
+    INDEX idx_application (application_id)
+);
+
+-- Table 78: interview_schedules
+CREATE TABLE IF NOT EXISTS interview_schedules (
+    interview_id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    application_id CHAR(36) NOT NULL,
+    interview_type VARCHAR(100) DEFAULT NULL,
+    interview_round INT DEFAULT 1,
+    scheduled_date DATE NOT NULL,
+    scheduled_time TIME DEFAULT NULL,
+    duration_minutes INT DEFAULT 60,
+    timezone VARCHAR(50) DEFAULT 'Asia/Kolkata',
+    interview_mode ENUM('ONLINE','OFFLINE','PHONE') DEFAULT 'ONLINE',
+    location_link VARCHAR(500) DEFAULT NULL,
+    interviewer_name VARCHAR(255) DEFAULT NULL,
+    interviewer_email VARCHAR(255) DEFAULT NULL,
+    interviewer_phone VARCHAR(50) DEFAULT NULL,
+    notes TEXT DEFAULT NULL,
+    is_confirmed BOOLEAN DEFAULT FALSE,
+    is_completed BOOLEAN DEFAULT FALSE,
+    feedback_text TEXT DEFAULT NULL,
+    feedback_score INT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    created_by CHAR(36) DEFAULT NULL,
+    FOREIGN KEY (application_id) REFERENCES applications(id) ON DELETE CASCADE,
+    FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL,
+    INDEX idx_application (application_id),
+    INDEX idx_scheduled (scheduled_date, scheduled_time)
+);
+
+-- ============================================
+-- TRIGGERS FOR updated_at COLUMNS
+-- ============================================
+
+CREATE TRIGGER trg_departments_updated_at AFTER UPDATE ON departments
+FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP;
+
+CREATE TRIGGER trg_job_categories_updated_at AFTER UPDATE ON job_categories
+FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP;
+
+CREATE TRIGGER trg_job_types_updated_at AFTER UPDATE ON job_types
+FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP;
+
+CREATE TRIGGER trg_application_statuses_updated_at AFTER UPDATE ON application_statuses
+FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP;
+
+CREATE TRIGGER trg_contact_inquiries_updated_at AFTER UPDATE ON contact_inquiries
+FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP;
+
+CREATE TRIGGER trg_contact_inquiry_attachments_updated_at AFTER UPDATE ON contact_inquiry_attachments
+FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP;
+
+CREATE TRIGGER trg_applications_updated_at AFTER UPDATE ON applications
+FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP;
+
+CREATE TRIGGER trg_application_status_history_updated_at AFTER UPDATE ON application_status_history
+FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP;
+
+CREATE TRIGGER trg_candidate_documents_updated_at AFTER UPDATE ON candidate_documents
+FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP;
+
+CREATE TRIGGER trg_interview_schedules_updated_at AFTER UPDATE ON interview_schedules
+FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP;
+
+-- ============================================
+-- VIEWS
+-- ============================================
+
+CREATE OR REPLACE VIEW vw_active_job_postings AS
+SELECT
+    j.id,
+    j.title,
+    j.description,
+    j.location,
+    j.salary_range,
+    j.status,
+    j.posted_at,
+    j.created_at,
+    j.department,
+    d.department_name,
+    j.required_skills
+FROM jobs j
+LEFT JOIN departments d ON j.department = d.department_name
+WHERE j.status IN ('OPEN', 'DRAFT');
+
+CREATE OR REPLACE VIEW vw_application_tracking AS
+SELECT
+    a.id AS application_id,
+    a.applied_at,
+    a.cover_letter,
+    j.id AS job_id,
+    j.title AS job_title,
+    j.department AS job_department,
+    c.id AS candidate_id,
+    c.name AS candidate_name,
+    c.email AS candidate_email,
+    c.phone AS candidate_phone,
+    s.status_id,
+    s.status_name,
+    s.display_order
+FROM applications a
+JOIN jobs j ON a.job_id = j.id
+JOIN candidates c ON a.candidate_id = c.id
+LEFT JOIN application_statuses s ON a.status_id = s.status_id
+ORDER BY a.applied_at DESC;
+
+-- ============================================
+-- SEED DATA
+-- ============================================
+
+INSERT INTO departments (department_name, description, location) VALUES
+('Engineering', 'Software development and technical operations', 'Building A'),
+('Human Resources', 'Recruitment, payroll, and employee relations', 'Building B'),
+('Finance', 'Accounting, invoicing, and financial planning', 'Building B'),
+('Sales', 'Client acquisition and relationship management', 'Building A'),
+('Operations', 'Project management and workflow coordination', 'Building C'),
+('Marketing', 'Brand management and digital marketing', 'Building A')
+ON DUPLICATE KEY UPDATE department_name=department_name;
+
+INSERT INTO job_categories (category_name, description) VALUES
+('Software Development', 'Roles related to building software applications'),
+('Design', 'UI/UX and graphic design roles'),
+('Marketing', 'Digital and traditional marketing roles'),
+('Sales', 'Business development and sales roles'),
+('Human Resources', 'HR operations and recruitment roles'),
+('Finance', 'Accounting and financial analysis roles'),
+('Operations', 'Operations management and support roles')
+ON DUPLICATE KEY UPDATE category_name=category_name;
+
+INSERT INTO job_types (type_name, description) VALUES
+('Full-Time', 'Permanent full-time employment'),
+('Part-Time', 'Part-time employment with flexible hours'),
+('Contract', 'Fixed-term contract employment'),
+('Internship', 'Temporary internship position'),
+('Remote', 'Fully remote work arrangement')
+ON DUPLICATE KEY UPDATE type_name=type_name;
+
+INSERT INTO application_statuses (status_name, status_code, display_order, is_final) VALUES
+('Applied', 'APPLIED', 1, FALSE),
+('Under Review', 'UNDER_REVIEW', 2, FALSE),
+('Shortlisted', 'SHORTLISTED', 3, FALSE),
+('Interview Scheduled', 'INTERVIEW_SCHEDULED', 4, FALSE),
+('Interviewed', 'INTERVIEWED', 5, FALSE),
+('Offered', 'OFFERED', 6, FALSE),
+('Accepted', 'ACCEPTED', 7, TRUE),
+('Rejected', 'REJECTED', 8, TRUE),
+('Withdrawn', 'WITHDRAWN', 9, TRUE)
+ON DUPLICATE KEY UPDATE status_name=status_name;
+
+INSERT INTO contact_inquiries (inquiry_id, first_name, last_name, email, phone, subject, message, inquiry_source)
+VALUES (
+    'b1c2d3e4-1234-5678-9012-345678901234',
+    'John',
+    'Doe',
+    'john.doe@example.com',
+    '+91-9876543210',
+    'General Inquiry',
+    'I am interested in learning more about your services.',
+    'WEBSITE'
+) ON DUPLICATE KEY UPDATE inquiry_id=inquiry_id;

@@ -55,6 +55,18 @@ export default class Employee {
       queryParts.push('pf_number = ?');
       values.push(updates.pf_number ? encrypt(updates.pf_number) : null);
     }
+    if (updates.salary_structure_id !== undefined) {
+      queryParts.push('salary_structure_id = ?');
+      values.push(updates.salary_structure_id);
+    }
+    if (updates.employee_code !== undefined) {
+      queryParts.push('employee_code = ?');
+      values.push(updates.employee_code);
+    }
+    if (updates.date_of_joining !== undefined) {
+      queryParts.push('date_of_joining = ?');
+      values.push(updates.date_of_joining);
+    }
 
     if (queryParts.length === 0) return;
     values.push(id);
@@ -65,14 +77,23 @@ export default class Employee {
     );
   }
 
+  static async delete(id) {
+    await pool.execute('DELETE FROM employees WHERE id = ?', [id]);
+  }
+
   static async list({ limit = 50, offset = 0 } = {}) {
     const [rows] = await pool.execute(
-      `SELECT e.*, u.email, u.full_name, u.is_active 
+      `SELECT e.*, u.email, u.full_name, u.is_active, u.role 
        FROM employees e 
        JOIN users u ON e.user_id = u.id 
        LIMIT ? OFFSET ?`,
       [limit, offset]
     );
     return rows.map(row => this.format(row));
+  }
+
+  static async count() {
+    const [rows] = await pool.execute('SELECT COUNT(*) as total FROM employees');
+    return rows[0].total;
   }
 }

@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { getEmployees } from '../../services/api/employeeApi.js';
 import { getLeaves } from '../../services/api/leaveApi.js';
-import { getAttendance } from '../../services/api/attendanceApi.js';
 import { getInterviews } from '../../services/api/interviewApi.js';
 import { getInterns } from '../../services/api/internApi.js';
 
 export default function HR() {
   const [employees, setEmployees] = useState([]);
   const [leaves, setLeaves] = useState([]);
-  const [attendance, setAttendance] = useState([]);
   const [interviews, setInterviews] = useState([]);
   const [interns, setInterns] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -16,16 +14,14 @@ export default function HR() {
   const loadData = async () => {
     setLoading(true);
     try {
-      const [empRes, leaveRes, attRes, intRes, internRes] = await Promise.all([
+      const [empRes, leaveRes, intRes, internRes] = await Promise.all([
         getEmployees().catch(() => []),
         getLeaves().catch(() => []),
-        getAttendance().catch(() => []),
         getInterviews().catch(() => []),
         getInterns().catch(() => []),
       ]);
       setEmployees(Array.isArray(empRes) ? empRes : []);
       setLeaves(Array.isArray(leaveRes) ? leaveRes : []);
-      setAttendance(Array.isArray(attRes) ? attRes : []);
       setInterviews(Array.isArray(intRes) ? intRes : []);
       setInterns(Array.isArray(internRes) ? internRes : []);
     } catch (err) {

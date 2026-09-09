@@ -1,36 +1,68 @@
 import Leave from '../models/Leave.js';
+import AuditLog from '../models/AuditLog.js';
 import { broadcastToRole, broadcastToUser } from '../services/socketService.js';
+import { asyncHandler } from '../middleware/errorHandler.js';
+import { success } from '../utils/response.js';
+import { NotFoundError } from '../utils/errors.js';
 
-export const listLeaves = async (req, res) => {
-  try {
-    const user_id = ['EMPLOYEE', 'INTERN'].includes(req.user.role) ? req.user.id : req.query.user_id;
-    const list = await Leave.list({ status: req.query.status, user_id });
-    res.status(200).json(list);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
+export const listLeaves = asyncHandler(async (req, res) => {
+  const user_id = ['EMPLOYEE', 'INTERN'].includes(req.user.role) ? req.user.id : req.query.user_id;
+  const list = await Leave.list({ status: req.query.status, user_id });
+  return success(res, 200, list);
+});
 
-export const applyLeave = async (req, res) => {
-  try {
-    await Leave.create({ ...req.body, user_id: req.user.id });
-    broadcastToRole('HR', 'leave_applied', { user_id: req.user.id, name: req.user.full_name });
-    res.status(201).json({ message: 'Leave request submitted successfully.' });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
+export const getLeave = asyncHandler(async (req, res) => {
+  const leave = await Leave.findById(req.params.id);
+  if (!leave) throw new NotFoundError('Leave not found');
+  return success(res, 200, leave);
+});
 
-export const updateLeaveStatus = async (req, res) => {
-  try {
-    const { status } = req.body;
-    await Leave.updateStatus(req.params.id, status, req.user.id);
-    const leave = await Leave.findById(req.params.id);
-    if (leave) {
-      broadcastToUser(leave.user_id, 'leave_approved', { id: req.params.id, status });
-    }
-    res.status(200).json({ message: 'Leave status updated successfully.' });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+export const applyLeave = asyncHandler(async (req, res) => {
+  await Leave.create({ ...req.body, user_id: req.user.id });
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'APPLY_LEAVE',
+    entity_type: 'LEAVE',
+    new_value: req.body,
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+  broadcastToRole('HR', 'leave_applied', { user_id: req.user.id, name: req.user.full_name });
+  return success(res, 201, null, 'Leave request submitted successfully');
+});
+
+export const updateLeaveStatus = asyncHandler(async (req, res) => {
+  const { status } = req.body;
+  await Leave.updateStatus(req.params.id, status, req.user.id);
+  const leave = await Leave.findById(req.params.id);
+  if (leave) {
+    broadcastToUser(leave.user_id, 'leave_approved', { id: req.params.id, status });
   }
-};
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'UPDATE_LEAVE_STATUS',
+    entity_type: 'LEAVE',
+    entity_id: req.params.id,
+    new_value: { status },
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+  return success(res, 200, null, 'Leave status updated successfully');
+});
+
+export const cancelLeave = asyncHandler(async (req, res) => {
+  const leave = await Leave.findById(req.params.id);
+  if (!leave) throw new NotFoundError('Leave not found');
+  await Leave.update(req.params.id, { status: 'CANCELLED' });
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'CANCEL_LEAVE',
+    entity_type: 'LEAVE',
+    entity_id: req.params.id,
+    old_value: leave,
+    new_value: { status: 'CANCELLED' },
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+  return success(res, 200, null, 'Leave cancelled successfully');
+});

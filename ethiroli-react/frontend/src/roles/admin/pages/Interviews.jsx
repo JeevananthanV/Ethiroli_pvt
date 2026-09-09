@@ -1,6 +1,6 @@
 import React from 'react';
-import Interviews from '../super-admin/pages/Interviews.jsx';
+import InterviewList from '../../../modules/interviews/components/InterviewList.jsx';
 
 export default function AdminInterviews() {
-  return <Interviews />;
+  return <InterviewList />;
 }

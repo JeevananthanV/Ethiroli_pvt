@@ -32,42 +32,51 @@ export default class Client {
     const queryParts = [];
     const values = [];
 
-    if (updates.name !== undefined) {
-      queryParts.push('name = ?');
-      values.push(encrypt(updates.name));
-    }
-    if (updates.email !== undefined) {
-      queryParts.push('email = ?');
-      values.push(encrypt(updates.email));
-    }
-    if (updates.phone !== undefined) {
-      queryParts.push('phone = ?');
-      values.push(encrypt(updates.phone));
-    }
-    if (updates.gst !== undefined) {
-      queryParts.push('gst = ?');
-      values.push(encrypt(updates.gst));
-    }
-    if (updates.address !== undefined) {
-      queryParts.push('address = ?');
-      values.push(encrypt(updates.address));
-    }
-    if (updates.company_name !== undefined) {
-      queryParts.push('company_name = ?');
-      values.push(updates.company_name);
-    }
+    if (updates.name !== undefined) { queryParts.push('name = ?'); values.push(encrypt(updates.name)); }
+    if (updates.email !== undefined) { queryParts.push('email = ?'); values.push(encrypt(updates.email)); }
+    if (updates.phone !== undefined) { queryParts.push('phone = ?'); values.push(encrypt(updates.phone)); }
+    if (updates.gst !== undefined) { queryParts.push('gst = ?'); values.push(encrypt(updates.gst)); }
+    if (updates.address !== undefined) { queryParts.push('address = ?'); values.push(encrypt(updates.address)); }
+    if (updates.company_name !== undefined) { queryParts.push('company_name = ?'); values.push(updates.company_name); }
 
     if (queryParts.length === 0) return;
     values.push(id);
-
     await pool.execute(
       `UPDATE clients SET ${queryParts.join(', ')} WHERE id = ?`,
       values
     );
   }
 
-  static async list({ limit = 50, offset = 0 } = {}) {
-    const [rows] = await pool.execute('SELECT * FROM clients LIMIT ? OFFSET ?', [limit, offset]);
+  static async delete(id) {
+    await pool.execute('DELETE FROM clients WHERE id = ?', [id]);
+  }
+
+  static async list({ search, limit = 50, offset = 0 } = {}) {
+    let query = 'SELECT * FROM clients WHERE 1=1';
+    const values = [];
+
+    if (search) {
+      query += ' AND name LIKE ?';
+      values.push(`%${search}%`);
+    }
+
+    query += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
+    values.push(limit, offset);
+
+    const [rows] = await pool.execute(query, values);
     return rows.map(row => this.format(row));
+  }
+
+  static async count({ search } = {}) {
+    let query = 'SELECT COUNT(*) as total FROM clients WHERE 1=1';
+    const values = [];
+
+    if (search) {
+      query += ' AND name LIKE ?';
+      values.push(`%${search}%`);
+    }
+
+    const [rows] = await pool.execute(query, values);
+    return rows[0].total;
   }
 }

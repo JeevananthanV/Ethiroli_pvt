@@ -12,8 +12,9 @@ async function runTests() {
   // 1. Test Course Model
   console.log('\n1. Testing Course creation...');
   try {
+    const testCode = `TEST-${Date.now()}`;
     const courseId = await Course.create({
-      code: 'TEST-101',
+      code: testCode,
       name: 'Introduction to Testing',
       description: 'Standard software testing procedures',
       duration_days: 10,

@@ -1,5 +1,6 @@
 import React from 'react';
+import ApprovalQueue from '../../../modules/approvals/components/ApprovalQueue.jsx';
 
-export default function Component() {
-  return <div>Component: Approvals.jsx</div>;
+export default function EmployeeApprovals() {
+  return <ApprovalQueue />;
 }

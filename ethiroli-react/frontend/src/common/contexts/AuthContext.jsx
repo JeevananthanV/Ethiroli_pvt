@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+/* eslint-disable react-refresh/only-export-components */
+import React, { createContext, useContext, useEffect, useCallback, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks.js';
 import { setCredentials, clearCredentials } from '../../store/slices/authSlice.js';
 import { getMe, login as apiLogin, logout as apiLogout } from '../../services/api/authApi.js';
@@ -10,27 +11,27 @@ export const AuthProvider = ({ children }) => {
   const { user, isAuthenticated, socketToken } = useAppSelector((state) => state.auth);
   const [loading, setLoading] = useState(true);
 
-  const checkAuth = async () => {
+  const checkAuth = useCallback(async () => {
     try {
       const data = await getMe();
       if (data && data.user) {
         dispatch(setCredentials({ user: data.user, socket_token: socketToken }));
       }
-    } catch (err) {
+    } catch {
       dispatch(clearCredentials());
     } finally {
       setLoading(false);
     }
-  };
+  }, [dispatch, socketToken]);
 
   useEffect(() => {
     checkAuth();
-  }, []);
+  }, [checkAuth]);
 
-  const login = async (email, password) => {
+  const login = async (email, password, portal = null) => {
     setLoading(true);
     try {
-      const data = await apiLogin(email, password);
+      const data = await apiLogin(email, password, portal);
       dispatch(setCredentials(data));
       return data.user;
     } catch (err) {

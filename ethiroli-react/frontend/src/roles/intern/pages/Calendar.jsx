@@ -1,4 +1,6 @@
 import React from 'react';
+import CalendarView from '../../../modules/calendar/components/CalendarView.jsx';
+
 export default function InternCalendar() {
-  return <div><h3>Intern Calendar</h3><p>Mentorship calendar details.</p></div>;
+  return <CalendarView />;
 }

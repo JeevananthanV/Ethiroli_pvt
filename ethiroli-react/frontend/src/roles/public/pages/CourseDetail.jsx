@@ -31,7 +31,7 @@ export default function CourseDetailPage() {
     try {
       const checkoutUrl = `/marketplace/checkout/${id}`;
       window.location.href = checkoutUrl;
-    } catch (err) {
+    } catch {
       alert('Could not start checkout. Please try again.');
     } finally {
       setEnrolling(false);

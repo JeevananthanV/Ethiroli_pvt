@@ -1,6 +1,6 @@
 import React from 'react';
-import PMS from '../super-admin/pages/PMS.jsx';
+import TaskBoard from '../../../modules/pms/components/TaskBoard.jsx';
 
 export default function AdminPMS() {
-  return <PMS />;
+  return <TaskBoard />;
 }

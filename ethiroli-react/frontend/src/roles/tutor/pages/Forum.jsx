@@ -1,5 +1,6 @@
 import React from 'react';
+import ForumThreadList from '../../../modules/lms/components/ForumThreadList.jsx';
 
-export default function Component() {
-  return <div>Component: Forum.jsx</div>;
+export default function TutorForum() {
+  return <ForumThreadList />;
 }

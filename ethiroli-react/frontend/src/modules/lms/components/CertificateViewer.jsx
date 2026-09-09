@@ -30,8 +30,6 @@ export default function CertificateViewer({ certificateId }) {
     fetchCertificates();
   }, [certificateId]);
 
-  const cert = selected || certificates[0];
-
   if (loading) {
     return (
       <div className="card">

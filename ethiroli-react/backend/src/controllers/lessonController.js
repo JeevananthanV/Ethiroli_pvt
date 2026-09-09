@@ -1,40 +1,37 @@
 import Lesson from '../models/Lesson.js';
 import { broadcastToRole } from '../services/socketService.js';
+import { asyncHandler } from '../middleware/errorHandler.js';
+import { success } from '../utils/response.js';
+import { NotFoundError } from '../utils/errors.js';
 
-export const listLessons = async (req, res) => {
-  try {
-    const list = await Lesson.listByModuleId(req.params.moduleId);
-    res.status(200).json(list);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
+export const listLessons = asyncHandler(async (req, res) => {
+  const list = await Lesson.listByModuleId(req.params.moduleId);
+  return success(res, 200, list, 'Lessons retrieved');
+});
 
-export const createLesson = async (req, res) => {
-  try {
-    await Lesson.create({ ...req.body, module_id: req.params.moduleId });
-    broadcastToRole('STUDENT', 'course_content_updated', { moduleId: req.params.moduleId });
-    res.status(201).json({ message: 'Lesson created successfully.' });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
+export const createLesson = asyncHandler(async (req, res) => {
+  const id = await Lesson.create({ ...req.body, module_id: req.params.moduleId });
+  broadcastToRole('STUDENT', 'course_content_updated', { moduleId: req.params.moduleId });
+  return success(res, 201, { id }, 'Lesson created successfully');
+});
 
-export const updateLesson = async (req, res) => {
-  try {
-    await Lesson.update(req.params.id, req.body);
-    broadcastToRole('STUDENT', 'course_content_updated', { lessonId: req.params.id });
-    res.status(200).json({ message: 'Lesson updated successfully.' });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
+export const getLesson = asyncHandler(async (req, res) => {
+  const lesson = await Lesson.findById(req.params.id);
+  if (!lesson) throw new NotFoundError('Lesson not found');
+  return success(res, 200, lesson, 'Lesson retrieved');
+});
 
-export const deleteLesson = async (req, res) => {
-  try {
-    await Lesson.delete(req.params.id);
-    res.status(200).json({ message: 'Lesson deleted successfully.' });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
+export const updateLesson = asyncHandler(async (req, res) => {
+  const lesson = await Lesson.findById(req.params.id);
+  if (!lesson) throw new NotFoundError('Lesson not found');
+  await Lesson.update(req.params.id, req.body);
+  broadcastToRole('STUDENT', 'course_content_updated', { lessonId: req.params.id });
+  return success(res, 200, null, 'Lesson updated successfully');
+});
+
+export const deleteLesson = asyncHandler(async (req, res) => {
+  const lesson = await Lesson.findById(req.params.id);
+  if (!lesson) throw new NotFoundError('Lesson not found');
+  await Lesson.delete(req.params.id);
+  return success(res, 200, null, 'Lesson deleted successfully');
+});

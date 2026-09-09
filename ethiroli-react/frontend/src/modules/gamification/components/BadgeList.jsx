@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getBadges, createBadge, getUserBadges } from '../../../services/api/badgeApi.js';
+import { getBadges, createBadge } from '../../../services/api/badgeApi.js';
 
 export default function BadgeList() {
   const [badges, setBadges] = useState([]);

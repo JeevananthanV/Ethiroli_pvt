@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { listJobBoardPosts, createJobBoardPost, deleteJobBoardPost } from '../../services/api/jobBoardApi.js';
 
 export default function JobPostingList() {

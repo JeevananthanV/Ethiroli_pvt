@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { listLogs } from '../../services/api/communicationApi.js';
 import { getProviders } from '../../services/api/providerApi.js';
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { listSubscriptions, updateSubscription, deleteSubscription } from '../../services/api/subscriptionApi.js';
 
 export default function SubscriptionManagement() {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { listInterviews } from '../../services/api/interviewApi.js';
 import axiosInstance from '../../services/api/axiosInstance.js';
 

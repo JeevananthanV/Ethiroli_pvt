@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { getLiveQuizLeaderboard } from '../../services/api/liveQuizApi.js';
 
 export default function LiveQuizLeaderboard({ quizId }) {

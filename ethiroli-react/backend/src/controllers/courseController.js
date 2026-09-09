@@ -1,5 +1,6 @@
 import Course from '../models/Course.js';
 import AuditLog from '../models/AuditLog.js';
+import { broadcastToRole } from '../services/socketService.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 import { success } from '../utils/response.js';
 import { NotFoundError } from '../utils/errors.js';
@@ -20,6 +21,7 @@ export const createCourse = asyncHandler(async (req, res) => {
     ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
     user_agent: req.headers['user-agent']
   });
+  broadcastToRole('TUTOR', 'course_created', { id });
   return success(res, 201, { id }, 'Course created successfully');
 });
 
@@ -43,6 +45,7 @@ export const updateCourse = asyncHandler(async (req, res) => {
     ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
     user_agent: req.headers['user-agent']
   });
+  broadcastToRole('TUTOR', 'course_updated', { id: req.params.id });
   return success(res, 200, null, 'Course updated successfully');
 });
 
@@ -58,6 +61,7 @@ export const publishCourse = asyncHandler(async (req, res) => {
     ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
     user_agent: req.headers['user-agent']
   });
+  broadcastToRole('TUTOR', 'course_published', { id: req.params.id });
   return success(res, 200, null, 'Course published');
 });
 
@@ -74,5 +78,6 @@ export const deleteCourse = asyncHandler(async (req, res) => {
     ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
     user_agent: req.headers['user-agent']
   });
+  broadcastToRole('TUTOR', 'course_deleted', { id: req.params.id });
   return success(res, 200, null, 'Course deleted successfully');
 });

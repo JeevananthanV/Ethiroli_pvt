@@ -1,5 +1,6 @@
 import Employee from '../models/Employee.js';
 import AuditLog from '../models/AuditLog.js';
+import { broadcastToRole } from '../services/socketService.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 import { success } from '../utils/response.js';
 import { NotFoundError } from '../utils/errors.js';
@@ -20,6 +21,7 @@ export const createEmployee = asyncHandler(async (req, res) => {
     ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
     user_agent: req.headers['user-agent']
   });
+  broadcastToRole('HR', 'employee_created', { id });
   return success(res, 201, { id }, 'Employee created successfully');
 });
 
@@ -43,6 +45,7 @@ export const updateEmployee = asyncHandler(async (req, res) => {
     ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
     user_agent: req.headers['user-agent']
   });
+  broadcastToRole('HR', 'employee_updated', { id: req.params.id });
   return success(res, 200, null, 'Employee updated successfully');
 });
 
@@ -59,5 +62,6 @@ export const deleteEmployee = asyncHandler(async (req, res) => {
     ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
     user_agent: req.headers['user-agent']
   });
+  broadcastToRole('HR', 'employee_deleted', { id: req.params.id });
   return success(res, 200, null, 'Employee deleted successfully');
 });

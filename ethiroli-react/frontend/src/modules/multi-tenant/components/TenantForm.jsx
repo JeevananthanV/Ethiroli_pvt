@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { getTenants, createTenant } from '../../services/api/tenantApi.js';
 
 export default function TenantForm() {

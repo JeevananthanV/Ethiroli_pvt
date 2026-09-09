@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { listProjects, linkRepository } from '../../services/api/projectApi.js';
 
 export default function GitHubRepoListForm({ onLinked }) {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { getHolidays } from '../../services/api/calendarApi.js';
 import { createHoliday } from '../../services/api/holidayApi.js';
 

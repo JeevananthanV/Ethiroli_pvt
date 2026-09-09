@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { createHoliday } from '../../services/api/holidayApi.js';
 
 export default function HolidayForm({ onClose, editingHoliday }) {

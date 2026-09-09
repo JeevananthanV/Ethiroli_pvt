@@ -4,9 +4,14 @@ import pool from '../config/database.js';
 export default class AutomationWorkflow {
   static format(row) {
     if (!row) return null;
+    const parseJson = (val) => {
+      if (!val) return null;
+      if (typeof val === 'object') return val;
+      try { return JSON.parse(val); } catch { return null; }
+    };
     return {
       ...row,
-      trigger_config: row.trigger_config ? JSON.parse(row.trigger_config) : null
+      trigger_config: parseJson(row.trigger_config)
     };
   }
 

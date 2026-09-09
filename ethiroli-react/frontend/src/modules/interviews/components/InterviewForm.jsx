@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { scheduleInterview, listInterviews } from '../../services/api/interviewApi.js';
 
 export default function InterviewForm() {

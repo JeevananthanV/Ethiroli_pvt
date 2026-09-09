@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 
 export default function AssignmentSubmit() {
   const [form, setForm] = useState({ assignment_id: '', text: '', file: null });

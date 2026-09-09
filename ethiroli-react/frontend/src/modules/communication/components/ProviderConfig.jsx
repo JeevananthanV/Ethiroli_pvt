@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { getProviders, saveProvider } from '../../services/api/providerApi.js';
 import { listIntegrations } from '../../services/api/integrationApi.js';
 import axiosInstance from '../../services/api/axiosInstance.js';

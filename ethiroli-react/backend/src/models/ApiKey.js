@@ -4,9 +4,14 @@ import pool from '../config/database.js';
 export default class ApiKey {
   static format(row) {
     if (!row) return null;
+    const parseJson = (val) => {
+      if (!val) return null;
+      if (typeof val === 'object') return val;
+      try { return JSON.parse(val); } catch { return null; }
+    };
     return {
       ...row,
-      scopes: row.scopes ? JSON.parse(row.scopes) : null
+      scopes: parseJson(row.scopes)
     };
   }
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { getForumThread } from '../../services/api/forumApi.js';
 import ForumReplyForm from './ForumReplyForm.jsx';
 

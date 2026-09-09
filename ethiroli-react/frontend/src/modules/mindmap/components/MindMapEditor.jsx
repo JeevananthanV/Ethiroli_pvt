@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 
 export default function MindMapEditor() {
   const [nodes, setNodes] = useState([{ id: 1, x: 200, y: 150, text: 'Central Topic' }]);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { listEvents, createEvent } from '../../services/api/calendarApi.js';
 
 export default function EventModal({ isOpen, onClose, eventId }) {

@@ -43,6 +43,14 @@ export const getStats = asyncHandler(async (req, res) => {
     Lead.count()
   ]);
 
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'VIEW_SYSTEM_STATS',
+    entity_type: 'SYSTEM',
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+
   return success(res, 200, {
     users: userCount,
     leads: leadCount,
@@ -86,6 +94,15 @@ export const globalSearch = asyncHandler(async (req, res) => {
     (l.email && l.email.toLowerCase().includes(q.toLowerCase())) ||
     (l.phone && l.phone.includes(q))
   );
+
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'GLOBAL_SEARCH',
+    entity_type: 'SYSTEM',
+    new_value: { query: q, results_count: users.length + leads.length },
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
 
   return success(res, 200, { users, leads }, 'Search results retrieved');
 });

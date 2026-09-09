@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 
 export default function ReportViewer() {
   const [report, setReport] = useState('sales');

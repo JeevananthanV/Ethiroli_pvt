@@ -4,11 +4,16 @@ import pool from '../config/database.js';
 export default class ReportDefinition {
   static format(row) {
     if (!row) return null;
+    const parseJson = (val) => {
+      if (!val) return null;
+      if (typeof val === 'object') return val;
+      try { return JSON.parse(val); } catch { return null; }
+    };
     return {
       ...row,
-      dimensions: row.dimensions ? JSON.parse(row.dimensions) : null,
-      metrics: row.metrics ? JSON.parse(row.metrics) : null,
-      filters: row.filters ? JSON.parse(row.filters) : null
+      dimensions: parseJson(row.dimensions),
+      metrics: parseJson(row.metrics),
+      filters: parseJson(row.filters)
     };
   }
 

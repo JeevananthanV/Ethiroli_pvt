@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { getPendingApprovals } from '../../services/api/approvalApi.js';
 import { getWorkflows, updateWorkflow } from '../../services/api/workflowApi.js';
 

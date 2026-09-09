@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { getWorkflows, createWorkflow } from '../../services/api/approvalApi.js';
 import { getWorkflows as getAutomationWorkflows, createWorkflow as createAutomationWorkflow } from '../../services/api/workflowApi.js';
 

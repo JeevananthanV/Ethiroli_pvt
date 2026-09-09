@@ -4,9 +4,15 @@ import pool from '../config/database.js';
 export default class PredictionLog {
   static format(row) {
     if (!row) return null;
+    const parseJson = (val) => {
+      if (!val) return null;
+      if (typeof val === 'object') return val;
+      try { return JSON.parse(val); } catch { return null; }
+    };
     return {
       ...row,
-      features: row.features ? JSON.parse(row.features) : null
+      features: parseJson(row.features),
+      explanation: parseJson(row.explanation)
     };
   }
 

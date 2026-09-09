@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { listIntegrations, saveIntegration, updateIntegration } from '../../services/api/integrationApi.js';
 
 export default function IndeedWebhook() {

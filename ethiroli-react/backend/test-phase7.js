@@ -54,7 +54,7 @@ async function runTests() {
   // 3. Test Coupon Codes
   console.log('\n3. Testing Coupon code validation...');
   try {
-    const couponCode = 'DISCOUNT2026';
+    const couponCode = 'DISCOUNT' + Date.now();
     const couponId = await Coupon.create({
       tenant_id: tenantId,
       code: couponCode,

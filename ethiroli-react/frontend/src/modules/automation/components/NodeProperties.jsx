@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { getAutomationWorkflows, createAutomationWorkflow } from '../../services/api/automationApi.js';
 
 const NODE_TYPE_FIELDS = {

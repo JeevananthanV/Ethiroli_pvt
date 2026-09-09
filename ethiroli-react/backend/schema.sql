@@ -25,11 +25,14 @@ CREATE TABLE IF NOT EXISTS sessions (
   id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
   user_id CHAR(36) NOT NULL,
   token VARCHAR(255) NOT NULL UNIQUE,
+  portal_slug VARCHAR(100) NOT NULL,
   expires_at TIMESTAMP NOT NULL,
   user_agent VARCHAR(255) NULL,
   ip_address VARCHAR(45) NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  INDEX idx_token_portal (token, portal_slug),
+  INDEX idx_user_portal (user_id, portal_slug)
 );
 
 -- Table 3: leads

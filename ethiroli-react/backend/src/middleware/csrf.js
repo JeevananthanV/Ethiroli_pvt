@@ -12,10 +12,7 @@ export const csrfProtection = async (req, res, next) => {
   }
 
   if (ALLOWED_ORIGINS.length === 0) {
-    if (process.env.NODE_ENV === 'production') {
-      throw new AuthorizationError('CSRF Blocked: ALLOWED_ORIGINS is not configured.');
-    }
-    return next();
+    throw new AuthorizationError('CSRF Blocked: ALLOWED_ORIGINS is not configured.');
   }
 
   const origin = req.headers.origin;

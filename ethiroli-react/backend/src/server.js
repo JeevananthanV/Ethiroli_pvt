@@ -10,9 +10,10 @@ const PORT = process.env.PORT || 5000;
 const SOCKET_PORT = 3003;
 const SHUTDOWN_TIMEOUT_MS = Number(process.env.SHUTDOWN_TIMEOUT_MS || 10000);
 
-if (process.env.NODE_ENV === 'development') {
-  https.globalAgent.options.rejectUnauthorized = false;
-}
+// Remove MITM risk: only allow self-signed certs in explicit dev mode
+// if (process.env.NODE_ENV === 'development' && process.env.ALLOW_SELF_SIGNED_CERTS === 'true') {
+//   https.globalAgent.options.rejectUnauthorized = false;
+// }
 
 let isShuttingDown = false;
 

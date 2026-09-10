@@ -18,7 +18,7 @@ export const schemas = {
       role: {
         type: 'string',
         required: true,
-        enum: ['SUPER_ADMIN', 'ADMIN', 'HR', 'TUTOR', 'PROJECT_MANAGER', 'FINANCE', 'SALES', 'RECEPTION', 'EMPLOYEE', 'STUDENT', 'INTERN']
+        enum: ['SUPER_ADMIN', 'ADMIN', 'HR', 'TUTOR', 'PROJECT_MANAGER', 'FINANCE', 'SALES', 'RECEPTION', 'EMPLOYEE', 'STUDENT', 'INTERN', 'CLIENT', 'VENDOR']
       },
       is_active: { type: 'boolean' }
     }
@@ -28,7 +28,7 @@ export const schemas = {
     fields: {
       full_name: { type: 'string', minLength: 2, maxLength: 255 },
       phone: { type: 'string', phone: true, maxLength: 20 },
-      role: { type: 'string', enum: ['SUPER_ADMIN', 'ADMIN', 'HR', 'TUTOR', 'PROJECT_MANAGER', 'FINANCE', 'SALES', 'RECEPTION', 'EMPLOYEE', 'STUDENT', 'INTERN'] },
+      role: { type: 'string', enum: ['SUPER_ADMIN', 'ADMIN', 'HR', 'TUTOR', 'PROJECT_MANAGER', 'FINANCE', 'SALES', 'RECEPTION', 'EMPLOYEE', 'STUDENT', 'INTERN', 'CLIENT', 'VENDOR'] },
       is_active: { type: 'boolean' }
     }
   },

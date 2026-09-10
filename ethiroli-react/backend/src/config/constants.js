@@ -9,7 +9,9 @@ export const ROLES = {
   RECEPTION: 'RECEPTION',
   EMPLOYEE: 'EMPLOYEE',
   STUDENT: 'STUDENT',
-  INTERN: 'INTERN'
+  INTERN: 'INTERN',
+  CLIENT: 'CLIENT',
+  VENDOR: 'VENDOR'
 };
 
 export const LEAD_STATUS = {

@@ -10,7 +10,8 @@ const Hero = () => {
                     muted
                     loop
                     playsInline
-                    poster="/assets/images/ethiroli_video_poster.jpg"
+                    preload="metadata"
+                    poster="/assets/images/banner/golden_ribbon_hero.jpg"
                     className="bg-video"
                 >
                     <source src="/assets/images/ethiroli.mp4" type="video/mp4" />

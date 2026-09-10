@@ -1,1 +1,0 @@
-import{r as e,c as t,j as r,a as o}from"./registerServiceWorker-iR6solUp.js";import{E as s,A as a}from"./ErrorBoundary-BIYP04G9.js";e();t.createRoot(document.getElementById("root")).render(r.jsx(o.StrictMode,{children:r.jsx(s,{children:r.jsx(a,{})})}));

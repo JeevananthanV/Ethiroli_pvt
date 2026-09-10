@@ -68,13 +68,10 @@ function App() {
   const [showLoader, setShowLoader] = useState(true);
 
   useEffect(() => {
-    const hasSeenLoader = sessionStorage.getItem('et_loader_seen') === 'true';
-    const duration = hasSeenLoader ? 180 : 900;
-
     const timer = window.setTimeout(() => {
       sessionStorage.setItem('et_loader_seen', 'true');
       setShowLoader(false);
-    }, duration);
+    }, 100);
 
     return () => window.clearTimeout(timer);
   }, []);

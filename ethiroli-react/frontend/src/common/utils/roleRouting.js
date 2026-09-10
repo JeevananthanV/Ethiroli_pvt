@@ -15,10 +15,12 @@ export const ROLES = Object.freeze({
   EMPLOYEE: 'EMPLOYEE',
   STUDENT: 'STUDENT',
   INTERN: 'INTERN',
+  CLIENT: 'CLIENT',
+  VENDOR: 'VENDOR',
 });
 
 /**
- * Canonical landing dashboard for each of the 11 system roles
+ * Canonical landing dashboard for each system role
  */
 export const ROLE_DEFAULT_ROUTES = Object.freeze({
   [ROLES.SUPER_ADMIN]: '/app/super-admin/dashboard',
@@ -32,6 +34,8 @@ export const ROLE_DEFAULT_ROUTES = Object.freeze({
   [ROLES.EMPLOYEE]: '/app/employee/dashboard',
   [ROLES.STUDENT]: '/app/student/dashboard',
   [ROLES.INTERN]: '/app/intern/dashboard',
+  [ROLES.CLIENT]: '/app/client/dashboard',
+  [ROLES.VENDOR]: '/app/vendor/dashboard',
 });
 
 /**

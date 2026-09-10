@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import SEO from '../components/shared/SEO';
 
 const fadeIn = {
     hidden: { opacity: 0, y: 20 },
@@ -51,6 +52,12 @@ const PrivacyPolicy = () => {
 
     return (
         <div className="ab-page">
+            <SEO
+                title="Privacy Policy — Ethiroli Branding & Marketing Agency"
+                description="Read the Privacy Policy for Ethiroli Branding & Marketing Agency. Learn how we collect, protect, and handle your data on ethiroli.net."
+                canonical="https://ethiroli.net/privacy-policy"
+                keywords="privacy policy, ethiroli privacy, data protection, branding agency terms"
+            />
             <section className="ab-hero" style={{ backgroundImage: "url('/assets/images/banner/banner.png')" }}>
                 <motion.div
                     className="ab-hero-content"

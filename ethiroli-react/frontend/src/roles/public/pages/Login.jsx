@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../../common/hooks/useAuth';
-import { ROLES } from '../../common/utils/roleRouting';
+import { ROLES, getRoleDefaultPath } from '../../common/utils/roleRouting';
 
 const ROLE_PORTAL_MAP = {
-  SUPER_ADMIN: 'admin',
+  SUPER_ADMIN: 'super-admin',
   ADMIN: 'admin',
   HR: 'hr',
   TUTOR: 'tutor',
@@ -15,6 +15,8 @@ const ROLE_PORTAL_MAP = {
   EMPLOYEE: 'employee',
   STUDENT: 'student',
   INTERN: 'intern',
+  CLIENT: 'client',
+  VENDOR: 'vendor',
 };
 
 function LoginPage() {
@@ -30,6 +32,10 @@ function LoginPage() {
     ? 'Super Admin'
     : roleParam === 'pm'
     ? 'Project Manager'
+    : roleParam === 'client'
+    ? 'Client'
+    : roleParam === 'vendor'
+    ? 'Vendor'
     : roleParam
     ? roleParam.charAt(0).toUpperCase() + roleParam.slice(1)
     : 'System';
@@ -39,9 +45,11 @@ function LoginPage() {
     setLoading(true);
     setError('');
     try {
-      const portal = ROLE_PORTAL_MAP[roleParam === 'super-admin' ? 'SUPER_ADMIN' : roleParam === 'pm' ? 'PROJECT_MANAGER' : roleParam?.toUpperCase()];
-      await login(email, password, portal);
-      const defaultPath = `/app/${roleParam}/dashboard`;
+      const roleKey = roleParam === 'super-admin' ? 'SUPER_ADMIN' : roleParam === 'pm' ? 'PROJECT_MANAGER' : roleParam === 'client' ? 'CLIENT' : roleParam === 'vendor' ? 'VENDOR' : roleParam?.toUpperCase();
+      const portal = ROLE_PORTAL_MAP[roleKey];
+      const data = await login(email, password, portal);
+      const actualRole = data?.user?.role;
+      const defaultPath = getRoleDefaultPath(actualRole);
       navigate(defaultPath, { replace: true });
     } catch (err) {
       setError(err.message || 'Login failed. Please check your credentials.');

@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
+﻿import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const servicesSet = [
     {
@@ -6,52 +7,50 @@ const servicesSet = [
         number: '01',
         title: 'Brand Identity',
         icon: '/assets/images/services/branding.png',
-        description: 'Brand Identity is the way a business presents itself to the public through its logo, colors, design style, messaging, and overall personality. We help businesses create a strong brand identity so customers can recognize, trust, and remember the brand easily.'
+        description: 'Brand Identity is how a business presents itself through its logo, visual style, messaging, and distinct personality. We craft iconic brand identities so customers recognize, trust, and remember your business easily.'
     },
     {
         id: 'video',
         number: '02',
-        title: 'Video editing',
-        icon: '/assets/images/services/video.png', // assumed missing extension from source html
-        description: 'Video creation means producing engaging videos to promote a business, product, or service. We create promotional videos, reels, and ads that attract attention on social media and help businesses connect with their audience. These videos help increase brand awareness and customer engagement.'
+        title: 'Video Marketing',
+        icon: '/assets/images/services/video.png',
+        description: 'High-impact promotional videos, social reels, and brand storytelling that captivate audiences. We turn creative video concepts into powerful customer engagement and brand awareness.'
     },
     {
-        id: 'seo',
+        id: 'seo-aeo-geo',
         number: '03',
-        title: 'Search Engine Optimization',
+        title: 'SEO, AEO & GEO',
         icon: '/assets/images/services/seo.png',
-        description: 'We focus on SEO-based lead generation strategies to bring potential customers to your business. Our goal is to increase online visibility, website traffic, and high-quality leads for sustainable growth.'
+        description: 'Search Engine Optimization, Answer Engine Optimization, and Generative AI Optimization. We position your brand at the very top of Google, ChatGPT, Perplexity, and AI search results.'
     },
     {
-        id: 'dev',
+        id: 'automation',
         number: '04',
-        title: 'Web & Mobile Development',
+        title: 'Marketing Automation',
         icon: '/assets/images/services/development.png',
-        description: 'Web development involves building responsive, SEO-friendly websites that help businesses establish a strong online presence. It includes website design, development, and optimization to improve user experience, website performance, and digital visibility.'
+        description: 'Automated lead nurturing, WhatsApp funnels, email sequences, and CRM workflow integrations. Streamline customer acquisition and close deals with zero manual friction.'
     },
     {
         id: 'lead',
         number: '05',
         title: 'Lead Generation',
         icon: '/assets/images/services/lead_generation.png',
-        description: 'We create powerful lead generation strategies that bring the right customers to your business. Our goal is to turn online attention into real leads and long-term growth.'
+        description: 'Data-driven customer acquisition funnels designed to turn online attention into qualified leads, measurable revenue, and sustainable long-term business growth.'
     },
     {
         id: 'uiux',
         number: '06',
-        title: 'UI/UX Design',
+        title: 'Brand UI/UX & Web Presence',
         icon: '/assets/images/services/ui_ux.png',
-        description: 'UX/UI design focuses on creating a user-friendly website and mobile app design that improves user experience and interface usability. It helps businesses build responsive websites, improve website performance, and increase customer engagement through effective digital design.'
+        description: 'Speed-optimized, high-converting brand websites and landing pages. We design intuitive digital touchpoints that reflect your brand identity and convert visitors into loyal clients.'
     },
     {
         id: 'graphic',
         number: '07',
         title: 'Graphic Design',
         icon: '/assets/images/services/graphic_design.png',
-        description: 'Graphic design involves creating visual content such as posters, social media creatives, banners, and marketing materials for businesses. It helps present the brand in a professional and attractive way. Good graphic design grabs attention and communicates the brand message clearly.'
+        description: 'Visual identity assets including posters, social media creatives, ad banners, and marketing collateral that communicate your brand values with elegance and impact.'
     }
-
-
 ];
 
 const getVisibleSlides = () => {
@@ -62,7 +61,7 @@ const getVisibleSlides = () => {
 };
 
 const ServicesSlider = () => {
-    // By duplicating sets, we get infinite scroll effect when translating bounds
+    const navigate = useNavigate();
     const clonesCount = servicesSet.length;
     const slides = [...servicesSet, ...servicesSet, ...servicesSet];
 
@@ -87,7 +86,6 @@ const ServicesSlider = () => {
         });
     }, []);
 
-    // Auto Play
     useEffect(() => {
         if (isPaused) return;
         const interval = setInterval(() => {
@@ -98,43 +96,34 @@ const ServicesSlider = () => {
 
     useEffect(() => {
         const handleResize = () => {
-            const next = getVisibleSlides();
-            setVisibleSlides((prev) => {
-                if (prev === next) return prev;
-                setIsTransitioning(false);
-                setCurrentIndex(clonesCount);
-                return next;
-            });
+            setVisibleSlides(getVisibleSlides());
         };
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, [clonesCount]);
+    }, []);
 
     const handleTransitionEnd = () => {
-        setIsTransitioning(false);
-        // Seamless loop jump
-        if (currentIndex <= clonesCount - 1) {
-            setCurrentIndex(currentIndex + clonesCount);
-        } else if (currentIndex >= clonesCount * 2) {
-            setCurrentIndex(currentIndex - clonesCount);
+        if (currentIndex >= clonesCount * 2) {
+            setIsTransitioning(false);
+            setCurrentIndex(clonesCount);
+        } else if (currentIndex < clonesCount) {
+            setIsTransitioning(false);
+            setCurrentIndex(clonesCount * 2 - 1);
         }
     };
 
-    const jumpToSlide = (index) => {
-        setIsTransitioning(true);
-        setCurrentIndex(clonesCount + index);
+    const getLogicalIndex = () => {
+        return (currentIndex - clonesCount + clonesCount) % clonesCount;
     };
-
-    const getLogicalIndex = () => ((currentIndex - clonesCount) % clonesCount + clonesCount) % clonesCount;
 
     return (
         <section className="et-services-section" id="services">
             <div className="et-services-label">
-                <p><span className="star-rotate">&#9733;</span>Ethiroli Services</p>
+                <p><span className="star-rotate">&#9733;</span>Branding & Marketing Services</p>
             </div>
             <div className="et-services-intro">
-                <h3>We Deliver Powerful Digital Solutions That Drive Growth</h3>
-                <button>Ethiroli Services <i className="fas fa-arrow-right"></i></button>
+                <h3>We Deliver Powerful Branding & Marketing Strategies That Drive Growth</h3>
+                <button onClick={() => navigate('/services')}>Explore All Services <i className="fas fa-arrow-right"></i></button>
             </div>
 
             <div
@@ -191,20 +180,8 @@ const ServicesSlider = () => {
                     <i className="fas fa-chevron-right"></i>
                 </button>
             </div>
-
-            <div className="et-services-dots">
-                {servicesSet.map((_, idx) => (
-                    <button
-                        key={`dot-${idx}`}
-                        className={`et-services-dot ${getLogicalIndex() === idx ? 'active' : ''}`}
-                        aria-label={`Slide ${idx + 1}`}
-                        onClick={() => jumpToSlide(idx)}
-                    ></button>
-                ))}
-            </div>
         </section>
     );
 };
 
 export default ServicesSlider;
-

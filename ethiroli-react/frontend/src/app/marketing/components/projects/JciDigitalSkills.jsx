@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import SEO from '../shared/SEO';
 import JciHero from './jci/JciHero';
 import JciMission from './jci/JciMission';
 import JciImpact from './jci/JciImpact';
@@ -53,22 +54,21 @@ const JciDigitalSkills = () => {
                     )
                 },
                 { 
-                    label: 'College Partners', 
-                    value: '15+',
+                    label: 'Corporate Partners', 
+                    value: '50+',
                     icon: (
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
-                            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
                         </svg>
                     )
                 },
                 { 
-                    label: 'Growth Success', 
-                    value: '85%',
+                    label: 'Success Rate', 
+                    value: '95%',
                     icon: (
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-                            <polyline points="17 6 23 6 23 12"></polyline>
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
                         </svg>
                     )
                 }
@@ -103,21 +103,24 @@ const JciDigitalSkills = () => {
         journey: {
             title: "The Program Journey",
             description: "A structured, three-phase roadmap designed to take you from foundational knowledge to full-scale professional operations.",
-            steps: [
-                { 
-                    title: 'College Training', 
-                    description: 'Foundational seminars covering Digital Marketing Basics and essential soft skills for the modern workplace.',
-                    tags: ["SEMINARS", "DIGITAL LITERACY"]
+            roadmap: [
+                {
+                    phase: "Phase 1: Awareness & Selection",
+                    duration: "Month 1",
+                    description: "Foundational seminars covering Digital Marketing Basics, Branding Principles, and essential communication skills for the modern workplace.",
+                    icon: "🎯"
                 },
-                { 
-                    title: '2-Month Internship', 
-                    description: 'Hands-on experience in high-demand creative fields: Branding, Graphic Design, and Video Editing.',
-                    tags: ["BRANDING", "DESIGN"]
+                {
+                    phase: "Phase 2: Intensive Creative Internship",
+                    duration: "Months 2-3",
+                    description: "Hands-on, immersive training in graphic design, short-form video creation, brand strategy, and performance analytics with live client projects.",
+                    icon: "💻"
                 },
-                { 
-                    title: '1-Year Employment', 
-                    description: 'Guaranteed placement within Branding & Media Operations roles to solidify your professional career.',
-                    tags: ["OPERATIONS", "MANAGEMENT"]
+                {
+                    phase: "Phase 3: Guaranteed 1-Year Placement",
+                    duration: "Months 4-15",
+                    description: "Guaranteed 1-year professional placement in media operations and marketing roles at Ethiroli and our partner brand network.",
+                    icon: "🚀"
                 }
             ]
         },
@@ -126,7 +129,7 @@ const JciDigitalSkills = () => {
             description: "Real stories from our alumni who have successfully bridged the gap.",
             stories: [
                 {
-                    quote: "I was a fresh graduate unsure of how to use my creative skills in the real world. The internship at Ethiroli gave me the practical confidence I needed.",
+                    quote: "Ethiroli gave me the exact hands-on experience and confidence I needed. Today, I manage social media campaigns for leading brands.",
                     author: "Priya S.",
                     location: "Salem"
                 },
@@ -145,7 +148,7 @@ const JciDigitalSkills = () => {
                 "Recent graduates (2023-2026 batches)",
                 "Currently studying students looking for internships",
                 "Residents of Salem district and surrounding areas",
-                "Eager to learn digital design and media management",
+                "Eager to learn digital design, branding, and marketing",
                 "Committed to a long-term professional growth journey"
             ],
             image: "/assets/images/founder/WhatsApp Image 2026-03-16 at 2.11.29 PM.jpeg",
@@ -163,6 +166,12 @@ const JciDigitalSkills = () => {
 
     return (
         <div className="jci-digital-skills">
+            <SEO
+                title="JCI & Women Digital Skills Initiative — Case Study | Ethiroli Branding & Marketing Agency"
+                description="Discover Ethiroli's joint initiative with JCI empowering women in Salem with certified digital marketing, branding, and media skills."
+                canonical="https://ethiroli.net/projects/jci-digital-skills"
+                keywords="jci digital skills, women empowerment, digital marketing salem, ethiroli initiative, branding training"
+            />
             <JciHero 
                 {...projectData.hero} 
                 onCtaClick={() => document.getElementById('eligibility')?.scrollIntoView()} 

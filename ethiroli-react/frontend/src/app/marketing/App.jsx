@@ -18,6 +18,9 @@ const Ethiroliseminarksrct = lazy(() => import('./components/projects/Ethirolise
 const Services = lazy(() => import('./pages/Services'));
 const ProjectHome = lazy(() => import('./pages/project_home'));
 const Ethiroliseminarjayarani = lazy(() => import('./components/projects/Ethiroliseminarjayarani'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const TermsOfService = lazy(() => import('./pages/TermsOfService'));
+const Sitemap = lazy(() => import('./pages/Sitemap'));
 
 const AppContent = ({ showLoader }) => {
   return (
@@ -53,6 +56,10 @@ const AppContent = ({ showLoader }) => {
             <Route path="/projects/Ethiroliseminarjayarani" element={<Ethiroliseminarjayarani />} />
             <Route path="/projects/Ethiroliseminarksrct" element={<Ethiroliseminarksrct />} />
             <Route path="/services" element={<Services />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
+            <Route path="/terms" element={<TermsOfService />} />
+            <Route path="/sitemap" element={<Sitemap />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>

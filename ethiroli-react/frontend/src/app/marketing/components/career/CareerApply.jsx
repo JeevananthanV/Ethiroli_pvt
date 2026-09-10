@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import SEO from '../shared/SEO';
 
 const initialForm = {
     fullName: '',
@@ -61,6 +62,12 @@ const CareerApply = () => {
 
     return (
         <section className="career-apply-page">
+            <SEO
+                title="Apply for Career — Ethiroli Branding & Marketing Agency"
+                description="Submit your application for internships and creative roles at Ethiroli Branding & Marketing Agency."
+                canonical="https://ethiroli.net/career/apply"
+                keywords="apply ethiroli, career application, internship application, marketing agency hiring"
+            />
             <div className="career-apply-shell">
                 <div className="career-apply-header">
                     <p className="career-apply-kicker">Career Application</p>

@@ -13,7 +13,7 @@ const CTAabout = () => {
                 transition={{ duration: 0.5 }}
             >
                 <h2>Make Your Brand Heard with Ethiroli</h2>
-                <p>Ethiroli helps your brand stand out with creative strategies and smart digital marketing, turning ideas into real engagement, stronger presence, and measurable business growth.</p>
+                <p>Ethiroli helps your brand stand out with iconic visual identities, performance marketing, and automated growth systems, turning ideas into real engagement, market dominance, and measurable business growth.</p>
                 <div className="ab-cta-actions">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.8 }}

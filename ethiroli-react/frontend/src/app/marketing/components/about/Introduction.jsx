@@ -23,10 +23,10 @@ const Introduction = () => {
                     transition={{ duration: 0.6 }}
                 >
                     <p className="ab-label"><span className="star-rotate">★</span>Who We Are</p>
-                    <h2 id="intro-title">A Women-Led Digital Ecosystem Driving Growth & Impact</h2>
+                    <h2 id="intro-title">A Women-Led Branding & Marketing Agency Driving Growth & Impact</h2>
                     <p>
-                        Eithiroli is a women-led digital growth platform dedicated to empowering women with practical digital skills, real-world internship experience, and business opportunities.
-                        We combine structured training with measurable marketing strategies to help women build independent careers while delivering real growth for brands.
+                        Eithiroli is a premier women-led branding and marketing agency dedicated to empowering businesses with iconic visual identities, performance marketing, and automated growth funnels.
+                        We combine strategic branding, creative storytelling, and data-driven marketing campaigns to help businesses build strong market dominance while nurturing the next generation of creative women leaders in marketing.
                     </p>
                 </motion.div>
             </div>

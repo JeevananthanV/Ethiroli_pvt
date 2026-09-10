@@ -33,7 +33,7 @@ const Projects = () => {
                     <div className="ab-projects-zigzag-content">
                         <h3>Empowering Women with JCI & Digital Skills</h3>
                         <p>
-                            Ethiroli is a dynamic digital marketing agency in Salem empowering the next generation of women leaders. In partnership with JCI, they provide certified digital training, expert mentorship, and entrepreneurship workshops. Their structured roadmap bridges education and employment through college seminars, a 2-month creative internship, and a guaranteed 1-year placement in media operations.
+                            Ethiroli is a premier branding and marketing agency in Salem empowering the next generation of women leaders. In partnership with JCI, we provide certified branding training, expert mentorship, and creative marketing workshops. Our structured roadmap bridges education and employment through college seminars, a 2-month creative internship, and a guaranteed 1-year placement in branding and media operations.
                         </p>
                         <Link to="/projects/jci-digital-skills" className="ab-projects-link">
                             Learn More <i className="fas fa-arrow-right"></i>

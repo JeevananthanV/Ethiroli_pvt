@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import SEO from '../components/shared/SEO';
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -60,6 +61,12 @@ const Contact = () => {
 
     return (
         <div className="contact-page">
+            <SEO
+                title="Contact Us — Ethiroli Branding & Marketing Agency"
+                description="Get in touch with Ethiroli, premier branding, performance marketing, and marketing automation agency in Salem, Tamil Nadu. Reach out for brand strategy and campaigns."
+                canonical="https://ethiroli.net/contact_us"
+                keywords="contact ethiroli, branding agency contact, marketing agency salem, ethiroli phone number, ethiroli address, ethiroli.net"
+            />
             <section className="ab-hero" style={{ backgroundImage: "url('/assets/images/banner/banner.png')" }}>
                 <div className="ab-hero-content">
                     <motion.h1
@@ -191,15 +198,15 @@ const Contact = () => {
                             <details>
                                 <summary title="What services does Eithiroli offer?">What services does Eithiroli offer?</summary>
                                 <p className="et-faq-content">
-                                    Eithiroli is a women-led digital marketing and branding agency in Tamil Nadu offering branding services, website development, lead generation, social media marketing, and performance-driven digital growth solutions.
+                                    Eithiroli is a premier branding and marketing agency in Tamil Nadu offering brand strategy, visual identity design, performance marketing, marketing automation, SEO/AEO/GEO optimization, and high-converting lead generation.
                                 </p>
                             </details>
                         </div>
                         <div>
                             <details>
-                                <summary title="Do you provide website development services?">Do you provide website development services?</summary>
+                                <summary title="Do you provide marketing automation and digital presence services?">Do you provide marketing automation and digital presence services?</summary>
                                 <p className="et-faq-content">
-                                    Yes. We design and develop responsive, SEO-friendly business websites focused on user experience, fast performance, and lead conversion.
+                                    Yes. We design and build high-converting brand landing pages, automated lead capture funnels, and CRM workflow integrations focused on user experience, fast performance, and customer conversion.
                                 </p>
                             </details>
                         </div>
@@ -207,23 +214,23 @@ const Contact = () => {
                             <details>
                                 <summary title="How does Eithiroli generate leads for businesses?">How does Eithiroli generate leads for businesses?</summary>
                                 <p className="et-faq-content">
-                                    We use strategic digital marketing methods including paid ads, funnel marketing, landing page optimization, and analytics tracking to generate high-quality leads and measurable business growth.
+                                    We deploy data-driven performance marketing strategies including multi-channel paid ads, automated marketing funnels, landing page optimization, and analytics tracking to generate high-intent leads and measurable business growth.
                                 </p>
                             </details>
                         </div>
                         <div>
                             <details>
-                                <summary title="Do you offer branding and personal branding services?">Do you offer branding and personal branding services?</summary>
+                                <summary title="Do you offer branding, personal branding, and SEO services?">Do you offer branding, personal branding, and SEO services?</summary>
                                 <p className="et-faq-content">
-                                    Yes. We provide complete brand strategy, logo design, visual identity, and personal branding solutions to help businesses and professionals build strong digital presence.
+                                    Yes. We provide complete brand strategy, logo design, visual identity, personal branding, and advanced SEO, AEO, and GEO optimization so your brand ranks top on Google and AI search engines.
                                 </p>
                             </details>
                         </div>
                         <div>
                             <details>
-                                <summary title="Do you provide digital marketing training or internships?">Do you provide digital marketing training or internships?</summary>
+                                <summary title="Do you provide digital marketing and creative internships?">Do you provide digital marketing and creative internships?</summary>
                                 <p className="et-faq-content">
-                                    Yes. As a women-led digital ecosystem, Eithiroli empowers women through digital skill training, real-world internships, and hands-on marketing experience.
+                                    Yes. As a women-led branding and marketing agency, Ethiroli empowers emerging talent through structured skill training, real-world internships, and hands-on campaign experience.
                                 </p>
                             </details>
                         </div>

@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import SEO from '../components/shared/SEO';
 
 const projects = [
   {
@@ -95,6 +96,12 @@ const ProjectHome = () => {
 
   return (
     <section className="et-projects-section project-home-page">
+      <SEO
+        title="Projects & Case Studies — Ethiroli Branding & Marketing Agency"
+        description="Explore branding campaigns, community initiatives, seminars, and creative marketing case studies by Ethiroli Branding & Marketing Agency."
+        canonical="https://ethiroli.net/projects"
+        keywords="ethiroli projects, branding case studies, marketing portfolio, college seminars, jci digital skills"
+      />
       <div className="project-home-hero">
         <motion.div
           className="et-projects-header project-home-header"

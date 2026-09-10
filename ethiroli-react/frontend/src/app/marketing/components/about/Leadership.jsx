@@ -77,7 +77,7 @@ const Leadership = () => {
                         <article className="ab-leader-card">
                             <h3>Co-Founder</h3>
                             <p>
-                                G. E. Balaji is the Co-Founder of Ethiroli Pvt. Ltd. and a Marketing Strategist who works with businesses across cafés, NGOs, spiritual organizations, self-help groups, and personal brands. With a background in the National Cadet Corps (NCC), he brings leadership, empathy, and strategic thinking to help organizations grow through digital marketing and branding.
+                                G. E. Balaji is the Co-Founder of Ethiroli Pvt. Ltd. and a Marketing Strategist who works with businesses across cafés, NGOs, spiritual organizations, self-help groups, and personal brands. With a background in the National Cadet Corps (NCC), he brings leadership, empathy, and strategic thinking to help organizations grow through branding, performance marketing, and marketing automation.
                             </p>
                         </article>
                     </motion.div>

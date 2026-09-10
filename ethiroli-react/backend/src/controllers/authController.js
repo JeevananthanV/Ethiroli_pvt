@@ -22,6 +22,8 @@ const PORTAL_COOKIE_CONFIG = {
   EMPLOYEE: { path: '/app/employee', sameSite: 'lax' },
   STUDENT: { path: '/app/student', sameSite: 'lax' },
   INTERN: { path: '/app/intern', sameSite: 'lax' },
+  CLIENT: { path: '/app/client', sameSite: 'lax' },
+  VENDOR: { path: '/app/vendor', sameSite: 'lax' },
 };
 
 const getCookieConfig = (role) => {

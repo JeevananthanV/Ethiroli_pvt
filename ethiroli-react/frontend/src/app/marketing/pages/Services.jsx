@@ -1,126 +1,132 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import SEO from '../components/shared/SEO';
 
 const allProjects = [
   {
     id: 'kottai-varahi',
     title: 'Kottai Varahi Temple Platform',
-    subtitle: 'Community Web Portal',
-    category: 'Portals & Devotee Systems',
+    subtitle: 'Devotee Community & Brand Portal',
+    category: 'Brand Portals & Community Systems',
     image: '/assets/images/services/project_kottai_varahi.jpg',
-    tags: ['React', 'Node.js', 'Cloud DB'],
+    tags: ['Brand Experience', 'Cloud Portal', 'Devotee Funnel'],
     link: '/contact_us',
   },
   {
     id: 'crm-pms',
-    title: 'Enterprise CRM / PMS',
-    subtitle: 'SaaS Platform',
-    category: 'Web Platforms & Apps',
+    title: 'Enterprise Marketing & Operations CRM',
+    subtitle: 'Marketing Automation & Lead Funnel System',
+    category: 'Marketing Systems & Automation',
     image: '/assets/images/services/project_crm_dashboard.jpg',
-    tags: ['React', 'Node.js', 'MySQL'],
+    tags: ['Lead Automation', 'CRM Funnels', 'Workflows'],
     link: '/contact_us',
   },
   {
     id: 'atti-cafe',
     title: 'Atti Cafe',
-    subtitle: 'Restaurant Website',
-    category: 'Landing Pages & E-Commerce',
+    subtitle: 'Hospitality Brand & Visual Presence',
+    category: 'Brand Landing Pages & Commerce',
     image: '/assets/images/services/project_atti_cafe.jpg',
-    tags: ['React', 'Vite', 'Tailwind'],
+    tags: ['Brand Identity', 'Web Experience', 'Social Reach'],
     link: '/contact_us',
   },
   {
     id: 'aura-ecommerce',
     title: 'Aura E-Commerce',
-    subtitle: 'Beauty & Skincare Store',
-    category: 'Landing Pages & E-Commerce',
+    subtitle: 'Beauty & Skincare Brand Experience',
+    category: 'Brand Landing Pages & Commerce',
     image: '/assets/images/services/project_aura_ecommerce.jpg',
-    tags: ['React', 'Stripe', 'Node.js'],
+    tags: ['Brand Design', 'Conversion Funnel', 'Commerce'],
     link: '/contact_us',
   },
 ];
 
 const disciplines = [
   {
-    title: 'Branding',
-    desc: 'Build memorable brand identities',
+    title: 'Brand Identity',
+    desc: 'Build iconic, memorable brand positioning',
     icon: 'palette',
   },
   {
-    title: 'Development',
-    desc: 'Scalable web applications',
-    icon: 'desktop_windows',
+    title: 'Performance Marketing',
+    desc: 'High-ROI multi-channel paid ad campaigns',
+    icon: 'trending_up',
+  },
+  {
+    title: 'Marketing Automation',
+    desc: 'Automated lead nurturing, CRM & workflows',
+    icon: 'smart_toy',
+  },
+  {
+    title: 'SEO, AEO & GEO',
+    desc: 'Rank on Google, ChatGPT & AI Search',
+    icon: 'travel_explore',
+  },
+  {
+    title: 'Brand UI/UX Design',
+    desc: 'Intuitive digital experiences that convert',
+    icon: 'design_services',
+  },
+  {
+    title: 'Video Marketing',
+    desc: 'Commercial reels & high-impact storytelling',
+    icon: 'videocam',
   },
   {
     title: 'Graphic Design',
-    desc: 'Visual storytelling that connects',
+    desc: 'Visual storytelling that connects & inspires',
     icon: 'draw',
   },
   {
     title: 'Lead Generation',
-    desc: 'Data-driven growth strategies',
+    desc: 'Data-driven client acquisition pipelines',
     icon: 'groups',
-  },
-  {
-    title: 'SEO',
-    desc: 'Rank higher, grow organically',
-    icon: 'search',
-  },
-  {
-    title: 'UI UX',
-    desc: 'Intuitive experiences that convert',
-    icon: 'design_services',
-  },
-  {
-    title: 'Video Editing',
-    desc: 'Engaging visuals that engage',
-    icon: 'videocam',
   },
 ];
 
 const journeyStats = [
-  { value: '25+', label: 'Web & Digital Projects', icon: 'devices' },
-  { value: '10+', label: 'Satisfied Brands', icon: 'verified' },
-  { value: '99%', label: 'Performance Score', icon: 'speed' },
-  { value: '3x', label: 'Conversion Lift', icon: 'auto_awesome' },
-  { value: '100%', label: 'Mobile Optimized', icon: 'smartphone' },
-  { value: '24/7', label: 'Support & Uptime', icon: 'schedule' },
+  { value: '30+', label: 'Brand & Marketing Campaigns', icon: 'campaign' },
+  { value: '15+', label: 'Satisfied Partner Brands', icon: 'verified' },
+  { value: '99%', label: 'Campaign Quality Score', icon: 'speed' },
+  { value: '3.5x', label: 'Average Conversion Lift', icon: 'auto_awesome' },
+  { value: '100%', label: 'Brand-Aligned Strategy', icon: 'verified_user' },
+  { value: '24/7', label: 'Continuous Growth Support', icon: 'schedule' },
 ];
 
 const approachSteps = [
   {
     num: '01',
     title: 'Discover',
-    desc: 'Understanding your goals & audience',
+    desc: 'Understanding your brand narrative & audience',
     icon: 'handshake',
   },
   {
     num: '02',
-    title: 'Design',
-    desc: 'Crafting intuitive & engaging UI/UX',
+    title: 'Strategize',
+    desc: 'Crafting high-impact branding & marketing funnels',
     icon: 'architecture',
   },
   {
     num: '03',
-    title: 'Build',
-    desc: 'Developing scalable & clean code',
-    icon: 'terminal',
+    title: 'Execute & Automate',
+    desc: 'Deploying creative assets & automated workflows',
+    icon: 'hub',
   },
   {
     num: '04',
-    title: 'Optimize',
-    desc: 'Performance, SEO & best practices',
+    title: 'Optimize (SEO/AEO/GEO)',
+    desc: 'Maximizing organic rankings, AI visibility & conversions',
     icon: 'troubleshoot',
   },
   {
     num: '05',
     title: 'Scale',
-    desc: 'Launch, support & continuous growth',
+    desc: 'Expanding brand authority & continuous revenue growth',
     icon: 'rocket_launch',
   },
 ];
 
-const categories = ['All', 'Web Platforms & Apps', 'Portals & Devotee Systems', 'Landing Pages & E-Commerce'];
+const categories = ['All', 'Marketing Systems & Automation', 'Brand Portals & Community Systems', 'Brand Landing Pages & Commerce'];
 
 const EthiroliPage = () => {
   const [activeCategory, setActiveCategory] = useState('All');
@@ -167,6 +173,12 @@ const EthiroliPage = () => {
 
   return (
     <div className="et-srv-page">
+      <SEO
+        title="Our Services — Strategic Branding, Marketing & Automation | Ethiroli"
+        description="Explore Ethiroli's full-service branding and marketing solutions: Brand Identity, Performance Marketing, Marketing Automation & CRM, SEO/AEO/GEO, and High-Converting Digital Presence."
+        canonical="https://ethiroli.net/services"
+        keywords="branding services, marketing agency services, marketing automation, SEO AEO GEO optimization, performance marketing, lead generation, Salem marketing agency, ethiroli.net"
+      />
       {/* 1. HERO SECTION */}
       <section
         className="et-srv-hero"
@@ -178,16 +190,16 @@ const EthiroliPage = () => {
           <motion.div className="et-srv-hero-left" initial="hidden" animate="show" variants={stagger}>
             <motion.div className="et-srv-badge" variants={fadeUp}>
               <span className="et-srv-badge-star star-rotate">&#9733;</span>
-              <span>DIGITAL INNOVATION & WEB ENGINEERING</span>
+              <span>STRATEGIC BRANDING, MARKETING & AUTOMATION</span>
             </motion.div>
 
             <motion.h1 className="et-srv-hero-title" variants={fadeUp}>
-              We build digital solutions that drive{' '}
+              We craft brand identities & marketing campaigns that drive{' '}
               <span className="et-srv-brand-gradient">growth.</span>
             </motion.h1>
 
             <motion.p className="et-srv-hero-desc" variants={fadeUp}>
-              Transforming bold visions into scalable web applications, bespoke digital architectures, and high-impact digital experiences engineered for global reach.
+              Transforming bold visions into iconic brand identities, automated marketing funnels, and high-impact digital experiences engineered for sustainable market leadership.
             </motion.p>
 
             <motion.div className="et-srv-hero-actions" variants={fadeUp}>
@@ -197,7 +209,7 @@ const EthiroliPage = () => {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
               >
-                View Web Showcase <span className="material-symbols-outlined">arrow_downward</span>
+                View Brand Showcase <span className="material-symbols-outlined">arrow_downward</span>
               </motion.a>
               <motion.a
                 href="#disciplines"
@@ -213,41 +225,41 @@ const EthiroliPage = () => {
             <motion.div className="et-srv-feature-pills" variants={fadeUp}>
               <motion.div className="et-srv-pill-item" whileHover={{ y: -3 }} transition={{ duration: 0.2 }}>
                 <div className="et-srv-pill-icon">
-                  <span className="material-symbols-outlined">speed</span>
+                  <span className="material-symbols-outlined">palette</span>
                 </div>
                 <div className="et-srv-pill-text">
-                  <strong>High</strong>
-                  <span>Performance Apps</span>
+                  <strong>Brand</strong>
+                  <span>Identity & Strategy</span>
                 </div>
               </motion.div>
 
               <motion.div className="et-srv-pill-item" whileHover={{ y: -3 }} transition={{ duration: 0.2 }}>
                 <div className="et-srv-pill-icon">
-                  <span className="material-symbols-outlined">devices</span>
+                  <span className="material-symbols-outlined">trending_up</span>
                 </div>
                 <div className="et-srv-pill-text">
-                  <strong>100%</strong>
-                  <span>Responsive</span>
+                  <strong>Performance</strong>
+                  <span>Marketing Ads</span>
                 </div>
               </motion.div>
 
               <motion.div className="et-srv-pill-item" whileHover={{ y: -3 }} transition={{ duration: 0.2 }}>
                 <div className="et-srv-pill-icon">
-                  <span className="material-symbols-outlined">cloud</span>
+                  <span className="material-symbols-outlined">smart_toy</span>
                 </div>
                 <div className="et-srv-pill-text">
-                  <strong>Scalable</strong>
-                  <span>Cloud Code</span>
+                  <strong>Marketing</strong>
+                  <span>Automation</span>
                 </div>
               </motion.div>
 
               <motion.div className="et-srv-pill-item" whileHover={{ y: -3 }} transition={{ duration: 0.2 }}>
                 <div className="et-srv-pill-icon">
-                  <span className="material-symbols-outlined">hub</span>
+                  <span className="material-symbols-outlined">travel_explore</span>
                 </div>
                 <div className="et-srv-pill-text">
-                  <strong>ethiroli.com/</strong>
-                  <span>web-development</span>
+                  <strong>ethiroli.net/</strong>
+                  <span>services</span>
                 </div>
               </motion.div>
             </motion.div>
@@ -264,9 +276,9 @@ const EthiroliPage = () => {
             <div className="et-srv-ambient-aura" aria-hidden="true" />
 
             <div className="et-srv-preview-card">
-              <div className="et-srv-card-tag">Featured Case Study</div>
+              <div className="et-srv-card-tag">Featured Brand Study</div>
               <h3 className="et-srv-card-title">Kottai Varahi Temple Platform</h3>
-              <p className="et-srv-card-subtitle">Community Web Portal & Devotee Booking Infrastructure</p>
+              <p className="et-srv-card-subtitle">Community Devotee System & Brand Digital Experience</p>
 
               <div className="et-srv-card-tags">
                 <span>React</span>
@@ -331,7 +343,7 @@ const EthiroliPage = () => {
             </div>
             <h2 className="et-srv-section-title">Core Disciplines We Deliver</h2>
             <p className="et-srv-section-desc">
-              We collaborate with forward-thinking enterprises and ambitious startups to redefine digital excellence across modern web standards.
+              We collaborate with ambitious businesses and founders to craft iconic brands, high-ROI marketing funnels, and automated growth systems.
             </p>
           </motion.div>
 
@@ -382,9 +394,9 @@ const EthiroliPage = () => {
               <span className="et-srv-badge-star star-rotate">&#9733;</span>
               <span>ETHIROLI IMPACT</span>
             </div>
-            <h2 className="et-srv-section-title">Our Digital Journey</h2>
+            <h2 className="et-srv-section-title">Our Branding & Marketing Journey</h2>
             <p className="et-srv-section-desc">
-              Engineering scalable & beautiful web ecosystems that drive measurable results and lasting impact.
+              Crafting iconic brand identities, automated workflows, and high-impact campaigns that drive measurable ROI and lasting market presence.
             </p>
           </motion.div>
 
@@ -418,7 +430,7 @@ const EthiroliPage = () => {
         </div>
       </section>
 
-      {/* 4. PROJECT SHOWCASE (WEB DEVELOPMENT CASE STUDIES) */}
+      {/* 4. PROJECT SHOWCASE (BRAND & MARKETING CASE STUDIES) */}
       <section className="et-srv-showcase" id="showcase">
         <div className="et-srv-container">
           {/* Top Header Row with Title & Filter Tabs */}
@@ -432,11 +444,11 @@ const EthiroliPage = () => {
             >
               <div className="et-srv-badge">
                 <span className="et-srv-badge-star star-rotate">&#9733;</span>
-                <span>PROJECT SHOWCASE</span>
+                <span>BRAND & MARKETING SHOWCASE</span>
               </div>
-              <h2 className="et-srv-section-title">Web Development Case Studies</h2>
+              <h2 className="et-srv-section-title">Brand & Marketing Case Studies</h2>
               <p className="et-srv-section-desc">
-                Explore our production-grade web applications, custom portals, high-performance dashboards, and engaging digital storefronts.
+                Explore our creative branding campaigns, marketing automation workflows, high-converting digital storefronts, and brand portals.
               </p>
             </motion.div>
 
@@ -529,11 +541,11 @@ const EthiroliPage = () => {
           >
             <div className="et-srv-badge">
               <span className="et-srv-badge-star star-rotate">&#9733;</span>
-              <span>OUR APPROACH</span>
+              <span>OUR METHODOLOGY</span>
             </div>
-            <h2 className="et-srv-section-title">A Process Built for Excellence</h2>
+            <h2 className="et-srv-section-title">A Proven Framework Built for Market Leadership</h2>
             <p className="et-srv-section-desc">
-              From strategy to scale, we follow a proven workflow to deliver digital products that perform.
+              From deep brand discovery to creative execution, marketing automation, and multi-channel optimization, we build campaigns that convert.
             </p>
           </motion.div>
 
@@ -599,8 +611,8 @@ const EthiroliPage = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
             >
-              <span className="et-srv-cta-tag">Have a big idea?</span>
-              <h2 className="et-srv-cta-title">Let's Build Something Remarkable Together.</h2>
+              <span className="et-srv-cta-tag">Have a big vision?</span>
+              <h2 className="et-srv-cta-title">Let's Build An Iconic Brand Together.</h2>
             </motion.div>
 
             <motion.div
@@ -611,7 +623,7 @@ const EthiroliPage = () => {
               transition={{ duration: 0.6, delay: 0.15 }}
             >
               <p className="et-srv-cta-desc">
-                Whether you need a high-performing website, a custom web application, or a complete digital transformation — we're here to make it happen.
+                Whether you need complete brand strategy, performance marketing campaigns, marketing automation, or SEO/AEO/GEO optimization — we're here to make it happen.
               </p>
               <motion.a
                 href="/contact_us"

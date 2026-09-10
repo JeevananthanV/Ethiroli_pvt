@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, animate } from 'framer-motion';
+import SEO from '../shared/SEO';
 // import './GlamersStyles.css';
 
 const GlamersGathering = () => {
@@ -96,6 +97,12 @@ const GlamersGathering = () => {
 
   return (
     <div className="glamers-page">
+      <SEO
+        title="Glamers Gathering — Case Study | Ethiroli Branding & Marketing Agency"
+        description="Explore how Ethiroli powered Glamers Gathering as official branding and marketing media partner, blending glamour, creative storytelling, and audience reach."
+        canonical="https://ethiroli.net/projects/glamers-gathering"
+        keywords="glamers gathering, ethiroli case study, event branding, marketing agency salem, fashion event media"
+      />
       {/* ===== HERO SECTION ===== */}
       <section className="hero-section">
         <div className="hero-overlay"></div>

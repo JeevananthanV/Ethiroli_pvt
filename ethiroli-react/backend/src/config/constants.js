@@ -231,6 +231,22 @@ export const PORTAL_CONFIGS = {
     oauthProviders: [],
     sessionDuration: 24 * 60 * 60,
     cookiePath: '/app/intern'
+  },
+  CLIENT: {
+    slug: 'client',
+    strategies: ['password'],
+    mfaRequired: false,
+    oauthProviders: [],
+    sessionDuration: 24 * 60 * 60,
+    cookiePath: '/app/client'
+  },
+  VENDOR: {
+    slug: 'vendor',
+    strategies: ['password'],
+    mfaRequired: false,
+    oauthProviders: [],
+    sessionDuration: 24 * 60 * 60,
+    cookiePath: '/app/vendor'
   }
 };
 

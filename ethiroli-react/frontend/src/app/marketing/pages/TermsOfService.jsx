@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import SEO from '../components/shared/SEO';
 
 const fadeIn = {
     hidden: { opacity: 0, y: 20 },
@@ -20,7 +21,7 @@ const TermsOfService = () => {
         {
             id: 'services-description',
             title: 'Services Description',
-            body: 'Eithiroli provides digital marketing, branding, website development, lead generation, and related services as described on our website. The scope, deliverables, and timelines for each engagement are agreed upon individually and documented in a separate service agreement or statement of work.',
+            body: 'Eithiroli provides premier branding, performance marketing, marketing automation, lead generation, and related creative strategy services as described on our website. The scope, deliverables, and timelines for each engagement are agreed upon individually and documented in a separate service agreement or statement of work.',
         },
         {
             id: 'user-responsibilities',
@@ -51,6 +52,12 @@ const TermsOfService = () => {
 
     return (
         <div className="ab-page">
+            <SEO
+                title="Terms of Service — Ethiroli Branding & Marketing Agency"
+                description="Terms of Service for Ethiroli Branding & Marketing Agency. Understand client terms, agreements, and policies on ethiroli.net."
+                canonical="https://ethiroli.net/terms-of-service"
+                keywords="terms of service, ethiroli terms, agency agreements, client policies"
+            />
             <section className="ab-hero" style={{ backgroundImage: "url('/assets/images/banner/banner.png')" }}>
                 <motion.div
                     className="ab-hero-content"

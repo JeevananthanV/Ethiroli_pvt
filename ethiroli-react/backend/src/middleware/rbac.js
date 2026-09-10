@@ -13,6 +13,8 @@ const ROLE_URL_MAPPING = {
   'employee': ROLES.EMPLOYEE,
   'student': ROLES.STUDENT,
   'intern': ROLES.INTERN,
+  'client': ROLES.CLIENT,
+  'vendor': ROLES.VENDOR,
 };
 
 const URL_ROLE_PATTERNS = [
@@ -27,6 +29,8 @@ const URL_ROLE_PATTERNS = [
   { pattern: /^\/app\/employee/, allowedRole: ROLES.EMPLOYEE },
   { pattern: /^\/app\/student/, allowedRole: ROLES.STUDENT },
   { pattern: /^\/app\/intern/, allowedRole: ROLES.INTERN },
+  { pattern: /^\/app\/client/, allowedRole: ROLES.CLIENT },
+  { pattern: /^\/app\/vendor/, allowedRole: ROLES.VENDOR },
 ];
 
 const getRoleFromPath = (path) => {

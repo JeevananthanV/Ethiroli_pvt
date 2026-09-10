@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
+import SEO from "../shared/SEO";
 import "./seee.css";
 
 /* ── Tiny helpers ─────────────────────────────────────────── */
@@ -74,7 +75,12 @@ export default function EthiroliSeminar() {
       /> */}
 
       <div className="page-root">
-
+        <SEO
+          title="Digital Marketing Seminar (Jayarani College) — Case Study | Ethiroli"
+          description="Case study of Ethiroli's seminar at Jayarani Arts & Science College for Women empowering students with branding, social media marketing, and digital career roadmaps."
+          canonical="https://ethiroli.net/projects/Ethiroliseminarjayarani"
+          keywords="jayarani seminar, college digital marketing seminar, ethiroli case study, branding guidance, women empowerment"
+        />
 
         {/* ── HERO ─────────────────────────────────────────── */}
         <motion.section

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
+import SEO from "../shared/SEO";
 import "./seee.css";
 
 /* ── Tiny helpers ─────────────────────────────────────────── */
@@ -74,7 +75,12 @@ export default function EthiroliSeminar() {
       /> */}
 
       <div className="page-root">
-
+        <SEO
+          title="Digital Marketing Seminar (KSRCT) — Case Study | Ethiroli"
+          description="Seminar case study at K.S. Rangasamy College of Technology by Ethiroli Co-Founder Balaji G E on modern branding, digital strategy, and business models."
+          canonical="https://ethiroli.net/projects/Ethiroliseminarksrct"
+          keywords="ksrct seminar, digital marketing seminar, ethiroli case study, balaji ge, branding strategy"
+        />
 
         {/* ── HERO ─────────────────────────────────────────── */}
         <motion.section

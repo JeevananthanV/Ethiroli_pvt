@@ -31,10 +31,10 @@ const VisionMission = () => {
                         </div>
                         <h3>Our Vision</h3>
                         <blockquote className="vm-quote">
-                            "To become the leading women-centered digital growth company in Tamil Nadu."
+                            "To become the leading women-led branding and marketing agency in Tamil Nadu."
                         </blockquote>
                         <p className="vm-text">
-                            To build a women-led digital ecosystem that empowers communities through skills, opportunities, and impactful business growth.
+                            To build a premier branding and marketing agency that transforms businesses through strategic visual identity, marketing automation, and sustainable growth.
                         </p>
                     </motion.article>
 
@@ -50,12 +50,12 @@ const VisionMission = () => {
                         </div>
                         <h3>Our Mission</h3>
                         <div className="vm-tagline">
-                            <span className="tag-pill">Skill women.</span>
-                            <span className="tag-pill">Build community.</span>
-                            <span className="tag-pill">Deliver growth.</span>
+                            <span className="tag-pill">Iconic Branding.</span>
+                            <span className="tag-pill">Marketing Automation.</span>
+                            <span className="tag-pill">Deliver Growth.</span>
                         </div>
                         <p className="vm-text">
-                            To empower women through digital skill training, real-world internships, and business opportunities while delivering measurable marketing growth to brands.
+                            To empower businesses with high-ROI branding and marketing campaigns while providing aspiring women professionals with certified training, real-world internships, and leadership roles in marketing.
                         </p>
                     </motion.article>
 

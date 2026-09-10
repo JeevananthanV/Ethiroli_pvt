@@ -1,107 +1,218 @@
-import React, { useEffect, useState } from 'react';
-import { getJobBoardPosts, createJobBoardPost } from '../../../services/api/jobBoardApi.js';
+import React, { useState, useEffect, useCallback } from 'react'
+import jobBoardApi from '../../../../services/api/jobBoardApi'
 
-export default function JobPostingForm() {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [showCreate, setShowCreate] = useState(false);
-  const [newPost, setNewPost] = useState({ title: '', description: '', location: '', type: 'full-time' });
-
-  const loadPosts = async () => {
-    setLoading(true);
-    try {
-      const data = await getJobBoardPosts();
-      setPosts(Array.isArray(data) ? data : []);
-    } catch (err) {
-      console.error('Failed to load job posts:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+export default function JobPostingForm({ postId, onClose, onSuccess }) {
+  const [submitting, setSubmitting] = useState(false)
+  const [formData, setFormData] = useState({
+    title: '',
+    company: '',
+    location: '',
+    type: 'full-time',
+    category: '',
+    description: '',
+    requirements: '',
+    benefits: '',
+    salary: '',
+    skills: [],
+    media: [],
+    status: 'draft',
+  })
 
   useEffect(() => {
-    loadPosts();
-  }, []);
-
-  const handleCreate = async (e) => {
-    e.preventDefault();
-    try {
-      await createJobBoardPost(newPost);
-      setShowCreate(false);
-      setNewPost({ title: '', description: '', location: '', type: 'full-time' });
-      loadPosts();
-    } catch (err) {
-      console.error('Failed to create job post:', err);
+    if (postId) {
+      fetchPost()
     }
-  };
+  }, [postId, fetchPost])
 
-  if (loading) return <div className="loading">Loading job board...</div>;
+  const fetchPost = useCallback(async () => {
+    try {
+      const data = await jobBoardApi.getById(postId)
+      setFormData(data)
+    } catch (error) {
+      console.error('Failed to fetch job board post:', error)
+    }
+  }, [postId])
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setSubmitting(true)
+    try {
+      if (postId) {
+        await jobBoardApi.update(postId, formData)
+      } else {
+        await jobBoardApi.create(formData)
+      }
+      onSuccess?.()
+      onClose?.()
+    } catch (error) {
+      alert('Failed to save job posting: ' + error.message)
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   return (
-    <div>
-      <div className="pageHeader">
-        <div>
-          <h2 className="pageTitle">Jobs Board</h2>
-          <p className="pageSubtitle">Manage job postings and opportunities</p>
+    <form className="form" onSubmit={handleSubmit}>
+      <div className="formGroup">
+        <label className="label required">Job Title</label>
+        <input
+          type="text"
+          name="title"
+          className="inputField"
+          value={formData.title}
+          onChange={handleChange}
+          required
+        />
+      </div>
+
+      <div className="grid gridCols2">
+        <div className="formGroup">
+          <label className="label required">Company</label>
+          <input
+            type="text"
+            name="company"
+            className="inputField"
+            value={formData.company}
+            onChange={handleChange}
+            required
+          />
         </div>
-        <div className="pageActions">
-          <button onClick={() => setShowCreate(true)} className="btn btnPrimary">+ Post Job</button>
+
+        <div className="formGroup">
+          <label className="label required">Location</label>
+          <input
+            type="text"
+            name="location"
+            className="inputField"
+            value={formData.location}
+            onChange={handleChange}
+            required
+          />
         </div>
       </div>
-      <div className="card" style={{ marginTop: '20px' }}>
-        <div className="cardBody">
-          {posts.length === 0 ? (
-            <p style={{ color: 'var(--admin-text-secondary)' }}>No job postings found.</p>
-          ) : (
-            <div style={{ display: 'grid', gap: '16px' }}>
-              {posts.map((post) => (
-                <div key={post.id} style={{ padding: '16px', border: '1px solid var(--admin-border-subtle)', borderRadius: '8px', background: 'var(--admin-bg-elevated)' }}>
-                  <h4 style={{ margin: '0 0 8px' }}>{post.title}</h4>
-                  <p style={{ color: 'var(--admin-text-secondary)', fontSize: '13px', margin: '0 0 8px' }}>{post.description}</p>
-                  <div style={{ display: 'flex', gap: '10px', fontSize: '12px', color: 'var(--admin-text-secondary)' }}>
-                    <span className="statusTag active">{post.type || 'Full-time'}</span>
-                    <span>{post.location || 'Remote'}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+
+      <div className="grid gridCols2">
+        <div className="formGroup">
+          <label className="label">Job Type</label>
+          <select className="select" name="type" value={formData.type} onChange={handleChange}>
+            <option value="full-time">Full-Time</option>
+            <option value="part-time">Part-Time</option>
+            <option value="contract">Contract</option>
+            <option value="internship">Internship</option>
+          </select>
+        </div>
+
+        <div className="formGroup">
+          <label className="label">Category</label>
+          <select className="select" name="category" value={formData.category} onChange={handleChange}>
+            <option value="">Select category</option>
+            <option value="engineering">Engineering</option>
+            <option value="marketing">Marketing</option>
+            <option value="sales">Sales</option>
+            <option value="hr">Human Resources</option>
+            <option value="finance">Finance</option>
+          </select>
         </div>
       </div>
-      {showCreate && (
-        <div className="modalOverlay" onClick={() => setShowCreate(false)}>
-          <div className="modalContent" onClick={(e) => e.stopPropagation()}>
-            <h3>Post New Job</h3>
-            <form onSubmit={handleCreate}>
-              <div className="formGroup">
-                <label className="label">Job Title</label>
-                <input className="input" value={newPost.title} onChange={(e) => setNewPost({ ...newPost, title: e.target.value })} required />
-              </div>
-              <div className="formGroup">
-                <label className="label">Description</label>
-                <textarea className="textarea" value={newPost.description} onChange={(e) => setNewPost({ ...newPost, description: e.target.value })} required />
-              </div>
-              <div className="formGroup">
-                <label className="label">Location</label>
-                <input className="input" value={newPost.location} onChange={(e) => setNewPost({ ...newPost, location: e.target.value })} required />
-              </div>
-              <div className="formGroup">
-                <label className="label">Type</label>
-                <select className="select" value={newPost.type} onChange={(e) => setNewPost({ ...newPost, type: e.target.value })}>
-                  <option value="full-time">Full-time</option>
-                  <option value="part-time">Part-time</option>
-                  <option value="contract">Contract</option>
-                  <option value="internship">Internship</option>
-                </select>
-              </div>
-              <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '20px' }}>
-                <button type="button" onClick={() => setShowCreate(false)} className="btn">Cancel</button>
-                <button type="submit" className="btn btnPrimary">Post Job</button>
-              </div>
-            </form>
-          </div>
+
+      <div className="formGroup">
+        <label className="label required">Description</label>
+        <textarea
+          name="description"
+          className="inputField"
+          value={formData.description}
+          onChange={handleChange}
+          rows={5}
+          required
+        />
+      </div>
+
+      <div className="formGroup">
+        <label className="label">Requirements</label>
+        <textarea
+          name="requirements"
+          className="inputField"
+          value={formData.requirements}
+          onChange={handleChange}
+          rows={4}
+        />
+      </div>
+
+      <div className="formGroup">
+        <label className="label">Benefits</label>
+        <textarea
+          name="benefits"
+          className="inputField"
+          value={formData.benefits}
+          onChange={handleChange}
+          rows={3}
+        />
+      </div>
+
+      <div className="grid gridCols2">
+        <div className="formGroup">
+          <label className="label">Salary Range</label>
+          <input
+            type="text"
+            name="salary"
+            className="inputField"
+            value={formData.salary}
+            onChange={handleChange}
+            placeholder="e.g. $50,000 - $80,000"
+          />
         </div>
-      )}
-    </div>
-  );
+
+        <div className="formGroup">
+          <label className="label">Skills (comma-separated)</label>
+          <input
+            type="text"
+            className="inputField"
+            value={formData.skills?.join(', ') || ''}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                skills: e.target.value.split(',').map((s) => s.trim()).filter(Boolean),
+              }))
+            }
+            placeholder="React, Node.js, SQL"
+          />
+        </div>
+      </div>
+
+      <div className="formGroup">
+        <label className="label">Media Files</label>
+        <input
+          type="file"
+          multiple
+          className="inputField"
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, media: Array.from(e.target.files || []) }))
+          }
+        />
+      </div>
+
+      <div className="formGroup">
+        <label className="label">Status</label>
+        <select className="select" name="status" value={formData.status} onChange={handleChange}>
+          <option value="draft">Draft</option>
+          <option value="published">Published</option>
+          <option value="archived">Archived</option>
+        </select>
+      </div>
+
+      <div className="flex gap3">
+        <button type="submit" className="btn primary" disabled={submitting}>
+          {submitting ? 'Saving...' : postId ? 'Update Post' : 'Create Post'}
+        </button>
+        <button type="button" className="btn secondary" onClick={onClose}>
+          Cancel
+        </button>
+      </div>
+    </form>
+  )
 }

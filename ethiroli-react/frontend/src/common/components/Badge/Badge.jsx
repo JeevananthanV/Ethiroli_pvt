@@ -1,5 +1,9 @@
 import React from 'react';
 
-export default function Component() {
-  return <div>Component: Badge.jsx</div>;
+export default function Badge({ children, variant = 'default', className = '' }) {
+  return (
+    <span className={`statusTag ${variant} ${className}`}>
+      {children}
+    </span>
+  );
 }

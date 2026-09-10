@@ -1,240 +1,200 @@
-import React, { useEffect, useState } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { getTransactions } from '../../services/api/transactionApi.js';
-import { listInvoices, batchGenerateInvoices } from '../../services/api/invoiceApi.js';
+import React, { useState, useEffect } from 'react'
+import AdminPage from '../../common/components/AdminPage'
+import Button from '../../common/components/Button'
+import Modal from '../../common/components/Modal'
+import Input from '../../common/components/Input'
+import { transactionApi } from '../../services/api/transactionApi'
+
+const FREQUENCIES = [
+  { value: 'daily', label: 'Daily' },
+  { value: 'weekly', label: 'Weekly' },
+  { value: 'monthly', label: 'Monthly' },
+  { value: 'quarterly', label: 'Quarterly' },
+  { value: 'yearly', label: 'Yearly' },
+]
 
 export default function RecurringSchedule() {
-  const [schedules, setSchedules] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [showForm, setShowForm] = useState(false);
-  const [saving, setSaving] = useState(false);
+  const [schedules, setSchedules] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [editingSchedule, setEditingSchedule] = useState(null)
   const [form, setForm] = useState({
     name: '',
-    frequency: 'monthly',
+    type: 'transaction',
     amount: '',
-    start_date: '',
-    end_date: '',
-    category: '',
-    client_id: '',
-    description: '',
-  });
-
-  const loadSchedules = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const [txRes, invRes] = await Promise.all([
-        getTransactions().catch(() => []),
-        listInvoices().catch(() => []),
-      ]);
-      const transactions = Array.isArray(txRes) ? txRes : [];
-      const invoices = Array.isArray(invRes) ? invRes : [];
-      const recurring = transactions
-        .filter((t) => t.recurring || t.is_recurring)
-        .map((t) => ({ ...t, _source: 'transaction' }));
-      const invRecurring = invoices
-        .filter((i) => i.recurring || i.is_recurring)
-        .map((i) => ({ ...i, _source: 'invoice' }));
-      setSchedules([...recurring, ...invRecurring]);
-    } catch (err) {
-      setError(err.message || 'Failed to load schedules');
-    } finally {
-      setLoading(false);
-    }
-  };
+    frequency: 'monthly',
+    startDate: '',
+    endDate: '',
+    isActive: true,
+  })
 
   useEffect(() => {
-    loadSchedules();
-  }, []);
+    loadSchedules()
+  }, [])
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!form.name || !form.amount || !form.start_date) {
-      alert('Name, amount, and start date are required');
-      return;
+  const loadSchedules = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const data = await transactionApi.getAll()
+      setSchedules(data.filter((s) => s.isRecurring))
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
     }
-    setSaving(true);
+  }
+
+  const handleCreate = () => {
+    setEditingSchedule(null)
+    setForm({ name: '', type: 'transaction', amount: '', frequency: 'monthly', startDate: '', endDate: '', isActive: true })
+    setModalOpen(true)
+  }
+
+  const handleEdit = (schedule) => {
+    setEditingSchedule(schedule)
+    setForm({
+      name: schedule.name || '',
+      type: schedule.type || 'transaction',
+      amount: schedule.amount || '',
+      frequency: schedule.frequency || 'monthly',
+      startDate: schedule.startDate || '',
+      endDate: schedule.endDate || '',
+      isActive: schedule.isActive ?? true,
+    })
+    setModalOpen(true)
+  }
+
+  const handleSubmit = async () => {
     try {
       const payload = {
-        name: form.name,
-        frequency: form.frequency,
-        amount: Number(form.amount),
-        start_date: form.start_date,
-        end_date: form.end_date || undefined,
-        category: form.category,
-        client_id: form.client_id,
-        description: form.description,
-      };
-      await batchGenerateInvoices(payload);
-      setShowForm(false);
-      setForm({
-        name: '',
-        frequency: 'monthly',
-        amount: '',
-        start_date: '',
-        end_date: '',
-        category: '',
-        client_id: '',
-        description: '',
-      });
-      loadSchedules();
+        ...form,
+        amount: parseFloat(form.amount),
+        isRecurring: true,
+      }
+      if (editingSchedule) {
+        await transactionApi.update(editingSchedule.id, payload)
+        setSchedules(schedules.map((s) => (s.id === editingSchedule.id ? { ...s, ...payload } : s)))
+      } else {
+        const data = await transactionApi.create(payload)
+        setSchedules([...schedules, data])
+      }
+      setModalOpen(false)
     } catch (err) {
-      alert(`Failed to create schedule: ${err.message}`);
-    } finally {
-      setSaving(false);
+      setError(err.message)
     }
-  };
-
-  const handleToggle = async (id) => {
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      setSchedules((prev) =>
-        prev.map((s) => (s.id === id ? { ...s, active: !s.active } : s))
-      );
-    } catch (err) {
-      alert(`Failed to toggle schedule: ${err.message}`);
-    }
-  };
-
-  const getStatusClass = (status) => {
-    switch ((status || '').toLowerCase()) {
-      case 'active':
-        return 'active';
-      case 'paused':
-        return 'pending';
-      case 'completed':
-        return 'active';
-      default:
-        return 'pending';
-    }
-  };
-
-  const formatCurrency = (amount) => {
-    const val = Number(amount) || 0;
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val);
-  };
-
-  const formatDate = (date) => {
-    if (!date) return '-';
-    return new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  };
+  }
 
   return (
     <AdminPage
       title="Recurring Schedules"
-      subtitle="Manage recurring transactions and invoice schedules"
+      subtitle="Manage recurring transactions and invoices"
       loading={loading}
       error={error}
       onRetry={loadSchedules}
       actions={
-        <button className="btn primary" onClick={() => setShowForm(!showForm)}>
-          {showForm ? 'Close Form' : 'New Schedule'}
-        </button>
+        <Button variant="primary" onClick={handleCreate}>
+          Create Schedule
+        </Button>
       }
     >
-      {showForm && (
-        <div className="card" style={{ marginBottom: 24 }}>
-          <div className="cardHeader">
-            <h3 className="cardTitle">Create Recurring Schedule</h3>
-          </div>
-          <div className="cardBody">
-            <form onSubmit={handleSubmit} className="form">
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
-                <div className="formGroup">
-                  <label className="label required">Name</label>
-                  <input className="inputField" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
-                </div>
-                <div className="formGroup">
-                  <label className="label">Frequency</label>
-                  <select className="select" value={form.frequency} onChange={(e) => setForm({ ...form, frequency: e.target.value })}>
-                    <option value="daily">Daily</option>
-                    <option value="weekly">Weekly</option>
-                    <option value="monthly">Monthly</option>
-                    <option value="quarterly">Quarterly</option>
-                    <option value="yearly">Yearly</option>
-                  </select>
-                </div>
-                <div className="formGroup">
-                  <label className="label required">Amount</label>
-                  <input className="inputField" type="number" step="0.01" required value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} />
-                </div>
-                <div className="formGroup">
-                  <label className="label required">Start Date</label>
-                  <input className="inputField" type="date" required value={form.start_date} onChange={(e) => setForm({ ...form, start_date: e.target.value })} />
-                </div>
-                <div className="formGroup">
-                  <label className="label">End Date</label>
-                  <input className="inputField" type="date" value={form.end_date} onChange={(e) => setForm({ ...form, end_date: e.target.value })} />
-                </div>
-                <div className="formGroup">
-                  <label className="label">Category</label>
-                  <input className="inputField" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} />
-                </div>
-              </div>
-              <div className="formGroup">
-                <label className="label">Description</label>
-                <textarea className="textarea" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={2} />
-              </div>
-              <button type="submit" className="btn primary" disabled={saving}>
-                {saving ? 'Creating...' : 'Create Schedule'}
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
-
       <div className="card">
-        <div className="cardHeader">
-          <h3 className="cardTitle">Scheduled Items</h3>
-        </div>
-        <div className="cardBody" style={{ overflowX: 'auto' }}>
-          {schedules.length === 0 ? (
-            <div className="emptyState">No recurring schedules found.</div>
-          ) : (
-            <table className="table">
-              <thead>
+        <div className="overflowAuto">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Frequency</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {schedules.length === 0 ? (
                 <tr>
-                  <th>Name</th>
-                  <th>Source</th>
-                  <th>Frequency</th>
-                  <th>Amount</th>
-                  <th>Start</th>
-                  <th>End</th>
-                  <th>Status</th>
-                  <th>Actions</th>
+                  <td colSpan="8" style={{ textAlign: 'center', padding: '32px' }}>
+                    <span className="textMuted">No recurring schedules found</span>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {schedules.map((schedule) => (
+              ) : (
+                schedules.map((schedule) => (
                   <tr key={schedule.id}>
-                    <td className="textPrimary" style={{ fontWeight: 500 }}>{schedule.name}</td>
-                    <td className="textSecondary">{schedule._source}</td>
-                    <td className="textSecondary">{schedule.frequency || '-'}</td>
-                    <td className="textPrimary" style={{ fontWeight: 500 }}>{formatCurrency(schedule.amount)}</td>
-                    <td className="textSecondary">{formatDate(schedule.start_date)}</td>
-                    <td className="textSecondary">{formatDate(schedule.end_date)}</td>
+                    <td>{schedule.name}</td>
+                    <td>{schedule.type}</td>
+                    <td>${(schedule.amount || 0).toLocaleString()}</td>
+                    <td>{schedule.frequency}</td>
+                    <td>{schedule.startDate ? new Date(schedule.startDate).toLocaleDateString() : '-'}</td>
+                    <td>{schedule.endDate ? new Date(schedule.endDate).toLocaleDateString() : '-'}</td>
                     <td>
-                      <span className={`statusTag ${getStatusClass(schedule.status)}`}>
-                        {schedule.status || 'active'}
+                      <span className={`statusTag ${schedule.isActive ? 'active' : 'pending'}`}>
+                        {schedule.isActive ? 'Active' : 'Inactive'}
                       </span>
                     </td>
                     <td>
-                      <button
-                        className="btn secondary"
-                        style={{ padding: '4px 10px', fontSize: 12 }}
-                        onClick={() => handleToggle(schedule.id)}
-                      >
-                        {schedule.active === false ? 'Resume' : 'Pause'}
-                      </button>
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        <Button size="small" variant="secondary" onClick={() => handleEdit(schedule)}>
+                          Edit
+                        </Button>
+                      </div>
                     </td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
+
+      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={editingSchedule ? 'Edit Schedule' : 'Create Schedule'}>
+        <div className="form">
+          <div className="formGroup">
+            <label className="label required">Name</label>
+            <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Schedule name" />
+          </div>
+          <div className="formGroup">
+            <label className="label required">Type</label>
+            <select className="select" value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })}>
+              <option value="transaction">Transaction</option>
+              <option value="invoice">Invoice</option>
+            </select>
+          </div>
+          <div className="formGroup">
+            <label className="label required">Amount</label>
+            <Input type="number" value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} placeholder="0.00" />
+          </div>
+          <div className="formGroup">
+            <label className="label required">Frequency</label>
+            <select className="select" value={form.frequency} onChange={(e) => setForm({ ...form, frequency: e.target.value })}>
+              {FREQUENCIES.map((f) => (
+                <option key={f.value} value={f.value}>
+                  {f.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="formGroup">
+            <label className="label required">Start Date</label>
+            <Input type="date" value={form.startDate} onChange={(e) => setForm({ ...form, startDate: e.target.value })} />
+          </div>
+          <div className="formGroup">
+            <label className="label">End Date</label>
+            <Input type="date" value={form.endDate} onChange={(e) => setForm({ ...form, endDate: e.target.value })} />
+          </div>
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '16px' }}>
+            <Button variant="secondary" onClick={() => setModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={handleSubmit}>
+              {editingSchedule ? 'Update' : 'Create'}
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </AdminPage>
-  );
+  )
 }

@@ -1,169 +1,145 @@
-import React, { useEffect, useState } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { listEmployees } from '../../../services/api/employeeApi.js';
-import { listPayrollHistory } from '../../../services/api/payrollApi.js';
+import React, { useState, useEffect, useCallback } from 'react'
+import Modal from '../../../common/components/Modal/Modal.jsx'
+import Button from '../../../common/components/Button/Button.jsx'
+import { payrollApi } from '../../../services/api/payrollApi.js'
 
-export default function PayslipViewer() {
-  const [employees, setEmployees] = useState([]);
-  const [records, setRecords] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [selectedEmployee, setSelectedEmployee] = useState('');
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+export default function PayslipViewer({ isOpen, onClose, payrollRecord }) {
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const [empRes, historyRes] = await Promise.all([
-          listEmployees().catch(() => []),
-          listPayrollHistory().catch(() => []),
-        ]);
-        setEmployees(Array.isArray(empRes) ? empRes : []);
-        setRecords(Array.isArray(historyRes) ? historyRes : []);
-      } catch (err) {
-        setError(err.message || 'Failed to load payslip data');
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadData();
-  }, []);
+    if (isOpen && payrollRecord?.id) {
+      loadPayslip()
+    }
+  }, [isOpen, payrollRecord?.id, loadPayslip])
 
-  const record = records.find(
-    (r) => r.employee_id === Number(selectedEmployee) && r.month === Number(selectedMonth) && r.year === Number(selectedYear)
-  );
+  const loadPayslip = useCallback(async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      await payrollApi.getPayslip(payrollRecord.id)
+    } catch (err) {
+      setError(err.message || 'Failed to load payslip')
+    } finally {
+      setLoading(false)
+    }
+  }, [payrollRecord?.id])
 
-  const employee = employees.find((e) => e.id === Number(selectedEmployee));
-
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(Number(amount) || 0);
-  };
-
-  const earnings = [
-    { label: 'Basic Salary', amount: Number(record?.basic_salary || record?.basicSalary) || 0 },
-    { label: 'HRA', amount: Number(record?.hra) || 0 },
-    { label: 'DA', amount: Number(record?.da) || 0 },
-    { label: 'Other Allowances', amount: Number(record?.other_allowances || record?.otherAllowances) || 0 },
-  ];
-
-  const deductions = [
-    { label: 'PF', amount: Number(record?.pf) || 0 },
-    { label: 'ESI', amount: Number(record?.esi) || 0 },
-    { label: 'TDS', amount: Number(record?.tds) || 0 },
-    { label: 'Other Deductions', amount: Number(record?.other_deductions || record?.otherDeductions) || 0 },
-  ];
-
-  const totalEarnings = earnings.reduce((sum, item) => sum + item.amount, 0);
-  const totalDeductions = deductions.reduce((sum, item) => sum + item.amount, 0);
-  const netSalary = totalEarnings - totalDeductions;
+  const formatCurrency = (val) => {
+    if (!val && val !== 0) return '$0.00'
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val || 0)
+  }
 
   const handlePrint = () => {
-    window.print();
-  };
+    window.print()
+  }
+
+  if (!payrollRecord) return null
 
   return (
-    <AdminPage
-      title="Payslip Viewer"
-      subtitle="View earnings, deductions, and download payslips"
-      loading={loading}
-      error={error}
-      onRetry={() => window.location.reload()}
-      actions={
-        <button className="btn primary" onClick={handlePrint}>Print Payslip</button>
-      }
-    >
-      <div className="card" style={{ maxWidth: 800, margin: '0 auto' }}>
-        <div className="cardHeader" style={{ textAlign: 'center' }}>
-          <h3 className="cardTitle">Payslip</h3>
-          <p style={{ color: 'var(--admin-text-muted)', marginTop: 4 }}>
-            {new Date(selectedYear, selectedMonth - 1).toLocaleString('en-US', { month: 'long', year: 'numeric' })}
-          </p>
+    <Modal isOpen={isOpen} onClose={onClose} title={`Payslip - ${payrollRecord.employeeName || 'Employee'}`} style={{ maxWidth: '600px' }}>
+      {loading ? (
+        <div className="loading">
+          <div className="skeleton" style={{ width: '100%', height: '400px' }} />
         </div>
-        <div className="cardBody">
-          <div style={{ display: 'grid', gap: 16, marginBottom: 24 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-              <div className="formGroup">
-                <label className="label">Employee</label>
-                <select className="select" value={selectedEmployee} onChange={(e) => setSelectedEmployee(e.target.value)}>
-                  <option value="">Select employee</option>
-                  {employees.map((emp) => (
-                    <option key={emp.id} value={emp.id}>{emp.full_name || emp.name}</option>
-                  ))}
-                </select>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                <div className="formGroup">
-                  <label className="label">Month</label>
-                  <select className="select" value={selectedMonth} onChange={(e) => setSelectedMonth(Number(e.target.value))}>
-                    {Array.from({ length: 12 }, (_, i) => (
-                      <option key={i + 1} value={i + 1}>{new Date(0, i).toLocaleString('en-US', { month: 'short' })}</option>
-                    ))}
-                  </select>
+      ) : error ? (
+        <div className="emptyState">
+          <h3 className="textDanger">Error Loading Payslip</h3>
+          <p className="textSecondary">{error}</p>
+        </div>
+      ) : (
+        <div id="payslip-content">
+          <div style={{ textAlign: 'center', marginBottom: '24px', paddingBottom: '16px', borderBottom: '2px solid var(--admin-border)' }}>
+            <h2 style={{ margin: '0 0 4px', color: 'var(--admin-text-primary)' }}>PAYSLIP</h2>
+            <p className="textSecondary" style={{ margin: 0 }}>{payrollRecord.month || '-'}</p>
+          </div>
+
+          <div className="card" style={{ marginBottom: '16px', background: 'var(--admin-bg-light)' }}>
+            <div className="cardBody" style={{ padding: '16px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', fontSize: '14px' }}>
+                <div>
+                  <span className="textMuted" style={{ fontSize: '12px' }}>Employee Name</span>
+                  <div style={{ color: 'var(--admin-text-primary)', fontWeight: 500 }}>{payrollRecord.employeeName || '-'}</div>
                 </div>
-                <div className="formGroup">
-                  <label className="label">Year</label>
-                  <input className="inputField" type="number" value={selectedYear} onChange={(e) => setSelectedYear(Number(e.target.value))} />
+                <div>
+                  <span className="textMuted" style={{ fontSize: '12px' }}>Employee ID</span>
+                  <div style={{ color: 'var(--admin-text-primary)', fontWeight: 500 }}>{payrollRecord.employeeId || '-'}</div>
+                </div>
+                <div>
+                  <span className="textMuted" style={{ fontSize: '12px' }}>Pay Period</span>
+                  <div style={{ color: 'var(--admin-text-primary)', fontWeight: 500 }}>{payrollRecord.month || '-'}</div>
+                </div>
+                <div>
+                  <span className="textMuted" style={{ fontSize: '12px' }}>Processed On</span>
+                  <div style={{ color: 'var(--admin-text-primary)', fontWeight: 500 }}>
+                    {payrollRecord.processedAt || payrollRecord.createdAt ? new Date(payrollRecord.processedAt || payrollRecord.createdAt).toLocaleDateString() : '-'}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {record ? (
-            <div style={{ border: '1px solid var(--admin-border-subtle)', borderRadius: 8, overflow: 'hidden' }}>
-              <div style={{ padding: 16, background: 'var(--admin-bg-card)', borderBottom: '1px solid var(--admin-border-subtle)', display: 'flex', justifyContent: 'space-between' }}>
+          <div className="card" style={{ marginBottom: '16px' }}>
+            <div className="cardHeader">
+              <h3 className="cardTitle">Earnings</h3>
+            </div>
+            <div className="cardBody" style={{ padding: 0 }}>
+              <table className="table" style={{ marginBottom: 0 }}>
+                <tbody>
+                  <tr>
+                    <td>Basic Salary</td>
+                    <td style={{ textAlign: 'right', fontWeight: 500 }}>{formatCurrency(payrollRecord.basicSalary)}</td>
+                  </tr>
+                  <tr>
+                    <td>Allowances</td>
+                    <td style={{ textAlign: 'right', fontWeight: 500, color: 'var(--admin-success)' }}>+{formatCurrency(payrollRecord.allowances)}</td>
+                  </tr>
+                  <tr>
+                    <td>Bonus</td>
+                    <td style={{ textAlign: 'right', fontWeight: 500, color: 'var(--admin-success)' }}>+{formatCurrency(payrollRecord.bonus)}</td>
+                  </tr>
+                  <tr style={{ background: 'var(--admin-bg-light)' }}>
+                    <td style={{ fontWeight: 600 }}>Gross Earnings</td>
+                    <td style={{ textAlign: 'right', fontWeight: 600 }}>
+                      {formatCurrency((payrollRecord.basicSalary || 0) + (payrollRecord.allowances || 0) + (payrollRecord.bonus || 0))}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="card" style={{ marginBottom: '16px' }}>
+            <div className="cardHeader">
+              <h3 className="cardTitle">Deductions</h3>
+            </div>
+            <div className="cardBody" style={{ padding: 0 }}>
+              <table className="table" style={{ marginBottom: 0 }}>
+                <tbody>
+                  <tr>
+                    <td>Total Deductions</td>
+                    <td style={{ textAlign: 'right', fontWeight: 500, color: 'var(--admin-danger)' }}>-{formatCurrency(payrollRecord.deductions)}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="card" style={{ border: '2px solid var(--admin-primary)' }}>
+            <div className="cardBody" style={{ padding: '20px', background: 'rgba(99, 102, 241, 0.05)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
-                  <h4 style={{ margin: 0 }}>{employee?.full_name || employee?.name || 'Employee'}</h4>
-                  <p style={{ margin: '4px 0 0', fontSize: 12, color: 'var(--admin-text-muted)' }}>{employee?.employee_code || employee?.email || ''}</p>
+                  <div className="textSecondary" style={{ fontSize: '13px', marginBottom: '4px' }}>Net Salary</div>
+                  <div style={{ fontSize: '28px', fontWeight: 700, color: 'var(--admin-primary)' }}>{formatCurrency(payrollRecord.netSalary)}</div>
                 </div>
-                <div style={{ textAlign: 'right' }}>
-                  <p style={{ margin: 0, fontSize: 12, color: 'var(--admin-text-muted)' }}>Payslip ID</p>
-                  <p style={{ margin: 0, fontWeight: 600 }}>{record.id}</p>
-                </div>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0 }}>
-                <div style={{ padding: 16 }}>
-                  <h5 style={{ marginBottom: 10, color: 'var(--admin-success)' }}>Earnings</h5>
-                  {earnings.filter((e) => e.amount > 0).map((item) => (
-                    <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, fontSize: 14 }}>
-                      <span style={{ color: 'var(--admin-text-secondary)' }}>{item.label}</span>
-                      <span style={{ fontWeight: 500 }}>{formatCurrency(item.amount)}</span>
-                    </div>
-                  ))}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10, paddingTop: 10, borderTop: '1px solid var(--admin-border-subtle)', fontWeight: 600 }}>
-                    <span>Total Earnings</span>
-                    <span>{formatCurrency(totalEarnings)}</span>
-                  </div>
-                </div>
-                <div style={{ padding: 16, borderLeft: '1px solid var(--admin-border-subtle)' }}>
-                  <h5 style={{ marginBottom: 10, color: 'var(--admin-danger)' }}>Deductions</h5>
-                  {deductions.filter((d) => d.amount > 0).map((item) => (
-                    <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, fontSize: 14 }}>
-                      <span style={{ color: 'var(--admin-text-secondary)' }}>{item.label}</span>
-                      <span style={{ fontWeight: 500 }}>{formatCurrency(item.amount)}</span>
-                    </div>
-                  ))}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10, paddingTop: 10, borderTop: '1px solid var(--admin-border-subtle)', fontWeight: 600 }}>
-                    <span>Total Deductions</span>
-                    <span>{formatCurrency(totalDeductions)}</span>
-                  </div>
-                </div>
-              </div>
-              <div style={{ padding: 16, background: 'var(--admin-success)', color: '#fff', display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ fontWeight: 600 }}>Net Salary</span>
-                <span style={{ fontWeight: 700, fontSize: 18 }}>{formatCurrency(netSalary)}</span>
+                <Button variant="primary" onClick={handlePrint}>
+                  Print Payslip
+                </Button>
               </div>
             </div>
-          ) : (
-            <div className="emptyState">
-              <h3>No payslip found</h3>
-              <p>Select an employee and month to view payslip.</p>
-            </div>
-          )}
+          </div>
         </div>
-      </div>
-    </AdminPage>
-  );
+      )}
+    </Modal>
+  )
 }

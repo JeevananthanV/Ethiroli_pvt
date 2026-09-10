@@ -1,31 +1,40 @@
-import axiosInstance from './axiosInstance.js';
+import axios from '../axios'
 
-export const getLeads = async (params) => {
-  const response = await axiosInstance.get('/v1/leads', { params });
-  return response.data;
-};
+export const getLeads = async () => {
+  const response = await axios.get('/leads')
+  return response.data
+}
 
-export const createLead = async (leadData) => {
-  const response = await axiosInstance.post('/v1/leads', leadData);
-  return response.data;
-};
+export const getLead = async (id) => {
+  const response = await axios.get(`/leads/${id}`)
+  return response.data
+}
 
-export const updateLeadStatus = async (id, status, lost_reason = null) => {
-  const response = await axiosInstance.patch(`/v1/leads/${id}/status`, { status, lost_reason });
-  return response.data;
-};
+export const createLead = async (data) => {
+  const response = await axios.post('/leads', data)
+  return response.data
+}
 
-export const updateLead = async (id, leadData) => {
-  const response = await axiosInstance.patch(`/v1/leads/${id}`, leadData);
-  return response.data;
-};
+export const updateLead = async (id, data) => {
+  const response = await axios.put(`/leads/${id}`, data)
+  return response.data
+}
 
 export const deleteLead = async (id) => {
-  const response = await axiosInstance.delete(`/v1/leads/${id}`);
-  return response.data;
-};
+  const response = await axios.delete(`/leads/${id}`)
+  return response.data
+}
 
-export const sendFollowUp = async (id, message) => {
-  const response = await axiosInstance.post(`/v1/leads/${id}/follow-up`, { message });
-  return response.data;
+export const updateLeadStatus = async (id, status) => {
+  const response = await axios.put(`/leads/${id}/status`, { status })
+  return response.data
+}
+
+export const leadApi = {
+  getLeads,
+  getLead,
+  createLead,
+  updateLead,
+  deleteLead,
+  updateLeadStatus,
 };

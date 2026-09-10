@@ -1,50 +1,38 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext.jsx';
-import { useAppSelector } from '../../store/hooks.js';
-import { getNavigationForRole } from './navigationConfig.js';
+import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
+import { getNavigationForRole } from './navigationConfig';
 
-export default function Sidebar() {
+export default function Sidebar({ role, navItems }) {
   const { user } = useAuth();
-  const sidebarOpen = useAppSelector((state) => state.ui.sidebarOpen);
+  const location = useLocation();
+  const navData = navItems || getNavigationForRole(role || user?.role);
 
-  if (!sidebarOpen) return null;
-
-  const navItems = getNavigationForRole(user?.role);
+  const isActive = (path) => {
+    return location.pathname === path || location.pathname.startsWith(path + '/');
+  };
 
   return (
-    <aside className="sidebar">
-      <div className="sidebarHeader">
-        <h2>ETHIROLI</h2>
-        {user?.role && (
-          <span style={{
-            fontSize: '0.72rem',
-            color: 'var(--color-primary, #819E35)',
-            textTransform: 'uppercase',
-            letterSpacing: '0.08em',
-            fontWeight: 700
-          }}>
-            {user.role.replace('_', ' ')}
-          </span>
-        )}
-      </div>
-      <nav className="sidebarNav">
-        {navItems.map((item) => (
-          <NavLink
-            key={item.path}
-            to={item.path}
-            className={({ isActive }) => (isActive ? 'activeLink' : 'link')}
-            style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}
-          >
-            {item.icon && (
-              <span className="material-symbols-outlined" style={{ fontSize: '1.25rem' }}>
-                {item.icon}
-              </span>
-            )}
-            <span>{item.label}</span>
-          </NavLink>
+    <div className="d-flex flex-column flex-shrink-0 p-3 bg-dark text-white" style={{ width: '260px', minHeight: '100vh' }}>
+      <Link to="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+        <span className="fs-4">{String(role || user?.role || 'ETHIROLI').toUpperCase()}</span>
+      </Link>
+      <hr />
+      <ul className="nav nav-pills flex-column mb-auto">
+        {navData.map((item) => (
+          <li key={item.path}>
+            <Link
+              to={item.path}
+              className={`nav-link text-white text-decoration-none ${isActive(item.path) ? 'active' : ''}`}
+              style={isActive(item.path) ? { backgroundColor: 'rgba(255,255,255,0.2)' } : {}}
+            >
+              {item.icon && <i className={`bi bi-${item.icon} me-2`}></i>}
+              {item.label}
+            </Link>
+          </li>
         ))}
-      </nav>
-    </aside>
+      </ul>
+      <hr />
+    </div>
   );
 }

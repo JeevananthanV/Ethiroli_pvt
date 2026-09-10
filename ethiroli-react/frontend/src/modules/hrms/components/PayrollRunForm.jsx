@@ -1,151 +1,141 @@
-import React, { useEffect, useState } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { listEmployees } from '../../../services/api/employeeApi.js';
-import { processPayroll } from '../../../services/api/payrollApi.js';
-import Modal from '../../../common/components/Modal/Modal.jsx';
-import Button from '../../../common/components/Button/Button.jsx';
+import React, { useState, useEffect } from 'react'
+import Modal from '../../../common/components/Modal/Modal.jsx'
+import Input from '../../../common/components/Input/Input.jsx'
+import Button from '../../../common/components/Button/Button.jsx'
+import { payrollApi } from '../../../services/api/payrollApi.js'
+import { employeeApi } from '../../../services/api/employeeApi.js'
 
-export default function PayrollRunForm() {
-  const [employees, setEmployees] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [processing, setProcessing] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [selectedEmployees, setSelectedEmployees] = useState([]);
-  const [form, setForm] = useState({
-    month: new Date().getMonth() + 1,
-    year: new Date().getFullYear(),
-  });
+export default function PayrollRunForm({ isOpen, onClose, onSaved }) {
+  const [employees, setEmployees] = useState([])
+  const [selectedEmployees, setSelectedEmployees] = useState([])
+  const [month, setMonth] = useState(new Date().toISOString().slice(0, 7))
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState(null)
+  const [result, setResult] = useState(null)
 
   useEffect(() => {
-    const fetchEmployees = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const data = await listEmployees();
-        setEmployees(Array.isArray(data) ? data : []);
-      } catch (err) {
-        setError(err.message || 'Failed to load employees');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchEmployees();
-  }, []);
-
-  const handleChange = (field) => (e) => {
-    setForm({ ...form, [field]: e.target.value });
-  };
-
-  const toggleEmployee = (empId) => {
-    setSelectedEmployees((prev) =>
-      prev.includes(empId) ? prev.filter((id) => id !== empId) : [...prev, empId]
-    );
-  };
-
-  const handleProcess = async () => {
-    if (selectedEmployees.length === 0) {
-      alert('Please select at least one employee');
-      return;
+    if (isOpen) {
+      loadEmployees()
+      setSelectedEmployees([])
+      setMonth(new Date().toISOString().slice(0, 7))
+      setError(null)
+      setResult(null)
     }
-    setProcessing(true);
+  }, [isOpen])
+
+  const loadEmployees = async () => {
     try {
-      await processPayroll({
-        employee_ids: selectedEmployees,
-        month: Number(form.month),
-        year: Number(form.year),
-      });
-      alert(`Payroll processed for ${selectedEmployees.length} employees`);
-      setShowConfirm(false);
-      setSelectedEmployees([]);
+      const data = await employeeApi.getAll()
+      setEmployees(Array.isArray(data) ? data : [])
     } catch (err) {
-      alert(err.message || 'Failed to process payroll');
-    } finally {
-      setProcessing(false);
+      setError(err.message || 'Failed to load employees')
     }
-  };
+  }
 
-  const monthName = new Date(0, form.month - 1).toLocaleString('en-US', { month: 'long' });
+  const toggleEmployee = (id) => {
+    setSelectedEmployees((prev) => (prev.includes(id) ? prev.filter((eid) => eid !== id) : [...prev, id]))
+  }
+
+  const selectAll = () => {
+    if (selectedEmployees.length === employees.length) {
+      setSelectedEmployees([])
+    } else {
+      setSelectedEmployees(employees.map((e) => e.id))
+    }
+  }
+
+  const handleSubmit = async () => {
+    if (selectedEmployees.length === 0) {
+      setError('Please select at least one employee')
+      return
+    }
+    setSubmitting(true)
+    setError(null)
+    try {
+      const payload = { employeeIds: selectedEmployees, month }
+      const data = await payrollApi.runBulk(payload)
+      setResult(data)
+      onSaved?.(data)
+    } catch (err) {
+      setError(err.message || 'Failed to run payroll')
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   return (
-    <AdminPage
-      title="Run Payroll"
-      subtitle="Select Month/Year to calculate salary components"
-      loading={loading}
-      error={error}
-      onRetry={() => window.location.reload()}
-    >
-      <div className="card" style={{ maxWidth: 800 }}>
-        <div className="cardHeader"><h3 className="cardTitle">Bulk Payroll Processing</h3></div>
-        <div className="cardBody">
-          <div className="form">
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-              <div className="formGroup">
-                <label className="label">Month</label>
-                <select className="select" value={form.month} onChange={handleChange('month')}>
-                  {Array.from({ length: 12 }, (_, i) => (
-                    <option key={i + 1} value={i + 1}>{new Date(0, i).toLocaleString('en-US', { month: 'long' })}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="formGroup">
-                <label className="label">Year</label>
-                <input className="inputField" type="number" value={form.year} onChange={handleChange('year')} min="2000" max="2099" />
-              </div>
-            </div>
+    <Modal isOpen={isOpen} onClose={onClose} title="Run Bulk Payroll" style={{ maxWidth: '700px' }}>
+      <div className="form">
+        <div className="formGroup">
+          <label className="label required">Month</label>
+          <Input type="month" value={month} onChange={(e) => setMonth(e.target.value)} />
+        </div>
 
-            <div style={{ marginTop: 20 }}>
-              <label className="label" style={{ marginBottom: 10, display: 'block' }}>Select Employees ({selectedEmployees.length} selected)</label>
-              <div className="overflowAuto" style={{ maxHeight: 400, border: '1px solid var(--admin-border-subtle)', borderRadius: 8 }}>
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th style={{ width: 40 }}><input type="checkbox" onChange={(e) => {
-                        if (e.target.checked) setSelectedEmployees(employees.map((emp) => emp.id));
-                        else setSelectedEmployees([]);
-                      }} checked={selectedEmployees.length === employees.length && employees.length > 0} /></th>
-                      <th>Name</th>
-                      <th>Employee Code</th>
-                      <th>Department</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {employees.map((emp) => (
-                      <tr key={emp.id} onClick={() => toggleEmployee(emp.id)} style={{ cursor: 'pointer', background: selectedEmployees.includes(emp.id) ? 'var(--admin-bg-card)' : 'transparent' }}>
-                        <td><input type="checkbox" checked={selectedEmployees.includes(emp.id)} onChange={() => toggleEmployee(emp.id)} /></td>
-                        <td className="textPrimary" style={{ fontWeight: 500 }}>{emp.full_name || emp.name}</td>
-                        <td className="textSecondary">{emp.employee_code || '-'}</td>
-                        <td className="textSecondary">{emp.department || '-'}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+        <div className="card" style={{ marginBottom: '16px' }}>
+          <div className="cardHeader">
+            <h3 className="cardTitle">Select Employees</h3>
+            <Button size="small" variant="secondary" onClick={selectAll}>
+              {selectedEmployees.length === employees.length ? 'Deselect All' : 'Select All'}
+            </Button>
+          </div>
+          <div className="cardBody">
+            {employees.length === 0 ? (
+              <div className="emptyState">
+                <p className="textMuted">No employees found</p>
               </div>
-            </div>
-
-            <div style={{ display: 'flex', gap: 10, marginTop: 20 }}>
-              <button className="btn primary" onClick={() => setShowConfirm(true)} disabled={selectedEmployees.length === 0}>
-                Process Payroll ({selectedEmployees.length} employees)
-              </button>
-            </div>
+            ) : (
+              <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                {employees.map((emp) => (
+                  <div
+                    key={emp.id}
+                    onClick={() => toggleEmployee(emp.id)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px',
+                      padding: '10px 12px',
+                      borderBottom: '1px solid var(--admin-border)',
+                      cursor: 'pointer',
+                      background: selectedEmployees.includes(emp.id) ? 'rgba(99, 102, 241, 0.1)' : 'transparent',
+                    }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={selectedEmployees.includes(emp.id)}
+                      onChange={() => toggleEmployee(emp.id)}
+                      style={{ width: '16px', height: '16px', accentColor: 'var(--admin-primary)' }}
+                    />
+                    <div>
+                      <div style={{ fontWeight: 500, color: 'var(--admin-text-primary)', fontSize: '14px' }}>{emp.name}</div>
+                      <div className="textMuted" style={{ fontSize: '12px' }}>{emp.department || emp.role || '-'}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
-      </div>
 
-      {showConfirm && (
-        <Modal isOpen={showConfirm} onClose={() => setShowConfirm(false)} title="Confirm Payroll Run">
-          <div className="modalBody">
-            <p>You are about to process payroll for <strong>{selectedEmployees.length} employees</strong> for <strong>{monthName} {form.year}</strong>.</p>
-            <p style={{ color: 'var(--admin-text-muted)', fontSize: 13 }}>This action will calculate salaries and generate payslips.</p>
-            <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 20 }}>
-              <button className="btn secondary" onClick={() => setShowConfirm(false)}>Cancel</button>
-              <button className="btn primary" onClick={handleProcess} disabled={processing}>
-                {processing ? 'Processing...' : 'Process Payroll'}
-              </button>
+        {error && <div className="emptyState" style={{ marginBottom: '12px' }}><p className="textDanger">{error}</p></div>}
+
+        {result && (
+          <div className="card" style={{ marginBottom: '16px', border: '1px solid var(--admin-success)' }}>
+            <div className="cardBody" style={{ padding: '16px' }}>
+              <p className="textSuccess" style={{ fontWeight: 600, marginBottom: '4px' }}>Payroll Processed Successfully!</p>
+              <p className="textSecondary" style={{ fontSize: '13px' }}>
+                Processed {result.processedCount || selectedEmployees.length} employee(s) for {month}
+              </p>
             </div>
           </div>
-        </Modal>
-      )}
-    </AdminPage>
-  );
+        )}
+
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '16px' }}>
+          <Button variant="secondary" onClick={onClose}>Cancel</Button>
+          <Button variant="primary" onClick={handleSubmit} disabled={submitting || selectedEmployees.length === 0}>
+            {submitting ? 'Processing...' : `Run Payroll (${selectedEmployees.length})`}
+          </Button>
+        </div>
+      </div>
+    </Modal>
+  )
 }

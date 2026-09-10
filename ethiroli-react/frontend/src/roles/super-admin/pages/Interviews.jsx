@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getInterviews } from '../../services/api/interviewApi.js';
+import { getInterviews } from '../../../services/api/interviewApi.js';
 
 export default function Interviews() {
   const [interviews, setInterviews] = useState([]);

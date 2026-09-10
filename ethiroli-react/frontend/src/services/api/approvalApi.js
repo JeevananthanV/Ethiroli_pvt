@@ -5,8 +5,8 @@ export const getPendingApprovals = async () => {
   return response.data;
 };
 
-export const createApprovalInstance = async (approvalData) => {
-  const response = await axiosInstance.post('/v1/approvals/instances', approvalData);
+export const createApprovalInstance = async (data) => {
+  const response = await axiosInstance.post('/v1/approvals', data);
   return response.data;
 };
 
@@ -15,7 +15,7 @@ export const getWorkflows = async () => {
   return response.data;
 };
 
-export const createWorkflow = async (workflowData) => {
-  const response = await axiosInstance.post('/v1/approvals/workflows', workflowData);
+export const createWorkflow = async (data) => {
+  const response = await axiosInstance.post('/v1/approvals/workflows', data);
   return response.data;
 };

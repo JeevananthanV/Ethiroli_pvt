@@ -1,73 +1,108 @@
-import React, { useState } from 'react';
-import { logExpense } from '../../services/api/transactionApi.js';
+import React, { useState, useEffect } from 'react'
+import Modal from '../../../common/components/Modal/Modal.jsx'
+import Input from '../../../common/components/Input/Input.jsx'
+import Button from '../../../common/components/Button/Button.jsx'
+import { transactionApi } from '../../../services/api/transactionApi.js'
 
-export default function ExpenseForm({ onSaved }) {
-  const [submitting, setSubmitting] = useState(false);
-  const [form, setForm] = useState({ description: '', amount: '', category: 'infrastructure', date: new Date().toISOString().split('T')[0], payee: '', reference: '' });
+export default function ExpenseForm({ isOpen, onClose, onSaved }) {
+  const [form, setForm] = useState({
+    amount: '',
+    category: '',
+    date: new Date().toISOString().slice(0, 10),
+    description: '',
+    paymentMethod: '',
+    reference: '',
+  })
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState(null)
 
-  const handleChange = (field) => (e) => {
-    setForm({ ...form, [field]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-    try {
-      await logExpense({ ...form, amount: Number(form.amount) });
-      setForm({ description: '', amount: '', category: 'infrastructure', date: new Date().toISOString().split('T')[0], payee: '', reference: '' });
-      onSaved?.();
-    } catch (err) {
-      alert(err.response?.data?.message || 'Failed to log expense');
-    } finally {
-      setSubmitting(false);
+  useEffect(() => {
+    if (isOpen) {
+      setForm({ amount: '', category: '', date: new Date().toISOString().slice(0, 10), description: '', paymentMethod: '', reference: '' })
+      setError(null)
     }
-  };
+  }, [isOpen])
+
+  const handleSubmit = async () => {
+    if (!form.amount || !form.category) {
+      setError('Amount and category are required')
+      return
+    }
+    setSubmitting(true)
+    setError(null)
+    try {
+      const payload = { ...form, type: 'expense', amount: parseFloat(form.amount) || 0 }
+      const data = await transactionApi.create(payload)
+      onSaved?.(data)
+      onClose?.()
+    } catch (err) {
+      setError(err.message || 'Failed to record expense')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  const updateField = (field, value) => {
+    setForm({ ...form, [field]: value })
+  }
 
   return (
-    <div className="card">
-      <div className="cardHeader">
-        <h3 className="cardTitle">Log New Expense</h3>
+    <Modal isOpen={isOpen} onClose={onClose} title="Record Expense">
+      <div className="form">
+        <div className="formGroup">
+          <label className="label required">Amount ($)</label>
+          <Input type="number" value={form.amount} onChange={(e) => updateField('amount', e.target.value)} placeholder="0.00" />
+        </div>
+        <div className="formGroup">
+          <label className="label required">Category</label>
+          <select className="select" value={form.category} onChange={(e) => updateField('category', e.target.value)}>
+            <option value="">Select Category</option>
+            <option value="salary">Salary</option>
+            <option value="rent">Rent</option>
+            <option value="utilities">Utilities</option>
+            <option value="supplies">Supplies</option>
+            <option value="marketing">Marketing</option>
+            <option value="travel">Travel</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div className="formGroup">
+          <label className="label required">Date</label>
+          <Input type="date" value={form.date} onChange={(e) => updateField('date', e.target.value)} />
+        </div>
+        <div className="formGroup">
+          <label className="label">Description</label>
+          <textarea
+            className="inputField"
+            value={form.description}
+            onChange={(e) => updateField('description', e.target.value)}
+            rows={3}
+            placeholder="Expense description"
+            style={{ resize: 'vertical' }}
+          />
+        </div>
+        <div className="formGroup">
+          <label className="label">Payment Method</label>
+          <select className="select" value={form.paymentMethod} onChange={(e) => updateField('paymentMethod', e.target.value)}>
+            <option value="">Select Method</option>
+            <option value="cash">Cash</option>
+            <option value="bank_transfer">Bank Transfer</option>
+            <option value="credit_card">Credit Card</option>
+            <option value="check">Check</option>
+          </select>
+        </div>
+        <div className="formGroup">
+          <label className="label">Reference</label>
+          <Input value={form.reference} onChange={(e) => updateField('reference', e.target.value)} placeholder="Invoice or receipt number" />
+        </div>
+        {error && <div className="emptyState" style={{ marginBottom: '12px' }}><p className="textDanger">{error}</p></div>}
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '16px' }}>
+          <Button variant="secondary" onClick={onClose}>Cancel</Button>
+          <Button variant="primary" onClick={handleSubmit} disabled={submitting}>
+            {submitting ? 'Saving...' : 'Save Expense'}
+          </Button>
+        </div>
       </div>
-      <form onSubmit={handleSubmit} className="form">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-          <div className="formGroup">
-            <label className="label">Description <span className="required">*</span></label>
-            <input className="inputField" value={form.description} onChange={handleChange('description')} placeholder="e.g. AWS hosting" required />
-          </div>
-          <div className="formGroup">
-            <label className="label">Amount (₹) <span className="required">*</span></label>
-            <input className="inputField" type="number" value={form.amount} onChange={handleChange('amount')} placeholder="0.00" min="0" step="0.01" required />
-          </div>
-          <div className="formGroup">
-            <label className="label">Category</label>
-            <select className="select" value={form.category} onChange={handleChange('category')}>
-              <option value="infrastructure">Infrastructure</option>
-              <option value="salary">Salary</option>
-              <option value="tools">Tools & Software</option>
-              <option value="marketing">Marketing</option>
-              <option value="office">Office Expenses</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-          <div className="formGroup">
-            <label className="label">Payee</label>
-            <input className="inputField" value={form.payee} onChange={handleChange('payee')} placeholder="Vendor name" />
-          </div>
-          <div className="formGroup">
-            <label className="label">Date</label>
-            <input className="inputField" type="date" value={form.date} onChange={handleChange('date')} />
-          </div>
-          <div className="formGroup">
-            <label className="label">Reference</label>
-            <input className="inputField" value={form.reference} onChange={handleChange('reference')} placeholder="Invoice / ref number" />
-          </div>
-        </div>
-        <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
-          <button type="submit" className="btn primary" disabled={submitting}>
-            {submitting ? 'Saving...' : 'Log Expense'}
-          </button>
-        </div>
-      </form>
-    </div>
-  );
+    </Modal>
+  )
 }

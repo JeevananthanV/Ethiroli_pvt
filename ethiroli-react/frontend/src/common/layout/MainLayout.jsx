@@ -16,7 +16,6 @@ export default function MainLayout() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState({ users: [], leads: [] });
 
-  // Load feed items on mount
   useEffect(() => {
     const loadFeed = async () => {
       try {
@@ -29,7 +28,6 @@ export default function MainLayout() {
     loadFeed();
   }, [dispatch]);
 
-  // Handle Ctrl+K shortcut
   useEffect(() => {
     const handleKeyDown = (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
@@ -41,7 +39,6 @@ export default function MainLayout() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Handle search query changes
   useEffect(() => {
     const delayDebounce = setTimeout(async () => {
       if (!searchQuery.trim()) {
@@ -71,18 +68,17 @@ export default function MainLayout() {
   return (
     <div className="layoutContainer">
       <Sidebar />
-      
+
       <div className={`mainWrapper ${sidebarOpen ? 'sidebarOpen' : ''}`}>
-        <Navbar 
-          onSearchClick={() => setSearchOpen(true)} 
+        <Navbar
+          onSearchClick={() => setSearchOpen(true)}
         />
-        
+
         <div className="contentArea">
           <div className="mainContent">
             <Outlet />
           </div>
 
-          {/* Activity Feed Tray */}
           <div className="activityFeedTray">
             <div className="feedHeader">
               <h3>Activity Feed</h3>
@@ -108,7 +104,6 @@ export default function MainLayout() {
         </div>
       </div>
 
-      {/* Global Search Modal */}
       {searchOpen && (
         <div className="overlay" onClick={() => setSearchOpen(false)}>
           <div className="modalContent" onClick={(e) => e.stopPropagation()}>

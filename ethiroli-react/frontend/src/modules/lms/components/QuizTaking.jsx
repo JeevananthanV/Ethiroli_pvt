@@ -1,129 +1,128 @@
-import React, { useEffect, useState } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { getQuiz, getQuizzes } from '../../../services/api/quizApi.js';
-import styles from './Lms.module.css';
+import React, { useState, useEffect, useCallback } from 'react'
+import quizApi from '../../../../services/api/quizApi'
 
-export default function QuizTaking({ quizId }) {
-  const [quiz, setQuiz] = useState(null);
-  const [answers, setAnswers] = useState({});
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [score, setScore] = useState(null);
+export default function QuizTaking({ quizId, onComplete }) {
+  const [quiz, setQuiz] = useState(null)
+  const [currentQuestion, setCurrentQuestion] = useState(0)
+  const [answers, setAnswers] = useState({})
+  const [results, setResults] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const fetchQuiz = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const data = quizId ? await getQuiz(quizId) : await getQuizzes();
-        setQuiz(Array.isArray(data) ? data[0] : data);
-      } catch (err) {
-        setError(err.message || 'Failed to load quiz');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchQuiz();
-  }, [quizId]);
+    fetchQuiz()
+  }, [quizId, fetchQuiz])
 
-  const handleSelect = (qId, option) => {
-    setAnswers(prev => ({ ...prev, [qId]: option }));
-  };
+  const fetchQuiz = useCallback(async () => {
+    try {
+      const data = await quizApi.getById(quizId)
+      setQuiz(data)
+    } catch (error) {
+      console.error('Failed to fetch quiz:', error)
+    } finally {
+      setLoading(false)
+    }
+  }, [quizId])
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!quiz) return;
-    let correct = 0;
-    quiz.questions?.forEach(q => {
-      if (answers[q.id] === q.correctAnswer) correct++;
-    });
-    const finalScore = quiz.questions?.length ? Math.round((correct / quiz.questions.length) * 100) : 0;
-    setScore(finalScore);
-    setSubmitted(true);
-  };
+  const handleAnswerChange = (questionId, value) => {
+    setAnswers((prev) => ({ ...prev, [questionId]: value }))
+  }
 
-  const handleRetake = () => {
-    setAnswers({});
-    setSubmitted(false);
-    setScore(null);
-  };
+  const handleSubmit = async () => {
+    try {
+      const result = await quizApi.submit(quizId, answers)
+      setResults(result)
+      onComplete?.(result)
+    } catch (error) {
+      alert('Failed to submit quiz: ' + error.message)
+    }
+  }
 
   if (loading) {
-    return (
-      <div className="card">
-        <div className="loading">Loading quiz...</div>
-      </div>
-    );
+    return <div className="loading">Loading quiz...</div>
   }
 
-  if (error) {
-    return (
-      <div className="card" style={{borderColor: 'rgba(244, 63, 94, 0.3)', background: 'rgba(244, 63, 94, 0.05)'}}>
-        <p style={{color: 'var(--admin-danger)', margin: 0}}>{error}</p>
-      </div>
-    );
+  if (!quiz) {
+    return <div className="emptyState">Quiz not found</div>
   }
+
+  if (results) {
+    return (
+      <div className="card">
+        <div className="cardBody textCenter">
+          <h2 className="textXl fontSemibold textPrimary mb3">Quiz Completed!</h2>
+          <div className="statCard mb4" style={{ maxWidth: '300px', margin: '0 auto' }}>
+            <div className="statLabel">Your Score</div>
+            <div className="statValue textPrimary">{results.score || 0}%</div>
+          </div>
+          <p className="textSecondary">{results.correctCount || 0} out of {quiz.questions?.length || 0} correct</p>
+        </div>
+      </div>
+    )
+  }
+
+  const question = quiz.questions?.[currentQuestion]
+  const progress = ((currentQuestion + 1) / (quiz.questions?.length || 1)) * 100
 
   return (
     <div className="card">
-      <div style={{marginBottom: 24}}>
-        <h3 style={{margin: '0 0 6px 0', fontSize: 20, fontWeight: 700}}>{quiz?.title || 'Assessment Quiz'}</h3>
-        <p style={{margin: 0, color: 'var(--admin-text-muted)', fontSize: 14}}>
-          {quiz?.description || 'Answer the following questions to verify completion'}
-        </p>
+      <div className="cardHeader">
+        <div>
+          <h3 className="cardTitle">{quiz.title}</h3>
+          <p className="textSecondary textSm">
+            Question {currentQuestion + 1} of {quiz.questions?.length || 0}
+          </p>
+        </div>
+        <span className="textPrimary fontSemibold">{Math.round(progress)}%</span>
       </div>
-
-      {!submitted ? (
-        <form onSubmit={handleSubmit}>
-          {quiz?.questions?.map((q, idx) => (
-            <div key={q.id} className={styles.questionBlock}>
-              <p style={{margin: '0 0 12px 0', fontWeight: 600, fontSize: 14}}>
-                <span style={{color: 'var(--admin-primary)', marginRight: 8}}>Q{idx + 1}.</span>
-                {q.text}
-              </p>
-              <div className={styles.optionsGrid}>
-                {q.options?.map(opt => (
-                  <label key={opt} className={styles.optionLabel} style={{
-                    background: '#fff',
-                    padding: '12px 14px',
-                    borderRadius: 8,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 10,
-                    cursor: 'pointer',
-                    border: answers[q.id] === opt ? '2px solid var(--admin-primary)' : '1px solid var(--admin-border-subtle)',
-                    transition: 'all 0.2s ease'
-                  }}>
+      <div className="cardBody">
+        {question && (
+          <div>
+            <h3 className="textPrimary mb4">{question.text}</h3>
+            <div className="flex flexCol gap3 mb4">
+              {question.options?.map((option, index) => (
+                <label
+                  key={index}
+                  className={`card cursorPointer ${answers[question.id] === index ? 'border textPrimary' : ''}`}
+                  style={{ border: '1px solid var(--admin-border)' }}
+                >
+                  <div className="cardBody">
                     <input
                       type="radio"
-                      name={q.id}
-                      value={opt}
-                      checked={answers[q.id] === opt}
-                      onChange={() => handleSelect(q.id, opt)}
-                      style={{accentColor: 'var(--admin-primary)'}}
+                      name={`question-${question.id}`}
+                      checked={answers[question.id] === index}
+                      onChange={() => handleAnswerChange(question.id, index)}
+                      className="mr3"
                     />
-                    <span style={{fontSize: 13.5}}>{opt}</span>
-                  </label>
-                ))}
-              </div>
+                    <span>{option}</span>
+                  </div>
+                </label>
+              ))}
             </div>
-          ))}
-          <button type="submit" className="btn primary" style={{marginTop: 8}} disabled={Object.keys(answers).length !== (quiz?.questions?.length || 0)}>
-            Submit Answers
-          </button>
-        </form>
-      ) : (
-        <div className={styles.successCard} style={{textAlign: 'center', padding: '40px 20px'}}>
-          <div style={{fontSize: 48, marginBottom: 16}}>🎉</div>
-          <h4 style={{margin: '0 0 8px', fontSize: 18, fontWeight: 700}}>Assessment Submitted!</h4>
-          <p style={{margin: '0 0 20px', color: 'var(--admin-text-secondary)'}}>
-            Your score: <strong style={{color: score >= 70 ? 'var(--admin-success)' : 'var(--admin-danger)'}}>{score}%</strong>
-            {' '}({Math.round(score * (quiz?.questions?.length || 0) / 100)}/{quiz?.questions?.length || 0} correct)
-          </p>
-          <button onClick={handleRetake} className="btn secondary">Retake Quiz</button>
-        </div>
-      )}
+
+            <div className="flex justifyBetween">
+              <button
+                className="btn secondary"
+                onClick={() => setCurrentQuestion((prev) => Math.max(0, prev - 1))}
+                disabled={currentQuestion === 0}
+              >
+                Previous
+              </button>
+              {currentQuestion === (quiz.questions?.length || 1) - 1 ? (
+                <button className="btn primary" onClick={handleSubmit}>
+                  Submit Quiz
+                </button>
+              ) : (
+                <button
+                  className="btn primary"
+                  onClick={() => setCurrentQuestion((prev) => prev + 1)}
+                >
+                  Next
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
-  );
+  )
 }

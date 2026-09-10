@@ -1,0 +1,549 @@
+
+        /* ============================================================
+           OLD CSS - UPDATED TO USE NEW ROOT VARIABLES
+           Layout & Alignment preserved as requested.
+           ============================================================ */
+        
+        /* Helper to keep Alice font for headings as per original design intent, 
+           mapped to the new font structure logic */
+        h1, h2, h3, .jci-section-header h2, .jci-section-title-center, 
+        .jci-quote, .jci-impact-card h3, .jci-journey-card h3, .jci-faq-trigger {
+             /* The new root sets --font-display to Montserrat, but the old design used Alice for headings.
+                To maintain "same design output", we enforce Alice here where the old CSS did. */
+            /* font-family: 'Alice', serif;  */
+        }
+
+        .jci-digital-skills {
+            background-color: var(--color-bg-main);
+            color: #1b1c15;
+            overflow-x: hidden;
+        }
+
+        /* Layout Utilities */
+        .jci-section-spacing { padding: 10px 0; }
+        .jci-bg-accent-light { background-color: var(--color-bg-main); }
+        .jci-section-header { text-align: center; margin-bottom: 60px; padding: 0 10%; }
+        .jci-section-header h2 { 
+            color: var(--color-accent); 
+            font-size: 3rem; 
+            margin-bottom: 1rem; 
+        }
+        .jci-section-title-center { 
+            color: var(--color-accent); 
+            font-size: 2.5rem; 
+            text-align: center; 
+            margin-bottom: 40px; 
+        }
+        .jci-section-subtitle-center { 
+            text-align: center; 
+            max-width: 700px; 
+            margin: 0 auto 40px; 
+            color: #454839; 
+        }
+
+        /* Components */
+        .jci-glass-card {
+            background: var(--color-bg-glass);
+            backdrop-filter: blur(20px); /* Kept specific blur from old CSS to ensure design match */
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            transition: var(--transition-smooth);
+        }
+        .jci-glass-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(26, 75, 72, 0.1); }
+
+        .jci-tag {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(26, 75, 72, 0.1);
+            color: var(--color-accent);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+
+        .jci-btn-primary {
+            background-color: var(--color-primary);
+            color: var(--color-text-on-primary);
+            padding: 1.2rem 2.8rem;
+            border-radius: var(--radius-md); /* Using root radius */
+            border: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        
+        .jci-btn-clay { background-color: var(--color-secondary); }
+        
+        .jci-btn-primary:hover { transform: scale(1.05); filter: brightness(1.1); }
+
+        /* Hero Section - Split Layout */
+        .jci-hero {
+            position: relative;
+            padding: 120px 5% 80px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            min-height: 90vh;
+            overflow: hidden;
+            background-color: var(--color-bg-main); /* Ensure fallback */
+        }
+
+        .jci-hero-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .jci-hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: left;
+            max-width: 600px;
+        }
+
+        .jci-hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem); /* Preserved specific sizing */
+            margin: 1.5rem 0;
+            line-height: 1.1;
+            color: var(--color-accent);
+        }
+
+        .jci-hero p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            color: #454839;
+        }
+
+        .jci-hero-img-main {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+            border-radius: 150px 30px 30px 30px; /* Organic shape */
+            box-shadow: 0 30px 60px rgba(0,0,0,0.05);
+        }
+
+        .jci-hero-img-float {
+            position: absolute;
+            top: -40px;
+            right: -20px;
+            width: 240px;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 30px;
+            border: 8px solid var(--color-surface);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            z-index: 2;
+        }
+
+        .jci-hero-btns {
+            display: flex;
+            gap: 20px;
+        }
+
+        .jci-btn-outline {
+            background: transparent;
+            color: var(--color-accent);
+            border: 2px solid var(--color-accent);
+            padding: 1rem 2.5rem;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .jci-btn-outline:hover {
+            background: var(--color-accent);
+            color: white;
+        }
+
+        /* Mission */
+        .jci-mission-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 80px;
+            align-items: center;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 10%;
+        }
+        
+        .jci-organic-shape { border-radius: 120px 30px 120px 30px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.1); }
+        .jci-mission-image { width: 100%; height: 500px; object-fit: cover; }
+        
+        .jci-quote { 
+            font-size: 2.5rem; 
+            font-style: italic; 
+            color: var(--color-accent); 
+            margin-bottom: 2rem; 
+        }
+        
+        .jci-author-name { font-weight: 700; font-size: 1.2rem; color: var(--color-accent); }
+        .jci-author-role { color: #454839; font-size: 0.95rem; }
+
+        /* Impact Section - Split Layout */
+        .jci-impact-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            /* padding: 100px 10%; */
+            background-color: var(--color-bg-main);
+        }
+
+        .jci-impact-grid-left {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            position: relative;
+        }
+
+        /* Staggered effect */
+        .jci-impact-card:nth-child(even) {
+            margin-top: 40px;
+        }
+
+        .jci-impact-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 35px;
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 15px 40px rgba(26, 75, 72, 0.05);
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .jci-impact-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 25px 50px rgba(26, 75, 72, 0.1);
+        }
+
+        .jci-impact-card-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(129, 158, 53, 0.1);
+            color: var(--color-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .jci-impact-card h3 {
+            font-size: 2.8rem;
+            color: var(--color-accent);
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .jci-impact-card p {
+            font-size: 0.95rem;
+            color: #5a5d4d;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        @media (max-width: 600px) {
+            .jci-impact-card:nth-child(even) {
+                margin-top: 0;
+            }
+        }
+
+        .jci-impact-content-right h2 {
+            font-size: 3rem;
+            color: var(--color-accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .jci-impact-content-right p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            color: #454839;
+        }
+
+        .jci-checkmark-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .jci-checkmark-item {
+            display: flex;
+            gap: 15px;
+        }
+
+        .jci-checkmark-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--color-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .jci-checkmark-text h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--color-accent);
+        }
+
+        .jci-checkmark-text p {
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        /* Journey Section - Card Grid Layout */
+        .jci-journey-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            padding: 0 10% 100px;
+        }
+
+        .jci-journey-card {
+            background: var(--color-surface);
+            padding: 60px 40px;
+            border-radius: var(--radius-xl);
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+            transition: var(--transition-smooth);
+        }
+
+        .jci-journey-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(175, 67, 30, 0.05);
+        }
+
+        .jci-journey-number {
+            width: 60px;
+            height: 60px;
+            background-color: var(--color-secondary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 30px;
+        }
+
+        .jci-journey-card h3 {
+            font-size: 1.8rem;
+            color: var(--color-accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .jci-journey-card p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #454839;
+            margin-bottom: 2rem;
+        }
+
+        .jci-journey-tags {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .jci-journey-tag {
+            background-color: rgba(129, 158, 53, 0.1);
+            color: var(--color-accent);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Alumni */
+        .jci-alumni-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            padding: 0 10%;
+        }
+        
+        .jci-story-quote { font-style: italic; font-size: 1.2rem; margin-bottom: 2rem; position: relative; }
+        .jci-story-footer { border-top: 1px solid rgba(0,0,0,0.05); padding-top: 1.5rem; }
+        .jci-story-author { color: var(--color-accent); font-size: 1.1rem; }
+
+        /* Eligibility Section - Split Layout */
+        .jci-eligibility-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            padding: 100px 10%;
+            background-color: var(--color-bg-main);
+        }
+
+        .jci-eligibility-content-left {
+            max-width: 600px;
+        }
+
+        .jci-eligibility-content-left h2 {
+            font-size: 3rem;
+            color: var(--color-accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .jci-eligibility-content-left p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            color: #454839;
+        }
+
+        .jci-eligibility-media-right {
+            position: relative;
+        }
+
+        .jci-eligibility-img-main {
+            width: 100%;
+            height: 550px;
+            object-fit: cover;
+            border-radius: var(--radius-xl);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+        }
+
+        .jci-eligibility-float-card {
+            position: absolute;
+            bottom: -30px;
+            left: -40px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 30px;
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            max-width: 300px;
+            z-index: 2;
+        }
+
+        .jci-eligibility-float-card h4 {
+            color: var(--color-primary);
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .jci-eligibility-float-card p {
+            font-size: 0.95rem;
+            color: #454839;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .jci-eligibility-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .jci-eligibility-item {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .jci-eligibility-icon-circle {
+            width: 28px;
+            height: 28px;
+            background: rgba(129, 158, 53, 0.1);
+            color: var(--color-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .jci-eligibility-text {
+            font-size: 1.05rem;
+            color: #454839;
+            font-weight: 500;
+        }
+
+        @media (max-width: 992px) {
+            .jci-eligibility-split {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+            .jci-eligibility-float-card {
+                left: 20px;
+                bottom: -20px;
+            }
+        }
+
+        /* FAQ */
+        .jci-faq-container { max-width: 900px; margin: 0 auto; }
+        .jci-faq-item { 
+            background: var(--color-surface); 
+            border-radius: var(--radius-lg); 
+            margin-bottom: 20px; 
+            overflow: hidden; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02); 
+        }
+        
+        .jci-faq-trigger { 
+            width: 100%; 
+            padding: 25px 30px; 
+            background: none; 
+            border: none; 
+            text-align: left; 
+            font-size: 1.4rem; 
+            color: var(--color-accent); 
+            cursor: pointer; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            transition: var(--transition-smooth); 
+        }
+        
+        .jci-faq-trigger:hover { background: rgba(26, 75, 72, 0.03); }
+        .jci-faq-icon { transition: transform 0.3s ease; font-size: 1.8rem; }
+        .jci-faq-icon.active { transform: rotate(45deg); color: var(--color-secondary); }
+        .jci-faq-content { 
+            padding: 0 30px 30px; 
+            color: #454839; 
+            font-size: 1.1rem; 
+            line-height: 1.7; 
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .jci-timeline::before { left: calc(10% + 14px); }
+            .jci-timeline-dot { left: 6px; }
+            .jci-timeline-item { padding-left: 50px; }
+            
+            .jci-hero-img-float {
+                display: none; /* Hide floating image on mobile to prevent overflow */
+            }
+        }

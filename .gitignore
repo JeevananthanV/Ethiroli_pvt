@@ -39,3 +39,6 @@ pnpm-debug.log*
 *.sw?
 .DS_Store
 Thumbs.db
+*.bak
+*_output.txt
+*.timestamp*

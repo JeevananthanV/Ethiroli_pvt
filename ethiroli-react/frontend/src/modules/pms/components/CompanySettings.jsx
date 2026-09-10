@@ -1,122 +1,138 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { getCompanySettings, saveCompanySettings } from '../../../services/api/companySettingApi.js';
-import CompanySettingsForm from './CompanySettingsForm.jsx';
+import React, { useState, useEffect } from 'react';
+import { getCompanySettings, updateCompanySettings, uploadCompanyLogo } from '../../services/api/companySettingApi';
+import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import Input from '../../common/components/Input/Input.jsx';
+import Button from '../../common/components/Button/Button.jsx';
 
-export default function CompanySettings() {
+const CompanySettings = () => {
   const [settings, setSettings] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [logoPreview, setLogoPreview] = useState(null);
 
-  const fetchSettings = useCallback(async () => {
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
+  const loadSettings = async () => {
+    setLoading(true);
+    setError(null);
     try {
-      setLoading(true);
-      setError(null);
       const data = await getCompanySettings();
       setSettings(data);
+      if (data.logoUrl) {
+        setLogoPreview(data.logoUrl);
+      }
     } catch (err) {
-      setError(err.response?.data?.message || err.message || 'Failed to load company settings');
+      setError(err.message);
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
-  useEffect(() => {
-    fetchSettings();
-  }, [fetchSettings]);
-
-  const handleSave = async (formData) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setSaving(true);
+    setError(null);
     try {
-      const saved = await saveCompanySettings(formData);
-      setSettings(saved || formData);
-      setEditing(false);
+      await updateCompanySettings(settings);
+      alert('Company settings updated successfully');
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to save settings');
+      setError(err.message);
     } finally {
       setSaving(false);
     }
   };
 
-  const formatField = (label, value) => (
-    <div style={{ marginBottom: 14 }}>
-      <p style={{ fontSize: 12, color: 'var(--admin-text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: 4 }}>{label}</p>
-      <p style={{ fontSize: 14, color: 'var(--admin-text-primary)' }}>{value || '—'}</p>
-    </div>
-  );
+  const handleLogoUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    try {
+      const result = await uploadCompanyLogo(file);
+      setSettings({ ...settings, logoUrl: result.logoUrl });
+      setLogoPreview(result.logoUrl);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  if (loading) return <div className="loading">Loading company settings...</div>;
+  if (error) return <div className="emptyState"><h3>Error</h3><p>{error}</p><button className="btn primary" onClick={loadSettings}>Retry</button></div>;
 
   return (
-    <div>
-      <div className="pageHeader">
-        <div>
-          <h1 className="pageTitle">Company Settings</h1>
-          <p className="pageSubtitle">Configure company profile, bank details, GST registry, and invoice branding</p>
-        </div>
-        <div className="pageActions">
-          {!editing && (
-            <button className="btn primary" onClick={() => setEditing(true)}>Edit Settings</button>
-          )}
-        </div>
-      </div>
-
-      {error && (
-        <div className="card" style={{ marginBottom: 20, borderColor: 'rgba(244, 63, 94, 0.3)', background: 'rgba(244, 63, 94, 0.05)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ color: 'var(--admin-danger)', fontSize: 13 }}>{error}</span>
-            <button className="btn secondary btnSm" onClick={fetchSettings}>Retry</button>
-          </div>
-        </div>
-      )}
-
+    <AdminPage
+      title="Company Settings"
+      subtitle="Manage company profile and branding"
+      loading={loading}
+      error={error}
+      onRetry={loadSettings}
+    >
       <div className="card">
-        {loading ? (
-          <div className="loading">
-            <div className="skeleton" style={{ width: 40, height: 40, borderRadius: '50%' }}></div>
-            <div style={{ flex: 1 }}>
-              <div className="skeleton" style={{ width: '60%', height: 16, marginBottom: 8 }}></div>
-              <div className="skeleton" style={{ width: '40%', height: 12 }}></div>
+        <div className="cardHeader">
+          <h3 className="cardTitle">Company Profile</h3>
+        </div>
+        <div className="cardBody">
+          <form onSubmit={handleSubmit}>
+            {error && <div className="emptyState" style={{ padding: '12px', marginBottom: '12px' }}><p className="textDanger">{error}</p></div>}
+            <div className="formGroup">
+              <label className="label">Company Name</label>
+              <input
+                type="text"
+                className="inputField"
+                value={settings?.name || ''}
+                onChange={(e) => setSettings({ ...settings, name: e.target.value })}
+                required
+              />
             </div>
-          </div>
-        ) : editing ? (
-          <CompanySettingsForm
-            initialData={settings || {}}
-            onSave={handleSave}
-            onCancel={() => setEditing(false)}
-            saving={saving}
-          />
-        ) : settings ? (
-          <div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 20 }}>
-              {formatField('Company Name', settings.companyName)}
-              {formatField('Legal Name', settings.legalName)}
-              {formatField('GSTIN', settings.gstin)}
-              {formatField('PAN', settings.pan)}
-              {formatField('Email', settings.email)}
-              {formatField('Phone', settings.phone)}
-              {formatField('Address', settings.address)}
-              {formatField('City / State', [settings.city, settings.state].filter(Boolean).join(', '))}
-              {formatField('Pincode', settings.pincode)}
-              {formatField('Bank Name', settings.bankName)}
-              {formatField('Account Number', settings.accountNumber)}
-              {formatField('IFSC Code', settings.ifscCode)}
-              {formatField('Branch', settings.branch)}
-              {formatField('Invoice Prefix', settings.invoicePrefix)}
+            <div className="formGroup" style={{ marginTop: '12px' }}>
+              <label className="label">Email</label>
+              <input
+                type="email"
+                className="inputField"
+                value={settings?.email || ''}
+                onChange={(e) => setSettings({ ...settings, email: e.target.value })}
+                required
+              />
             </div>
-            {settings.invoiceLogo && (
-              <div style={{ marginTop: 20 }}>
-                <p style={{ fontSize: 12, color: 'var(--admin-text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: 8 }}>Invoice Logo</p>
-                <img src={settings.invoiceLogo} alt="Invoice Logo" style={{ maxHeight: 80, borderRadius: 8, border: '1px solid var(--admin-border-subtle)' }} />
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className="emptyState">
-            <h3>No Settings Found</h3>
-            <p>Click "Edit Settings" to configure your company profile.</p>
-          </div>
-        )}
+            <div className="formGroup" style={{ marginTop: '12px' }}>
+              <label className="label">Phone</label>
+              <input
+                type="tel"
+                className="inputField"
+                value={settings?.phone || ''}
+                onChange={(e) => setSettings({ ...settings, phone: e.target.value })}
+              />
+            </div>
+            <div className="formGroup" style={{ marginTop: '12px' }}>
+              <label className="label">Address</label>
+              <textarea
+                className="textarea"
+                value={settings?.address || ''}
+                onChange={(e) => setSettings({ ...settings, address: e.target.value })}
+                rows={3}
+              />
+            </div>
+            <div className="formGroup" style={{ marginTop: '12px' }}>
+              <label className="label">Logo</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleLogoUpload}
+                style={{ marginBottom: '8px' }}
+              />
+              {logoPreview && (
+                <img src={logoPreview} alt="Logo" style={{ maxHeight: '100px', borderRadius: '8px' }} />
+              )}
+            </div>
+            <div className="pageActions" style={{ marginTop: '16px' }}>
+              <Button type="submit" disabled={saving}>{saving ? 'Saving...' : 'Save Settings'}</Button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </AdminPage>
   );
-}
+};
+
+export default CompanySettings;

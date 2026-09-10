@@ -1,181 +1,167 @@
-import React, { useEffect, useState } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { listLogs } from '../../services/api/communicationApi.js';
-import { getProviders } from '../../services/api/providerApi.js';
-import { getTemplates } from '../../services/api/templateApi.js';
+import React, { useState, useEffect } from 'react'
+import AdminPage from '../../common/components/AdminPage'
+import Button from '../../common/components/Button'
+import Modal from '../../common/components/Modal'
+import { communicationApi } from '../../services/api/communicationApi'
+import { providerApi } from '../../services/api/providerApi'
+import { templateApi } from '../../services/api/templateApi'
 
 export default function CommunicationCenter() {
-  const [logs, setLogs] = useState([]);
-  const [providers, setProviders] = useState([]);
-  const [templates, setTemplates] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [composing, setComposing] = useState(false);
-  const [stats, setStats] = useState({ total: 0, success: 0, failed: 0, pending: 0 });
-
-  const fetchData = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const [logsRes, providersRes, templatesRes] = await Promise.all([
-        listLogs().catch(() => []),
-        getProviders().catch(() => []),
-        getTemplates().catch(() => []),
-      ]);
-      const logsData = Array.isArray(logsRes) ? logsRes : [];
-      setLogs(logsData);
-      setProviders(Array.isArray(providersRes) ? providersRes : []);
-      setTemplates(Array.isArray(templatesRes) ? templatesRes : []);
-      setStats({
-        total: logsData.length,
-        success: logsData.filter((l) => l.status === 'sent' || l.status === 'success').length,
-        failed: logsData.filter((l) => l.status === 'failed' || l.status === 'error').length,
-        pending: logsData.filter((l) => l.status === 'pending' || l.status === 'queued').length,
-      });
-    } catch (err) {
-      setError(err.message || 'Failed to load communication data');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [providers, setProviders] = useState([])
+  const [templates, setTemplates] = useState([])
+  const [logs, setLogs] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [composeOpen, setComposeOpen] = useState(false)
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    loadData()
+  }, [])
 
-  const getStatusClass = (status) => {
-    switch ((status || '').toLowerCase()) {
-      case 'sent':
-      case 'success':
-        return 'active';
-      case 'failed':
-      case 'error':
-        return 'error';
-      case 'pending':
-      case 'queued':
-        return 'pending';
-      default:
-        return 'pending';
+  const loadData = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const [providersData, templatesData, logsData] = await Promise.all([
+        providerApi.getAll(),
+        templateApi.getAll(),
+        communicationApi.getLogs(),
+      ])
+      setProviders(providersData)
+      setTemplates(templatesData)
+      setLogs(logsData)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
     }
-  };
-
-  const formatDate = (date) => {
-    if (!date) return '-';
-    return new Date(date).toLocaleString('en-US', {
-      month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
-    });
-  };
+  }
 
   return (
     <AdminPage
       title="Communication Center"
-      subtitle="Manage providers, templates, and message logs"
+      subtitle="Manage communication providers, templates, and logs"
       loading={loading}
       error={error}
-      onRetry={fetchData}
+      onRetry={loadData}
       actions={
-        <button className="btn primary" onClick={() => setComposing(true)}>
+        <Button variant="primary" onClick={() => setComposeOpen(true)}>
           Compose Message
-        </button>
+        </Button>
       }
     >
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 24 }}>
+      <div className="grid gridCols3 mb4">
         <div className="statCard">
-          <div className="statLabel">Total Messages</div>
-          <div className="statValue">{stats.total}</div>
+          <div className="statLabel">Providers</div>
+          <div className="statValue">{providers.length}</div>
+          <div className="textSecondary textSm mt2">
+            {providers.filter((p) => p.status === 'active').length} active
+          </div>
         </div>
         <div className="statCard">
-          <div className="statLabel">Successful</div>
-          <div className="statValue textSuccess">{stats.success}</div>
+          <div className="statLabel">Templates</div>
+          <div className="statValue">{templates.length}</div>
+          <div className="textSecondary textSm mt2">
+            {templates.filter((t) => t.isActive).length} active
+          </div>
         </div>
         <div className="statCard">
-          <div className="statLabel">Failed</div>
-          <div className="statValue textDanger">{stats.failed}</div>
-        </div>
-        <div className="statCard">
-          <div className="statLabel">Pending</div>
-          <div className="statValue textWarning">{stats.pending}</div>
+          <div className="statLabel">Recent Logs</div>
+          <div className="statValue">{logs.length}</div>
+          <div className="textSecondary textSm mt2">
+            {logs.filter((l) => l.status === 'sent').length} sent today
+          </div>
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 24 }}>
-        <div className="card">
-          <div className="cardHeader"><h3 className="cardTitle">Providers</h3></div>
-          <div className="cardBody">
-            {providers.length === 0 ? (
-              <div className="emptyState">No providers configured.</div>
-            ) : (
-              providers.map((provider) => (
-                <div key={provider.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid var(--admin-border)' }}>
-                  <div>
-                    <div className="textPrimary" style={{ fontWeight: 500 }}>{provider.name || provider.provider}</div>
-                    <div className="textMuted" style={{ fontSize: 12 }}>{provider.channel || 'N/A'}</div>
-                  </div>
-                  <span className={`statusTag ${provider.status === 'active' ? 'active' : 'error'}`}>
-                    {provider.status || 'inactive'}
-                  </span>
-                </div>
-              ))
-            )}
-          </div>
+      <div className="card mb4">
+        <div className="cardHeader">
+          <h3 className="cardTitle">Provider Status</h3>
         </div>
-
-        <div className="card">
-          <div className="cardHeader"><h3 className="cardTitle">Templates</h3></div>
-          <div className="cardBody">
-            {templates.length === 0 ? (
-              <div className="emptyState">No templates found.</div>
-            ) : (
-              templates.map((template) => (
-                <div key={template.id} style={{ padding: '8px 0', borderBottom: '1px solid var(--admin-border)' }}>
-                  <div className="textPrimary" style={{ fontWeight: 500 }}>{template.name}</div>
-                  <div className="textMuted" style={{ fontSize: 12 }}>{template.type || 'generic'}</div>
-                </div>
-              ))
-            )}
-          </div>
+        <div className="overflowAuto">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Provider</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Last Sync</th>
+              </tr>
+            </thead>
+            <tbody>
+              {providers.length === 0 ? (
+                <tr>
+                  <td colSpan="4" style={{ textAlign: 'center', padding: '32px' }}>
+                    <span className="textMuted">No providers configured</span>
+                  </td>
+                </tr>
+              ) : (
+                providers.map((provider) => (
+                  <tr key={provider.id}>
+                    <td>{provider.name}</td>
+                    <td>{provider.type}</td>
+                    <td>
+                      <span className={`statusTag ${provider.status === 'active' ? 'active' : 'pending'}`}>
+                        {provider.status}
+                      </span>
+                    </td>
+                    <td>{provider.lastSync ? new Date(provider.lastSync).toLocaleString() : '-'}</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
 
       <div className="card">
-        <div className="cardHeader"><h3 className="cardTitle">Recent Logs</h3></div>
-        <div className="cardBody" style={{ overflowX: 'auto' }}>
-          {logs.length === 0 ? (
-            <div className="emptyState">No communication logs yet.</div>
-          ) : (
-            <table className="table">
-              <thead>
+        <div className="cardHeader">
+          <h3 className="cardTitle">Recent Logs</h3>
+        </div>
+        <div className="overflowAuto">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Recipient</th>
+                <th>Channel</th>
+                <th>Status</th>
+                <th>Sent At</th>
+              </tr>
+            </thead>
+            <tbody>
+              {logs.length === 0 ? (
                 <tr>
-                  <th>ID</th>
-                  <th>Channel</th>
-                  <th>Recipient</th>
-                  <th>Status</th>
-                  <th>Sent At</th>
+                  <td colSpan="4" style={{ textAlign: 'center', padding: '32px' }}>
+                    <span className="textMuted">No logs available</span>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {logs.slice(0, 50).map((log) => (
+              ) : (
+                logs.slice(0, 10).map((log) => (
                   <tr key={log.id}>
-                    <td className="textSecondary"><code>{log.id}</code></td>
-                    <td className="textSecondary">{log.channel || 'N/A'}</td>
-                    <td className="textSecondary">{log.recipient || '-'}</td>
+                    <td>{log.recipient}</td>
+                    <td>{log.channel}</td>
                     <td>
-                      <span className={`statusTag ${getStatusClass(log.status)}`}>
-                        {log.status || 'unknown'}
+                      <span className={`statusTag ${log.status === 'sent' ? 'active' : 'error'}`}>
+                        {log.status}
                       </span>
                     </td>
-                    <td className="textSecondary">{formatDate(log.sent_at || log.created_at)}</td>
+                    <td>{new Date(log.sentAt).toLocaleString()}</td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
 
-      {composing && (
-        <ComposeModal onClose={() => setComposing(false)} onSend={fetchData} templates={templates} />
-      )}
+      <Modal isOpen={composeOpen} onClose={() => setComposeOpen(false)} title="Compose Message">
+        <p className="textSecondary">Message composition form coming soon.</p>
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '16px' }}>
+          <Button variant="secondary" onClick={() => setComposeOpen(false)}>
+            Close
+          </Button>
+        </div>
+      </Modal>
     </AdminPage>
-  );
+  )
 }

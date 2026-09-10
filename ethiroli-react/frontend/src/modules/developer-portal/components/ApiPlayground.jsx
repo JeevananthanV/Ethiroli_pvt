@@ -1,141 +1,162 @@
-import React, { useEffect, useState } from 'react';
-import { getApiKeys } from '../api/apiKeyApi.js';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
+import React, { useState, useEffect } from 'react'
+import AdminPage from '../../common/components/AdminPage/AdminPage.jsx'
+import Button from '../../common/components/Button/Button.jsx'
+import Input from '../../common/components/Input/Input.jsx'
+import { apiKeyApi } from '../../services/api/apiKeyApi.js'
 
 export default function ApiPlayground() {
-  const [requestMethod, setRequestMethod] = useState('GET');
-  const [requestUrl, setRequestUrl] = useState('/v1/leads');
-  const [requestBody, setRequestBody] = useState('{}');
-  const [response, setResponse] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [apiKeys, setApiKeys] = useState([]);
-  const [selectedApiKey, setSelectedApiKey] = useState('');
+  const [apiKeys, setApiKeys] = useState([])
+  const [selectedKey, setSelectedKey] = useState(null)
+  const [method, setMethod] = useState('GET')
+  const [endpoint, setEndpoint] = useState('')
+  const [requestBody, setRequestBody] = useState('{\n  \n}')
+  const [response, setResponse] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [testing, setTesting] = useState(false)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    getApiKeys().then((data) => {
-      setApiKeys(Array.isArray(data) ? data : []);
-    }).catch(() => {});
-  }, []);
+    loadKeys()
+  }, [])
 
-  const handleSendRequest = async () => {
-    setLoading(true);
-    setError(null);
-    setResponse(null);
+  const loadKeys = async () => {
+    setLoading(true)
+    setError(null)
     try {
-      const options = {
-        method: requestMethod,
-        headers: {
-          'Content-Type': 'application/json',
-          ...(selectedApiKey && { Authorization: `Bearer ${selectedApiKey}` }),
-        },
-      };
-      if (requestMethod !== 'GET' && requestMethod !== 'DELETE') {
+      const data = await apiKeyApi.getAll()
+      setApiKeys(Array.isArray(data) ? data.filter((k) => !k.revoked) : [])
+    } catch (err) {
+      setError(err.message || 'Failed to load API keys')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleTest = async () => {
+    if (!selectedKey || !endpoint) return
+    setTesting(true)
+    setResponse(null)
+    setError(null)
+    try {
+      let parsedBody = {}
+      if (method !== 'GET' && method !== 'DELETE') {
         try {
-          options.body = JSON.stringify(JSON.parse(requestBody));
+          parsedBody = JSON.parse(requestBody)
         } catch {
-          options.body = requestBody;
+          parsedBody = { raw: requestBody }
         }
       }
-      const res = await fetch(requestUrl, options);
-      const contentType = res.headers.get('content-type');
-      const data = contentType && contentType.includes('application/json') ? await res.json() : await res.text();
-      setResponse({
-        status: res.status,
-        statusText: res.statusText,
-        headers: Object.fromEntries(res.headers.entries()),
-        data,
-      });
+      const result = await apiKeyApi.test(selectedKey.id, {
+        method,
+        endpoint,
+        body: parsedBody,
+      })
+      setResponse(result)
     } catch (err) {
-      setError(err.message || 'Request failed');
+      setResponse({ success: false, status: 500, error: err.message, data: null })
     } finally {
-      setLoading(false);
+      setTesting(false)
     }
-  };
+  }
 
   return (
     <AdminPage
       title="API Playground"
-      subtitle="Test API endpoints directly from the admin panel"
-      loading={false}
-      error={null}
-      onRetry={() => {}}
-      actions={
-        <select
-          className="select"
-          value={selectedApiKey}
-          onChange={(e) => setSelectedApiKey(e.target.value)}
-          style={{ width: 200 }}
-        >
-          <option value="">No Auth</option>
-          {apiKeys.map((key) => (
-            <option key={key.id} value={key.key}>{key.name}</option>
-          ))}
-        </select>
-      }
+      subtitle="Test API endpoints with your API keys"
+      loading={loading}
+      error={error}
+      onRetry={loadKeys}
     >
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+      <div className="grid gridCols2">
         <div className="card">
-          <div className="cardHeader"><h3 className="cardTitle">Request</h3></div>
+          <div className="cardHeader">
+            <h3 className="cardTitle">Request</h3>
+          </div>
           <div className="cardBody">
-            <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
-              <select className="select" value={requestMethod} onChange={(e) => setRequestMethod(e.target.value)} style={{ width: 120 }}>
-                <option value="GET">GET</option>
-                <option value="POST">POST</option>
-                <option value="PUT">PUT</option>
-                <option value="PATCH">PATCH</option>
-                <option value="DELETE">DELETE</option>
-              </select>
-              <input
-                className="inputField"
-                value={requestUrl}
-                onChange={(e) => setRequestUrl(e.target.value)}
-                placeholder="/v1/endpoint"
-                style={{ flex: 1 }}
-              />
-            </div>
-            {(requestMethod === 'POST' || requestMethod === 'PUT' || requestMethod === 'PATCH') && (
-              <div className="textareaGroup">
-                <label className="label">Request Body (JSON)</label>
-                <textarea
-                  className="textarea"
-                  value={requestBody}
-                  onChange={(e) => setRequestBody(e.target.value)}
-                  rows={10}
-                />
+            <div className="form">
+              <div className="formGroup">
+                <label className="label required">API Key</label>
+                <select
+                  className="select"
+                  value={selectedKey?.id || ''}
+                  onChange={(e) => {
+                    const k = apiKeys.find((key) => key.id === e.target.value)
+                    setSelectedKey(k)
+                    setResponse(null)
+                  }}
+                >
+                  <option value="">Select API Key</option>
+                  {apiKeys.map((k) => (
+                    <option key={k.id} value={k.id}>
+                      {k.name}
+                    </option>
+                  ))}
+                </select>
               </div>
-            )}
-            <button className="btn primary" onClick={handleSendRequest} disabled={loading} style={{ marginTop: 16 }}>
-              {loading ? 'Sending...' : 'Send Request'}
-            </button>
+              <div className="formGroup">
+                <label className="label required">Method</label>
+                <select className="select" value={method} onChange={(e) => setMethod(e.target.value)}>
+                  <option value="GET">GET</option>
+                  <option value="POST">POST</option>
+                  <option value="PUT">PUT</option>
+                  <option value="DELETE">DELETE</option>
+                </select>
+              </div>
+              <div className="formGroup">
+                <label className="label required">Endpoint</label>
+                <Input value={endpoint} onChange={(e) => setEndpoint(e.target.value)} placeholder="/api/resource" />
+              </div>
+              {method !== 'GET' && method !== 'DELETE' && (
+                <div className="formGroup">
+                  <label className="label">Request Body (JSON)</label>
+                  <textarea
+                    className="inputField"
+                    value={requestBody}
+                    onChange={(e) => setRequestBody(e.target.value)}
+                    rows={8}
+                    style={{ resize: 'vertical', fontFamily: 'monospace', fontSize: '13px' }}
+                  />
+                </div>
+              )}
+              <Button variant="primary" onClick={handleTest} disabled={testing || !selectedKey || !endpoint}>
+                {testing ? 'Sending...' : 'Send Request'}
+              </Button>
+            </div>
           </div>
         </div>
+
         <div className="card">
-          <div className="cardHeader"><h3 className="cardTitle">Response</h3></div>
-          <div className="cardBody">
-            {error && (
-              <div style={{ padding: 12, borderRadius: 8, background: 'rgba(244, 63, 94, 0.1)', color: 'var(--admin-danger)', marginBottom: 12 }}>
-                {error}
-              </div>
+          <div className="cardHeader">
+            <h3 className="cardTitle">Response</h3>
+            {response && (
+              <span className={`statusTag ${response.success ? 'active' : 'error'}`}>
+                {response.success ? `${response.status || 200} OK` : 'Error'}
+              </span>
             )}
-            {response ? (
-              <div>
-                <div style={{ display: 'flex', gap: 10, marginBottom: 12 }}>
-                  <span className={`statusTag ${response.status < 300 ? 'active' : 'error'}`}>{response.status} {response.statusText}</span>
-                </div>
-                <div className="textareaGroup">
-                  <label className="label">Response Body</label>
-                  <pre className="textarea" style={{ background: 'var(--admin-bg-input)', padding: 12, borderRadius: 6, overflow: 'auto', maxHeight: 400 }}>
-                    {JSON.stringify(response.data, null, 2)}
-                  </pre>
-                </div>
+          </div>
+          <div className="cardBody">
+            {!response ? (
+              <div className="emptyState">
+                <p className="textMuted">Send a request to see the response</p>
               </div>
             ) : (
-              <p style={{ color: 'var(--admin-text-muted)' }}>Send a request to see the response here.</p>
+              <pre
+                style={{
+                  background: '#0f172a',
+                  padding: '16px',
+                  borderRadius: '8px',
+                  overflow: 'auto',
+                  fontSize: '13px',
+                  fontFamily: 'monospace',
+                  margin: 0,
+                }}
+              >
+                {JSON.stringify(response, null, 2)}
+              </pre>
             )}
           </div>
         </div>
       </div>
     </AdminPage>
-  );
+  )
 }

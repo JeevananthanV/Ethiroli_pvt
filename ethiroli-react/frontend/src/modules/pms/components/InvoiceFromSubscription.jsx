@@ -1,154 +1,160 @@
-import React, { useEffect, useState } from 'react';
-import { getSubscription } from '../../../services/api/subscriptionApi.js';
-import { generateInvoice } from '../../../services/api/invoiceApi.js';
+import React, { useState, useEffect } from 'react';
+import { getSubscriptions, getSubscriptionPlans, generateInvoiceFromSubscription } from '../../services/api/subscriptionApi';
+import { getClients } from '../../services/api/clientApi';
+import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import Input from '../../common/components/Input/Input.jsx';
+import Button from '../../common/components/Button/Button.jsx';
 
-export default function InvoiceFromSubscription({ subscriptionId, onClose, onSaved }) {
-  const [sub, setSub] = useState(null);
+const InvoiceFromSubscription = () => {
+  const [subscriptions, setSubscriptions] = useState([]);
+  const [clients, setClients] = useState([]);
+  const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-  const [formError, setFormError] = useState(null);
-  const [dueDate, setDueDate] = useState('');
-  const [notes, setNotes] = useState('');
-  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(null);
+  const [selectedSubscription, setSelectedSubscription] = useState('');
+  const [preview, setPreview] = useState(null);
+  const [generating, setGenerating] = useState(false);
 
   useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        setLoading(true);
-        setFormError(null);
-        setSuccess(false);
-        const data = await getSubscription(subscriptionId);
-        if (!cancelled) {
-          setSub(data);
-          const renewal = data.renewalDate || data.endDate;
-          if (renewal) setDueDate(new Date(renewal).toISOString().split('T')[0]);
-        }
-      } catch {
-        if (!cancelled) setFormError('Failed to load subscription details');
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    })();
-    return () => { cancelled = true; };
-  }, [subscriptionId]);
+    loadData();
+  }, []);
 
-  const handleGenerate = async (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-    setFormError(null);
-    setSuccess(false);
+  const loadData = async () => {
+    setLoading(true);
+    setError(null);
     try {
-      await generateInvoice({
-        subscriptionId,
-        dueDate: dueDate || undefined,
-        notes: notes || undefined,
-      });
-      setSuccess(true);
-      setTimeout(() => {
-        onSaved?.();
-      }, 800);
+      const [subsData, clientsData, plansData] = await Promise.all([
+        getSubscriptions(),
+        getClients(),
+        getSubscriptionPlans()
+      ]);
+      setSubscriptions(subsData.subscriptions || subsData || []);
+      setClients(clientsData.clients || clientsData || []);
+      setPlans(plansData.plans || plansData || []);
     } catch (err) {
-      setFormError(err.response?.data?.message || 'Failed to generate invoice');
+      setError(err.message);
     } finally {
-      setSubmitting(false);
+      setLoading(false);
     }
   };
 
-  const formatCurrency = (val) => {
-    if (val === null || val === undefined || val === '') return '₹0.00';
-    return '₹' + Number(val).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const handleGenerate = async () => {
+    if (!selectedSubscription) return;
+    setGenerating(true);
+    setError(null);
+    try {
+      const result = await generateInvoiceFromSubscription(selectedSubscription);
+      setPreview(result);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setGenerating(false);
+    }
   };
 
-  if (loading) {
-    return (
-      <div className="card">
-        <div className="loading">
-          <div className="skeleton" style={{ width: 40, height: 40, borderRadius: '50%' }}></div>
-          <div style={{ flex: 1 }}>
-            <div className="skeleton" style={{ width: '60%', height: 16, marginBottom: 8 }}></div>
-            <div className="skeleton" style={{ width: '40%', height: 12 }}></div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const getClientName = (clientId) => {
+    const client = clients.find(c => c.id === clientId);
+    return client?.name || 'Unknown Client';
+  };
 
-  if (!sub) {
-    return (
-      <div className="card">
-        <p style={{ color: 'var(--admin-text-muted)' }}>Subscription not found.</p>
-        <button className="btn secondary" onClick={onClose} style={{ marginTop: 12 }}>Close</button>
-      </div>
-    );
-  }
+  const getPlanName = (planId) => {
+    const plan = plans.find(p => p.id === planId);
+    return plan?.name || 'Unknown Plan';
+  };
+
+  if (loading) return <div className="loading">Loading subscriptions...</div>;
+  if (error) return <div className="emptyState"><h3>Error</h3><p>{error}</p><button className="btn primary" onClick={loadData}>Retry</button></div>;
 
   return (
-    <div className="card">
-      <div className="cardHeader">
-        <h3 className="cardTitle">Generate Invoice from Subscription</h3>
-        <button type="button" className="btn secondary btnSm" onClick={onClose}>Close</button>
-      </div>
-
-      {formError && (
-        <div style={{ marginBottom: 14, padding: '10px 14px', borderRadius: 8, background: 'rgba(244, 63, 94, 0.08)', border: '1px solid rgba(244, 63, 94, 0.2)', color: 'var(--admin-danger)', fontSize: 13 }}>
-          {formError}
+    <AdminPage
+      title="Invoice from Subscription"
+      subtitle="Generate invoices automatically from subscriptions"
+      loading={loading}
+      error={error}
+      onRetry={loadData}
+    >
+      <div className="card" style={{ marginBottom: '24px' }}>
+        <div className="cardHeader">
+          <h3 className="cardTitle">Select Subscription</h3>
         </div>
-      )}
-
-      {success && (
-        <div style={{ marginBottom: 14, padding: '10px 14px', borderRadius: 8, background: 'rgba(16, 185, 129, 0.08)', border: '1px solid rgba(16, 185, 129, 0.2)', color: 'var(--admin-success)', fontSize: 13 }}>
-          Invoice generated successfully!
-        </div>
-      )}
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12, marginBottom: 20 }}>
-        <div className="statCard">
-          <p className="statLabel">Client</p>
-          <p className="statValue" style={{ fontSize: 16 }}>{sub.clientName || sub.client?.name || '—'}</p>
-        </div>
-        <div className="statCard">
-          <p className="statLabel">Plan</p>
-          <p className="statValue" style={{ fontSize: 16 }}>{sub.planName || sub.plan || 'Standard'}</p>
-        </div>
-        <div className="statCard">
-          <p className="statLabel">Amount</p>
-          <p className="statValue" style={{ fontSize: 16 }}>{formatCurrency(sub.amount)}</p>
-        </div>
-        <div className="statCard">
-          <p className="statLabel">Billing Cycle</p>
-          <p className="statValue" style={{ fontSize: 16, textTransform: 'capitalize' }}>{sub.billingCycle || 'monthly'}</p>
-        </div>
-      </div>
-
-      <form onSubmit={handleGenerate} className="form">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+        <div className="cardBody">
           <div className="formGroup">
-            <label className="label">Due Date</label>
-            <input
-              className="inputField"
-              type="date"
-              value={dueDate}
-              onChange={(e) => setDueDate(e.target.value)}
-            />
+            <label className="label">Subscription</label>
+            <select
+              className="select"
+              value={selectedSubscription}
+              onChange={(e) => setSelectedSubscription(e.target.value)}
+            >
+              <option value="">Select a subscription</option>
+              {subscriptions.map(sub => (
+                <option key={sub.id} value={sub.id}>
+                  {getClientName(sub.clientId)} - {getPlanName(sub.planId)} - {sub.status}
+                </option>
+              ))}
+            </select>
           </div>
-          <div className="formGroup">
-            <label className="label">Notes</label>
-            <input
-              className="inputField"
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              placeholder="Optional invoice notes"
-            />
+          <div className="pageActions" style={{ marginTop: '16px' }}>
+            <Button onClick={handleGenerate} disabled={!selectedSubscription || generating}>
+              {generating ? 'Generating...' : 'Generate Invoice'}
+            </Button>
           </div>
         </div>
-        <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
-          <button type="submit" className="btn primary" disabled={submitting || success}>
-            {submitting ? 'Generating...' : success ? '✓ Generated' : `Generate Invoice for ${formatCurrency(sub.amount)}`}
-          </button>
-          <button type="button" className="btn secondary" onClick={onClose}>Cancel</button>
+      </div>
+
+      {preview && (
+        <div className="card">
+          <div className="cardHeader">
+            <h3 className="cardTitle">Invoice Preview</h3>
+          </div>
+          <div className="cardBody">
+            <div className="formGroup">
+              <label className="label">Invoice Number</label>
+              <p className="textSecondary">{preview.invoiceNumber || preview.id}</p>
+            </div>
+            <div className="formGroup" style={{ marginTop: '12px' }}>
+              <label className="label">Client</label>
+              <p className="textSecondary">{preview.clientName || getClientName(preview.clientId)}</p>
+            </div>
+            <div className="formGroup" style={{ marginTop: '12px' }}>
+              <label className="label">Amount</label>
+              <p className="textSecondary">{preview.amount ? `$${preview.amount.toFixed(2)}` : '$0.00'}</p>
+            </div>
+            <div className="formGroup" style={{ marginTop: '12px' }}>
+              <label className="label">Due Date</label>
+              <p className="textSecondary">{preview.dueDate ? new Date(preview.dueDate).toLocaleDateString() : '-'}</p>
+            </div>
+            {preview.lineItems && preview.lineItems.length > 0 && (
+              <div style={{ marginTop: '16px' }}>
+                <label className="label">Line Items</label>
+                <div className="overflowAuto">
+                  <table className="table" style={{ marginTop: '8px' }}>
+                    <thead>
+                      <tr>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {preview.lineItems.map((item, idx) => (
+                        <tr key={idx}>
+                          <td className="textSecondary">{item.description}</td>
+                          <td className="textSecondary">{item.quantity || 1}</td>
+                          <td className="textSecondary">{item.unitPrice ? `$${item.unitPrice.toFixed(2)}` : '$0.00'}</td>
+                          <td className="textSecondary">{item.total ? `$${item.total.toFixed(2)}` : '$0.00'}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-      </form>
-    </div>
+      )}
+    </AdminPage>
   );
-}
+};
+
+export default InvoiceFromSubscription;

@@ -1,18 +1,39 @@
-import axiosInstance from './axiosInstance.js';
+import axios from '../axios'
 
 export const getBadges = async () => {
-  const response = await axiosInstance.get('/v1/badges');
-  return response.data;
-};
-export const listBadges = getBadges;
+  const response = await axios.get('/badges')
+  return response.data
+}
+
+export const getAll = getBadges
+
+export const getBadge = async (id) => {
+  const response = await axios.get(`/badges/${id}`)
+  return response.data
+}
+
+export const getUserBadges = async (userId) => {
+  const response = await axios.get(`/badges/user/${userId}`)
+  return response.data
+}
+
+export const awardBadge = async (userId, badgeId) => {
+  const response = await axios.post('/badges/award', { userId, badgeId })
+  return response.data
+}
 
 export const createBadge = async (data) => {
-  const response = await axiosInstance.post('/v1/badges', data);
-  return response.data;
+  const response = await axios.post('/badges', data)
+  return response.data
+}
+
+export const badgeApi = {
+  getBadges,
+  getAll,
+  getBadge,
+  getUserBadges,
+  awardBadge,
+  createBadge,
 };
 
-export const getEarnedBadges = async (userId) => {
-  const response = await axiosInstance.get(userId ? `/v1/user-badges/${userId}` : '/v1/user-badges');
-  return response.data;
-};
-export const getUserBadges = getEarnedBadges;
+export default badgeApi;

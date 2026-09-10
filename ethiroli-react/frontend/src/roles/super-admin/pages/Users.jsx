@@ -49,11 +49,11 @@ export default function Users() {
     setSaving(true);
     try {
       if (editingUser) {
-        const data = await updateUser(editingUser.id, form);
+        await updateUser(editingUser.id, form);
         setUsers(prev => prev.map(u => (u.id === editingUser.id ? { ...u, ...form } : u)));
       } else {
-        await createUser(form);
-        setUsers(prev => [...prev, data?.data || data]);
+        const created = await createUser(form);
+        setUsers(prev => [...prev, created?.data || created]);
       }
       setShowForm(false);
     } catch (err) {

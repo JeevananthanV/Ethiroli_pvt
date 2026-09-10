@@ -32,6 +32,7 @@ export const authenticate = async (req, res, next) => {
       tenant_id: sessionRecord.tenant_id || null,
       tenant_role: sessionRecord.tenant_role || null
     };
+    req.portal = sessionRecord.portal_slug || 'app';
     req.sessionToken = token;
     req.ip = req.ip || req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown';
 

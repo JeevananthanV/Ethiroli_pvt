@@ -1,187 +1,130 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { listSubscriptions, updateSubscription, deleteSubscription } from '../../services/api/subscriptionApi.js';
+import React, { useState, useEffect, useCallback } from 'react'
+import AdminPage from '../../common/components/AdminPage'
+import Button from '../../common/components/Button'
+import Modal from '../../common/components/Modal'
+import Input from '../../common/components/Input'
+import { subscriptionApi } from '../../services/api/subscriptionApi'
 
 export default function SubscriptionManagement() {
-  const [subscriptions, setSubscriptions] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [filterStatus, setFilterStatus] = useState('');
-  const [editingId, setEditingId] = useState(null);
-  const [saving, setSaving] = useState(false);
-  const [editForm, setEditForm] = useState({ status: '', plan: '' });
-
-  const loadSubscriptions = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const params = filterStatus ? { status: filterStatus } : {};
-      const data = await listSubscriptions(params);
-      setSubscriptions(Array.isArray(data) ? data : []);
-    } catch (err) {
-      setError(err.message || 'Failed to load subscriptions');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [subscriptions, setSubscriptions] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [statusFilter, setStatusFilter] = useState('')
 
   useEffect(() => {
-    loadSubscriptions();
-  }, [filterStatus]);
+    loadSubscriptions()
+  }, [loadSubscriptions])
 
-  const handleEdit = (sub) => {
-    setEditingId(sub.id);
-    setEditForm({ status: sub.status || 'active', plan: sub.plan || 'basic' });
-  };
-
-  const handleSaveEdit = async (id) => {
-    setSaving(true);
+  const loadSubscriptions = useCallback(async () => {
+    setLoading(true)
+    setError(null)
     try {
-      await updateSubscription(id, editForm);
-      setEditingId(null);
-      loadSubscriptions();
+      const data = await subscriptionApi.getAll()
+      const filtered = statusFilter ? data.filter((s) => s.status === statusFilter) : data
+      setSubscriptions(filtered)
     } catch (err) {
-      alert(`Failed to update: ${err.message}`);
+      setError(err.message)
     } finally {
-      setSaving(false);
+      setLoading(false)
     }
-  };
+  }, [statusFilter])
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Delete this subscription?')) return;
+  const handleStatusChange = async (id, status) => {
     try {
-      await deleteSubscription(id);
-      loadSubscriptions();
+      await subscriptionApi.update(id, { status })
+      setSubscriptions(subscriptions.map((s) => (s.id === id ? { ...s, status } : s)))
     } catch (err) {
-      alert(`Delete failed: ${err.message}`);
+      setError(err.message)
     }
-  };
+  }
 
   const getStatusClass = (status) => {
-    switch ((status || '').toLowerCase()) {
+    switch (status) {
       case 'active':
-        return 'active';
-      case 'expired':
-      case 'cancelled':
-        return 'error';
+        return 'active'
       case 'pending':
-        return 'pending';
+        return 'pending'
+      case 'cancelled':
+        return 'error'
       default:
-        return 'pending';
+        return 'pending'
     }
-  };
-
-  const formatDate = (date) => {
-    if (!date) return '-';
-    return new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  };
-
-  const activeCount = subscriptions.filter((s) => s.status === 'active').length;
-  const expiredCount = subscriptions.filter((s) => s.status === 'expired' || s.status === 'cancelled').length;
+  }
 
   return (
     <AdminPage
       title="Subscription Management"
-      subtitle="Manage tenant subscriptions and billing plans"
+      subtitle="Manage user subscriptions and billing"
       loading={loading}
       error={error}
       onRetry={loadSubscriptions}
       actions={
-        <select className="select" value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
-          <option value="">All Statuses</option>
+        <select
+          className="select"
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          style={{ width: '150px' }}
+        >
+          <option value="">All Status</option>
           <option value="active">Active</option>
           <option value="pending">Pending</option>
-          <option value="expired">Expired</option>
           <option value="cancelled">Cancelled</option>
         </select>
       }
     >
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 24 }}>
-        <div className="statCard">
-          <div className="statLabel">Total Subscriptions</div>
-          <div className="statValue">{subscriptions.length}</div>
-        </div>
-        <div className="statCard">
-          <div className="statLabel">Active</div>
-          <div className="statValue textSuccess">{activeCount}</div>
-        </div>
-        <div className="statCard">
-          <div className="statLabel">Expired / Cancelled</div>
-          <div className="statValue textDanger">{expiredCount}</div>
-        </div>
-      </div>
-
       <div className="card">
-        <div className="cardHeader">
-          <h3 className="cardTitle">Subscriptions</h3>
-        </div>
-        <div className="cardBody" style={{ overflowX: 'auto' }}>
-          {subscriptions.length === 0 ? (
-            <div className="emptyState">No subscriptions found.</div>
-          ) : (
-            <table className="table">
-              <thead>
+        <div className="overflowAuto">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Plan</th>
+                <th>Amount</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {subscriptions.length === 0 ? (
                 <tr>
-                  <th>ID</th>
-                  <th>Tenant</th>
-                  <th>Plan</th>
-                  <th>Status</th>
-                  <th>Started</th>
-                  <th>Expires</th>
-                  <th>Actions</th>
+                  <td colSpan="7" style={{ textAlign: 'center', padding: '32px' }}>
+                    <span className="textMuted">No subscriptions found</span>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {subscriptions.map((sub) => (
+              ) : (
+                subscriptions.map((sub) => (
                   <tr key={sub.id}>
-                    <td className="textSecondary"><code>{sub.id}</code></td>
-                    <td className="textPrimary" style={{ fontWeight: 500 }}>{sub.tenant_name || sub.tenant_id || '-'}</td>
-                    <td className="textSecondary">{sub.plan || 'basic'}</td>
+                    <td>{sub.userName || sub.userId}</td>
+                    <td>{sub.plan}</td>
+                    <td>${(sub.amount || 0).toLocaleString()}</td>
+                    <td>{sub.startDate ? new Date(sub.startDate).toLocaleDateString() : '-'}</td>
+                    <td>{sub.endDate ? new Date(sub.endDate).toLocaleDateString() : '-'}</td>
                     <td>
-                      {editingId === sub.id ? (
-                        <select
-                          className="select"
-                          value={editForm.status}
-                          onChange={(e) => setEditForm({ ...editForm, status: e.target.value })}
-                          style={{ minWidth: 120 }}
-                        >
-                          <option value="active">Active</option>
-                          <option value="pending">Pending</option>
-                          <option value="expired">Expired</option>
-                          <option value="cancelled">Cancelled</option>
-                        </select>
-                      ) : (
-                        <span className={`statusTag ${getStatusClass(sub.status)}`}>
-                          {sub.status || 'active'}
-                        </span>
+                      <span className={`statusTag ${getStatusClass(sub.status)}`}>
+                        {sub.status}
+                      </span>
+                    </td>
+                    <td>
+                      {sub.status === 'pending' && (
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                          <Button size="small" variant="success" onClick={() => handleStatusChange(sub.id, 'active')}>
+                            Approve
+                          </Button>
+                          <Button size="small" variant="danger" onClick={() => handleStatusChange(sub.id, 'cancelled')}>
+                            Cancel
+                          </Button>
+                        </div>
                       )}
                     </td>
-                    <td className="textSecondary">{formatDate(sub.start_date || sub.created_at)}</td>
-                    <td className="textSecondary">{formatDate(sub.end_date || sub.expires_at)}</td>
-                    <td>
-                      <div style={{ display: 'flex', gap: 6 }}>
-                        {editingId === sub.id ? (
-                          <>
-                            <button className="btn primary" style={{ padding: '4px 10px', fontSize: 12 }} onClick={() => handleSaveEdit(sub.id)} disabled={saving}>
-                              {saving ? 'Saving...' : 'Save'}
-                            </button>
-                            <button className="btn secondary" style={{ padding: '4px 10px', fontSize: 12 }} onClick={() => setEditingId(null)}>Cancel</button>
-                          </>
-                        ) : (
-                          <>
-                            <button className="btn secondary" style={{ padding: '4px 10px', fontSize: 12 }} onClick={() => handleEdit(sub)}>Edit</button>
-                            <button className="btn danger" style={{ padding: '4px 10px', fontSize: 12 }} onClick={() => handleDelete(sub.id)}>Delete</button>
-                          </>
-                        )}
-                      </div>
-                    </td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
     </AdminPage>
-  );
+  )
 }

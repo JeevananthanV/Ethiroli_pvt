@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { listCourses } from '../../../services/api/courseApi.js';
 
 export default function CourseCatalogPage() {
@@ -8,7 +8,7 @@ export default function CourseCatalogPage() {
   const [search, setSearch] = useState('');
   const [levelFilter, setLevelFilter] = useState('');
 
-  const fetchCourses = async () => {
+  const fetchCourses = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -22,11 +22,11 @@ export default function CourseCatalogPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [search, levelFilter]);
 
   useEffect(() => {
     fetchCourses();
-  }, [search, levelFilter]);
+  }, [fetchCourses]);
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--admin-bg-dark)', paddingBottom: '60px' }}>

@@ -1,179 +1,192 @@
-import React, { useEffect, useState } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { getTemplates, createTemplate } from '../../services/api/templateApi.js';
-import axiosInstance from '../../services/api/axiosInstance.js';
+import React, { useState, useEffect } from 'react'
+import AdminPage from '../../common/components/AdminPage'
+import Button from '../../common/components/Button'
+import Modal from '../../common/components/Modal'
+import Input from '../../common/components/Input'
+import { templateApi } from '../../services/api/templateApi'
 
 export default function TemplateList() {
-  const [templates, setTemplates] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [showForm, setShowForm] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [form, setForm] = useState({
-    name: '',
-    type: 'email',
-    subject: '',
-    body: '',
-    variables: [],
-  });
-
-  const fetchTemplates = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await getTemplates();
-      setTemplates(Array.isArray(data) ? data : []);
-    } catch (err) {
-      setError(err.message || 'Failed to fetch templates');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [templates, setTemplates] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [editingTemplate, setEditingTemplate] = useState(null)
+  const [form, setForm] = useState({ name: '', content: '', variables: '', isActive: true })
 
   useEffect(() => {
-    fetchTemplates();
-  }, []);
+    loadTemplates()
+  }, [])
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!form.name.trim()) {
-      alert('Template name is required');
-      return;
-    }
-    setSaving(true);
+  const loadTemplates = async () => {
+    setLoading(true)
+    setError(null)
     try {
-      await createTemplate({
-        name: form.name,
-        type: form.type,
-        subject: form.subject,
-        body: form.body,
-        variables: form.variables,
-      });
-      setShowForm(false);
-      setForm({ name: '', type: 'email', subject: '', body: '', variables: [] });
-      fetchTemplates();
+      const data = await templateApi.getAll()
+      setTemplates(data)
     } catch (err) {
-      alert(`Failed to create template: ${err.message}`);
+      setError(err.message)
     } finally {
-      setSaving(false);
+      setLoading(false)
     }
-  };
+  }
+
+  const handleCreate = () => {
+    setEditingTemplate(null)
+    setForm({ name: '', content: '', variables: '', isActive: true })
+    setModalOpen(true)
+  }
+
+  const handleEdit = (template) => {
+    setEditingTemplate(template)
+    setForm({
+      name: template.name || '',
+      content: template.content || '',
+      variables: template.variables?.join(', ') || '',
+      isActive: template.isActive ?? true,
+    })
+    setModalOpen(true)
+  }
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Delete this template?')) return;
+    if (!window.confirm('Are you sure you want to delete this template?')) return
     try {
-      await axiosInstance.delete(`/v1/communication/templates/${id}`);
-      fetchTemplates();
+      await templateApi.delete(id)
+      setTemplates(templates.filter((t) => t.id !== id))
     } catch (err) {
-      alert(`Delete failed: ${err.message}`);
+      setError(err.message)
     }
-  };
+  }
+
+  const handleSubmit = async () => {
+    try {
+      const payload = {
+        name: form.name,
+        content: form.content,
+        variables: form.variables.split(',').map((v) => v.trim()).filter(Boolean),
+        isActive: form.isActive,
+      }
+      if (editingTemplate) {
+        await templateApi.update(editingTemplate.id, payload)
+        setTemplates(templates.map((t) => (t.id === editingTemplate.id ? { ...t, ...payload } : t)))
+      } else {
+        const data = await templateApi.create(payload)
+        setTemplates([...templates, data])
+      }
+      setModalOpen(false)
+    } catch (err) {
+      setError(err.message)
+    }
+  }
 
   return (
     <AdminPage
       title="Templates"
-      subtitle="Manage communication message templates"
+      subtitle="Manage communication templates"
       loading={loading}
       error={error}
-      onRetry={fetchTemplates}
+      onRetry={loadTemplates}
       actions={
-        <button className="btn primary" onClick={() => setShowForm(!showForm)}>
-          {showForm ? 'Close Form' : 'New Template'}
-        </button>
+        <Button variant="primary" onClick={handleCreate}>
+          Create Template
+        </Button>
       }
     >
-      {showForm && (
-        <div className="card" style={{ marginBottom: 24 }}>
-          <div className="cardHeader">
-            <h3 className="cardTitle">Create Template</h3>
-          </div>
-          <div className="cardBody">
-            <form onSubmit={handleSubmit} className="form">
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
-                <div className="formGroup">
-                  <label className="label required">Name</label>
-                  <input className="inputField" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
-                </div>
-                <div className="formGroup">
-                  <label className="label">Type</label>
-                  <select className="select" value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })}>
-                    <option value="email">Email</option>
-                    <option value="sms">SMS</option>
-                    <option value="whatsapp">WhatsApp</option>
-                    <option value="push">Push</option>
-                  </select>
-                </div>
-                <div className="formGroup">
-                  <label className="label">Subject</label>
-                  <input className="inputField" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} />
-                </div>
-              </div>
-              <div className="formGroup">
-                <label className="label">Body</label>
-                <textarea
-                  className="textarea"
-                  value={form.body}
-                  onChange={(e) => setForm({ ...form, body: e.target.value })}
-                  placeholder="Use {{variable}} for placeholders..."
-                  rows={4}
-                />
-              </div>
-              <div className="formGroup">
-                <label className="label">Variables (comma-separated)</label>
-                <input
-                  className="inputField"
-                  value={form.variables.join(', ')}
-                  onChange={(e) => setForm({ ...form, variables: e.target.value.split(',').map((v) => v.trim()).filter(Boolean) })}
-                  placeholder="e.g. name, order_id, amount"
-                />
-              </div>
-              <button type="submit" className="btn primary" disabled={saving}>
-                {saving ? 'Creating...' : 'Create Template'}
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
-
       <div className="card">
-        <div className="cardHeader">
-          <h3 className="cardTitle">Template Registry</h3>
-        </div>
-        <div className="cardBody" style={{ overflowX: 'auto' }}>
-          {templates.length === 0 ? (
-            <div className="emptyState">No templates found.</div>
-          ) : (
-            <table className="table">
-              <thead>
+        <div className="overflowAuto">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Variables</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {templates.length === 0 ? (
                 <tr>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th>Subject</th>
-                  <th>Variables</th>
-                  <th>Actions</th>
+                  <td colSpan="4" style={{ textAlign: 'center', padding: '32px' }}>
+                    <span className="textMuted">No templates found</span>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {templates.map((template) => (
+              ) : (
+                templates.map((template) => (
                   <tr key={template.id}>
-                    <td className="textPrimary" style={{ fontWeight: 500 }}>{template.name}</td>
-                    <td className="textSecondary">{template.type || 'generic'}</td>
-                    <td className="textSecondary">{template.subject || '-'}</td>
-                    <td className="textSecondary">
-                      {template.variables?.length ? template.variables.join(', ') : '-'}
+                    <td>{template.name}</td>
+                    <td>{template.variables?.join(', ') || '-'}</td>
+                    <td>
+                      <span className={`statusTag ${template.isActive ? 'active' : 'pending'}`}>
+                        {template.isActive ? 'Active' : 'Inactive'}
+                      </span>
                     </td>
                     <td>
-                      <button className="btn danger" style={{ padding: '4px 10px', fontSize: 12 }} onClick={() => handleDelete(template.id)}>
-                        Delete
-                      </button>
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        <Button size="small" variant="secondary" onClick={() => handleEdit(template)}>
+                          Edit
+                        </Button>
+                        <Button size="small" variant="danger" onClick={() => handleDelete(template.id)}>
+                          Delete
+                        </Button>
+                      </div>
                     </td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
+
+      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={editingTemplate ? 'Edit Template' : 'Create Template'}>
+        <div className="form">
+          <div className="formGroup">
+            <label className="label required">Name</label>
+            <Input
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              placeholder="Template name"
+            />
+          </div>
+          <div className="formGroup">
+            <label className="label required">Content</label>
+            <textarea
+              className="inputField"
+              value={form.content}
+              onChange={(e) => setForm({ ...form, content: e.target.value })}
+              placeholder="Template content with {{variables}}"
+              rows={4}
+              style={{ resize: 'vertical' }}
+            />
+          </div>
+          <div className="formGroup">
+            <label className="label">Variables (comma-separated)</label>
+            <Input
+              value={form.variables}
+              onChange={(e) => setForm({ ...form, variables: e.target.value })}
+              placeholder="name, email, company"
+            />
+          </div>
+          <div className="formGroup">
+            <label className="label">Status</label>
+            <select
+              className="select"
+              value={form.isActive ? 'active' : 'inactive'}
+              onChange={(e) => setForm({ ...form, isActive: e.target.value === 'active' })}
+            >
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '16px' }}>
+            <Button variant="secondary" onClick={() => setModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={handleSubmit}>
+              {editingTemplate ? 'Update' : 'Create'}
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </AdminPage>
-  );
+  )
 }

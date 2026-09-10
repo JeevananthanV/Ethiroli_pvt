@@ -1,0 +1,108 @@
+import { ROLES } from '../../../common/utils/roleRouting.js';
+
+export const PORTAL_CONFIGS = {
+  [ROLES.SUPER_ADMIN]: {
+    slug: 'super-admin',
+    label: 'Super Administrator',
+    pageComponent: 'SuperAdminLoginPage',
+    strategies: ['password'],
+    mfaRequired: true,
+    oauthProviders: [],
+    brandColor: '#1a1a2e',
+  },
+  [ROLES.ADMIN]: {
+    slug: 'admin',
+    label: 'Administrator',
+    pageComponent: 'AdminLoginPage',
+    strategies: ['password'],
+    mfaRequired: true,
+    oauthProviders: [],
+    brandColor: '#16213e',
+  },
+  [ROLES.HR]: {
+    slug: 'hr',
+    label: 'Human Resources',
+    pageComponent: 'HrLoginPage',
+    strategies: ['password'],
+    mfaRequired: false,
+    oauthProviders: [],
+    brandColor: '#0f3460',
+  },
+  [ROLES.TUTOR]: {
+    slug: 'tutor',
+    label: 'Tutor',
+    pageComponent: 'TutorLoginPage',
+    strategies: ['password'],
+    mfaRequired: false,
+    oauthProviders: [],
+    brandColor: '#533483',
+  },
+  [ROLES.PROJECT_MANAGER]: {
+    slug: 'pm',
+    label: 'Project Manager',
+    pageComponent: 'PmLoginPage',
+    strategies: ['password'],
+    mfaRequired: false,
+    oauthProviders: [],
+    brandColor: '#e94560',
+  },
+  [ROLES.FINANCE]: {
+    slug: 'finance',
+    label: 'Finance',
+    pageComponent: 'FinanceLoginPage',
+    strategies: ['password'],
+    mfaRequired: false,
+    oauthProviders: [],
+    brandColor: '#2b2d42',
+  },
+  [ROLES.SALES]: {
+    slug: 'sales',
+    label: 'Sales',
+    pageComponent: 'SalesLoginPage',
+    strategies: ['password'],
+    mfaRequired: false,
+    oauthProviders: [],
+    brandColor: '#8d99ae',
+  },
+  [ROLES.RECEPTION]: {
+    slug: 'reception',
+    label: 'Reception',
+    pageComponent: 'ReceptionLoginPage',
+    strategies: ['password'],
+    mfaRequired: false,
+    oauthProviders: [],
+    brandColor: '#2a9d8f',
+  },
+  [ROLES.EMPLOYEE]: {
+    slug: 'employee',
+    label: 'Employee',
+    pageComponent: 'EmployeeLoginPage',
+    strategies: ['password'],
+    mfaRequired: false,
+    oauthProviders: [],
+    brandColor: '#264653',
+  },
+  [ROLES.STUDENT]: {
+    slug: 'student',
+    label: 'Student',
+    pageComponent: 'StudentLoginPage',
+    strategies: ['password', 'oauth'],
+    mfaRequired: false,
+    oauthProviders: ['google', 'microsoft'],
+    brandColor: '#e76f51',
+  },
+  [ROLES.INTERN]: {
+    slug: 'intern',
+    label: 'Intern',
+    pageComponent: 'InternLoginPage',
+    strategies: ['password', 'oauth'],
+    mfaRequired: false,
+    oauthProviders: ['linkedin'],
+    brandColor: '#f4a261',
+  },
+};
+
+export const getPortalConfig = (role) => PORTAL_CONFIGS[role] || null;
+
+export const getPortalBySlug = (slug) =>
+  Object.values(PORTAL_CONFIGS).find((config) => config.slug === slug) || null;

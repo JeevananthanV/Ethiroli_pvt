@@ -12,7 +12,7 @@ function getStatusClass(status) {
   return 'inactive';
 }
 
-export default function EmployeeDashboard() {
+export default function Dashboard() {
   const [leaves, setLeaves] = useState([]);
   const [payroll, setPayroll] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -50,26 +50,57 @@ export default function EmployeeDashboard() {
       onRetry={fetchData}
     >
       <div className="dashboard">
-        <div className="dashboardGrid">
-          <div className="statCard">
-            <p className="statLabel">Pending Leaves</p>
-            <p className="statValue">{pendingLeaves}</p>
+        <div className="row g-3 mb-4">
+          <div className="col-md-4">
+            <div className="card bg-primary text-white h-100">
+              <div className="card-body">
+                <h6 className="card-title">Pending Leaves</h6>
+                <h2 className="card-text">{pendingLeaves}</h2>
+              </div>
+            </div>
           </div>
-          <div className="statCard">
-            <p className="statLabel">Recent Payslips</p>
-            <p className="statValue">{payroll.length}</p>
+          <div className="col-md-4">
+            <div className="card bg-success text-white h-100">
+              <div className="card-body">
+                <h6 className="card-title">Recent Payslips</h6>
+                <h2 className="card-text">{payroll.length}</h2>
+              </div>
+            </div>
           </div>
-          <div className="statCard">
-            <p className="statLabel">Total Leave Requests</p>
-            <p className="statValue">{leaves.length}</p>
+          <div className="col-md-4">
+            <div className="card bg-info text-white h-100">
+              <div className="card-body">
+                <h6 className="card-title">Total Leave Requests</h6>
+                <h2 className="card-text">{leaves.length}</h2>
+              </div>
+            </div>
           </div>
         </div>
-
-        <div className="card" style={{ marginTop: 24 }}>
-          <div className="cardHeader">
-            <h3 className="cardTitle">Recent Activity</h3>
+        <div className="row g-3 mb-4">
+          <div className="col-md-12">
+            <div className="card h-100">
+              <div className="card-header">
+                <h6 className="mb-0">Employee Self-Service</h6>
+              </div>
+              <div className="card-body">
+                <div className="d-flex gap-2 flex-wrap">
+                  <a href="/app/employee/attendance" className="btn btn-outline-primary">Attendance</a>
+                  <a href="/app/employee/profile" className="btn btn-outline-info">My Profile</a>
+                  <a href="/app/employee/documents" className="btn btn-outline-secondary">Documents</a>
+                  <a href="/app/employee/salary" className="btn btn-outline-success">Salary</a>
+                  <a href="/app/employee/training" className="btn btn-outline-warning">Training</a>
+                  <a href="/app/employee/leaves" className="btn btn-outline-danger">Leaves</a>
+                  <a href="/app/employee/tasks" className="btn btn-outline-secondary">My Tasks</a>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="cardBody">
+        </div>
+        <div className="card" style={{ marginTop: 24 }}>
+          <div className="card-header">
+            <h6 className="mb-0">Recent Activity</h6>
+          </div>
+          <div className="card-body">
             {leaves.length === 0 && payroll.length === 0 ? (
               <div className="emptyState">
                 <h3>No activity yet</h3>

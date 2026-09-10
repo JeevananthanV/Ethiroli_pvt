@@ -1,11 +1,38 @@
-import axiosInstance from './axiosInstance.js';
+import axios from '../axios'
 
-export const getAutomationWorkflows = async (params) => {
-  const response = await axiosInstance.get('/v1/automation/workflows', { params });
-  return response.data;
-};
+export const automationApi = {
+  getAll: async () => {
+    const response = await axios.get('/automation')
+    return response.data
+  },
 
-export const createAutomationWorkflow = async (workflowData) => {
-  const response = await axiosInstance.post('/v1/automation/workflows', workflowData);
-  return response.data;
-};
+  getById: async (id) => {
+    const response = await axios.get(`/automation/${id}`)
+    return response.data
+  },
+
+  create: async (data) => {
+    const response = await axios.post('/automation', data)
+    return response.data
+  },
+
+  update: async (id, data) => {
+    const response = await axios.put(`/automation/${id}`, data)
+    return response.data
+  },
+
+  delete: async (id) => {
+    const response = await axios.delete(`/automation/${id}`)
+    return response.data
+  },
+
+  execute: async (id) => {
+    const response = await axios.post(`/automation/${id}/execute`)
+    return response.data
+  },
+
+  getExecutions: async (id) => {
+    const response = await axios.get(`/automation/${id}/executions`)
+    return response.data
+  },
+}

@@ -5,7 +5,7 @@ export const listSchedules = async () => {
   return response.data;
 };
 
-export const createSchedule = async (scheduleData) => {
-  const response = await axiosInstance.post('/v1/reports/schedules', scheduleData);
+export const createSchedule = async (data) => {
+  const response = await axiosInstance.post('/v1/reports/schedules', data);
   return response.data;
 };

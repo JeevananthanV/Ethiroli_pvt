@@ -1,31 +1,23 @@
 import React from 'react';
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext.jsx';
-import { isRoleAuthorized } from '../../utils/roleRouting.js';
-import Unauthorized from '../Unauthorized/Unauthorized.jsx';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
+import { isRoleAuthorized } from '../../utils/roleRouting';
 
-export default function PrivateRoute({ allowedRoles }) {
-  const { isAuthenticated, user, loading } = useAuth();
-  const location = useLocation();
+const PrivateRoute = ({ children, allowedRoles }) => {
+  const { user, isAuthenticated } = useAuth();
 
-  if (loading) {
-    return (
-      <div id="preloader" aria-live="polite" aria-busy="true">
-        <p className="et-preloader-text">ETHIROLI</p>
-        <div className="loading-animation">
-          <div className="loading-animation-bar"></div>
-        </div>
-      </div>
-    );
+  if (!isAuthenticated || !user) {
+    return <Navigate to="/auth/login" replace />;
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to="/app/login" state={{ from: location }} replace />;
+  if (allowedRoles && allowedRoles.length > 0) {
+    const userRole = user.role || user.tenantRole;
+    if (!isRoleAuthorized(userRole, allowedRoles)) {
+      return <Navigate to="/unauthorized" replace />;
+    }
   }
 
-  if (allowedRoles && !isRoleAuthorized(user?.role, allowedRoles)) {
-    return <Unauthorized requiredRoles={allowedRoles} />;
-  }
+  return children;
+};
 
-  return <Outlet />;
-}
+export default PrivateRoute;

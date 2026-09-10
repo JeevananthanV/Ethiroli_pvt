@@ -35,6 +35,31 @@ CREATE TABLE IF NOT EXISTS sessions (
   INDEX idx_user_portal (user_id, portal_slug)
 );
 
+-- Table 2b: mfa_secrets
+CREATE TABLE IF NOT EXISTS mfa_secrets (
+  id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+  user_id CHAR(36) NOT NULL,
+  secret VARCHAR(255) NOT NULL,
+  is_verified BOOLEAN DEFAULT FALSE,
+  backup_codes JSON NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  verified_at TIMESTAMP NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  INDEX idx_user_mfa (user_id)
+);
+
+-- Table 2c: oauth_states
+CREATE TABLE IF NOT EXISTS oauth_states (
+  id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+  state VARCHAR(255) NOT NULL UNIQUE,
+  portal_slug VARCHAR(100) NOT NULL,
+  redirect_uri VARCHAR(500) NOT NULL,
+  expires_at TIMESTAMP NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_state (state),
+  INDEX idx_expires (expires_at)
+);
+
 -- Table 3: leads
 CREATE TABLE IF NOT EXISTS leads (
   id CHAR(36) PRIMARY KEY DEFAULT (UUID()),

@@ -60,5 +60,14 @@ export const executeReport = asyncHandler(async (req, res) => {
 });
 
 export const exportReport = asyncHandler(async (req, res) => {
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'EXPORT_REPORT',
+    entity_type: 'REPORT_DEFINITION',
+    entity_id: req.params.id,
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+  broadcastToRole('ADMIN', 'report_exported', { id: req.params.id });
   return success(res, 200, { download_url: `/reports/${req.params.id}/export` }, 'Export ready');
 });

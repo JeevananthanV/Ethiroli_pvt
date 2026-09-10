@@ -1,183 +1,146 @@
-import React, { useEffect, useState } from 'react';
-import { listClients } from '../../../services/api/clientApi.js';
-import { createSubscription, updateSubscription, listSubscriptions } from '../../../services/api/subscriptionApi.js';
+import React, { useState, useEffect, useCallback } from 'react';
+import { createSubscription, updateSubscription, getSubscription, getSubscriptionPlans, getClients } from '../../services/api/subscriptionApi';
+import Modal from '../../common/components/Modal/Modal.jsx';
+import Input from '../../common/components/Input/Input.jsx';
+import Button from '../../common/components/Button/Button.jsx';
 
-const emptyForm = {
-  clientId: '',
-  planName: 'Standard',
-  amount: '',
-  billingCycle: 'monthly',
-  startDate: new Date().toISOString().split('T')[0],
-  renewalDate: '',
-  status: 'active',
-};
-
-export default function SubscriptionForm({ editingId, onClose, onSaved }) {
+const SubscriptionForm = ({ subscriptionId, onSave }) => {
+  const [formData, setFormData] = useState({
+    clientId: '',
+    planId: '',
+    status: 'active',
+    startDate: '',
+    endDate: '',
+  });
   const [clients, setClients] = useState([]);
-  const [clientsLoading, setClientsLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-  const [formError, setFormError] = useState(null);
-  const [form, setForm] = useState(emptyForm);
+  const [plans, setPlans] = useState([]);
+  const [error, setError] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        setClientsLoading(true);
-        const data = await listClients({ per_page: 100 });
-        const list = Array.isArray(data) ? data : data.clients || data.data || [];
-        setClients(list);
-      } catch {
-        setFormError('Failed to load client list. Please try again.');
-      } finally {
-        setClientsLoading(false);
-      }
-    })();
+  const loadClientsAndPlans = useCallback(async () => {
+    try {
+      const [clientsData, plansData] = await Promise.all([
+        getClients(),
+        getSubscriptionPlans()
+      ]);
+      setClients(clientsData.clients || clientsData || []);
+      setPlans(plansData.plans || plansData || []);
+    } catch (err) {
+      console.error('Failed to load clients and plans:', err);
+    }
   }, []);
 
-  useEffect(() => {
-    if (!editingId) {
-      setForm(emptyForm);
-      return;
+  const loadSubscription = useCallback(async () => {
+    setError(null);
+    try {
+      const data = await getSubscription(subscriptionId);
+      setFormData({
+        clientId: data.clientId || '',
+        planId: data.planId || '',
+        status: data.status || 'active',
+        startDate: data.startDate ? data.startDate.split('T')[0] : '',
+        endDate: data.endDate ? data.endDate.split('T')[0] : '',
+      });
+      setIsEdit(true);
+    } catch (err) {
+      setError(err.message);
     }
-    (async () => {
-      try {
-        const [allSubsResponse] = await Promise.all([
-          listSubscriptions({}),
-        ]);
-        const all = Array.isArray(allSubsResponse) ? allSubsResponse : allSubsResponse.subscriptions || allSubsResponse.data || [];
-        const found = all.find((s) => (s.id || s._id) === editingId);
-        if (found) {
-          setForm({
-            clientId: found.clientId || found.client?.id || found.client?._id || '',
-            planName: found.planName || found.plan || 'Standard',
-            amount: found.amount ?? '',
-            billingCycle: found.billingCycle || 'monthly',
-            startDate: found.startDate ? new Date(found.startDate).toISOString().split('T')[0] : '',
-            renewalDate: found.renewalDate || found.endDate ? new Date(found.renewalDate || found.endDate).toISOString().split('T')[0] : '',
-            status: found.status || 'active',
-          });
-        }
-      } catch {
-        setFormError('Failed to load subscription details.');
-      }
-    })();
-  }, [editingId]);
+  }, [subscriptionId]);
 
-  const handleChange = (field) => (e) => {
-    setForm({ ...form, [field]: e.target.value });
-    setFormError(null);
-  };
-
-  const validate = () => {
-    if (!form.clientId) return 'Please select a client.';
-    if (!form.amount || Number(form.amount) <= 0) return 'Amount must be a positive number.';
-    if (!form.startDate) return 'Start date is required.';
-    return null;
-  };
+  useEffect(() => {
+    loadClientsAndPlans();
+    if (subscriptionId) {
+      loadSubscription();
+    }
+  }, [subscriptionId, loadClientsAndPlans, loadSubscription]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const validationError = validate();
-    if (validationError) {
-      setFormError(validationError);
-      return;
-    }
-    setSubmitting(true);
-    setFormError(null);
+    setSaving(true);
+    setError(null);
     try {
-      const payload = {
-        clientId: form.clientId,
-        planName: form.planName,
-        amount: Number(form.amount),
-        billingCycle: form.billingCycle,
-        startDate: form.startDate,
-        renewalDate: form.renewalDate || undefined,
-        status: form.status,
-      };
-      if (editingId) {
-        await updateSubscription(editingId, payload);
+      let result;
+      if (isEdit) {
+        result = await updateSubscription(subscriptionId, formData);
       } else {
-        await createSubscription(payload);
+        result = await createSubscription(formData);
       }
-      onSaved?.();
+      if (onSave) onSave(result);
+      alert(isEdit ? 'Subscription updated successfully' : 'Subscription created successfully');
     } catch (err) {
-      setFormError(err.response?.data?.message || 'Failed to save subscription');
+      setError(err.message);
     } finally {
-      setSubmitting(false);
+      setSaving(false);
     }
   };
 
   return (
-    <div className="card">
-      <div className="cardHeader">
-        <h3 className="cardTitle">{editingId ? 'Edit Subscription' : 'New Subscription'}</h3>
-        <button type="button" className="btn secondary btnSm" onClick={onClose}>Close</button>
-      </div>
-
-      {formError && (
-        <div style={{ marginBottom: 14, padding: '10px 14px', borderRadius: 8, background: 'rgba(244, 63, 94, 0.08)', border: '1px solid rgba(244, 63, 94, 0.2)', color: 'var(--admin-danger)', fontSize: 13 }}>
-          {formError}
+    <Modal isOpen={true} onClose={() => {}} title={isEdit ? 'Edit Subscription' : 'Create Subscription'}>
+      <form onSubmit={handleSubmit}>
+        {error && <div className="emptyState" style={{ padding: '12px', marginBottom: '12px' }}><p className="textDanger">{error}</p></div>}
+        <div className="formGroup">
+          <label className="label">Client</label>
+          <select
+            className="select"
+            value={formData.clientId}
+            onChange={(e) => setFormData({ ...formData, clientId: e.target.value })}
+            required
+          >
+            <option value="">Select a client</option>
+            {clients.map(c => (
+              <option key={c.id} value={c.id}>{c.name}</option>
+            ))}
+          </select>
         </div>
-      )}
-
-      <form onSubmit={handleSubmit} className="form">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-          <div className="formGroup">
-            <label className="label">Client <span className="required">*</span></label>
-            {clientsLoading ? (
-              <div className="loading" style={{ padding: '8px 0', justifyContent: 'flex-start' }}>
-                <div className="skeleton" style={{ width: '100%', height: 40, borderRadius: 8 }}></div>
-              </div>
-            ) : (
-              <select className="select" value={form.clientId} onChange={handleChange('clientId')} required>
-                <option value="">Select client</option>
-                {clients.map((c) => (
-                  <option key={c.id || c._id} value={c.id || c._id}>{c.name} {c.company ? `(${c.company})` : ''}</option>
-                ))}
-              </select>
-            )}
-          </div>
-          <div className="formGroup">
-            <label className="label">Plan Name</label>
-            <input className="inputField" value={form.planName} onChange={handleChange('planName')} placeholder="e.g. Premium" />
-          </div>
-          <div className="formGroup">
-            <label className="label">Amount (₹) <span className="required">*</span></label>
-            <input className="inputField" type="number" value={form.amount} onChange={handleChange('amount')} placeholder="0.00" min="0" step="0.01" required />
-          </div>
-          <div className="formGroup">
-            <label className="label">Billing Cycle</label>
-            <select className="select" value={form.billingCycle} onChange={handleChange('billingCycle')}>
-              <option value="monthly">Monthly</option>
-              <option value="quarterly">Quarterly</option>
-              <option value="half-yearly">Half-Yearly</option>
-              <option value="yearly">Yearly</option>
-            </select>
-          </div>
-          <div className="formGroup">
-            <label className="label">Start Date <span className="required">*</span></label>
-            <input className="inputField" type="date" value={form.startDate} onChange={handleChange('startDate')} required />
-          </div>
-          <div className="formGroup">
-            <label className="label">Renewal / End Date</label>
-            <input className="inputField" type="date" value={form.renewalDate} onChange={handleChange('renewalDate')} />
-          </div>
-          <div className="formGroup">
-            <label className="label">Status</label>
-            <select className="select" value={form.status} onChange={handleChange('status')}>
-              <option value="active">Active</option>
-              <option value="pending">Pending</option>
-              <option value="inactive">Inactive</option>
-            </select>
-          </div>
+        <div className="formGroup" style={{ marginTop: '12px' }}>
+          <label className="label">Plan</label>
+          <select
+            className="select"
+            value={formData.planId}
+            onChange={(e) => setFormData({ ...formData, planId: e.target.value })}
+            required
+          >
+            <option value="">Select a plan</option>
+            {plans.map(p => (
+              <option key={p.id} value={p.id}>{p.name} - ${p.price}/mo</option>
+            ))}
+          </select>
         </div>
-        <div style={{ display: 'flex', gap: 10 }}>
-          <button type="submit" className="btn primary" disabled={submitting || clientsLoading}>
-            {submitting ? 'Saving...' : editingId ? 'Update Subscription' : 'Create Subscription'}
-          </button>
-          <button type="button" className="btn secondary" onClick={onClose}>Cancel</button>
+        <div className="formGroup" style={{ marginTop: '12px' }}>
+          <label className="label">Status</label>
+          <select
+            className="select"
+            value={formData.status}
+            onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+          >
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+            <option value="pending">Pending</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <Input
+          label="Start Date"
+          type="date"
+          value={formData.startDate}
+          onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+          required
+          style={{ marginTop: '12px' }}
+        />
+        <Input
+          label="End Date"
+          type="date"
+          value={formData.endDate}
+          onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+          style={{ marginTop: '12px' }}
+        />
+        <div className="pageActions" style={{ marginTop: '16px' }}>
+          <Button type="submit" disabled={saving}>{saving ? 'Saving...' : 'Save'}</Button>
         </div>
       </form>
-    </div>
+    </Modal>
   );
-}
+};
+
+export default SubscriptionForm;

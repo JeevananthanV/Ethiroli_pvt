@@ -1,62 +1,63 @@
 import React, { useEffect, useState } from 'react';
-import { listBadges, getEarnedBadges } from '../../../services/api/badgeApi.js';
+import { getBadges, getUserBadges } from '../../../services/api/badgeApi.js';
 
 export default function Gamification() {
   const [badges, setBadges] = useState([]);
-  const [earned, setEarned] = useState([]);
+  const [earnedBadges, setEarnedBadges] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  const fetchData = async () => {
+  const loadData = async () => {
     setLoading(true);
-    setError(null);
     try {
-      const [bRes, eRes] = await Promise.all([listBadges(), getEarnedBadges()]);
-      setBadges(bRes?.data || bRes || []);
-      setEarned(eRes?.data || eRes || []);
+      const [badgesRes, earnedRes] = await Promise.all([
+        getBadges().catch(() => []),
+        getUserBadges().catch(() => []),
+      ]);
+      setBadges(Array.isArray(badgesRes) ? badgesRes : []);
+      setEarnedBadges(Array.isArray(earnedRes) ? earnedRes : []);
     } catch (err) {
-      console.error('Failed to load gamification data', err);
-      setError('Failed to load badges and achievements.');
+      console.error('Failed to load gamification data:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => { fetchData(); }, []);
+  useEffect(() => {
+    loadData();
+  }, []);
 
-  if (loading) return <div className="loading">Loading gamification data...</div>;
-  if (error) return <div className="emptyState">{error}</div>;
+  if (loading) return <div className="loading">Loading badges...</div>;
 
-  const earnedIds = new Set((earned || []).map(e => e.badgeId || e.id));
+  const earnedIds = new Set(earnedBadges.map((b) => b.id || b.badge_id));
 
   return (
     <div>
       <div className="pageHeader">
         <div>
-          <h1 className="pageTitle">Gamification Engine Settings (Super Admin)</h1>
-          <p className="pageSubtitle">Configure achievement badges, XP rules, and earned rewards.</p>
-        </div>
-        <div className="pageActions">
-          <button className="btn btnSecondary" onClick={fetchData}>Refresh</button>
+          <h2 className="pageTitle">Gamification</h2>
+          <p className="pageSubtitle">Badges and achievements</p>
         </div>
       </div>
-
-      <div style={{ marginBottom: '20px' }}>
-        <p>Badge catalog and earned badges overview.</p>
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
-        {badges.length === 0 && <div className="emptyState">No badges defined.</div>}
-        {badges.map(badge => {
-          const isEarned = earnedIds.has(badge.id);
-          return (
-            <div key={badge.id} className="card" style={{ padding: '16px', background: isEarned ? 'rgba(16,185,129,0.05)' : 'rgba(255,255,255,0.03)', textAlign: 'center' }}>
-              <h4 style={{ margin: 0 }}>{badge.name || badge.title}</h4>
-              <p style={{ fontSize: '12px', color: 'var(--admin-text-muted)', margin: '8px 0' }}>{badge.description || '-'}</p>
-              <span className={`statusTag ${isEarned ? 'active' : 'pending'}`}>{isEarned ? 'Earned' : 'Locked'}</span>
-            </div>
-          );
-        })}
+      <div style={{ display: 'grid', gap: '20px', marginTop: '20px' }}>
+        <div className="card">
+          <div className="cardHeader"><h3 className="cardTitle">Badge Catalog ({badges.length})</h3></div>
+          <div className="cardBody">
+            {badges.length === 0 ? (
+              <p style={{ color: 'var(--admin-text-secondary)' }}>No badges configured.</p>
+            ) : (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px' }}>
+                {badges.map((badge) => (
+                  <div key={badge.id} className="statCard" style={{ textAlign: 'center', padding: '24px', opacity: earnedIds.has(badge.id) ? 1 : 0.7 }}>
+                    <div style={{ fontSize: '40px', marginBottom: '8px' }}>{badge.icon || '🏆'}</div>
+                    <h4 style={{ margin: '0 0 8px' }}>{badge.name}</h4>
+                    <p style={{ color: 'var(--admin-text-secondary)', fontSize: '13px' }}>{badge.description}</p>
+                    {earnedIds.has(badge.id) && <span className="statusTag active" style={{ marginTop: '8px', display: 'inline-block' }}>Earned</span>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

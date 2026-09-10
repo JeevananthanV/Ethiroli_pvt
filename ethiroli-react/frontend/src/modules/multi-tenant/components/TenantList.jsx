@@ -1,124 +1,202 @@
-import React, { useEffect, useState } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { listTenants, createTenant } from '../../../services/api/tenantApi.js';
+import React, { useState, useEffect } from 'react';
+import { getTenants, createTenant, updateTenant, deleteTenant } from '../../services/api/tenantApi';
+import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import Modal from '../../common/components/Modal/Modal.jsx';
+import Input from '../../common/components/Input/Input.jsx';
+import Button from '../../common/components/Button/Button.jsx';
 
-export default function TenantList() {
+const TenantList = () => {
   const [tenants, setTenants] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showForm, setShowForm] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [form, setForm] = useState({ name: '', domain: '', plan: 'basic' });
+  const [showModal, setShowModal] = useState(false);
+  const [editingTenant, setEditingTenant] = useState(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    domain: '',
+    plan: 'basic',
+    status: 'active',
+  });
+  const [submitting, setSubmitting] = useState(false);
 
-  const fetchTenants = async () => {
+  useEffect(() => {
+    loadTenants();
+  }, []);
+
+  const loadTenants = async () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await listTenants();
-      setTenants(Array.isArray(data) ? data : []);
+      const data = await getTenants();
+      setTenants(data.tenants || data || []);
     } catch (err) {
-      setError(err.message || 'Failed to fetch tenants');
+      setError(err.message);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchTenants();
-  }, []);
+  const handleAdd = () => {
+    setEditingTenant(null);
+    setFormData({ name: '', domain: '', plan: 'basic', status: 'active' });
+    setShowModal(true);
+  };
 
-  const handleCreate = async (e) => {
-    e.preventDefault();
-    setSaving(true);
+  const handleEdit = (tenant) => {
+    setEditingTenant(tenant);
+    setFormData({
+      name: tenant.name || '',
+      domain: tenant.domain || '',
+      plan: tenant.plan || 'basic',
+      status: tenant.status || 'active',
+    });
+    setShowModal(true);
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this tenant?')) return;
     try {
-      await createTenant(form);
-      setShowForm(false);
-      setForm({ name: '', domain: '', plan: 'basic' });
-      fetchTenants();
+      await deleteTenant(id);
+      setTenants(tenants.filter(t => t.id !== id));
     } catch (err) {
-      console.error('Failed to create tenant:', err);
-    } finally {
-      setSaving(false);
+      setError(err.message);
     }
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    try {
+      if (editingTenant) {
+        const updated = await updateTenant(editingTenant.id, formData);
+        setTenants(tenants.map(t => t.id === editingTenant.id ? updated : t));
+      } else {
+        const created = await createTenant(formData);
+        setTenants([...tenants, created]);
+      }
+      setShowModal(false);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const getStatusClass = (status) => {
+    if (!status) return 'pending';
+    const lower = status.toLowerCase();
+    if (lower === 'active') return 'active';
+    if (lower === 'inactive') return 'inactive';
+    return 'pending';
+  };
+
+  if (loading) return <div className="loading">Loading tenants...</div>;
+  if (error) return <div className="emptyState"><h3>Error</h3><p>{error}</p><button className="btn primary" onClick={loadTenants}>Retry</button></div>;
+
   return (
     <AdminPage
-      title="Active Tenants"
-      subtitle="Isolated data instances management console"
+      title="Tenants"
+      subtitle="Manage tenant accounts and settings"
       loading={loading}
       error={error}
-      onRetry={fetchTenants}
-      actions={
-        <button className="btn primary" onClick={() => setShowForm(!showForm)}>
-          {showForm ? 'Close Form' : 'New Tenant'}
-        </button>
-      }
+      onRetry={loadTenants}
+      actions={<button className="btn primary" onClick={handleAdd}>Add Tenant</button>}
     >
-      {showForm && (
-        <div className="card" style={{ marginBottom: 20 }}>
-          <div className="cardHeader">
-            <h3 className="cardTitle">Create Tenant</h3>
-          </div>
-          <div className="cardBody">
-            <form onSubmit={handleCreate} className="form">
-              <div className="formGroup">
-                <label className="label">Tenant Name</label>
-                <input className="input" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
-              </div>
-              <div className="formGroup">
-                <label className="label">Domain</label>
-                <input className="input" required value={form.domain} onChange={(e) => setForm({ ...form, domain: e.target.value })} />
-              </div>
-              <div className="formGroup">
-                <label className="label">Plan</label>
-                <select className="select" value={form.plan} onChange={(e) => setForm({ ...form, plan: e.target.value })}>
-                  <option value="basic">Basic</option>
-                  <option value="pro">Pro</option>
-                  <option value="enterprise">Enterprise</option>
-                </select>
-              </div>
-              <button type="submit" className="btn primary" disabled={saving}>
-                {saving ? 'Creating...' : 'Create Tenant'}
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
-
       <div className="card">
-        <div className="cardHeader">
-          <h3 className="cardTitle">Tenant Registry</h3>
-        </div>
-        <div className="cardBody" style={{ overflowX: 'auto' }}>
+        <div className="cardBody">
           {tenants.length === 0 ? (
-            <div className="emptyState">No tenants found.</div>
+            <div className="emptyState">
+              <h3>No tenants found</h3>
+              <p>Get started by adding your first tenant.</p>
+            </div>
           ) : (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Domain</th>
-                  <th>Plan</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tenants.map((tenant) => (
-                  <tr key={tenant.id}>
-                    <td><code>{tenant.id}</code></td>
-                    <td className="textPrimary" style={{ fontWeight: 500 }}>{tenant.name}</td>
-                    <td className="textSecondary">{tenant.domain}</td>
-                    <td className="textSecondary">{tenant.plan || 'basic'}</td>
-                    <td><span className="statusTag active">Active</span></td>
+            <div className="overflowAuto">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Domain</th>
+                    <th>Plan</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {tenants.map((tenant) => (
+                    <tr key={tenant.id}>
+                      <td className="textPrimary">{tenant.name}</td>
+                      <td className="textSecondary">{tenant.domain}</td>
+                      <td className="textSecondary">{tenant.plan || 'Basic'}</td>
+                      <td>
+                        <span className={`statusTag ${getStatusClass(tenant.status)}`}>
+                          {tenant.status || 'Pending'}
+                        </span>
+                      </td>
+                      <td className="textSecondary">{tenant.createdAt ? new Date(tenant.createdAt).toLocaleDateString() : '-'}</td>
+                      <td>
+                        <div className="pageActions">
+                          <button className="btn btnSm secondary" onClick={() => handleEdit(tenant)}>Edit</button>
+                          <button className="btn btnSm danger" onClick={() => handleDelete(tenant.id)}>Delete</button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </div>
+      {showModal && (
+        <Modal isOpen={showModal} onClose={() => setShowModal(false)} title={editingTenant ? 'Edit Tenant' : 'Add Tenant'}>
+          <form onSubmit={handleSubmit}>
+            <Input
+              label="Name"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              required
+            />
+            <Input
+              label="Domain"
+              value={formData.domain}
+              onChange={(e) => setFormData({ ...formData, domain: e.target.value })}
+              required
+              style={{ marginTop: '12px' }}
+            />
+            <div className="formGroup" style={{ marginTop: '12px' }}>
+              <label className="label">Plan</label>
+              <select
+                className="select"
+                value={formData.plan}
+                onChange={(e) => setFormData({ ...formData, plan: e.target.value })}
+              >
+                <option value="basic">Basic</option>
+                <option value="pro">Pro</option>
+                <option value="enterprise">Enterprise</option>
+              </select>
+            </div>
+            <div className="formGroup" style={{ marginTop: '12px' }}>
+              <label className="label">Status</label>
+              <select
+                className="select"
+                value={formData.status}
+                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+              >
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+                <option value="pending">Pending</option>
+              </select>
+            </div>
+            <div className="pageActions" style={{ marginTop: '16px' }}>
+              <Button type="button" variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
+              <Button type="submit" disabled={submitting}>{submitting ? 'Saving...' : 'Save'}</Button>
+            </div>
+          </form>
+        </Modal>
+      )}
     </AdminPage>
   );
-}
+};
+
+export default TenantList;

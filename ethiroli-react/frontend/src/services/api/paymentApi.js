@@ -1,16 +1,42 @@
-import axiosInstance from './axiosInstance.js';
+import axios from '../axios'
 
-export const listPayments = async (params) => {
-  const response = await axiosInstance.get('/v1/payments', { params });
-  return response.data;
-};
+export const getPayments = async () => {
+  const response = await axios.get('/payments')
+  return response.data
+}
+
+export const listPayments = getPayments
 
 export const getPayment = async (id) => {
-  const response = await axiosInstance.get(`/v1/payments/${id}`);
-  return response.data;
+  const response = await axios.get(`/payments/${id}`)
+  return response.data
+}
+
+export const createPayment = async (data) => {
+  const response = await axios.post('/payments', data)
+  return response.data
+}
+
+export const updatePayment = async (id, data) => {
+  const response = await axios.put(`/payments/${id}`, data)
+  return response.data
+}
+
+export const deletePayment = async (id) => {
+  const response = await axios.delete(`/payments/${id}`)
+  return response.data
+}
+
+export const recordPayment = createPayment;
+
+export const paymentApi = {
+  getAll: getPayments,
+  list: listPayments,
+  getById: getPayment,
+  create: createPayment,
+  recordPayment,
+  update: updatePayment,
+  delete: deletePayment,
 };
 
-export const recordPayment = async (data) => {
-  const response = await axiosInstance.post('/v1/payments', data);
-  return response.data;
-};
+export default paymentApi;

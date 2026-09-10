@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { getEmployees } from '../../services/api/employeeApi.js';
-import { getLeaves } from '../../services/api/leaveApi.js';
-import { getInterviews } from '../../services/api/interviewApi.js';
-import { getInterns } from '../../services/api/internApi.js';
+import { getEmployees } from '../../../services/api/employeeApi.js';
+import { getLeaves } from '../../../services/api/leaveApi.js';
+import { getInterviews } from '../../../services/api/interviewApi.js';
+import { getInterns } from '../../../services/api/internApi.js';
 
 export default function HR() {
   const [employees, setEmployees] = useState([]);

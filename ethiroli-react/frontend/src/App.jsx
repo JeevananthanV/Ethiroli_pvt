@@ -1,88 +1,116 @@
-import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
-import Navbar from './components/shared/Navbar';
-import Footer from './components/shared/Footer';
-import ScrollToTopBtn from './components/shared/ScrollToTopBtn';
-import WhatsAppBtn from './components/shared/WhatsAppBtn';
-import PremiumMotionProvider from './components/shared/PremiumMotionProvider';
+import React, { lazy, Suspense } from 'react';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from './store/slices/authSlice';
+import { ROLES } from './common/utils/roleRouting';
+import { ROLE_NAVIGATION } from './common/layout/navigationConfig';
+import PrivateRoute from './common/components/PrivateRoute/PrivateRoute';
+import Navbar from './common/layout/Navbar';
+import Sidebar from './common/layout/Sidebar';
+import Unauthorized from './common/components/Unauthorized/Unauthorized';
+import LoginPage from './roles/public/pages/Login';
 
-const Home = lazy(() => import('./pages/Home'));
-const About = lazy(() => import('./pages/About'));
-const Career = lazy(() => import('./pages/Career'));
-const Contact = lazy(() => import('./pages/Contact'));
-const CareerApply = lazy(() => import('./components/career/CareerApply'));
-const GlamersGathering = lazy(() => import('./components/projects/GlamersGathering'));
-const JciDigitalSkills = lazy(() => import('./components/projects/JciDigitalSkills'));
-const Ethiroliseminarksrct = lazy(() => import('./components/projects/Ethiroliseminarksrct'));
-const Services = lazy(() => import('./pages/Services'));
-const ProjectHome = lazy(() => import('./pages/project_home'));
-const Ethiroliseminarjayarani = lazy(() => import('./components/projects/Ethiroliseminarjayarani'));
+const SuperAdminDashboard = lazy(() => import('./roles/super-admin/pages/Dashboard'));
+const AdminDashboard = lazy(() => import('./roles/admin/pages/Dashboard'));
+const HRDashboard = lazy(() => import('./roles/hr/pages/Dashboard'));
+const TutorDashboard = lazy(() => import('./roles/tutor/pages/Dashboard'));
+const PMDashboard = lazy(() => import('./roles/project-manager/pages/Dashboard'));
+const FinanceDashboard = lazy(() => import('./roles/finance/pages/Dashboard'));
+const SalesDashboard = lazy(() => import('./roles/sales/pages/Dashboard'));
+const ReceptionDashboard = lazy(() => import('./roles/reception/pages/Dashboard'));
+const EmployeeDashboard = lazy(() => import('./roles/employee/pages/Dashboard'));
+const StudentDashboard = lazy(() => import('./roles/student/pages/Dashboard'));
+const InternDashboard = lazy(() => import('./roles/intern/pages/Dashboard'));
 
-const AppContent = ({ showLoader }) => {
-  return (
-    <>
-      {showLoader ? (
-        <div id="preloader" aria-live="polite" aria-busy="true">
-          <p className="et-preloader-text">ETHIROLI</p>
-          <div className="loading-animation">
-            <div className="loading-animation-bar"></div>
-          </div>
-        </div>
-      ) : null}
-      <PremiumMotionProvider />
-      <Navbar />
-      <main>
-        <Suspense fallback={
-          <div id="preloader" aria-live="polite" aria-busy="true">
-            <p className="et-preloader-text">ETHIROLI</p>
-            <div className="loading-animation">
-              <div className="loading-animation-bar"></div>
-            </div>
-          </div>
-        }>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/career" element={<Career />} />
-            <Route path="/career/apply" element={<CareerApply />} />
-            <Route path="/contact_us" element={<Contact />} />
-            <Route path="/projects" element={<ProjectHome />} />
-            <Route path="/projects/glamers-gathering" element={<GlamersGathering />} />
-            <Route path="/projects/jci-digital-skills" element={<JciDigitalSkills />} />
-            <Route path="/projects/Ethiroliseminarjayarani" element={<Ethiroliseminarjayarani />} />
-            <Route path="/projects/Ethiroliseminarksrct" element={<Ethiroliseminarksrct />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </Suspense>
-      </main>
-      <Footer />
-      <ScrollToTopBtn />
-      <WhatsAppBtn />
-    </>
-  );
+const ROLE_DASHBOARD_MAP = {
+  SUPER_ADMIN: SuperAdminDashboard,
+  ADMIN: AdminDashboard,
+  HR: HRDashboard,
+  TUTOR: TutorDashboard,
+  PROJECT_MANAGER: PMDashboard,
+  FINANCE: FinanceDashboard,
+  SALES: SalesDashboard,
+  RECEPTION: ReceptionDashboard,
+  EMPLOYEE: EmployeeDashboard,
+  STUDENT: StudentDashboard,
+  INTERN: InternDashboard,
 };
 
-function App() {
-  const [showLoader, setShowLoader] = useState(true);
+function LoadingSpinner() {
+  return (
+    <div className="d-flex justify-content-center align-items-center vh-100">
+      <div className="spinner-border text-primary" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  );
+}
 
-  useEffect(() => {
-    const hasSeenLoader = sessionStorage.getItem('et_loader_seen') === 'true';
-    const duration = hasSeenLoader ? 180 : 900;
+function RoleLayout() {
+  const user = useSelector(selectCurrentUser);
+  const location = useLocation();
 
-    const timer = window.setTimeout(() => {
-      sessionStorage.setItem('et_loader_seen', 'true');
-      setShowLoader(false);
-    }, duration);
+  if (!user || !user.role) {
+    return <Navigate to="/auth/login" replace />;
+  }
 
-    return () => window.clearTimeout(timer);
-  }, []);
+  const navItems = ROLE_NAVIGATION[user.role] || [];
+  const DashboardComponent = ROLE_DASHBOARD_MAP[user.role];
+
+  const matchedRoute = navItems.find((item) => {
+    if (!item.path) return false;
+    return location.pathname === item.path || location.pathname.startsWith(item.path + '/');
+  });
+
+  const pageTitle = matchedRoute ? matchedRoute.label : 'Dashboard';
 
   return (
-    <Router>
-      <AppContent showLoader={showLoader} />
-    </Router>
+    <div className="d-flex vh-100 overflow-hidden">
+      <Sidebar role={user.role} navItems={navItems} />
+      <div className="flex-grow-1 d-flex flex-column">
+        <Navbar role={user.role} />
+        <main className="flex-grow-1 overflow-auto p-4 bg-light">
+          <div className="container-fluid">
+            <h4 className="mb-4">{pageTitle}</h4>
+            <Suspense fallback={<LoadingSpinner />}>
+              {DashboardComponent ? <DashboardComponent /> : <Navigate to="/unauthorized" replace />}
+            </Suspense>
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/auth/:role/login" element={<LoginPage />} />
+      <Route path="/auth/login" element={<LoginPage />} />
+      <Route
+        path="/app/:role/*"
+        element={
+          <PrivateRoute>
+            <RoleLayout />
+          </PrivateRoute>
+        }
+      />
+      <Route path="/unauthorized" element={<Unauthorized />} />
+      <Route path="/" element={<Navigate to="/auth/login" replace />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+}
+
+function NotFound() {
+  return (
+    <div className="d-flex justify-content-center align-items-center vh-100">
+      <div className="text-center">
+        <h1 className="display-1 text-muted">404</h1>
+        <h2 className="text-muted">Page Not Found</h2>
+        <p className="lead text-muted">The page you are looking for does not exist.</p>
+      </div>
+    </div>
   );
 }
 

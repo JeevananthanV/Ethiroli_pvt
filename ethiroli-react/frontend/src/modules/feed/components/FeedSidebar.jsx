@@ -1,66 +1,136 @@
-import React, { useEffect, useState } from 'react';
-import { getFeed } from '../services/api/feedApi.js';
-import FeedItem from './FeedItem.jsx';
+import React, { useState, useEffect, useCallback } from 'react'
+import { feedApi } from '../../../services/api/feedApi.js'
+import FeedItem from './FeedItem.jsx'
 
 export default function FeedSidebar() {
-  const [activities, setActivities] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [filter, setFilter] = useState('all');
-
-  const fetchFeed = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await getFeed({ limit: 50 });
-      setActivities(Array.isArray(data) ? data : []);
-    } catch (err) {
-      setError(err.message || 'Failed to load activity feed');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [feedItems, setFeedItems] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [commentingOn, setCommentingOn] = useState(null)
+  const [commentText, setCommentText] = useState('')
+  const [filter, setFilter] = useState('')
 
   useEffect(() => {
-    fetchFeed();
-  }, []);
+    loadFeed()
+  }, [loadFeed])
 
-  const filtered = filter === 'all' ? activities : activities.filter((a) => a.type === filter);
+  const loadFeed = useCallback(async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const data = await feedApi.getAll()
+      let items = Array.isArray(data) ? data : []
+      if (filter) {
+        items = items.filter((item) => item.type === filter || item.category === filter)
+      }
+      setFeedItems(items)
+    } catch (err) {
+      setError(err.message || 'Failed to load feed')
+    } finally {
+      setLoading(false)
+    }
+  }, [filter])
+
+  const handleLike = async (id) => {
+    try {
+      await feedApi.like(id)
+      setFeedItems(feedItems.map((item) => (item.id === id ? { ...item, likes: (item.likes || 0) + 1, likedByUser: true } : item)))
+    } catch (err) {
+      console.error('Failed to like:', err)
+    }
+  }
+
+  const handleComment = async (item) => {
+    if (!commentText.trim()) return
+    setCommentingOn(item.id)
+    try {
+      await feedApi.comment(item.id, commentText)
+      setFeedItems(
+        feedItems.map((f) =>
+          f.id === item.id
+            ? { ...f, comments: [...(f.comments || []), { text: commentText, createdAt: new Date().toISOString() }] }
+            : f
+        )
+      )
+      setCommentText('')
+      setCommentingOn(null)
+    } catch (err) {
+      console.error('Failed to comment:', err)
+      setCommentingOn(null)
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="card">
+        <div className="cardBody">
+          <div className="loading">
+            <div className="skeleton" style={{ width: '100%', height: '200px' }} />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="card">
+        <div className="cardBody">
+          <div className="emptyState">
+            <h3 className="textDanger">Error Loading Feed</h3>
+            <p className="textSecondary">{error}</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div className="card" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <div className="cardHeader" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <div className="card">
+      <div className="cardHeader">
         <h3 className="cardTitle">Activity Feed</h3>
-        <button className="btn secondary" onClick={fetchFeed} style={{ padding: '4px 10px', fontSize: 12 }}>Refresh</button>
+        <select className="select" value={filter} onChange={(e) => setFilter(e.target.value)} style={{ width: '130px', fontSize: '12px' }}>
+          <option value="">All</option>
+          <option value="announcement">Announcements</option>
+          <option value="update">Updates</option>
+          <option value="event">Events</option>
+        </select>
       </div>
-      <div style={{ padding: '0 16px 8px', display: 'flex', gap: 8 }}>
-        {['all', 'lead_created', 'payment_received', 'leave_applied', 'expense_logged'].map((f) => (
-          <button
-            key={f}
-            className={`btn ${filter === f ? 'primary' : ''}`}
-            onClick={() => setFilter(f)}
-            style={{ padding: '4px 10px', fontSize: 11, textTransform: 'capitalize' }}
-          >
-            {f.replace('_', ' ')}
-          </button>
-        ))}
-      </div>
-      <div className="cardBody" style={{ flex: 1, overflowY: 'auto' }}>
-        {loading ? (
-          <div className="loading">Loading feed...</div>
-        ) : error ? (
-          <p style={{ color: 'var(--admin-danger)' }}>{error}</p>
-        ) : filtered.length === 0 ? (
+      <div className="cardBody" style={{ padding: '12px', maxHeight: '600px', overflowY: 'auto' }}>
+        {feedItems.length === 0 ? (
           <div className="emptyState">
-            <h4>No activities</h4>
-            <p>Recent actions will appear here.</p>
+            <p className="textMuted">No activity yet</p>
           </div>
         ) : (
-          filtered.map((activity) => (
-            <FeedItem key={activity.id} item={activity} />
+          feedItems.map((item) => (
+            <div key={item.id}>
+              <FeedItem item={item} onLike={handleLike} onComment={setCommentingOn} />
+              {commentingOn === item.id && (
+                <div style={{ marginLeft: '20px', marginBottom: '12px' }}>
+                  <div className="formGroup" style={{ marginBottom: '8px' }}>
+                    <textarea
+                      className="inputField"
+                      value={commentText}
+                      onChange={(e) => setCommentText(e.target.value)}
+                      placeholder="Write a comment..."
+                      rows={2}
+                      style={{ resize: 'vertical', fontSize: '13px' }}
+                    />
+                  </div>
+                  <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+                    <Button size="small" variant="secondary" onClick={() => { setCommentingOn(null); setCommentText('') }}>
+                      Cancel
+                    </Button>
+                    <Button size="small" variant="primary" onClick={() => handleComment(item)} disabled={!commentText.trim()}>
+                      Comment
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
           ))
         )}
       </div>
     </div>
-  );
+  )
 }

@@ -1,21 +1,51 @@
-import axiosInstance from './axiosInstance.js';
+import axios from '../axios'
 
-export const getForumPosts = async (params) => {
-  const response = await axiosInstance.get('/v1/forum/posts', { params });
-  return response.data;
-};
+export const getAllThreads = async () => {
+  const response = await axios.get('/forum/threads')
+  return response.data
+}
 
-export const createPost = async (postData) => {
-  const response = await axiosInstance.post('/v1/forum/posts', postData);
-  return response.data;
-};
+export const listThreads = getAllThreads
+
+export const getThread = async (id) => {
+  const response = await axios.get(`/forum/threads/${id}`)
+  return response.data
+}
+
+export const createThread = async (data) => {
+  const response = await axios.post('/forum/threads', data)
+  return response.data
+}
 
 export const getPost = async (id) => {
-  const response = await axiosInstance.get(`/v1/forum/posts/${id}`);
-  return response.data;
+  const response = await axios.get(`/forum/posts/${id}`)
+  return response.data
+}
+
+export const createReply = async (threadId, data) => {
+  const response = await axios.post(`/forum/threads/${threadId}/replies`, data)
+  return response.data
+}
+
+export const votePost = async (postId, value) => {
+  const response = await axios.post(`/forum/posts/${postId}/vote`, { value })
+  return response.data
+}
+
+export const vote = votePost
+
+export const getForumPosts = getAllThreads
+
+export const forumApi = {
+  getAllThreads,
+  listThreads,
+  getThread,
+  createThread,
+  getPost,
+  getForumPosts,
+  createReply,
+  votePost,
+  vote: votePost,
 };
 
-export const addReply = async (postId, replyData) => {
-  const response = await axiosInstance.post(`/v1/forum/posts/${postId}/replies`, replyData);
-  return response.data;
-};
+export default forumApi;

@@ -1,18 +1,18 @@
 import React from 'react';
 
-export default function Input({ label, type = 'text', value, onChange, placeholder, name, required = false, className = '' }) {
+const Input = ({ label, required, error, ...props }) => {
   return (
-    <div className={`inputGroup ${className}`}>
-      {label && <label className="label">{label} {required && <span className="required">*</span>}</label>}
-      <input
-        type={type}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        name={name}
-        required={required}
-        className="inputField"
-      />
+    <div className="formGroup">
+      {label && (
+        <label className="label">
+          {label}
+          {required && <span className="required"> *</span>}
+        </label>
+      )}
+      <input className={`inputField ${error ? 'error' : ''}`} {...props} />
+      {error && <span className="textDanger" style={{ fontSize: '12px', marginTop: '4px' }}>{error}</span>}
     </div>
   );
-}
+};
+
+export default Input;

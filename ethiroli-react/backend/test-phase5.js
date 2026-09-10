@@ -29,9 +29,9 @@ async function runTests() {
   // 2. Test Holidays
   console.log('\n2. Testing Holiday registration...');
   try {
-    const holidayDate = `2026-10-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`;
+    const holidayDate = `2027-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`;
     const holidayId = await Holiday.create({
-      name: 'Gandhi Jayanti ' + Date.now(),
+      name: 'Test Holiday ' + Date.now(),
       date: holidayDate,
       is_restricted: false
     });

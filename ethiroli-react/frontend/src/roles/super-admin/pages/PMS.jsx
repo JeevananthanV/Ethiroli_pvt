@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { getTasks } from '../../services/api/taskApi.js';
-import { getClients } from '../../services/api/clientApi.js';
-import { getSubscriptions } from '../../services/api/subscriptionApi.js';
+import { getTasks } from '../../../services/api/taskApi.js';
+import { getClients } from '../../../services/api/clientApi.js';
+import { getSubscriptions } from '../../../services/api/subscriptionApi.js';
 
 export default function PMS() {
   const [tasks, setTasks] = useState([]);

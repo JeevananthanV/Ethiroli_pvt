@@ -1,12 +1,14 @@
 import axiosInstance from './axiosInstance.js';
 
-export const listEnrollments = async (courseId, params) => {
-  const response = await axiosInstance.get(`/v1/courses/${courseId}/enrollments`, { params });
+export const getEnrollments = async () => {
+  const response = await axiosInstance.get('/v1/enrollments');
   return response.data;
 };
 
-export const enrollStudent = async (courseId, data) => {
-  const response = await axiosInstance.post(`/v1/courses/${courseId}/enroll`, data);
+export const listEnrollments = getEnrollments;
+
+export const enrollStudent = async (data) => {
+  const response = await axiosInstance.post('/v1/enrollments', data);
   return response.data;
 };
 
@@ -15,7 +17,15 @@ export const getMyEnrollments = async () => {
   return response.data;
 };
 
-export const updateProgress = async (enrollmentId, progress) => {
-  const response = await axiosInstance.patch(`/v1/enrollments/${enrollmentId}/progress`, { progress });
+export const updateProgress = async (id, progress) => {
+  const response = await axiosInstance.put(`/v1/enrollments/${id}/progress`, { progress });
   return response.data;
+};
+
+export const enrollmentApi = {
+  getEnrollments,
+  listEnrollments,
+  enrollStudent,
+  getMyEnrollments,
+  updateProgress,
 };

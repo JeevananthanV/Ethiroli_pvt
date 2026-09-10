@@ -5,7 +5,8 @@ const initialState = {
   isAuthenticated: false,
   socketToken: null,
   tenantId: null,
-  tenantRole: null
+  tenantRole: null,
+  activePortal: null
 };
 
 const authSlice = createSlice({
@@ -18,6 +19,7 @@ const authSlice = createSlice({
       state.socketToken = action.payload.socket_token || null;
       state.tenantId = action.payload.user?.tenant_id || null;
       state.tenantRole = action.payload.user?.tenant_role || null;
+      state.activePortal = action.payload.activePortal || null;
     },
     clearCredentials: (state) => {
       state.user = null;
@@ -25,9 +27,15 @@ const authSlice = createSlice({
       state.socketToken = null;
       state.tenantId = null;
       state.tenantRole = null;
+      state.activePortal = null;
     }
   }
 });
 
 export const { setCredentials, clearCredentials } = authSlice.actions;
+
+export const selectCurrentUser = (state) => state.auth.user;
+export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
+export const selectSocketToken = (state) => state.auth.socketToken;
+
 export default authSlice.reducer;

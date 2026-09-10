@@ -1,12 +1,7 @@
 import axiosInstance from './axiosInstance.js';
 
-export const listEmployees = async (params) => {
-  const response = await axiosInstance.get('/v1/employees', { params });
-  return response.data;
-};
-
-export const getEmployee = async (id) => {
-  const response = await axiosInstance.get(`/v1/employees/${id}`);
+export const getEmployees = async () => {
+  const response = await axiosInstance.get('/v1/employees');
   return response.data;
 };
 
@@ -15,12 +10,21 @@ export const createEmployee = async (data) => {
   return response.data;
 };
 
-export const updateEmployee = async (id, data) => {
-  const response = await axiosInstance.patch(`/v1/employees/${id}`, data);
+export const getEmployee = async (id) => {
+  const response = await axiosInstance.get(`/v1/employees/${id}`);
   return response.data;
 };
 
-export const deleteEmployee = async (id) => {
-  const response = await axiosInstance.delete(`/v1/employees/${id}`);
+export const updateEmployee = async (id, data) => {
+  const response = await axiosInstance.put(`/v1/employees/${id}`, data);
   return response.data;
+};
+
+export const listEmployees = getEmployees;
+
+export const employeeApi = {
+  getAll: getEmployees,
+  getById: getEmployee,
+  create: createEmployee,
+  update: updateEmployee,
 };

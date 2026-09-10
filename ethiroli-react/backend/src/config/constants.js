@@ -141,6 +141,106 @@ export const SUCCESS_MESSAGES = {
   LOGOUT_SUCCESS: 'Logged out successfully'
 };
 
+export const PORTAL_CONFIGS = {
+  SUPER_ADMIN: {
+    slug: 'super-admin',
+    strategies: ['password'],
+    mfaRequired: true,
+    oauthProviders: [],
+    sessionDuration: 4 * 60 * 60,
+    cookiePath: '/app/super-admin'
+  },
+  ADMIN: {
+    slug: 'admin',
+    strategies: ['password'],
+    mfaRequired: true,
+    oauthProviders: [],
+    sessionDuration: 8 * 60 * 60,
+    cookiePath: '/app/admin'
+  },
+  HR: {
+    slug: 'hr',
+    strategies: ['password'],
+    mfaRequired: false,
+    oauthProviders: [],
+    sessionDuration: 8 * 60 * 60,
+    cookiePath: '/app/hr'
+  },
+  TUTOR: {
+    slug: 'tutor',
+    strategies: ['password'],
+    mfaRequired: false,
+    oauthProviders: [],
+    sessionDuration: 8 * 60 * 60,
+    cookiePath: '/app/tutor'
+  },
+  PROJECT_MANAGER: {
+    slug: 'pm',
+    strategies: ['password'],
+    mfaRequired: false,
+    oauthProviders: [],
+    sessionDuration: 8 * 60 * 60,
+    cookiePath: '/app/pm'
+  },
+  FINANCE: {
+    slug: 'finance',
+    strategies: ['password'],
+    mfaRequired: false,
+    oauthProviders: [],
+    sessionDuration: 8 * 60 * 60,
+    cookiePath: '/app/finance'
+  },
+  SALES: {
+    slug: 'sales',
+    strategies: ['password'],
+    mfaRequired: false,
+    oauthProviders: [],
+    sessionDuration: 8 * 60 * 60,
+    cookiePath: '/app/sales'
+  },
+  RECEPTION: {
+    slug: 'reception',
+    strategies: ['password'],
+    mfaRequired: false,
+    oauthProviders: [],
+    sessionDuration: 8 * 60 * 60,
+    cookiePath: '/app/reception'
+  },
+  EMPLOYEE: {
+    slug: 'employee',
+    strategies: ['password'],
+    mfaRequired: false,
+    oauthProviders: [],
+    sessionDuration: 8 * 60 * 60,
+    cookiePath: '/app/employee'
+  },
+  STUDENT: {
+    slug: 'student',
+    strategies: ['password'],
+    mfaRequired: false,
+    oauthProviders: [],
+    sessionDuration: 24 * 60 * 60,
+    cookiePath: '/app/student'
+  },
+  INTERN: {
+    slug: 'intern',
+    strategies: ['password'],
+    mfaRequired: false,
+    oauthProviders: [],
+    sessionDuration: 24 * 60 * 60,
+    cookiePath: '/app/intern'
+  }
+};
+
+export const getPortalConfigBySlug = (slug) => {
+  const entry = Object.entries(PORTAL_CONFIGS).find(([, config]) => config.slug === slug);
+  return entry ? { role: entry[0], ...entry[1] } : null;
+};
+
+export const getPortalConfigByRole = (role) => {
+  return PORTAL_CONFIGS[role] || null;
+};
+
 export const ROLE_PERMISSIONS = {
   SUPER_ADMIN: ['*'],
   ADMIN: [

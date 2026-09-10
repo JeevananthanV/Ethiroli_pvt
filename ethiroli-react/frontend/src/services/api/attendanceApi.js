@@ -1,21 +1,31 @@
 import axiosInstance from './axiosInstance.js';
 
-export const listAttendance = async (params) => {
-  const response = await axiosInstance.get('/v1/attendance', { params });
+export const getAttendance = async () => {
+  const response = await axiosInstance.get('/v1/attendance');
   return response.data;
 };
 
-export const checkIn = async () => {
-  const response = await axiosInstance.post('/v1/attendance/check-in');
+export const checkIn = async (data) => {
+  const response = await axiosInstance.post('/v1/attendance/check-in', data);
   return response.data;
 };
 
-export const checkOut = async () => {
-  const response = await axiosInstance.post('/v1/attendance/check-out');
+export const checkOut = async (id) => {
+  const response = await axiosInstance.post(`/v1/attendance/${id}/check-out`);
   return response.data;
 };
 
-export const manualCorrect = async (id, data) => {
-  const response = await axiosInstance.patch(`/v1/attendance/${id}`, data);
+export const updateAttendance = async (id, data) => {
+  const response = await axiosInstance.put(`/v1/attendance/${id}`, data);
   return response.data;
+};
+
+export const listAttendance = getAttendance;
+
+export const attendanceApi = {
+  getAll: getAttendance,
+  getAttendance,
+  checkIn,
+  checkOut,
+  update: updateAttendance,
 };

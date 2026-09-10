@@ -1,11 +1,19 @@
 import axiosInstance from './axiosInstance.js';
 
 export const getProviders = async () => {
-  const response = await axiosInstance.get('/v1/communication/providers');
+  const response = await axiosInstance.get('/v1/providers');
   return response.data;
 };
 
-export const saveProvider = async (providerData) => {
-  const response = await axiosInstance.post('/v1/communication/providers', providerData);
+export const listProviders = getProviders;
+
+export const saveProvider = async (data) => {
+  const response = await axiosInstance.post('/v1/providers', data);
   return response.data;
+};
+
+export const providerApi = {
+  getAll: getProviders,
+  list: listProviders,
+  save: saveProvider,
 };

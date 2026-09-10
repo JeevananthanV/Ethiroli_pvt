@@ -1,124 +1,146 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { listInvoices, updateInvoiceStatus } from '../services/api/invoiceApi.js';
+import React, { useState, useEffect, useCallback } from 'react'
+import AdminPage from '../../common/components/AdminPage/AdminPage.jsx'
+import Button from '../../common/components/Button/Button.jsx'
+import { invoiceApi } from '../../services/api/invoiceApi.js'
 
 export default function InvoiceList() {
-  const [invoices, setInvoices] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [filterStatus, setFilterStatus] = useState('all');
-
-  const fetchInvoices = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await listInvoices({ status: filterStatus === 'all' ? undefined : filterStatus });
-      setInvoices(Array.isArray(data) ? data : []);
-    } catch (err) {
-      setError(err.message || 'Failed to fetch invoices');
-    } finally {
-      setLoading(false);
-    }
-  }, [filterStatus]);
+  const [invoices, setInvoices] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [statusFilter, setStatusFilter] = useState('')
 
   useEffect(() => {
-    fetchInvoices();
-  }, [fetchInvoices]);
+    loadInvoices()
+  }, [loadInvoices])
 
-  const handleStatusChange = async (id, status) => {
+  const loadInvoices = useCallback(async () => {
+    setLoading(true)
+    setError(null)
     try {
-      await updateInvoiceStatus(id, status);
-      setInvoices((prev) => prev.map((inv) => (inv.id === id ? { ...inv, status } : inv)));
+      const data = await invoiceApi.getAll()
+      let items = Array.isArray(data) ? data : []
+      if (statusFilter) {
+        items = items.filter((i) => i.status === statusFilter)
+      }
+      setInvoices(items)
     } catch (err) {
-      alert(err.message || 'Failed to update status');
+      setError(err.message || 'Failed to load invoices')
+    } finally {
+      setLoading(false)
     }
-  };
+  }, [statusFilter])
 
-  const getStatusTag = (status) => {
-    const map = {
-      PENDING: 'pending',
-      SENT: 'info',
-      PAID: 'active',
-      OVERDUE: 'error',
-      CANCELLED: 'error',
-    };
-    const cls = map[status] || 'pending';
-    return <span className={`statusTag ${cls}`}>{status || 'DRAFT'}</span>;
-  };
+  const handleStatusUpdate = async (id, status) => {
+    try {
+      await invoiceApi.updateStatus(id, status)
+      setInvoices(invoices.map((i) => (i.id === id ? { ...i, status } : i)))
+    } catch (err) {
+      setError(err.message || 'Failed to update invoice status')
+    }
+  }
 
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(Number(amount) || 0);
-  };
+  const getStatusClass = (status) => {
+    switch (status) {
+      case 'paid':
+        return 'active'
+      case 'pending':
+        return 'pending'
+      case 'overdue':
+        return 'error'
+      case 'draft':
+        return 'pending'
+      default:
+        return 'pending'
+    }
+  }
+
+  const formatCurrency = (val) => {
+    if (!val) return '$0.00'
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val)
+  }
+
+  const formatDate = (dateStr) => {
+    if (!dateStr) return '-'
+    return new Date(dateStr).toLocaleDateString()
+  }
 
   return (
     <AdminPage
       title="Invoices"
-      subtitle="Pending, sent, paid, and overdue invoices"
+      subtitle="Manage and track invoices"
       loading={loading}
       error={error}
-      onRetry={fetchInvoices}
+      onRetry={loadInvoices}
       actions={
-        <select className="select" value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} style={{ width: 150 }}>
-          <option value="all">All Status</option>
-          <option value="PENDING">Pending</option>
-          <option value="SENT">Sent</option>
-          <option value="PAID">Paid</option>
-          <option value="OVERDUE">Overdue</option>
+        <select
+          className="select"
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          style={{ width: '150px' }}
+        >
+          <option value="">All Status</option>
+          <option value="draft">Draft</option>
+          <option value="pending">Pending</option>
+          <option value="paid">Paid</option>
+          <option value="overdue">Overdue</option>
         </select>
       }
     >
       <div className="card">
-        {invoices.length === 0 ? (
-          <div className="emptyState">
-            <h3>No invoices found</h3>
-            <p>Invoices will appear here once generated.</p>
-          </div>
-        ) : (
-          <div className="overflowAuto">
-            <table className="table">
-              <thead>
+        <div className="overflowAuto">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Invoice #</th>
+                <th>Client</th>
+                <th>Issue Date</th>
+                <th>Due Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {invoices.length === 0 ? (
                 <tr>
-                  <th>Invoice #</th>
-                  <th>Client</th>
-                  <th>Amount</th>
-                  <th>Tax</th>
-                  <th>Total</th>
-                  <th>Due Date</th>
-                  <th>Status</th>
-                  <th>Actions</th>
+                  <td colSpan="7" style={{ textAlign: 'center', padding: '32px' }}>
+                    <span className="textMuted">No invoices found</span>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {invoices.map((inv) => (
-                  <tr key={inv.id}>
-                    <td className="textPrimary" style={{ fontWeight: 500 }}>{inv.invoice_number || inv.id}</td>
-                    <td className="textSecondary">{inv.client_name || inv.client?.name || inv.client_id || '-'}</td>
-                    <td className="textSecondary">{formatCurrency(inv.subtotal || inv.amount)}</td>
-                    <td className="textSecondary">{formatCurrency(inv.tax_amount || (Number(inv.subtotal || inv.amount) * Number(inv.tax_rate || 0)) / 100)}</td>
-                    <td className="textPrimary" style={{ fontWeight: 600 }}>{formatCurrency(inv.total_amount || inv.total)}</td>
-                    <td className="textSecondary">{inv.due_date || '-'}</td>
-                    <td>{getStatusTag(inv.status)}</td>
+              ) : (
+                invoices.map((invoice) => (
+                  <tr key={invoice.id}>
+                    <td style={{ fontWeight: 500 }}>{invoice.invoiceNumber || `INV-${invoice.id}`}</td>
+                    <td>{invoice.clientName || '-'}</td>
+                    <td>{formatDate(invoice.issueDate)}</td>
+                    <td>{formatDate(invoice.dueDate)}</td>
+                    <td style={{ fontWeight: 600 }}>{formatCurrency(invoice.total)}</td>
                     <td>
-                      <select
-                        className="select"
-                        value={inv.status}
-                        onChange={(e) => handleStatusChange(inv.id, e.target.value)}
-                        style={{ width: 120, fontSize: 12 }}
-                      >
-                        <option value="PENDING">Pending</option>
-                        <option value="SENT">Sent</option>
-                        <option value="PAID">Paid</option>
-                        <option value="OVERDUE">Overdue</option>
-                        <option value="CANCELLED">Cancelled</option>
-                      </select>
+                      <span className={`statusTag ${getStatusClass(invoice.status)}`}>
+                        {invoice.status || 'draft'}
+                      </span>
+                    </td>
+                    <td>
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        {invoice.status === 'pending' && (
+                          <>
+                            <Button size="small" variant="success" onClick={() => handleStatusUpdate(invoice.id, 'paid')}>
+                              Mark Paid
+                            </Button>
+                            <Button size="small" variant="danger" onClick={() => handleStatusUpdate(invoice.id, 'overdue')}>
+                              Mark Overdue
+                            </Button>
+                          </>
+                        )}
+                      </div>
                     </td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </AdminPage>
-  );
+  )
 }

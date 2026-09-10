@@ -1,253 +1,205 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
-import { listClients, createClient, updateClient, deleteClient } from '../../../services/api/clientApi.js';
+import React, { useState, useEffect } from 'react';
+import { getClients, createClient, updateClient, deleteClient } from '../../services/api/clientApi';
+import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import Modal from '../../common/components/Modal/Modal.jsx';
+import Input from '../../common/components/Input/Input.jsx';
+import Button from '../../common/components/Button/Button.jsx';
 
-const emptyForm = { name: '', email: '', phone: '', company: '', status: 'active', gstNumber: '' };
-
-export default function ClientList() {
+const ClientList = () => {
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showForm, setShowForm] = useState(false);
-  const [editingId, setEditingId] = useState(null);
-  const [form, setForm] = useState(emptyForm);
+  const [showModal, setShowModal] = useState(false);
+  const [editingClient, setEditingClient] = useState(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    company: '',
+    status: 'active',
+  });
   const [submitting, setSubmitting] = useState(false);
-  const [search, setSearch] = useState('');
-  const searchTimerRef = useRef(null);
 
-  const fetchClients = useCallback(async () => {
+  useEffect(() => {
+    loadClients();
+  }, []);
+
+  const loadClients = async () => {
+    setLoading(true);
+    setError(null);
     try {
-      setLoading(true);
-      setError(null);
-      const data = await listClients({ search: search.trim() || undefined });
-      setClients(Array.isArray(data) ? data : data.clients || data.data || []);
+      const data = await getClients();
+      setClients(data.clients || data || []);
     } catch (err) {
-      const msg = err.response?.data?.message || err.message || 'Failed to load clients';
-      setError(msg);
+      setError(err.message);
     } finally {
       setLoading(false);
     }
-  }, [search]);
+  };
 
-  useEffect(() => {
-    if (searchTimerRef.current) clearTimeout(searchTimerRef.current);
-    searchTimerRef.current = setTimeout(() => {
-      fetchClients();
-    }, 400);
-    return () => { if (searchTimerRef.current) clearTimeout(searchTimerRef.current); };
-  }, [fetchClients]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-    try {
-      if (editingId) {
-        await updateClient(editingId, form);
-      } else {
-        await createClient(form);
-      }
-      setForm(emptyForm);
-      setEditingId(null);
-      setShowForm(false);
-      fetchClients();
-    } catch (err) {
-      setError(err.response?.data?.message || 'Operation failed');
-    } finally {
-      setSubmitting(false);
-    }
+  const handleAdd = () => {
+    setEditingClient(null);
+    setFormData({ name: '', email: '', phone: '', company: '', status: 'active' });
+    setShowModal(true);
   };
 
   const handleEdit = (client) => {
-    setForm({
+    setEditingClient(client);
+    setFormData({
       name: client.name || '',
       email: client.email || '',
       phone: client.phone || '',
       company: client.company || '',
       status: client.status || 'active',
-      gstNumber: client.gstNumber || '',
     });
-    setEditingId(client.id || client._id);
-    setShowForm(true);
+    setShowModal(true);
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this client? This action cannot be undone.')) return;
+    if (!window.confirm('Are you sure you want to delete this client?')) return;
     try {
       await deleteClient(id);
-      setClients((prev) => prev.filter((c) => (c.id || c._id) !== id));
+      setClients(clients.filter(c => c.id !== id));
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to delete client');
+      setError(err.message);
     }
   };
 
-  const startNew = () => {
-    setForm(emptyForm);
-    setEditingId(null);
-    setShowForm(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    try {
+      if (editingClient) {
+        const updated = await updateClient(editingClient.id, formData);
+        setClients(clients.map(c => c.id === editingClient.id ? updated : c));
+      } else {
+        const created = await createClient(formData);
+        setClients([...clients, created]);
+      }
+      setShowModal(false);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  const handleRetry = () => {
-    
-    fetchClients();
+  const getStatusClass = (status) => {
+    if (!status) return 'pending';
+    const lower = status.toLowerCase();
+    if (lower === 'active') return 'active';
+    if (lower === 'inactive') return 'inactive';
+    return 'pending';
   };
+
+  if (loading) return <div className="loading">Loading clients...</div>;
+  if (error) return <div className="emptyState"><h3>Error</h3><p>{error}</p><button className="btn primary" onClick={loadClients}>Retry</button></div>;
 
   return (
-    <div>
-      <div className="pageHeader">
-        <div>
-          <h1 className="pageTitle">Clients</h1>
-          <p className="pageSubtitle">Manage your client records and subscription accounts</p>
-        </div>
-        <div className="pageActions">
-          <input
-            type="text"
-            className="inputField"
-            placeholder="Search by name, email, company..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            style={{ width: 260 }}
-          />
-          <button className="btn primary" onClick={startNew}>+ Add Client</button>
+    <AdminPage
+      title="Clients"
+      subtitle="Manage client accounts"
+      loading={loading}
+      error={error}
+      onRetry={loadClients}
+      actions={<button className="btn primary" onClick={handleAdd}>Add Client</button>}
+    >
+      <div className="card">
+        <div className="cardBody">
+          {clients.length === 0 ? (
+            <div className="emptyState">
+              <h3>No clients found</h3>
+              <p>Get started by adding your first client.</p>
+            </div>
+          ) : (
+            <div className="overflowAuto">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Company</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {clients.map((client) => (
+                    <tr key={client.id}>
+                      <td className="textPrimary">{client.name}</td>
+                      <td className="textSecondary">{client.email}</td>
+                      <td className="textSecondary">{client.phone || '-'}</td>
+                      <td className="textSecondary">{client.company || '-'}</td>
+                      <td>
+                        <span className={`statusTag ${getStatusClass(client.status)}`}>
+                          {client.status || 'Pending'}
+                        </span>
+                      </td>
+                      <td>
+                        <div className="pageActions">
+                          <button className="btn btnSm secondary" onClick={() => handleEdit(client)}>Edit</button>
+                          <button className="btn btnSm danger" onClick={() => handleDelete(client.id)}>Delete</button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
-
-      {showForm && (
-        <div className="card" style={{ marginBottom: 24 }}>
-          <div className="cardHeader">
-            <h3 className="cardTitle">{editingId ? 'Edit Client' : 'New Client'}</h3>
-            <button type="button" className="btn secondary btnSm" onClick={() => { setShowForm(false); setEditingId(null); }}>Cancel</button>
-          </div>
-          <form onSubmit={handleSubmit} className="form">
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-              <div className="formGroup">
-                <label className="label">Client Name <span className="required">*</span></label>
-                <input
-                  className="inputField"
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  placeholder="Enter client name"
-                  required
-                />
-              </div>
-              <div className="formGroup">
-                <label className="label">Company</label>
-                <input
-                  className="inputField"
-                  value={form.company}
-                  onChange={(e) => setForm({ ...form, company: e.target.value })}
-                  placeholder="Company name"
-                />
-              </div>
-              <div className="formGroup">
-                <label className="label">Email <span className="required">*</span></label>
-                <input
-                  className="inputField"
-                  type="email"
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  placeholder="client@example.com"
-                  required
-                />
-              </div>
-              <div className="formGroup">
-                <label className="label">Phone</label>
-                <input
-                  className="inputField"
-                  value={form.phone}
-                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                  placeholder="+91 98765 43210"
-                />
-              </div>
-              <div className="formGroup">
-                <label className="label">GST Number</label>
-                <input
-                  className="inputField"
-                  value={form.gstNumber}
-                  onChange={(e) => setForm({ ...form, gstNumber: e.target.value })}
-                  placeholder="22AAAAA0000A1Z5"
-                />
-              </div>
-              <div className="formGroup">
-                <label className="label">Status</label>
-                <select
-                  className="select"
-                  value={form.status}
-                  onChange={(e) => setForm({ ...form, status: e.target.value })}
-                >
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
-                  <option value="pending">Pending</option>
-                </select>
-              </div>
+      {showModal && (
+        <Modal isOpen={showModal} onClose={() => setShowModal(false)} title={editingClient ? 'Edit Client' : 'Add Client'}>
+          <form onSubmit={handleSubmit}>
+            <Input
+              label="Name"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              required
+            />
+            <Input
+              label="Email"
+              type="email"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              required
+              style={{ marginTop: '12px' }}
+            />
+            <Input
+              label="Phone"
+              value={formData.phone}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              style={{ marginTop: '12px' }}
+            />
+            <Input
+              label="Company"
+              value={formData.company}
+              onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+              style={{ marginTop: '12px' }}
+            />
+            <div className="formGroup" style={{ marginTop: '12px' }}>
+              <label className="label">Status</label>
+              <select
+                className="select"
+                value={formData.status}
+                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+              >
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+                <option value="pending">Pending</option>
+              </select>
             </div>
-            <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
-              <button type="submit" className="btn primary" disabled={submitting}>
-                {submitting ? 'Saving...' : editingId ? 'Update Client' : 'Create Client'}
-              </button>
-              <button type="button" className="btn secondary" onClick={() => { setShowForm(false); setEditingId(null); }}>Cancel</button>
+            <div className="pageActions" style={{ marginTop: '16px' }}>
+              <Button type="button" variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
+              <Button type="submit" disabled={submitting}>{submitting ? 'Saving...' : 'Save'}</Button>
             </div>
           </form>
-        </div>
+        </Modal>
       )}
-
-      <div className="card">
-        {error && (
-          <div style={{ marginBottom: 16, padding: 12, borderRadius: 10, background: 'rgba(244, 63, 94, 0.08)', border: '1px solid rgba(244, 63, 94, 0.2)', color: 'var(--admin-danger)', fontSize: 13, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span>{error}</span>
-            <button className="btn secondary btnSm" onClick={handleRetry}>Retry</button>
-          </div>
-        )}
-
-        {loading ? (
-          <div className="loading">
-            <div className="skeleton" style={{ width: 40, height: 40, borderRadius: '50%' }}></div>
-            <div style={{ flex: 1 }}>
-              <div className="skeleton" style={{ width: '60%', height: 16, marginBottom: 8 }}></div>
-              <div className="skeleton" style={{ width: '40%', height: 12 }}></div>
-            </div>
-          </div>
-        ) : clients.length === 0 ? (
-          <div className="emptyState">
-            <h3>No Clients Found</h3>
-            <p>{search ? 'No clients match your search. Try different keywords.' : 'Add your first client to get started with subscriptions and invoicing.'}</p>
-          </div>
-        ) : (
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Company</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>GST No.</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {clients.map((client) => (
-                <tr key={client.id || client._id}>
-                  <td style={{ fontWeight: 600 }}>{client.name}</td>
-                  <td>{client.company || '—'}</td>
-                  <td>{client.email}</td>
-                  <td>{client.phone || '—'}</td>
-                  <td>{client.gstNumber || '—'}</td>
-                  <td>
-                    <span className={`statusTag ${client.status || 'active'}`}>
-                      {client.status || 'active'}
-                    </span>
-                  </td>
-                  <td>
-                    <div style={{ display: 'flex', gap: 6 }}>
-                      <button className="btn secondary btnSm" onClick={() => handleEdit(client)}>Edit</button>
-                      <button className="btn danger btnSm" onClick={() => handleDelete(client.id || client._id)}>Delete</button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
-    </div>
+    </AdminPage>
   );
-}
+};
+
+export default ClientList;

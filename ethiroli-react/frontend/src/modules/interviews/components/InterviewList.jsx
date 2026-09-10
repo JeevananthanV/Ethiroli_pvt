@@ -1,75 +1,70 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { listInterviews } from '../../services/api/interviewApi.js';
-import axiosInstance from '../../services/api/axiosInstance.js';
+import React, { useState, useEffect, useCallback } from 'react'
+import AdminPage from '../../../common/components/AdminPage'
+import Button from '../../common/components/Button'
+import Modal from '../../common/components/Modal'
+import { interviewApi } from '../../services/api/interviewApi'
 
 export default function InterviewList() {
-  const [interviews, setInterviews] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [filterStatus, setFilterStatus] = useState('');
+  const [interviews, setInterviews] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [statusFilter, setStatusFilter] = useState('')
 
   const loadInterviews = useCallback(async () => {
-    setLoading(true);
-    setError(null);
+    setLoading(true)
+    setError(null)
     try {
-      const params = filterStatus ? { status: filterStatus } : {};
-      const data = await listInterviews(params);
-      setInterviews(Array.isArray(data) ? data : []);
+      const data = await interviewApi.getAll()
+      const filtered = statusFilter ? data.filter((i) => i.status === statusFilter) : data
+      setInterviews(filtered)
     } catch (err) {
-      setError(err.message || 'Failed to load interviews');
+      setError(err.message)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }, [statusFilter])
 
   useEffect(() => {
-    loadInterviews();
-  }, [filterStatus]);
+    loadInterviews()
+  }, [loadInterviews])
 
-  const handleStatusUpdate = async (id, newStatus) => {
+  const handleStatusUpdate = async (id, status) => {
     try {
-      await axiosInstance.patch(`/v1/interviews/${id}`, { status: newStatus });
-      loadInterviews();
+      await interviewApi.updateStatus(id, status)
+      setInterviews(interviews.map((i) => (i.id === id ? { ...i, status } : i)))
     } catch (err) {
-      alert(`Failed to update status: ${err.message}`);
+      setError(err.message)
     }
-  };
+  }
 
   const getStatusClass = (status) => {
-    switch ((status || '').toLowerCase()) {
+    switch (status) {
       case 'scheduled':
-        return 'pending';
+        return 'pending'
       case 'completed':
-        return 'active';
+        return 'active'
       case 'cancelled':
-      case 'canceled':
-        return 'error';
-      case 'in_progress':
-        return 'pending';
+        return 'error'
       default:
-        return 'pending';
+        return 'pending'
     }
-  };
-
-  const formatDateTime = (dateStr, timeStr) => {
-    if (!dateStr) return '-';
-    const date = new Date(dateStr);
-    return timeStr
-      ? date.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
-      : date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  };
+  }
 
   return (
     <AdminPage
-      title="Interview List"
-      subtitle="Manage scheduled interviews and their status"
+      title="Interviews"
+      subtitle="Manage scheduled interviews"
       loading={loading}
       error={error}
       onRetry={loadInterviews}
       actions={
-        <select className="select" value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
-          <option value="">All Statuses</option>
+        <select
+          className="select"
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          style={{ width: '150px' }}
+        >
+          <option value="">All Status</option>
           <option value="scheduled">Scheduled</option>
           <option value="completed">Completed</option>
           <option value="cancelled">Cancelled</option>
@@ -77,58 +72,58 @@ export default function InterviewList() {
       }
     >
       <div className="card">
-        {interviews.length === 0 ? (
-          <div className="emptyState">No interviews found.</div>
-        ) : (
-          <div className="overflowAuto">
-            <table className="table">
-              <thead>
+        <div className="overflowAuto">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Candidate</th>
+                <th>Interviewer</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {interviews.length === 0 ? (
                 <tr>
-                  <th>ID</th>
-                  <th>Candidate ID</th>
-                  <th>Interviewer ID</th>
-                  <th>Date & Time</th>
-                  <th>Type</th>
-                  <th>Duration</th>
-                  <th>Status</th>
-                  <th>Actions</th>
+                  <td colSpan="7" style={{ textAlign: 'center', padding: '32px' }}>
+                    <span className="textMuted">No interviews found</span>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {interviews.map((interview) => (
+              ) : (
+                interviews.map((interview) => (
                   <tr key={interview.id}>
-                    <td className="textSecondary"><code>{interview.id}</code></td>
-                    <td className="textSecondary"><code>{interview.candidate_id}</code></td>
-                    <td className="textSecondary"><code>{interview.interviewer_id}</code></td>
-                    <td className="textSecondary">{formatDateTime(interview.scheduled_at || interview.date, interview.time)}</td>
-                    <td className="textSecondary">{interview.type || '-'}</td>
-                    <td className="textSecondary">{interview.duration_minutes ? `${interview.duration_minutes} min` : '-'}</td>
+                    <td>{interview.candidateName || interview.candidateId}</td>
+                    <td>{interview.interviewer}</td>
+                    <td>{interview.date ? new Date(interview.date).toLocaleDateString() : '-'}</td>
+                    <td>{interview.time || '-'}</td>
+                    <td>{interview.type}</td>
                     <td>
                       <span className={`statusTag ${getStatusClass(interview.status)}`}>
-                        {interview.status || 'scheduled'}
+                        {interview.status}
                       </span>
                     </td>
                     <td>
-                      <div style={{ display: 'flex', gap: 6 }}>
-                        {interview.status !== 'completed' && (
-                          <button className="btn success" style={{ padding: '4px 10px', fontSize: 12 }} onClick={() => handleStatusUpdate(interview.id, 'completed')}>
+                      {interview.status === 'scheduled' && (
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                          <Button size="small" variant="success" onClick={() => handleStatusUpdate(interview.id, 'completed')}>
                             Complete
-                          </button>
-                        )}
-                        {interview.status !== 'cancelled' && (
-                          <button className="btn danger" style={{ padding: '4px 10px', fontSize: 12 }} onClick={() => handleStatusUpdate(interview.id, 'cancelled')}>
+                          </Button>
+                          <Button size="small" variant="danger" onClick={() => handleStatusUpdate(interview.id, 'cancelled')}>
                             Cancel
-                          </button>
-                        )}
-                      </div>
+                          </Button>
+                        </div>
+                      )}
                     </td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </AdminPage>
-  );
+  )
 }

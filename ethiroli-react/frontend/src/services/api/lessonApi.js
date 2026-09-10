@@ -1,21 +1,40 @@
-import axiosInstance from './axiosInstance.js';
+import axios from '../axios'
 
-export const getLessons = async (moduleId, params) => {
-  const response = await axiosInstance.get(`/v1/modules/${moduleId}/lessons`, { params });
-  return response.data;
-};
+export const getAllLessons = async () => {
+  const response = await axios.get('/lessons')
+  return response.data
+}
 
-export const createLesson = async (moduleId, lessonData) => {
-  const response = await axiosInstance.post(`/v1/modules/${moduleId}/lessons`, lessonData);
-  return response.data;
-};
+export const getLesson = async (id) => {
+  const response = await axios.get(`/lessons/${id}`)
+  return response.data
+}
 
-export const updateLesson = async (id, lessonData) => {
-  const response = await axiosInstance.patch(`/v1/lessons/${id}`, lessonData);
-  return response.data;
-};
+export const createLesson = async (data) => {
+  const response = await axios.post('/lessons', data)
+  return response.data
+}
+
+export const updateLesson = async (id, data) => {
+  const response = await axios.put(`/lessons/${id}`, data)
+  return response.data
+}
 
 export const deleteLesson = async (id) => {
-  const response = await axiosInstance.delete(`/v1/lessons/${id}`);
-  return response.data;
+  const response = await axios.delete(`/lessons/${id}`)
+  return response.data
+}
+
+export const completeLesson = async (id) => {
+  const response = await axios.post(`/lessons/${id}/complete`)
+  return response.data
+}
+
+export const lessonApi = {
+  getAll: getAllLessons,
+  getById: getLesson,
+  create: createLesson,
+  update: updateLesson,
+  delete: deleteLesson,
+  complete: completeLesson,
 };

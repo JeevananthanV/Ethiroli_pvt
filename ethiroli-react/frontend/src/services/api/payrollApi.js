@@ -1,12 +1,12 @@
 import axiosInstance from './axiosInstance.js';
 
-export const listSalaryStructures = async (params) => {
-  const response = await axiosInstance.get('/v1/payroll/salary-structures', { params });
+export const getSalaryStructures = async () => {
+  const response = await axiosInstance.get('/v1/payroll/structures');
   return response.data;
 };
 
 export const createSalaryStructure = async (data) => {
-  const response = await axiosInstance.post('/v1/payroll/salary-structures', data);
+  const response = await axiosInstance.post('/v1/payroll/structures', data);
   return response.data;
 };
 
@@ -15,7 +15,17 @@ export const processPayroll = async (data) => {
   return response.data;
 };
 
-export const listPayrollHistory = async (params) => {
-  const response = await axiosInstance.get('/v1/payroll/history', { params });
+export const getPayrollHistory = async () => {
+  const response = await axiosInstance.get('/v1/payroll/history');
   return response.data;
+};
+
+export const listPayrollHistory = getPayrollHistory;
+
+export const payrollApi = {
+  getSalaryStructures,
+  createSalaryStructure,
+  processPayroll,
+  getPayrollHistory,
+  listPayrollHistory,
 };

@@ -6,8 +6,8 @@ import feedRoutes from './feedRoutes.js';
 import auditRoutes from './auditRoutes.js';
 import systemRoutes from './systemRoutes.js';
 import healthRoutes from './healthRoutes.js';
+import roleRoutes from './roleRoutes.js';
 
-// Phase 2 Routes
 import employeeRoutes from './employeeRoutes.js';
 import internRoutes from './internRoutes.js';
 import attendanceRoutes from './attendanceRoutes.js';
@@ -22,7 +22,6 @@ import clientRoutes from './clientRoutes.js';
 import subscriptionRoutes from './subscriptionRoutes.js';
 import taskRoutes from './taskRoutes.js';
 
-// Phase 3 Routes
 import transactionRoutes from './transactionRoutes.js';
 import invoiceRoutes from './invoiceRoutes.js';
 import paymentRoutes from './paymentRoutes.js';
@@ -30,7 +29,6 @@ import liveQuizRoutes from './liveQuizRoutes.js';
 import forumRoutes from './forumRoutes.js';
 import badgeRoutes from './badgeRoutes.js';
 
-// Phase 4 Routes
 import communicationRoutes from './communicationRoutes.js';
 import templateRoutes from './templateRoutes.js';
 import providerRoutes from './providerRoutes.js';
@@ -39,7 +37,6 @@ import candidateRoutes from './candidateRoutes.js';
 import interviewRoutes from './interviewRoutes.js';
 import integrationRoutes from './integrationRoutes.js';
 
-// Phase 5 Routes
 import payrollRoutes from './payrollRoutes.js';
 import performanceRoutes from './performanceRoutes.js';
 import calendarRoutes from './calendarRoutes.js';
@@ -49,14 +46,12 @@ import approvalRoutes from './approvalRoutes.js';
 import companySettingRoutes from './companySettingRoutes.js';
 import recurringScheduleRoutes from './recurringScheduleRoutes.js';
 
-// Phase 6 Routes
 import jobBoardRoutes from './jobBoardRoutes.js';
 import projectRoutes from './projectRoutes.js';
 import mindMapRoutes from './mindMapRoutes.js';
 import certificateRoutes from './certificateRoutes.js';
 import monitoringRoutes from './monitoringRoutes.js';
 
-// Phase 7 Routes
 import tenantRoutes from './tenantRoutes.js';
 import marketplaceRoutes from './marketplaceRoutes.js';
 import cartRoutes from './cartRoutes.js';
@@ -67,26 +62,22 @@ import apiKeyRoutes from './apiKeyRoutes.js';
 import webhookRoutes from './webhookRoutes.js';
 import orderRoutes from './orderRoutes.js';
 
-// Phase 8 Routes
 import predictiveRoutes from './predictiveRoutes.js';
 import automationRoutes from './automationRoutes.js';
 import notificationRoutes from './notificationRoutes.js';
 
-// Role-isolated auth routes
 import adminAuthRoutes from './admin/authRoutes.js';
 import vendorAuthRoutes from './vendor/authRoutes.js';
 import clientAuthRoutes from './client/authRoutes.js';
 
-// Role-isolated data routes
 import adminRoutes from './admin/adminRoutes.js';
 import vendorRoutes from './vendor/vendorRoutes.js';
-import clientRoutes from './client/clientRoutes.js';
+import clientPortalRoutes from './client/clientRoutes.js';
 
 import { resolveTenant } from '../middleware/tenantResolver.js';
 
 const router = express.Router();
 
-// Apply resolveTenant middleware globally to resolve the tenant context
 router.use(resolveTenant);
 
 router.use('/v1/auth', authRoutes);
@@ -96,18 +87,16 @@ router.use('/v1/activity-feed', feedRoutes);
 router.use('/v1/audit-logs', auditRoutes);
 router.use('/health', healthRoutes);
 router.use('/v1/system', systemRoutes);
+router.use('/v1/role', roleRoutes);
 
-// Role-isolated auth endpoints
 router.use('/v1/admin/auth', adminAuthRoutes);
 router.use('/v1/vendor/auth', vendorAuthRoutes);
 router.use('/v1/client/auth', clientAuthRoutes);
 
-// Role-isolated data endpoints
 router.use('/v1/admin', adminRoutes);
 router.use('/v1/vendor', vendorRoutes);
-router.use('/v1/client', clientRoutes);
+router.use('/v1/client', clientPortalRoutes);
 
-// Mount Phase 2 Routes
 router.use('/v1', employeeRoutes);
 router.use('/v1', internRoutes);
 router.use('/v1', attendanceRoutes);
@@ -122,7 +111,6 @@ router.use('/v1', clientRoutes);
 router.use('/v1', subscriptionRoutes);
 router.use('/v1', taskRoutes);
 
-// Mount Phase 3 Routes
 router.use('/v1', transactionRoutes);
 router.use('/v1', invoiceRoutes);
 router.use('/v1', paymentRoutes);
@@ -130,7 +118,6 @@ router.use('/v1', liveQuizRoutes);
 router.use('/v1', forumRoutes);
 router.use('/v1', badgeRoutes);
 
-// Mount Phase 4 Routes
 router.use('/v1', communicationRoutes);
 router.use('/v1', templateRoutes);
 router.use('/v1', providerRoutes);
@@ -139,7 +126,6 @@ router.use('/v1', candidateRoutes);
 router.use('/v1', interviewRoutes);
 router.use('/v1', integrationRoutes);
 
-// Mount Phase 5 Routes
 router.use('/v1', payrollRoutes);
 router.use('/v1', performanceRoutes);
 router.use('/v1', calendarRoutes);
@@ -149,14 +135,12 @@ router.use('/v1', approvalRoutes);
 router.use('/v1', companySettingRoutes);
 router.use('/v1', recurringScheduleRoutes);
 
-// Mount Phase 6 Routes
 router.use('/v1', jobBoardRoutes);
 router.use('/v1', projectRoutes);
 router.use('/v1', mindMapRoutes);
 router.use('/v1', certificateRoutes);
 router.use('/v1', monitoringRoutes);
 
-// Mount Phase 7 Routes
 router.use('/v1', tenantRoutes);
 router.use('/v1', marketplaceRoutes);
 router.use('/v1', cartRoutes);
@@ -167,10 +151,8 @@ router.use('/v1', apiKeyRoutes);
 router.use('/v1', webhookRoutes);
 router.use('/v1', orderRoutes);
 
-// Mount Phase 8 Routes
 router.use('/v1', predictiveRoutes);
 router.use('/v1', automationRoutes);
 router.use('/v1', notificationRoutes);
 
 export default router;
-

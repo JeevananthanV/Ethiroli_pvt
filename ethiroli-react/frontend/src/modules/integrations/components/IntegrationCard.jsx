@@ -1,89 +1,107 @@
-import React, { useState } from 'react';
-import { deleteIntegration } from '../../../services/api/integrationApi.js';
+import React, { useState } from 'react'
+import AdminPage from '../../common/components/AdminPage'
+import Button from '../../common/components/Button'
+import Modal from '../../common/components/Modal'
+import Input from '../../common/components/Input'
+import { integrationApi } from '../../services/api/integrationApi'
 
-export default function IntegrationCard({ integration, onUpdate }) {
-  const [testing, setTesting] = useState(false);
-  const [testResult, setTestResult] = useState(null);
+export default function IntegrationCard({ integration }) {
+  const [configOpen, setConfigOpen] = useState(false)
+  const [config, setConfig] = useState({})
+  const [loading, setLoading] = useState(false)
+  const [testing, setTesting] = useState(false)
+  const [testResult, setTestResult] = useState(null)
 
-  const handleTestConnection = async () => {
-    setTesting(true);
-    setTestResult(null);
+  const handleConfigClick = async () => {
+    setConfigOpen(true)
+    setTestResult(null)
+    setLoading(true)
     try {
-      await new Promise(r => setTimeout(r, 1200));
-      setTestResult({ success: true, message: 'Connection successful! Latency: 42ms' });
-    } catch {
-      setTestResult({ success: false, message: 'Connection failed. Check your credentials.' });
-    } finally {
-      setTesting(false);
-    }
-  };
-
-  const handleDelete = async () => {
-    if (!window.confirm('Are you sure you want to delete this integration?')) return;
-    try {
-      await deleteIntegration(integration.id);
-      onUpdate?.();
+      const data = await integrationApi.getConfig(integration.id)
+      setConfig(data)
     } catch (err) {
-      console.error('Failed to delete integration:', err);
+      console.error('Failed to load config', err)
+    } finally {
+      setLoading(false)
     }
-  };
+  }
 
-  const getHealthColor = (status) => {
-    switch (status) {
-      case 'healthy': return 'active';
-      case 'degraded': return 'pending';
-      case 'down': return 'error';
-      default: return 'inactive';
+  const handleTest = async () => {
+    setTesting(true)
+    setTestResult(null)
+    try {
+      const result = await integrationApi.testConnection(integration.id)
+      setTestResult(result)
+    } catch (err) {
+      setTestResult({ success: false, message: err.message })
+    } finally {
+      setTesting(false)
     }
-  };
+  }
 
   return (
-    <div className="card" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: 14 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <div>
-          <h4 style={{ margin: '0 0 4px', fontSize: 16, fontWeight: 600 }}>{integration.name}</h4>
-          <p style={{ margin: 0, fontSize: 12, color: 'var(--admin-text-muted)' }}>{integration.type || 'Integration'}</p>
-        </div>
-        <span className={`statusTag ${getHealthColor(integration.health)}`}>
-          {integration.health || 'Unknown'}
-        </span>
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, fontSize: 13 }}>
-        <div>
-          <span style={{ display: 'block', fontSize: 11, textTransform: 'uppercase', letterSpacing: 0.5, color: 'var(--admin-text-muted)' }}>Last Sync</span>
-          <span style={{ color: 'var(--admin-text-secondary)', fontWeight: 500 }}>
-            {integration.lastSync ? new Date(integration.lastSync).toLocaleString() : 'Never'}
+    <>
+      <div className="card">
+        <div className="cardHeader">
+          <h3 className="cardTitle">{integration.name}</h3>
+          <span className={`statusTag ${integration.status === 'active' ? 'active' : 'pending'}`}>
+            {integration.status}
           </span>
         </div>
-        <div>
-          <span style={{ display: 'block', fontSize: 11, textTransform: 'uppercase', letterSpacing: 0.5, color: 'var(--admin-text-muted)' }}>Endpoint</span>
-          <span style={{ color: 'var(--admin-text-secondary)', fontWeight: 500, wordBreak: 'break-all' }}>
-            {integration.endpoint || integration.provider || 'N/A'}
-          </span>
+        <div className="cardBody">
+          <p className="textSecondary textSm">Type: {integration.type}</p>
+          <p className="textSecondary textSm">Last Sync: {integration.lastSync ? new Date(integration.lastSync).toLocaleString() : 'Never'}</p>
+          <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
+            <Button size="small" variant="secondary" onClick={handleConfigClick}>
+              Configure
+            </Button>
+            <Button size="small" variant="primary" onClick={handleTest} disabled={testing}>
+              {testing ? 'Testing...' : 'Test'}
+            </Button>
+          </div>
         </div>
       </div>
 
-      {testResult && (
-        <div style={{
-          padding: '10px 12px',
-          borderRadius: 8,
-          fontSize: 13,
-          background: testResult.success ? 'rgba(16, 185, 129, 0.1)' : 'rgba(244, 63, 94, 0.1)',
-          color: testResult.success ? 'var(--admin-success)' : 'var(--admin-danger)',
-          border: `1px solid ${testResult.success ? 'rgba(16, 185, 129, 0.2)' : 'rgba(244, 63, 94, 0.2)'}`
-        }}>
-          {testResult.message}
-        </div>
-      )}
-
-      <div style={{ display: 'flex', gap: 8, marginTop: 'auto' }}>
-        <button className="btn secondary btnSm" onClick={handleTestConnection} disabled={testing}>
-          {testing ? 'Testing...' : 'Test Connection'}
-        </button>
-        <button className="btn primary btnSm" onClick={() => onUpdate?.('edit', integration)}>Configure</button>
-        <button className="btn danger btnSm" onClick={handleDelete}>Delete</button>
-      </div>
-    </div>
-  );
+      <Modal isOpen={configOpen} onClose={() => setConfigOpen(false)} title={`Configure ${integration.name}`}>
+        {loading ? (
+          <div className="loading">
+            <div className="skeleton" style={{ width: '100%', height: '200px' }} />
+          </div>
+        ) : (
+          <div className="form">
+            <div className="formGroup">
+              <label className="label">API Key</label>
+              <Input
+                type="password"
+                value={config.apiKey || ''}
+                onChange={(e) => setConfig({ ...config, apiKey: e.target.value })}
+                placeholder="Enter API key"
+              />
+            </div>
+            <div className="formGroup">
+              <label className="label">Webhook URL</label>
+              <Input
+                value={config.webhookUrl || ''}
+                onChange={(e) => setConfig({ ...config, webhookUrl: e.target.value })}
+                placeholder="https://example.com/webhook"
+              />
+            </div>
+            {testResult && (
+              <div className={`formGroup ${testResult.success ? 'textSuccess' : 'textDanger'}`}>
+                <span>{testResult.success ? 'Connection successful' : `Failed: ${testResult.message}`}</span>
+              </div>
+            )}
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '16px' }}>
+              <Button variant="secondary" onClick={() => setConfigOpen(false)}>
+                Close
+              </Button>
+              <Button variant="primary" onClick={handleTest} disabled={testing}>
+                {testing ? 'Testing...' : 'Test Connection'}
+              </Button>
+            </div>
+          </div>
+        )}
+      </Modal>
+    </>
+  )
 }

@@ -1,147 +1,92 @@
-import React, { useEffect, useState } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { getSystemHealth } from '../../services/api/systemApi.js';
-
-const SERVICES = [
-  { key: 'api', label: 'API Gateway' },
-  { key: 'database', label: 'Database' },
-  { key: 'cache', label: 'Cache (Redis)' },
-  { key: 'queue', label: 'Message Queue' },
-  { key: 'storage', label: 'Storage' },
-  { key: 'auth', label: 'Auth Service' },
-];
+import React, { useState, useEffect } from 'react'
+import AdminPage from '../../common/components/AdminPage'
+import Button from '../../common/components/Button'
+import { systemApi } from '../../services/api/systemApi'
 
 export default function ServiceHealth() {
-  const [health, setHealth] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [refreshing, setRefreshing] = useState(false);
-
-  const loadHealth = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await getSystemHealth();
-      setHealth(data || null);
-    } catch (err) {
-      setError(err.message || 'Failed to load system health');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [services, setServices] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    loadHealth();
-    const interval = setInterval(loadHealth, 30000);
-    return () => clearInterval(interval);
-  }, []);
+    loadHealth()
+  }, [])
 
-  const handleRefresh = async () => {
-    setRefreshing(true);
-    await loadHealth();
-    setRefreshing(false);
-  };
-
-  const getServiceStatus = (serviceKey) => {
-    if (!health || !health.services) {
-      return { status: 'unknown', uptime: '-', latency: '-' };
+  const loadHealth = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const data = await systemApi.getHealth()
+      setServices(data)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
     }
-    const service = health.services[serviceKey];
-    if (!service) return { status: 'unknown', uptime: '-', latency: '-' };
-    return {
-      status: service.status || 'unknown',
-      uptime: service.uptime ? `${Math.floor(service.uptime / 60)}m` : '-',
-      latency: service.latency ? `${service.latency}ms` : '-',
-    };
-  };
+  }
 
   const getStatusClass = (status) => {
-    switch ((status || '').toLowerCase()) {
+    switch (status) {
       case 'healthy':
-      case 'up':
-      case 'operational':
-        return 'active';
+        return 'active'
       case 'degraded':
-      case 'slow':
-        return 'warning';
+        return 'pending'
       case 'down':
-      case 'unhealthy':
-      case 'error':
-        return 'error';
+        return 'error'
       default:
-        return 'pending';
+        return 'pending'
     }
-  };
+  }
 
   return (
     <AdminPage
       title="Service Health"
-      subtitle="Real-time status of infrastructure services"
+      subtitle="Monitor individual service health and metrics"
       loading={loading}
       error={error}
       onRetry={loadHealth}
       actions={
-        <button className="btn secondary" onClick={handleRefresh} disabled={refreshing}>
-          {refreshing ? 'Refreshing...' : 'Refresh'}
-        </button>
+        <Button variant="secondary" onClick={loadHealth}>
+          Refresh
+        </Button>
       }
     >
-      <div style={{ display: 'grid', gap: 12, marginBottom: 24 }}>
-        {SERVICES.map((service) => {
-          const svc = getServiceStatus(service.key);
-          return (
-            <div key={service.key} className="card" style={{ padding: '16px 20px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div>
-                  <div className="textPrimary" style={{ fontWeight: 500, fontSize: 15 }}>{service.label}</div>
-                  <div className="textMuted" style={{ fontSize: 12, marginTop: 4 }}>
-                    Uptime: {svc.uptime} | Latency: {svc.latency}
-                  </div>
-                </div>
-                <span className={`statusTag ${getStatusClass(svc.status)}`}>
-                  {svc.status}
+      <div className="grid gridCols3">
+        {services.length === 0 ? (
+          <div className="emptyState" style={{ gridColumn: '1 / -1' }}>
+            <p className="textMuted">No services found</p>
+          </div>
+        ) : (
+          services.map((service) => (
+            <div key={service.id} className="card">
+              <div className="cardHeader">
+                <h3 className="cardTitle">{service.name}</h3>
+                <span className={`statusTag ${getStatusClass(service.status)}`}>
+                  {service.status}
                 </span>
               </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {health && (
-        <div className="card">
-          <div className="cardHeader"><h3 className="cardTitle">System Summary</h3></div>
-          <div className="cardBody" style={{ overflowX: 'auto' }}>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Metric</th>
-                  <th>Value</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="textPrimary" style={{ fontWeight: 500 }}>Overall Status</td>
-                  <td>
-                    <span className={`statusTag ${getStatusClass(health.status)}`}>
-                      {health.status || 'unknown'}
+              <div className="cardBody">
+                <div className="form">
+                  <div className="formGroup">
+                    <label className="label">Uptime</label>
+                    <span className="textSecondary textSm">{service.uptime || '-'}</span>
+                  </div>
+                  <div className="formGroup">
+                    <label className="label">Response Time</label>
+                    <span className="textSecondary textSm">{service.responseTime ? `${service.responseTime}ms` : '-'}</span>
+                  </div>
+                  <div className="formGroup">
+                    <label className="label">Last Check</label>
+                    <span className="textSecondary textSm">
+                      {service.lastCheck ? new Date(service.lastCheck).toLocaleString() : '-'}
                     </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="textPrimary" style={{ fontWeight: 500 }}>Last Checked</td>
-                  <td className="textSecondary">{health.timestamp ? new Date(health.timestamp).toLocaleString() : '-'}</td>
-                </tr>
-                <tr>
-                  <td className="textPrimary" style={{ fontWeight: 500 }}>Active Services</td>
-                  <td className="textSecondary">
-                    {SERVICES.filter((s) => getServiceStatus(s.key).status !== 'unknown').length} / {SERVICES.length}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
     </AdminPage>
-  );
+  )
 }

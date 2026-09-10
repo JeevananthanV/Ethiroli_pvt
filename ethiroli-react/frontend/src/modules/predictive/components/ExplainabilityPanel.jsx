@@ -1,172 +1,137 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { getLeadScore, getStudentChurn } from '../../services/api/predictiveApi.js';
+import React, { useState, useEffect } from 'react'
+import AdminPage from '../../common/components/AdminPage'
+import Button from '../../common/components/Button'
+import Modal from '../../common/components/Modal'
+import { predictiveApi } from '../../services/api/predictiveApi'
 
 export default function ExplainabilityPanel() {
-  const [leadScore, setLeadScore] = useState(null);
-  const [churnScore, setChurnScore] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [targetId, setTargetId] = useState('');
-  const [mode, setMode] = useState('lead');
-
-  const loadExplanation = useCallback(async () => {
-    if (!targetId.trim()) return;
-    setLoading(true);
-    setError(null);
-    try {
-      if (mode === 'lead') {
-        const data = await getLeadScore(targetId.trim());
-        setLeadScore(data || null);
-        setChurnScore(null);
-      } else {
-        const data = await getStudentChurn(targetId.trim());
-        setChurnScore(data || null);
-        setLeadScore(null);
-      }
-    } catch (err) {
-      setError(err.message || 'Failed to load explanation');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [models, setModels] = useState([])
+  const [selectedModel, setSelectedModel] = useState(null)
+  const [explanation, setExplanation] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    loadExplanation();
-  }, []);
+    loadModels()
+  }, [])
 
-  const getBarColor = (value) => {
-    const val = Number(value) || 0;
-    if (val >= 0.7) return 'var(--admin-success)';
-    if (val >= 0.4) return 'var(--admin-warning)';
-    return 'var(--admin-danger)';
-  };
+  const loadModels = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const data = await predictiveApi.getAll()
+      setModels(data)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
 
-  const renderFeatureImportance = (features) => {
-    if (!Array.isArray(features)) return <div className="textMuted">No feature data available.</div>;
-    const maxVal = Math.max(...features.map((f) => Math.abs(f.importance || f.value || 0)), 0.01);
-    return (
-      <div style={{ display: 'grid', gap: 10 }}>
-        {features.map((feature, idx) => {
-          const importance = feature.importance || feature.value || 0;
-          const width = Math.max((Math.abs(importance) / maxVal) * 100, 2);
-          return (
-            <div key={idx}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                <span className="textPrimary" style={{ fontSize: 13 }}>{feature.name || feature.feature}</span>
-                <span className="textSecondary" style={{ fontSize: 12 }}>{typeof importance === 'number' ? importance.toFixed(4) : importance}</span>
-              </div>
-              <div style={{ width: '100%', height: 8, background: 'var(--admin-bg-dark)', borderRadius: 4, overflow: 'hidden' }}>
-                <div style={{ width: `${width}%`, height: '100%', background: getBarColor(importance), borderRadius: 4, transition: 'width 0.3s' }}></div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    );
-  };
-
-  const activeData = mode === 'lead' ? leadScore : churnScore;
+  const handleModelSelect = async (modelId) => {
+    const model = models.find((m) => m.id === modelId)
+    setSelectedModel(model)
+    setExplanation(null)
+    try {
+      const data = await predictiveApi.predict({ modelId })
+      setExplanation(data)
+    } catch (err) {
+      console.error('Failed to load explanation', err)
+    }
+  }
 
   return (
     <AdminPage
       title="Explainability Panel"
-      subtitle="AI model feature importance and SHAP values"
+      subtitle="AI model explainability with feature importance and SHAP values"
       loading={loading}
       error={error}
-      onRetry={loadExplanation}
+      onRetry={loadModels}
     >
-      <div className="card" style={{ marginBottom: 24 }}>
-        <div className="cardHeader">
-          <h3 className="cardTitle">Query Model Explanation</h3>
-        </div>
-        <div className="cardBody">
-          <form onSubmit={(e) => { e.preventDefault(); loadExplanation(); }} className="form">
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
+      <div className="grid gridCols2">
+        <div className="card">
+          <div className="cardHeader">
+            <h3 className="cardTitle">Select Model</h3>
+          </div>
+          <div className="cardBody">
+            <div className="form">
               <div className="formGroup">
-                <label className="label required">Target ID</label>
-                <input className="inputField" required value={targetId} onChange={(e) => setTargetId(e.target.value)} placeholder="Enter lead or student ID" />
-              </div>
-              <div className="formGroup">
-                <label className="label">Mode</label>
-                <select className="select" value={mode} onChange={(e) => setMode(e.target.value)}>
-                  <option value="lead">Lead Score</option>
-                  <option value="churn">Student Churn</option>
+                <label className="label required">Model</label>
+                <select
+                  className="select"
+                  value={selectedModel?.id || ''}
+                  onChange={(e) => handleModelSelect(e.target.value)}
+                >
+                  <option value="">Select Model</option>
+                  {models.map((m) => (
+                    <option key={m.id} value={m.id}>
+                      {m.name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
-            <button type="submit" className="btn primary" disabled={loading || !targetId.trim()}>
-              {loading ? 'Loading...' : 'Load Explanation'}
-            </button>
-          </form>
-        </div>
-      </div>
-
-      {activeData && (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
-          <div className="card">
-            <div className="cardHeader">
-              <h3 className="cardTitle">Feature Importance</h3>
-            </div>
-            <div className="cardBody">
-              {renderFeatureImportance(activeData.features || activeData.feature_importance || activeData.shap_values)}
-            </div>
           </div>
+        </div>
 
+        {selectedModel && (
           <div className="card">
             <div className="cardHeader">
-              <h3 className="cardTitle">Prediction Details</h3>
+              <h3 className="cardTitle">Model Info</h3>
             </div>
             <div className="cardBody">
-              <div style={{ display: 'grid', gap: 12 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span className="textMuted">Score</span>
-                  <span className="textPrimary" style={{ fontWeight: 600, fontSize: 20 }}>
-                    {typeof activeData.score === 'number' ? activeData.score.toFixed(4) : activeData.score}
-                  </span>
+              <div className="form">
+                <div className="formGroup">
+                  <label className="label">Name</label>
+                  <span className="textSecondary">{selectedModel.name}</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span className="textMuted">Confidence</span>
-                  <span className="textSecondary">
-                    {typeof activeData.confidence === 'number' ? `${(activeData.confidence * 100).toFixed(1)}%` : activeData.confidence || '-'}
-                  </span>
+                <div className="formGroup">
+                  <label className="label">Type</label>
+                  <span className="textSecondary">{selectedModel.type || '-'}</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span className="textMuted">Prediction</span>
-                  <span className={`statusTag ${(activeData.prediction || activeData.label) === 'positive' || (activeData.prediction || activeData.label) === 'high' ? 'active' : 'error'}`}>
-                    {activeData.prediction || activeData.label || '-'}
-                  </span>
-                </div>
-                {activeData.shap_values && (
-                  <div>
-                    <span className="textMuted">SHAP Values:</span>
-                    <pre style={{ background: 'var(--admin-bg-dark)', padding: 12, borderRadius: 6, fontSize: 12, marginTop: 4 }}>
-                      {JSON.stringify(activeData.shap_values, null, 2)}
-                    </pre>
-                  </div>
-                )}
-                <div>
-                  <span className="textMuted">Raw Response:</span>
-                  <pre style={{ background: 'var(--admin-bg-dark)', padding: 12, borderRadius: 6, fontSize: 12, marginTop: 4, maxHeight: 300, overflow: 'auto' }}>
-                    {JSON.stringify(activeData, null, 2)}
-                  </pre>
+                <div className="formGroup">
+                  <label className="label">Accuracy</label>
+                  <span className="textSecondary">{selectedModel.accuracy ? `${(selectedModel.accuracy * 100).toFixed(2)}%` : '-'}</span>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
-      {!activeData && !loading && (
-        <div className="card">
+      {explanation && (
+        <div className="card mt4">
+          <div className="cardHeader">
+            <h3 className="cardTitle">Feature Importance</h3>
+          </div>
           <div className="cardBody">
-            <div className="emptyState">
-              <h3>No explanation loaded</h3>
-              <p>Enter an ID and click Load Explanation to see feature importance and SHAP values.</p>
-            </div>
+            {explanation.features?.length > 0 ? (
+              <div className="overflowAuto">
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>Feature</th>
+                      <th>Importance</th>
+                      <th>SHAP Value</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {explanation.features.map((feature, idx) => (
+                      <tr key={idx}>
+                        <td>{feature.name}</td>
+                        <td>{feature.importance?.toFixed(4) || '-'}</td>
+                        <td>{feature.shapValue?.toFixed(4) || '-'}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <p className="textMuted">No explanation data available</p>
+            )}
           </div>
         </div>
       )}
     </AdminPage>
-  );
+  )
 }

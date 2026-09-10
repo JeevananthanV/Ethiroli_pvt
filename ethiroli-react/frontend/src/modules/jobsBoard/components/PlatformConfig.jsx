@@ -1,170 +1,160 @@
-import React, { useEffect, useState } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { listJobBoardPosts } from '../../services/api/jobBoardApi.js';
+import React, { useState, useEffect } from 'react'
+import AdminPage from '../../common/components/AdminPage'
+import Button from '../../common/components/Button'
+import Modal from '../../common/components/Modal'
+import Input from '../../common/components/Input'
+import { jobBoardApi } from '../../services/api/jobBoardApi'
+
+const PLATFORMS = ['LinkedIn', 'Indeed', 'Glassdoor', 'Monster', 'SimplyHired', 'CareerBuilder']
 
 export default function PlatformConfig() {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [selectedPlatform, setSelectedPlatform] = useState('');
-  const [config, setConfig] = useState({
-    linkedin: { enabled: false, api_key: '', client_id: '', client_secret: '' },
-    indeed: { enabled: false, api_key: '', publisher_id: '' },
-    glassdoor: { enabled: false, api_key: '', partner_id: '' },
-    monster: { enabled: false, api_key: '', account_id: '' },
-  });
-  const [saving, setSaving] = useState(false);
-
-  const loadPosts = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await listJobBoardPosts();
-      setPosts(Array.isArray(data) ? data : []);
-    } catch (err) {
-      setError(err.message || 'Failed to load job board data');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [platforms, setPlatforms] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [editingPlatform, setEditingPlatform] = useState(null)
+  const [form, setForm] = useState({
+    name: '',
+    apiKey: '',
+    enabled: true,
+  })
 
   useEffect(() => {
-    loadPosts();
-  }, []);
+    loadPlatforms()
+  }, [])
 
-  const handleTogglePlatform = (platform) => {
-    setConfig((prev) => ({
-      ...prev,
-      [platform]: { ...prev[platform], enabled: !prev[platform].enabled },
-    }));
-  };
-
-  const handleConfigChange = (platform, field, value) => {
-    setConfig((prev) => ({
-      ...prev,
-      [platform]: { ...prev[platform], [field]: value },
-    }));
-  };
-
-  const handleSave = async (e) => {
-    e.preventDefault();
-    setSaving(true);
+  const loadPlatforms = async () => {
+    setLoading(true)
+    setError(null)
     try {
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      alert('Platform configurations saved');
+      const data = await jobBoardApi.getAll()
+      setPlatforms(data)
     } catch (err) {
-      alert(`Save failed: ${err.message}`);
+      setError(err.message)
     } finally {
-      setSaving(false);
+      setLoading(false)
     }
-  };
+  }
 
-  const platformKeys = Object.keys(config);
+  const handleCreate = () => {
+    setEditingPlatform(null)
+    setForm({ name: '', apiKey: '', enabled: true })
+    setModalOpen(true)
+  }
+
+  const handleEdit = (platform) => {
+    setEditingPlatform(platform)
+    setForm({
+      name: platform.name || '',
+      apiKey: platform.apiKey || '',
+      enabled: platform.enabled ?? true,
+    })
+    setModalOpen(true)
+  }
+
+  const handleSubmit = async () => {
+    try {
+      if (editingPlatform) {
+        await jobBoardApi.update(editingPlatform.id, form)
+        setPlatforms(platforms.map((p) => (p.id === editingPlatform.id ? { ...p, ...form } : p)))
+      } else {
+        const data = await jobBoardApi.create(form)
+        setPlatforms([...platforms, data])
+      }
+      setModalOpen(false)
+    } catch (err) {
+      setError(err.message)
+    }
+  }
 
   return (
     <AdminPage
       title="Platform Configuration"
-      subtitle="Configure job board integrations (LinkedIn, Indeed, etc.)"
+      subtitle="Configure job board platforms"
       loading={loading}
       error={error}
-      onRetry={loadPosts}
+      onRetry={loadPlatforms}
+      actions={
+        <Button variant="primary" onClick={handleCreate}>
+          Add Platform
+        </Button>
+      }
     >
-      <div className="card" style={{ marginBottom: 20 }}>
-        <div className="cardHeader">
-          <h3 className="cardTitle">Platform Integrations</h3>
-        </div>
-        <div className="cardBody">
-          <form onSubmit={handleSave} className="form">
-            <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
-              {platformKeys.map((platform) => (
-                <button
-                  key={platform}
-                  type="button"
-                  className={`btn ${selectedPlatform === platform ? 'primary' : 'secondary'}`}
-                  onClick={() => setSelectedPlatform(platform)}
-                  style={{ textTransform: 'capitalize' }}
-                >
-                  {platform}
-                </button>
-              ))}
-            </div>
-
-            {selectedPlatform && config[selectedPlatform] && (
-              <div style={{ border: '1px solid var(--admin-border)', borderRadius: 8, padding: 20 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-                  <h4 style={{ margin: 0, textTransform: 'capitalize' }}>{selectedPlatform} Settings</h4>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
-                    <input
-                      type="checkbox"
-                      checked={config[selectedPlatform].enabled}
-                      onChange={() => handleTogglePlatform(selectedPlatform)}
-                    />
-                    <span>Enabled</span>
-                  </label>
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
-                  {Object.entries(config[selectedPlatform])
-                    .filter(([key]) => key !== 'enabled')
-                    .map(([field, value]) => (
-                      <div className="formGroup" key={field}>
-                        <label className="label" style={{ textTransform: 'capitalize' }}>{field.replace(/_/g, ' ')}</label>
-                        <input
-                          className="inputField"
-                          type={field.toLowerCase().includes('secret') || field.toLowerCase().includes('key') ? 'password' : 'text'}
-                          value={value}
-                          onChange={(e) => handleConfigChange(selectedPlatform, field, e.target.value)}
-                        />
-                      </div>
-                    ))}
-                </div>
-              </div>
-            )}
-
-            <div style={{ marginTop: 20 }}>
-              <button type="submit" className="btn primary" disabled={saving || !selectedPlatform}>
-                {saving ? 'Saving...' : 'Save All Configurations'}
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-
       <div className="card">
-        <div className="cardHeader">
-          <h3 className="cardTitle">Platform Stats</h3>
-        </div>
-        <div className="cardBody" style={{ overflowX: 'auto' }}>
-          {posts.length === 0 ? (
-            <div className="emptyState">No job board data available.</div>
-          ) : (
-            <table className="table">
-              <thead>
+        <div className="overflowAuto">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Platform</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {platforms.length === 0 ? (
                 <tr>
-                  <th>Platform</th>
-                  <th>Posts</th>
-                  <th>Active</th>
-                  <th>Total Views</th>
+                  <td colSpan="3" style={{ textAlign: 'center', padding: '32px' }}>
+                    <span className="textMuted">No platforms configured</span>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {['linkedin', 'indeed', 'glassdoor', 'monster'].map((platform) => {
-                  const platformPosts = posts.filter((p) => p.platform?.toLowerCase() === platform);
-                  const active = platformPosts.filter((p) => p.status === 'active').length;
-                  const views = platformPosts.reduce((sum, p) => sum + (p.views || p.view_count || 0), 0);
-                  return (
-                    <tr key={platform}>
-                      <td className="textPrimary" style={{ fontWeight: 500, textTransform: 'capitalize' }}>{platform}</td>
-                      <td className="textSecondary">{platformPosts.length}</td>
-                      <td className="textSecondary">{active}</td>
-                      <td className="textSecondary">{views}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          )}
+              ) : (
+                platforms.map((platform) => (
+                  <tr key={platform.id}>
+                    <td>{platform.name}</td>
+                    <td>
+                      <span className={`statusTag ${platform.enabled ? 'active' : 'pending'}`}>
+                        {platform.enabled ? 'Enabled' : 'Disabled'}
+                      </span>
+                    </td>
+                    <td>
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        <Button size="small" variant="secondary" onClick={() => handleEdit(platform)}>
+                          Edit
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
+
+      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={editingPlatform ? 'Edit Platform' : 'Add Platform'}>
+        <div className="form">
+          <div className="formGroup">
+            <label className="label required">Platform</label>
+            <select className="select" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}>
+              <option value="">Select Platform</option>
+              {PLATFORMS.map((p) => (
+                <option key={p} value={p}>
+                  {p}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="formGroup">
+            <label className="label required">API Key</label>
+            <Input type="password" value={form.apiKey} onChange={(e) => setForm({ ...form, apiKey: e.target.value })} placeholder="Enter API key" />
+          </div>
+          <div className="formGroup">
+            <label className="label">Enabled</label>
+            <select className="select" value={form.enabled ? 'true' : 'false'} onChange={(e) => setForm({ ...form, enabled: e.target.value === 'true' })}>
+              <option value="true">Enabled</option>
+              <option value="false">Disabled</option>
+            </select>
+          </div>
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '16px' }}>
+            <Button variant="secondary" onClick={() => setModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={handleSubmit}>
+              {editingPlatform ? 'Update' : 'Add'}
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </AdminPage>
-  );
+  )
 }

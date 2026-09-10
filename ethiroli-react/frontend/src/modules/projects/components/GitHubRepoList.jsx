@@ -1,136 +1,187 @@
-import React, { useEffect, useState } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { listProjects, linkRepository } from '../../services/api/projectApi.js';
+import React, { useState, useEffect } from 'react'
+import AdminPage from '../../common/components/AdminPage'
+import Button from '../../common/components/Button'
+import Modal from '../../common/components/Modal'
+import Input from '../../common/components/Input'
+import { projectApi } from '../../services/api/projectApi'
 
 export default function GitHubRepoList() {
-  const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [syncingId, setSyncingId] = useState(null);
-
-  const loadProjects = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await listProjects();
-      setProjects(Array.isArray(data) ? data : []);
-    } catch (err) {
-      setError(err.message || 'Failed to load projects');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [repos, setRepos] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [editingRepo, setEditingRepo] = useState(null)
+  const [form, setForm] = useState({
+    name: '',
+    url: '',
+    branch: 'main',
+    status: 'pending',
+  })
 
   useEffect(() => {
-    loadProjects();
-  }, []);
+    loadRepos()
+  }, [])
 
-  const handleSync = async (project) => {
-    setSyncingId(project.id);
+  const loadRepos = async () => {
+    setLoading(true)
+    setError(null)
     try {
-      await linkRepository({ project_id: project.id, repo_url: project.github_url });
-      alert(`Repository synced for ${project.name}`);
-      loadProjects();
+      const data = await projectApi.getAll()
+      setRepos(data)
     } catch (err) {
-      alert(`Sync failed: ${err.message}`);
+      setError(err.message)
     } finally {
-      setSyncingId(null);
+      setLoading(false)
     }
-  };
+  }
 
-  const getSyncStatus = (project) => {
-    if (!project.github_url) return 'not_linked';
-    if (project.sync_status) return project.sync_status;
-    if (project.last_synced_at) return 'synced';
-    return 'pending';
-  };
+  const handleCreate = () => {
+    setEditingRepo(null)
+    setForm({ name: '', url: '', branch: 'main', status: 'pending' })
+    setModalOpen(true)
+  }
 
-  const getSyncClass = (status) => {
-    switch ((status || '').toLowerCase()) {
+  const handleEdit = (repo) => {
+    setEditingRepo(repo)
+    setForm({
+      name: repo.name || '',
+      url: repo.url || '',
+      branch: repo.branch || 'main',
+      status: repo.status || 'pending',
+    })
+    setModalOpen(true)
+  }
+
+  const handleSync = async (id) => {
+    try {
+      await projectApi.update(id, { status: 'syncing' })
+      setRepos(repos.map((r) => (r.id === id ? { ...r, status: 'syncing' } : r)))
+      setTimeout(async () => {
+        await projectApi.update(id, { status: 'synced' })
+        setRepos(repos.map((r) => (r.id === id ? { ...r, status: 'synced' } : r)))
+      }, 2000)
+    } catch (err) {
+      setError(err.message)
+    }
+  }
+
+  const handleSubmit = async () => {
+    try {
+      if (editingRepo) {
+        await projectApi.update(editingRepo.id, form)
+        setRepos(repos.map((r) => (r.id === editingRepo.id ? { ...r, ...form } : r)))
+      } else {
+        const data = await projectApi.create(form)
+        setRepos([...repos, data])
+      }
+      setModalOpen(false)
+    } catch (err) {
+      setError(err.message)
+    }
+  }
+
+  const getStatusClass = (status) => {
+    switch (status) {
       case 'synced':
-      case 'success':
-        return 'active';
+        return 'active'
       case 'syncing':
-      case 'pending':
-        return 'pending';
-      case 'failed':
+        return 'pending'
       case 'error':
-        return 'error';
+        return 'error'
       default:
-        return 'pending';
+        return 'pending'
     }
-  };
-
-  const formatDate = (date) => {
-    if (!date) return '-';
-    return new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  };
+  }
 
   return (
     <AdminPage
       title="GitHub Repositories"
-      subtitle="Linked repositories and sync status"
+      subtitle="Manage GitHub repository connections"
       loading={loading}
       error={error}
-      onRetry={loadProjects}
+      onRetry={loadRepos}
+      actions={
+        <Button variant="primary" onClick={handleCreate}>
+          Add Repository
+        </Button>
+      }
     >
       <div className="card">
-        <div className="cardHeader">
-          <h3 className="cardTitle">Repository Connections</h3>
-        </div>
-        <div className="cardBody" style={{ overflowX: 'auto' }}>
-          {projects.length === 0 ? (
-            <div className="emptyState">No projects found.</div>
-          ) : (
-            <table className="table">
-              <thead>
+        <div className="overflowAuto">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>URL</th>
+                <th>Branch</th>
+                <th>Status</th>
+                <th>Last Sync</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {repos.length === 0 ? (
                 <tr>
-                  <th>Project</th>
-                  <th>Repository</th>
-                  <th>Branch</th>
-                  <th>Sync Status</th>
-                  <th>Last Synced</th>
-                  <th>Actions</th>
+                  <td colSpan="6" style={{ textAlign: 'center', padding: '32px' }}>
+                    <span className="textMuted">No repositories found</span>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {projects.map((project) => {
-                  const syncStatus = getSyncStatus(project);
-                  return (
-                    <tr key={project.id}>
-                      <td className="textPrimary" style={{ fontWeight: 500 }}>{project.name}</td>
-                      <td className="textSecondary">
-                        {project.github_url ? (
-                          <a href={project.github_url} target="_blank" rel="noreferrer">{project.github_url}</a>
-                        ) : (
-                          <span className="textMuted">Not linked</span>
-                        )}
-                      </td>
-                      <td className="textSecondary">{project.branch || 'main'}</td>
-                      <td>
-                        <span className={`statusTag ${getSyncClass(syncStatus)}`}>
-                          {syncStatus.replace('_', ' ')}
-                        </span>
-                      </td>
-                      <td className="textSecondary">{formatDate(project.last_synced_at)}</td>
-                      <td>
-                        <button
-                          className="btn primary"
-                          style={{ padding: '4px 10px', fontSize: 12 }}
-                          onClick={() => handleSync(project)}
-                          disabled={syncingId === project.id || !project.github_url}
-                        >
-                          {syncingId === project.id ? 'Syncing...' : 'Sync Now'}
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          )}
+              ) : (
+                repos.map((repo) => (
+                  <tr key={repo.id}>
+                    <td>{repo.name}</td>
+                    <td className="truncate" style={{ maxWidth: '200px' }}>
+                      {repo.url}
+                    </td>
+                    <td>{repo.branch}</td>
+                    <td>
+                      <span className={`statusTag ${getStatusClass(repo.status)}`}>
+                        {repo.status}
+                      </span>
+                    </td>
+                    <td>{repo.lastSync ? new Date(repo.lastSync).toLocaleString() : '-'}</td>
+                    <td>
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        <Button size="small" variant="secondary" onClick={() => handleEdit(repo)}>
+                          Edit
+                        </Button>
+                        <Button size="small" variant="primary" onClick={() => handleSync(repo.id)} disabled={repo.status === 'syncing'}>
+                          Sync
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
+
+      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={editingRepo ? 'Edit Repository' : 'Add Repository'}>
+        <div className="form">
+          <div className="formGroup">
+            <label className="label required">Name</label>
+            <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Repository name" />
+          </div>
+          <div className="formGroup">
+            <label className="label required">URL</label>
+            <Input value={form.url} onChange={(e) => setForm({ ...form, url: e.target.value })} placeholder="https://github.com/user/repo" />
+          </div>
+          <div className="formGroup">
+            <label className="label">Branch</label>
+            <Input value={form.branch} onChange={(e) => setForm({ ...form, branch: e.target.value })} placeholder="main" />
+          </div>
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '16px' }}>
+            <Button variant="secondary" onClick={() => setModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={handleSubmit}>
+              {editingRepo ? 'Update' : 'Add'}
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </AdminPage>
-  );
+  )
 }

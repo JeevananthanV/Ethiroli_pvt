@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { resolve } from 'path'
+import { resolve, dirname } from 'path'
+import { existsSync } from 'fs'
 
 // Custom plugin to route /app/* and /admin/* requests to admin.html in dev mode
 const multiPageRewritePlugin = () => ({
@@ -8,7 +9,8 @@ const multiPageRewritePlugin = () => ({
   configureServer(server) {
     server.middlewares.use((req, res, next) => {
       const url = req.url ? req.url.split('?')[0] : '';
-      if ((url.startsWith('/app') || url.startsWith('/admin')) && !url.includes('.')) {
+      const rolePaths = ['/app', '/admin', '/auth', '/dashboard'];
+      if (rolePaths.some((path) => url.startsWith(path)) && !url.includes('.')) {
         req.url = '/admin.html';
       }
       next();
@@ -16,17 +18,54 @@ const multiPageRewritePlugin = () => ({
   },
 });
 
-// https://vite.dev/config/
+const relativePathFallbackPlugin = () => ({
+  name: 'relative-path-fallback',
+  resolveId(source, importer) {
+    if (!importer) return null;
+    const targets = ['common', 'services', 'modules', 'roles', 'store', 'components', 'styles', 'utils'];
+    for (const target of targets) {
+      const regex = new RegExp(`^(\\.\\.\\/)+${target}\\/(.*)`);
+      const match = source.match(regex);
+      if (match) {
+        const directResolve = resolve(dirname(importer), source);
+        const exists = existsSync(directResolve) ||
+          existsSync(`${directResolve}.jsx`) ||
+          existsSync(`${directResolve}.js`) ||
+          existsSync(resolve(directResolve, 'index.jsx')) ||
+          existsSync(resolve(directResolve, 'index.js'));
+        if (!exists) {
+          const canonical = resolve(process.cwd(), `src/${target}`, match[2]);
+          return this.resolve(canonical, importer, { skipSelf: true });
+        }
+      }
+    }
+    return null;
+  },
+});
+
 export default defineConfig({
-  plugins: [react(), multiPageRewritePlugin()],
+  plugins: [react(), multiPageRewritePlugin(), relativePathFallbackPlugin()],
   server: {
     port: 3000,
   },
   build: {
+    modulePreload: {
+      polyfill: false,
+    },
     rollupOptions: {
       input: {
         main: resolve(process.cwd(), 'index.html'),
         admin: resolve(process.cwd(), 'admin.html'),
+        'super-admin': resolve(process.cwd(), 'super-admin.html'),
+        'hr': resolve(process.cwd(), 'hr.html'),
+        'tutor': resolve(process.cwd(), 'tutor.html'),
+        'project-manager': resolve(process.cwd(), 'pm.html'),
+        'finance': resolve(process.cwd(), 'finance.html'),
+        'sales': resolve(process.cwd(), 'sales.html'),
+        'reception': resolve(process.cwd(), 'reception.html'),
+        'employee': resolve(process.cwd(), 'employee.html'),
+        'student': resolve(process.cwd(), 'student.html'),
+        'intern': resolve(process.cwd(), 'intern.html'),
       },
     },
   },

@@ -1,30 +1,57 @@
 import React, { useState } from 'react';
-import Modal from '../../../common/components/Modal/Modal.jsx';
-import Input from '../../../common/components/Input/Input.jsx';
+import Modal from '../../common/components/Modal/Modal.jsx';
+import Input from '../../common/components/Input/Input.jsx';
+import Button from '../../common/components/Button/Button.jsx';
 
-export default function MindMapNodeModal({ isOpen, onClose, node, onSave }) {
-  const [text, setText] = useState(node?.text || '');
+const MindMapNodeModal = ({ node, onClose, onSave }) => {
+  const [formData, setFormData] = useState({
+    title: node?.title || '',
+    content: node?.content || '',
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const save = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSave({ ...node, text });
-    onClose();
+    setLoading(true);
+    setError(null);
+    try {
+      await onSave(formData);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  if (!isOpen) return null;
-
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Edit Node">
-      <form onSubmit={save} className="form">
-        <div className="formGroup">
-          <label className="label">Text</label>
-          <Input value={text} onChange={(e) => setText(e.target.value)} required />
+    <Modal isOpen={true} onClose={onClose} title={node ? 'Edit Mind Map Node' : 'Add Mind Map Node'}>
+      <form onSubmit={handleSubmit}>
+        {error && <div className="emptyState" style={{ padding: '12px', marginBottom: '12px' }}><p className="textDanger">{error}</p></div>}
+        <Input
+          label="Title"
+          value={formData.title}
+          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+          required
+          placeholder="Enter node title"
+        />
+        <div className="formGroup" style={{ marginTop: '12px' }}>
+          <label className="label">Content</label>
+          <textarea
+            className="textarea"
+            value={formData.content}
+            onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+            rows={4}
+            placeholder="Enter node content"
+          />
         </div>
-        <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
-          <button type="button" className="btn secondary" onClick={onClose}>Cancel</button>
-          <button type="submit" className="btn primary">Save</button>
+        <div className="pageActions" style={{ marginTop: '16px' }}>
+          <Button type="button" variant="secondary" onClick={onClose}>Cancel</Button>
+          <Button type="submit" disabled={loading}>{loading ? 'Saving...' : 'Save'}</Button>
         </div>
       </form>
     </Modal>
   );
-}
+};
+
+export default MindMapNodeModal;

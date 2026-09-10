@@ -1,113 +1,170 @@
-import React, { useEffect, useState } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { listProjects } from '../../../services/api/projectApi.js';
+import React, { useState, useEffect, useCallback } from 'react';
+import { getBranches, getBranchDetails } from '../../services/api/projectApi';
+import AdminPage from '../../common/components/AdminPage/AdminPage.jsx';
+import Button from '../../common/components/Button/Button.jsx';
 
-export default function BranchTracker() {
-  const [projects, setProjects] = useState([]);
+const BranchTracker = ({ projectId }) => {
+  const [branches, setBranches] = useState([]);
+  const [selectedBranch, setSelectedBranch] = useState(null);
+  const [details, setDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [branches, setBranches] = useState({});
-  const [tracking, setTracking] = useState({});
+  const [detailsLoading, setDetailsLoading] = useState(false);
 
-  const fetchProjects = async () => {
+  const loadBranches = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await listProjects();
-      setProjects(Array.isArray(data) ? data : []);
+      const data = await getBranches(projectId);
+      setBranches(data.branches || data || []);
     } catch (err) {
-      setError(err.message || 'Failed to load projects');
+      setError(err.message);
     } finally {
       setLoading(false);
     }
-  };
+  }, [projectId]);
 
   useEffect(() => {
-    fetchProjects();
-  }, []);
+    loadBranches();
+  }, [projectId, loadBranches]);
 
-  const handleTrack = async (projectId) => {
-    setTracking(prev => ({ ...prev, [projectId]: true }));
+  const handleViewDetails = async (branch) => {
+    setDetailsLoading(true);
+    setSelectedBranch(branch);
     try {
-      const res = await fetch(`/api/v1/student-projects/projects/${projectId}/branches`);
-      const data = await res.json();
-      setBranches(prev => ({ ...prev, [projectId]: data }));
-    } catch {
-      alert('Failed to track branches');
+      const data = await getBranchDetails(projectId, branch.id);
+      setDetails(data);
+    } catch (err) {
+      setError(err.message);
     } finally {
-      setTracking(prev => ({ ...prev, [projectId]: false }));
+      setDetailsLoading(false);
     }
   };
 
-  if (loading) {
-    return (
-      <div className="card">
-        <div className="loading">Loading project branches...</div>
-      </div>
-    );
-  }
+  const getStatusClass = (status) => {
+    if (!status) return 'pending';
+    const lower = status.toLowerCase();
+    if (lower === 'merged' || lower === 'deployed' || lower === 'success') return 'active';
+    if (lower === 'open' || lower === 'pending') return 'pending';
+    if (lower === 'failed' || lower === 'error') return 'error';
+    return 'pending';
+  };
 
-  if (error) {
-    return (
-      <div className="card" style={{borderColor: 'rgba(244, 63, 94, 0.3)', background: 'rgba(244, 63, 94, 0.05)'}}>
-        <p style={{color: 'var(--admin-danger)', margin: 0}}>{error}</p>
-      </div>
-    );
-  }
+  if (loading) return <div className="loading">Loading branches...</div>;
+  if (error) return <div className="emptyState"><h3>Error</h3><p>{error}</p><button className="btn primary" onClick={loadBranches}>Retry</button></div>;
 
   return (
-    <div className="card">
-      <div style={{marginBottom: 20}}>
-        <h3 style={{margin: '0 0 4px', fontSize: 18, fontWeight: 700}}>Branch Tracker</h3>
-        <p style={{margin: 0, color: 'var(--admin-text-muted)', fontSize: 13.5}}>Monitor branch activity across student repositories</p>
+    <AdminPage
+      title="Branch Tracker"
+      subtitle="Track git branches and deployment status"
+      loading={loading}
+      error={error}
+      onRetry={loadBranches}
+      actions={<button className="btn primary" onClick={loadBranches}>Refresh</button>}
+    >
+      <div className="dashboardGrid" style={{ marginBottom: '24px' }}>
+        <div className="statCard">
+          <p className="statLabel">Total Branches</p>
+          <h3 className="statValue">{branches.length || 0}</h3>
+        </div>
+        <div className="statCard">
+          <p className="statLabel">Merged</p>
+          <h3 className="statValue textSuccess">{branches.filter(b => b.status?.toLowerCase() === 'merged').length || 0}</h3>
+        </div>
+        <div className="statCard">
+          <p className="statLabel">Open</p>
+          <h3 className="statValue textWarning">{branches.filter(b => b.status?.toLowerCase() === 'open').length || 0}</h3>
+        </div>
+        <div className="statCard">
+          <p className="statLabel">Deployed</p>
+          <h3 className="statValue textInfo">{branches.filter(b => b.deployed).length || 0}</h3>
+        </div>
       </div>
 
-      {projects.length === 0 ? (
-        <div className="emptyState">
-          <h3>No projects found</h3>
-          <p>Projects will appear here once created</p>
+      <div className="card">
+        <div className="cardHeader">
+          <h3 className="cardTitle">Branches</h3>
         </div>
-      ) : (
-        <div style={{display: 'flex', flexDirection: 'column', gap: 12}}>
-          {projects.map(project => (
-            <div key={project.id} style={{
-              background: 'var(--admin-bg-card)',
-              border: '1px solid var(--admin-border-subtle)',
-              borderRadius: 10,
-              padding: '14px 18px',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              gap: 12
-            }}>
+        <div className="cardBody">
+          {branches.length === 0 ? (
+            <div className="emptyState">
+              <h3>No branches found</h3>
+              <p>No branch information available.</p>
+            </div>
+          ) : (
+            <div className="overflowAuto">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Branch Name</th>
+                    <th>Author</th>
+                    <th>Status</th>
+                    <th>Last Commit</th>
+                    <th>Deployed</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {branches.map((branch) => (
+                    <tr key={branch.id || branch.name}>
+                      <td className="textPrimary">{branch.name}</td>
+                      <td className="textSecondary">{branch.author || '-'}</td>
+                      <td>
+                        <span className={`statusTag ${getStatusClass(branch.status)}`}>
+                          {branch.status || 'Open'}
+                        </span>
+                      </td>
+                      <td className="textSecondary">{branch.lastCommit ? new Date(branch.lastCommit).toLocaleDateString() : '-'}</td>
+                      <td className="textSecondary">{branch.deployed ? 'Yes' : 'No'}</td>
+                      <td>
+                        <button className="btn btnSm secondary" onClick={() => handleViewDetails(branch)}>Details</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {selectedBranch && (
+        <div className="card" style={{ marginTop: '24px' }}>
+          <div className="cardHeader">
+            <h3 className="cardTitle">Branch Details: {selectedBranch.name}</h3>
+          </div>
+          <div className="cardBody">
+            {detailsLoading ? (
+              <div className="loading">Loading details...</div>
+            ) : details ? (
               <div>
-                <div style={{fontWeight: 600, fontSize: 14, marginBottom: 4}}>{project.title}</div>
-                <div style={{fontSize: 12, color: 'var(--admin-text-muted)'}}>
-                  {project.student?.name || project.studentName || 'Unknown Student'}
+                <div className="formGroup">
+                  <label className="label">Commit Message</label>
+                  <p className="textSecondary">{details.commitMessage || details.message || 'No message'}</p>
+                </div>
+                <div className="formGroup" style={{ marginTop: '12px' }}>
+                  <label className="label">Commit Hash</label>
+                  <p className="textSecondary">{details.commitHash || details.hash || '-'}</p>
+                </div>
+                <div className="formGroup" style={{ marginTop: '12px' }}>
+                  <label className="label">Deployment Status</label>
+                  <span className={`statusTag ${getStatusClass(details.deploymentStatus)}`}>
+                    {details.deploymentStatus || 'Not Deployed'}
+                  </span>
+                </div>
+                <div className="formGroup" style={{ marginTop: '12px' }}>
+                  <label className="label">Deployment URL</label>
+                  <p className="textSecondary">{details.deploymentUrl || '-'}</p>
                 </div>
               </div>
-              {branches[project.id] ? (
-                <div style={{display: 'flex', gap: 6, flexWrap: 'wrap'}}>
-                  {(branches[project.id] || []).map(branch => (
-                    <span key={branch.name} className="statusTag active" style={{fontSize: 12}}>
-                      {branch.name}
-                    </span>
-                  ))}
-                </div>
-              ) : (
-                <button
-                  className="btn primary btnSm"
-                  onClick={() => handleTrack(project.id)}
-                  disabled={tracking[project.id]}
-                >
-                  {tracking[project.id] ? 'Tracking...' : 'Track Branches'}
-                </button>
-              )}
-            </div>
-          ))}
+            ) : (
+              <p className="textSecondary">No details available.</p>
+            )}
+          </div>
         </div>
       )}
-    </div>
+    </AdminPage>
   );
-}
+};
+
+export default BranchTracker;

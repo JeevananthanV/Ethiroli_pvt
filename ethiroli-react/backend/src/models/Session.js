@@ -24,11 +24,11 @@ export default class Session {
     return rows.length > 0 ? this.format(rows[0]) : null;
   }
 
-  static async create({ user_id, token, expires_at, user_agent = null, ip_address = null }) {
+  static async create({ user_id, token, expires_at, user_agent = null, ip_address = null, portal_slug = 'app' }) {
     await pool.execute(
-      `INSERT INTO sessions (user_id, token, expires_at, user_agent, ip_address)
-       VALUES (?, ?, ?, ?, ?)`,
-      [user_id, token, expires_at, user_agent, ip_address]
+      `INSERT INTO sessions (user_id, token, portal_slug, expires_at, user_agent, ip_address)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [user_id, token, portal_slug, expires_at, user_agent, ip_address]
     );
   }
 

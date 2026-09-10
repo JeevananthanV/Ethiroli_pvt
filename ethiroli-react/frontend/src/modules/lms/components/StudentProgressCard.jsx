@@ -1,127 +1,105 @@
-import React, { useEffect, useState } from 'react';
-import { getMyEnrollments } from '../../../services/api/enrollmentApi.js';
+import React, { useState, useEffect, useCallback } from 'react'
+import enrollmentApi from '../../../../services/api/enrollmentApi'
+import BadgeDisplay from './BadgeDisplay'
 
-export default function StudentProgressCard() {
-  const [enrollments, setEnrollments] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+export default function StudentProgressCard({ studentId, studentName }) {
+  const [enrollments, setEnrollments] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    const fetchProgress = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const data = await getMyEnrollments();
-        setEnrollments(Array.isArray(data) ? data : []);
-      } catch (err) {
-        setError(err.message || 'Failed to load progress');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProgress();
-  }, []);
+    fetchEnrollments()
+  }, [studentId, fetchEnrollments])
+
+  const fetchEnrollments = useCallback(async () => {
+    try {
+      const data = await enrollmentApi.getAll()
+      const studentEnrollments = data.filter((e) => e.userId === studentId)
+      setEnrollments(studentEnrollments)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }, [studentId])
 
   if (loading) {
-    return (
-      <div className="card">
-        <div className="loading">Loading progress...</div>
-      </div>
-    );
+    return <div className="loading">Loading progress...</div>
   }
 
   if (error) {
-    return (
-      <div className="card" style={{borderColor: 'rgba(244, 63, 94, 0.3)', background: 'rgba(244, 63, 94, 0.05)'}}>
-        <p style={{color: 'var(--admin-danger)', margin: 0}}>{error}</p>
-      </div>
-    );
+    return <div className="emptyState textDanger">Error: {error}</div>
   }
 
-  const avgProgress = enrollments.length > 0
+  const completedCourses = enrollments.filter((e) => e.status === 'completed').length
+  const inProgressCourses = enrollments.filter((e) => e.status === 'in_progress').length
+  const averageProgress = enrollments.length > 0
     ? Math.round(enrollments.reduce((sum, e) => sum + (e.progress || 0), 0) / enrollments.length)
-    : 0;
-  const completed = enrollments.filter(e => (e.progress || 0) >= 100).length;
-  const inProgress = enrollments.filter(e => (e.progress || 0) > 0 && (e.progress || 0) < 100).length;
+    : 0
 
   return (
-    <div className="dashboard" style={{gap: 20}}>
-      <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16}}>
-        <div className="statCard">
-          <p className="statLabel">Enrolled Courses</p>
-          <p className="statValue">{enrollments.length}</p>
+    <div className="card">
+      <div className="cardHeader">
+        <h3 className="cardTitle">{studentName || 'Student Progress'}</h3>
+        <span className={`statusTag ${averageProgress >= 80 ? 'active' : averageProgress >= 50 ? 'pending' : 'error'}`}>
+          {averageProgress}% Complete
+        </span>
+      </div>
+      <div className="cardBody">
+        <div className="grid gridCols3 mb4">
+          <div className="statCard">
+            <div className="statLabel">Enrolled</div>
+            <div className="statValue">{enrollments.length}</div>
+          </div>
+          <div className="statCard">
+            <div className="statLabel">In Progress</div>
+            <div className="statValue">{inProgressCourses}</div>
+          </div>
+          <div className="statCard">
+            <div className="statLabel">Completed</div>
+            <div className="statValue">{completedCourses}</div>
+          </div>
         </div>
-        <div className="statCard">
-          <p className="statLabel">In Progress</p>
-          <p className="statValue">{inProgress}</p>
+
+        <div className="mb4">
+          <h4 className="fontSemibold mb3">Overall Progress</h4>
+          <div style={{ height: '12px', background: 'var(--admin-border)', borderRadius: '6px', overflow: 'hidden' }}>
+            <div
+              style={{
+                width: `${averageProgress}%`,
+                height: '100%',
+                background: averageProgress >= 80 ? 'var(--admin-success)' : averageProgress >= 50 ? 'var(--admin-warning)' : 'var(--admin-danger)',
+                borderRadius: '6px',
+                transition: 'width 0.3s ease',
+              }}
+            />
+          </div>
         </div>
-        <div className="statCard">
-          <p className="statLabel">Completed</p>
-          <p className="statValue">{completed}</p>
+
+        <div className="mb4">
+          <h4 className="fontSemibold mb3">Current Courses</h4>
+          <div className="flex flexCol gap2">
+            {enrollments.filter((e) => e.status === 'in_progress').map((enrollment) => (
+              <div key={enrollment.id} className="card" style={{ border: '1px solid var(--admin-border)' }}>
+                <div className="cardBody">
+                  <div className="flex justifyBetween itemsCenter">
+                    <span className="fontMedium textPrimary">{enrollment.courseName}</span>
+                    <span className="textSm">{enrollment.progress || 0}%</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+            {enrollments.filter((e) => e.status === 'in_progress').length === 0 && (
+              <p className="textMuted textSm">No courses in progress</p>
+            )}
+          </div>
         </div>
-        <div className="statCard">
-          <p className="statLabel">Average Progress</p>
-          <p className="statValue">{avgProgress}%</p>
+
+        <div>
+          <h4 className="fontSemibold mb3">Badges</h4>
+          <BadgeDisplay userId={studentId} />
         </div>
       </div>
-
-      {enrollments.length === 0 ? (
-        <div className="emptyState">
-          <h3>No enrollments yet</h3>
-          <p>Start learning by enrolling in a course</p>
-        </div>
-      ) : (
-        <div className="card" style={{padding: 0, overflow: 'hidden'}}>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Course</th>
-                <th>Progress</th>
-                <th>Status</th>
-                <th>Last Accessed</th>
-              </tr>
-            </thead>
-            <tbody>
-              {enrollments.map(enrollment => {
-                const course = enrollment.course || {};
-                const progress = enrollment.progress || 0;
-                return (
-                  <tr key={enrollment.id}>
-                    <td>
-                      <div style={{fontWeight: 600, fontSize: 14}}>{course.title || course.name || 'Untitled Course'}</div>
-                      <div style={{fontSize: 12, color: 'var(--admin-text-muted)', marginTop: 2}}>
-                        {course.instructor?.name || course.instructor || 'Instructor TBD'}
-                      </div>
-                    </td>
-                    <td>
-                      <div style={{display: 'flex', alignItems: 'center', gap: 10}}>
-                        <div style={{flex: 1, height: 6, background: 'rgba(255,255,255,0.08)', borderRadius: 3, overflow: 'hidden', maxWidth: 120}}>
-                          <div style={{
-                            height: '100%',
-                            width: `${progress}%`,
-                            background: progress >= 100 ? 'var(--admin-success)' : 'linear-gradient(90deg, #a855f7, #6366f1)',
-                            borderRadius: 3,
-                            transition: 'width 0.3s ease'
-                          }} />
-                        </div>
-                        <span style={{fontSize: 12, fontWeight: 600, minWidth: 36}}>{progress}%</span>
-                      </div>
-                    </td>
-                    <td>
-                      <span className={`statusTag ${progress >= 100 ? 'active' : progress > 0 ? 'pending' : 'inactive'}`}>
-                        {progress >= 100 ? 'Completed' : progress > 0 ? 'In Progress' : 'Not Started'}
-                      </span>
-                    </td>
-                    <td style={{fontSize: 13.5, color: 'var(--admin-text-secondary)'}}>
-                      {enrollment.lastAccessedAt ? new Date(enrollment.lastAccessedAt).toLocaleDateString() : '—'}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      )}
     </div>
-  );
+  )
 }

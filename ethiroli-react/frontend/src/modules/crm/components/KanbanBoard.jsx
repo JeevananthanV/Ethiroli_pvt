@@ -1,143 +1,90 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import KanbanColumn from './KanbanColumn.jsx';
-import LeadModal from './LeadModal.jsx';
-import Button from '../../../common/components/Button/Button.jsx';
-import Modal from '../../../common/components/Modal/Modal.jsx';
-import Input from '../../../common/components/Input/Input.jsx';
-import { getLeads, updateLeadStatus, createLead } from '../../../services/api/leadApi.js';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks.js';
-import { fetchLeadsStart, fetchLeadsSuccess, fetchLeadsFailure, updateLeadItem, addLead } from '../../../store/slices/leadsSlice.js';
+import React, { useState, useEffect } from 'react'
+import { leadApi } from '../../../services/api/leadApi.js'
+import KanbanColumn from './KanbanColumn.jsx'
 
-const COLUMNS = ['NEW', 'CONTACTED', 'DEMO', 'COUNSELLING', 'ADMISSION', 'PAYMENT', 'LOST'];
+const STAGES = ['new', 'contacted', 'qualified', 'proposal', 'won', 'lost']
 
 export default function KanbanBoard() {
-  const dispatch = useAppDispatch();
-  const { items: leads, loading } = useAppSelector((state) => state.leads);
-
-  const [selectedLead, setSelectedLead] = useState(null);
-  const [createOpen, setCreateOpen] = useState(false);
-  const [newLeadName, setNewLeadName] = useState('');
-  const [newLeadEmail, setNewLeadEmail] = useState('');
-  const [newLeadPhone, setNewLeadPhone] = useState('');
-  const [newLeadSource, setNewLeadSource] = useState('WEBSITE');
-
-  const loadLeads = useCallback(async () => {
-    dispatch(fetchLeadsStart());
-    try {
-      const data = await getLeads();
-      dispatch(fetchLeadsSuccess(data));
-    } catch (err) {
-      dispatch(fetchLeadsFailure(err.message));
-    }
-  }, [dispatch]);
+  const [leads, setLeads] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [draggedLead, setDraggedLead] = useState(null)
 
   useEffect(() => {
-    loadLeads();
-  }, [loadLeads]);
+    loadLeads()
+  }, [])
 
-  const handleLeadDrop = async (leadId, targetStatus) => {
+  const loadLeads = async () => {
+    setLoading(true)
+    setError(null)
     try {
-      await updateLeadStatus(leadId, targetStatus);
-      dispatch(updateLeadItem({ id: leadId, status: targetStatus }));
+      const data = await leadApi.getAll()
+      setLeads(Array.isArray(data) ? data : [])
     } catch (err) {
-      console.error('Failed to drop lead:', err);
+      setError(err.message || 'Failed to load leads')
+    } finally {
+      setLoading(false)
     }
-  };
+  }
 
-  const handleCreateLead = async (e) => {
-    e.preventDefault();
-    if (!newLeadName.trim()) return;
+  const handleDragStart = (e, lead) => {
+    setDraggedLead(lead)
+    e.dataTransfer.effectAllowed = 'move'
+  }
 
+  const handleDragOver = (e) => {
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'move'
+  }
+
+  const handleDrop = async (e, stage) => {
+    e.preventDefault()
+    if (!draggedLead || draggedLead.status === stage) {
+      setDraggedLead(null)
+      return
+    }
+    const updatedLead = { ...draggedLead, status: stage }
     try {
-      const data = await createLead({
-        name: newLeadName,
-        email: newLeadEmail || null,
-        phone: newLeadPhone || null,
-        source: newLeadSource
-      });
-
-      dispatch(addLead(data));
-      setCreateOpen(false);
-      setNewLeadName('');
-      setNewLeadEmail('');
-      setNewLeadPhone('');
+      await leadApi.updateStatus(draggedLead.id, stage)
+      setLeads(leads.map((l) => (l.id === draggedLead.id ? updatedLead : l)))
     } catch (err) {
-      console.error(err);
+      setError(err.message || 'Failed to update lead status')
+    } finally {
+      setDraggedLead(null)
     }
-  };
+  }
+
+  const getStageLeads = (stage) => leads.filter((l) => l.status === stage)
+
+  if (loading) {
+    return (
+      <div className="loading">
+        <div className="skeleton" style={{ width: '100%', height: '400px' }} />
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="emptyState">
+        <h3 className="textDanger">Error Loading Board</h3>
+        <p className="textSecondary">{error}</p>
+      </div>
+    )
+  }
 
   return (
-    <div className="boardContainer">
-      <div className="boardHeader">
-        <h2>Lead CRM Pipeline</h2>
-        <Button onClick={() => setCreateOpen(true)} variant="primary">
-          + Add Lead
-        </Button>
-      </div>
-
-      {loading ? (
-        <div className="loading">Loading CRM board...</div>
-      ) : (
-        <div className="columnsContainer">
-          {COLUMNS.map((col) => (
-            <KanbanColumn
-              key={col}
-              status={col}
-              leads={leads.filter((lead) => lead.status === col)}
-              onLeadClick={setSelectedLead}
-              onLeadDrop={handleLeadDrop}
-            />
-          ))}
-        </div>
-      )}
-
-      {selectedLead && (
-        <LeadModal
-          isOpen={!!selectedLead}
-          onClose={() => setSelectedLead(null)}
-          lead={selectedLead}
-          onLeadUpdate={loadLeads}
+    <div style={{ display: 'flex', gap: '16px', overflowX: 'auto', padding: '4px' }}>
+      {STAGES.map((stage) => (
+        <KanbanColumn
+          key={stage}
+          stage={stage}
+          leads={getStageLeads(stage)}
+          onDragOver={handleDragOver}
+          onDrop={(e) => handleDrop(e, stage)}
+          onDragStart={handleDragStart}
         />
-      )}
-
-      <Modal isOpen={createOpen} onClose={() => setCreateOpen(false)} title="Add New Lead">
-        <form onSubmit={handleCreateLead} className="form">
-          <Input
-            label="Name"
-            value={newLeadName}
-            onChange={(e) => setNewLeadName(e.target.value)}
-            required
-          />
-          <Input
-            label="Email"
-            type="email"
-            value={newLeadEmail}
-            onChange={(e) => setNewLeadEmail(e.target.value)}
-          />
-          <Input
-            label="Phone"
-            value={newLeadPhone}
-            onChange={(e) => setNewLeadPhone(e.target.value)}
-          />
-          <div className="inputGroup">
-            <label className="label">Source</label>
-            <select
-              className="select"
-              value={newLeadSource}
-              onChange={(e) => setNewLeadSource(e.target.value)}
-            >
-              <option value="WEBSITE">Website</option>
-              <option value="REFERRAL">Referral</option>
-              <option value="SOCIAL_MEDIA">Social Media</option>
-              <option value="WALK_IN">Walk-in</option>
-              <option value="PHONE">Phone</option>
-              <option value="INDEED">Indeed</option>
-              <option value="OTHER">Other</option>
-            </select>
-          </div>
-          <Button type="submit" variant="primary" className="btnFull">Create Lead</Button>
-        </form>
-      </Modal>
+      ))}
     </div>
-  );
+  )
 }

@@ -1,5 +1,6 @@
 import Candidate from '../models/Candidate.js';
 import Job from '../models/Job.js';
+import AuditLog from '../models/AuditLog.js';
 import { broadcastToRole } from '../services/socketService.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 import { success } from '../utils/response.js';
@@ -47,6 +48,16 @@ export const createCandidate = asyncHandler(async (req, res) => {
     source
   });
 
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'CREATE_CANDIDATE',
+    entity_type: 'CANDIDATE',
+    entity_id: id,
+    new_value: { job_id: jobId, name, email, phone, resume_url, source },
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+
   broadcastToRole('HR', 'candidate_created', { id, name });
 
   return success(res, 201, { id }, 'Candidate added successfully');
@@ -62,6 +73,17 @@ export const updateCandidate = asyncHandler(async (req, res) => {
   const candidate = await Candidate.findById(req.params.id);
   if (!candidate) throw new NotFoundError('Candidate not found');
   await Candidate.update(req.params.id, req.body);
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'UPDATE_CANDIDATE',
+    entity_type: 'CANDIDATE',
+    entity_id: req.params.id,
+    old_value: candidate,
+    new_value: req.body,
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+  broadcastToRole('HR', 'candidate_updated', { id: req.params.id });
   return success(res, 200, null, 'Candidate updated successfully');
 });
 
@@ -69,5 +91,15 @@ export const deleteCandidate = asyncHandler(async (req, res) => {
   const candidate = await Candidate.findById(req.params.id);
   if (!candidate) throw new NotFoundError('Candidate not found');
   await Candidate.delete(req.params.id);
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'DELETE_CANDIDATE',
+    entity_type: 'CANDIDATE',
+    entity_id: req.params.id,
+    old_value: candidate,
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+  broadcastToRole('HR', 'candidate_deleted', { id: req.params.id });
   return success(res, 200, null, 'Candidate deleted successfully');
 });

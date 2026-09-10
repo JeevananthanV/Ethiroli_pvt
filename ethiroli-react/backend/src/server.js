@@ -1,7 +1,8 @@
+import 'dotenv/config';
 import http from 'http';
 import https from 'https';
 import app from './app.js';
-import initSocketServer, { httpServer as socketHttpServer } from './socket/index.js';
+import { httpServer as socketHttpServer, io } from './socket/index.js';
 import pool, { logPoolStatus } from './config/database.js';
 import bcrypt from 'bcrypt';
 
@@ -103,10 +104,7 @@ const startServers = async () => {
       await seedAdminUser();
     });
 
-    const io = initSocketServer(socketHttpServer);
-    socketHttpServer.listen(SOCKET_PORT, () => {
-      console.log(`Socket.IO Server running on http://localhost:${SOCKET_PORT}`);
-    });
+    console.log(`Socket.IO Server running on http://localhost:${SOCKET_PORT}`);
 
     setInterval(() => {
       logPoolStatus(pool);

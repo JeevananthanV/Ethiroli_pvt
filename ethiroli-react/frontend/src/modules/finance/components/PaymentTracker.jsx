@@ -1,148 +1,159 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { listPayments, recordPayment } from '../services/api/paymentApi.js';
+import React, { useState, useEffect, useCallback } from 'react'
+import AdminPage from '../../common/components/AdminPage/AdminPage.jsx'
+import Button from '../../common/components/Button/Button.jsx'
+import { paymentApi } from '../../services/api/paymentApi.js'
 
 export default function PaymentTracker() {
-  const [payments, setPayments] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [filterStatus, setFilterStatus] = useState('all');
-
-  const fetchPayments = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await listPayments({ status: filterStatus === 'all' ? undefined : filterStatus });
-      setPayments(Array.isArray(data) ? data : []);
-    } catch (err) {
-      setError(err.message || 'Failed to fetch payments');
-    } finally {
-      setLoading(false);
-    }
-  }, [filterStatus]);
+  const [payments, setPayments] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [statusFilter, setStatusFilter] = useState('')
 
   useEffect(() => {
-    fetchPayments();
-  }, [fetchPayments]);
+    loadPayments()
+  }, [loadPayments])
 
-  const handleRecordPayment = async (paymentId) => {
+  const loadPayments = useCallback(async () => {
+    setLoading(true)
+    setError(null)
     try {
-      await recordPayment({ payment_id: paymentId, method: 'online', amount: 0 });
-      alert('Payment recorded successfully');
-      fetchPayments();
+      const data = await paymentApi.getAll()
+      let items = Array.isArray(data) ? data : []
+      if (statusFilter) {
+        items = items.filter((p) => p.status === statusFilter)
+      }
+      setPayments(items)
     } catch (err) {
-      alert(err.message || 'Failed to record payment');
+      setError(err.message || 'Failed to load payments')
+    } finally {
+      setLoading(false)
     }
-  };
+  }, [statusFilter])
 
-  const getStatusTag = (status) => {
-    const map = {
-      PENDING: 'pending',
-      PAID: 'active',
-      PARTIAL: 'info',
-      OVERDUE: 'error',
-      REFUNDED: 'error',
-    };
-    const cls = map[status] || 'pending';
-    return <span className={`statusTag ${cls}`}>{status || 'PENDING'}</span>;
-  };
+  const handleStatusUpdate = async (id, status) => {
+    try {
+      await paymentApi.updateStatus(id, status)
+      setPayments(payments.map((p) => (p.id === id ? { ...p, status } : p)))
+    } catch (err) {
+      setError(err.message || 'Failed to update payment status')
+    }
+  }
 
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(Number(amount) || 0);
-  };
+  const getStatusClass = (status) => {
+    switch (status) {
+      case 'completed':
+        return 'active'
+      case 'pending':
+        return 'pending'
+      case 'failed':
+        return 'error'
+      case 'refunded':
+        return 'pending'
+      default:
+        return 'pending'
+    }
+  }
+
+  const formatCurrency = (val) => {
+    if (!val) return '$0.00'
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val)
+  }
 
   const formatDate = (dateStr) => {
-    if (!dateStr) return '-';
-    return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  };
+    if (!dateStr) return '-'
+    return new Date(dateStr).toLocaleDateString()
+  }
 
-  const stats = {
-    total: payments.length,
-    paid: payments.filter((p) => p.status === 'PAID').length,
-    pending: payments.filter((p) => p.status === 'PENDING').length,
-    overdue: payments.filter((p) => p.status === 'OVERDUE').length,
-  };
+  const getDaysUntilDue = (dueDate) => {
+    if (!dueDate) return null
+    const due = new Date(dueDate)
+    const today = new Date()
+    const diff = Math.ceil((due - today) / (1000 * 60 * 60 * 24))
+    return diff
+  }
 
   return (
     <AdminPage
-      title="Payments"
-      subtitle="Track payments, due dates, and payment status"
+      title="Payment Tracker"
+      subtitle="Track and manage payments"
       loading={loading}
       error={error}
-      onRetry={fetchPayments}
+      onRetry={loadPayments}
       actions={
-        <select className="select" value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} style={{ width: 150 }}>
-          <option value="all">All Status</option>
-          <option value="PENDING">Pending</option>
-          <option value="PAID">Paid</option>
-          <option value="OVERDUE">Overdue</option>
+        <select
+          className="select"
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          style={{ width: '150px' }}
+        >
+          <option value="">All Status</option>
+          <option value="pending">Pending</option>
+          <option value="completed">Completed</option>
+          <option value="failed">Failed</option>
+          <option value="refunded">Refunded</option>
         </select>
       }
     >
-      <div className="dashboardGrid" style={{ marginBottom: 24 }}>
-        <div className="statCard">
-          <p className="statLabel">Total Payments</p>
-          <p className="statValue">{stats.total}</p>
-        </div>
-        <div className="statCard">
-          <p className="statLabel">Paid</p>
-          <p className="statValue" style={{ background: 'linear-gradient(135deg, #10b981, #059669)', WebkitBackgroundClip: 'text' }}>{stats.paid}</p>
-        </div>
-        <div className="statCard">
-          <p className="statLabel">Pending</p>
-          <p className="statValue" style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', WebkitBackgroundClip: 'text' }}>{stats.pending}</p>
-        </div>
-        <div className="statCard">
-          <p className="statLabel">Overdue</p>
-          <p className="statValue" style={{ background: 'linear-gradient(135deg, #f43f5e, #e11d48)', WebkitBackgroundClip: 'text' }}>{stats.overdue}</p>
-        </div>
-      </div>
-
       <div className="card">
-        {payments.length === 0 ? (
-          <div className="emptyState">
-            <h3>No payment records</h3>
-            <p>Payment data will appear here once available.</p>
-          </div>
-        ) : (
-          <div className="overflowAuto">
-            <table className="table">
-              <thead>
+        <div className="overflowAuto">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Payment ID</th>
+                <th>Invoice</th>
+                <th>Client</th>
+                <th>Amount</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {payments.length === 0 ? (
                 <tr>
-                  <th>Payment ID</th>
-                  <th>Invoice</th>
-                  <th>Amount</th>
-                  <th>Due Date</th>
-                  <th>Paid Date</th>
-                  <th>Method</th>
-                  <th>Status</th>
-                  <th>Actions</th>
+                  <td colSpan="7" style={{ textAlign: 'center', padding: '32px' }}>
+                    <span className="textMuted">No payments found</span>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {payments.map((p) => (
-                  <tr key={p.id}>
-                    <td className="textPrimary" style={{ fontWeight: 500 }}>{p.id}</td>
-                    <td className="textSecondary">{p.invoice_id || p.invoice_number || '-'}</td>
-                    <td className="textPrimary" style={{ fontWeight: 600 }}>{formatCurrency(p.amount)}</td>
-                    <td className="textSecondary">{formatDate(p.due_date)}</td>
-                    <td className="textSecondary">{formatDate(p.paid_date)}</td>
-                    <td className="textSecondary">{p.method || '-'}</td>
-                    <td>{getStatusTag(p.status)}</td>
-                    <td>
-                      {p.status !== 'PAID' && (
-                        <button className="btn primary" onClick={() => handleRecordPayment(p.id)} style={{ padding: '4px 12px', fontSize: 12 }}>
-                          Record Payment
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+              ) : (
+                payments.map((payment) => {
+                  const daysUntilDue = getDaysUntilDue(payment.dueDate)
+                  return (
+                    <tr key={payment.id}>
+                      <td style={{ fontWeight: 500 }}>{payment.paymentNumber || `PAY-${payment.id}`}</td>
+                      <td>{payment.invoiceId || payment.invoiceNumber || '-'}</td>
+                      <td>{payment.clientName || '-'}</td>
+                      <td style={{ fontWeight: 600 }}>{formatCurrency(payment.amount)}</td>
+                      <td>
+                        {formatDate(payment.dueDate)}
+                        {daysUntilDue !== null && payment.status === 'pending' && (
+                          <span className={`textMuted`} style={{ marginLeft: '8px', fontSize: '12px' }}>
+                            ({daysUntilDue > 0 ? `${daysUntilDue} days left` : daysUntilDue === 0 ? 'Due today' : `${Math.abs(daysUntilDue)} days overdue`})
+                          </span>
+                        )}
+                      </td>
+                      <td>
+                        <span className={`statusTag ${getStatusClass(payment.status)}`}>
+                          {payment.status || 'pending'}
+                        </span>
+                      </td>
+                      <td>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                          {payment.status === 'pending' && (
+                            <Button size="small" variant="success" onClick={() => handleStatusUpdate(payment.id, 'completed')}>
+                              Mark Paid
+                            </Button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </AdminPage>
-  );
+  )
 }

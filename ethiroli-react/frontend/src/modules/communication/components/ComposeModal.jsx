@@ -1,138 +1,103 @@
-import React, { useState, useEffect } from 'react';
-import { sendMessage, sendBulkMessages } from '../services/api/communicationApi.js';
+import React, { useState, useEffect } from 'react'
+import Modal from '../../common/components/Modal'
+import Button from '../../common/components/Button'
+import Input from '../../common/components/Input'
+import { templateApi } from '../../services/api/templateApi'
+import { communicationApi } from '../../services/api/communicationApi'
 
-export default function ComposeModal({ onClose, onSend, templates = [] }) {
-  const [channel, setChannel] = useState('email');
-  const [recipients, setRecipients] = useState('');
-  const [subject, setSubject] = useState('');
-  const [body, setBody] = useState('');
-  const [selectedTemplateId, setSelectedTemplateId] = useState('');
-  const [sending, setSending] = useState(false);
-  const [bulk, setBulk] = useState(false);
+export default function ComposeModal({ isOpen, onClose, onSend }) {
+  const [templates, setTemplates] = useState([])
+  const [selectedTemplate, setSelectedTemplate] = useState(null)
+  const [channel, setChannel] = useState('email')
+  const [recipients, setRecipients] = useState('')
+  const [variables, setVariables] = useState({})
+  const [sending, setSending] = useState(false)
 
   useEffect(() => {
-    const handler = (e) => {
-      if (e.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, [onClose]);
+    if (isOpen) {
+      templateApi.getAll().then(setTemplates).catch(console.error)
+    }
+  }, [isOpen])
 
   const handleTemplateChange = (e) => {
-    const template = templates.find((t) => t.id === e.target.value);
-    if (template) {
-      setSubject(template.subject || '');
-      setBody(template.body || template.content || '');
-      setChannel(template.type || channel);
-    }
-    setSelectedTemplateId(e.target.value);
-  };
+    const template = templates.find((t) => t.id === e.target.value)
+    setSelectedTemplate(template)
+    const initialVars = {}
+    template?.variables?.forEach((v) => {
+      initialVars[v] = ''
+    })
+    setVariables(initialVars)
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!recipients.trim()) {
-      alert('Recipient(s) are required');
-      return;
-    }
-    setSending(true);
+  const handleSend = async () => {
+    if (!selectedTemplate) return
+    setSending(true)
     try {
-      const payload = {
+      await communicationApi.send({
+        templateId: selectedTemplate.id,
         channel,
-        recipients: bulk ? recipients.split(',').map((r) => r.trim()).filter(Boolean) : recipients.trim(),
-        subject,
-        body,
-        template_id: selectedTemplateId || undefined,
-      };
-      if (bulk) {
-        await sendBulkMessages(payload);
-      } else {
-        await sendMessage(payload);
-      }
-      onSend?.();
-      onClose();
+        recipients: recipients.split(',').map((r) => r.trim()),
+        variables,
+      })
+      onSend?.()
+      onClose?.()
     } catch (err) {
-      alert(`Failed to send message: ${err.message}`);
+      console.error('Failed to send message', err)
     } finally {
-      setSending(false);
+      setSending(false)
     }
-  };
+  }
 
   return (
-    <div className="modalOverlay" onClick={onClose}>
-      <div className="modalContent" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 600 }}>
-        <div className="modalHeader">
-          <h3 className="modalTitle">Compose Message</h3>
-          <button className="closeBtn" onClick={onClose}>&times;</button>
+    <Modal isOpen={isOpen} onClose={onClose} title="Compose Message">
+      <div className="form">
+        <div className="formGroup">
+          <label className="label required">Template</label>
+          <select className="select" value={selectedTemplate?.id || ''} onChange={handleTemplateChange}>
+            <option value="">Select Template</option>
+            {templates.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.name}
+              </option>
+            ))}
+          </select>
         </div>
-        <div className="modalBody">
-          <form onSubmit={handleSubmit} className="form">
-            <div className="formGroup">
-              <label className="label">Channel</label>
-              <select className="select" value={channel} onChange={(e) => setChannel(e.target.value)}>
-                <option value="email">Email</option>
-                <option value="sms">SMS</option>
-                <option value="whatsapp">WhatsApp</option>
-                <option value="push">Push Notification</option>
-              </select>
-            </div>
-            <div className="formGroup">
-              <label className="label">Template</label>
-              <select className="select" value={selectedTemplateId} onChange={handleTemplateChange}>
-                <option value="">Select template...</option>
-                {templates.map((t) => (
-                  <option key={t.id} value={t.id}>{t.name}</option>
-                ))}
-              </select>
-            </div>
-            <div className="formGroup">
-              <label className="label">Recipient(s)</label>
-              <input
-                className="inputField"
-                value={recipients}
-                onChange={(e) => setRecipients(e.target.value)}
-                placeholder="email@example.com or +1234567890"
-              />
-            </div>
-            <div className="formGroup">
-              <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
-                <input
-                  type="checkbox"
-                  checked={bulk}
-                  onChange={(e) => setBulk(e.target.checked)}
-                />
-                <span>Bulk send (comma-separated recipients)</span>
-              </label>
-            </div>
-            <div className="formGroup">
-              <label className="label">Subject</label>
-              <input
-                className="inputField"
-                value={subject}
-                onChange={(e) => setSubject(e.target.value)}
-                placeholder="Message subject"
-              />
-            </div>
-            <div className="formGroup">
-              <label className="label">Body</label>
-              <textarea
-                className="textarea"
-                value={body}
-                onChange={(e) => setBody(e.target.value)}
-                placeholder="Message content..."
-                rows={5}
-              />
-            </div>
-            <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 20 }}>
-              <button type="button" className="btn secondary" onClick={onClose}>
-                Cancel
-              </button>
-              <button type="submit" className="btn primary" disabled={sending}>
-                {sending ? 'Sending...' : bulk ? 'Send Bulk' : 'Send Message'}
-              </button>
-            </div>
-          </form>
+        <div className="formGroup">
+          <label className="label required">Channel</label>
+          <select className="select" value={channel} onChange={(e) => setChannel(e.target.value)}>
+            <option value="email">Email</option>
+            <option value="sms">SMS</option>
+            <option value="push">Push Notification</option>
+            <option value="in_app">In-App</option>
+          </select>
+        </div>
+        <div className="formGroup">
+          <label className="label required">Recipients</label>
+          <Input
+            value={recipients}
+            onChange={(e) => setRecipients(e.target.value)}
+            placeholder="user1@example.com, user2@example.com"
+          />
+        </div>
+        {selectedTemplate?.variables?.map((v) => (
+          <div className="formGroup" key={v}>
+            <label className="label required">{v}</label>
+            <Input
+              value={variables[v] || ''}
+              onChange={(e) => setVariables((prev) => ({ ...prev, [v]: e.target.value }))}
+              placeholder={`Enter ${v}`}
+            />
+          </div>
+        ))}
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '16px' }}>
+          <Button variant="secondary" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleSend} disabled={sending || !selectedTemplate}>
+            {sending ? 'Sending...' : 'Send'}
+          </Button>
         </div>
       </div>
-    </div>
-  );
+    </Modal>
+  )
 }

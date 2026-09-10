@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getCommunicationLogs } from '../../services/api/communicationApi.js';
+import { getCommunicationLogs } from '../../../services/api/communicationApi.js';
 
 export default function Communications() {
   const [logs, setLogs] = useState([]);

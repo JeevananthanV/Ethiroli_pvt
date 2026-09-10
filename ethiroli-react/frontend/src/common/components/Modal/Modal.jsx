@@ -1,7 +1,6 @@
 import React from 'react';
-import Button from '../Button/Button';
 
-export default function Modal({ isOpen, onClose, title, children }) {
+const Modal = ({ isOpen, onClose, title, children }) => {
   if (!isOpen) return null;
 
   return (
@@ -11,10 +10,10 @@ export default function Modal({ isOpen, onClose, title, children }) {
           <h3 className="modalTitle">{title}</h3>
           <button className="closeBtn" onClick={onClose}>&times;</button>
         </div>
-        <div className="modalBody">
-          {children}
-        </div>
+        <div className="modalBody">{children}</div>
       </div>
     </div>
   );
-}
+};
+
+export default Modal;

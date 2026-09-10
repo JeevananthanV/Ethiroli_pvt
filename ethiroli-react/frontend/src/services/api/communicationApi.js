@@ -1,16 +1,28 @@
-import axiosInstance from './axiosInstance.js';
+import axios from '../axios'
 
-export const listLogs = async (params) => {
-  const response = await axiosInstance.get('/v1/communication/logs', { params });
-  return response.data;
-};
+export const getCommunications = async () => {
+  const response = await axios.get('/communication')
+  return response.data
+}
 
-export const sendMessage = async (data) => {
-  const response = await axiosInstance.post('/v1/communication/send', data);
-  return response.data;
-};
+export const getCommunication = async (id) => {
+  const response = await axios.get(`/communication/${id}`)
+  return response.data
+}
 
-export const sendBulkMessages = async (data) => {
-  const response = await axiosInstance.post('/v1/communication/send/bulk', data);
-  return response.data;
+export const sendCommunication = async (data) => {
+  const response = await axios.post('/communication/send', data)
+  return response.data
+}
+
+export const getCommunicationLogs = async (params = {}) => {
+  const response = await axios.get('/communication/logs', { params })
+  return response.data
+}
+
+export const communicationApi = {
+  getAll: getCommunications,
+  getById: getCommunication,
+  send: sendCommunication,
+  getLogs: getCommunicationLogs,
 };

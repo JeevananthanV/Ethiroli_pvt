@@ -1,198 +1,154 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { getWorkflows, getWorkflowExecutions } from '../../services/api/workflowApi.js';
+import React, { useState, useEffect } from 'react'
+import AdminPage from '../../common/components/AdminPage'
+import Button from '../../common/components/Button'
+import Modal from '../../common/components/Modal'
+import { workflowApi as wfApi } from '../../services/api/workflowApi'
+import { automationApi } from '../../services/api/automationApi'
 
 export default function WorkflowExecution() {
-  const [workflows, setWorkflows] = useState([]);
-  const [selectedWorkflowId, setSelectedWorkflowId] = useState(null);
-  const [executions, setExecutions] = useState([]);
-  const [loadingWorkflows, setLoadingWorkflows] = useState(true);
-  const [loadingExecutions, setLoadingExecutions] = useState(false);
-  const [error, setError] = useState(null);
-  const [retryingId, setRetryingId] = useState(null);
-
-  const loadWorkflows = useCallback(async () => {
-    setLoadingWorkflows(true);
-    setError(null);
-    try {
-      const data = await getWorkflows();
-      setWorkflows(Array.isArray(data) ? data : []);
-      if (Array.isArray(data) && data.length > 0 && !selectedWorkflowId) {
-        setSelectedWorkflowId(data[0].id);
-      }
-    } catch (err) {
-      setError(err.message || 'Failed to load workflows');
-    } finally {
-      setLoadingWorkflows(false);
-    }
-  }, [selectedWorkflowId]);
-
-  const loadExecutions = async (workflowId) => {
-    setLoadingExecutions(true);
-    try {
-      const data = await getWorkflowExecutions(workflowId);
-      setExecutions(Array.isArray(data) ? data : []);
-    } catch (err) {
-      console.error('Failed to load executions:', err);
-      setExecutions([]);
-    } finally {
-      setLoadingExecutions(false);
-    }
-  };
+  const [workflows, setWorkflows] = useState([])
+  const [runs, setRuns] = useState([])
+  const [selectedWorkflow, setSelectedWorkflow] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [running, setRunning] = useState(false)
 
   useEffect(() => {
-    loadWorkflows();
-  }, [loadWorkflows]);
+    loadWorkflows()
+  }, [])
 
-  useEffect(() => {
-    if (selectedWorkflowId) {
-      loadExecutions(selectedWorkflowId);
-    }
-  }, [selectedWorkflowId]);
-
-  const handleRetry = async (executionId) => {
-    setRetryingId(executionId);
+  const loadWorkflows = async () => {
+    setLoading(true)
+    setError(null)
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      alert(`Execution ${executionId} retried successfully`);
-      if (selectedWorkflowId) {
-        loadExecutions(selectedWorkflowId);
+      const data = await wfApi.getAll()
+      setWorkflows(data)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleWorkflowChange = async (workflowId) => {
+    const wf = workflows.find((w) => w.id === workflowId)
+    setSelectedWorkflow(wf)
+    try {
+      const data = await wfApi.getRuns(workflowId)
+      setRuns(data)
+    } catch (err) {
+      console.error('Failed to load runs', err)
+    }
+  }
+
+  const handleRun = async () => {
+    if (!selectedWorkflow) return
+    setRunning(true)
+    try {
+      await wfApi.run(selectedWorkflow.id)
+      const data = await wfApi.getRuns(selectedWorkflow.id)
+      setRuns(data)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setRunning(false)
+    }
+  }
+
+  const handleRetry = async (runId) => {
+    try {
+      await automationApi.execute(runId)
+      if (selectedWorkflow) {
+        const data = await wfApi.getRuns(selectedWorkflow.id)
+        setRuns(data)
       }
     } catch (err) {
-      alert(`Retry failed: ${err.message}`);
-    } finally {
-      setRetryingId(null);
+      setError(err.message)
     }
-  };
-
-  const getStatusClass = (status) => {
-    switch ((status || '').toLowerCase()) {
-      case 'success':
-      case 'completed':
-        return 'active';
-      case 'running':
-      case 'in_progress':
-        return 'pending';
-      case 'failed':
-      case 'error':
-        return 'error';
-      default:
-        return 'pending';
-    }
-  };
-
-  const formatDate = (date) => {
-    if (!date) return '-';
-    return new Date(date).toLocaleString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  };
-
-  const selectedWorkflow = workflows.find((w) => w.id === selectedWorkflowId);
+  }
 
   return (
     <AdminPage
       title="Workflow Execution"
-      subtitle="Monitor workflow runs and view logs"
-      loading={loadingWorkflows}
+      subtitle="Monitor workflow runs and execution status"
+      loading={loading}
       error={error}
       onRetry={loadWorkflows}
+      actions={
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <select
+            className="select"
+            value={selectedWorkflow?.id || ''}
+            onChange={(e) => handleWorkflowChange(e.target.value)}
+            style={{ width: '200px' }}
+          >
+            <option value="">Select Workflow</option>
+            {workflows.map((wf) => (
+              <option key={wf.id} value={wf.id}>
+                {wf.name}
+              </option>
+            ))}
+          </select>
+          <Button variant="primary" onClick={handleRun} disabled={running || !selectedWorkflow}>
+            {running ? 'Running...' : 'Run Now'}
+          </Button>
+        </div>
+      }
     >
-      <div className="card" style={{ marginBottom: 20 }}>
-        <div className="cardHeader">
-          <h3 className="cardTitle">Select Workflow</h3>
-        </div>
-        <div className="cardBody">
-          <div className="formGroup">
-            <label className="label">Workflow</label>
-            <select
-              className="select"
-              value={selectedWorkflowId || ''}
-              onChange={(e) => setSelectedWorkflowId(e.target.value)}
-            >
-              <option value="">Choose a workflow...</option>
-              {workflows.map((wf) => (
-                <option key={wf.id} value={wf.id}>{wf.name}</option>
-              ))}
-            </select>
-          </div>
-        </div>
-      </div>
-
-      {selectedWorkflow && (
+      {selectedWorkflow ? (
         <div className="card">
           <div className="cardHeader">
-            <h3 className="cardTitle">Run History - {selectedWorkflow.name}</h3>
-            <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-              <span className="statLabel">Total Runs:</span>
-              <span className="statValue">{executions.length}</span>
-            </div>
+            <h3 className="cardTitle">Run History</h3>
+            <span className="textMuted textSm">{runs.length} runs</span>
           </div>
-          <div className="cardBody" style={{ overflowX: 'auto' }}>
-            {loadingExecutions ? (
-              <div className="loading"><div className="skeleton" style={{ width: '100%', height: 120 }}></div></div>
-            ) : executions.length === 0 ? (
-              <div className="emptyState">
-                <h3>No executions yet</h3>
-                <p>Trigger this workflow to see run history.</p>
-              </div>
-            ) : (
-              <table className="table">
-                <thead>
+          <div className="overflowAuto">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Run ID</th>
+                  <th>Status</th>
+                  <th>Started At</th>
+                  <th>Completed At</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {runs.length === 0 ? (
                   <tr>
-                    <th>Run ID</th>
-                    <th>Status</th>
-                    <th>Started At</th>
-                    <th>Completed At</th>
-                    <th>Duration</th>
-                    <th>Actions</th>
+                    <td colSpan="5" style={{ textAlign: 'center', padding: '32px' }}>
+                      <span className="textMuted">No runs yet</span>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {executions.map((exec) => (
-                    <tr key={exec.id}>
-                      <td className="textSecondary"><code>{exec.id}</code></td>
+                ) : (
+                  runs.map((run) => (
+                    <tr key={run.id}>
+                      <td>{run.id}</td>
                       <td>
-                        <span className={`statusTag ${getStatusClass(exec.status)}`}>
-                          {exec.status || 'unknown'}
+                        <span className={`statusTag ${run.status === 'completed' ? 'active' : run.status === 'failed' ? 'error' : 'pending'}`}>
+                          {run.status}
                         </span>
                       </td>
-                      <td className="textSecondary">{formatDate(exec.started_at)}</td>
-                      <td className="textSecondary">{formatDate(exec.completed_at)}</td>
-                      <td className="textSecondary">{exec.duration ? `${exec.duration}s` : '-'}</td>
+                      <td>{new Date(run.startedAt).toLocaleString()}</td>
+                      <td>{run.completedAt ? new Date(run.completedAt).toLocaleString() : '-'}</td>
                       <td>
-                        <div style={{ display: 'flex', gap: 6 }}>
-                          <button
-                            className="btn secondary"
-                            style={{ padding: '4px 10px', fontSize: 12 }}
-                            onClick={() => alert(`Logs: ${JSON.stringify(exec.logs || {}, null, 2)}`)}
-                          >
-                            View Logs
-                          </button>
-                          {(exec.status === 'failed' || exec.status === 'error') && (
-                            <button
-                              className="btn primary"
-                              style={{ padding: '4px 10px', fontSize: 12 }}
-                              onClick={() => handleRetry(exec.id)}
-                              disabled={retryingId === exec.id}
-                            >
-                              {retryingId === exec.id ? 'Retrying...' : 'Retry'}
-                            </button>
-                          )}
-                        </div>
+                        {run.status === 'failed' && (
+                          <Button size="small" variant="secondary" onClick={() => handleRetry(run.id)}>
+                            Retry
+                          </Button>
+                        )}
                       </td>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
+                  ))
+                )}
+              </tbody>
+            </table>
           </div>
+        </div>
+      ) : (
+        <div className="emptyState">
+          <p className="textMuted">Select a workflow to view execution history</p>
         </div>
       )}
     </AdminPage>
-  );
+  )
 }

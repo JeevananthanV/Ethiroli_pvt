@@ -1,87 +1,125 @@
-import React, { useState, useEffect } from 'react';
-import Modal from '../../../common/components/Modal/Modal.jsx';
-import Input from '../../../common/components/Input/Input.jsx';
-import Button from '../../../common/components/Button/Button.jsx';
-import { updateLeaveStatus } from '../../../services/api/leaveApi.js';
-import { listEmployees } from '../../../services/api/employeeApi.js';
+import React, { useState, useEffect } from 'react'
+import Modal from '../../../common/components/Modal/Modal.jsx'
+import Input from '../../../common/components/Input/Input.jsx'
+import Button from '../../../common/components/Button/Button.jsx'
+import { leaveApi } from '../../../services/api/leaveApi.js'
 
-export default function LeaveApprovalModal({ isOpen, onClose, leave, onStatusUpdate }) {
-  const [action, setAction] = useState('APPROVED');
-  const [comments, setComments] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-  const [employees, setEmployees] = useState([]);
+export default function LeaveApprovalModal({ isOpen, onClose, leaveRequest, onApproved }) {
+  const [comment, setComment] = useState('')
+  const [action, setAction] = useState(null)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     if (isOpen) {
-      listEmployees().then((data) => setEmployees(Array.isArray(data) ? data : [])).catch(() => {});
+      setComment('')
+      setAction(null)
+      setError(null)
     }
-  }, [isOpen]);
+  }, [isOpen, leaveRequest])
 
-  const getEmployeeName = (employeeId) => {
-    const emp = employees.find((e) => e.id === employeeId);
-    return emp ? (emp.full_name || emp.name || `Employee ${employeeId}`) : `Employee ${employeeId}`;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!leave?.id) return;
-    setSubmitting(true);
+  const handleSubmit = async (selectedAction) => {
+    if (!selectedAction) {
+      setError('Please select an action')
+      return
+    }
+    setAction(selectedAction)
+    setSubmitting(true)
+    setError(null)
     try {
-      await updateLeaveStatus(leave.id, action, comments);
-      if (onStatusUpdate) onStatusUpdate({ ...leave, status: action, comments });
-      onClose();
+      if (selectedAction === 'approve') {
+        await leaveApi.approve(leaveRequest.id)
+      } else {
+        await leaveApi.reject(leaveRequest.id)
+      }
+      onApproved?.({
+        ...leaveRequest,
+        status: selectedAction === 'approve' ? 'approved' : 'rejected',
+        comment,
+      })
+      onClose?.()
     } catch (err) {
-      alert(err.message || 'Failed to update leave status');
+      setError(err.message || `Failed to ${selectedAction} leave request`)
     } finally {
-      setSubmitting(false);
+      setSubmitting(false)
     }
-  };
+  }
 
-  if (!leave) return null;
+  const formatDate = (dateStr) => {
+    if (!dateStr) return '-'
+    return new Date(dateStr).toLocaleDateString()
+  }
+
+  const getLeaveTypeLabel = (type) => {
+    if (!type) return 'Leave'
+    return type.charAt(0).toUpperCase() + type.slice(1)
+  }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Leave Approval">
-      <div className="modalBody">
+    <Modal isOpen={isOpen} onClose={onClose} title={`Leave Request - ${leaveRequest?.employeeName || 'Employee'}`}>
+      {leaveRequest && (
         <div className="form">
-          <div className="formGroup">
-            <label className="label">Employee</label>
-            <p className="textSecondary">{getEmployeeName(leave.employee_id)}</p>
+          <div className="card" style={{ marginBottom: '20px', background: 'var(--admin-bg-light)' }}>
+            <div className="cardBody" style={{ padding: '16px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', fontSize: '14px' }}>
+                <div>
+                  <span className="textMuted" style={{ fontSize: '12px' }}>Employee</span>
+                  <div style={{ color: 'var(--admin-text-primary)', fontWeight: 500 }}>{leaveRequest.employeeName || '-'}</div>
+                </div>
+                <div>
+                  <span className="textMuted" style={{ fontSize: '12px' }}>Leave Type</span>
+                  <div style={{ color: 'var(--admin-text-primary)', fontWeight: 500 }}>{getLeaveTypeLabel(leaveRequest.leaveType)}</div>
+                </div>
+                <div>
+                  <span className="textMuted" style={{ fontSize: '12px' }}>Start Date</span>
+                  <div style={{ color: 'var(--admin-text-primary)', fontWeight: 500 }}>{formatDate(leaveRequest.startDate)}</div>
+                </div>
+                <div>
+                  <span className="textMuted" style={{ fontSize: '12px' }}>End Date</span>
+                  <div style={{ color: 'var(--admin-text-primary)', fontWeight: 500 }}>{formatDate(leaveRequest.endDate)}</div>
+                </div>
+                <div>
+                  <span className="textMuted" style={{ fontSize: '12px' }}>Duration</span>
+                  <div style={{ color: 'var(--admin-text-primary)', fontWeight: 500 }}>{leaveRequest.days || '-'} days</div>
+                </div>
+                <div>
+                  <span className="textMuted" style={{ fontSize: '12px' }}>Applied On</span>
+                  <div style={{ color: 'var(--admin-text-primary)', fontWeight: 500 }}>{formatDate(leaveRequest.createdAt || leaveRequest.appliedAt)}</div>
+                </div>
+              </div>
+              {leaveRequest.reason && (
+                <div style={{ marginTop: '12px' }}>
+                  <span className="textMuted" style={{ fontSize: '12px' }}>Reason</span>
+                  <p style={{ margin: '4px 0 0', color: 'var(--admin-text-secondary)', fontSize: '14px' }}>{leaveRequest.reason}</p>
+                </div>
+              )}
+            </div>
           </div>
-          <div className="formGroup">
-            <label className="label">Leave Type</label>
-            <p className="textSecondary">{leave.leave_type || 'General Leave'}</p>
-          </div>
-          <div className="formGroup">
-            <label className="label">Dates</label>
-            <p className="textSecondary">{leave.start_date} to {leave.end_date}</p>
-          </div>
-          <div className="formGroup">
-            <label className="label">Reason</label>
-            <p className="textSecondary">{leave.reason || 'No reason provided'}</p>
-          </div>
-          <div className="formGroup">
-            <label className="label">Decision <span className="required">*</span></label>
-            <select className="select" value={action} onChange={(e) => setAction(e.target.value)}>
-              <option value="APPROVED">Approve</option>
-              <option value="REJECTED">Reject</option>
-              <option value="CANCELLED">Cancel</option>
-            </select>
-          </div>
+
           <div className="formGroup">
             <label className="label">Comments</label>
             <textarea
-              className="textarea"
-              value={comments}
-              onChange={(e) => setComments(e.target.value)}
-              placeholder="Add approval/rejection comments..."
+              className="inputField"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
               rows={3}
+              placeholder="Add a comment (optional)"
+              style={{ resize: 'vertical' }}
             />
           </div>
-          <Button type="submit" onClick={handleSubmit} disabled={submitting} variant="primary" className="btnFull">
-            {submitting ? 'Updating...' : 'Submit Decision'}
-          </Button>
+
+          {error && <div className="emptyState" style={{ marginBottom: '12px' }}><p className="textDanger">{error}</p></div>}
+
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '16px' }}>
+            <Button variant="danger" onClick={() => handleSubmit('reject')} disabled={submitting}>
+              {submitting && action === 'reject' ? 'Rejecting...' : 'Reject'}
+            </Button>
+            <Button variant="success" onClick={() => handleSubmit('approve')} disabled={submitting}>
+              {submitting && action === 'approve' ? 'Approving...' : 'Approve'}
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
     </Modal>
-  );
+  )
 }

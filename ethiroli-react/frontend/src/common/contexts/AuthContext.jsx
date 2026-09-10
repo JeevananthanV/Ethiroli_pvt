@@ -8,14 +8,14 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const dispatch = useAppDispatch();
-  const { user, isAuthenticated, socketToken } = useAppSelector((state) => state.auth);
-  const [loading, setLoading] = useState(true);
+  const { user, isAuthenticated, socketToken, activePortal, loading: reduxLoading } = useAppSelector((state) => state.auth);
+  const [loading, setLoading] = useState(reduxLoading);
 
   const checkAuth = useCallback(async () => {
     try {
       const data = await getMe();
       if (data && data.user) {
-        dispatch(setCredentials({ user: data.user, socket_token: socketToken }));
+        dispatch(setCredentials({ user: data.user, socket_token: socketToken, activePortal: data.activePortal }));
       }
     } catch {
       dispatch(clearCredentials());
@@ -28,12 +28,16 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, [checkAuth]);
 
-  const login = async (email, password, portal = null) => {
+  const login = async (email, password, portal = null, mfaToken = null) => {
     setLoading(true);
     try {
-      const data = await apiLogin(email, password, portal);
-      dispatch(setCredentials(data));
-      return data.user;
+      const data = await apiLogin(email, password, portal, mfaToken);
+      const normalizedPortal = portal ? String(portal).trim().toLowerCase() : null;
+      const activePortal = data.activePortal || normalizedPortal;
+      if (data.user) {
+        dispatch(setCredentials({ ...data, activePortal }));
+      }
+      return data;
     } catch (err) {
       dispatch(clearCredentials());
       throw err;
@@ -45,7 +49,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     setLoading(true);
     try {
-      await apiLogout();
+      await apiLogout(activePortal);
     } catch (err) {
       console.error('Logout failed:', err);
     } finally {
@@ -54,11 +58,20 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  return (
-    <AuthContext.Provider value={{ user, isAuthenticated, socketToken, loading, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  const role = user?.role || null;
+
+  const value = {
+    user,
+    role,
+    isAuthenticated,
+    socketToken,
+    activePortal,
+    loading,
+    login,
+    logout,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {
@@ -68,3 +81,5 @@ export const useAuth = () => {
   }
   return context;
 };
+
+export default useAuth;

@@ -1,19 +1,13 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './styles/global.css'
-import './styles/premium-motion.css'
-import './styles/career-apply.css'
-import './styles/contact-page.css'
-import App from './App.jsx'
-import ErrorBoundary from './components/shared/ErrorBoundary'
-import { registerServiceWorker } from './utils/registerServiceWorker'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import AppShell from './common/AppShell'
+import App from './App'
+import './styles/admin.css'
 
-registerServiceWorker()
-
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <ErrorBoundary>
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <AppShell>
       <App />
-    </ErrorBoundary>
-  </StrictMode>,
+    </AppShell>
+  </React.StrictMode>
 )

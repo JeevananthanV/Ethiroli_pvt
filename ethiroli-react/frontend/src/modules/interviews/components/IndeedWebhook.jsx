@@ -1,162 +1,234 @@
-import React, { useEffect, useState } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { listIntegrations, saveIntegration, updateIntegration } from '../../services/api/integrationApi.js';
+import React, { useState, useEffect } from 'react'
+import AdminPage from '../../common/components/AdminPage'
+import Button from '../../common/components/Button'
+import Modal from '../../common/components/Modal'
+import Input from '../../common/components/Input'
+import { webhookApi } from '../../services/api/webhookApi'
+import { integrationApi } from '../../services/api/integrationApi'
 
 export default function IndeedWebhook() {
-  const [indeedIntegration, setIndeedIntegration] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [testStatus, setTestStatus] = useState(null);
-  const [config, setConfig] = useState({
-    webhook_url: '',
-    api_key: '',
-    secret: '',
-    events: ['application.created', 'application.updated'],
-    status: 'active',
-  });
-  const [saving, setSaving] = useState(false);
-
-  const loadData = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await listIntegrations();
-      const integrationsList = Array.isArray(data) ? data : [];
-      const indeed = integrationsList.find(
-        (i) => i.type === 'indeed' || i.name?.toLowerCase().includes('indeed')
-      );
-      if (indeed) {
-        setIndeedIntegration(indeed);
-        setConfig({
-          webhook_url: indeed.webhook_url || '',
-          api_key: indeed.api_key || '',
-          secret: indeed.secret || '',
-          events: indeed.events || ['application.created', 'application.updated'],
-          status: indeed.status || 'active',
-        });
-      }
-    } catch (err) {
-      setError(err.message || 'Failed to load Indeed integration');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [webhooks, setWebhooks] = useState([])
+  const [integrations, setIntegrations] = useState([])
+  const [selectedWebhook, setSelectedWebhook] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [testing, setTesting] = useState(false)
+  const [testResult, setTestResult] = useState(null)
+  const [error, setError] = useState(null)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [form, setForm] = useState({ name: '', url: '', method: 'POST', events: '' })
 
   useEffect(() => {
-    loadData();
-  }, []);
+    loadData()
+  }, [])
 
-  const handleSave = async (e) => {
-    e.preventDefault();
-    setSaving(true);
+  const loadData = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const [webhooksData, integrationsData] = await Promise.all([
+        webhookApi.getAll(),
+        integrationApi.getAll(),
+      ])
+      setWebhooks(webhooksData)
+      setIntegrations(integrationsData)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleCreate = () => {
+    setSelectedWebhook(null)
+    setForm({ name: '', url: '', method: 'POST', events: '' })
+    setModalOpen(true)
+  }
+
+  const handleEdit = (webhook) => {
+    setSelectedWebhook(webhook)
+    setForm({
+      name: webhook.name || '',
+      url: webhook.url || '',
+      method: webhook.method || 'POST',
+      events: webhook.events?.join(', ') || '',
+    })
+    setModalOpen(true)
+  }
+
+  const handleSubmit = async () => {
     try {
       const payload = {
-        name: 'Indeed Integration',
-        type: 'indeed',
-        ...config,
-      };
-      if (indeedIntegration?.id) {
-        await updateIntegration(indeedIntegration.id, payload);
-      } else {
-        await saveIntegration(payload);
+        ...form,
+        events: form.events.split(',').map((e) => e.trim()).filter(Boolean),
       }
-      alert('Indeed webhook configuration saved');
-      loadData();
+      if (selectedWebhook) {
+        await webhookApi.update(selectedWebhook.id, payload)
+        setWebhooks(webhooks.map((w) => (w.id === selectedWebhook.id ? { ...w, ...payload } : w)))
+      } else {
+        const data = await webhookApi.create(payload)
+        setWebhooks([...webhooks, data])
+      }
+      setModalOpen(false)
     } catch (err) {
-      alert(`Failed to save: ${err.message}`);
-    } finally {
-      setSaving(false);
+      setError(err.message)
     }
-  };
+  }
 
-  const handleTest = async () => {
-    setTestStatus('testing');
+  const handleTest = async (webhook) => {
+    setTesting(true)
+    setTestResult(null)
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      setTestStatus('success');
-      setTimeout(() => setTestStatus(null), 4000);
-    } catch {
-      setTestStatus('error');
+      const result = await webhookApi.test(webhook.id)
+      setTestResult(result)
+    } catch (err) {
+      setTestResult({ success: false, message: err.message })
+    } finally {
+      setTesting(false)
     }
-  };
+  }
 
   return (
     <AdminPage
       title="Indeed Webhook"
-      subtitle="Indeed integration webhook configuration"
+      subtitle="Configure Indeed integration webhooks"
       loading={loading}
       error={error}
       onRetry={loadData}
+      actions={
+        <Button variant="primary" onClick={handleCreate}>
+          Add Webhook
+        </Button>
+      }
     >
-      <div className="card" style={{ marginBottom: 20 }}>
+      <div className="card mb4">
         <div className="cardHeader">
-          <h3 className="cardTitle">Webhook Configuration</h3>
-          {indeedIntegration && (
-            <span className={`statusTag ${indeedIntegration.status === 'active' ? 'active' : 'error'}`}>
-              {indeedIntegration.status}
-            </span>
-          )}
+          <h3 className="cardTitle">Indeed Integration Status</h3>
         </div>
         <div className="cardBody">
-          <form onSubmit={handleSave} className="form">
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
-              <div className="formGroup">
-                <label className="label required">Webhook URL</label>
-                <input className="inputField" required value={config.webhook_url} onChange={(e) => setConfig({ ...config, webhook_url: e.target.value })} placeholder="https://your-server.com/webhooks/indeed" />
-              </div>
-              <div className="formGroup">
-                <label className="label required">API Key</label>
-                <input className="inputField" required value={config.api_key} onChange={(e) => setConfig({ ...config, api_key: e.target.value })} />
-              </div>
-              <div className="formGroup">
-                <label className="label">Secret</label>
-                <input className="inputField" type="password" value={config.secret} onChange={(e) => setConfig({ ...config, secret: e.target.value })} />
-              </div>
+          {integrations.length === 0 ? (
+            <p className="textMuted">No integrations configured</p>
+          ) : (
+            <div className="grid gridCols2">
+              {integrations.map((integration) => (
+                <div key={integration.id} className="statCard">
+                  <div className="statLabel">{integration.name}</div>
+                  <span className={`statusTag ${integration.status === 'active' ? 'active' : 'pending'}`}>
+                    {integration.status}
+                  </span>
+                  <p className="textSecondary textSm mt2">{integration.type}</p>
+                </div>
+              ))}
             </div>
-            <div className="formGroup">
-              <label className="label">Events (comma-separated)</label>
-              <input
-                className="inputField"
-                value={config.events.join(', ')}
-                onChange={(e) => setConfig({ ...config, events: e.target.value.split(',').map((v) => v.trim()).filter(Boolean) })}
-                placeholder="application.created, application.updated"
-              />
-            </div>
-            <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 20 }}>
-              <button type="button" className="btn secondary" onClick={handleTest}>
-                {testStatus === 'testing' ? 'Testing...' : 'Test Connection'}
-              </button>
-              <button type="submit" className="btn primary" disabled={saving}>
-                {saving ? 'Saving...' : 'Save Configuration'}
-              </button>
-            </div>
-            {testStatus === 'success' && (
-              <div className="textSuccess" style={{ marginTop: 12 }}>Connection successful! Webhook is reachable.</div>
-            )}
-            {testStatus === 'error' && (
-              <div className="textDanger" style={{ marginTop: 12 }}>Connection failed. Check your URL and credentials.</div>
-            )}
-          </form>
+          )}
         </div>
       </div>
 
       <div className="card">
-        <div className="cardHeader"><h3 className="cardTitle">Recent Webhooks</h3></div>
-        <div className="cardBody">
-          <div style={{ display: 'grid', gap: 8 }}>
-            {[...(indeedIntegration?.recent_events || []), ...(indeedIntegration?.logs || [])].slice(0, 10).map((log, idx) => (
-              <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid var(--admin-border)' }}>
-                <span className="textSecondary">{log.event || log.type || 'event'}</span>
-                <span className={`statusTag ${(log.status || 'pending') === 'success' ? 'active' : 'error'}`}>{log.status || 'pending'}</span>
-                <span className="textMuted" style={{ fontSize: 12 }}>{new Date(log.created_at || Date.now()).toLocaleString()}</span>
-              </div>
-            ))}
-            {(!indeedIntegration?.recent_events && !indeedIntegration?.logs) && (
-              <div className="emptyState">No webhook events yet.</div>
-            )}
-          </div>
+        <div className="cardHeader">
+          <h3 className="cardTitle">Webhooks</h3>
+        </div>
+        <div className="overflowAuto">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>URL</th>
+                <th>Method</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {webhooks.length === 0 ? (
+                <tr>
+                  <td colSpan="5" style={{ textAlign: 'center', padding: '32px' }}>
+                    <span className="textMuted">No webhooks configured</span>
+                  </td>
+                </tr>
+              ) : (
+                webhooks.map((webhook) => (
+                  <tr key={webhook.id}>
+                    <td>{webhook.name}</td>
+                    <td className="truncate" style={{ maxWidth: '200px' }}>
+                      {webhook.url}
+                    </td>
+                    <td>{webhook.method}</td>
+                    <td>
+                      <span className={`statusTag ${webhook.status === 'active' ? 'active' : 'pending'}`}>
+                        {webhook.status}
+                      </span>
+                    </td>
+                    <td>
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        <Button size="small" variant="secondary" onClick={() => handleEdit(webhook)}>
+                          Edit
+                        </Button>
+                        <Button size="small" variant="primary" onClick={() => handleTest(webhook)} disabled={testing}>
+                          Test
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
+
+      {testResult && (
+        <div className="card mt4">
+          <div className="cardHeader">
+            <h3 className="cardTitle">Test Result</h3>
+          </div>
+          <div className="cardBody">
+            <pre
+              style={{
+                background: '#0f172a',
+                padding: '16px',
+                borderRadius: '8px',
+                overflow: 'auto',
+                fontSize: '13px',
+                fontFamily: 'monospace',
+              }}
+            >
+              {JSON.stringify(testResult, null, 2)}
+            </pre>
+          </div>
+        </div>
+      )}
+
+      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={selectedWebhook ? 'Edit Webhook' : 'Add Webhook'}>
+        <div className="form">
+          <div className="formGroup">
+            <label className="label required">Name</label>
+            <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Webhook name" />
+          </div>
+          <div className="formGroup">
+            <label className="label required">URL</label>
+            <Input value={form.url} onChange={(e) => setForm({ ...form, url: e.target.value })} placeholder="https://example.com/webhook" />
+          </div>
+          <div className="formGroup">
+            <label className="label">Method</label>
+            <select className="select" value={form.method} onChange={(e) => setForm({ ...form, method: e.target.value })}>
+              <option value="POST">POST</option>
+              <option value="GET">GET</option>
+            </select>
+          </div>
+          <div className="formGroup">
+            <label className="label">Events (comma-separated)</label>
+            <Input value={form.events} onChange={(e) => setForm({ ...form, events: e.target.value })} placeholder="job.created, candidate.updated" />
+          </div>
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '16px' }}>
+            <Button variant="secondary" onClick={() => setModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={handleSubmit}>
+              {selectedWebhook ? 'Update' : 'Create'}
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </AdminPage>
-  );
+  )
 }

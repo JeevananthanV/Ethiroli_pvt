@@ -1,42 +1,100 @@
-import React from 'react';
-import styles from './Lms.module.css';
+import React, { useState, useEffect, useCallback } from 'react'
+import lessonApi from '../../../../services/api/lessonApi'
+import AdminPage from '../../../common/components/AdminPage'
+import Button from '../../../common/components/Button'
+import Modal from '../../../common/components/Modal'
 
-export default function LessonViewer({ lesson }) {
-  const lessonData = lesson || {
-    title: 'Select a lesson',
-    duration: '—',
-    description: 'Choose a lesson from the syllabus to begin learning.'
-  };
+export default function LessonViewer({ lessonId }) {
+  const [lesson, setLesson] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [completed, setCompleted] = useState(false)
+
+  useEffect(() => {
+    fetchLesson()
+  }, [lessonId, fetchLesson])
+
+  const fetchLesson = useCallback(async () => {
+    try {
+      const data = await lessonApi.getById(lessonId)
+      setLesson(data)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }, [lessonId])
+
+  const handleMarkComplete = async () => {
+    try {
+      await lessonApi.complete(lessonId)
+      setCompleted(true)
+    } catch (error) {
+      alert('Failed to mark lesson complete: ' + error.message)
+    }
+  }
+
+  if (loading) {
+    return <div className="loading">Loading lesson...</div>
+  }
+
+  if (error) {
+    return <div className="emptyState textDanger">Error: {error}</div>
+  }
+
+  if (!lesson) {
+    return <div className="emptyState">Lesson not found</div>
+  }
 
   return (
-    <div className={styles.lessonViewer}>
-      <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12}}>
-        <div>
-          <h3 style={{margin: '0 0 8px 0', fontFamily: "'Montserrat', sans-serif", fontSize: 20, fontWeight: 700}}>
-            {lessonData.title}
-          </h3>
-          <span className={styles.badge}>Duration: {lessonData.duration}</span>
+    <div className="card">
+      <div className="cardHeader">
+        <h3 className="cardTitle">{lesson.title}</h3>
+        {completed && <span className="statusTag active">Completed</span>}
+      </div>
+      <div className="cardBody">
+        <div className="mb4">
+          <p className="textSecondary">{lesson.description}</p>
         </div>
-        <span className="statusTag active">In Progress</span>
-      </div>
 
-      <div className={styles.videoPlayerPlaceholder}>
-        <div className={styles.playIcon} style={{fontSize: 48, cursor: 'pointer', transition: 'transform 0.2s ease'}}>▶</div>
-        <p style={{margin: '12px 0 0', fontSize: 14, opacity: 0.9}}>Premium Interactive Video Player</p>
-      </div>
+        {lesson.content && (
+          <div className="card mb4" style={{ background: 'var(--admin-bg-light)' }}>
+            <div className="cardBody">
+              <h4 className="fontSemibold mb3">Content</h4>
+              <div className="textSecondary" dangerouslySetInnerHTML={{ __html: lesson.content }} />
+            </div>
+          </div>
+        )}
 
-      <div className="lessonDescription">
-        <h4 style={{margin: '0 0 10px 0', fontSize: 16, fontWeight: 600}}>Lesson Overview</h4>
-        <p style={{margin: 0, lineHeight: 1.7, color: 'var(--admin-text-secondary)'}}>
-          {lessonData.description}
-        </p>
-      </div>
+        {lesson.videoUrl && (
+          <div className="mb4">
+            <video controls style={{ width: '100%', borderRadius: 'var(--admin-radius)' }} src={lesson.videoUrl} />
+          </div>
+        )}
 
-      <div className={styles.navigationRow}>
-        <button className="btn secondary">Previous</button>
-        <button className="btn primary">Next Lesson</button>
-        <button className="btn success" style={{background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', color: '#fff'}}>Mark as Completed</button>
+        {lesson.attachments?.length > 0 && (
+          <div className="mb4">
+            <h4 className="fontSemibold mb3">Attachments</h4>
+            <div className="flex flexCol gap2">
+              {lesson.attachments.map((file, i) => (
+                <a key={i} href={file.url} className="btn secondary" style={{ textAlign: 'left' }}>
+                  📎 {file.name}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="flex gap3">
+          <button
+            className="btn primary"
+            onClick={handleMarkComplete}
+            disabled={completed}
+          >
+            {completed ? 'Completed' : 'Mark as Complete'}
+          </button>
+        </div>
       </div>
     </div>
-  );
+  )
 }

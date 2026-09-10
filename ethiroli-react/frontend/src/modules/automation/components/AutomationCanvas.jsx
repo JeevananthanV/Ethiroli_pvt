@@ -1,224 +1,155 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { getAutomationWorkflows, createAutomationWorkflow } from '../../services/api/automationApi.js';
-import { getWorkflows } from '../../services/api/workflowApi.js';
+import React, { useState, useEffect, useRef } from 'react'
+import AdminPage from '../../common/components/AdminPage'
+import Button from '../../common/components/Button'
+import Modal from '../../common/components/Modal'
+import Input from '../../common/components/Input'
+import { workflowApi } from '../../../services/api/workflowApi'
 
 const NODE_TYPES = [
-  { type: 'trigger', label: 'Trigger', color: '#a855f7' },
-  { type: 'action', label: 'Action', color: '#3b82f6' },
+  { type: 'trigger', label: 'Trigger', color: '#6366f1' },
+  { type: 'action', label: 'Action', color: '#22c55e' },
   { type: 'condition', label: 'Condition', color: '#f59e0b' },
-  { type: 'delay', label: 'Delay', color: '#10b981' },
-  { type: 'notification', label: 'Notification', color: '#f43f5e' },
-];
+  { type: 'delay', label: 'Delay', color: '#94a3b8' },
+  { type: 'notification', label: 'Notification', color: '#3b82f6' },
+]
 
 export default function AutomationCanvas() {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [nodes, setNodes] = useState([]);
-  const [connections, setConnections] = useState([]);
-  const [selectedNode, setSelectedNode] = useState(null);
-  const [dragging, setDragging] = useState(null);
-  const [showSaveModal, setShowSaveModal] = useState(false);
-  const [workflowName, setWorkflowName] = useState('');
-  const [workflowDescription, setWorkflowDescription] = useState('');
-  const [saving, setSaving] = useState(false);
-  const canvasRef = useRef(null);
-
-  const loadWorkflows = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const [autoRes, wfRes] = await Promise.all([
-        getAutomationWorkflows().catch(() => []),
-        getWorkflows().catch(() => []),
-      ]);
-      const workflows = [...(Array.isArray(autoRes) ? autoRes : []), ...(Array.isArray(wfRes) ? wfRes : [])];
-      if (Array.isArray(workflows) && workflows.length > 0) {
-        const latest = workflows[0];
-        if (latest.nodes) setNodes(latest.nodes);
-        if (latest.connections) setConnections(latest.connections);
-      }
-    } catch (err) {
-      setError(err.message || 'Failed to load workflows');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [workflows, setWorkflows] = useState([])
+  const [selectedWorkflow, setSelectedWorkflow] = useState(null)
+  const [nodes, setNodes] = useState([])
+  const [connections, setConnections] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [isPaletteOpen, setIsPaletteOpen] = useState(false)
+  const [saveModalOpen, setSaveModalOpen] = useState(false)
+  const [workflowName, setWorkflowName] = useState('')
+  const canvasRef = useRef(null)
 
   useEffect(() => {
-    loadWorkflows();
-  }, []);
+    loadWorkflows()
+  }, [])
 
-  const addNode = useCallback((type, x, y) => {
-    const nodeType = NODE_TYPES.find((n) => n.type === type) || NODE_TYPES[0];
-    const newNode = {
-      id: `node_${Date.now()}`,
-      type,
-      label: `${nodeType.label} ${nodes.length + 1}`,
-      x,
-      y,
-      config: {},
-    };
-    setNodes((prev) => [...prev, newNode]);
-  }, [nodes.length]);
-
-  const handleCanvasMouseDown = (e) => {
-    if (e.target === canvasRef.current) {
-      setSelectedNode(null);
-    }
-  };
-
-  const handleNodeMouseDown = (e, node) => {
-    e.stopPropagation();
-    setSelectedNode(node);
-    setDragging({
-      id: node.id,
-      startX: e.clientX,
-      startY: e.clientY,
-      nodeX: node.x,
-      nodeY: node.y,
-    });
-  };
-
-  const handleNodeMouseMove = (e) => {
-    if (!dragging) return;
-    const dx = e.clientX - dragging.startX;
-    const dy = e.clientY - dragging.startY;
-    setNodes((prev) =>
-      prev.map((n) =>
-        n.id === dragging.id
-          ? { ...n, x: dragging.nodeX + dx, y: dragging.nodeY + dy }
-          : n
-      )
-    );
-  };
-
-  const handleNodeMouseUp = () => {
-    setDragging(null);
-  };
-
-  const handleConnect = (sourceId, targetId) => {
-    if (sourceId === targetId) return;
-    const exists = connections.some(
-      (c) => c.source === sourceId && c.target === targetId
-    );
-    if (!exists) {
-      setConnections((prev) => [...prev, { source: sourceId, target: targetId }]);
-    }
-  };
-
-  const updateNodeConfig = (field, value) => {
-    if (!selectedNode) return;
-    setNodes((prev) =>
-      prev.map((n) =>
-        n.id === selectedNode.id ? { ...n, config: { ...n.config, [field]: value } } : n
-      )
-    );
-    setSelectedNode((prev) => ({ ...prev, config: { ...prev.config, [field]: value } }));
-  };
-
-  const handleSaveWorkflow = async (e) => {
-    e.preventDefault();
-    if (!workflowName.trim()) {
-      alert('Workflow name is required');
-      return;
-    }
-    setSaving(true);
+  const loadWorkflows = async () => {
+    setLoading(true)
+    setError(null)
     try {
-      const workflowData = {
-        name: workflowName,
-        description: workflowDescription,
-        nodes: nodes.map((n) => ({ id: n.id, type: n.type, label: n.label, x: n.x, y: n.y, config: n.config })),
-        connections,
-      };
-      await createAutomationWorkflow(workflowData);
-      setShowSaveModal(false);
-      setWorkflowName('');
-      setWorkflowDescription('');
-      loadWorkflows();
+      const data = await workflowApi.getAll()
+      setWorkflows(data)
     } catch (err) {
-      alert(`Failed to save workflow: ${err.message}`);
+      setError(err.message)
     } finally {
-      setSaving(false);
+      setLoading(false)
     }
-  };
+  }
 
-  const clearCanvas = () => {
-    setNodes([]);
-    setConnections([]);
-    setSelectedNode(null);
-  };
+  const handleWorkflowSelect = async (workflow) => {
+    setSelectedWorkflow(workflow)
+    setWorkflowName(workflow.name || '')
+    try {
+      const data = await workflowApi.getById(workflow.id)
+      setNodes(data.nodes || [])
+      setConnections(data.connections || [])
+    } catch (err) {
+      console.error('Failed to load workflow details', err)
+    }
+  }
+
+  const handleSave = async () => {
+    if (!selectedWorkflow) return
+    try {
+      await workflowApi.update(selectedWorkflow.id, {
+        name: workflowName,
+        nodes,
+        connections,
+      })
+      setSaveModalOpen(false)
+      loadWorkflows()
+    } catch (err) {
+      setError(err.message)
+    }
+  }
+
+  const handleCanvasClick = (e) => {
+    if (e.target === canvasRef.current) {
+      const rect = canvasRef.current.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+      const newNode = {
+        id: `node_${Date.now()}`,
+        type: 'action',
+        x,
+        y,
+        label: 'New Action',
+        config: {},
+      }
+      setNodes([...nodes, newNode])
+    }
+  }
+
+  const handleNodeDrag = (nodeId, e) => {
+    if (e.type === 'mousemove' && e.buttons === 1) {
+      const rect = canvasRef.current.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+      setNodes(nodes.map((n) => (n.id === nodeId ? { ...n, x, y } : n)))
+    }
+  }
+
+  const handleDeleteNode = (nodeId) => {
+    setNodes(nodes.filter((n) => n.id !== nodeId))
+    setConnections(connections.filter((c) => c.from !== nodeId && c.to !== nodeId))
+  }
 
   return (
     <AdminPage
       title="Automation Canvas"
-      subtitle="Visual drag-and-drop workflow designer"
+      subtitle="Design and manage workflow automations"
       loading={loading}
       error={error}
       onRetry={loadWorkflows}
       actions={
-        <div style={{ display: 'flex', gap: 8 }}>
-          <button className="btn secondary" onClick={clearCanvas}>Clear Canvas</button>
-          <button className="btn primary" onClick={() => setShowSaveModal(true)}>Save Workflow</button>
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <select
+            className="select"
+            value={selectedWorkflow?.id || ''}
+            onChange={(e) => {
+              const wf = workflows.find((w) => w.id === e.target.value)
+              if (wf) handleWorkflowSelect(wf)
+            }}
+            style={{ width: '200px' }}
+          >
+            <option value="">Select Workflow</option>
+            {workflows.map((wf) => (
+              <option key={wf.id} value={wf.id}>
+                {wf.name}
+              </option>
+            ))}
+          </select>
+          <Button onClick={() => setIsPaletteOpen(true)}>Add Node</Button>
+          {selectedWorkflow && (
+            <Button variant="primary" onClick={() => setSaveModalOpen(true)}>
+              Save
+            </Button>
+          )}
         </div>
       }
     >
-      <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: 20, minHeight: 600 }}>
-        <div className="card">
-          <div className="cardHeader"><h3 className="cardTitle">Node Palette</h3></div>
-          <div className="cardBody">
-            <div style={{ display: 'grid', gap: 8 }}>
-              {NODE_TYPES.map((nodeType) => (
-                <div
-                  key={nodeType.type}
-                  draggable
-                  onDragStart={(e) => {
-                    e.dataTransfer.setData('nodeType', nodeType.type);
-                  }}
-                  style={{
-                    padding: '10px 14px',
-                    borderRadius: 8,
-                    background: `${nodeType.color}20`,
-                    border: `1px solid ${nodeType.color}40`,
-                    color: nodeType.color,
-                    cursor: 'grab',
-                    fontWeight: 500,
-                    fontSize: 13,
-                  }}
-                >
-                  {nodeType.label}
-                </div>
-              ))}
-            </div>
-            <p style={{ marginTop: 16, fontSize: 12, color: 'var(--admin-text-muted)' }}>
-              Drag nodes onto the canvas. Click a node to select, then drag to move. Shift-click another node to connect.
-            </p>
+      <div className="grid gridCols3" style={{ height: 'calc(100vh - 200px)', minHeight: '500px' }}>
+        <div className="card" style={{ gridColumn: 'span 2', display: 'flex', flexDirection: 'column' }}>
+          <div className="cardHeader">
+            <h3 className="cardTitle">Canvas</h3>
+            <span className="textMuted textSm">{nodes.length} nodes, {connections.length} connections</span>
           </div>
-        </div>
-
-        <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
           <div
             ref={canvasRef}
-            onMouseDown={handleCanvasMouseDown}
-            onMouseMove={handleNodeMouseMove}
-            onMouseUp={handleNodeMouseUp}
-            onMouseLeave={handleNodeMouseUp}
-            onDragOver={(e) => e.preventDefault()}
-            onDrop={(e) => {
-              const nodeType = e.dataTransfer.getData('nodeType');
-              if (nodeType && canvasRef.current) {
-                const rect = canvasRef.current.getBoundingClientRect();
-                addNode(nodeType, e.clientX - rect.left, e.clientY - rect.top);
-              }
-            }}
+            onClick={handleCanvasClick}
             style={{
+              flex: 1,
               position: 'relative',
-              width: '100%',
-              minHeight: 600,
-              background: 'var(--admin-bg-dark)',
-              backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px)',
-              backgroundSize: '20px 20px',
-              cursor: dragging ? 'grabbing' : 'default',
+              background: '#0f172a',
+              overflow: 'hidden',
+              cursor: 'crosshair',
+              minHeight: '400px',
             }}
           >
             <svg
@@ -232,172 +163,158 @@ export default function AutomationCanvas() {
               }}
             >
               {connections.map((conn, idx) => {
-                const source = nodes.find((n) => n.id === conn.source);
-                const target = nodes.find((n) => n.id === conn.target);
-                if (!source || !target) return null;
+                const fromNode = nodes.find((n) => n.id === conn.from)
+                const toNode = nodes.find((n) => n.id === conn.to)
+                if (!fromNode || !toNode) return null
                 return (
                   <line
                     key={idx}
-                    x1={source.x + 80}
-                    y1={source.y + 24}
-                    x2={target.x + 80}
-                    y2={target.y + 24}
-                    stroke="rgba(255,255,255,0.3)"
-                    strokeWidth={2}
-                    markerEnd="url(#arrowhead)"
+                    x1={fromNode.x + 60}
+                    y1={fromNode.y + 20}
+                    x2={toNode.x + 60}
+                    y2={toNode.y + 20}
+                    stroke="#6366f1"
+                    strokeWidth="2"
                   />
-                );
+                )
               })}
-              <defs>
-                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                  <polygon points="0 0, 10 3.5, 0 7" fill="rgba(255,255,255,0.3)" />
-                </marker>
-              </defs>
             </svg>
-
             {nodes.map((node) => {
-              const nodeType = NODE_TYPES.find((n) => n.type === node.type) || NODE_TYPES[0];
+              const nodeType = NODE_TYPES.find((t) => t.type === node.type) || NODE_TYPES[1]
               return (
                 <div
                   key={node.id}
-                  onMouseDown={(e) => handleNodeMouseDown(e, node)}
-                  onMouseUp={(e) => {
-                    if (e.shiftKey && selectedNode && selectedNode.id !== node.id) {
-                      handleConnect(selectedNode.id, node.id);
-                    }
-                  }}
+                  onMouseDown={(e) => handleNodeDrag(node.id, e)}
+                  onMouseMove={(e) => handleNodeDrag(node.id, e)}
                   style={{
                     position: 'absolute',
                     left: node.x,
                     top: node.y,
-                    width: 160,
-                    padding: '10px 14px',
-                    borderRadius: 8,
-                    background: `${nodeType.color}20`,
-                    border: `1px solid ${selectedNode?.id === node.id ? nodeType.color : `${nodeType.color}40`}`,
-                    color: nodeType.color,
-                    cursor: dragging?.id === node.id ? 'grabbing' : 'grab',
-                    fontWeight: 500,
-                    fontSize: 13,
+                    background: nodeType.color,
+                    color: '#fff',
+                    padding: '10px 16px',
+                    borderRadius: '8px',
+                    cursor: 'move',
+                    boxShadow: '0 4px 6px -1px rgba(0,0,0,0.3)',
                     userSelect: 'none',
-                    boxShadow: selectedNode?.id === node.id ? `0 0 0 2px ${nodeType.color}40` : 'none',
+                    fontSize: '13px',
+                    fontWeight: 500,
+                    minWidth: '120px',
                   }}
                 >
                   {node.label}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleDeleteNode(node.id)
+                    }}
+                    style={{
+                      position: 'absolute',
+                      top: '-8px',
+                      right: '-8px',
+                      background: '#ef4444',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '50%',
+                      width: '18px',
+                      height: '18px',
+                      cursor: 'pointer',
+                      fontSize: '12px',
+                      lineHeight: 1,
+                    }}
+                  >
+                    ×
+                  </button>
                 </div>
-              );
+              )
             })}
+            {nodes.length === 0 && (
+              <div className="emptyState" style={{ position: 'absolute', inset: 0 }}>
+                <p>Click on the canvas to add a node or select a workflow</p>
+              </div>
+            )}
           </div>
         </div>
-      </div>
-
-      {selectedNode && (
-        <div className="card" style={{ marginTop: 20 }}>
-          <div className="cardHeader"><h3 className="cardTitle">Node Properties</h3></div>
+        <div className="card">
+          <div className="cardHeader">
+            <h3 className="cardTitle">Properties</h3>
+          </div>
           <div className="cardBody">
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12 }}>
-              <div className="formGroup">
-                <label className="label">Label</label>
-                <input
-                  className="inputField"
-                  value={selectedNode.label}
-                  onChange={(e) => updateNodeConfig('label', e.target.value)}
-                />
-              </div>
-              <div className="formGroup">
-                <label className="label">Type</label>
-                <input className="inputField" value={selectedNode.type} disabled />
-              </div>
-              <div className="formGroup">
-                <label className="label">Position X</label>
-                <input
-                  className="inputField"
-                  type="number"
-                  value={Math.round(selectedNode.x)}
-                  onChange={(e) => {
-                    const val = parseInt(e.target.value, 10) || 0;
-                    setNodes((prev) => prev.map((n) => n.id === selectedNode.id ? { ...n, x: val } : n));
-                    setSelectedNode((prev) => ({ ...prev, x: val }));
-                  }}
-                />
-              </div>
-              <div className="formGroup">
-                <label className="label">Position Y</label>
-                <input
-                  className="inputField"
-                  type="number"
-                  value={Math.round(selectedNode.y)}
-                  onChange={(e) => {
-                    const val = parseInt(e.target.value, 10) || 0;
-                    setNodes((prev) => prev.map((n) => n.id === selectedNode.id ? { ...n, y: val } : n));
-                    setSelectedNode((prev) => ({ ...prev, y: val }));
-                  }}
-                />
-              </div>
-            </div>
-            <div style={{ marginTop: 16 }}>
-              <label className="label">Config (JSON)</label>
-              <textarea
-                className="textarea"
-                value={JSON.stringify(selectedNode.config || {}, null, 2)}
-                onChange={(e) => {
-                  try {
-                    const parsed = JSON.parse(e.target.value);
-                    updateNodeConfig('_json', parsed);
-                  } catch {
-                    // ignore invalid JSON while typing
-                  }
-                }}
-                rows={3}
-              />
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showSaveModal && (
-        <div className="modalOverlay" onClick={() => setShowSaveModal(false)}>
-          <div className="modalContent" onClick={(e) => e.stopPropagation()}>
-            <div className="modalHeader">
-              <h3 className="modalTitle">Save Workflow</h3>
-              <button className="closeBtn" onClick={() => setShowSaveModal(false)}>&times;</button>
-            </div>
-            <div className="modalBody">
-              <form onSubmit={handleSaveWorkflow}>
+            {selectedWorkflow ? (
+              <div className="form">
                 <div className="formGroup">
-                  <label className="label required">Workflow Name</label>
+                  <label className="label">Workflow Name</label>
                   <input
                     className="inputField"
                     value={workflowName}
                     onChange={(e) => setWorkflowName(e.target.value)}
-                    required
                   />
                 </div>
                 <div className="formGroup">
-                  <label className="label">Description</label>
-                  <textarea
-                    className="textarea"
-                    value={workflowDescription}
-                    onChange={(e) => setWorkflowDescription(e.target.value)}
-                    rows={3}
-                  />
+                  <label className="label">Status</label>
+                  <span className={`statusTag ${selectedWorkflow.status === 'active' ? 'active' : 'pending'}`}>
+                    {selectedWorkflow.status}
+                  </span>
                 </div>
-                <div style={{ fontSize: 13, color: 'var(--admin-text-muted)', marginBottom: 12 }}>
-                  Nodes: {nodes.length} | Connections: {connections.length}
+                <div className="formGroup">
+                  <label className="label">Nodes</label>
+                  <p className="textSecondary textSm">{nodes.length} configured</p>
                 </div>
-                <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 20 }}>
-                  <button type="button" className="btn secondary" onClick={() => setShowSaveModal(false)}>
-                    Cancel
-                  </button>
-                  <button type="submit" className="btn primary" disabled={saving || nodes.length === 0}>
-                    {saving ? 'Saving...' : 'Save Workflow'}
-                  </button>
-                </div>
-              </form>
-            </div>
+              </div>
+            ) : (
+              <p className="textMuted">Select a workflow to view properties</p>
+            )}
           </div>
         </div>
-      )}
+      </div>
+
+      <Modal isOpen={isPaletteOpen} onClose={() => setIsPaletteOpen(false)} title="Add Node">
+        <div className="form">
+          {NODE_TYPES.map((nodeType) => (
+            <button
+              key={nodeType.type}
+              className="btn secondary"
+              style={{ justifyContent: 'flex-start', background: nodeType.color, color: '#fff' }}
+              onClick={() => {
+                const newNode = {
+                  id: `node_${Date.now()}`,
+                  type: nodeType.type,
+                  x: 100 + Math.random() * 200,
+                  y: 100 + Math.random() * 200,
+                  label: nodeType.label,
+                  config: {},
+                }
+                setNodes([...nodes, newNode])
+                setIsPaletteOpen(false)
+              }}
+            >
+              {nodeType.label}
+            </button>
+          ))}
+        </div>
+      </Modal>
+
+      <Modal isOpen={saveModalOpen} onClose={() => setSaveModalOpen(false)} title="Save Workflow">
+        <div className="form">
+          <div className="formGroup">
+            <label className="label required">Workflow Name</label>
+            <Input
+              value={workflowName}
+              onChange={(e) => setWorkflowName(e.target.value)}
+              placeholder="Enter workflow name"
+              required
+            />
+          </div>
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+            <Button variant="secondary" onClick={() => setSaveModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={handleSave}>
+              Save
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </AdminPage>
-  );
+  )
 }

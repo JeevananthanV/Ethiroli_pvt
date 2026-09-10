@@ -1,78 +1,72 @@
-import React, { useEffect, useState } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { getEarnedBadges } from '../../services/api/badgeApi.js';
+import React, { useState, useEffect } from 'react'
+import AdminPage from '../../common/components/AdminPage'
+import Button from '../../common/components/Button'
+import { badgeApi } from '../../services/api/badgeApi'
 
 export default function EarnedBadges() {
-  const [earned, setEarned] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const loadEarned = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await getEarnedBadges();
-      setEarned(Array.isArray(data) ? data : []);
-    } catch (err) {
-      setError(err.message || 'Failed to load earned badges');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [earnedBadges, setEarnedBadges] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    loadEarned();
-  }, []);
+    loadEarnedBadges()
+  }, [])
 
-  const formatDate = (date) => {
-    if (!date) return '-';
-    return new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  };
+  const loadEarnedBadges = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const data = await badgeApi.getUserBadges()
+      setEarnedBadges(data)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <AdminPage
       title="Earned Badges"
-      subtitle="Track badge awards across users"
+      subtitle="View badges earned by users"
       loading={loading}
       error={error}
-      onRetry={loadEarned}
+      onRetry={loadEarnedBadges}
     >
       <div className="card">
-        <div className="cardHeader">
-          <h3 className="cardTitle">Badge Registry</h3>
-        </div>
-        <div className="cardBody" style={{ overflowX: 'auto' }}>
-          {earned.length === 0 ? (
-            <div className="emptyState">
-              <h3>No badges earned yet</h3>
-              <p>Awarded badges will appear here once users earn them.</p>
-            </div>
-          ) : (
-            <table className="table">
-              <thead>
+        <div className="overflowAuto">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Badge</th>
+                <th>Earned At</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {earnedBadges.length === 0 ? (
                 <tr>
-                  <th>Badge</th>
-                  <th>User ID</th>
-                  <th>Badge Name</th>
-                  <th>Earned At</th>
-                  <th>Criteria</th>
+                  <td colSpan="4" style={{ textAlign: 'center', padding: '32px' }}>
+                    <span className="textMuted">No earned badges found</span>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {earned.map((item) => (
-                  <tr key={item.id}>
-                    <td style={{ fontSize: 24 }}>{item.badge?.icon || item.icon || '🏅'}</td>
-                    <td className="textSecondary"><code>{item.user_id}</code></td>
-                    <td className="textPrimary" style={{ fontWeight: 500 }}>{item.badge?.name || item.badge_name || 'Unknown'}</td>
-                    <td className="textSecondary">{formatDate(item.earned_at || item.created_at)}</td>
-                    <td className="textSecondary">{item.badge?.criteria_type || item.criteria_type || '-'}</td>
+              ) : (
+                earnedBadges.map((item) => (
+                  <tr key={`${item.userId}-${item.badgeId}-${item.id}`}>
+                    <td>{item.userName || item.userId}</td>
+                    <td>{item.badgeName}</td>
+                    <td>{new Date(item.earnedAt).toLocaleString()}</td>
+                    <td>
+                      <span className="statusTag active">Earned</span>
+                    </td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
     </AdminPage>
-  );
+  )
 }

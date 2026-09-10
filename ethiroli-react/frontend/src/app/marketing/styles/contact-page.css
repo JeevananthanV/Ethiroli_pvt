@@ -1,0 +1,118 @@
+.contact-page .ab-hero {
+    margin-bottom: 0;
+}
+
+.contact-premium {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(16px, 3vw, 28px);
+    padding: clamp(40px, 6vw, 78px) 5%;
+    background:
+        radial-gradient(circle at 12% 0%, rgba(129, 158, 53, 0.15), transparent 35%),
+        radial-gradient(circle at 88% 14%, rgba(26, 75, 72, 0.2), transparent 36%),
+        linear-gradient(150deg, #f7f3ee 0%, #f1ece6 100%);
+}
+
+.contact-panel {
+    border-radius: 24px;
+    border: 1px solid rgba(26, 75, 72, 0.14);
+    box-shadow: 0 20px 48px rgba(12, 26, 25, 0.1);
+    padding: clamp(1.2rem, 3vw, 2.2rem);
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(10px);
+}
+
+.contact-badge {
+    margin-bottom: 10px;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-secondary);
+    font-weight: 700;
+}
+
+.contact-panel h2 {
+    margin-bottom: 8px;
+}
+
+.contact-note {
+    color: var(--color-text-muted);
+    margin-bottom: 16px;
+}
+
+.contact-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.contact-form-grid input,
+.contact-form-grid textarea {
+    border-radius: 12px;
+    border: 1px solid rgba(26, 75, 72, 0.18);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.contact-form-grid textarea {
+    min-height: 140px;
+    grid-column: 1 / -1;
+}
+
+.contact-form-grid button {
+    width: fit-content;
+}
+
+.contact-feedback {
+    grid-column: 1 / -1;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-weight: 600;
+}
+
+.contact-feedback.error {
+    color: #902228;
+    background: #ffe7ea;
+    border: 1px solid #ffc4cb;
+}
+
+.contact-feedback.success {
+    color: #11552f;
+    background: #e6f6ee;
+    border: 1px solid #bce4cc;
+}
+
+.contact-channel-list {
+    display: grid;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.contact-channel-list a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: rgba(241, 236, 230, 0.7);
+    border: 1px solid rgba(26, 75, 72, 0.1);
+    font-weight: 600;
+    color: var(--color-accent);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.contact-channel-list a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(26, 75, 72, 0.15);
+}
+
+@media (max-width: 960px) {
+    .contact-premium {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .contact-form-grid {
+        grid-template-columns: 1fr;
+    }
+}

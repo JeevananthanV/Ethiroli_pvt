@@ -1,17 +1,36 @@
-import axiosInstance from './axiosInstance.js';
+import axios from '../axios'
 
-export const listErrorLogs = async (params) => {
-  const response = await axiosInstance.get('/v1/monitoring/errors', { params });
-  return response.data;
-};
-export const getErrorLogs = listErrorLogs;
+export const getErrorLogs = async () => {
+  const response = await axios.get('/monitoring/errors')
+  return response.data
+}
+
+export const listErrorLogs = getErrorLogs
+
+export const getErrorById = async (id) => {
+  const response = await axios.get(`/monitoring/errors/${id}`)
+  return response.data
+}
+
+export const getError = getErrorById
 
 export const resolveError = async (id) => {
-  const response = await axiosInstance.patch(`/v1/monitoring/errors/${id}/resolve`);
-  return response.data;
+  const response = await axios.put(`/monitoring/errors/${id}/resolve`)
+  return response.data
+}
+
+export const getMonitoringTrends = async () => {
+  const response = await axios.get('/monitoring/trends')
+  return response.data
+}
+
+export const monitoringApi = {
+  getErrorLogs,
+  listErrorLogs,
+  getErrorById,
+  getError,
+  resolveError,
+  getMonitoringTrends,
 };
 
-export const getSystemHealth = async () => {
-  const response = await axiosInstance.get('/v1/system/health');
-  return response.data;
-};
+export default monitoringApi;

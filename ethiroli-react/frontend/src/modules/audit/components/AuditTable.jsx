@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { getAuditLogs } from '../../services/api/auditApi.js';
+import { getAuditLogs } from '../../../services/api/auditApi.js';
 
 export default function AuditTable() {
   const [logs, setLogs] = useState([]);

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { getTransactions } from '../../services/api/transactionApi.js';
-import { getInvoices } from '../../services/api/invoiceApi.js';
-import { getPayments } from '../../services/api/paymentApi.js';
+import { getTransactions } from '../../../services/api/transactionApi.js';
+import { getInvoices } from '../../../services/api/invoiceApi.js';
+import { getPayments } from '../../../services/api/paymentApi.js';
 
 export default function Finance() {
   const [transactions, setTransactions] = useState([]);

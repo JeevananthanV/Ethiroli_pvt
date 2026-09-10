@@ -58,7 +58,7 @@ export default function CheckoutPage() {
       } else {
         setCoupon(found);
       }
-    } catch (err) {
+    } catch {
       setCouponError('Could not validate coupon. Try again.');
     } finally {
       setCouponLoading(false);
@@ -89,7 +89,7 @@ export default function CheckoutPage() {
       } else {
         alert('Order placed successfully! Confirmation sent to your email.');
       }
-    } catch {
+    } catch (err) {
       alert('Checkout failed: ' + (err.message || 'Please try again'));
     } finally {
       setSubmitting(false);

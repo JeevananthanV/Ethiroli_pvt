@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { listInvoices, updateInvoiceStatus, generateInvoice } from '../../../services/api/invoiceApi.js';
+import { listClients } from '../../../services/api/clientApi.js';
 
 export default function FinanceInvoices() {
   const [invoices, setInvoices] = useState([]);
@@ -27,7 +28,6 @@ export default function FinanceInvoices() {
     fetchInvoices();
     (async () => {
       try {
-        const { listClients } = await import('../../../services/api/clientApi.js');
         const data = await listClients({});
         const list = Array.isArray(data) ? data : data.clients || data.data || [];
         setClients(list);

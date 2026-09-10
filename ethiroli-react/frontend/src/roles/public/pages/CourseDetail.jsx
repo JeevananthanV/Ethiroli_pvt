@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getCourse } from '../../../services/api/courseApi.js';
 
@@ -9,7 +9,7 @@ export default function CourseDetailPage() {
   const [error, setError] = useState(null);
   const [enrolling, setEnrolling] = useState(false);
 
-  const fetchCourse = async () => {
+  const fetchCourse = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -20,11 +20,11 @@ export default function CourseDetailPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     fetchCourse();
-  }, [id]);
+  }, [fetchCourse]);
 
   const handleEnroll = async () => {
     setEnrolling(true);

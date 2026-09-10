@@ -1,0 +1,32 @@
+import { createSlice } from '@reduxjs/toolkit';
+import { listInterns } from '../../services/api/internApi.js';
+
+const initialState = {
+  items: [],
+  loading: false,
+  error: null
+};
+
+const internsSlice = createSlice({
+  name: 'interns',
+  initialState,
+  reducers: {
+    fetchInternsStart: (state) => { state.loading = true; },
+    fetchInternsSuccess: (state, action) => { state.items = action.payload; state.loading = false; },
+    fetchInternsFailure: (state, action) => { state.error = action.payload; state.loading = false; }
+  }
+});
+
+export const { fetchInternsStart, fetchInternsSuccess, fetchInternsFailure } = internsSlice.actions;
+
+export const fetchInterns = () => async (dispatch) => {
+  dispatch(fetchInternsStart());
+  try {
+    const data = await listInterns();
+    dispatch(fetchInternsSuccess(data));
+  } catch (error) {
+    dispatch(fetchInternsFailure(error.message));
+  }
+};
+
+export default internsSlice.reducer;

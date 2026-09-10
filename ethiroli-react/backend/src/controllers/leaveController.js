@@ -14,6 +14,14 @@ export const listLeaves = asyncHandler(async (req, res) => {
 export const getLeave = asyncHandler(async (req, res) => {
   const leave = await Leave.findById(req.params.id);
   if (!leave) throw new NotFoundError('Leave not found');
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'VIEW_LEAVE',
+    entity_type: 'LEAVE',
+    entity_id: req.params.id,
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
   return success(res, 200, leave);
 });
 
@@ -33,20 +41,23 @@ export const applyLeave = asyncHandler(async (req, res) => {
 
 export const updateLeaveStatus = asyncHandler(async (req, res) => {
   const { status } = req.body;
-  await Leave.updateStatus(req.params.id, status, req.user.id);
   const leave = await Leave.findById(req.params.id);
+  if (!leave) throw new NotFoundError('Leave not found');
+  await Leave.updateStatus(req.params.id, status, req.user.id);
   if (leave) {
-    broadcastToUser(leave.user_id, 'leave_approved', { id: req.params.id, status });
+    broadcastToUser(leave.user_id, 'leave_status_updated', { id: req.params.id, status });
   }
   await AuditLog.create({
     user_id: req.user.id,
     action: 'UPDATE_LEAVE_STATUS',
     entity_type: 'LEAVE',
     entity_id: req.params.id,
+    old_value: leave,
     new_value: { status },
     ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
     user_agent: req.headers['user-agent']
   });
+  broadcastToRole('HR', 'leave_status_updated', { id: req.params.id, status });
   return success(res, 200, null, 'Leave status updated successfully');
 });
 
@@ -64,5 +75,7 @@ export const cancelLeave = asyncHandler(async (req, res) => {
     ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
     user_agent: req.headers['user-agent']
   });
+  broadcastToUser(leave.user_id, 'leave_cancelled', { id: req.params.id });
+  broadcastToRole('HR', 'leave_cancelled', { id: req.params.id });
   return success(res, 200, null, 'Leave cancelled successfully');
 });

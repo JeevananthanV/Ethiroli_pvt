@@ -1,7 +1,7 @@
 import axiosInstance from './axiosInstance.js';
 
-export const listInterns = async (params) => {
-  const response = await axiosInstance.get('/v1/interns', { params });
+export const listInterns = async () => {
+  const response = await axiosInstance.get('/v1/interns');
   return response.data;
 };
 

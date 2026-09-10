@@ -1,189 +1,169 @@
-import React, { useEffect, useState } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { getBadges, createBadge } from '../../services/api/badgeApi.js';
+import React, { useState, useEffect } from 'react'
+import AdminPage from '../../common/components/AdminPage'
+import Button from '../../common/components/Button'
+import Modal from '../../common/components/Modal'
+import Input from '../../common/components/Input'
+import { badgeApi } from '../../services/api/badgeApi'
 
 export default function BadgeCriteria() {
-  const [badges, setBadges] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [showForm, setShowForm] = useState(false);
-  const [saving, setSaving] = useState(false);
+  const [badges, setBadges] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [editingBadge, setEditingBadge] = useState(null)
   const [form, setForm] = useState({
     name: '',
     description: '',
-    icon: '',
-    criteria_type: 'points',
+    criteria: '',
     threshold: '',
-    reward_points: '',
-    conditions: {},
-  });
-
-  const loadBadges = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await getBadges();
-      setBadges(Array.isArray(data) ? data : []);
-    } catch (err) {
-      setError(err.message || 'Failed to load badges');
-    } finally {
-      setLoading(false);
-    }
-  };
+    reward: '',
+    isActive: true,
+  })
 
   useEffect(() => {
-    loadBadges();
-  }, []);
+    loadBadges()
+  }, [])
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!form.name || !form.threshold) {
-      alert('Name and threshold are required');
-      return;
-    }
-    setSaving(true);
+  const loadBadges = async () => {
+    setLoading(true)
+    setError(null)
     try {
-      await createBadge({
-        name: form.name,
-        description: form.description,
-        icon: form.icon,
-        criteria_type: form.criteria_type,
-        threshold: Number(form.threshold),
-        reward_points: Number(form.reward_points) || 0,
-        conditions: form.conditions,
-      });
-      setShowForm(false);
-      setForm({
-        name: '',
-        description: '',
-        icon: '',
-        criteria_type: 'points',
-        threshold: '',
-        reward_points: '',
-        conditions: {},
-      });
-      loadBadges();
+      const data = await badgeApi.getAll()
+      setBadges(data)
     } catch (err) {
-      alert(`Failed to create badge: ${err.message}`);
+      setError(err.message)
     } finally {
-      setSaving(false);
+      setLoading(false)
     }
-  };
+  }
+
+  const handleCreate = () => {
+    setEditingBadge(null)
+    setForm({ name: '', description: '', criteria: '', threshold: '', reward: '', isActive: true })
+    setModalOpen(true)
+  }
+
+  const handleEdit = (badge) => {
+    setEditingBadge(badge)
+    setForm({
+      name: badge.name || '',
+      description: badge.description || '',
+      criteria: badge.criteria || '',
+      threshold: badge.threshold || '',
+      reward: badge.reward || '',
+      isActive: badge.isActive ?? true,
+    })
+    setModalOpen(true)
+  }
+
+  const handleSubmit = async () => {
+    try {
+      const payload = { ...form, threshold: parseInt(form.threshold, 10) || 0 }
+      if (editingBadge) {
+        await badgeApi.update(editingBadge.id, payload)
+        setBadges(badges.map((b) => (b.id === editingBadge.id ? { ...b, ...payload } : b)))
+      } else {
+        const data = await badgeApi.create(payload)
+        setBadges([...badges, data])
+      }
+      setModalOpen(false)
+    } catch (err) {
+      setError(err.message)
+    }
+  }
 
   return (
     <AdminPage
       title="Badge Criteria"
-      subtitle="Define conditions, thresholds, and rewards for badges"
+      subtitle="Define badge criteria, thresholds, and rewards"
       loading={loading}
       error={error}
       onRetry={loadBadges}
       actions={
-        <button className="btn primary" onClick={() => setShowForm(!showForm)}>
-          {showForm ? 'Close Form' : 'New Badge'}
-        </button>
+        <Button variant="primary" onClick={handleCreate}>
+          Create Badge
+        </Button>
       }
     >
-      {showForm && (
-        <div className="card" style={{ marginBottom: 24 }}>
-          <div className="cardHeader">
-            <h3 className="cardTitle">Define Badge Criteria</h3>
-          </div>
-          <div className="cardBody">
-            <form onSubmit={handleSubmit} className="form">
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
-                <div className="formGroup">
-                  <label className="label required">Badge Name</label>
-                  <input className="inputField" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
-                </div>
-                <div className="formGroup">
-                  <label className="label">Icon</label>
-                  <input className="inputField" value={form.icon} onChange={(e) => setForm({ ...form, icon: e.target.value })} placeholder="e.g. 🏆" />
-                </div>
-                <div className="formGroup">
-                  <label className="label">Criteria Type</label>
-                  <select className="select" value={form.criteria_type} onChange={(e) => setForm({ ...form, criteria_type: e.target.value })}>
-                    <option value="points">Points</option>
-                    <option value="streak">Streak</option>
-                    <option value="completion">Completion</option>
-                    <option value="referral">Referral</option>
-                    <option value="custom">Custom</option>
-                  </select>
-                </div>
-                <div className="formGroup">
-                  <label className="label required">Threshold</label>
-                  <input className="inputField" type="number" required value={form.threshold} onChange={(e) => setForm({ ...form, threshold: e.target.value })} />
-                </div>
-                <div className="formGroup">
-                  <label className="label">Reward Points</label>
-                  <input className="inputField" type="number" value={form.reward_points} onChange={(e) => setForm({ ...form, reward_points: e.target.value })} />
-                </div>
-              </div>
-              <div className="formGroup">
-                <label className="label">Description</label>
-                <textarea
-                  className="textarea"
-                  value={form.description}
-                  onChange={(e) => setForm({ ...form, description: e.target.value })}
-                  rows={2}
-                />
-              </div>
-              <div className="formGroup">
-                <label className="label">Conditions (JSON)</label>
-                <textarea
-                  className="textarea"
-                  value={JSON.stringify(form.conditions, null, 2)}
-                  onChange={(e) => {
-                    try {
-                      const parsed = JSON.parse(e.target.value);
-                      setForm({ ...form, conditions: parsed });
-                    } catch {
-                      // ignore invalid JSON
-                    }
-                  }}
-                  rows={3}
-                />
-              </div>
-              <button type="submit" className="btn primary" disabled={saving}>
-                {saving ? 'Creating...' : 'Create Badge'}
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
-
       <div className="card">
-        <div className="cardHeader">
-          <h3 className="cardTitle">Badge Definitions</h3>
-        </div>
-        <div className="cardBody" style={{ overflowX: 'auto' }}>
-          {badges.length === 0 ? (
-            <div className="emptyState">No badges defined.</div>
-          ) : (
-            <table className="table">
-              <thead>
+        <div className="overflowAuto">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Criteria</th>
+                <th>Threshold</th>
+                <th>Reward</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {badges.length === 0 ? (
                 <tr>
-                  <th>Icon</th>
-                  <th>Name</th>
-                  <th>Criteria</th>
-                  <th>Threshold</th>
-                  <th>Reward</th>
+                  <td colSpan="6" style={{ textAlign: 'center', padding: '32px' }}>
+                    <span className="textMuted">No badges found</span>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {badges.map((badge) => (
+              ) : (
+                badges.map((badge) => (
                   <tr key={badge.id}>
-                    <td style={{ fontSize: 24 }}>{badge.icon || '🏅'}</td>
-                    <td className="textPrimary" style={{ fontWeight: 500 }}>{badge.name}</td>
-                    <td className="textSecondary">{badge.criteria_type}</td>
-                    <td className="textSecondary">{badge.threshold}</td>
-                    <td className="textSecondary">{badge.reward_points || 0} pts</td>
+                    <td>{badge.name}</td>
+                    <td>{badge.criteria}</td>
+                    <td>{badge.threshold}</td>
+                    <td>{badge.reward}</td>
+                    <td>
+                      <span className={`statusTag ${badge.isActive ? 'active' : 'pending'}`}>
+                        {badge.isActive ? 'Active' : 'Inactive'}
+                      </span>
+                    </td>
+                    <td>
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        <Button size="small" variant="secondary" onClick={() => handleEdit(badge)}>
+                          Edit
+                        </Button>
+                      </div>
+                    </td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
+
+      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={editingBadge ? 'Edit Badge' : 'Create Badge'}>
+        <div className="form">
+          <div className="formGroup">
+            <label className="label required">Name</label>
+            <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Badge name" />
+          </div>
+          <div className="formGroup">
+            <label className="label">Description</label>
+            <Input value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Description" />
+          </div>
+          <div className="formGroup">
+            <label className="label required">Criteria</label>
+            <Input value={form.criteria} onChange={(e) => setForm({ ...form, criteria: e.target.value })} placeholder="e.g., courses_completed" />
+          </div>
+          <div className="formGroup">
+            <label className="label required">Threshold</label>
+            <Input type="number" value={form.threshold} onChange={(e) => setForm({ ...form, threshold: e.target.value })} placeholder="0" />
+          </div>
+          <div className="formGroup">
+            <label className="label">Reward</label>
+            <Input value={form.reward} onChange={(e) => setForm({ ...form, reward: e.target.value })} placeholder="Reward points or description" />
+          </div>
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '16px' }}>
+            <Button variant="secondary" onClick={() => setModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={handleSubmit}>
+              {editingBadge ? 'Update' : 'Create'}
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </AdminPage>
-  );
+  )
 }

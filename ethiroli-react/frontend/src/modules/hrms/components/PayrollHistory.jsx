@@ -1,116 +1,104 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { listPayrollHistory } from '../../../services/api/payrollApi.js';
-import { listEmployees } from '../../../services/api/employeeApi.js';
+import React, { useState, useEffect, useCallback } from 'react'
+import AdminPage from '../../common/components/AdminPage/AdminPage.jsx'
+import Button from '../../common/components/Button/Button.jsx'
+import Modal from '../../common/components/Modal/Modal.jsx'
+import Input from '../../common/components/Input/Input.jsx'
+import { payrollApi } from '../../services/api/payrollApi.js'
 
 export default function PayrollHistory() {
-  const [records, setRecords] = useState([]);
-  const [employees, setEmployees] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [filterMonth, setFilterMonth] = useState('all');
-
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const [historyRes, empRes] = await Promise.all([
-        listPayrollHistory({ month: filterMonth === 'all' ? undefined : Number(filterMonth) }).catch(() => []),
-        listEmployees().catch(() => []),
-      ]);
-      setRecords(Array.isArray(historyRes) ? historyRes : []);
-      setEmployees(Array.isArray(empRes) ? empRes : []);
-    } catch (err) {
-      setError(err.message || 'Failed to fetch payroll history');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [records, setRecords] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [monthFilter, setMonthFilter] = useState('')
 
   useEffect(() => {
-    fetchData();
-  }, [filterMonth]);
+    loadHistory()
+  }, [monthFilter, loadHistory])
 
-  const getEmployeeName = (employeeId) => {
-    const emp = employees.find((e) => e.id === employeeId);
-    return emp ? (emp.full_name || emp.name || `Employee ${employeeId}`) : `Employee ${employeeId}`;
-  };
+  const loadHistory = useCallback(async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const data = await payrollApi.getHistory()
+      let items = Array.isArray(data) ? data : []
+      if (monthFilter) {
+        items = items.filter((r) => r.month === monthFilter)
+      }
+      setRecords(items)
+    } catch (err) {
+      setError(err.message || 'Failed to load payroll history')
+    } finally {
+      setLoading(false)
+    }
+  }, [monthFilter])
 
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(Number(amount) || 0);
-  };
+  const formatCurrency = (val) => {
+    if (!val) return '$0.00'
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val)
+  }
 
-  const stats = {
-    total: records.length,
-    totalAmount: records.reduce((sum, r) => sum + (Number(r.net_salary || r.netSalary) || 0), 0),
-  };
+  const formatDate = (dateStr) => {
+    if (!dateStr) return '-'
+    return new Date(dateStr).toLocaleDateString()
+  }
 
   return (
     <AdminPage
       title="Payroll History"
-      subtitle="Processed payroll records and transfer verification codes"
+      subtitle="View processed payroll records"
       loading={loading}
       error={error}
-      onRetry={fetchData}
+      onRetry={loadHistory}
       actions={
-        <select className="select" value={filterMonth} onChange={(e) => setFilterMonth(e.target.value)} style={{ width: 150 }}>
-          <option value="all">All Months</option>
-          {Array.from({ length: 12 }, (_, i) => (
-            <option key={i + 1} value={i + 1}>{new Date(0, i).toLocaleString('en-US', { month: 'long' })}</option>
-          ))}
-        </select>
+        <Input
+          type="month"
+          value={monthFilter}
+          onChange={(e) => setMonthFilter(e.target.value)}
+          placeholder="Filter by month"
+          style={{ width: '180px' }}
+        />
       }
     >
-      <div className="dashboardGrid" style={{ marginBottom: 24 }}>
-        <div className="statCard">
-          <p className="statLabel">Total Records</p>
-          <p className="statValue">{stats.total}</p>
-        </div>
-        <div className="statCard">
-          <p className="statLabel">Total Disbursed</p>
-          <p className="statValue" style={{ background: 'linear-gradient(135deg, #10b981, #059669)', WebkitBackgroundClip: 'text' }}>{formatCurrency(stats.totalAmount)}</p>
-        </div>
-      </div>
-
       <div className="card">
-        {records.length === 0 ? (
-          <div className="emptyState">
-            <h3>No payroll records</h3>
-            <p>Processed payroll records will appear here.</p>
-          </div>
-        ) : (
-          <div className="overflowAuto">
-            <table className="table">
-              <thead>
+        <div className="overflowAuto">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Employee</th>
+                <th>Month</th>
+                <th>Basic Salary</th>
+                <th>Allowances</th>
+                <th>Deductions</th>
+                <th>Bonus</th>
+                <th>Net Salary</th>
+                <th>Processed On</th>
+              </tr>
+            </thead>
+            <tbody>
+              {records.length === 0 ? (
                 <tr>
-                  <th>Employee</th>
-                  <th>Month</th>
-                  <th>Year</th>
-                  <th>Basic</th>
-                  <th>HRA</th>
-                  <th>Deductions</th>
-                  <th>Net Salary</th>
-                  <th>Status</th>
+                  <td colSpan="8" style={{ textAlign: 'center', padding: '32px' }}>
+                    <span className="textMuted">No payroll records found</span>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {records.map((record) => (
+              ) : (
+                records.map((record) => (
                   <tr key={record.id}>
-                    <td className="textPrimary" style={{ fontWeight: 500 }}>{getEmployeeName(record.employee_id)}</td>
-                    <td className="textSecondary">{record.month}</td>
-                    <td className="textSecondary">{record.year}</td>
-                    <td className="textSecondary">{formatCurrency(record.basic_salary || record.basicSalary)}</td>
-                    <td className="textSecondary">{formatCurrency(record.hra)}</td>
-                    <td className="textSecondary">{formatCurrency((Number(record.pf) || 0) + (Number(record.esi) || 0) + (Number(record.tds) || 0))}</td>
-                    <td className="textPrimary" style={{ fontWeight: 600 }}>{formatCurrency(record.net_salary || record.netSalary)}</td>
-                    <td><span className="statusTag active">{record.status || 'PROCESSED'}</span></td>
+                    <td style={{ fontWeight: 500 }}>{record.employeeName || record.employeeId || '-'}</td>
+                    <td>{record.month || '-'}</td>
+                    <td>{formatCurrency(record.basicSalary)}</td>
+                    <td className="textSuccess">+{formatCurrency(record.allowances)}</td>
+                    <td className="textDanger">-{formatCurrency(record.deductions)}</td>
+                    <td className="textSuccess">+{formatCurrency(record.bonus)}</td>
+                    <td style={{ fontWeight: 600 }}>{formatCurrency(record.netSalary)}</td>
+                    <td>{formatDate(record.processedAt || record.createdAt)}</td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </AdminPage>
-  );
+  )
 }

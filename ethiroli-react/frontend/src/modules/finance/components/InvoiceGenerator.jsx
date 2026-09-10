@@ -1,165 +1,186 @@
-import React, { useEffect, useState } from 'react';
-import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { generateInvoice, batchGenerateInvoices } from '../services/api/invoiceApi.js';
-import { listClients } from '../../../services/api/clientApi.js';
-import { listCourses } from '../../../services/api/courseApi.js';
-import { listEnrollments } from '../../../services/api/enrollmentApi.js';
+import React, { useState, useEffect } from 'react'
+import Modal from '../../../common/components/Modal/Modal.jsx'
+import Input from '../../../common/components/Input/Input.jsx'
+import Button from '../../../common/components/Button/Button.jsx'
+import { invoiceApi } from '../../../services/api/invoiceApi.js'
 
-export default function InvoiceGenerator() {
-  const [clients, setClients] = useState([]);
-  const [courses, setCourses] = useState([]);
-  const [enrollments, setEnrollments] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [generating, setGenerating] = useState(false);
-  const [form, setForm] = useState({ clientId: '', courseId: '', enrollmentId: '', dueDate: '', taxRate: 18 });
-
-  const loadData = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const [clientsRes, coursesRes, enrollmentsRes] = await Promise.all([
-        listClients().catch(() => []),
-        listCourses().catch(() => []),
-        listEnrollments().catch(() => []),
-      ]);
-      setClients(Array.isArray(clientsRes) ? clientsRes : []);
-      setCourses(Array.isArray(coursesRes) ? coursesRes : []);
-      setEnrollments(Array.isArray(enrollmentsRes) ? enrollmentsRes : []);
-    } catch (err) {
-      setError(err.message || 'Failed to load data');
-    } finally {
-      setLoading(false);
-    }
-  };
+export default function InvoiceGenerator({ isOpen, onClose, onSaved }) {
+  const [form, setForm] = useState({
+    clientName: '',
+    clientEmail: '',
+    issueDate: new Date().toISOString().slice(0, 10),
+    dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
+    items: [{ description: '', quantity: 1, rate: '' }],
+    taxRate: '',
+    notes: '',
+    status: 'draft',
+  })
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    loadData();
-  }, []);
-
-  const handleChange = (field) => (e) => {
-    setForm({ ...form, [field]: e.target.value });
-  };
-
-  const handleGenerate = async (e) => {
-    e.preventDefault();
-    setGenerating(true);
-    try {
-      const invoiceData = {
-        client_id: Number(form.clientId),
-        course_id: Number(form.courseId),
-        enrollment_id: Number(form.enrollmentId),
-        due_date: form.dueDate,
-        tax_rate: Number(form.taxRate),
-        items: [
-          {
-            description: courses.find((c) => c.id === Number(form.courseId))?.name || 'Course Fee',
-            quantity: 1,
-            unit_price: 0,
-          },
-        ],
-      };
-      await generateInvoice(invoiceData);
-      alert('Invoice generated successfully');
-      setForm({ clientId: '', courseId: '', enrollmentId: '', dueDate: '', taxRate: 18 });
-    } catch (err) {
-      alert(err.message || 'Failed to generate invoice');
-    } finally {
-      setGenerating(false);
+    if (isOpen) {
+      setForm({
+        clientName: '',
+        clientEmail: '',
+        issueDate: new Date().toISOString().slice(0, 10),
+        dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
+        items: [{ description: '', quantity: 1, rate: '' }],
+        taxRate: '',
+        notes: '',
+        status: 'draft',
+      })
+      setError(null)
     }
-  };
+  }, [isOpen])
 
-  const handleBatchGenerate = async () => {
-    setGenerating(true);
-    try {
-      await batchGenerateInvoices({ due_date: form.dueDate || new Date().toISOString().split('T')[0], tax_rate: Number(form.taxRate) });
-      alert('Batch invoice generation started');
-    } catch (err) {
-      alert(err.message || 'Failed to batch generate invoices');
-    } finally {
-      setGenerating(false);
+  const updateField = (field, value) => {
+    setForm({ ...form, [field]: value })
+  }
+
+  const updateItem = (index, field, value) => {
+    const newItems = [...form.items]
+    newItems[index] = { ...newItems[index], [field]: value }
+    setForm({ ...form, items: newItems })
+  }
+
+  const addItem = () => {
+    setForm({ ...form, items: [...form.items, { description: '', quantity: 1, rate: '' }] })
+  }
+
+  const removeItem = (index) => {
+    if (form.items.length > 1) {
+      setForm({ ...form, items: form.items.filter((_, i) => i !== index) })
     }
-  };
+  }
+
+  const subtotal = form.items.reduce((sum, item) => sum + (parseFloat(item.quantity) || 0) * (parseFloat(item.rate) || 0), 0)
+  const taxRate = parseFloat(form.taxRate) || 0
+  const taxAmount = (subtotal * taxRate) / 100
+  const total = subtotal + taxAmount
+
+  const handleSubmit = async () => {
+    if (!form.clientName || form.items.length === 0) {
+      setError('Client name and at least one item are required')
+      return
+    }
+    setSubmitting(true)
+    setError(null)
+    try {
+      const payload = {
+        ...form,
+        items: form.items.map((item) => ({
+          description: item.description,
+          quantity: parseFloat(item.quantity) || 0,
+          rate: parseFloat(item.rate) || 0,
+        })),
+        subtotal,
+        taxAmount,
+        total,
+      }
+      const data = await invoiceApi.create(payload)
+      onSaved?.(data)
+      onClose?.()
+    } catch (err) {
+      setError(err.message || 'Failed to create invoice')
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   return (
-    <AdminPage
-      title="Invoice Generator"
-      subtitle="Generate invoices from contracts and enrollments"
-      loading={loading}
-      error={error}
-      onRetry={loadData}
-    >
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
-        <div className="card">
-          <div className="cardHeader"><h3 className="cardTitle">Generate Single Invoice</h3></div>
-          <div className="cardBody">
-            <form onSubmit={handleGenerate} className="form">
-              <div className="formGroup">
-                <label className="label">Client <span className="required">*</span></label>
-                <select className="select" value={form.clientId} onChange={handleChange('clientId')} required>
-                  <option value="">Select client</option>
-                  {clients.map((c) => (
-                    <option key={c.id} value={c.id}>{c.name || c.full_name}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="formGroup">
-                <label className="label">Course</label>
-                <select className="select" value={form.courseId} onChange={handleChange('courseId')}>
-                  <option value="">Select course</option>
-                  {courses.map((c) => (
-                    <option key={c.id} value={c.id}>{c.name}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="formGroup">
-                <label className="label">Enrollment</label>
-                <select className="select" value={form.enrollmentId} onChange={handleChange('enrollmentId')}>
-                  <option value="">Select enrollment</option>
-                  {enrollments.map((enr) => (
-                    <option key={enr.id} value={enr.id}>{enr.id}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="formGroup">
-                <label className="label">Due Date</label>
-                <input className="inputField" type="date" value={form.dueDate} onChange={handleChange('dueDate')} />
-              </div>
-              <div className="formGroup">
-                <label className="label">Tax Rate (%)</label>
-                <select className="select" value={form.taxRate} onChange={handleChange('taxRate')}>
-                  <option value="0">0%</option>
-                  <option value="5">5%</option>
-                  <option value="12">12%</option>
-                  <option value="18">18%</option>
-                  <option value="28">28%</option>
-                </select>
-              </div>
-              <div style={{ display: 'flex', gap: 10 }}>
-                <button type="submit" className="btn primary" disabled={generating || !form.clientId}>
-                  {generating ? 'Generating...' : 'Generate Invoice'}
-                </button>
-                <button type="button" className="btn secondary" onClick={handleBatchGenerate} disabled={generating}>
-                  Batch Generate
-                </button>
-              </div>
-            </form>
+    <Modal isOpen={isOpen} onClose={onClose} title="Generate Invoice" style={{ maxWidth: '800px' }}>
+      <div className="form">
+        <div style={{ display: 'flex', gap: '16px', marginBottom: '16px' }}>
+          <div className="formGroup" style={{ flex: 1 }}>
+            <label className="label required">Client Name</label>
+            <Input value={form.clientName} onChange={(e) => updateField('clientName', e.target.value)} placeholder="Client name" />
+          </div>
+          <div className="formGroup" style={{ flex: 1 }}>
+            <label className="label">Client Email</label>
+            <Input type="email" value={form.clientEmail} onChange={(e) => updateField('clientEmail', e.target.value)} placeholder="client@example.com" />
           </div>
         </div>
-        <div className="card">
-          <div className="cardHeader"><h3 className="cardTitle">Line Items Preview</h3></div>
-          <div className="cardBody">
-            {courses.find((c) => c.id === Number(form.courseId)) ? (
-              <div style={{ padding: 16, background: 'var(--admin-bg-card)', borderRadius: 8 }}>
-                <h4 style={{ marginBottom: 8 }}>{courses.find((c) => c.id === Number(form.courseId))?.name}</h4>
-                <p style={{ color: 'var(--admin-text-secondary)', fontSize: 13 }}>Course fee with {form.taxRate}% GST will be applied.</p>
-              </div>
-            ) : (
-              <p style={{ color: 'var(--admin-text-muted)' }}>Select a course to preview line items.</p>
-            )}
+
+        <div style={{ display: 'flex', gap: '16px', marginBottom: '16px' }}>
+          <div className="formGroup" style={{ flex: 1 }}>
+            <label className="label required">Issue Date</label>
+            <Input type="date" value={form.issueDate} onChange={(e) => updateField('issueDate', e.target.value)} />
           </div>
+          <div className="formGroup" style={{ flex: 1 }}>
+            <label className="label required">Due Date</label>
+            <Input type="date" value={form.dueDate} onChange={(e) => updateField('dueDate', e.target.value)} />
+          </div>
+        </div>
+
+        <div className="card" style={{ marginBottom: '16px' }}>
+          <div className="cardHeader">
+            <h3 className="cardTitle">Line Items</h3>
+            <Button size="small" variant="secondary" onClick={addItem}>
+              Add Item
+            </Button>
+          </div>
+          <div className="cardBody">
+            {form.items.map((item, index) => (
+              <div key={index} style={{ display: 'flex', gap: '8px', marginBottom: '8px', alignItems: 'flex-end' }}>
+                <div style={{ flex: 3 }}>
+                  <label className="label">Description</label>
+                  <Input value={item.description} onChange={(e) => updateItem(index, 'description', e.target.value)} placeholder="Item description" />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <label className="label">Qty</label>
+                  <Input type="number" value={item.quantity} onChange={(e) => updateItem(index, 'quantity', e.target.value)} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <label className="label">Rate ($)</label>
+                  <Input type="number" value={item.rate} onChange={(e) => updateItem(index, 'rate', e.target.value)} />
+                </div>
+                <div>
+                  <Button size="small" variant="danger" onClick={() => removeItem(index)} disabled={form.items.length <= 1}>
+                    &times;
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', gap: '16px', marginBottom: '16px' }}>
+          <div className="formGroup" style={{ flex: 1 }}>
+            <label className="label">Tax Rate (%)</label>
+            <Input type="number" value={form.taxRate} onChange={(e) => updateField('taxRate', e.target.value)} placeholder="0" />
+          </div>
+          <div className="formGroup" style={{ flex: 1 }}>
+            <label className="label">Notes</label>
+            <Input value={form.notes} onChange={(e) => updateField('notes', e.target.value)} placeholder="Additional notes" />
+          </div>
+        </div>
+
+        <div className="card" style={{ marginBottom: '16px', background: 'var(--admin-bg-light)' }}>
+          <div className="cardBody" style={{ padding: '16px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+              <span className="textSecondary">Subtotal</span>
+              <span style={{ color: 'var(--admin-text-primary)' }}>${subtotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+              <span className="textSecondary">Tax ({taxRate}%)</span>
+              <span style={{ color: 'var(--admin-warning)' }}>${taxAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+            </div>
+            <div style={{ borderTop: '1px solid var(--admin-border)', paddingTop: '8px', display: 'flex', justifyContent: 'space-between', fontWeight: 600 }}>
+              <span style={{ color: 'var(--admin-text-primary)' }}>Total</span>
+              <span style={{ color: 'var(--admin-text-primary)' }}>${total.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+            </div>
+          </div>
+        </div>
+
+        {error && <div className="emptyState" style={{ marginBottom: '12px' }}><p className="textDanger">{error}</p></div>}
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '16px' }}>
+          <Button variant="secondary" onClick={onClose}>Cancel</Button>
+          <Button variant="primary" onClick={handleSubmit} disabled={submitting}>
+            {submitting ? 'Creating...' : 'Create Invoice'}
+          </Button>
         </div>
       </div>
-    </AdminPage>
-  );
+    </Modal>
+  )
 }

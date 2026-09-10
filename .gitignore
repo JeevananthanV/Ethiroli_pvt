@@ -3,10 +3,7 @@ node_modules/
 */node_modules/
 */*/node_modules/
 
-# Production build outputs
-dist/
-*/dist/
-*/*/dist/
+# Production build outputs (unignored dist for Hostinger Git deployment)
 build/
 dist-ssr/
 

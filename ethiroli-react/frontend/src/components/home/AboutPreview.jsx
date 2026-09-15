@@ -39,15 +39,15 @@ const AboutPreview = () => {
                     transition={{ duration: 0.8 }}
                 >
                     <div className="et-about-heading">
-                        <p className="section-tag"><span className="star-rotate">★</span> About Our Company</p>
-                        <h2>Empowering Women-Led Businesses Through Innovation</h2>
+                        <p className="section-tag"><span className="star-rotate">★</span> Branding & Marketing Agency</p>
+                        <h2>Empowering Brands Through Creative Marketing & Strategy</h2>
                     </div>
                     <p className="et-about-desc">
-                        At Ethiroli, we create transformative digital experiences that empower women entrepreneurs and strengthen women-led businesses. Our purpose-driven solutions are visually compelling and strategically designed for measurable growth and long-term success.
+                        At Ethiroli, we are a premier branding and marketing agency dedicated to elevating ambitious businesses and women-led enterprises. Our purpose-driven solutions combine iconic visual identity, performance marketing, marketing automation, and creative storytelling for measurable growth and lasting market leadership.
                     </p>
                     <ul className="et-about-features">
-                        <li>✔ Powerful branding & marketing solutions</li>
-                        <li>✔ Empowering women through sustainable growth</li>
+                        <li>✔ Strategic branding & iconic visual identities</li>
+                        <li>✔ High-impact performance marketing & lead automation</li>
                     </ul>
                     {/* <div className="et-about-company-info">
                         <img src="/assets/images/ethiroli_logo.png" alt="Ethiroli Logo" />

@@ -1,103 +1,72 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
+import { motion } from 'framer-motion';
 
-const CountUp = ({ target, duration = 1200, start }) => {
-    const [count, setCount] = useState(0);
-    const [hasAnimated, setHasAnimated] = useState(false);
-    const elementRef = useRef(null);
-
-    useEffect(() => {
-        if (start) return undefined;
-        const observer = new IntersectionObserver((entries) => {
-            const [entry] = entries;
-            if (entry.isIntersecting && !hasAnimated) {
-                setHasAnimated(true);
-            }
-        }, { threshold: 0.35 });
-
-        if (elementRef.current) observer.observe(elementRef.current);
-        return () => observer.disconnect();
-    }, [hasAnimated, start]);
-
-    useEffect(() => {
-        const shouldAnimate = start || hasAnimated;
-        if (!shouldAnimate) return;
-
-        let startTime = null;
-        const tick = (now) => {
-            if (!startTime) startTime = now;
-            const elapsed = now - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
-            const value = Math.round(target * eased);
-            setCount(value);
-
-            if (progress < 1) {
-                requestAnimationFrame(tick);
-            }
-        };
-        requestAnimationFrame(tick);
-    }, [hasAnimated, start, target, duration]);
-
-    return <span ref={elementRef}>{count}</span>;
-};
+const differentiators = [
+    {
+        icon: "💡",
+        title: "Strategy First",
+        description: "We plan, not just post."
+    },
+    {
+        icon: "✨",
+        title: "Creative + Marketing",
+        description: "Ideas that drive results."
+    },
+    {
+        icon: "⚙",
+        title: "Technology + Automation",
+        description: "Work smarter, grow faster."
+    },
+    {
+        icon: "📈",
+        title: "Business Focused",
+        description: "Visibility, leads and growth."
+    }
+];
 
 const Activities = () => {
-    const [activeIndex, setActiveIndex] = useState(null);
-
     return (
-        <section className="et-activities-section" id="activities">
-            <div className="et-activities-header">
-                <p className="et-activities-kicker"><span className="star-rotate">&#9733;</span> Our Activities</p>
-                <h2>Empowering Through Action</h2>
-                <p className="et-activities-subtitle">
-                    We are committed to empowering women entrepreneurs through focused programs, practical support, and measurable outcomes.
-                </p>
-            </div>
+        <section className="replica-why-section" id="why-ethiroli">
+            <div className="replica-container">
+                <motion.div 
+                    style={{ textAlign: 'center', marginBottom: '14px' }}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                >
+                    <span className="subtitle" style={{ background: 'rgba(255,255,255,0.08)', color: 'var(--base-gold)', borderColor: 'rgba(232,214,87,0.3)' }}>
+                        <span className="star-rotate">★</span> Why Ethiroli?
+                    </span>
+                    <h2 className="replica-why-title" style={{ marginTop: '14px' }}>
+                        More Than Just a <span className="gold-accent">Marketing Agency</span>
+                    </h2>
+                    <p className="replica-why-sub">
+                        We combine creativity, marketing and technology to deliver real business value.
+                    </p>
+                </motion.div>
 
-            <div className="et-activities-impact-grid">
-                <article
-                    className="et-impact-card"
-                    onMouseEnter={() => setActiveIndex(0)}
-                    onMouseLeave={() => setActiveIndex(null)}
-                    onFocus={() => setActiveIndex(0)}
-                    onBlur={() => setActiveIndex(null)}
-                >
-                    <p className="et-impact-value"><CountUp target={155} start={activeIndex === 0} />+</p>
-                    <p className="et-impact-label">Women Trained</p>
-                </article>
-                <article
-                    className="et-impact-card"
-                    onMouseEnter={() => setActiveIndex(1)}
-                    onMouseLeave={() => setActiveIndex(null)}
-                    onFocus={() => setActiveIndex(1)}
-                    onBlur={() => setActiveIndex(null)}
-                >
-                    <p className="et-impact-value"><CountUp target={15} start={activeIndex === 1} />+</p>
-                    <p className="et-impact-label">Projects Completed</p>
-                </article>
-                <article
-                    className="et-impact-card"
-                    onMouseEnter={() => setActiveIndex(2)}
-                    onMouseLeave={() => setActiveIndex(null)}
-                    onFocus={() => setActiveIndex(2)}
-                    onBlur={() => setActiveIndex(null)}
-                >
-                    <p className="et-impact-value"><CountUp target={30} start={activeIndex === 2} /> hrs </p>
-                    <p className="et-impact-label">Hours Worked</p>
-                </article>
-                <article
-                    className="et-impact-card"
-                    onMouseEnter={() => setActiveIndex(3)}
-                    onMouseLeave={() => setActiveIndex(null)}
-                    onFocus={() => setActiveIndex(3)}
-                    onBlur={() => setActiveIndex(null)}
-                >
-                    <p className="et-impact-value"><CountUp target={8} start={activeIndex === 3} />+</p>
-                    <p className="et-impact-label">Internships Enabled</p>
-                </article>
+                <div className="replica-why-grid">
+                    {differentiators.map((item, idx) => (
+                        <motion.div 
+                            className="replica-why-item" 
+                            key={idx}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: idx * 0.12 }}
+                            whileHover={{ y: -6, transition: { duration: 0.2 } }}
+                        >
+                            <div className="replica-why-icon">{item.icon}</div>
+                            <h3 className="replica-why-heading">{item.title}</h3>
+                            <p className="replica-why-text">{item.description}</p>
+                        </motion.div>
+                    ))}
+                </div>
             </div>
         </section>
     );
 };
 
 export default Activities;
+

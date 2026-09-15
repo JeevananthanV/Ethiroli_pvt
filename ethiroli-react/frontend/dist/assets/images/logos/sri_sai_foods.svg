@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 60" width="250" height="60" fill="none">
+  <g transform="translate(12, 8)">
+    <!-- Sunburst / Seal Emblem with Star -->
+    <circle cx="22" cy="22" r="20" stroke="#4A5568" stroke-width="2.5" stroke-dasharray="2 3" />
+    <circle cx="22" cy="22" r="15" fill="#4A5568" />
+    <polygon points="22,10 25,18 33,18 27,23 29,31 22,26 15,31 17,23 11,18 19,18" fill="#FFFFFF" />
+  </g>
+  <text x="64" y="27" font-family="'Montserrat', 'Inter', sans-serif" font-size="16" font-weight="900" fill="#2C3A47" letter-spacing="2">SRI SAI</text>
+  <text x="64" y="44" font-family="'Montserrat', 'Inter', sans-serif" font-size="12" font-weight="700" fill="#5F7182" letter-spacing="4">FOODS</text>
+</svg>

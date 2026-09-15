@@ -1,1 +1,0 @@
-import{a as s}from"./ErrorBoundary-BUXkff3j.js";import"./vendor-react-CXYR-Mgv.js";import"./registerServiceWorker-B_MyBCQ6.js";const p=async()=>(await s.get("/v1/marketplace/products")).data,c=async t=>(await s.post("/v1/marketplace/products",t)).data;export{p as getMarketplaceProducts,c as publishProduct};

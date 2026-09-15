@@ -12,7 +12,8 @@ const Footer = () => {
                         <img src="/assets/images/ethiroli_logo.png" alt="Ethiroli logo" />
                     </div>
                     <p>
-                        Ethiroli is a dynamic creative digital marketing team dedicated to empowering businesses.                    </p>
+                        Ethiroli is a dynamic creative digital marketing team dedicated to empowering businesses.
+                    </p>
                     <div className="et-footer-social">
                         <a href="https://www.instagram.com/_ethiroli_?igsh=MXQ1MTZuaXlhaGVyaA==" className="et-social-icon" title="Instagram" target="_blank" rel="noopener noreferrer"><i className="fa-brands fa-instagram"></i></a>
                         <a href="https://www.linkedin.com/company/ethiroli-pvt-ltd/" className="et-social-icon" title="LinkedIn" target="_blank" rel="noopener noreferrer"><i className="fa-brands fa-linkedin-in"></i></a>

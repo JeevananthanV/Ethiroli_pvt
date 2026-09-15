@@ -24,8 +24,9 @@ const ContactForm = () => {
         setSubmitState({ loading: true, error: '', success: '' });
 
         try {
-            const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
-            const response = await fetch(`${baseUrl}/api/contact-messages`, {
+            const rawBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+            const apiBase = rawBase.replace(/\/api\/?$/, '');
+            const response = await fetch(`${apiBase}/api/v1/contact-messages`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ ...formData, source: 'free_consultation' }),

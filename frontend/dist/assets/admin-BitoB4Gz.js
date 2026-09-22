@@ -1,1 +1,0 @@
-import{c as o,j as r,r as e}from"./vendor-react-CrH_bogS.js";import{E as t}from"./ErrorBoundary-DJQwVJ8m.js";import{A as s}from"./AdminApp-BZ8u2fCn.js";import{r as i}from"./registerServiceWorker-BiotBixr.js";i();o.createRoot(document.getElementById("root")).render(r.jsx(e.StrictMode,{children:r.jsx(t,{children:r.jsx(s,{})})}));

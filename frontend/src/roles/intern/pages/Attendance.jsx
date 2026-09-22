@@ -1,247 +1,405 @@
 import React, { useState, useEffect } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { useAuth } from '../../../common/hooks/useAuth.js';
+import { Link } from 'react-router-dom';
 
 export default function Attendance() {
   const { user } = useAuth();
-  const [clockedIn, setClockedIn] = useState(false);
-  const [clockInTime, setClockInTime] = useState(null);
+  const [clockedIn, setClockedIn] = useState(true);
+  const [clockInTime, setClockInTime] = useState('09:15 AM');
   const [workMode, setWorkMode] = useState('REMOTE');
-  const [todayHours, setTodayHours] = useState('0.00');
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState({ type: '', text: '' });
+  const [durationSeconds, setDurationSeconds] = useState(5520); // ~1h 32m
+  const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
+  const [showCheckoutModal, setShowCheckoutModal] = useState(false);
+  const [showLeaveModal, setShowLeaveModal] = useState(false);
+  const [selectedDayDetail, setSelectedDayDetail] = useState(null);
+  const [leaveForm, setLeaveForm] = useState({ date: '', reason: '', type: 'SICK' });
+  const [alert, setAlert] = useState({ type: '', text: '' });
 
-  // Initial mock / state sync
-  const [logs, setLogs] = useState([
-    { id: '1', date: new Date().toISOString().slice(0, 10), clockIn: '09:30 AM', clockOut: '—', hours: 'In Progress', mode: 'REMOTE', status: 'PRESENT' },
-    { id: '2', date: '2026-09-09', clockIn: '09:15 AM', clockOut: '05:45 PM', hours: '8.50', mode: 'REMOTE', status: 'PRESENT' },
-    { id: '3', date: '2026-09-08', clockIn: '09:30 AM', clockOut: '05:30 PM', hours: '8.00', mode: 'OFFICE', status: 'PRESENT' },
-    { id: '4', date: '2026-09-07', clockIn: '09:45 AM', clockOut: '05:45 PM', hours: '8.00', mode: 'REMOTE', status: 'PRESENT' },
-    { id: '5', date: '2026-09-05', clockIn: '10:00 AM', clockOut: '02:00 PM', hours: '4.00', mode: 'REMOTE', status: 'HALF_DAY' },
-  ]);
-
+  // Ticking current time & working duration
   useEffect(() => {
-    // Check if clocked in today in session
-    const savedClock = localStorage.getItem(`attendance_${user?.id || 'intern'}`);
-    if (savedClock) {
-      const data = JSON.parse(savedClock);
-      if (data.date === new Date().toISOString().slice(0, 10) && !data.clockOut) {
-        setClockedIn(true);
-        setClockInTime(data.clockIn);
-        setWorkMode(data.mode || 'REMOTE');
+    const timer = setInterval(() => {
+      setCurrentTime(new Date().toLocaleTimeString());
+      if (clockedIn) {
+        setDurationSeconds((prev) => prev + 1);
       }
-    }
-  }, [user]);
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [clockedIn]);
 
-  const handleClockIn = () => {
-    setLoading(true);
-    setTimeout(() => {
-      const now = new Date();
-      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      setClockedIn(true);
-      setClockInTime(timeStr);
-      setMessage({ type: 'success', text: `Clocked in successfully at ${timeStr} (${workMode} mode)` });
-      
-      const entry = { date: now.toISOString().slice(0, 10), clockIn: timeStr, mode: workMode };
-      localStorage.setItem(`attendance_${user?.id || 'intern'}`, JSON.stringify(entry));
-      
-      setLogs((prev) => [
-        { id: Date.now().toString(), date: entry.date, clockIn: timeStr, clockOut: '—', hours: 'In Progress', mode: workMode, status: 'PRESENT' },
-        ...prev.filter((l) => l.date !== entry.date)
-      ]);
-      setLoading(false);
-    }, 400);
+  const formatDuration = (totalSeconds) => {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    return `${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`;
   };
 
-  const handleClockOut = () => {
-    setLoading(true);
-    setTimeout(() => {
-      const now = new Date();
-      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      setClockedIn(false);
-      setMessage({ type: 'info', text: `Clocked out at ${timeStr}. Great work today!` });
-      localStorage.removeItem(`attendance_${user?.id || 'intern'}`);
-      
-      const todayDate = now.toISOString().slice(0, 10);
-      setLogs((prev) =>
-        prev.map((l) =>
-          l.date === todayDate
-            ? { ...l, clockOut: timeStr, hours: '8.25', status: 'PRESENT' }
-            : l
-        )
-      );
-      setTodayHours('8.25');
-      setLoading(false);
-    }, 400);
+  // September 2026 Calendar Days (30 days)
+  const calendarDays = [
+    { day: 1, status: 'PRESENT', in: '09:20 AM', out: '05:40 PM', hours: '8.3', log: 'Setup React monorepo architecture.' },
+    { day: 2, status: 'PRESENT', in: '09:15 AM', out: '05:30 PM', hours: '8.2', log: 'Built responsive Navbar and Drawer.' },
+    { day: 3, status: 'PRESENT', in: '09:25 AM', out: '05:45 PM', hours: '8.3', log: 'Configured Redux Toolkit slices.' },
+    { day: 4, status: 'PRESENT', in: '09:30 AM', out: '05:30 PM', hours: '8.0', log: 'Completed Module 1 assignments.' },
+    { day: 5, status: 'HOLIDAY', in: '—', out: '—', hours: '—', log: 'Weekend' },
+    { day: 6, status: 'HOLIDAY', in: '—', out: '—', hours: '—', log: 'Weekend' },
+    { day: 7, status: 'PRESENT', in: '09:10 AM', out: '05:40 PM', hours: '8.5', log: 'Refactored CSS modules to Bootstrap.' },
+    { day: 8, status: 'LATE', in: '10:15 AM', out: '06:15 PM', hours: '8.0', log: 'Fixed ESLint errors.' },
+    { day: 9, status: 'PRESENT', in: '09:15 AM', out: '05:30 PM', hours: '8.2', log: 'Implemented JWT token refresh.' },
+    { day: 10, status: 'PRESENT', in: '09:20 AM', out: '05:35 PM', hours: '8.2', log: 'Configured Redis token cache.' },
+    { day: 11, status: 'PRESENT', in: '09:15 AM', out: '05:30 PM', hours: '8.2', log: 'Sprint Review demonstration.' },
+    { day: 12, status: 'HOLIDAY', in: '—', out: '—', hours: '—', log: 'Weekend' },
+    { day: 13, status: 'HOLIDAY', in: '—', out: '—', hours: '—', log: 'Weekend' },
+    { day: 14, status: 'LEAVE', in: '—', out: '—', hours: '—', log: 'Approved Sick Leave' },
+    { day: 15, status: 'PRESENT', in: '09:15 AM', out: '05:30 PM', hours: '8.2', log: 'PostgreSQL database modeling.' },
+    { day: 16, status: 'PRESENT', in: '09:30 AM', out: '05:30 PM', hours: '8.0', log: 'Built API endpoints for courses.' },
+    { day: 17, status: 'ABSENT', in: '—', out: '—', hours: '—', log: 'Unplanned absence (Medical emergency)' },
+    { day: 18, status: 'PRESENT', in: '09:15 AM', out: 'In Progress', hours: 'Live', log: 'Working on Intern Portal UI.' },
+    { day: 19, status: 'UPCOMING', in: '—', out: '—', hours: '—', log: 'Scheduled' },
+    { day: 20, status: 'UPCOMING', in: '—', out: '—', hours: '—', log: 'Scheduled' },
+    { day: 21, status: 'UPCOMING', in: '—', out: '—', hours: '—', log: 'Scheduled' },
+    { day: 22, status: 'UPCOMING', in: '—', out: '—', hours: '—', log: 'Scheduled' },
+    { day: 23, status: 'UPCOMING', in: '—', out: '—', hours: '—', log: 'Scheduled' },
+    { day: 24, status: 'UPCOMING', in: '—', out: '—', hours: '—', log: 'Scheduled' },
+    { day: 25, status: 'UPCOMING', in: '—', out: '—', hours: '—', log: 'Scheduled' },
+    { day: 26, status: 'HOLIDAY', in: '—', out: '—', hours: '—', log: 'Weekend' },
+    { day: 27, status: 'HOLIDAY', in: '—', out: '—', hours: '—', log: 'Weekend' },
+    { day: 28, status: 'UPCOMING', in: '—', out: '—', hours: '—', log: 'Scheduled' },
+    { day: 29, status: 'UPCOMING', in: '—', out: '—', hours: '—', log: 'Scheduled' },
+    { day: 30, status: 'UPCOMING', in: '—', out: '—', hours: '—', log: 'Scheduled' }
+  ];
+
+  const handleConfirmCheckout = () => {
+    setClockedIn(false);
+    setShowCheckoutModal(false);
+    setAlert({ type: 'success', text: 'Checked out successfully! Remember to verify your Daily Work Log submission.' });
+  };
+
+  const handleClockIn = () => {
+    const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    setClockInTime(timeStr);
+    setClockedIn(true);
+    setDurationSeconds(0);
+    setAlert({ type: 'success', text: `Clocked in successfully at ${timeStr} (${workMode} mode)` });
+  };
+
+  const handleApplyLeave = (e) => {
+    e.preventDefault();
+    setShowLeaveModal(false);
+    setAlert({ type: 'success', text: `Leave request for ${leaveForm.date} submitted for mentor approval!` });
+    setLeaveForm({ date: '', reason: '', type: 'SICK' });
+  };
+
+  const getDayDotClass = (status) => {
+    switch (status) {
+      case 'PRESENT': return 'bg-success';
+      case 'ABSENT': return 'bg-danger';
+      case 'LATE': return 'bg-warning';
+      case 'LEAVE': return 'bg-primary';
+      case 'HOLIDAY': return 'bg-secondary';
+      default: return 'bg-light border';
+    }
   };
 
   return (
     <AdminPage
       title="Attendance & Time Tracker"
-      subtitle="Log your daily check-in, track hours, and monitor attendance history"
+      subtitle="Punch in/out, monitor live working duration, view visual monthly calendar, and apply for leaves"
     >
       <div className="container-fluid px-0">
-        {message.text && (
-          <div className={`alert alert-${message.type === 'success' ? 'success' : 'info'} alert-dismissible fade show mb-4`} role="alert">
-            <i className={`bi bi-${message.type === 'success' ? 'check-circle' : 'info-circle'} me-2`}></i>
-            {message.text}
-            <button type="button" className="btn-close" onClick={() => setMessage({ type: '', text: '' })}></button>
+        {alert.text && (
+          <div className={`alert alert-${alert.type} alert-dismissible fade show mb-4`} role="alert">
+            <i className="bi bi-check-circle me-2"></i>{alert.text}
+            <button type="button" className="btn-close" onClick={() => setAlert({ type: '', text: '' })}></button>
           </div>
         )}
 
-        {/* Punch In / Out Card & Summary Stats */}
+        {/* Top 4 KPI Metrics */}
         <div className="row g-3 mb-4">
-          <div className="col-lg-5">
-            <div className="card shadow-sm border-0 h-100">
-              <div className="card-body p-4 text-center d-flex flex-column justify-content-center">
-                <p className="text-muted mb-1 text-uppercase fw-semibold small">Real-Time Clock In / Out</p>
-                <h2 className="display-6 fw-bold mb-2 text-primary">
+          <div className="col-6 col-md-3">
+            <div className="card shadow-sm border-0 p-3 text-center">
+              <span className="text-muted small fw-semibold">Overall Attendance</span>
+              <h3 className="fw-bold text-success mb-0">94%</h3>
+              <small className="text-muted">Req: 85% for certificate</small>
+            </div>
+          </div>
+          <div className="col-6 col-md-3">
+            <div className="card shadow-sm border-0 p-3 text-center">
+              <span className="text-muted small fw-semibold">Total Working Days</span>
+              <h3 className="fw-bold text-primary mb-0">42</h3>
+              <small className="text-muted">Full cohort duration</small>
+            </div>
+          </div>
+          <div className="col-6 col-md-3">
+            <div className="card shadow-sm border-0 p-3 text-center">
+              <span className="text-muted small fw-semibold">Present Days</span>
+              <h3 className="fw-bold text-dark mb-0">38</h3>
+              <small className="text-success">2 Late • 1 Leave</small>
+            </div>
+          </div>
+          <div className="col-6 col-md-3">
+            <div className="card shadow-sm border-0 p-3 text-center">
+              <span className="text-muted small fw-semibold">Leave Balance</span>
+              <h3 className="fw-bold text-info mb-0">2 Days</h3>
+              <small className="text-muted">Remaining this month</small>
+            </div>
+          </div>
+        </div>
+
+        {/* Today's Attendance Punch Card */}
+        <div className="card shadow-sm border-0 mb-4">
+          <div className="card-body p-4">
+            <div className="row align-items-center g-4">
+              <div className="col-md-4 text-center text-md-start border-md-end">
+                <span className="text-muted small text-uppercase fw-bold">Live Clock</span>
+                <h2 className="display-6 fw-bold text-primary mb-1">{currentTime}</h2>
+                <span className="badge bg-light text-dark border">
                   {new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' })}
+                </span>
+              </div>
+
+              <div className="col-md-4 text-center border-md-end">
+                <span className="text-muted small text-uppercase fw-bold d-block mb-1">Working Duration Counter</span>
+                <h2 className="fw-bold text-success font-monospace mb-2">
+                  {clockedIn ? formatDuration(durationSeconds) : '00h 00m 00s'}
                 </h2>
-                
-                <div className="my-3">
-                  <span className={`badge px-3 py-2 fs-6 ${clockedIn ? 'bg-success' : 'bg-secondary'}`}>
+                <div className="d-flex justify-content-center align-items-center gap-2">
+                  <span className={`badge px-3 py-1 ${clockedIn ? 'bg-success' : 'bg-secondary'}`}>
                     <i className={`bi bi-${clockedIn ? 'broadcast' : 'power'} me-1`}></i>
-                    {clockedIn ? `Status: CLOCKED IN since ${clockInTime}` : 'Status: NOT CLOCKED IN'}
+                    {clockedIn ? `Checked In at ${clockInTime}` : 'Checked Out'}
                   </span>
-                </div>
-
-                <div className="mb-3 w-75 mx-auto">
-                  <label className="form-label small text-muted">Work Location Mode</label>
-                  <select 
-                    className="form-select text-center" 
-                    value={workMode} 
-                    onChange={(e) => setWorkMode(e.target.value)}
-                    disabled={clockedIn}
-                  >
-                    <option value="REMOTE">Remote / Work from Home</option>
-                    <option value="OFFICE">Office / In-Person</option>
-                  </select>
-                </div>
-
-                <div className="d-grid gap-2 col-8 mx-auto mt-2">
-                  {!clockedIn ? (
-                    <button 
-                      className="btn btn-success btn-lg py-2 fw-semibold shadow-sm"
-                      onClick={handleClockIn}
-                      disabled={loading}
+                  <div className="btn-group btn-group-sm">
+                    <button
+                      type="button"
+                      className={`btn ${workMode === 'REMOTE' ? 'btn-primary' : 'btn-outline-secondary'}`}
+                      onClick={() => setWorkMode('REMOTE')}
                     >
-                      <i className="bi bi-box-arrow-in-right me-2"></i>
-                      {loading ? 'Processing...' : 'Clock In Now'}
+                      Remote
+                    </button>
+                    <button
+                      type="button"
+                      className={`btn ${workMode === 'OFFICE' ? 'btn-primary' : 'btn-outline-secondary'}`}
+                      onClick={() => setWorkMode('OFFICE')}
+                    >
+                      Office
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-md-4 text-center text-md-end">
+                <div className="d-flex flex-column gap-2">
+                  {clockedIn ? (
+                    <button
+                      className="btn btn-danger btn-lg shadow-sm"
+                      onClick={() => setShowCheckoutModal(true)}
+                    >
+                      <i className="bi bi-box-arrow-left me-2"></i> Check Out
                     </button>
                   ) : (
-                    <button 
-                      className="btn btn-danger btn-lg py-2 fw-semibold shadow-sm"
-                      onClick={handleClockOut}
-                      disabled={loading}
+                    <button
+                      className="btn btn-success btn-lg shadow-sm"
+                      onClick={handleClockIn}
                     >
-                      <i className="bi bi-box-arrow-left me-2"></i>
-                      {loading ? 'Processing...' : 'Clock Out Now'}
+                      <i className="bi bi-box-arrow-in-right me-2"></i> Clock In Now
                     </button>
                   )}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-lg-7">
-            <div className="row g-3 h-100">
-              <div className="col-sm-6">
-                <div className="card shadow-sm border-0 h-100">
-                  <div className="card-body p-4 d-flex flex-column justify-content-center align-items-center text-center">
-                    <div className="bg-primary-subtle text-primary p-3 rounded-circle mb-3">
-                      <i className="bi bi-calendar-check fs-3"></i>
-                    </div>
-                    <p className="text-muted mb-1 small fw-semibold">Attendance Rate</p>
-                    <h3 className="fw-bold mb-0">96.4%</h3>
-                    <small className="text-success mt-1">21 of 22 working days</small>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-sm-6">
-                <div className="card shadow-sm border-0 h-100">
-                  <div className="card-body p-4 d-flex flex-column justify-content-center align-items-center text-center">
-                    <div className="bg-info-subtle text-info p-3 rounded-circle mb-3">
-                      <i className="bi bi-hourglass-split fs-3"></i>
-                    </div>
-                    <p className="text-muted mb-1 small fw-semibold">Total Hours (Month)</p>
-                    <h3 className="fw-bold mb-0">168.5 hrs</h3>
-                    <small className="text-muted mt-1">Avg 8.1 hrs/day</small>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-sm-6">
-                <div className="card shadow-sm border-0 h-100">
-                  <div className="card-body p-4 d-flex flex-column justify-content-center align-items-center text-center">
-                    <div className="bg-warning-subtle text-warning p-3 rounded-circle mb-3">
-                      <i className="bi bi-lightning-charge fs-3"></i>
-                    </div>
-                    <p className="text-muted mb-1 small fw-semibold">Active Streak</p>
-                    <h3 className="fw-bold mb-0">14 Days</h3>
-                    <small className="text-warning mt-1">On track for Streak Badge!</small>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-sm-6">
-                <div className="card shadow-sm border-0 h-100">
-                  <div className="card-body p-4 d-flex flex-column justify-content-center align-items-center text-center">
-                    <div className="bg-success-subtle text-success p-3 rounded-circle mb-3">
-                      <i className="bi bi-shield-check fs-3"></i>
-                    </div>
-                    <p className="text-muted mb-1 small fw-semibold">Punctuality Score</p>
-                    <h3 className="fw-bold mb-0">100%</h3>
-                    <small className="text-success mt-1">Zero late marks</small>
-                  </div>
+                  <button
+                    className="btn btn-outline-secondary btn-sm"
+                    onClick={() => setShowLeaveModal(true)}
+                  >
+                    <i className="bi bi-calendar2-plus me-1"></i> Apply for Leave (2 Days Left)
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Monthly Attendance Log Table */}
-        <div className="card shadow-sm border-0">
-          <div className="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
-            <h5 className="mb-0 fw-bold">Recent Attendance Logs</h5>
-            <span className="badge bg-light text-dark border">September 2026</span>
+        {/* Visual Monthly Calendar Grid (September 2026) */}
+        <div className="card shadow-sm border-0 mb-4">
+          <div className="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div>
+              <h5 className="mb-0 fw-bold text-dark">September 2026 Attendance Grid</h5>
+              <small className="text-muted">Click on any calendar day to inspect check-in/out timestamps and work log</small>
+            </div>
+            {/* Legend */}
+            <div className="d-flex gap-3 flex-wrap small">
+              <span className="d-flex align-items-center gap-1">
+                <span className="rounded-circle bg-success d-inline-block" style={{ width: '10px', height: '10px' }}></span> Present
+              </span>
+              <span className="d-flex align-items-center gap-1">
+                <span className="rounded-circle bg-danger d-inline-block" style={{ width: '10px', height: '10px' }}></span> Absent
+              </span>
+              <span className="d-flex align-items-center gap-1">
+                <span className="rounded-circle bg-warning d-inline-block" style={{ width: '10px', height: '10px' }}></span> Late
+              </span>
+              <span className="d-flex align-items-center gap-1">
+                <span className="rounded-circle bg-primary d-inline-block" style={{ width: '10px', height: '10px' }}></span> Leave
+              </span>
+              <span className="d-flex align-items-center gap-1">
+                <span className="rounded-circle bg-secondary d-inline-block" style={{ width: '10px', height: '10px' }}></span> Holiday
+              </span>
+            </div>
           </div>
-          <div className="table-responsive">
-            <table className="table table-hover align-middle mb-0">
-              <thead className="table-light">
-                <tr>
-                  <th scope="col" className="ps-4">Date</th>
-                  <th scope="col">Clock In</th>
-                  <th scope="col">Clock Out</th>
-                  <th scope="col">Logged Hours</th>
-                  <th scope="col">Mode</th>
-                  <th scope="col">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {logs.map((log) => (
-                  <tr key={log.id}>
-                    <td className="ps-4 fw-medium">{log.date}</td>
-                    <td>{log.clockIn}</td>
-                    <td>{log.clockOut}</td>
-                    <td><span className="fw-semibold">{log.hours}</span></td>
-                    <td>
-                      <span className="badge bg-light text-secondary border">
-                        {log.mode}
-                      </span>
-                    </td>
-                    <td>
-                      <span className={`badge ${log.status === 'PRESENT' ? 'bg-success-subtle text-success' : 'bg-warning-subtle text-warning'}`}>
-                        {log.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+
+          <div className="card-body p-4 pt-0">
+            <div className="row row-cols-2 row-cols-sm-4 row-cols-md-7 g-2">
+              {calendarDays.map((d) => (
+                <div key={d.day} className="col">
+                  <div
+                    className={`p-2 border rounded-3 text-center cursor-pointer ${
+                      selectedDayDetail?.day === d.day ? 'border-primary border-2 bg-light' : 'bg-white'
+                    }`}
+                    onClick={() => setSelectedDayDetail(d)}
+                    style={{ cursor: 'pointer', transition: 'all 0.15s ease' }}
+                  >
+                    <div className="d-flex justify-content-between align-items-center mb-1">
+                      <span className="small fw-bold text-dark">{d.day}</span>
+                      <span
+                        className={`rounded-circle d-inline-block ${getDayDotClass(d.status)}`}
+                        style={{ width: '8px', height: '8px' }}
+                      ></span>
+                    </div>
+                    <span className="d-block small text-muted" style={{ fontSize: '0.7rem' }}>
+                      {d.status === 'HOLIDAY' ? 'Off' : d.hours === 'Live' ? '🟢 Live' : `${d.hours}h`}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Selected Day Inspection Drawer */}
+            {selectedDayDetail && (
+              <div className="mt-4 p-3 bg-light rounded-3 border">
+                <div className="d-flex justify-content-between align-items-center mb-2">
+                  <h6 className="fw-bold mb-0 text-dark">
+                    September {selectedDayDetail.day}, 2026 — Details
+                  </h6>
+                  <button
+                    type="button"
+                    className="btn-close btn-sm"
+                    onClick={() => setSelectedDayDetail(null)}
+                  ></button>
+                </div>
+                <div className="row g-2 small">
+                  <div className="col-sm-3">
+                    <span className="text-muted d-block">Status:</span>
+                    <strong className="text-dark">{selectedDayDetail.status}</strong>
+                  </div>
+                  <div className="col-sm-3">
+                    <span className="text-muted d-block">Check In:</span>
+                    <strong className="text-dark">{selectedDayDetail.in}</strong>
+                  </div>
+                  <div className="col-sm-3">
+                    <span className="text-muted d-block">Check Out:</span>
+                    <strong className="text-dark">{selectedDayDetail.out}</strong>
+                  </div>
+                  <div className="col-sm-3">
+                    <span className="text-muted d-block">Total Hours:</span>
+                    <strong className="text-dark">{selectedDayDetail.hours}</strong>
+                  </div>
+                  <div className="col-12 mt-2">
+                    <span className="text-muted d-block">Work Log Summary:</span>
+                    <span className="text-dark">{selectedDayDetail.log}</span>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
+
+        {/* Check-out Confirmation Modal */}
+        {showCheckoutModal && (
+          <div className="modal show d-block" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} tabIndex="-1">
+            <div className="modal-dialog modal-dialog-centered">
+              <div className="modal-content border-0 shadow">
+                <div className="modal-header">
+                  <h5 className="modal-title fw-bold">Confirm Check Out</h5>
+                  <button type="button" className="btn-close" onClick={() => setShowCheckoutModal(false)}></button>
+                </div>
+                <div className="modal-body">
+                  <p className="mb-3 text-dark">
+                    You have logged <strong className="text-success">{formatDuration(durationSeconds)}</strong> today.
+                  </p>
+                  <div className="p-3 bg-warning-subtle border border-warning rounded-3 mb-3 small">
+                    <i className="bi bi-exclamation-triangle-fill text-warning me-2"></i>
+                    <strong>Did you submit your Daily Work Log?</strong>
+                    <p className="mb-0 mt-1 text-dark">
+                      Submitting your daily activity report is required before checking out to receive full attendance credit.
+                    </p>
+                  </div>
+                </div>
+                <div className="modal-footer">
+                  <Link to="/app/intern/work-log" className="btn btn-outline-primary btn-sm">
+                    Open Work Log First
+                  </Link>
+                  <button type="button" className="btn btn-danger btn-sm" onClick={handleConfirmCheckout}>
+                    Confirm & Check Out
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Leave Request Modal */}
+        {showLeaveModal && (
+          <div className="modal show d-block" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} tabIndex="-1">
+            <div className="modal-dialog modal-dialog-centered">
+              <div className="modal-content border-0 shadow">
+                <div className="modal-header">
+                  <h5 className="modal-title fw-bold">Apply for Leave</h5>
+                  <button type="button" className="btn-close" onClick={() => setShowLeaveModal(false)}></button>
+                </div>
+                <form onSubmit={handleApplyLeave}>
+                  <div className="modal-body">
+                    <div className="mb-3">
+                      <label className="form-label small fw-semibold">Leave Date</label>
+                      <input
+                        type="date"
+                        className="form-control"
+                        value={leaveForm.date}
+                        onChange={(e) => setLeaveForm({ ...leaveForm, date: e.target.value })}
+                        required
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label small fw-semibold">Leave Category</label>
+                      <select
+                        className="form-select"
+                        value={leaveForm.type}
+                        onChange={(e) => setLeaveForm({ ...leaveForm, type: e.target.value })}
+                      >
+                        <option value="SICK">Sick Leave (Medical)</option>
+                        <option value="COLLEGE">College Exam / Academic Duty</option>
+                        <option value="PERSONAL">Personal Emergency</option>
+                      </select>
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label small fw-semibold">Reason for Absence</label>
+                      <textarea
+                        className="form-control"
+                        rows="3"
+                        placeholder="State reason clearly for mentor and HR review..."
+                        value={leaveForm.reason}
+                        onChange={(e) => setLeaveForm({ ...leaveForm, reason: e.target.value })}
+                        required
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div className="modal-footer">
+                    <button type="button" className="btn btn-light btn-sm" onClick={() => setShowLeaveModal(false)}>
+                      Cancel
+                    </button>
+                    <button type="submit" className="btn btn-primary btn-sm">
+                      Submit Leave Request
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </AdminPage>
   );

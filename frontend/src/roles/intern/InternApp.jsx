@@ -17,6 +17,9 @@ const InternCertificates = lazy(() => import('./pages/Certificates.jsx'));
 const InternMentor = lazy(() => import('./pages/Mentor.jsx'));
 const InternFeedback = lazy(() => import('./pages/Feedback.jsx'));
 const InternCalendar = lazy(() => import('./pages/Calendar.jsx'));
+const InternNotifications = lazy(() => import('./pages/Notifications.jsx'));
+const InternMessages = lazy(() => import('./pages/Messages.jsx'));
+const InternHelp = lazy(() => import('./pages/Help.jsx'));
 
 function InternLoader() {
   return (
@@ -57,6 +60,9 @@ export default function InternApp() {
         <Route path="doubts" element={<InternMentor />} />
         <Route path="feedback" element={<InternFeedback />} />
         <Route path="calendar" element={<InternCalendar />} />
+        <Route path="notifications" element={<InternNotifications />} />
+        <Route path="messages" element={<InternMessages />} />
+        <Route path="help" element={<InternHelp />} />
         <Route path="*" element={<Navigate to="dashboard" replace />} />
       </Routes>
     </Suspense>

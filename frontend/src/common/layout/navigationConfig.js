@@ -497,6 +497,55 @@ export const ROLE_NAVIGATION = Object.freeze({
     },
     { label: 'My Profile', path: '/app/sales/profile', icon: 'person-circle' },
   ],
+
+  [ROLES.INTERN]: [
+    { label: 'Dashboard', path: '/app/intern/dashboard', icon: 'bi-speedometer2' },
+    {
+      label: 'Learning',
+      icon: 'bi-mortarboard',
+      children: [
+        { label: 'My Training Plan', path: '/app/intern/training-plan', icon: 'bi-journal-code' },
+        { label: 'LMS Courses', path: '/app/intern/courses', icon: 'bi-collection-play' },
+        { label: 'Assignments', path: '/app/intern/assignments', icon: 'bi-file-earmark-code' },
+        { label: 'Achievements', path: '/app/intern/achievements', icon: 'bi-trophy' },
+      ],
+    },
+    {
+      label: 'Daily Execution',
+      icon: 'bi-lightning-charge',
+      children: [
+        { label: 'Daily Tasks', path: '/app/intern/tasks', icon: 'bi-list-task' },
+        { label: 'Attendance', path: '/app/intern/attendance', icon: 'bi-calendar-check' },
+        { label: 'Daily Work Log', path: '/app/intern/work-log', icon: 'bi-pencil-square' },
+        { label: 'Projects', path: '/app/intern/projects', icon: 'bi-kanban' },
+      ],
+    },
+    {
+      label: 'Mentorship',
+      icon: 'bi-person-badge',
+      children: [
+        { label: 'Mentor', path: '/app/intern/mentor', icon: 'bi-person-video3' },
+        { label: 'Doubts / Discussions', path: '/app/intern/doubts', icon: 'bi-chat-left-dots' },
+        { label: 'Feedback', path: '/app/intern/feedback', icon: 'bi-star-half' },
+      ],
+    },
+    {
+      label: 'Schedule',
+      icon: 'bi-calendar3',
+      children: [
+        { label: 'Calendar', path: '/app/intern/calendar', icon: 'bi-calendar3' },
+      ],
+    },
+    {
+      label: 'Records',
+      icon: 'bi-folder2-open',
+      children: [
+        { label: 'Documents', path: '/app/intern/documents', icon: 'bi-file-earmark-text' },
+        { label: 'Certificates', path: '/app/intern/certificates', icon: 'bi-award' },
+      ],
+    },
+    { label: 'My Profile', path: '/app/intern/profile', icon: 'bi-person-circle' },
+  ],
 });
 
 /**

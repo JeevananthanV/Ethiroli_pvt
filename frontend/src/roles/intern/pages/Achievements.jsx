@@ -1,80 +1,87 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 
 export default function Achievements() {
+  const [showLeaderboard, setShowLeaderboard] = useState(true);
+
   const stats = [
-    { label: 'Tasks Completed', value: '28', icon: 'bi-check-circle', color: 'primary' },
-    { label: 'Current Streak', value: '14 Days', icon: 'bi-fire', color: 'warning' },
-    { label: 'Total Hours', value: '168.5 hrs', icon: 'bi-clock-history', color: 'info' },
-    { label: 'Quiz Average', value: '94.2%', icon: 'bi-award', color: 'success' },
+    { label: 'Total Points', value: '1,240 pts', icon: 'bi-gem', color: 'primary', subtext: 'Rank #3 of 15' },
+    { label: 'Tasks Completed', value: '28', icon: 'bi-check-circle', color: 'success', subtext: '+700 pts earned' },
+    { label: 'Current Streak', value: '14 Days', icon: 'bi-fire', color: 'warning', subtext: 'Streak Master Active' },
+    { label: 'Quiz Average', value: '94.2%', icon: 'bi-award', color: 'info', subtext: 'Top 5% in cohort' },
   ];
 
-  const earnedBadges = [
+  const badges = [
     {
       id: 'b1',
-      name: 'Early Bird',
-      description: 'Clocked in before 09:30 AM for 10 consecutive working days.',
-      icon: '🌅',
+      name: 'First Code Push',
+      icon: '🏆',
       tier: 'Gold',
-      earnedDate: '2026-09-08'
+      status: 'EARNED',
+      earnedDate: 'May 18, 2026',
+      description: 'Completed and merged your first official task in the Ethiroli repository.'
     },
     {
       id: 'b2',
-      name: 'Clean Coder',
-      description: 'Submitted 5 assignments with 0 ESLint warnings and approved PRs.',
-      icon: '✨',
+      name: 'Streak Master',
+      icon: '🔥',
       tier: 'Platinum',
-      earnedDate: '2026-09-05'
+      status: 'EARNED',
+      earnedDate: 'June 01, 2026',
+      description: 'Clocked in on time for 7 consecutive working days without a single late mark.'
     },
     {
       id: 'b3',
-      name: 'Bug Hunter',
-      description: 'Identified and fixed 3 critical issues in the task tracker backlog.',
-      icon: '🐞',
+      name: 'Bug Buster',
+      icon: '🎯',
       tier: 'Silver',
-      earnedDate: '2026-08-28'
+      status: 'EARNED',
+      earnedDate: 'June 08, 2026',
+      description: 'Identified and fixed 5 reported bugs in the project backlog.'
     },
     {
       id: 'b4',
-      name: 'Continuous Learner',
-      description: 'Completed 100% of Phase 1 curriculum modules ahead of schedule.',
-      icon: '📚',
+      name: 'Speed Demon',
+      icon: '⚡',
       tier: 'Gold',
-      earnedDate: '2026-08-20'
-    }
-  ];
-
-  const inProgressBadges = [
+      status: 'EARNED',
+      earnedDate: 'June 10, 2026',
+      description: 'Submitted assignment solution 24 hours before the deadline.'
+    },
     {
       id: 'b5',
-      name: 'Sprint MVP',
-      description: 'Finish all Module 2 deliverables with top mentor rating.',
-      icon: '🏆',
-      progress: 75,
-      target: '3 / 4 Tasks Done'
+      name: 'Top Performer',
+      icon: '🌟',
+      tier: 'Platinum',
+      status: 'IN_PROGRESS',
+      progress: 80,
+      target: '1 of 2 Weeks 5/5',
+      description: 'Rated 5/5 by mentor for 2 consecutive weekly evaluations.'
     },
     {
       id: 'b6',
-      name: 'Master Communicator',
-      description: 'Actively resolve 5 peer doubts and submit daily work logs consistently.',
-      icon: '💬',
-      progress: 60,
-      target: '12 / 20 Logs'
-    },
-    {
-      id: 'b7',
-      name: 'Architect',
-      description: 'Deploy full capstone application with Docker containerization.',
-      icon: '🚀',
-      progress: 20,
-      target: 'Planned Phase 4'
+      name: 'Course Champion',
+      icon: '🎓',
+      tier: 'Diamond',
+      status: 'IN_PROGRESS',
+      progress: 68,
+      target: '68% of 100%',
+      description: 'Complete 100% of all assigned LMS training modules.'
     }
+  ];
+
+  const leaderboard = [
+    { rank: 1, name: 'Siddharth M', points: 1420, tasks: 32, streak: '18 Days', avatar: 'SM' },
+    { rank: 2, name: 'Ananya R', points: 1310, tasks: 29, streak: '15 Days', avatar: 'AR' },
+    { rank: 3, name: 'Jeevananthan V (You)', points: 1240, tasks: 28, streak: '14 Days', avatar: 'JV', isCurrent: true },
+    { rank: 4, name: 'Vikram S', points: 1180, tasks: 26, streak: '12 Days', avatar: 'VS' },
+    { rank: 5, name: 'Priya N', points: 1100, tasks: 25, streak: '10 Days', avatar: 'PN' }
   ];
 
   return (
     <AdminPage
       title="Achievements & Gamification"
-      subtitle="View your earned badges, engineering streaks, and performance milestones"
+      subtitle="Milestone badges, engineering streaks, points system, and cohort leaderboard"
     >
       <div className="container-fluid px-0">
         {/* KPI Stats Cards */}
@@ -88,7 +95,8 @@ export default function Achievements() {
                   </div>
                   <div>
                     <small className="text-muted fw-semibold d-block">{st.label}</small>
-                    <h3 className="fw-bold mb-0">{st.value}</h3>
+                    <h3 className="fw-bold mb-0 text-dark">{st.value}</h3>
+                    <small className="text-muted">{st.subtext}</small>
                   </div>
                 </div>
               </div>
@@ -96,27 +104,60 @@ export default function Achievements() {
           ))}
         </div>
 
-        {/* Earned Badges Showcase */}
+        {/* Badges Grid */}
         <div className="card shadow-sm border-0 mb-4">
-          <div className="card-header bg-white py-3 border-0">
-            <h5 className="mb-0 fw-bold text-success">
-              <i className="bi bi-patch-check-fill me-2"></i>Earned Badges ({earnedBadges.length})
+          <div className="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
+            <h5 className="mb-0 fw-bold text-dark">
+              <i className="bi bi-patch-check-fill text-warning me-2"></i>Badges & Honors
             </h5>
+            <span className="badge bg-light text-secondary border">
+              {badges.filter((b) => b.status === 'EARNED').length} of {badges.length} Unlocked
+            </span>
           </div>
           <div className="card-body p-4 pt-0">
             <div className="row g-3">
-              {earnedBadges.map((badge) => (
-                <div key={badge.id} className="col-md-6 col-lg-3">
-                  <div className="card border p-3 text-center h-100 bg-light-subtle rounded-3">
-                    <div className="display-4 mb-2">{badge.icon}</div>
-                    <h6 className="fw-bold mb-1">{badge.name}</h6>
-                    <span className="badge bg-warning-subtle text-dark border mx-auto mb-2">
-                      {badge.tier} Tier
-                    </span>
-                    <p className="text-muted small mb-2 flex-grow-1">{badge.description}</p>
-                    <small className="text-muted border-top pt-2">
-                      Earned on {badge.earnedDate}
-                    </small>
+              {badges.map((b) => (
+                <div key={b.id} className="col-md-6 col-lg-4">
+                  <div
+                    className={`card border p-3 h-100 rounded-3 text-center ${
+                      b.status === 'EARNED' ? 'bg-light-subtle' : 'opacity-75'
+                    }`}
+                  >
+                    <div className="display-4 mb-2">{b.icon}</div>
+                    <h6 className="fw-bold mb-1 text-dark">{b.name}</h6>
+                    <div className="mb-2">
+                      <span className="badge bg-warning-subtle text-dark border small me-1">
+                        {b.tier}
+                      </span>
+                      <span
+                        className={`badge small ${
+                          b.status === 'EARNED' ? 'bg-success-subtle text-success' : 'bg-secondary'
+                        }`}
+                      >
+                        {b.status === 'EARNED' ? 'Earned' : 'In Progress'}
+                      </span>
+                    </div>
+
+                    <p className="text-muted small mb-3 flex-grow-1">{b.description}</p>
+
+                    {b.status === 'EARNED' ? (
+                      <small className="text-muted border-top pt-2">
+                        Earned on {b.earnedDate}
+                      </small>
+                    ) : (
+                      <div className="border-top pt-2 mt-auto">
+                        <div className="d-flex justify-content-between small text-muted mb-1">
+                          <span>{b.target}</span>
+                          <strong>{b.progress}%</strong>
+                        </div>
+                        <div className="progress" style={{ height: '6px' }}>
+                          <div
+                            className="progress-bar bg-primary"
+                            style={{ width: `${b.progress}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
@@ -124,43 +165,68 @@ export default function Achievements() {
           </div>
         </div>
 
-        {/* Badges In Progress */}
+        {/* Cohort Leaderboard & Points System */}
         <div className="card shadow-sm border-0">
-          <div className="card-header bg-white py-3 border-0">
-            <h5 className="mb-0 fw-bold text-primary">
-              <i className="bi bi-hourglass-top me-2"></i>Badges In Progress
-            </h5>
-          </div>
-          <div className="card-body p-4 pt-0">
-            <div className="row g-3">
-              {inProgressBadges.map((badge) => (
-                <div key={badge.id} className="col-md-4">
-                  <div className="card border p-3 h-100 rounded-3">
-                    <div className="d-flex align-items-center gap-3 mb-2">
-                      <span className="fs-1">{badge.icon}</span>
-                      <div>
-                        <h6 className="fw-bold mb-0">{badge.name}</h6>
-                        <small className="text-muted">{badge.target}</small>
-                      </div>
-                    </div>
-                    <p className="text-muted small mb-3">{badge.description}</p>
-                    <div className="mt-auto">
-                      <div className="d-flex justify-content-between small text-muted mb-1">
-                        <span>Progress</span>
-                        <span className="fw-bold">{badge.progress}%</span>
-                      </div>
-                      <div className="progress" style={{ height: '6px' }}>
-                        <div
-                          className="progress-bar bg-primary"
-                          style={{ width: `${badge.progress}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+          <div className="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div>
+              <h5 className="mb-0 fw-bold text-dark">
+                <i className="bi bi-trophy-fill text-warning me-2"></i>Cohort Leaderboard
+              </h5>
+              <small className="text-muted">
+                Points: Attendance (+10/day), Task completed (+25), Assignment on time (+50), High mentor rating (+30)
+              </small>
             </div>
+            <button
+              type="button"
+              className="btn btn-outline-secondary btn-sm"
+              onClick={() => setShowLeaderboard(!showLeaderboard)}
+            >
+              {showLeaderboard ? 'Hide Leaderboard' : 'Show Leaderboard'}
+            </button>
           </div>
+
+          {showLeaderboard && (
+            <div className="table-responsive">
+              <table className="table table-hover align-middle mb-0">
+                <thead className="table-light">
+                  <tr>
+                    <th scope="col" className="ps-4" style={{ width: '60px' }}>Rank</th>
+                    <th scope="col">Intern</th>
+                    <th scope="col">Total Points</th>
+                    <th scope="col">Tasks Completed</th>
+                    <th scope="col">Current Streak</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {leaderboard.map((item) => (
+                    <tr
+                      key={item.rank}
+                      className={item.isCurrent ? 'table-primary fw-bold' : ''}
+                    >
+                      <td className="ps-4">
+                        {item.rank === 1 ? '🥇' : item.rank === 2 ? '🥈' : item.rank === 3 ? '🥉' : `#${item.rank}`}
+                      </td>
+                      <td>
+                        <div className="d-flex align-items-center gap-2">
+                          <div className="avatar-circle bg-primary text-white rounded-circle d-flex align-items-center justify-content-center small fw-bold" style={{ width: '32px', height: '32px' }}>
+                            {item.avatar}
+                          </div>
+                          <span>{item.name}</span>
+                        </div>
+                      </td>
+                      <td className="text-primary">{item.points} pts</td>
+                      <td>{item.tasks} tasks</td>
+                      <td>
+                        <span className="badge bg-warning-subtle text-dark border">
+                          <i className="bi bi-fire text-warning me-1"></i>{item.streak}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
     </AdminPage>

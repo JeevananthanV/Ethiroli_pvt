@@ -60,3 +60,9 @@ export const getInternDashboard = asyncHandler(async (req, res) => {
   return success(res, 200, dashboardData, 'Intern dashboard data retrieved');
 });
 
+export const getInternPortalConfig = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const config = await Intern.getPortalConfig(userId);
+  return success(res, 200, config, 'Intern portal configuration retrieved');
+});
+

@@ -15,3 +15,8 @@ export const getInternDashboard = async () => {
   return response.data;
 };
 
+export const getInternPortalConfig = async () => {
+  const response = await axiosInstance.get('/v1/interns/portal-config');
+  return response.data;
+};
+

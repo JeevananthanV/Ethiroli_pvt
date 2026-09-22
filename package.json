@@ -4,11 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "npm --prefix ethiroli-react/frontend run build",
-    "postinstall": "npm --prefix ethiroli-react/frontend install",
-    "dev": "npm --prefix ethiroli-react/frontend run dev",
-    "lint": "npm --prefix ethiroli-react/frontend run lint",
+    "build": "npm --prefix frontend run build",
+    "postinstall": "npm --prefix frontend install",
+    "dev": "npm --prefix frontend run dev",
+    "lint": "npm --prefix frontend run lint",
     "test": "echo \"Platform tests: OK\"",
-    "test:backend": "npm --prefix ethiroli-react/backend test"
+    "test:backend": "npm --prefix backend test"
   }
 }

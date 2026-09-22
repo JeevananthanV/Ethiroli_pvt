@@ -1,9 +1,9 @@
 import 'dotenv/config';
-import { validateBody } from './src/middleware/validation.js';
-import Employee from './src/models/Employee.js';
-import Leave from './src/models/Leave.js';
-import Attendance from './src/models/Attendance.js';
-import Payroll from './src/models/Payroll.js';
+import { validateBody } from '../src/middleware/validation.js';
+import Employee from '../src/models/Employee.js';
+import Leave from '../src/models/Leave.js';
+import Attendance from '../src/models/Attendance.js';
+import Payroll from '../src/models/Payroll.js';
 
 async function runHrmsAuditTests() {
   console.log('=== HRMS Comprehensive Architectural Verification ===\n');

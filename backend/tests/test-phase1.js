@@ -1,8 +1,8 @@
 import 'dotenv/config';
-import { encrypt, decrypt, encryptDeterministic } from './src/config/encryption.js';
-import User from './src/models/User.js';
-import Lead from './src/models/Lead.js';
-import pool from './src/config/database.js';
+import { encrypt, decrypt, encryptDeterministic } from '../src/config/encryption.js';
+import User from '../src/models/User.js';
+import Lead from '../src/models/Lead.js';
+import pool from '../src/config/database.js';
 
 async function runTests() {
   console.log('--- Phase 1 Self-Verification Test Suite ---');

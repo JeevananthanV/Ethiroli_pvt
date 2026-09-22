@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import pool from './src/config/database.js';
+import pool from '../src/config/database.js';
 
 async function run() {
   const [cols] = await pool.query('DESCRIBE sessions');

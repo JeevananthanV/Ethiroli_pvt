@@ -1,9 +1,9 @@
 import 'dotenv/config';
-import StudentProject from './src/models/StudentProject.js';
-import MindMapNode from './src/models/MindMapNode.js';
-import Certificate from './src/models/Certificate.js';
-import SystemErrorLog from './src/models/SystemErrorLog.js';
-import pool from './src/config/database.js';
+import StudentProject from '../src/models/StudentProject.js';
+import MindMapNode from '../src/models/MindMapNode.js';
+import Certificate from '../src/models/Certificate.js';
+import SystemErrorLog from '../src/models/SystemErrorLog.js';
+import pool from '../src/config/database.js';
 
 async function runTests() {
   console.log('--- Phase 6 Self-Verification Test Suite ---');

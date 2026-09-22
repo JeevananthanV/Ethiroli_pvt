@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
-    "test": "node test-phase1.js",
-    "test:all": "node test-phase1.js && node test-phase2.js && node test-phase3.js && node test-phase4.js && node test-phase5.js && node test-phase6.js && node test-phase7.js && node test-phase8.js",
+    "test": "node tests/test-phase1.js",
+    "test:all": "node tests/test-phase1.js && node tests/test-phase2.js && node tests/test-phase3.js && node tests/test-phase4.js && node tests/test-phase5.js && node tests/test-phase6.js && node tests/test-phase7.js && node tests/test-phase8.js",
+    "seed": "node scripts/seed-hr-data.js",
     "lint": "echo 'No linter configured'",
     "migrate": "node src/config/migrate.js"
   },

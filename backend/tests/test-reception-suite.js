@@ -1,9 +1,9 @@
-import ReceptionAppointment from './src/models/ReceptionAppointment.js';
-import ReceptionReceipt from './src/models/ReceptionReceipt.js';
-import VisitorLog from './src/models/VisitorLog.js';
-import * as receptionController from './src/controllers/receptionController.js';
-import receptionRoutes from './src/routes/receptionRoutes.js';
-import pool from './src/config/database.js';
+import ReceptionAppointment from '../src/models/ReceptionAppointment.js';
+import ReceptionReceipt from '../src/models/ReceptionReceipt.js';
+import VisitorLog from '../src/models/VisitorLog.js';
+import * as receptionController from '../src/controllers/receptionController.js';
+import receptionRoutes from '../src/routes/receptionRoutes.js';
+import pool from '../src/config/database.js';
 
 async function runTests() {
   console.log('=== Starting Reception Dashboard Architecture & Model Test Suite ===\n');

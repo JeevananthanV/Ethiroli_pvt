@@ -1,8 +1,8 @@
-import pool from './src/config/database.js';
-import VisitorLog from './src/models/VisitorLog.js';
-import Timesheet from './src/models/Timesheet.js';
-import * as operationsController from './src/controllers/operationsController.js';
-import operationsRoutes from './src/routes/operationsRoutes.js';
+import pool from '../src/config/database.js';
+import VisitorLog from '../src/models/VisitorLog.js';
+import Timesheet from '../src/models/Timesheet.js';
+import * as operationsController from '../src/controllers/operationsController.js';
+import operationsRoutes from '../src/routes/operationsRoutes.js';
 
 async function runOperationsTests() {
   console.log('=== Starting Operations Suite Architecture & Model Test Suite ===\n');

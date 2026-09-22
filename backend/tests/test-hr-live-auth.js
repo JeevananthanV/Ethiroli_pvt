@@ -1,11 +1,11 @@
 import 'dotenv/config';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
-import User from './src/models/User.js';
-import Session from './src/models/Session.js';
-import Employee from './src/models/Employee.js';
-import Attendance from './src/models/Attendance.js';
-import Leave from './src/models/Leave.js';
+import User from '../src/models/User.js';
+import Session from '../src/models/Session.js';
+import Employee from '../src/models/Employee.js';
+import Attendance from '../src/models/Attendance.js';
+import Leave from '../src/models/Leave.js';
 
 async function runHrAuthLiveDataTests() {
   console.log('\n=== HR Authentication & Live Data Test Suite ===\n');

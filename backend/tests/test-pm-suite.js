@@ -1,10 +1,10 @@
-import pool from './src/config/database.js';
-import ProjectMilestone from './src/models/ProjectMilestone.js';
-import ProjectSprint from './src/models/ProjectSprint.js';
-import ProjectFile from './src/models/ProjectFile.js';
-import ProjectExpense from './src/models/ProjectExpense.js';
-import * as pmController from './src/controllers/pmController.js';
-import pmRoutes from './src/routes/pmRoutes.js';
+import pool from '../src/config/database.js';
+import ProjectMilestone from '../src/models/ProjectMilestone.js';
+import ProjectSprint from '../src/models/ProjectSprint.js';
+import ProjectFile from '../src/models/ProjectFile.js';
+import ProjectExpense from '../src/models/ProjectExpense.js';
+import * as pmController from '../src/controllers/pmController.js';
+import pmRoutes from '../src/routes/pmRoutes.js';
 
 async function runPMSuiteTests() {
   console.log('=== Starting Project Management Dashboard Architecture & Model Test Suite ===\n');

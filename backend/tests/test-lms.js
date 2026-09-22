@@ -1,8 +1,8 @@
-import pool from './src/config/database.js';
-import Batch from './src/models/Batch.js';
-import Doubt from './src/models/Doubt.js';
-import Course from './src/models/Course.js';
-import User from './src/models/User.js';
+import pool from '../src/config/database.js';
+import Batch from '../src/models/Batch.js';
+import Doubt from '../src/models/Doubt.js';
+import Course from '../src/models/Course.js';
+import User from '../src/models/User.js';
 
 async function runLMSTests() {
   console.log('=== Starting LMS Backend Architecture & Model Test Suite ===\n');

@@ -1,9 +1,9 @@
-import FinancialRefund from './src/models/FinancialRefund.js';
-import FinancialBudget from './src/models/FinancialBudget.js';
-import TaxFiling from './src/models/TaxFiling.js';
-import * as financeController from './src/controllers/financeController.js';
-import financeRoutes from './src/routes/financeRoutes.js';
-import pool from './src/config/database.js';
+import FinancialRefund from '../src/models/FinancialRefund.js';
+import FinancialBudget from '../src/models/FinancialBudget.js';
+import TaxFiling from '../src/models/TaxFiling.js';
+import * as financeController from '../src/controllers/financeController.js';
+import financeRoutes from '../src/routes/financeRoutes.js';
+import pool from '../src/config/database.js';
 
 async function runTests() {
   console.log('=== Starting Finance Dashboard Architecture & Model Test Suite ===\n');

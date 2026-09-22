@@ -1,8 +1,8 @@
 import 'dotenv/config';
-import Job from './src/models/Job.js';
-import Candidate from './src/models/Candidate.js';
-import CommunicationLog from './src/models/CommunicationLog.js';
-import Integration from './src/models/Integration.js';
+import Job from '../src/models/Job.js';
+import Candidate from '../src/models/Candidate.js';
+import CommunicationLog from '../src/models/CommunicationLog.js';
+import Integration from '../src/models/Integration.js';
 
 async function runTests() {
   console.log('--- Phase 4 Self-Verification Test Suite ---');

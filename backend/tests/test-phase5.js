@@ -1,11 +1,11 @@
 import 'dotenv/config';
-import SalaryStructure from './src/models/SalaryStructure.js';
-import Payroll from './src/models/Payroll.js';
-import CalendarEvent from './src/models/CalendarEvent.js';
-import Holiday from './src/models/Holiday.js';
-import CompanySetting from './src/models/CompanySetting.js';
-import { calculateSalaryComponents } from './src/services/payrollCalculator.js';
-import pool from './src/config/database.js';
+import SalaryStructure from '../src/models/SalaryStructure.js';
+import Payroll from '../src/models/Payroll.js';
+import CalendarEvent from '../src/models/CalendarEvent.js';
+import Holiday from '../src/models/Holiday.js';
+import CompanySetting from '../src/models/CompanySetting.js';
+import { calculateSalaryComponents } from '../src/services/payrollCalculator.js';
+import pool from '../src/config/database.js';
 
 async function runTests() {
   console.log('--- Phase 5 Self-Verification Test Suite ---');

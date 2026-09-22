@@ -1,7 +1,7 @@
 import http from 'http';
-import app from './src/app.js';
-import { attachSocket } from './src/socket/index.js';
-import pool from './src/config/database.js';
+import app from '../src/app.js';
+import { attachSocket } from '../src/socket/index.js';
+import pool from '../src/config/database.js';
 
 const TEST_PORT = 5005;
 

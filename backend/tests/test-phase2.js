@@ -1,10 +1,10 @@
 import 'dotenv/config';
-import Course from './src/models/Course.js';
-import Module from './src/models/Module.js';
-import Lesson from './src/models/Lesson.js';
-import Attendance from './src/models/Attendance.js';
-import Leave from './src/models/Leave.js';
-import pool from './src/config/database.js';
+import Course from '../src/models/Course.js';
+import Module from '../src/models/Module.js';
+import Lesson from '../src/models/Lesson.js';
+import Attendance from '../src/models/Attendance.js';
+import Leave from '../src/models/Leave.js';
+import pool from '../src/config/database.js';
 
 async function runTests() {
   console.log('--- Phase 2 Self-Verification Test Suite ---');

@@ -1,10 +1,10 @@
-import pool from './src/config/database.js';
-import SupportTicket from './src/models/SupportTicket.js';
-import ProjectMember from './src/models/ProjectMember.js';
-import Message from './src/models/Message.js';
-import Employee from './src/models/Employee.js';
-import Attendance from './src/models/Attendance.js';
-import Leave from './src/models/Leave.js';
+import pool from '../src/config/database.js';
+import SupportTicket from '../src/models/SupportTicket.js';
+import ProjectMember from '../src/models/ProjectMember.js';
+import Message from '../src/models/Message.js';
+import Employee from '../src/models/Employee.js';
+import Attendance from '../src/models/Attendance.js';
+import Leave from '../src/models/Leave.js';
 
 async function runTests() {
   console.log('--- Starting Employee Portal Integration Test Suite ---');

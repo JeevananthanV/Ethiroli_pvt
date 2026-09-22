@@ -1,9 +1,9 @@
 import 'dotenv/config';
-import DeviceRegistration from './src/models/DeviceRegistration.js';
-import PredictionLog from './src/models/PredictionLog.js';
-import AutomationWorkflow from './src/models/AutomationWorkflow.js';
-import AnomalyLog from './src/models/AnomalyLog.js';
-import pool from './src/config/database.js';
+import DeviceRegistration from '../src/models/DeviceRegistration.js';
+import PredictionLog from '../src/models/PredictionLog.js';
+import AutomationWorkflow from '../src/models/AutomationWorkflow.js';
+import AnomalyLog from '../src/models/AnomalyLog.js';
+import pool from '../src/config/database.js';
 
 async function runTests() {
   console.log('--- Phase 8 Self-Verification Test Suite ---');

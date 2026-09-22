@@ -1,10 +1,10 @@
 import 'dotenv/config';
-import Tenant from './src/models/Tenant.js';
-import Product from './src/models/Product.js';
-import Coupon from './src/models/Coupon.js';
-import ReportDefinition from './src/models/ReportDefinition.js';
-import ApiKey from './src/models/ApiKey.js';
-import pool from './src/config/database.js';
+import Tenant from '../src/models/Tenant.js';
+import Product from '../src/models/Product.js';
+import Coupon from '../src/models/Coupon.js';
+import ReportDefinition from '../src/models/ReportDefinition.js';
+import ApiKey from '../src/models/ApiKey.js';
+import pool from '../src/config/database.js';
 
 async function runTests() {
   console.log('--- Phase 7 Self-Verification Test Suite ---');

@@ -1,11 +1,11 @@
-import SalesDeal from './src/models/SalesDeal.js';
-import SalesProposal from './src/models/SalesProposal.js';
-import SalesActivity from './src/models/SalesActivity.js';
-import SalesTarget from './src/models/SalesTarget.js';
-import CustomerHandover from './src/models/CustomerHandover.js';
-import * as salesController from './src/controllers/salesController.js';
-import salesRoutes from './src/routes/salesRoutes.js';
-import pool from './src/config/database.js';
+import SalesDeal from '../src/models/SalesDeal.js';
+import SalesProposal from '../src/models/SalesProposal.js';
+import SalesActivity from '../src/models/SalesActivity.js';
+import SalesTarget from '../src/models/SalesTarget.js';
+import CustomerHandover from '../src/models/CustomerHandover.js';
+import * as salesController from '../src/controllers/salesController.js';
+import salesRoutes from '../src/routes/salesRoutes.js';
+import pool from '../src/config/database.js';
 
 async function runTests() {
   console.log('=== Starting Sales Dashboard Architecture & Model Test Suite ===\n');

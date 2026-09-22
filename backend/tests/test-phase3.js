@@ -1,9 +1,9 @@
 import 'dotenv/config';
-import Transaction from './src/models/Transaction.js';
-import Invoice from './src/models/Invoice.js';
-import ForumPost from './src/models/ForumPost.js';
-import Badge from './src/models/Badge.js';
-import pool from './src/config/database.js';
+import Transaction from '../src/models/Transaction.js';
+import Invoice from '../src/models/Invoice.js';
+import ForumPost from '../src/models/ForumPost.js';
+import Badge from '../src/models/Badge.js';
+import pool from '../src/config/database.js';
 
 async function runTests() {
   console.log('--- Phase 3 Self-Verification Test Suite ---');

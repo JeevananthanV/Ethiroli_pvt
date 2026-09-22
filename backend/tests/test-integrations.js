@@ -51,7 +51,7 @@ async function runTests() {
   console.log('\n[3/5] Testing Brevo Quota & Email Dispatch...');
   try {
     // We test direct service function for auth-bypassed internal test
-    const { getDailyQuotaStatus, sendBrevoEmail } = await import('./src/services/brevoService.js');
+    const { getDailyQuotaStatus, sendBrevoEmail } = await import('../src/services/brevoService.js');
     const quotaBefore = await getDailyQuotaStatus();
     console.log('Quota Before Dispatch:', quotaBefore);
 
@@ -99,7 +99,7 @@ async function runTests() {
   // 5. Test FCM Service Dispatch & Device Registration
   console.log('\n[5/5] Testing FCM Push Notification Dispatch...');
   try {
-    const { sendToRole } = await import('./src/services/fcmService.js');
+    const { sendToRole } = await import('../src/services/fcmService.js');
     const fcmRes = await sendToRole('HR', {
       title: 'FCM Verification Push',
       body: 'Firebase Cloud Messaging integration test completed successfully.',

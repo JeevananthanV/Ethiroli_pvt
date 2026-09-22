@@ -2,12 +2,12 @@ import 'dotenv/config';
 import Axios from 'axios';
 import { createServer } from 'http';
 import { io as ioClient } from 'socket.io-client';
-import User from './src/models/User.js';
-import Session from './src/models/Session.js';
-import Employee from './src/models/Employee.js';
-import Attendance from './src/models/Attendance.js';
-import Leave from './src/models/Leave.js';
-import app from './src/app.js';
+import User from '../src/models/User.js';
+import Session from '../src/models/Session.js';
+import Employee from '../src/models/Employee.js';
+import Attendance from '../src/models/Attendance.js';
+import Leave from '../src/models/Leave.js';
+import app from '../src/app.js';
 
 const API_URL = 'http://localhost:3001';
 const SOCKET_URL = 'http://localhost:3003';

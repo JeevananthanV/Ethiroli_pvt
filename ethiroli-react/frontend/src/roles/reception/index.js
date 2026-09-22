@@ -1,2 +1,21 @@
-// Export placeholder for index.js
-export default {};
+export { default as ReceptionDashboard } from './pages/Dashboard.jsx';
+export { default as ReceptionEnquiries } from './pages/Enquiries.jsx';
+export { default as ReceptionLeads } from './pages/Leads.jsx';
+export { default as ReceptionVisitors } from './pages/Visitors.jsx';
+export { default as ReceptionFollowUps } from './pages/FollowUps.jsx';
+export { default as ReceptionStudents } from './pages/Students.jsx';
+export { default as ReceptionInterns } from './pages/Interns.jsx';
+export { default as ReceptionEmployees } from './pages/Employees.jsx';
+export { default as ReceptionAdmissions } from './pages/Admissions.jsx';
+export { default as ReceptionAttendance } from './pages/Attendance.jsx';
+export { default as ReceptionRegistration } from './pages/Registration.jsx';
+export { default as ReceptionAppointments } from './pages/Appointments.jsx';
+export { default as ReceptionCalendar } from './pages/Calendar.jsx';
+export { default as ReceptionDocuments } from './pages/Documents.jsx';
+export { default as ReceptionPayments } from './pages/Payments.jsx';
+export { default as ReceptionReceipts } from './pages/Receipts.jsx';
+export { default as ReceptionCommunications } from './pages/Communications.jsx';
+export { default as ReceptionAnnouncements } from './pages/Announcements.jsx';
+export { default as ReceptionNotifications } from './pages/Notifications.jsx';
+export { default as ReceptionReports } from './pages/Reports.jsx';
+export { default as ReceptionProfile } from './pages/Profile.jsx';

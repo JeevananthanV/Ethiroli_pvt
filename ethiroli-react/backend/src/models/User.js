@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import pool from '../config/database.js';
 import { encrypt, decrypt, encryptDeterministic } from '../config/encryption.js';
 
@@ -19,27 +20,42 @@ export default class User {
   }
 
   static async findByEmail(email) {
-    const hashedEmail = encryptDeterministic(email.toLowerCase().trim());
+    if (!email) return null;
+    const rawEmail = email.toLowerCase().trim();
+    const hashedEmail = encryptDeterministic(rawEmail);
     const [rows] = await pool.execute(
-      'SELECT * FROM users WHERE email = ? AND is_active = TRUE',
-      [hashedEmail]
+      'SELECT * FROM users WHERE (email = ? OR email = ?) AND is_active = TRUE LIMIT 1',
+      [hashedEmail, rawEmail]
     );
-    return rows.length > 0 ? this.format(rows[0]) : null;
+    if (rows.length > 0) {
+      return this.format(rows[0]);
+    }
+    const [allRows] = await pool.execute('SELECT * FROM users WHERE is_active = TRUE');
+    for (const row of allRows) {
+      try {
+        if (decrypt(row.email)?.toLowerCase() === rawEmail) {
+          return this.format(row);
+        }
+      } catch {
+        // ignore decryption failures on plaintext or malformed data
+      }
+    }
+    return null;
   }
 
-  static async create({ email, password_hash, full_name, phone, role, preferences = null }) {
+  static async create({ id = crypto.randomUUID(), email, password_hash, full_name, phone, role, preferences = null }) {
     const encEmail = encryptDeterministic(email.toLowerCase().trim());
     const encFullName = encrypt(full_name);
     const encPhone = phone ? encrypt(phone) : null;
     const prefJson = preferences ? JSON.stringify(preferences) : null;
 
-    const [result] = await pool.execute(
-      `INSERT INTO users (email, password_hash, full_name, phone, role, preferences) 
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [encEmail, password_hash, encFullName, encPhone, role, prefJson]
+    await pool.execute(
+      `INSERT INTO users (id, email, password_hash, full_name, phone, role, preferences) 
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [id, encEmail, password_hash, encFullName, encPhone, role, prefJson]
     );
 
-    return result.insertId || result.info;
+    return id;
   }
 
   static async update(id, updates) {

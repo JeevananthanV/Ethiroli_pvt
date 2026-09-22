@@ -20,7 +20,7 @@ const SalesDashboard = lazy(() => import('./roles/sales/pages/Dashboard'));
 const ReceptionDashboard = lazy(() => import('./roles/reception/pages/Dashboard'));
 const EmployeeDashboard = lazy(() => import('./roles/employee/pages/Dashboard'));
 const StudentDashboard = lazy(() => import('./roles/student/pages/Dashboard'));
-const InternDashboard = lazy(() => import('./roles/intern/pages/Dashboard'));
+const InternApp = lazy(() => import('./roles/intern/InternApp'));
 
 const ROLE_DASHBOARD_MAP = {
   SUPER_ADMIN: SuperAdminDashboard,
@@ -33,7 +33,7 @@ const ROLE_DASHBOARD_MAP = {
   RECEPTION: ReceptionDashboard,
   EMPLOYEE: EmployeeDashboard,
   STUDENT: StudentDashboard,
-  INTERN: InternDashboard,
+  INTERN: InternApp,
 };
 
 function LoadingSpinner() {

@@ -50,13 +50,17 @@ export default function Dashboard() {
                   <Link to="/app/intern/training-plan" className="btn btn-outline-primary">My Training Plan</Link>
                   <Link to="/app/intern/tasks" className="btn btn-outline-info">Daily Tasks</Link>
                   <Link to="/app/intern/attendance" className="btn btn-outline-success">Attendance</Link>
+                  <Link to="/app/intern/work-log" className="btn btn-outline-dark">Daily Work Log</Link>
                   <Link to="/app/intern/projects" className="btn btn-outline-warning">Projects</Link>
                   <Link to="/app/intern/assignments" className="btn btn-outline-secondary">Assignments</Link>
-                  <Link to="/app/intern/work-log" className="btn btn-outline-dark">Daily Work Log</Link>
-                  <Link to="/app/intern/mentor" className="btn btn-outline-secondary">Mentor</Link>
+                  <Link to="/app/intern/courses" className="btn btn-outline-primary">LMS Courses</Link>
+                  <Link to="/app/intern/mentor" className="btn btn-outline-secondary">Mentor & Doubts</Link>
+                  <Link to="/app/intern/achievements" className="btn btn-outline-warning">Achievements</Link>
+                  <Link to="/app/intern/certificates" className="btn btn-outline-success">Certificates</Link>
+                  <Link to="/app/intern/documents" className="btn btn-outline-secondary">Documents</Link>
                   <Link to="/app/intern/feedback" className="btn btn-outline-secondary">Feedback</Link>
                   <Link to="/app/intern/calendar" className="btn btn-outline-secondary">Calendar</Link>
-                  <Link to="/app/intern/documents" className="btn btn-outline-secondary">Documents</Link>
+                  <Link to="/app/intern/profile" className="btn btn-outline-dark">Profile</Link>
                 </div>
               </div>
             </div>

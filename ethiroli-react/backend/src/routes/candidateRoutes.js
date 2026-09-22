@@ -1,16 +1,31 @@
 import express from 'express';
-import { listCandidates, createCandidate, getCandidate, updateCandidate, deleteCandidate } from '../controllers/candidateController.js';
+import {
+  listCandidates,
+  listCareerApplications,
+  createCandidate,
+  getCandidate,
+  updateCandidate,
+  deleteCandidate,
+  deleteCareerApplication
+} from '../controllers/candidateController.js';
 import { authenticate } from '../middleware/auth.js';
 import { requireRole } from '../middleware/rbac.js';
-import { validateBody } from '../middleware/validation.js';
 
 const router = express.Router();
-router.use(authenticate);
 
-router.get('/candidates', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), listCandidates);
-router.post('/candidates', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), validateBody('createCandidate'), createCandidate);
-router.get('/candidates/:id', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), getCandidate);
-router.patch('/candidates/:id', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), validateBody('createCandidate'), updateCandidate);
-router.delete('/candidates/:id', requireRole('ADMIN', 'SUPER_ADMIN'), deleteCandidate);
+// Public submission endpoints (supports POST / or /candidates or /apply)
+router.post('/', createCandidate);
+router.post('/candidates', createCandidate);
+router.post('/apply', createCandidate);
+router.post('/candidates/apply', createCandidate);
+
+// Protected endpoints for HR and Admins
+router.get('/', authenticate, requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), listCandidates);
+router.get('/candidates', authenticate, requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), listCandidates);
+router.get('/applications', authenticate, requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), listCareerApplications);
+router.get('/:id', authenticate, requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), getCandidate);
+router.patch('/:id', authenticate, requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), updateCandidate);
+router.delete('/:id', authenticate, requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), deleteCandidate);
+router.delete('/applications/:id', authenticate, requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), deleteCareerApplication);
 
 export default router;

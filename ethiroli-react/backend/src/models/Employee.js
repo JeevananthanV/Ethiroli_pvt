@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import pool from '../config/database.js';
 import { encrypt, decrypt } from '../config/encryption.js';
 
@@ -22,13 +23,13 @@ export default class Employee {
     return rows.length > 0 ? this.format(rows[0]) : null;
   }
 
-  static async create({ user_id, employee_code, department, designation, date_of_joining, pan = null, bank_account = null, pf_number = null }) {
-    const [result] = await pool.execute(
-      `INSERT INTO employees (user_id, employee_code, department, designation, date_of_joining, pan, bank_account, pf_number)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [user_id, employee_code, department, designation, date_of_joining, pan ? encrypt(pan) : null, bank_account ? encrypt(bank_account) : null, pf_number ? encrypt(pf_number) : null]
+  static async create({ id = crypto.randomUUID(), user_id, employee_code, department, designation, date_of_joining, pan = null, bank_account = null, pf_number = null }) {
+    await pool.execute(
+      `INSERT INTO employees (id, user_id, employee_code, department, designation, date_of_joining, pan, bank_account, pf_number)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [id, user_id, employee_code, department, designation, date_of_joining, pan ? encrypt(pan) : null, bank_account ? encrypt(bank_account) : null, pf_number ? encrypt(pf_number) : null]
     );
-    return result.insertId || result.info;
+    return id;
   }
 
   static async update(id, updates) {

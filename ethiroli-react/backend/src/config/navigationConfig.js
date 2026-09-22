@@ -1,25 +1,82 @@
 export const ROLE_NAVIGATION = Object.freeze({
   SUPER_ADMIN: [
     { label: 'Dashboard', path: '/app/super-admin/dashboard', icon: 'dashboard' },
-    { label: 'Organizations / Tenants', path: '/app/super-admin/tenants', icon: 'domain' },
-    { label: 'Plans & Billing', path: '/app/super-admin/billing', icon: 'payments' },
-    { label: 'Subscriptions', path: '/app/super-admin/subscriptions', icon: 'subscriptions' },
-    { label: 'Feature Flags', path: '/app/super-admin/feature-flags', icon: 'toggles' },
-    { label: 'Backups', path: '/app/super-admin/backups', icon: 'backup' },
-    { label: 'API Keys', path: '/app/super-admin/api-keys', icon: 'key' },
-    { label: 'Notifications', path: '/app/super-admin/notifications', icon: 'notifications' },
-    { label: 'Security', path: '/app/super-admin/security', icon: 'security' },
-    { label: 'Users', path: '/app/super-admin/users', icon: 'group' },
-    { label: 'Leads (CRM)', path: '/app/super-admin/leads', icon: 'contact_mail' },
-    { label: 'System Monitoring', path: '/app/super-admin/monitoring', icon: 'monitor_heart' },
-    { label: 'System Search', path: '/app/super-admin/system-search', icon: 'search' },
-    { label: 'Audit Logs', path: '/app/super-admin/audit-logs', icon: 'history' },
-    { label: 'Settings', path: '/app/super-admin/settings', icon: 'settings' },
-    { label: 'Approvals', path: '/app/super-admin/approvals', icon: 'verified' },
-    { label: 'Calendar', path: '/app/super-admin/calendar', icon: 'calendar_month' },
-    { label: 'Jobs Board', path: '/app/super-admin/jobs-board', icon: 'work' },
-    { label: 'Gamification', path: '/app/super-admin/gamification', icon: 'emoji_events' },
-    { label: 'Integrations', path: '/app/super-admin/integrations', icon: 'hub' },
+    {
+      label: 'Platform',
+      icon: 'domain',
+      children: [
+        { label: 'Tenants / Organizations', path: '/app/super-admin/tenants', icon: 'domain' },
+        { label: 'Users', path: '/app/super-admin/users', icon: 'group' },
+        { label: 'Roles & Permissions', path: '/app/super-admin/roles-permissions', icon: 'admin_panel_settings' },
+        { label: 'Subscriptions & Plans', path: '/app/super-admin/plans', icon: 'subscriptions' },
+        { label: 'Platform Billing', path: '/app/super-admin/billing', icon: 'payments' },
+      ],
+    },
+    {
+      label: 'CRM',
+      icon: 'contact_mail',
+      children: [
+        { label: 'Leads (CRM)', path: '/app/super-admin/leads', icon: 'contact_mail' },
+      ],
+    },
+    {
+      label: 'Operations',
+      icon: 'calendar_month',
+      children: [
+        { label: 'Global Calendar', path: '/app/super-admin/calendar', icon: 'calendar_month' },
+        { label: 'Approvals', path: '/app/super-admin/approvals', icon: 'verified' },
+        { label: 'Notifications', path: '/app/super-admin/notifications', icon: 'notifications' },
+        { label: 'Communications', path: '/app/super-admin/communications', icon: 'forum' },
+      ],
+    },
+    {
+      label: 'Platform Services',
+      icon: 'smart_toy',
+      children: [
+        { label: 'Automation Studio', path: '/app/super-admin/automation', icon: 'smart_toy' },
+        { label: 'Integrations', path: '/app/super-admin/integrations', icon: 'hub' },
+        { label: 'Email / SMS / WhatsApp', path: '/app/super-admin/messaging', icon: 'sms' },
+        { label: 'Developer Portal', path: '/app/super-admin/developer', icon: 'code' },
+        { label: 'Marketplace', path: '/app/super-admin/marketplace', icon: 'storefront' },
+      ],
+    },
+    {
+      label: 'Analytics',
+      icon: 'bar_chart',
+      children: [
+        { label: 'Reports', path: '/app/super-admin/reports', icon: 'bar_chart' },
+        { label: 'AI Analytics', path: '/app/super-admin/analytics', icon: 'analytics' },
+        { label: 'Gamification', path: '/app/super-admin/gamification', icon: 'emoji_events' },
+      ],
+    },
+    {
+      label: 'System',
+      icon: 'monitor_heart',
+      children: [
+        { label: 'System Monitoring', path: '/app/super-admin/monitoring', icon: 'monitor_heart' },
+        { label: 'System Search', path: '/app/super-admin/system-search', icon: 'search' },
+        { label: 'Feature Flags', path: '/app/super-admin/feature-flags', icon: 'toggle_on' },
+        { label: 'System Configuration', path: '/app/super-admin/configuration', icon: 'tune' },
+        { label: 'Database / Storage', path: '/app/super-admin/storage', icon: 'storage' },
+        { label: 'Backup & Recovery', path: '/app/super-admin/backups', icon: 'backup' },
+      ],
+    },
+    {
+      label: 'Security',
+      icon: 'security',
+      children: [
+        { label: 'Security Center', path: '/app/super-admin/security', icon: 'security' },
+        { label: 'Audit Logs', path: '/app/super-admin/audit-logs', icon: 'history' },
+      ],
+    },
+    {
+      label: 'Administration',
+      icon: 'settings',
+      children: [
+        { label: 'Settings', path: '/app/super-admin/settings', icon: 'settings' },
+        { label: 'Admin Profile', path: '/app/super-admin/profile', icon: 'person' },
+      ],
+    },
   ],
   ADMIN: [
     { label: 'Dashboard', path: '/app/admin/dashboard', icon: 'dashboard' },

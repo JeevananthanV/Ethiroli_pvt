@@ -1,7 +1,7 @@
 import axiosInstance from './axiosInstance.js';
 
-export const getEmployees = async () => {
-  const response = await axiosInstance.get('/v1/employees');
+export const getEmployees = async (params = {}) => {
+  const response = await axiosInstance.get('/v1/employees', { params });
   return response.data;
 };
 
@@ -16,7 +16,12 @@ export const getEmployee = async (id) => {
 };
 
 export const updateEmployee = async (id, data) => {
-  const response = await axiosInstance.put(`/v1/employees/${id}`, data);
+  const response = await axiosInstance.patch(`/v1/employees/${id}`, data);
+  return response.data;
+};
+
+export const deleteEmployee = async (id) => {
+  const response = await axiosInstance.delete(`/v1/employees/${id}`);
   return response.data;
 };
 
@@ -27,4 +32,7 @@ export const employeeApi = {
   getById: getEmployee,
   create: createEmployee,
   update: updateEmployee,
+  delete: deleteEmployee,
 };
+
+export default employeeApi;

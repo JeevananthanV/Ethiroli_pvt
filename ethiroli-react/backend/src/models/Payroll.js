@@ -1,18 +1,45 @@
 import crypto from 'crypto';
 import pool from '../config/database.js';
+import { decrypt } from '../config/encryption.js';
 
 export default class Payroll {
   static format(row) {
     if (!row) return null;
-    return row;
+    const name = row.full_name ? decrypt(row.full_name) : (row.employee_name || null);
+    const basicVal = parseFloat(row.basic || 0);
+    const hraVal = parseFloat(row.hra || 0);
+    const daVal = parseFloat(row.da || 0);
+    const grossVal = parseFloat(row.gross_salary || (basicVal + hraVal + daVal));
+    const deductionsVal = parseFloat(row.total_deductions || 0);
+    const netVal = parseFloat(row.net_salary || (grossVal - deductionsVal));
+    const allowancesVal = hraVal + daVal;
+
+    return {
+      ...row,
+      full_name: name,
+      employee_name: name,
+      user_name: name,
+      basicSalary: basicVal,
+      allowances: allowancesVal,
+      deductions: deductionsVal,
+      netPay: netVal,
+      email: row.email ? decrypt(row.email) : null
+    };
   }
 
   static async findById(id) {
-    const [rows] = await pool.execute('SELECT * FROM payroll WHERE id = ?', [id]);
+    const [rows] = await pool.execute(
+      `SELECT p.*, u.full_name, u.email, e.employee_code, e.department, e.designation 
+       FROM payroll p 
+       JOIN employees e ON p.employee_id = e.id 
+       JOIN users u ON e.user_id = u.id 
+       WHERE p.id = ?`,
+      [id]
+    );
     return rows.length > 0 ? this.format(rows[0]) : null;
   }
 
-  static async create({ employee_id, month_year, basic, hra, da, pf_employee, pf_employer, esi_employee, esi_employer, tds, gross_salary, net_salary, total_deductions, status = 'DRAFT' }) {
+  static async create({ employee_id, month_year, basic, hra, da = 0, pf_employee = 0, pf_employer = 0, esi_employee = 0, esi_employer = 0, tds = 0, gross_salary, net_salary, total_deductions, status = 'DRAFT' }) {
     const id = crypto.randomUUID();
     await pool.execute(
       `INSERT INTO payroll (id, employee_id, month_year, basic, hra, da, pf_employee, pf_employer, esi_employee, esi_employer, tds, gross_salary, net_salary, total_deductions, status)
@@ -54,13 +81,19 @@ export default class Payroll {
   }
 
   static async list({ employee_id, status, limit = 50, offset = 0 } = {}) {
-    let query = 'SELECT * FROM payroll WHERE 1=1';
+    let query = `
+      SELECT p.*, u.full_name, u.email, e.employee_code, e.department, e.designation 
+      FROM payroll p
+      JOIN employees e ON p.employee_id = e.id
+      JOIN users u ON e.user_id = u.id
+      WHERE 1=1
+    `;
     const values = [];
 
-    if (employee_id) { query += ' AND employee_id = ?'; values.push(employee_id); }
-    if (status) { query += ' AND status = ?'; values.push(status); }
+    if (employee_id) { query += ' AND p.employee_id = ?'; values.push(employee_id); }
+    if (status) { query += ' AND p.status = ?'; values.push(status); }
 
-    query += ' ORDER BY month_year DESC LIMIT ? OFFSET ?';
+    query += ' ORDER BY p.month_year DESC LIMIT ? OFFSET ?';
     values.push(limit, offset);
 
     const [rows] = await pool.execute(query, values);
@@ -68,11 +101,16 @@ export default class Payroll {
   }
 
   static async count({ employee_id, status } = {}) {
-    let query = 'SELECT COUNT(*) as total FROM payroll WHERE 1=1';
+    let query = `
+      SELECT COUNT(*) as total 
+      FROM payroll p
+      JOIN employees e ON p.employee_id = e.id
+      WHERE 1=1
+    `;
     const values = [];
 
-    if (employee_id) { query += ' AND employee_id = ?'; values.push(employee_id); }
-    if (status) { query += ' AND status = ?'; values.push(status); }
+    if (employee_id) { query += ' AND p.employee_id = ?'; values.push(employee_id); }
+    if (status) { query += ' AND p.status = ?'; values.push(status); }
 
     const [rows] = await pool.execute(query, values);
     return rows[0].total;

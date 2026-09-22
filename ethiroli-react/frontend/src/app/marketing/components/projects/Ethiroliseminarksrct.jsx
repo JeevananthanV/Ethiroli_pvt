@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import SEO from "../shared/SEO";
-import "./seee.css";
 
 /* ── Tiny helpers ─────────────────────────────────────────── */
 function Icon({ name, className = "", style = {} }) {

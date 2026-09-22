@@ -1,2 +1,23 @@
-// Export placeholder for index.js
-export default {};
+export { default as AdminDashboard } from './pages/Dashboard.jsx';
+export { default as AdminUsers } from './pages/Users.jsx';
+export { default as AdminTutors } from './pages/Tutors.jsx';
+export { default as AdminSettings } from './pages/Settings.jsx';
+export { default as AdminLeads } from './pages/Leads.jsx';
+export { default as AdminHR } from './pages/HR.jsx';
+export { default as AdminLMS } from './pages/LMS.jsx';
+export { default as AdminPMS } from './pages/PMS.jsx';
+export { default as AdminFinance } from './pages/Finance.jsx';
+export { default as AdminAuditLogs } from './pages/AuditLogs.jsx';
+export { default as AdminApprovals } from './pages/Approvals.jsx';
+export { default as AdminCalendar } from './pages/Calendar.jsx';
+export { default as AdminCommunications } from './pages/Communications.jsx';
+export { default as AdminReports } from './pages/Reports.jsx';
+export { default as AdminAutomationStudio } from './pages/AutomationStudio.jsx';
+export { default as AdminAIAnalytics } from './pages/AIAnalytics.jsx';
+export { default as AdminMarketplace } from './pages/Marketplace.jsx';
+export { default as AdminIntegrations } from './pages/Integrations.jsx';
+export { default as AdminDeveloperPortal } from './pages/DeveloperPortal.jsx';
+export { default as AdminGamification } from './pages/Gamification.jsx';
+export { default as AdminJobsBoard } from './pages/JobsBoard.jsx';
+export { default as AdminInterviews } from './pages/Interviews.jsx';
+export { default as AdminMonitoring } from './pages/Monitoring.jsx';

@@ -7,7 +7,7 @@ const ThemeContext = createContext(null);
 
 export const ThemeProvider = ({ children }) => {
   const dispatch = useAppDispatch();
-  const theme = useAppSelector((state) => state.ui.theme);
+  const theme = useAppSelector((state) => state?.ui?.theme) || 'dark';
 
   useEffect(() => {
     // Add theme class to body/html

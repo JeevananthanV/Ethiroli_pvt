@@ -379,8 +379,11 @@ export const ROLE_PERMISSIONS = {
   ]
 };
 
-export const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS?.split(',').map(o => o.trim()).filter(Boolean) || [
-  'http://localhost:3000',
-  'http://localhost:5173',
-  'http://localhost:5000'
-];
+export const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || process.env.FRONTEND_ORIGIN)
+  ? (process.env.ALLOWED_ORIGINS || process.env.FRONTEND_ORIGIN).split(',').map(o => o.trim()).filter(Boolean)
+  : [
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'http://localhost:5000',
+      'http://localhost:5173'
+    ];

@@ -14,6 +14,12 @@ export class ValidationError extends AppError {
   }
 }
 
+export class BadRequestError extends AppError {
+  constructor(message = 'Bad request', details = null) {
+    super(message, 400, details);
+  }
+}
+
 export class AuthenticationError extends AppError {
   constructor(message = 'Authentication required', details = null) {
     super(message, 401, details);
@@ -31,6 +37,8 @@ export class NotFoundError extends AppError {
     super(message, 404, details);
   }
 }
+
+export const notFound = (message = 'Resource not found', details = null) => new NotFoundError(message, details);
 
 export class ConflictError extends AppError {
   constructor(message = 'Resource conflict', details = null) {

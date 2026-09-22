@@ -1,0 +1,90 @@
+# ⚡ QUICK REFERENCE CARD
+
+## 🎯 LOGIN CREDENTIALS
+```
+Email:    hr@ethiroli.com
+Password: HrPassword123!
+```
+
+## 🌐 URLs
+```
+Frontend:  http://localhost:3001/auth/hr/login
+Dashboard: http://localhost:3001/app/hr/dashboard
+API:       http://localhost:5000/api/v1/
+```
+
+## 🚀 START SERVERS (Do This Every Time)
+```powershell
+# Terminal 1: Kill old processes
+Get-Process node -ErrorAction SilentlyContinue | Stop-Process -Force
+Start-Sleep -Seconds 2
+
+# Terminal 1: Start backend
+cd backend
+npm start
+# Wait for: "Express server running on port 5000"
+
+# Terminal 2: Start frontend
+cd frontend
+npm run dev
+# Wait for: "Local: http://localhost:3001/"
+```
+
+## ✅ VERIFY IT WORKS
+```
+1. Open http://localhost:3001/auth/hr/login
+2. Enter: hr@ethiroli.com / HrPassword123!
+3. Press F12 → Network tab
+4. Look for: POST /auth/portal-login → Status 200
+5. Should redirect to dashboard (no 401 error!)
+```
+
+## 🔍 TROUBLESHOOT 401 ERROR
+```
+F12 → Network tab:
+  ✅ OPTIONS request → 204 (not 403)
+  ✅ POST request → 200 (not 401)
+  ✅ Response header: access-control-allow-origin: http://localhost:3001
+
+F12 → Application:
+  ✅ localStorage.auth_token exists
+  ✅ Cookies.session_token exists (HttpOnly)
+
+F12 → Console:
+  No red error messages
+```
+
+## 📁 IMPORTANT FILES
+```
+backend/src/config/constants.js    ← CORS configuration
+frontend/vite.config.js             ← Port & proxy settings
+frontend/src/services/axios.js      ← API base URL
+```
+
+## 📊 PORTS
+```
+Frontend:   3001 (Vite dev server)
+Backend:    5000 (Express API)
+Database:   5432 (PostgreSQL)
+WebSocket:  5000 (Socket.io)
+```
+
+## 🎯 EXPECTED SUCCESS
+```
+✅ Login page loads
+✅ No CORS errors in console
+✅ Login succeeds (200 status)
+✅ Redirects to dashboard
+✅ Dashboard shows data
+✅ "Socket connected" in console
+✅ Real-time updates work
+```
+
+## 📚 DOCUMENTATION
+- `COMPLETE-FIX-GUIDE.md` - Full reference
+- `RESTART-SERVERS-3001-5000.md` - Detailed restart guide
+- `PORT-3001-FIX.md` - 401 error troubleshooting
+
+---
+
+**Remember**: Backend must be restarted after any code changes for CORS to reload! 🔄

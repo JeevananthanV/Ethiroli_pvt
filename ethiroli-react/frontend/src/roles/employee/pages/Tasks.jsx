@@ -1,221 +1,156 @@
-import React, { useEffect, useState } from 'react'
-import AdminPage from '../../../common/components/AdminPage'
-import { assignmentApi } from '../../../services/api/assignmentApi'
-import Button from '../../../common/components/Button'
-import Modal from '../../../common/components/Modal'
-import Input from '../../../common/components/Input'
+import React, { useEffect, useState, useCallback } from 'react';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
+import employeePortalApi from '../../../services/api/employeePortalApi.js';
 
-export default function EmployeeTasks() {
-  const [tasks, setTasks] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const [showModal, setShowModal] = useState(false)
-  const [selectedTask, setSelectedTask] = useState(null)
-  const [formData, setFormData] = useState({ title: '', description: '', status: 'pending', dueDate: '' })
+export default function Tasks() {
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [filter, setFilter] = useState('ALL');
 
-  const fetchTasks = async () => {
-    setLoading(true)
-    setError(null)
+  const fetchTasks = useCallback(async () => {
+    setLoading(true);
+    setError(null);
     try {
-      const data = await assignmentApi.getAll()
-      setTasks(data)
+      const res = await employeePortalApi.getAssignedTasks();
+      const list = res?.data || (Array.isArray(res) ? res : []);
+      setTasks(list);
     } catch (err) {
-      setError(err.message)
+      setError(err.message || 'Failed to load assigned tasks');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  }, []);
 
   useEffect(() => {
-    fetchTasks()
-  }, [])
+    fetchTasks();
+  }, [fetchTasks]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const handleToggleStatus = async (task) => {
+    const nextStatus = task.status === 'COMPLETED' ? 'IN_PROGRESS' : 'COMPLETED';
     try {
-      if (selectedTask) {
-        await assignmentApi.update(selectedTask.id, formData)
-      } else {
-        await assignmentApi.create(formData)
-      }
-      setShowModal(false)
-      setSelectedTask(null)
-      setFormData({ title: '', description: '', status: 'pending', dueDate: '' })
-      fetchTasks()
+      await employeePortalApi.updateTaskStatus(task.id, nextStatus);
+      await fetchTasks();
     } catch (err) {
-      alert('Failed to save task: ' + err.message)
+      alert('Failed to update status: ' + err.message);
     }
-  }
+  };
 
-  const handleEdit = (task) => {
-    setSelectedTask(task)
-    setFormData({
-      title: task.title || '',
-      description: task.description || '',
-      status: task.status || 'pending',
-      dueDate: task.dueDate || '',
-    })
-    setShowModal(true)
-  }
+  const filteredTasks = filter === 'ALL'
+    ? tasks
+    : tasks.filter(t => t.status === filter);
 
-  const handleSubmitAssignment = async (taskId) => {
-    try {
-      await assignmentApi.submit(taskId, {})
-      alert('Assignment submitted successfully!')
-      fetchTasks()
-    } catch (err) {
-      alert('Failed to submit assignment: ' + err.message)
-    }
-  }
-
-  const getStatusClass = (status) => {
+  const getStatusBadge = (status) => {
     switch (status) {
-      case 'completed':
-        return 'active'
-      case 'in-progress':
-        return 'pending'
-      case 'pending':
-        return 'pending'
-      case 'overdue':
-        return 'error'
+      case 'COMPLETED':
+        return <span className="badge bg-success">Completed</span>;
+      case 'IN_PROGRESS':
+        return <span className="badge bg-primary">In Progress</span>;
       default:
-        return 'pending'
+        return <span className="badge bg-warning text-dark">Pending</span>;
     }
-  }
+  };
 
   return (
     <AdminPage
-      title="My Tasks"
-      subtitle="View and manage your assignments and tasks"
+      title="My Assigned Tasks"
+      subtitle="Track your daily engineering deliverables, sprints, and assigned client tasks"
       loading={loading}
       error={error}
       onRetry={fetchTasks}
-      actions={
-        <Button onClick={() => { setSelectedTask(null); setFormData({ title: '', description: '', status: 'pending', dueDate: '' }); setShowModal(true) }}>
-          Add Task
-        </Button>
-      }
     >
-      <div className="grid gridCols3 mb4">
-        <div className="statCard">
-          <div className="statLabel">Total Tasks</div>
-          <div className="statValue">{tasks.length}</div>
+      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div className="btn-group" role="group">
+          <button
+            type="button"
+            className={`btn btn-sm ${filter === 'ALL' ? 'btn-dark' : 'btn-outline-secondary'}`}
+            onClick={() => setFilter('ALL')}
+          >
+            All Tasks ({tasks.length})
+          </button>
+          <button
+            type="button"
+            className={`btn btn-sm ${filter === 'PENDING' ? 'btn-dark' : 'btn-outline-secondary'}`}
+            onClick={() => setFilter('PENDING')}
+          >
+            Pending
+          </button>
+          <button
+            type="button"
+            className={`btn btn-sm ${filter === 'IN_PROGRESS' ? 'btn-dark' : 'btn-outline-secondary'}`}
+            onClick={() => setFilter('IN_PROGRESS')}
+          >
+            In Progress
+          </button>
+          <button
+            type="button"
+            className={`btn btn-sm ${filter === 'COMPLETED' ? 'btn-dark' : 'btn-outline-secondary'}`}
+            onClick={() => setFilter('COMPLETED')}
+          >
+            Completed
+          </button>
         </div>
-        <div className="statCard">
-          <div className="statLabel">In Progress</div>
-          <div className="statValue" style={{ color: 'var(--admin-warning)' }}>
-            {tasks.filter((t) => t.status === 'in-progress' || t.status === 'pending').length}
-          </div>
-        </div>
-        <div className="statCard">
-          <div className="statLabel">Completed</div>
-          <div className="statValue" style={{ color: 'var(--admin-success)' }}>
-            {tasks.filter((t) => t.status === 'completed').length}
-          </div>
-        </div>
+
+        <span className="text-muted small">
+          {tasks.filter(t => t.status === 'COMPLETED').length} of {tasks.length} tasks completed
+        </span>
       </div>
 
-      <div className="card overflowAuto">
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Status</th>
-              <th>Due Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tasks.length === 0 ? (
+      <div className="card shadow-sm border-0">
+        <div className="table-responsive">
+          <table className="table table-hover align-middle mb-0">
+            <thead className="table-light text-muted small text-uppercase">
               <tr>
-                <td colSpan="5" className="textCenter textMuted py4">
-                  No tasks assigned
-                </td>
+                <th style={{ width: '40px' }}></th>
+                <th>Task Description</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th className="text-end">Action</th>
               </tr>
-            ) : (
-              tasks.map((task) => (
-                <tr key={task.id}>
-                  <td className="fontSemibold">{task.title}</td>
-                  <td className="textSecondary">{task.description}</td>
-                  <td>
-                    <span className={`statusTag ${getStatusClass(task.status)}`}>
-                      {task.status}
-                    </span>
-                  </td>
-                  <td className="textSecondary">
-                    {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : '-'}
-                  </td>
-                  <td>
-                    <div className="flex gap2">
-                      {task.status !== 'completed' && (
-                        <Button size="small" variant="success" onClick={() => handleSubmitAssignment(task.id)}>
-                          Submit
-                        </Button>
-                      )}
-                      <Button size="small" onClick={() => handleEdit(task)}>
-                        Edit
-                      </Button>
-                    </div>
+            </thead>
+            <tbody>
+              {filteredTasks.length === 0 ? (
+                <tr>
+                  <td colSpan="5" className="text-center py-5 text-muted">
+                    <i className="bi bi-check2-all fs-2 d-block mb-2"></i>
+                    No tasks found matching this criteria.
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                filteredTasks.map((task) => (
+                  <tr key={task.id}>
+                    <td>
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        checked={task.status === 'COMPLETED'}
+                        onChange={() => handleToggleStatus(task)}
+                      />
+                    </td>
+                    <td>
+                      <div className={`fw-semibold text-dark ${task.status === 'COMPLETED' ? 'text-decoration-line-through text-muted' : ''}`}>
+                        {task.description}
+                      </div>
+                    </td>
+                    <td className="text-muted small">
+                      {task.due_date ? new Date(task.due_date).toLocaleDateString() : 'No due date'}
+                    </td>
+                    <td>{getStatusBadge(task.status)}</td>
+                    <td className="text-end">
+                      <button
+                        className={`btn btn-sm ${task.status === 'COMPLETED' ? 'btn-outline-secondary' : 'btn-outline-success'}`}
+                        onClick={() => handleToggleStatus(task)}
+                      >
+                        {task.status === 'COMPLETED' ? 'Mark In Progress' : 'Mark Done'}
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-
-      <Modal isOpen={showModal} onClose={() => setShowModal(false)} title={selectedTask ? 'Edit Task' : 'Add Task'}>
-        <form onSubmit={handleSubmit}>
-          <div className="form">
-            <div className="formGroup">
-              <label className="label required">Title</label>
-              <Input
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                required
-              />
-            </div>
-            <div className="formGroup">
-              <label className="label">Description</label>
-              <textarea
-                className="inputField"
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                rows={3}
-              />
-            </div>
-            <div className="formGroup">
-              <label className="label">Due Date</label>
-              <Input
-                type="date"
-                value={formData.dueDate}
-                onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
-              />
-            </div>
-            <div className="formGroup">
-              <label className="label">Status</label>
-              <select
-                className="select"
-                value={formData.status}
-                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-              >
-                <option value="pending">Pending</option>
-                <option value="in-progress">In Progress</option>
-                <option value="completed">Completed</option>
-              </select>
-            </div>
-            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
-              <Button type="button" variant="secondary" onClick={() => setShowModal(false)}>
-                Cancel
-              </Button>
-              <Button type="submit" variant="primary">
-                {selectedTask ? 'Update' : 'Create'}
-              </Button>
-            </div>
-          </div>
-        </form>
-      </Modal>
     </AdminPage>
-  )
+  );
 }

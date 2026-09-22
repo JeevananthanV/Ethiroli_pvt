@@ -1,6 +1,9 @@
 import { io } from 'socket.io-client';
 
-const SOCKET_URL = 'http://localhost:3003';
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 
+  (import.meta.env.VITE_API_BASE_URL ? new URL(import.meta.env.VITE_API_BASE_URL).origin : null) ||
+  (import.meta.env.VITE_API_URL ? new URL(import.meta.env.VITE_API_URL).origin : null) ||
+  'http://localhost:5000';
 
 let socket = null;
 

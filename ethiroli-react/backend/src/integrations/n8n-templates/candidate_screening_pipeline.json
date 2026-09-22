@@ -1,0 +1,107 @@
+{
+  "name": "Ethiroli - Candidate Screening Pipeline",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ethiroli",
+        "options": {}
+      },
+      "id": "1",
+      "name": "Ethiroli Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "ethiroli-webhook-trigger"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.body.event }}",
+              "value2": "candidate.created"
+            }
+          ]
+        }
+      },
+      "id": "2",
+      "name": "Filter: Candidate Created?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:5000/api/v1/webhooks/n8n/action",
+        "method": "POST",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-N8N-Webhook-Secret",
+              "value": "ethiroli_n8n_secret_key_2026"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "action",
+              "value": "update_candidate_status"
+            },
+            {
+              "name": "candidateId",
+              "value": "={{ $json.body.data.id }}"
+            },
+            {
+              "name": "status",
+              "value": "SCREENING"
+            },
+            {
+              "name": "note",
+              "value": "Automated workflow screened candidate and initiated onboarding workflow."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3",
+      "name": "Update Candidate in Ethiroli",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [720, 200]
+    }
+  ],
+  "connections": {
+    "Ethiroli Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Filter: Candidate Created?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter: Candidate Created?": {
+      "main": [
+        [
+          {
+            "node": "Update Candidate in Ethiroli",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {}
+}

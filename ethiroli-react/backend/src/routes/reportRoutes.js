@@ -7,10 +7,10 @@ import { validateBody } from '../middleware/validation.js';
 const router = express.Router();
 router.use(authenticate);
 
-router.post('/reports/execute', requireRole('ADMIN', 'SUPER_ADMIN'), executeReport);
-router.get('/reports/definitions', requireRole('ADMIN', 'SUPER_ADMIN'), listReportDefinitions);
-router.post('/reports/definitions', requireRole('ADMIN', 'SUPER_ADMIN'), validateBody('createReportDefinition'), createReportDefinition);
-router.get('/reports/definitions/:id', requireRole('ADMIN', 'SUPER_ADMIN'), getReportDefinition);
-router.get('/reports/definitions/:id/export', requireRole('ADMIN', 'SUPER_ADMIN'), exportReport);
+router.post('/reports/execute', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), executeReport);
+router.get('/reports/definitions', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), listReportDefinitions);
+router.post('/reports/definitions', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), validateBody('createReportDefinition'), createReportDefinition);
+router.get('/reports/definitions/:id', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), getReportDefinition);
+router.get('/reports/definitions/:id/export', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), exportReport);
 
 export default router;

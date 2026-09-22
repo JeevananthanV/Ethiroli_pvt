@@ -4,23 +4,27 @@ import TenantUser from '../models/TenantUser.js';
 import { ERROR_MESSAGES } from '../config/constants.js';
 
 export const authenticate = async (req, res, next) => {
-  const token = req.cookies?.session_token;
-
-  if (!token) {
-    throw new AuthenticationError(ERROR_MESSAGES.AUTHENTICATION_REQUIRED);
-  }
-
   try {
+    const authHeader = req.headers.authorization;
+    const bearerToken = authHeader && authHeader.startsWith('Bearer ') 
+      ? authHeader.slice(7).trim() 
+      : null;
+    const token = req.cookies?.session_token || bearerToken || req.headers['x-session-token'];
+
+    if (!token) {
+      return next(new AuthenticationError(ERROR_MESSAGES.AUTHENTICATION_REQUIRED));
+    }
+
     const sessionRecord = await Session.findByToken(token);
 
     if (!sessionRecord) {
       res.clearCookie('session_token');
-      throw new AuthenticationError(ERROR_MESSAGES.SESSION_EXPIRED);
+      return next(new AuthenticationError(ERROR_MESSAGES.SESSION_EXPIRED));
     }
 
     if (!sessionRecord.is_active) {
       res.clearCookie('session_token');
-      throw new AuthorizationError(ERROR_MESSAGES.ACCOUNT_DEACTIVATED, { code: 'ACCOUNT_DEACTIVATED' });
+      return next(new AuthorizationError(ERROR_MESSAGES.ACCOUNT_DEACTIVATED, { code: 'ACCOUNT_DEACTIVATED' }));
     }
 
     req.user = {
@@ -34,7 +38,7 @@ export const authenticate = async (req, res, next) => {
     };
     req.portal = sessionRecord.portal_slug || 'app';
     req.sessionToken = token;
-    req.ip = req.ip || req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown';
+    req.clientIp = req.ip || req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown';
 
     next();
   } catch (error) {

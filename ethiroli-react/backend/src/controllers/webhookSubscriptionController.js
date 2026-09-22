@@ -2,8 +2,9 @@ import WebhookSubscription from '../models/WebhookSubscription.js';
 import AuditLog from '../models/AuditLog.js';
 import { broadcastToRole } from '../services/socketService.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
-import { success } from '../utils/response.js';
+import { success, error } from '../utils/response.js';
 import { NotFoundError } from '../utils/errors.js';
+import { processIndeedApplication } from '../services/indeedService.js';
 
 export const listWebhooks = asyncHandler(async (req, res) => {
   const { page = 1, limit = 50 } = req.query;
@@ -61,15 +62,67 @@ export const updateWebhook = asyncHandler(async (req, res) => {
   return success(res, 200, null, 'Webhook subscription updated');
 });
 
+export const deleteWebhook = asyncHandler(async (req, res) => {
+  const webhook = await WebhookSubscription.findById(req.params.id);
+  if (!webhook) throw new NotFoundError('Webhook subscription not found');
+  await WebhookSubscription.delete(req.params.id);
+  broadcastToRole('ADMIN', 'webhook_subscription_deleted', { id: req.params.id });
+  return success(res, 200, null, 'Webhook subscription deleted');
+});
+
 export const testWebhook = asyncHandler(async (req, res) => {
+  const webhook = await WebhookSubscription.findById(req.params.id);
+  if (!webhook) throw new NotFoundError('Webhook subscription not found');
+
+  const startTime = Date.now();
+  let testResult = { success: false, status: 0, message: '' };
+
+  try {
+    const response = await fetch(webhook.url, {
+      method: webhook.method || 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Webhook-Test': 'true'
+      },
+      body: JSON.stringify({
+        event: 'test.ping',
+        data: { message: 'Ethiroli Webhook Health Check', timestamp: new Date().toISOString() }
+      }),
+      signal: AbortSignal.timeout(4000)
+    });
+
+    const latency = Date.now() - startTime;
+    testResult = {
+      success: response.ok,
+      status: response.status,
+      latencyMs: latency,
+      message: response.ok ? `Webhook delivered (${latency}ms)` : `Target returned HTTP ${response.status}`
+    };
+  } catch (err) {
+    testResult = {
+      success: false,
+      latencyMs: Date.now() - startTime,
+      message: `Failed to reach webhook URL: ${err.message}`
+    };
+  }
+
   await AuditLog.create({
     user_id: req.user.id,
     action: 'TEST_WEBHOOK_SUBSCRIPTION',
     entity_type: 'WEBHOOK_SUBSCRIPTION',
     entity_id: req.params.id,
+    new_value: testResult,
     ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
     user_agent: req.headers['user-agent']
   });
-  broadcastToRole('ADMIN', 'webhook_test_initiated', { id: req.params.id });
-  return success(res, 200, null, 'Webhook test delivery initiated');
+
+  return success(res, 200, testResult, testResult.message);
+});
+
+/**
+ * Public inbound receiver for Indeed Apply webhook
+ */
+export const handleIndeedApplyWebhook = asyncHandler(async (req, res) => {
+  const result = await processIndeedApplication(req.body, req.headers);
+  return success(res, 201, result, 'Indeed application processed successfully');
 });

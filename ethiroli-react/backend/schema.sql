@@ -165,7 +165,7 @@ CREATE TABLE IF NOT EXISTS attendance (
     date DATE NOT NULL,
     check_in_time DATETIME,
     check_out_time DATETIME,
-    total_hours DECIMAL(5,2) GENERATED ALWAYS AS (TIMESTAMPDIFF(HOUR, check_in_time, check_out_time)) STORED,
+    total_hours DECIMAL(5,2) GENERATED ALWAYS AS (ROUND(TIMESTAMPDIFF(SECOND, check_in_time, check_out_time) / 3600.0, 2)) STORED,
     is_late BOOLEAN DEFAULT FALSE,
     status ENUM('PRESENT','ABSENT','HALF_DAY') DEFAULT 'ABSENT',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -1598,3 +1598,590 @@ VALUES (
     'I am interested in learning more about your services.',
     'WEBSITE'
 ) ON DUPLICATE KEY UPDATE inquiry_id=inquiry_id;
+
+-- ==========================================================
+-- HRMS ENHANCEMENTS (Tables 79-82)
+-- ==========================================================
+
+-- Table 79: leave_balances
+CREATE TABLE IF NOT EXISTS leave_balances (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    user_id CHAR(36) NOT NULL,
+    leave_type ENUM('CASUAL','SICK','EARNED') NOT NULL,
+    financial_year VARCHAR(10) NOT NULL,
+    total_credited DECIMAL(4,1) NOT NULL DEFAULT 0.0,
+    consumed DECIMAL(4,1) NOT NULL DEFAULT 0.0,
+    balance DECIMAL(4,1) GENERATED ALWAYS AS (total_credited - consumed) STORED,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_user_year_type (user_id, financial_year, leave_type),
+    INDEX idx_user (user_id),
+    INDEX idx_fin_year (financial_year)
+);
+
+-- Table 80: employee_documents
+CREATE TABLE IF NOT EXISTS employee_documents (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    employee_id CHAR(36) NOT NULL,
+    document_type ENUM('RESUME', 'OFFER_LETTER', 'APPOINTMENT_LETTER', 'NDA', 'ID_PROOF', 'DEGREE_CERTIFICATE', 'EXPERIENCE_LETTER', 'PAYSLIP', 'OTHER') NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    file_url VARCHAR(500) NOT NULL,
+    file_size_bytes BIGINT DEFAULT NULL,
+    mime_type VARCHAR(100) DEFAULT NULL,
+    status ENUM('PENDING', 'VERIFIED', 'REJECTED') DEFAULT 'PENDING',
+    verified_by CHAR(36) DEFAULT NULL,
+    verified_at DATETIME DEFAULT NULL,
+    uploaded_by CHAR(36) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE,
+    FOREIGN KEY (uploaded_by) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (verified_by) REFERENCES users(id) ON DELETE SET NULL,
+    INDEX idx_employee (employee_id),
+    INDEX idx_type (document_type),
+    INDEX idx_status (status)
+);
+
+-- Table 81: exit_requests
+CREATE TABLE IF NOT EXISTS exit_requests (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    employee_id CHAR(36) NOT NULL,
+    resignation_date DATE NOT NULL,
+    requested_last_day DATE NOT NULL,
+    approved_last_day DATE DEFAULT NULL,
+    reason TEXT NOT NULL,
+    notice_period_days INT DEFAULT 30,
+    status ENUM('SUBMITTED', 'UNDER_REVIEW', 'APPROVED', 'REJECTED', 'WITHDRAWN', 'COMPLETED') DEFAULT 'SUBMITTED',
+    exit_interview_notes TEXT DEFAULT NULL,
+    approved_by CHAR(36) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE,
+    FOREIGN KEY (approved_by) REFERENCES users(id) ON DELETE SET NULL,
+    INDEX idx_employee (employee_id),
+    INDEX idx_status (status)
+);
+
+-- Table 82: offboarding_checklists
+CREATE TABLE IF NOT EXISTS offboarding_checklists (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    exit_request_id CHAR(36) NOT NULL,
+    department ENUM('IT', 'HR', 'FINANCE', 'OPERATIONS', 'ADMIN') NOT NULL,
+    task_name VARCHAR(255) NOT NULL,
+    is_cleared BOOLEAN DEFAULT FALSE,
+    cleared_by CHAR(36) DEFAULT NULL,
+    cleared_at DATETIME DEFAULT NULL,
+    remarks TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (exit_request_id) REFERENCES exit_requests(id) ON DELETE CASCADE,
+    FOREIGN KEY (cleared_by) REFERENCES users(id) ON DELETE SET NULL,
+    INDEX idx_exit_request (exit_request_id),
+    INDEX idx_cleared (is_cleared)
+);
+
+-- ==========================================================
+-- EMPLOYEE PORTAL ENHANCEMENTS (Tables 83-85)
+-- ==========================================================
+
+-- Table 83: support_tickets
+CREATE TABLE IF NOT EXISTS support_tickets (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    ticket_number VARCHAR(30) UNIQUE NOT NULL,
+    user_id CHAR(36) NOT NULL,
+    category ENUM('IT_SUPPORT', 'HR_QUERY', 'PAYROLL_ISSUE', 'FACILITIES', 'ADMIN') NOT NULL,
+    priority ENUM('LOW', 'MEDIUM', 'HIGH', 'URGENT') DEFAULT 'MEDIUM',
+    subject VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    attachment_url VARCHAR(500) DEFAULT NULL,
+    status ENUM('OPEN', 'IN_PROGRESS', 'RESOLVED', 'CLOSED') DEFAULT 'OPEN',
+    assigned_to CHAR(36) DEFAULT NULL,
+    resolved_at DATETIME DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (assigned_to) REFERENCES users(id) ON DELETE SET NULL,
+    INDEX idx_user_status (user_id, status),
+    INDEX idx_category (category)
+);
+
+-- Table 84: project_members
+CREATE TABLE IF NOT EXISTS project_members (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    project_id CHAR(36) NOT NULL,
+    user_id CHAR(36) NOT NULL,
+    project_role ENUM('LEAD', 'MEMBER', 'CONTRIBUTOR', 'REVIEWER') DEFAULT 'MEMBER',
+    joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_project_user (project_id, user_id),
+    INDEX idx_user_projects (user_id)
+);
+
+-- Table 85: messages
+CREATE TABLE IF NOT EXISTS messages (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    sender_id CHAR(36) NOT NULL,
+    recipient_id CHAR(36) NULL,
+    channel_name VARCHAR(100) NULL,
+    message_content TEXT NOT NULL,
+    attachment_url VARCHAR(500) NULL,
+    is_read BOOLEAN NOT NULL DEFAULT FALSE,
+    read_at DATETIME DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (recipient_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_chat_convo (sender_id, recipient_id, created_at),
+    INDEX idx_channel (channel_name, created_at)
+);
+
+-- ==========================================================
+-- LMS ACADEMIC & ENGAGEMENT EXTENSIONS (Tables 86-88)
+-- ==========================================================
+
+-- Table 86: batches
+CREATE TABLE IF NOT EXISTS batches (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    course_id CHAR(36) NOT NULL,
+    tutor_id CHAR(36) NOT NULL,
+    batch_code VARCHAR(50) UNIQUE NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    max_capacity INT DEFAULT 30,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE,
+    FOREIGN KEY (tutor_id) REFERENCES users(id) ON DELETE RESTRICT,
+    INDEX idx_course (course_id),
+    INDEX idx_tutor (tutor_id),
+    INDEX idx_code (batch_code)
+);
+
+-- Table 87: batch_students
+CREATE TABLE IF NOT EXISTS batch_students (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    batch_id CHAR(36) NOT NULL,
+    student_id CHAR(36) NOT NULL,
+    joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (batch_id) REFERENCES batches(id) ON DELETE CASCADE,
+    FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_batch_student (batch_id, student_id),
+    INDEX idx_batch (batch_id),
+    INDEX idx_student (student_id)
+);
+
+-- Table 88: doubts
+CREATE TABLE IF NOT EXISTS doubts (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    student_id CHAR(36) NOT NULL,
+    course_id CHAR(36) NOT NULL,
+    lesson_id CHAR(36) DEFAULT NULL,
+    title VARCHAR(255) NOT NULL,
+    description LONGTEXT NOT NULL,
+    code_snippet TEXT DEFAULT NULL,
+    screenshot_url VARCHAR(500) DEFAULT NULL,
+    status ENUM('OPEN', 'IN_REVIEW', 'RESOLVED') DEFAULT 'OPEN',
+    assigned_tutor_id CHAR(36) DEFAULT NULL,
+    resolution_notes TEXT DEFAULT NULL,
+    resolved_at DATETIME DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE,
+    FOREIGN KEY (assigned_tutor_id) REFERENCES users(id) ON DELETE SET NULL,
+    INDEX idx_course_status (course_id, status),
+    INDEX idx_student (student_id),
+    INDEX idx_tutor (assigned_tutor_id)
+);
+
+-- ==========================================================
+-- OPERATIONS SUITE EXTENSIONS (Tables 89-90)
+-- ==========================================================
+
+-- Table 89: visitor_logs
+CREATE TABLE IF NOT EXISTS visitor_logs (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    visitor_name VARCHAR(255) NOT NULL,
+    phone VARCHAR(50) NOT NULL,
+    email VARCHAR(255) DEFAULT NULL,
+    company VARCHAR(255) DEFAULT NULL,
+    purpose VARCHAR(255) NOT NULL,
+    person_to_meet CHAR(36) DEFAULT NULL,
+    person_to_meet_name VARCHAR(255) DEFAULT NULL,
+    badge_number VARCHAR(50) DEFAULT NULL,
+    check_in_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    check_out_time DATETIME DEFAULT NULL,
+    status ENUM('CHECKED_IN', 'CHECKED_OUT', 'EXPECTED') DEFAULT 'CHECKED_IN',
+    notes TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (person_to_meet) REFERENCES users(id) ON DELETE SET NULL,
+    INDEX idx_status (status),
+    INDEX idx_check_in (check_in_time)
+);
+
+-- Table 90: timesheets
+CREATE TABLE IF NOT EXISTS timesheets (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    user_id CHAR(36) NOT NULL,
+    project_id CHAR(36) DEFAULT NULL,
+    task_id CHAR(36) DEFAULT NULL,
+    work_date DATE NOT NULL,
+    hours_spent DECIMAL(4,2) NOT NULL,
+    description TEXT NOT NULL,
+    status ENUM('DRAFT', 'SUBMITTED', 'APPROVED', 'REJECTED') DEFAULT 'SUBMITTED',
+    approved_by CHAR(36) DEFAULT NULL,
+    approved_at DATETIME DEFAULT NULL,
+    rejection_reason TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (project_id) REFERENCES student_projects(id) ON DELETE SET NULL,
+    FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE SET NULL,
+    FOREIGN KEY (approved_by) REFERENCES users(id) ON DELETE SET NULL,
+    INDEX idx_user_date (user_id, work_date),
+    INDEX idx_project (project_id),
+    INDEX idx_status (status)
+);
+
+-- ==========================================================
+-- PROJECT MANAGEMENT DASHBOARD EXTENSIONS (Tables 91-94)
+-- ==========================================================
+
+-- Table 91: project_milestones
+CREATE TABLE IF NOT EXISTS project_milestones (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    project_id CHAR(36) NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description TEXT DEFAULT NULL,
+    target_date DATE NOT NULL,
+    completed_date DATE DEFAULT NULL,
+    status ENUM('PENDING', 'IN_PROGRESS', 'REVIEW', 'COMPLETED', 'DELAYED') DEFAULT 'PENDING',
+    deliverable_url VARCHAR(500) DEFAULT NULL,
+    budget_allocated DECIMAL(12,2) DEFAULT 0.00,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (project_id) REFERENCES student_projects(id) ON DELETE CASCADE,
+    INDEX idx_project_status (project_id, status),
+    INDEX idx_target_date (target_date)
+);
+
+-- Table 92: project_sprints
+CREATE TABLE IF NOT EXISTS project_sprints (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    project_id CHAR(36) NOT NULL,
+    sprint_number INT NOT NULL,
+    sprint_name VARCHAR(100) NOT NULL,
+    goal TEXT DEFAULT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    status ENUM('PLANNING', 'ACTIVE', 'COMPLETED', 'CANCELLED') DEFAULT 'PLANNING',
+    target_velocity INT DEFAULT 0,
+    actual_velocity INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (project_id) REFERENCES student_projects(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_proj_sprint (project_id, sprint_number),
+    INDEX idx_proj_sprint_status (project_id, status)
+);
+
+-- Table 93: project_files
+CREATE TABLE IF NOT EXISTS project_files (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    project_id CHAR(36) NOT NULL,
+    uploaded_by CHAR(36) NOT NULL,
+    file_name VARCHAR(255) NOT NULL,
+    file_url VARCHAR(500) NOT NULL,
+    file_size_bytes BIGINT NOT NULL DEFAULT 0,
+    mime_type VARCHAR(100) DEFAULT 'application/octet-stream',
+    version VARCHAR(20) DEFAULT '1.0',
+    category ENUM('SPECIFICATION', 'DESIGN_ASSET', 'DELIVERABLE', 'CONTRACT', 'MEETING_RECORDING', 'OTHER') DEFAULT 'SPECIFICATION',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (project_id) REFERENCES student_projects(id) ON DELETE CASCADE,
+    FOREIGN KEY (uploaded_by) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_project_cat (project_id, category)
+);
+
+-- Table 94: project_expenses
+CREATE TABLE IF NOT EXISTS project_expenses (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    project_id CHAR(36) NOT NULL,
+    logged_by CHAR(36) NOT NULL,
+    category ENUM('CLOUD_INFRA', 'SOFTWARE_LICENSE', 'HARDWARE', 'CONTRACTOR_FEE', 'TRAVEL', 'MISC') NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    currency VARCHAR(10) DEFAULT 'INR',
+    expense_date DATE NOT NULL,
+    receipt_url VARCHAR(500) DEFAULT NULL,
+    is_billable BOOLEAN DEFAULT TRUE,
+    status ENUM('PENDING', 'APPROVED', 'REJECTED', 'BILLED') DEFAULT 'PENDING',
+    approved_by CHAR(36) DEFAULT NULL,
+    approved_at DATETIME DEFAULT NULL,
+    invoice_id CHAR(36) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (project_id) REFERENCES student_projects(id) ON DELETE CASCADE,
+    FOREIGN KEY (logged_by) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (approved_by) REFERENCES users(id) ON DELETE SET NULL,
+    FOREIGN KEY (invoice_id) REFERENCES invoices(id) ON DELETE SET NULL,
+    INDEX idx_proj_expense (project_id, status),
+    INDEX idx_expense_date (expense_date)
+);
+
+-- Tasks table linkage for Sprints and Milestones
+ALTER TABLE tasks 
+ADD COLUMN IF NOT EXISTS project_id CHAR(36) DEFAULT NULL,
+ADD COLUMN IF NOT EXISTS sprint_id CHAR(36) DEFAULT NULL,
+ADD COLUMN IF NOT EXISTS milestone_id CHAR(36) DEFAULT NULL,
+ADD COLUMN IF NOT EXISTS priority ENUM('LOW', 'MEDIUM', 'HIGH', 'CRITICAL') DEFAULT 'MEDIUM',
+ADD COLUMN IF NOT EXISTS estimated_hours DECIMAL(4,1) DEFAULT 0.0,
+ADD COLUMN IF NOT EXISTS actual_hours DECIMAL(4,1) DEFAULT 0.0;
+
+-- ==========================================================
+-- FINANCIAL MANAGEMENT EXTENSIONS (Tables 95-97)
+-- ==========================================================
+
+-- Table 95: financial_refunds
+CREATE TABLE IF NOT EXISTS financial_refunds (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    invoice_id CHAR(36) DEFAULT NULL,
+    payment_id CHAR(36) DEFAULT NULL,
+    customer_name VARCHAR(255) NOT NULL,
+    customer_email VARCHAR(255) DEFAULT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    currency VARCHAR(10) DEFAULT 'INR',
+    reason VARCHAR(255) NOT NULL,
+    status ENUM('PENDING', 'APPROVED', 'PROCESSED', 'REJECTED') DEFAULT 'PENDING',
+    gateway_refund_id VARCHAR(100) DEFAULT NULL,
+    utr_number VARCHAR(100) DEFAULT NULL,
+    requested_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    processed_at DATETIME DEFAULT NULL,
+    processed_by CHAR(36) DEFAULT NULL,
+    notes TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (invoice_id) REFERENCES invoices(id) ON DELETE SET NULL,
+    FOREIGN KEY (payment_id) REFERENCES payments(id) ON DELETE SET NULL,
+    FOREIGN KEY (processed_by) REFERENCES users(id) ON DELETE SET NULL,
+    INDEX idx_refund_status (status),
+    INDEX idx_invoice (invoice_id)
+);
+
+-- Table 96: financial_budgets
+CREATE TABLE IF NOT EXISTS financial_budgets (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    fiscal_year VARCHAR(10) NOT NULL,
+    quarter ENUM('Q1', 'Q2', 'Q3', 'Q4', 'ANNUAL') NOT NULL,
+    department ENUM('ENGINEERING', 'MARKETING', 'OPERATIONS', 'HUMAN_RESOURCES', 'GENERAL_ADMIN', 'SALES') NOT NULL,
+    category VARCHAR(100) NOT NULL,
+    allocated_amount DECIMAL(12,2) NOT NULL,
+    spent_amount DECIMAL(12,2) DEFAULT 0.00,
+    currency VARCHAR(10) DEFAULT 'INR',
+    notes TEXT DEFAULT NULL,
+    created_by CHAR(36) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_budget_dept (fiscal_year, quarter, department, category),
+    INDEX idx_fiscal_dept (fiscal_year, department)
+);
+
+-- Table 97: tax_filings
+CREATE TABLE IF NOT EXISTS tax_filings (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    return_type ENUM('GSTR1', 'GSTR3B', 'GSTR2B', 'TDS_26Q', 'TDS_24Q', 'ADVANCE_TAX') NOT NULL,
+    filing_period VARCHAR(50) NOT NULL,
+    due_date DATE NOT NULL,
+    filed_date DATE DEFAULT NULL,
+    arn_number VARCHAR(100) DEFAULT NULL,
+    tax_payable DECIMAL(12,2) DEFAULT 0.00,
+    tax_paid DECIMAL(12,2) DEFAULT 0.00,
+    status ENUM('DRAFT', 'FILED', 'VERIFIED', 'OVERDUE') DEFAULT 'DRAFT',
+    acknowledgment_url VARCHAR(500) DEFAULT NULL,
+    created_by CHAR(36) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_return_period (return_type, filing_period),
+    INDEX idx_tax_status (status)
+);
+
+-- Extension to Table 21: transactions (Add payment method and bank reconciliation flags)
+ALTER TABLE transactions
+ADD COLUMN IF NOT EXISTS payment_method ENUM('BANK_TRANSFER', 'UPI', 'CARD', 'CASH', 'CHEQUE', 'RAZORPAY', 'STRIPE') DEFAULT 'BANK_TRANSFER',
+ADD COLUMN IF NOT EXISTS reference_number VARCHAR(100) DEFAULT NULL,
+ADD COLUMN IF NOT EXISTS is_reconciled BOOLEAN DEFAULT FALSE,
+ADD COLUMN IF NOT EXISTS reconciled_at DATETIME DEFAULT NULL;
+
+-- ==========================================================
+-- SALES MANAGEMENT EXTENSIONS (Tables 98-102)
+-- ==========================================================
+
+-- Table 98: sales_deals
+CREATE TABLE IF NOT EXISTS sales_deals (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    title VARCHAR(255) NOT NULL,
+    client_id CHAR(36) DEFAULT NULL,
+    lead_id CHAR(36) DEFAULT NULL,
+    contact_name VARCHAR(255) NOT NULL,
+    contact_email VARCHAR(255) DEFAULT NULL,
+    contact_phone VARCHAR(50) DEFAULT NULL,
+    deal_value DECIMAL(12,2) NOT NULL,
+    currency VARCHAR(10) DEFAULT 'INR',
+    stage ENUM('QUALIFICATION', 'DISCOVERY', 'PROPOSAL_SENT', 'NEGOTIATION', 'CLOSED_WON', 'CLOSED_LOST') DEFAULT 'QUALIFICATION',
+    probability INT DEFAULT 20,
+    expected_close_date DATE NOT NULL,
+    actual_close_date DATE DEFAULT NULL,
+    loss_reason VARCHAR(255) DEFAULT NULL,
+    owner_id CHAR(36) NOT NULL,
+    notes TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE SET NULL,
+    FOREIGN KEY (lead_id) REFERENCES leads(id) ON DELETE SET NULL,
+    FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_deal_stage (stage),
+    INDEX idx_deal_owner (owner_id),
+    INDEX idx_close_date (expected_close_date)
+);
+
+-- Table 99: sales_proposals
+CREATE TABLE IF NOT EXISTS sales_proposals (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    proposal_number VARCHAR(50) UNIQUE NOT NULL,
+    deal_id CHAR(36) DEFAULT NULL,
+    client_id CHAR(36) DEFAULT NULL,
+    title VARCHAR(255) NOT NULL,
+    total_amount DECIMAL(12,2) NOT NULL,
+    discount_percentage DECIMAL(5,2) DEFAULT 0.00,
+    valid_until DATE NOT NULL,
+    status ENUM('DRAFT', 'SENT', 'ACCEPTED', 'DECLINED', 'EXPIRED') DEFAULT 'DRAFT',
+    deliverables JSON DEFAULT NULL,
+    pdf_url VARCHAR(500) DEFAULT NULL,
+    created_by CHAR(36) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (deal_id) REFERENCES sales_deals(id) ON DELETE SET NULL,
+    FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE SET NULL,
+    FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_prop_status (status),
+    INDEX idx_prop_deal (deal_id)
+);
+
+-- Table 100: sales_activities
+CREATE TABLE IF NOT EXISTS sales_activities (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    activity_type ENUM('CALL', 'MEETING', 'DEMO', 'EMAIL', 'FOLLOW_UP', 'NOTE') NOT NULL,
+    lead_id CHAR(36) DEFAULT NULL,
+    deal_id CHAR(36) DEFAULT NULL,
+    title VARCHAR(255) NOT NULL,
+    description TEXT DEFAULT NULL,
+    outcome ENUM('CONNECTED', 'BUSY', 'NO_ANSWER', 'MEETING_BOOKED', 'COMPLETED', 'CANCELLED') DEFAULT 'COMPLETED',
+    duration_minutes INT DEFAULT 15,
+    scheduled_at DATETIME NOT NULL,
+    completed_at DATETIME DEFAULT NULL,
+    meeting_link VARCHAR(500) DEFAULT NULL,
+    performed_by CHAR(36) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (lead_id) REFERENCES leads(id) ON DELETE SET NULL,
+    FOREIGN KEY (deal_id) REFERENCES sales_deals(id) ON DELETE SET NULL,
+    FOREIGN KEY (performed_by) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_act_user (performed_by, scheduled_at),
+    INDEX idx_act_deal (deal_id)
+);
+
+-- Table 101: sales_targets
+CREATE TABLE IF NOT EXISTS sales_targets (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    user_id CHAR(36) NOT NULL,
+    fiscal_year VARCHAR(10) NOT NULL,
+    period_type ENUM('MONTHLY', 'QUARTERLY', 'ANNUAL') NOT NULL,
+    period_label VARCHAR(50) NOT NULL,
+    target_revenue DECIMAL(12,2) NOT NULL,
+    achieved_revenue DECIMAL(12,2) DEFAULT 0.00,
+    deals_target INT DEFAULT 5,
+    deals_won INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_rep_target (user_id, fiscal_year, period_label),
+    INDEX idx_target_user (user_id)
+);
+
+-- Table 102: customer_handovers
+CREATE TABLE IF NOT EXISTS customer_handovers (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    deal_id CHAR(36) NOT NULL,
+    client_id CHAR(36) NOT NULL,
+    handover_to ENUM('PROJECT_MANAGER', 'ACADEMIC_COORDINATOR', 'OPERATIONS') NOT NULL,
+    assigned_person_id CHAR(36) DEFAULT NULL,
+    scope_summary TEXT NOT NULL,
+    kickoff_date DATE NOT NULL,
+    status ENUM('PENDING', 'ACCEPTED', 'ONBOARDED') DEFAULT 'PENDING',
+    handover_by CHAR(36) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (deal_id) REFERENCES sales_deals(id) ON DELETE CASCADE,
+    FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE,
+    FOREIGN KEY (assigned_person_id) REFERENCES users(id) ON DELETE SET NULL,
+    FOREIGN KEY (handover_by) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_handover_status (status)
+);
+
+-- ==========================================================
+-- RECEPTION & FRONT DESK EXTENSIONS (Tables 103-104)
+-- ==========================================================
+
+-- Table 103: reception_appointments
+CREATE TABLE IF NOT EXISTS reception_appointments (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    visitor_name VARCHAR(255) NOT NULL,
+    phone VARCHAR(50) NOT NULL,
+    email VARCHAR(255) DEFAULT NULL,
+    company VARCHAR(255) DEFAULT NULL,
+    purpose VARCHAR(255) NOT NULL,
+    person_to_meet CHAR(36) DEFAULT NULL,
+    person_to_meet_name VARCHAR(255) DEFAULT NULL,
+    appointment_date DATE NOT NULL,
+    appointment_time TIME NOT NULL,
+    status ENUM('SCHEDULED', 'CHECKED_IN', 'COMPLETED', 'CANCELLED', 'NO_SHOW') DEFAULT 'SCHEDULED',
+    badge_number VARCHAR(50) DEFAULT NULL,
+    notes TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (person_to_meet) REFERENCES users(id) ON DELETE SET NULL,
+    INDEX idx_appt_date (appointment_date),
+    INDEX idx_appt_status (status),
+    INDEX idx_appt_host (person_to_meet)
+);
+
+-- Table 104: reception_receipts
+CREATE TABLE IF NOT EXISTS reception_receipts (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    receipt_number VARCHAR(50) UNIQUE NOT NULL,
+    student_name VARCHAR(255) NOT NULL,
+    student_id CHAR(36) DEFAULT NULL,
+    course_id CHAR(36) DEFAULT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    payment_mode ENUM('CASH', 'UPI', 'CARD', 'NET_BANKING') DEFAULT 'UPI',
+    purpose ENUM('TUITION_FEE', 'ADMISSION_FEE', 'EXAM_FEE', 'CERTIFICATE_FEE', 'OTHER') DEFAULT 'ADMISSION_FEE',
+    issued_by CHAR(36) NOT NULL,
+    issued_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    transaction_reference VARCHAR(100) DEFAULT NULL,
+    notes TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE SET NULL,
+    FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE SET NULL,
+    FOREIGN KEY (issued_by) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_receipt_num (receipt_number),
+    INDEX idx_receipt_issued (issued_at)
+);
+
+
+
+
+
+
+

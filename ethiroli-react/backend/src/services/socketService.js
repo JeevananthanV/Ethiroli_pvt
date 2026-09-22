@@ -59,6 +59,20 @@ export const initSocketServer = (server) => {
     socket.join(`user:${socket.user.id}`);
     socket.join(`role:${socket.user.role}`);
 
+    socket.on('join_room', (room) => {
+      if (room && typeof room === 'string') {
+        socket.join(room);
+        logger.info(`Socket ${socket.id} joined room ${room}`);
+      }
+    });
+
+    socket.on('leave_room', (room) => {
+      if (room && typeof room === 'string') {
+        socket.leave(room);
+        logger.info(`Socket ${socket.id} left room ${room}`);
+      }
+    });
+
     socket.on('disconnect', (reason) => {
       logger.info('Socket client disconnected', {
         socketId: socket.id,

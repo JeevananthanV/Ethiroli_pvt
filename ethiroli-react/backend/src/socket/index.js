@@ -1,17 +1,20 @@
 import { initSocketServer, broadcastToRole, broadcastToUser, getIO } from '../services/socketService.js';
 import setupHandlers from './handlers.js';
 
-import http from 'http';
+let ioInstance = null;
 
-const SOCKET_PORT = Number(process.env.SOCKET_PORT || 3003);
+/**
+ * Attaches Socket.IO to the main Express HTTP server.
+ * This ensures WebSockets run on the exact same port (PORT) via /socket.io,
+ * making it fully compatible with Hostinger, reverse proxies, and single-port cloud hosts.
+ */
+export const attachSocket = (httpServer) => {
+  ioInstance = initSocketServer(httpServer);
+  setupHandlers(ioInstance);
+  return ioInstance;
+};
 
-export let httpServer = http.createServer();
+export const getIOInstance = () => ioInstance || getIO();
 
-const io = initSocketServer(httpServer);
-setupHandlers(io);
-
-httpServer.listen(SOCKET_PORT, () => {
-  console.log(`Socket.IO server listening on port ${SOCKET_PORT}`);
-});
-
-export { io, broadcastToRole, broadcastToUser, getIO };
+export { broadcastToRole, broadcastToUser, getIO };
+export default attachSocket;

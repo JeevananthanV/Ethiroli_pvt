@@ -9,7 +9,7 @@ const multiPageRewritePlugin = () => ({
   configureServer(server) {
     server.middlewares.use((req, res, next) => {
       const url = req.url ? req.url.split('?')[0] : '';
-      const rolePaths = ['/app', '/admin', '/auth', '/dashboard'];
+      const rolePaths = ['/app', '/admin', '/auth', '/dashboard', '/intern'];
       if (rolePaths.some((path) => url.startsWith(path)) && !url.includes('.')) {
         req.url = '/admin.html';
       }
@@ -47,6 +47,22 @@ export default defineConfig({
   plugins: [react(), multiPageRewritePlugin(), relativePathFallbackPlugin()],
   server: {
     port: 3000,
+    strictPort: false,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path,
+        ws: true,  // WebSocket support
+        configure: (proxy, options) => {
+          proxy.on('proxyReq', (proxyReq, req, res) => {
+            // Ensure credentials are sent
+            proxyReq.setHeader('Access-Control-Allow-Credentials', 'true');
+          });
+        }
+      }
+    }
   },
   build: {
     modulePreload: {

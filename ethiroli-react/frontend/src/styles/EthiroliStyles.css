@@ -1408,5 +1408,750 @@ button {
     background: rgba(255, 255, 255, 0.2);
 }
 
+/* ==========================================================================
+   ETHIROLI EXACT BLUEPRINT REPLICA — HOMEPAGE SECTIONS
+   Using Existing Root Variables & Perfect Image Alignment
+   ========================================================================== */
+
+/* Page Container */
+.et-home-page-container {
+    background-color: var(--base-dark, #0c1a19);
+    color: var(--color-text-on-dark, #ffffff);
+    font-family: var(--font-body, 'Montserrat', sans-serif);
+    line-height: 1.5;
+    overflow-x: hidden;
+}
+
+/* Container Constraint */
+.replica-container {
+    width: 100%;
+    max-width: var(--container-width, 1400px);
+    margin: 0 auto;
+    padding: 0 32px;
+}
+
+/* Buttons */
+.replica-btn-gold {
+    background-color: var(--base-gold, #E8D657);
+    color: #111827;
+    font-family: var(--font-body, 'Montserrat', sans-serif);
+    font-weight: 700;
+    font-size: 14px;
+    padding: 12px 26px;
+    border-radius: var(--radius-sm, 6px);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+    border: none;
+    cursor: pointer;
+}
+.replica-btn-gold:hover {
+    background-color: #f7cb45;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(232, 214, 87, 0.35);
+}
+
+.replica-btn-dark-outline {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    font-family: var(--font-body, 'Montserrat', sans-serif);
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px 26px;
+    border-radius: var(--radius-sm, 6px);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.2s;
+    cursor: pointer;
+}
+.replica-btn-dark-outline:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* 1. HERO SECTION */
+.replica-hero-section {
+    position: relative;
+    background: var(--base-dark, #0c1a19);
+    padding: 90px 0 75px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+}
+
+.replica-hero-bg-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+.replica-hero-video-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(12, 26, 25, 0.94) 0%, rgba(12, 26, 25, 0.82) 50%, rgba(12, 26, 25, 0.96) 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.replica-hero-grid {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1.18fr 0.82fr;
+    gap: 48px;
+    align-items: center;
+}
+
+.replica-hero-eyebrow {
+    color: rgba(255, 255, 255, 0.75);
+    font-family: var(--font-body, 'Montserrat', sans-serif);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+.replica-hero-title {
+    font-family: var(--font-display, 'Montserrat', sans-serif);
+    font-size: clamp(2.4rem, 4.2vw, 3.6rem);
+    font-weight: 800;
+    line-height: 1.16;
+    color: #ffffff;
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+}
+
+.replica-hero-title .gold-text {
+    color: var(--base-gold, #E8D657);
+}
+
+.replica-hero-desc {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.65;
+    margin-bottom: 32px;
+    max-width: 520px;
+}
+
+.replica-hero-ctas {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+}
+
+.replica-hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.replica-stat-val {
+    font-family: var(--font-display, 'Montserrat', sans-serif);
+    font-size: 34px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.replica-stat-lbl {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+.replica-hero-media {
+    position: relative;
+}
+
+.replica-laptop-frame {
+    background: #0d121c;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-md, 12px);
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+    position: relative;
+}
+
+.replica-laptop-img {
+    width: 100%;
+    height: 380px;
+    object-fit: cover;
+    display: block;
+}
+
+.replica-hero-ambient-text {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(0, 0, 0, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #f3f4f6;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* 2. CLIENT LOGOS MARQUEE */
+.replica-logos-section {
+    background: linear-gradient(180deg, #f8f6f2 0%, #f4efe6 100%);
+    padding: 48px 0 44px;
+    border-bottom: 1px solid rgba(12, 26, 25, 0.08);
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.replica-logos-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.45;
+    background-image:
+        radial-gradient(circle at 18% 30%, rgba(129, 158, 53, 0.12), transparent 42%),
+        radial-gradient(circle at 82% 70%, rgba(175, 67, 30, 0.10), transparent 42%);
+    pointer-events: none;
+}
+
+.replica-marquee-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    z-index: 1;
+}
+
+.replica-marquee-track {
+    display: flex;
+    align-items: center;
+    gap: 72px;
+    width: max-content;
+    animation: replicaMarqueeScroll 26s linear infinite;
+    will-change: transform;
+}
+
+@keyframes replicaMarqueeScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.replica-logo-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    opacity: 0.85;
+    padding: 6px 12px;
+    transition: opacity var(--transition-fast, 0.25s ease), transform var(--transition-fast, 0.25s ease);
+}
+.replica-logo-item:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
+.replica-logo-img {
+    height: 38px;
+    max-height: 42px;
+    width: auto;
+    max-width: 220px;
+    object-fit: contain;
+    filter: grayscale(80%) contrast(1.05);
+    opacity: 0.85;
+    transition: filter 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+    display: block;
+}
+.replica-logo-item:hover .replica-logo-img {
+    filter: grayscale(0%) contrast(1);
+    opacity: 1;
+    transform: scale(1.04);
+}
 
 
+/* 3. SERVICES / SOLUTIONS */
+.replica-services-section {
+    background-color: var(--base-dark, #0c1a19);
+    padding: 88px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: center;
+}
+
+.replica-services-title {
+    font-family: var(--font-display, 'Montserrat', sans-serif);
+    font-size: 32px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 12px;
+}
+
+.replica-services-sub {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 52px;
+}
+
+.replica-services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    text-align: left;
+}
+
+.replica-service-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-md, 12px);
+    padding: 30px 24px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+.replica-service-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--base-gold, #E8D657);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+.replica-service-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    background: rgba(232, 214, 87, 0.12);
+    border: 1px solid rgba(232, 214, 87, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--base-gold, #E8D657);
+    font-size: 20px;
+    margin-bottom: 22px;
+}
+
+.replica-service-name {
+    font-family: var(--font-display, 'Montserrat', sans-serif);
+    font-size: 19px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 18px;
+}
+
+.replica-service-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 28px 0;
+    flex-grow: 1;
+}
+
+.replica-service-bullets li {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.replica-service-bullets li::before {
+    content: "•";
+    color: var(--base-gold, #E8D657);
+}
+
+.replica-service-learn {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--base-gold, #E8D657);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.2s;
+}
+.replica-service-learn:hover {
+    gap: 10px;
+}
+
+/* 4. PORTFOLIO / WORK */
+.replica-portfolio-section {
+    background: linear-gradient(180deg, #f8f6f2 0%, #f4efe6 100%);
+    padding: 88px 0;
+    border-bottom: 1px solid rgba(12, 26, 25, 0.08);
+    position: relative;
+}
+
+.replica-portfolio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 40px;
+}
+
+.replica-portfolio-title {
+    font-family: var(--font-display, 'Montserrat', sans-serif);
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--color-text-main, #2D2D2D);
+}
+
+.replica-portfolio-viewall {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-text-main, #2D2D2D);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+}
+.replica-portfolio-viewall:hover {
+    color: var(--color-primary, #819E35);
+}
+
+.replica-portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.replica-project-card {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(232, 225, 214, 0.85));
+    border: 1px solid rgba(12, 26, 25, 0.1);
+    border-radius: var(--radius-md, 12px);
+    overflow: hidden;
+    box-shadow: 0 14px 34px rgba(12, 26, 25, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.replica-project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(12, 26, 25, 0.15);
+    border-color: var(--color-primary, #819E35);
+}
+
+.replica-project-img {
+    width: 100%;
+    height: 185px;
+    object-fit: cover;
+    background-color: #f3f4f6;
+    display: block;
+}
+
+.replica-project-info {
+    padding: 18px 20px;
+}
+
+.replica-project-cat {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--color-secondary, #AF431E);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.replica-project-name {
+    font-family: var(--font-display, 'Montserrat', sans-serif);
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--color-text-main, #2D2D2D);
+    margin-top: 4px;
+}
+
+/* 5. WHY CHOOSE ETHIROLI */
+.replica-why-section {
+    background-color: var(--base-dark, #0c1a19);
+    padding: 88px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: center;
+}
+
+.replica-why-title {
+    font-family: var(--font-display, 'Montserrat', sans-serif);
+    font-size: 32px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 12px;
+}
+
+.replica-why-title .gold-accent {
+    color: var(--base-gold, #E8D657);
+}
+
+.replica-why-sub {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 56px;
+}
+
+.replica-why-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+}
+
+.replica-why-item {
+    padding: 24px 16px;
+}
+
+.replica-why-icon {
+    font-size: 38px;
+    color: var(--base-gold, #E8D657);
+    margin-bottom: 16px;
+    display: inline-block;
+}
+
+.replica-why-heading {
+    font-family: var(--font-display, 'Montserrat', sans-serif);
+    font-size: 17px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.replica-why-text {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.5;
+}
+
+/* 6. TESTIMONIALS */
+.replica-testimonials-section {
+    background: linear-gradient(180deg, #f3eee6 0%, #ece4d7 100%);
+    padding: 88px 0;
+    border-bottom: 1px solid rgba(12, 26, 25, 0.08);
+    position: relative;
+}
+
+.replica-test-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 44px;
+}
+
+.replica-test-title {
+    font-family: var(--font-display, 'Montserrat', sans-serif);
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--color-text-main, #2D2D2D);
+}
+
+.replica-arrows {
+    display: flex;
+    gap: 10px;
+}
+
+.replica-arrow-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(12, 26, 25, 0.15);
+    background: rgba(255, 255, 255, 0.85);
+    color: var(--color-text-main, #2D2D2D);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s ease;
+}
+.replica-arrow-btn:hover {
+    border-color: var(--color-primary, #819E35);
+    background: #ffffff;
+}
+
+.replica-test-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+.replica-test-card {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(232, 225, 214, 0.85));
+    border: 1px solid rgba(12, 26, 25, 0.1);
+    border-radius: var(--radius-md, 12px);
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 14px 34px rgba(12, 26, 25, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.replica-test-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(12, 26, 25, 0.15);
+    border-color: var(--color-primary, #819E35);
+}
+
+.replica-quote-icon {
+    font-size: 36px;
+    color: var(--color-primary, #819E35);
+    line-height: 1;
+    margin-bottom: 16px;
+    font-family: serif;
+}
+
+.replica-quote-text {
+    font-size: 14.5px;
+    color: #1f2937;
+    line-height: 1.65;
+    flex-grow: 1;
+    margin-bottom: 28px;
+}
+
+.replica-client-meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.replica-client-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(12, 26, 25, 0.12);
+}
+
+.replica-client-name {
+    font-family: var(--font-display, 'Montserrat', sans-serif);
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--color-text-main, #2D2D2D);
+}
+
+.replica-client-corp {
+    font-size: 12px;
+    color: var(--color-text-muted, #555555);
+}
+
+.replica-star-row {
+    margin-left: auto;
+    color: #f59e0b;
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+
+/* 7. STRONG CTA SECTION */
+.replica-strong-cta-section {
+    background-color: var(--base-dark, #0c1a19);
+    padding: 72px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.replica-cta-banner {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-md, 14px);
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1.25fr 0.75fr;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.replica-cta-content {
+    padding: 56px 48px;
+}
+
+.replica-cta-eyebrow {
+    font-family: var(--font-body, 'Montserrat', sans-serif);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--base-gold, #E8D657);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.replica-cta-heading {
+    font-family: var(--font-display, 'Montserrat', sans-serif);
+    font-size: 32px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.25;
+    margin-bottom: 14px;
+}
+
+.replica-cta-sub {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 36px;
+}
+
+.replica-cta-buttons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.replica-cta-backdrop {
+    position: relative;
+    min-height: 280px;
+}
+
+.replica-cta-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.replica-cta-script {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    font-size: 26px;
+    font-weight: 800;
+    color: #ffffff;
+    font-style: italic;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.9);
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+    .replica-hero-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    .replica-services-grid,
+    .replica-portfolio-grid,
+    .replica-why-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .replica-test-grid {
+        grid-template-columns: 1fr;
+    }
+    .replica-cta-banner {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .replica-services-grid,
+    .replica-portfolio-grid,
+    .replica-why-grid {
+        grid-template-columns: 1fr;
+    }
+    .replica-hero-stats {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .replica-cta-content {
+        padding: 36px 24px;
+    }
+    .replica-hero-title {
+        font-size: 28px;
+    }
+}

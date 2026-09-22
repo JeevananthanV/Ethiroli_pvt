@@ -25,7 +25,8 @@ export default function AuditTable() {
       if (filters.startDate) params.start_date = filters.startDate;
       if (filters.endDate) params.end_date = filters.endDate;
       const data = await getAuditLogs(params);
-      setLogs(Array.isArray(data) ? data : []);
+      const items = Array.isArray(data?.data) ? data.data : (Array.isArray(data) ? data : []);
+      setLogs(items);
     } catch (err) {
       setError(err.message || 'Failed to fetch audit logs');
     } finally {

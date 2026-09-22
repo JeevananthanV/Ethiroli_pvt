@@ -65,6 +65,9 @@ export default function MainLayout() {
     }
   };
 
+  const [feedOpen, setFeedOpen] = useState(false);
+  const unreadFeedCount = feedItems.filter((item) => !item.is_read).length;
+
   return (
     <div className="layoutContainer">
       <Sidebar />
@@ -72,37 +75,69 @@ export default function MainLayout() {
       <div className={`mainWrapper ${sidebarOpen ? 'sidebarOpen' : ''}`}>
         <Navbar
           onSearchClick={() => setSearchOpen(true)}
+          onToggleFeed={() => setFeedOpen((prev) => !prev)}
+          unreadFeedCount={unreadFeedCount}
         />
 
         <div className="contentArea">
-          <div className="mainContent">
+          <main className="mainContent" role="main">
             <Outlet />
-          </div>
-
-          <div className="activityFeedTray">
-            <div className="feedHeader">
-              <h3>Activity Feed</h3>
-            </div>
-            <div className="feedBody">
-              {feedItems.length === 0 ? (
-                <p className="emptyFeed">No recent activity.</p>
-              ) : (
-                feedItems.map((item) => (
-                  <div key={item.id} className={`feedItem ${!item.is_read ? 'unreadItem' : ''}`}>
-                    <p className="feedText">{item.payload?.message || `Event: ${item.event_type}`}</p>
-                    <span className="feedTime">{new Date(item.created_at).toLocaleTimeString()}</span>
-                    {!item.is_read && (
-                      <button className="readBtn" onClick={() => handleMarkAsRead(item.id)}>
-                        Mark as read
-                      </button>
-                    )}
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
+          </main>
         </div>
       </div>
+
+      {feedOpen && (
+        <div 
+          className="feedBackdrop" 
+          onClick={() => setFeedOpen(false)} 
+          aria-hidden="true" 
+        />
+      )}
+
+      <aside className={`activityFeedTray ${feedOpen ? 'open' : ''}`} aria-label="Activity Feed">
+        <div className="feedHeader">
+          <div className="d-flex align-items-center gap-2" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <i className="bi bi-bell-fill" style={{ color: 'var(--color-primary)' }}></i>
+            <h3 style={{ margin: 0 }}>Activity Feed</h3>
+            {unreadFeedCount > 0 && (
+              <span className="badge" style={{ backgroundColor: 'var(--color-secondary)', color: '#fff', fontSize: '11px', padding: '2px 8px', borderRadius: '10px' }}>
+                {unreadFeedCount} new
+              </span>
+            )}
+          </div>
+          <button 
+            type="button" 
+            className="closeBtn" 
+            onClick={() => setFeedOpen(false)}
+            aria-label="Close activity feed"
+            style={{ background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer', color: 'var(--color-text-muted)' }}
+          >
+            &times;
+          </button>
+        </div>
+        <div className="feedBody">
+          {feedItems.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '32px 16px', color: 'var(--color-text-muted)' }}>
+              <i className="bi bi-inbox" style={{ fontSize: '2rem', opacity: 0.5, display: 'block', marginBottom: '8px' }}></i>
+              <p className="emptyFeed" style={{ margin: 0 }}>No recent activity.</p>
+            </div>
+          ) : (
+            feedItems.map((item) => (
+              <div key={item.id} className={`feedItem ${!item.is_read ? 'unreadItem' : ''}`}>
+                <p className="feedText">{item.payload?.message || `Event: ${item.event_type}`}</p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '6px' }}>
+                  <span className="feedTime">{new Date(item.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                  {!item.is_read && (
+                    <button className="readBtn" onClick={() => handleMarkAsRead(item.id)}>
+                      Mark as read
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </aside>
 
       {searchOpen && (
         <div className="overlay" onClick={() => setSearchOpen(false)}>

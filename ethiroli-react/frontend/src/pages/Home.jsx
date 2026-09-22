@@ -1,29 +1,23 @@
 import React from 'react';
-import Hero from '../components/home/Hero';
-import Marquee from '../components/home/Marquee';
-import AboutPreview from '../components/home/AboutPreview';
-import ServicesSlider from '../components/home/ServicesSlider';
-import Activities from '../components/home/Activities';
-import ProjectsPreview from '../components/home/ProjectsPreview';
-import ContactForm from '../components/home/ContactForm';
-import Testimonials from '../components/home/Testimonials';
-// import CTA from '../components/home/CTA';
-import CTAJoin from '../components/about/CTAJoin';
+import Hero from '../app/marketing/components/home/Hero';
+import Marquee from '../app/marketing/components/home/Marquee';
+import ServicesSlider from '../app/marketing/components/home/ServicesSlider';
+import ProjectsPreview from '../app/marketing/components/home/ProjectsPreview';
+import Activities from '../app/marketing/components/home/Activities';
+import Testimonials from '../app/marketing/components/home/Testimonials';
+import CTA from '../app/marketing/components/home/CTA';
 
 const Home = () => {
     return (
-        <>
+        <div className="et-home-page-container">
             <Hero />
             <Marquee />
-            <AboutPreview />
             <ServicesSlider />
-            <Activities />
             <ProjectsPreview />
-            <ContactForm />
-            {/* <Testimonials /> */}
-            {/* <CTA > */}
-            <CTAJoin />
-        </>
+            <Activities />
+            <Testimonials />
+            <CTA />
+        </div>
     );
 };
 

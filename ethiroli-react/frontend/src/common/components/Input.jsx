@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useId } from 'react'
 
 export default function Input({
   label,
@@ -11,15 +11,20 @@ export default function Input({
   error,
   ...props
 }) {
+  const generatedId = useId()
+  const inputId = props.id || props.name || generatedId
+
   return (
     <div className="formGroup">
       {label && (
-        <label className={`label ${required ? 'required' : ''}`}>
+        <label className={`label ${required ? 'required' : ''}`} htmlFor={inputId}>
           {label}
         </label>
       )}
       <input
         type={type}
+        id={inputId}
+        name={props.name || inputId}
         className={`inputField ${error ? 'textDanger' : ''}`}
         value={value}
         onChange={onChange}

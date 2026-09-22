@@ -26,7 +26,7 @@ export const validateRolePath = (req, res, next) => {
   if (!pathRole) return next();
 
   if (!req.user) {
-    throw new AuthorizationError('Authentication required.');
+    return next(new AuthorizationError('Authentication required.'));
   }
 
   const userRole = req.user.role;
@@ -40,10 +40,10 @@ export const validateRolePath = (req, res, next) => {
   }
 
   if (userRole !== pathRole) {
-    throw new AuthorizationError(
+    return next(new AuthorizationError(
       `Access denied. Your role (${userRole}) cannot access ${pathRole} resources.`,
       { requiredRole: pathRole, currentRole: userRole }
-    );
+    ));
   }
 
   next();
@@ -51,42 +51,42 @@ export const validateRolePath = (req, res, next) => {
 
 export const allowSuperAdmin = (req, res, next) => {
   if (!req.user) {
-    throw new AuthorizationError('Authentication required.');
+    return next(new AuthorizationError('Authentication required.'));
   }
   if (req.user.role !== ROLES.SUPER_ADMIN) {
-    throw new AuthorizationError('Only Super Admin can perform this action.');
+    return next(new AuthorizationError('Only Super Admin can perform this action.'));
   }
   next();
 };
 
 export const allowAdminOrSuperAdmin = (req, res, next) => {
   if (!req.user) {
-    throw new AuthorizationError('Authentication required.');
+    return next(new AuthorizationError('Authentication required.'));
   }
   if (req.user.role !== ROLES.SUPER_ADMIN && req.user.role !== ROLES.ADMIN) {
-    throw new AuthorizationError('Only Admin or Super Admin can perform this action.');
+    return next(new AuthorizationError('Only Admin or Super Admin can perform this action.'));
   }
   next();
 };
 
 export const allowAdminSuperAdminHr = (req, res, next) => {
   if (!req.user) {
-    throw new AuthorizationError('Authentication required.');
+    return next(new AuthorizationError('Authentication required.'));
   }
   const allowed = [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.HR];
   if (!allowed.includes(req.user.role)) {
-    throw new AuthorizationError('Access denied. Admin, Super Admin, or HR role required.');
+    return next(new AuthorizationError('Access denied. Admin, Super Admin, or HR role required.'));
   }
   next();
 };
 
 export const allowManagerOrAbove = (req, res, next) => {
   if (!req.user) {
-    throw new AuthorizationError('Authentication required.');
+    return next(new AuthorizationError('Authentication required.'));
   }
   const allowed = [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.HR, ROLES.PROJECT_MANAGER];
   if (!allowed.includes(req.user.role)) {
-    throw new AuthorizationError('Access denied. Manager or higher role required.');
+    return next(new AuthorizationError('Access denied. Manager or higher role required.'));
   }
   next();
 };

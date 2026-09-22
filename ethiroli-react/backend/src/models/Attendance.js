@@ -1,22 +1,39 @@
+import crypto from 'crypto';
 import pool from '../config/database.js';
+import { decrypt } from '../config/encryption.js';
 
 export default class Attendance {
   static format(row) {
     if (!row) return null;
-    return row;
+    const name = row.full_name ? decrypt(row.full_name) : (row.name || null);
+    return {
+      ...row,
+      full_name: name,
+      employee_name: name,
+      user_name: name,
+      email: row.email ? decrypt(row.email) : null
+    };
   }
 
   static async findById(id) {
-    const [rows] = await pool.execute('SELECT * FROM attendance WHERE id = ?', [id]);
+    const [rows] = await pool.execute(
+      `SELECT a.*, u.full_name, u.email, e.department, e.employee_code 
+       FROM attendance a 
+       JOIN users u ON a.user_id = u.id 
+       LEFT JOIN employees e ON a.user_id = e.user_id 
+       WHERE a.id = ?`,
+      [id]
+    );
     return rows.length > 0 ? this.format(rows[0]) : null;
   }
 
-  static async create({ user_id, date, check_in_time = null, check_out_time = null, status = 'ABSENT', is_late = false }) {
+  static async create({ id = crypto.randomUUID(), user_id, date, check_in_time = null, check_out_time = null, status = 'ABSENT', is_late = false }) {
     await pool.execute(
-      `INSERT INTO attendance (user_id, date, check_in_time, check_out_time, status, is_late)
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [user_id, date, check_in_time, check_out_time, status, is_late]
+      `INSERT INTO attendance (id, user_id, date, check_in_time, check_out_time, status, is_late)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [id, user_id, date, check_in_time, check_out_time, status, is_late]
     );
+    return id;
   }
 
   static async update(id, updates) {
@@ -38,13 +55,19 @@ export default class Attendance {
   }
 
   static async list({ user_id, start_date, end_date, limit = 50, offset = 0 } = {}) {
-    let query = 'SELECT * FROM attendance WHERE 1=1';
+    let query = `
+      SELECT a.*, u.full_name, u.email, e.department, e.employee_code 
+      FROM attendance a
+      JOIN users u ON a.user_id = u.id
+      LEFT JOIN employees e ON a.user_id = e.user_id
+      WHERE 1=1
+    `;
     const values = [];
 
-    if (user_id) { query += ' AND user_id = ?'; values.push(user_id); }
-    if (start_date && end_date) { query += ' AND date BETWEEN ? AND ?'; values.push(start_date, end_date); }
+    if (user_id) { query += ' AND a.user_id = ?'; values.push(user_id); }
+    if (start_date && end_date) { query += ' AND a.date BETWEEN ? AND ?'; values.push(start_date, end_date); }
 
-    query += ' ORDER BY date DESC LIMIT ? OFFSET ?';
+    query += ' ORDER BY a.date DESC LIMIT ? OFFSET ?';
     values.push(limit, offset);
 
     const [rows] = await pool.execute(query, values);
@@ -52,11 +75,11 @@ export default class Attendance {
   }
 
   static async count({ user_id, start_date, end_date } = {}) {
-    let query = 'SELECT COUNT(*) as total FROM attendance WHERE 1=1';
+    let query = 'SELECT COUNT(*) as total FROM attendance a WHERE 1=1';
     const values = [];
 
-    if (user_id) { query += ' AND user_id = ?'; values.push(user_id); }
-    if (start_date && end_date) { query += ' AND date BETWEEN ? AND ?'; values.push(start_date, end_date); }
+    if (user_id) { query += ' AND a.user_id = ?'; values.push(user_id); }
+    if (start_date && end_date) { query += ' AND a.date BETWEEN ? AND ?'; values.push(start_date, end_date); }
 
     const [rows] = await pool.execute(query, values);
     return rows[0].total;

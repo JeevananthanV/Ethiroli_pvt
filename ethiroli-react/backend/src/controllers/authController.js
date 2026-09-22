@@ -49,8 +49,8 @@ export const login = asyncHandler(async (req, res) => {
 
   const portalSlug = req.portal || req.body.portal;
 
-  const portalConfig = portalSlug ? getPortalConfigBySlug(portalSlug) : null;
-  if (portalSlug && !portalConfig) {
+  const portalConfig = (portalSlug && portalSlug !== 'app') ? getPortalConfigBySlug(portalSlug) : null;
+  if (portalSlug && portalSlug !== 'app' && !portalConfig) {
     throw new AuthenticationError('Invalid portal.');
   }
 
@@ -169,7 +169,7 @@ export const login = asyncHandler(async (req, res) => {
 
   const { password_hash, ...safeUser } = user;
   broadcastToRole('ADMIN', 'user_logged_in', { user_id: user.id });
-  return success(res, 200, { user: safeUser, socket_token: token, activePortal: portalSlug || PORTAL_CONFIGS[user.role]?.slug || 'app' }, 'Login successful');
+  return success(res, 200, { user: safeUser, token, socket_token: token, activePortal: portalSlug || PORTAL_CONFIGS[user.role]?.slug || 'app' }, 'Login successful');
 });
 
 export const verifyMfa = asyncHandler(async (req, res) => {

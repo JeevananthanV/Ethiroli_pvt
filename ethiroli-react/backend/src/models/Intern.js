@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import pool from '../config/database.js';
 
 export default class Intern {
@@ -16,12 +17,13 @@ export default class Intern {
     return rows.length > 0 ? this.format(rows[0]) : null;
   }
 
-  static async create({ user_id, mentor_id = null, college_name, stipend = 0, start_date, end_date }) {
+  static async create({ id = crypto.randomUUID(), user_id, mentor_id = null, college_name, stipend = 0, start_date, end_date }) {
     await pool.execute(
-      `INSERT INTO interns (user_id, mentor_id, college_name, stipend, start_date, end_date)
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [user_id, mentor_id, college_name, stipend, start_date, end_date]
+      `INSERT INTO interns (id, user_id, mentor_id, college_name, stipend, start_date, end_date)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [id, user_id, mentor_id, college_name, stipend, start_date, end_date]
     );
+    return id;
   }
 
   static async update(id, updates) {

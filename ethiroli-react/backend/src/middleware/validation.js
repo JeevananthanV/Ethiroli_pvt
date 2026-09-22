@@ -1,4 +1,5 @@
 import { AppError, ValidationError } from '../utils/errors.js';
+import validationSchemas from './validationSchemas.js';
 import {
   validateRequired,
   validateEmail,
@@ -10,13 +11,19 @@ import {
   sanitizeInput
 } from '../utils/validators.js';
 
-export const validateBody = (schema) => {
+export const validateBody = (schemaInput) => {
   return (req, res, next) => {
     const sanitized = sanitizeInput(req.body);
     req.body = sanitized;
     const errors = [];
 
-    if (schema.required) {
+    const schema = typeof schemaInput === 'string'
+      ? (validationSchemas[schemaInput] || {})
+      : (schemaInput || {});
+
+    const isPatch = req.method === 'PATCH';
+
+    if (schema.required && !isPatch) {
       const missing = validateRequired(sanitized, schema.required);
       if (missing.length > 0) {
         errors.push({ field: 'required', message: `Missing required fields: ${missing.join(', ')}`, missing });
@@ -27,7 +34,7 @@ export const validateBody = (schema) => {
       for (const [field, rules] of Object.entries(schema.fields)) {
         const value = sanitized[field];
 
-        if (rules.required && (value === undefined || value === null || String(value).trim() === '')) {
+        if (!isPatch && rules.required && (value === undefined || value === null || String(value).trim() === '')) {
           errors.push({ field, message: `${field} is required`, code: 'REQUIRED' });
           continue;
         }

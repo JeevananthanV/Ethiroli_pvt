@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import pool from '../config/database.js';
 
 export default class Leave {
@@ -11,13 +12,13 @@ export default class Leave {
     return rows.length > 0 ? this.format(rows[0]) : null;
   }
 
-  static async create({ user_id, leave_type, start_date, end_date, reason }) {
-    const [result] = await pool.execute(
-      `INSERT INTO leaves (user_id, leave_type, start_date, end_date, reason)
-       VALUES (?, ?, ?, ?, ?)`,
-      [user_id, leave_type, start_date, end_date, reason]
+  static async create({ id = crypto.randomUUID(), user_id, leave_type, start_date, end_date, reason }) {
+    await pool.execute(
+      `INSERT INTO leaves (id, user_id, leave_type, start_date, end_date, reason)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [id, user_id, leave_type, start_date, end_date, reason]
     );
-    return result.insertId || result.info;
+    return id;
   }
 
   static async update(id, updates) {

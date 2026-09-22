@@ -4,12 +4,15 @@ export const login = async (email, password, portal = null, mfaToken = null) => 
   const payload = { email, password };
   const headers = {};
   if (portal) {
-    headers['X-Portal'] = String(portal).trim().toLowerCase();
+    const slug = String(portal).trim().toLowerCase();
+    headers['X-Portal'] = slug;
+    payload.portal = slug;
   }
   if (mfaToken) {
     payload.mfaToken = mfaToken;
   }
-  const response = await axiosInstance.post('/v1/auth/portal-login', payload, { headers });
+  const endpoint = portal ? '/v1/auth/portal-login' : '/v1/auth/login';
+  const response = await axiosInstance.post(endpoint, payload, { headers });
   return response.data;
 };
 

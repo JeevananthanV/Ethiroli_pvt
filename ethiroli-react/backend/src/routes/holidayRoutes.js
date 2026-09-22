@@ -7,9 +7,9 @@ import { validateBody } from '../middleware/validation.js';
 const router = express.Router();
 router.use(authenticate);
 
-router.get('/calendar/holidays', requireRole('EMPLOYEE', 'INTERN', 'TUTOR', 'PROJECT_MANAGER', 'ADMIN', 'SUPER_ADMIN', 'RECEPTION'), listHolidays);
+router.get('/calendar/holidays', requireRole('EMPLOYEE', 'INTERN', 'HR', 'TUTOR', 'PROJECT_MANAGER', 'ADMIN', 'SUPER_ADMIN', 'RECEPTION'), listHolidays);
 router.post('/calendar/holidays', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), validateBody('createHoliday'), createHoliday);
-router.get('/calendar/holidays/:id', requireRole('EMPLOYEE', 'INTERN', 'TUTOR', 'PROJECT_MANAGER', 'ADMIN', 'SUPER_ADMIN', 'RECEPTION'), getHoliday);
+router.get('/calendar/holidays/:id', requireRole('EMPLOYEE', 'INTERN', 'HR', 'TUTOR', 'PROJECT_MANAGER', 'ADMIN', 'SUPER_ADMIN', 'RECEPTION'), getHoliday);
 router.patch('/calendar/holidays/:id', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), validateBody('createHoliday'), updateHoliday);
 router.delete('/calendar/holidays/:id', requireRole('ADMIN', 'SUPER_ADMIN'), deleteHoliday);
 

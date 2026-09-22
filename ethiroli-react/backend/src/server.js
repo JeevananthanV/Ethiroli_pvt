@@ -1,13 +1,11 @@
 import 'dotenv/config';
 import http from 'http';
-import https from 'https';
 import app from './app.js';
-import { httpServer as socketHttpServer, io } from './socket/index.js';
+import { attachSocket } from './socket/index.js';
 import pool, { logPoolStatus } from './config/database.js';
 import bcrypt from 'bcrypt';
 
 const PORT = process.env.PORT || 5000;
-const SOCKET_PORT = 3003;
 const SHUTDOWN_TIMEOUT_MS = Number(process.env.SHUTDOWN_TIMEOUT_MS || 10000);
 
 // Remove MITM risk: only allow self-signed certs in explicit dev mode
@@ -16,6 +14,8 @@ const SHUTDOWN_TIMEOUT_MS = Number(process.env.SHUTDOWN_TIMEOUT_MS || 10000);
 // }
 
 let isShuttingDown = false;
+let server = null;
+let io = null;
 
 const gracefulShutdown = (signal) => {
   if (isShuttingDown) {
@@ -28,23 +28,16 @@ const gracefulShutdown = (signal) => {
 
   const closeServers = async () => {
     try {
-      console.log('Closing Socket.IO server...');
-      await new Promise((resolve) => {
-        socketHttpServer.close(() => {
-          console.log('Socket.IO server closed.');
-          resolve();
+      if (server) {
+        console.log('Closing HTTP & WebSocket server...');
+        await new Promise((resolve) => {
+          server.close(() => {
+            console.log('HTTP & WebSocket server closed.');
+            resolve();
+          });
+          setTimeout(resolve, SHUTDOWN_TIMEOUT_MS);
         });
-        setTimeout(resolve, SHUTDOWN_TIMEOUT_MS);
-      });
-
-      console.log('Closing HTTP server...');
-      await new Promise((resolve) => {
-        server.close(() => {
-          console.log('HTTP server closed.');
-          resolve();
-        });
-        setTimeout(resolve, SHUTDOWN_TIMEOUT_MS);
-      });
+      }
 
       console.log('Closing database connections...');
       await pool.end();
@@ -100,18 +93,19 @@ const startServers = async () => {
     await pool.execute('SELECT 1 AS health_check');
     console.log('Database connectivity verified.');
 
-    const server = app.listen(PORT, async () => {
-      console.log(`API Server running on http://localhost:${PORT}`);
+    server = http.createServer(app);
+    io = attachSocket(server);
+
+    server.listen(PORT, '0.0.0.0', async () => {
+      console.log(`API & WebSocket Server running on port ${PORT}`);
       await seedAdminUser();
     });
-
-    console.log(`Socket.IO Server running on http://localhost:${SOCKET_PORT}`);
 
     setInterval(() => {
       logPoolStatus(pool);
     }, 5 * 60 * 1000);
 
-    return { server, socketHttpServer, io };
+    return { server, io };
   } catch (error) {
     console.error('Failed to start servers:', error);
     process.exit(1);

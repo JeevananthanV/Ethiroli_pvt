@@ -1,38 +1,40 @@
-import axios from '../axios'
+import axiosInstance from './axiosInstance.js';
 
 export const webhookApi = {
   getAll: async () => {
-    const response = await axios.get('/webhooks')
-    return response.data
+    const response = await axiosInstance.get('/v1/webhooks');
+    return response?.data || response;
   },
 
   getById: async (id) => {
-    const response = await axios.get(`/webhooks/${id}`)
-    return response.data
+    const response = await axiosInstance.get(`/v1/webhooks/${id}`);
+    return response?.data || response;
   },
 
   create: async (data) => {
-    const response = await axios.post('/webhooks', data)
-    return response.data
+    const response = await axiosInstance.post('/v1/webhooks', data);
+    return response?.data || response;
   },
 
   update: async (id, data) => {
-    const response = await axios.put(`/webhooks/${id}`, data)
-    return response.data
+    const response = await axiosInstance.patch(`/v1/webhooks/${id}`, data);
+    return response?.data || response;
   },
 
   delete: async (id) => {
-    const response = await axios.delete(`/webhooks/${id}`)
-    return response.data
+    const response = await axiosInstance.delete(`/v1/webhooks/${id}`);
+    return response?.data || response;
   },
 
   test: async (id) => {
-    const response = await axios.post(`/webhooks/${id}/test`)
-    return response.data
+    const response = await axiosInstance.post(`/v1/webhooks/${id}/test`);
+    return response?.data || response;
   },
 
-  getLogs: async (id) => {
-    const response = await axios.get(`/webhooks/${id}/logs`)
-    return response.data
-  },
-}
+  simulateIndeedApplication: async (payload = {}) => {
+    const response = await axiosInstance.post('/v1/jobs-board/indeed/simulate-application', payload);
+    return response?.data || response;
+  }
+};
+
+export default webhookApi;

@@ -1,120 +1,104 @@
-import React, { useEffect, useState } from 'react'
-import AdminPage from '../../../common/components/AdminPage'
-import { workflowApi } from '../../../services/api/workflowApi'
-import Button from '../../../common/components/Button'
+import React, { useEffect, useState, useCallback } from 'react';
+import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
+import employeePortalApi from '../../../services/api/employeePortalApi.js';
 
-export default function EmployeeApprovals() {
-  const [runs, setRuns] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+export default function Approvals() {
+  const [data, setData] = useState({ myRequests: [], pendingForMe: [] });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState('MY_REQUESTS');
 
-  const loadWorkflows = async () => {
-    setLoading(true)
-    setError(null)
+  const loadApprovals = useCallback(async () => {
+    setLoading(true);
+    setError(null);
     try {
-      await workflowApi.getAll()
+      const res = await employeePortalApi.getMyApprovals();
+      const payload = res?.data || res;
+      setData({
+        myRequests: payload?.myRequests || [],
+        pendingForMe: payload?.pendingForMe || []
+      });
     } catch (err) {
-      setError(err.message)
+      setError(err.message || 'Failed to load approvals');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  }, []);
 
   useEffect(() => {
-    loadWorkflows()
-  }, [])
+    loadApprovals();
+  }, [loadApprovals]);
 
-  const handleApprove = async (runId) => {
-    try {
-      await workflowApi.approve(runId)
-      setRuns((prev) => [...prev, { id: runId, status: 'approved' }])
-    } catch (err) {
-      setError(err.message)
+  const getStatusBadge = (status) => {
+    switch (String(status).toUpperCase()) {
+      case 'APPROVED':
+        return <span className="badge bg-success">Approved</span>;
+      case 'REJECTED':
+        return <span className="badge bg-danger">Rejected</span>;
+      default:
+        return <span className="badge bg-warning text-dark">Pending</span>;
     }
-  }
+  };
 
-  const handleReject = async (runId) => {
-    try {
-      await workflowApi.reject(runId)
-      setRuns((prev) => [...prev, { id: runId, status: 'rejected' }])
-    } catch (err) {
-      setError(err.message)
-    }
-  }
-
-  const pendingRuns = runs.filter((r) => r.status === 'pending')
+  const currentList = activeTab === 'MY_REQUESTS' ? data.myRequests : data.pendingForMe;
 
   return (
     <AdminPage
-      title="My Approvals"
-      subtitle="Review and act on pending approval requests"
+      title="Governance & Approval Chains"
+      subtitle="Track your authorization requests, multi-tier approvals, and team sign-offs"
       loading={loading}
       error={error}
-      onRetry={loadWorkflows}
+      onRetry={loadApprovals}
     >
-      <div className="grid gridCols3 mb4">
-        <div className="statCard">
-          <div className="statLabel">Pending</div>
-          <div className="statValue" style={{ color: 'var(--admin-warning)' }}>
-            {pendingRuns.length}
-          </div>
-        </div>
-        <div className="statCard">
-          <div className="statLabel">Approved</div>
-          <div className="statValue" style={{ color: 'var(--admin-success)' }}>
-            {runs.filter((r) => r.status === 'approved').length}
-          </div>
-        </div>
-        <div className="statCard">
-          <div className="statLabel">Rejected</div>
-          <div className="statValue" style={{ color: 'var(--admin-danger)' }}>
-            {runs.filter((r) => r.status === 'rejected').length}
-          </div>
-        </div>
+      <div className="d-flex gap-2 mb-4 border-bottom pb-2">
+        <button
+          className={`btn btn-sm ${activeTab === 'MY_REQUESTS' ? 'btn-primary' : 'btn-light'}`}
+          onClick={() => setActiveTab('MY_REQUESTS')}
+        >
+          My Submitted Requests ({data.myRequests.length})
+        </button>
+        <button
+          className={`btn btn-sm ${activeTab === 'PENDING_FOR_ME' ? 'btn-primary' : 'btn-light'}`}
+          onClick={() => setActiveTab('PENDING_FOR_ME')}
+        >
+          Approvals Awaiting My Action ({data.pendingForMe.length})
+        </button>
       </div>
 
-      <div className="card">
-        <div className="cardHeader">
-          <h3 className="cardTitle">Pending Approvals</h3>
-        </div>
-        <div className="overflowAuto">
-          <table className="table">
-            <thead>
+      <div className="card shadow-sm border-0">
+        <div className="table-responsive">
+          <table className="table table-hover align-middle mb-0">
+            <thead className="table-light text-muted small text-uppercase">
               <tr>
-                <th>Request</th>
-                <th>Type</th>
-                <th>Submitted</th>
+                <th>Request Type / Entity</th>
+                <th>Workflow Chain</th>
+                <th>Current Step</th>
                 <th>Status</th>
-                <th>Actions</th>
+                <th>Requested Date</th>
               </tr>
             </thead>
             <tbody>
-              {pendingRuns.length === 0 ? (
+              {currentList.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="textCenter textMuted py4">
-                    No pending approvals
+                  <td colSpan="5" className="text-center py-5 text-muted">
+                    <i className="bi bi-patch-check fs-2 d-block mb-2"></i>
+                    No requests found in this queue.
                   </td>
                 </tr>
               ) : (
-                pendingRuns.map((run) => (
-                  <tr key={run.id}>
-                    <td className="fontSemibold">{run.name || run.id}</td>
-                    <td>{run.type || 'Approval'}</td>
-                    <td className="textSecondary">
-                      {run.createdAt ? new Date(run.createdAt).toLocaleDateString() : '-'}
-                    </td>
+                currentList.map((item) => (
+                  <tr key={item.id}>
                     <td>
-                      <span className="statusTag pending">{run.status}</span>
+                      <span className="badge bg-light text-dark border me-2">{item.entity_type}</span>
+                      <code className="small text-muted">{item.entity_id?.slice(0, 8)}</code>
                     </td>
+                    <td className="fw-medium text-dark">{item.chain_name || 'Standard Approval Chain'}</td>
                     <td>
-                      <div className="flex gap2">
-                        <Button size="small" variant="success" onClick={() => handleApprove(run.id)}>
-                          Approve
-                        </Button>
-                        <Button size="small" variant="danger" onClick={() => handleReject(run.id)}>
-                          Reject
-                        </Button>
-                      </div>
+                      <span className="badge bg-info text-dark">Step {item.current_step || 1}</span>
+                    </td>
+                    <td>{getStatusBadge(item.status)}</td>
+                    <td className="text-muted small">
+                      {item.created_at ? new Date(item.created_at).toLocaleDateString() : 'Recent'}
                     </td>
                   </tr>
                 ))
@@ -124,5 +108,5 @@ export default function EmployeeApprovals() {
         </div>
       </div>
     </AdminPage>
-  )
+  );
 }

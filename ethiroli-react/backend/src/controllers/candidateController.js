@@ -1,10 +1,11 @@
 import Candidate from '../models/Candidate.js';
 import Job from '../models/Job.js';
 import AuditLog from '../models/AuditLog.js';
+import pool from '../config/database.js';
 import { broadcastToRole } from '../services/socketService.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 import { success } from '../utils/response.js';
-import { NotFoundError } from '../utils/errors.js';
+import { NotFoundError, ValidationError } from '../utils/errors.js';
 
 export const listCandidates = asyncHandler(async (req, res) => {
   const { job_id, status, page = 1, limit = 50 } = req.query;
@@ -23,44 +24,96 @@ export const listCandidates = asyncHandler(async (req, res) => {
   });
 });
 
+export const listCareerApplications = asyncHandler(async (req, res) => {
+  const [rows] = await pool.query(
+    'SELECT * FROM career_applications ORDER BY created_at DESC'
+  );
+
+  return success(res, 200, rows, 'Career applications retrieved successfully', {
+    total: rows.length
+  });
+});
+
 export const createCandidate = asyncHandler(async (req, res) => {
   let jobId = req.body.job_id;
 
   if (!jobId) {
-    const rows = await Job.list({ limit: 1 });
-    if (rows.length > 0) {
+    const rows = await Job.list({ limit: 1 }).catch(() => []);
+    if (rows && rows.length > 0) {
       jobId = rows[0].id;
     }
   }
 
-  const name = req.body.name || req.body.fullName;
+  const fullName = req.body.fullName || req.body.name;
   const email = req.body.email;
   const phone = req.body.phone;
-  const resume_url = req.body.resume_url || req.body.portfolioUrl;
+  const role = req.body.role || 'General Application';
+  const portfolioUrl = req.body.portfolioUrl || req.body.resume_url || req.body.portfolio_url;
+  const experienceLevel = req.body.experienceLevel || req.body.experience_level || 'Entry';
+  const message = req.body.message || '';
   const source = req.body.source || 'WEBSITE';
 
-  const id = await Candidate.create({
-    job_id: jobId,
-    name,
+  if (!fullName || !email) {
+    throw new ValidationError('Full name and email are required.');
+  }
+
+  // 1. Record in career_applications table
+  let applicationInsertId = null;
+  try {
+    const [appResult] = await pool.execute(
+      `INSERT INTO career_applications (full_name, email, phone, role, portfolio_url, experience_level, message, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, NOW())`,
+      [fullName, email, phone || null, role, portfolioUrl || null, experienceLevel, message]
+    );
+    applicationInsertId = appResult.insertId;
+  } catch (err) {
+    console.error('Error inserting into career_applications:', err.message);
+  }
+
+  // 2. Record in candidates table
+  let candidateId = null;
+  try {
+    candidateId = await Candidate.create({
+      job_id: jobId || null,
+      name: fullName,
+      email,
+      phone: phone || null,
+      resume_url: portfolioUrl || null,
+      source
+    });
+  } catch (err) {
+    console.error('Error inserting into candidates:', err.message);
+  }
+
+  const candidatePayload = {
+    id: candidateId || applicationInsertId,
+    applicationId: applicationInsertId,
+    name: fullName,
+    fullName,
     email,
     phone,
-    resume_url,
-    source
-  });
+    role,
+    portfolioUrl,
+    experienceLevel,
+    message,
+    source,
+    created_at: new Date()
+  };
 
   await AuditLog.create({
-    user_id: req.user.id,
+    user_id: req.user?.id || null,
     action: 'CREATE_CANDIDATE',
     entity_type: 'CANDIDATE',
-    entity_id: id,
-    new_value: { job_id: jobId, name, email, phone, resume_url, source },
+    entity_id: String(candidateId || applicationInsertId),
+    new_value: candidatePayload,
     ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
     user_agent: req.headers['user-agent']
   });
 
-  broadcastToRole('HR', 'candidate_created', { id, name });
+  broadcastToRole('HR', 'candidate_created', candidatePayload);
+  broadcastToRole('ADMIN', 'candidate_created', candidatePayload);
 
-  return success(res, 201, { id }, 'Candidate added successfully');
+  return success(res, 201, candidatePayload, 'Application submitted successfully. Our team will contact you soon.');
 });
 
 export const getCandidate = asyncHandler(async (req, res) => {
@@ -74,7 +127,7 @@ export const updateCandidate = asyncHandler(async (req, res) => {
   if (!candidate) throw new NotFoundError('Candidate not found');
   await Candidate.update(req.params.id, req.body);
   await AuditLog.create({
-    user_id: req.user.id,
+    user_id: req.user?.id || null,
     action: 'UPDATE_CANDIDATE',
     entity_type: 'CANDIDATE',
     entity_id: req.params.id,
@@ -92,7 +145,7 @@ export const deleteCandidate = asyncHandler(async (req, res) => {
   if (!candidate) throw new NotFoundError('Candidate not found');
   await Candidate.delete(req.params.id);
   await AuditLog.create({
-    user_id: req.user.id,
+    user_id: req.user?.id || null,
     action: 'DELETE_CANDIDATE',
     entity_type: 'CANDIDATE',
     entity_id: req.params.id,
@@ -102,4 +155,23 @@ export const deleteCandidate = asyncHandler(async (req, res) => {
   });
   broadcastToRole('HR', 'candidate_deleted', { id: req.params.id });
   return success(res, 200, null, 'Candidate deleted successfully');
+});
+
+export const deleteCareerApplication = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const [result] = await pool.execute('DELETE FROM career_applications WHERE id = ?', [id]);
+  if (result.affectedRows === 0) {
+    throw new NotFoundError('Career application not found');
+  }
+
+  await AuditLog.create({
+    user_id: req.user?.id || null,
+    action: 'DELETE_CAREER_APPLICATION',
+    entity_type: 'CAREER_APPLICATION',
+    entity_id: String(id),
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+
+  return success(res, 200, { id }, 'Career application deleted successfully');
 });

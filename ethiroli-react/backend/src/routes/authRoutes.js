@@ -8,10 +8,11 @@ import { portalAuth } from '../middleware/portalAuth.js';
 const router = express.Router();
 
 router.post('/login', loginLimiter, validateBody('login'), login);
-router.post('/auth/portal-login', loginLimiter, validateBody('login'), portalAuth, login);
-router.post('/auth/mfa/verify', loginLimiter, validateBody('mfa'), portalAuth, verifyMfa);
-router.get('/auth/oauth/:provider/authorize', oauthAuthorize);
-router.get('/auth/oauth/:provider/callback', oauthCallback);
+// This router is mounted at /api/v1/auth, so do not repeat /auth here.
+router.post('/portal-login', loginLimiter, validateBody('login'), portalAuth, login);
+router.post('/mfa/verify', loginLimiter, validateBody('mfa'), portalAuth, verifyMfa);
+router.get('/oauth/:provider/authorize', oauthAuthorize);
+router.get('/oauth/:provider/callback', oauthCallback);
 router.post('/logout', logout);
 router.get('/me', authenticate, getMe);
 

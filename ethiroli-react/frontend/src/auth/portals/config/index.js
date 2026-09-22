@@ -102,7 +102,14 @@ export const PORTAL_CONFIGS = {
   },
 };
 
-export const getPortalConfig = (role) => PORTAL_CONFIGS[role] || null;
+export const getPortalConfig = (roleOrSlug) => {
+  if (!roleOrSlug) return null;
+  if (PORTAL_CONFIGS[roleOrSlug]) return PORTAL_CONFIGS[roleOrSlug];
+  const found = Object.values(PORTAL_CONFIGS).find(
+    (config) => config.slug === roleOrSlug || config.slug === String(roleOrSlug).toLowerCase()
+  );
+  return found || null;
+};
 
 export const getPortalBySlug = (slug) =>
   Object.values(PORTAL_CONFIGS).find((config) => config.slug === slug) || null;

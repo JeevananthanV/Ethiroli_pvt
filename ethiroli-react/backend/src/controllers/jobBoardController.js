@@ -2,8 +2,9 @@ import JobBoardPost from '../models/JobBoardPost.js';
 import AuditLog from '../models/AuditLog.js';
 import { broadcastToRole } from '../services/socketService.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
-import { success } from '../utils/response.js';
+import { success, error } from '../utils/response.js';
 import { NotFoundError } from '../utils/errors.js';
+import { generateIndeedJobFeedXml, processIndeedApplication } from '../services/indeedService.js';
 
 export const listJobBoardPosts = asyncHandler(async (req, res) => {
   const { platform, is_published, page = 1, limit = 50 } = req.query;
@@ -76,4 +77,32 @@ export const deleteJobBoardPost = asyncHandler(async (req, res) => {
   });
   broadcastToRole('HR', 'job_board_post_deleted', { id: req.params.id });
   return success(res, 200, null, 'Job board post deleted');
+});
+
+/**
+ * Public endpoint delivering Indeed XML Job Feed
+ */
+export const getIndeedJobFeed = asyncHandler(async (req, res) => {
+  const xml = await generateIndeedJobFeedXml();
+  res.header('Content-Type', 'application/xml');
+  return res.status(200).send(xml);
+});
+
+/**
+ * Endpoint for testing / simulating Indeed candidate application ingestion
+ */
+export const simulateIndeedApplication = asyncHandler(async (req, res) => {
+  const payload = req.body.applicant ? req.body : {
+    applicant: {
+      fullName: req.body.name || req.body.fullName || 'Test Indeed Candidate',
+      email: req.body.email || `candidate_${Date.now()}@example.com`,
+      phoneNumber: req.body.phone || '+91 98765 43210',
+      resumeUrl: req.body.resumeUrl || 'https://example.com/resumes/sample.pdf',
+      applicantId: `ind_sim_${Date.now()}`
+    },
+    jobId: req.body.jobId || null
+  };
+
+  const result = await processIndeedApplication(payload, req.headers);
+  return success(res, 201, result, 'Indeed application successfully ingested');
 });

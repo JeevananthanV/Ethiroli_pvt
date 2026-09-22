@@ -2,22 +2,32 @@ import DeviceRegistration from '../models/DeviceRegistration.js';
 import AuditLog from '../models/AuditLog.js';
 import { broadcastToRole } from '../services/socketService.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
-import { success } from '../utils/response.js';
+import { success, error } from '../utils/response.js';
 import { NotFoundError } from '../utils/errors.js';
+import { registerDeviceToken, testPushNotification as sendTestPush, sendCampaign as dispatchCampaign } from '../services/fcmService.js';
 
 export const registerDevice = asyncHandler(async (req, res) => {
-  const id = await DeviceRegistration.create({ ...req.body, tenant_id: req.tenant?.id, user_id: req.user.id });
+  const result = await registerDeviceToken({
+    userId: req.user.id,
+    tenantId: req.tenant?.id,
+    deviceId: req.body.deviceId || req.body.device_id,
+    platform: req.body.platform || 'WEB',
+    pushToken: req.body.pushToken || req.body.push_token || req.body.device_token,
+    appVersion: req.body.appVersion || req.body.app_version || '1.0.0'
+  });
+
   await AuditLog.create({
     user_id: req.user.id,
     action: 'REGISTER_DEVICE',
     entity_type: 'DEVICE_REGISTRATION',
-    entity_id: id,
-    new_value: { ...req.body, tenant_id: req.tenant?.id, user_id: req.user.id },
+    entity_id: result.id,
+    new_value: { platform: req.body.platform, deviceId: req.body.deviceId },
     ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
     user_agent: req.headers['user-agent']
   });
-  broadcastToRole('ADMIN', 'device_registered', { id });
-  return success(res, 201, { id }, 'Device token registered');
+
+  broadcastToRole('ADMIN', 'device_registered', { id: result.id, userId: req.user.id });
+  return success(res, 201, result, 'Device token registered successfully');
 });
 
 export const listDevices = asyncHandler(async (req, res) => {
@@ -55,7 +65,14 @@ export const unregisterDevice = asyncHandler(async (req, res) => {
 });
 
 export const sendCampaign = asyncHandler(async (req, res) => {
-  const { title, body, target_roles } = req.body;
+  const { title, body, target_roles, url } = req.body;
+  const result = await dispatchCampaign({
+    title,
+    body,
+    targetRoles: target_roles,
+    url: url || '/app'
+  });
+
   await AuditLog.create({
     user_id: req.user.id,
     action: 'SEND_PUSH_CAMPAIGN',
@@ -64,6 +81,12 @@ export const sendCampaign = asyncHandler(async (req, res) => {
     ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
     user_agent: req.headers['user-agent']
   });
+
   broadcastToRole('ADMIN', 'push_campaign_sent', { title, target_roles });
-  return success(res, 200, { sent: 0, failed: 0 }, 'Push notification campaign sent');
+  return success(res, 200, result, 'Push notification campaign dispatched');
+});
+
+export const testUserPush = asyncHandler(async (req, res) => {
+  const result = await sendTestPush(req.user.id);
+  return success(res, 200, result, 'Test push notification dispatched');
 });

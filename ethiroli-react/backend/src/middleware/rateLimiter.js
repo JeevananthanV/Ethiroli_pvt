@@ -58,7 +58,7 @@ export const createLimiter = ({ windowMs, max, message, suffix }) => {
 
     if (record.count > max) {
       res.setHeader('Retry-After', String(Math.ceil((record.resetTime - now) / 1000)));
-      throw new RateLimitError(message || 'Too many requests, please try again later.');
+      return next(new RateLimitError(message || 'Too many requests, please try again later.'));
     }
 
     next();

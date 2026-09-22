@@ -118,6 +118,91 @@ export default function setupHandlers(io) {
       }
     });
 
+    // HR-specific live data handlers
+    socket.on('hr_attendance_update', async (data) => {
+      try {
+        const { attendanceId, status, employee } = data;
+
+        // Broadcast to HR role
+        broadcastToRole('HR', 'hr_attendance_update', {
+          id: attendanceId,
+          status,
+          employee,
+          timestamp: new Date().toISOString()
+        });
+
+        // Broadcast to ADMIN and SUPER_ADMIN
+        broadcastToRole('ADMIN', 'hr_attendance_update', { id: attendanceId, status, employee });
+        broadcastToRole('SUPER_ADMIN', 'hr_attendance_update', { id: attendanceId, status, employee });
+
+        // Log activity
+        await ActivityFeed.create({
+          user_id: userId,
+          actor_id: userId,
+          event_type: 'ATTENDANCE_UPDATE',
+          entity_type: 'Attendance',
+          entity_id: attendanceId,
+          payload: { status, employee }
+        });
+      } catch (err) {
+        console.error('hr_attendance_update handler error:', err);
+      }
+    });
+
+    socket.on('hr_leave_request', async (data) => {
+      try {
+        const { leaveId, action, employee, leaveType } = data;
+
+        broadcastToRole('HR', 'hr_leave_request', {
+          id: leaveId,
+          action,
+          employee,
+          leaveType,
+          timestamp: new Date().toISOString()
+        });
+
+        broadcastToRole('ADMIN', 'hr_leave_request', { id: leaveId, action, employee });
+        broadcastToRole('SUPER_ADMIN', 'hr_leave_request', { id: leaveId, action, employee });
+
+        await ActivityFeed.create({
+          user_id: userId,
+          actor_id: userId,
+          event_type: 'LEAVE_REQUEST',
+          entity_type: 'Leave',
+          entity_id: leaveId,
+          payload: { action, employee, leaveType }
+        });
+      } catch (err) {
+        console.error('hr_leave_request handler error:', err);
+      }
+    });
+
+    socket.on('hr_employee_update', async (data) => {
+      try {
+        const { employeeId, changes } = data;
+
+        broadcastToRole('HR', 'hr_employee_update', {
+          id: employeeId,
+          changes,
+          timestamp: new Date().toISOString()
+        });
+
+        broadcastToRole('ADMIN', 'hr_employee_update', { id: employeeId, changes });
+        broadcastToRole('SUPER_ADMIN', 'hr_employee_update', { id: employeeId, changes });
+
+        await ActivityFeed.create({
+          user_id: userId,
+          actor_id: userId,
+          event_type: 'EMPLOYEE_UPDATE',
+          entity_type: 'Employee',
+          entity_id: employeeId,
+          payload: { changes }
+        });
+      } catch (err) {
+        console.error('hr_employee_update handler error:', err);
+      }
+    });
+
     socket.on('disconnect', async () => {
       try {
         broadcastToRole(userRole, 'online_presence', {

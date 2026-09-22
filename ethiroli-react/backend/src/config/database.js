@@ -9,6 +9,9 @@ const pool = mysql.createPool({
   database: process.env.DB_NAME || 'ethiroli',
   waitForConnections: true,
   connectionLimit: 10,
+  enableKeepAlive: true,
+  keepAliveInitialDelay: 10000,
+  connectTimeout: 20000
 });
 
 export const checkDatabaseHealth = async (poolInstance) => {

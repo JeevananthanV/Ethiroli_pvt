@@ -7,7 +7,6 @@ import JciJourney from './jci/JciJourney';
 import JciAlumni from './jci/JciAlumni';
 import JciEligibility from './jci/JciEligibility';
 import JciFAQ from './jci/JciFAQ';
-import '../../styles/jcidigitalskills.css';
 
 const JciDigitalSkills = () => {
     const [activeFaq, setActiveFaq] = useState(null);

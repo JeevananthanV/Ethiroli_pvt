@@ -73,7 +73,21 @@ export default function LoginPage({ portal }) {
       <div className={styles.authCard}>
         <div className={styles.header}>
           <h2>ETHIROLI</h2>
-          <p>{portal ? `${portal} Portal` : 'Login to your account'}</p>
+          <p>{portalConfig?.label ? `${portalConfig.label} Portal` : (portal ? `${String(portal).toUpperCase()} Portal` : 'Login to your account')}</p>
+          {portalConfig && (
+            <div style={{
+              display: 'inline-block',
+              marginTop: '0.35rem',
+              fontSize: '0.75rem',
+              fontWeight: 600,
+              padding: '0.25rem 0.65rem',
+              borderRadius: '9999px',
+              backgroundColor: portalConfig.brandColor ? `${portalConfig.brandColor}22` : '#f1f5f9',
+              color: portalConfig.brandColor || '#475569'
+            }}>
+              Dedicated Portal &bull; Role-Guarded Access
+            </div>
+          )}
         </div>
 
         {error && <div className={styles.error}>{error}</div>}

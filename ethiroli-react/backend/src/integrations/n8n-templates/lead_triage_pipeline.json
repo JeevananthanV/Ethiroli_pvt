@@ -1,0 +1,107 @@
+{
+  "name": "Ethiroli - Contact Inquiry & Lead Triage",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ethiroli",
+        "options": {}
+      },
+      "id": "1",
+      "name": "Ethiroli Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "ethiroli-lead-trigger"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.body.event }}",
+              "value2": "contact.submitted"
+            }
+          ]
+        }
+      },
+      "id": "2",
+      "name": "Filter: Contact Submitted?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://localhost:5000/api/v1/webhooks/n8n/action",
+        "method": "POST",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-N8N-Webhook-Secret",
+              "value": "ethiroli_n8n_secret_key_2026"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "action",
+              "value": "trigger_notification"
+            },
+            {
+              "name": "role",
+              "value": "SALES"
+            },
+            {
+              "name": "title",
+              "value": "New Inbound Sales Lead"
+            },
+            {
+              "name": "body",
+              "value": "={{ $json.body.data.name }} sent an inquiry: '{{ $json.body.data.subject }}'"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3",
+      "name": "Notify Sales Team",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [720, 200]
+    }
+  ],
+  "connections": {
+    "Ethiroli Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Filter: Contact Submitted?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter: Contact Submitted?": {
+      "main": [
+        [
+          {
+            "node": "Notify Sales Team",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {}
+}

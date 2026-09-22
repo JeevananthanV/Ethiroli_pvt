@@ -45,14 +45,18 @@ const getRoleFromPath = (path) => {
 export const requireRole = (...allowedRoles) => {
   return (req, res, next) => {
     if (!req.user) {
-      throw new AuthorizationError('Authentication required.');
+      return next(new AuthorizationError('Authentication required.'));
+    }
+
+    if (req.user.role === ROLES.SUPER_ADMIN) {
+      return next();
     }
 
     if (allowedRoles.length > 0 && !allowedRoles.includes(req.user.role)) {
-      throw new AuthorizationError(
+      return next(new AuthorizationError(
         `Forbidden. Role '${req.user.role}' is not authorized.`,
         { allowedRoles, currentRole: req.user.role }
-      );
+      ));
     }
 
     next();
@@ -74,10 +78,10 @@ export const requirePortalRole = (req, res, next) => {
   }
 
   if (req.user.role !== expectedRole) {
-    throw new AuthorizationError(
+    return next(new AuthorizationError(
       `Access denied. This resource requires role '${expectedRole}'.`,
       { requiredRole: expectedRole, currentRole: req.user.role, path: req.path }
-    );
+    ));
   }
 
   next();
@@ -86,7 +90,11 @@ export const requirePortalRole = (req, res, next) => {
 export const checkPermission = (permission) => {
   return (req, res, next) => {
     if (!req.user) {
-      throw new AuthorizationError('Authentication required.');
+      return next(new AuthorizationError('Authentication required.'));
+    }
+
+    if (req.user.role === ROLES.SUPER_ADMIN) {
+      return next();
     }
 
     const userPermissions = ROLE_PERMISSIONS[req.user.role] || [];
@@ -95,10 +103,10 @@ export const checkPermission = (permission) => {
       return next();
     }
 
-    throw new AuthorizationError(
+    return next(new AuthorizationError(
       `Insufficient permissions. '${permission}' is required.`,
       { requiredPermission: permission, currentRole: req.user.role }
-    );
+    ));
   };
 };
 

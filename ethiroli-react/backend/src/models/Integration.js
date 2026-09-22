@@ -30,7 +30,6 @@ export default class Integration {
   static async update(id, updates) {
     const queryParts = [];
     const values = [];
-    const { encrypt } = require('../config/encryption.js');
 
     if (updates.service_name !== undefined) { queryParts.push('service_name = ?'); values.push(updates.service_name); }
     if (updates.category !== undefined) { queryParts.push('category = ?'); values.push(updates.category); }

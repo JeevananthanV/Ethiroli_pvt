@@ -2,6 +2,10 @@
   RewriteEngine On
   RewriteBase /
 
+  # Allow backend endpoints (API, health check, WebSockets) to pass through without being rewritten to index.html
+  RewriteCond %{REQUEST_URI} ^/(api|health|socket\.io) [NC]
+  RewriteRule ^ - [L]
+
   # Route application URLs to admin.html
   RewriteRule ^app(/.*)?$ /admin.html [L,QSA]
   RewriteRule ^admin(/.*)?$ /admin.html [L,QSA]

@@ -5,15 +5,17 @@ export const getDashboardMetrics = async () => {
     const response = await axiosInstance.get('/v1/hr/dashboard/metrics');
     return response.data || response;
   } catch (err) {
-    // Graceful fallback for offline / mock testing
+    // Return clean zero-state metrics without static mock data
     return {
-      totalEmployees: 24,
-      totalInterns: 8,
-      onLeaveToday: 2,
-      presentToday: 22,
-      pendingLeaves: 3,
-      openJobs: 4,
-      upcomingInterviews: 5
+      totalEmployees: 0,
+      totalInterns: 0,
+      onLeaveToday: 0,
+      presentToday: 0,
+      pendingLeaves: 0,
+      openJobs: 0,
+      upcomingInterviews: 0,
+      totalApplications: 0,
+      totalInquiries: 0
     };
   }
 };

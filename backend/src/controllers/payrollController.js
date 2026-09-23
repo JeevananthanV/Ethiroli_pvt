@@ -7,8 +7,12 @@ import { success } from '../utils/response.js';
 import { NotFoundError } from '../utils/errors.js';
 
 export const listSalaryStructures = asyncHandler(async (req, res) => {
-  const active = await SalaryStructure.findActiveByEmployeeId(req.query.employee_id);
-  success(res, 200, active ? [active] : [], 'Salary structures retrieved');
+  if (req.query.employee_id) {
+    const active = await SalaryStructure.findActiveByEmployeeId(req.query.employee_id);
+    return success(res, 200, active ? [active] : [], 'Salary structures retrieved');
+  }
+  const all = await SalaryStructure.list();
+  return success(res, 200, all, 'Salary structures retrieved');
 });
 
 export const createSalaryStructure = asyncHandler(async (req, res) => {

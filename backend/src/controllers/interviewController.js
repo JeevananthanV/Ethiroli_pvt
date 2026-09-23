@@ -22,19 +22,48 @@ export const listInterviews = asyncHandler(async (req, res) => {
   });
 });
 
+import Candidate from '../models/Candidate.js';
+import pool from '../config/database.js';
+
 export const scheduleInterview = asyncHandler(async (req, res) => {
-  const id = await Interview.create({ ...req.body, created_by: req.user.id });
+  let candidateId = req.body.candidate_id;
+  if (!candidateId) {
+    const candName = req.body.candidate_name || 'Candidate';
+    const candEmail = req.body.candidate_email || `candidate.${Date.now()}@ethiroli.com`;
+    let jobId = req.body.job_id;
+    if (!jobId) {
+      const [jobs] = await pool.query('SELECT id FROM jobs LIMIT 1');
+      jobId = jobs[0]?.id;
+    }
+    candidateId = await Candidate.create({
+      job_id: jobId,
+      name: candName,
+      email: candEmail,
+      source: 'MANUAL'
+    });
+  }
+
+  const scheduledAt = req.body.scheduled_at || req.body.interview_date || new Date(Date.now() + 86400000).toISOString().slice(0, 19).replace('T', ' ');
+
+  const payload = {
+    ...req.body,
+    candidate_id: candidateId,
+    scheduled_at: scheduledAt,
+    created_by: req.user.id
+  };
+
+  const id = await Interview.create(payload);
   await AuditLog.create({
     user_id: req.user.id,
     action: 'SCHEDULE_INTERVIEW',
     entity_type: 'INTERVIEW',
     entity_id: id,
-    new_value: { ...req.body, created_by: req.user.id },
+    new_value: payload,
     ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
     user_agent: req.headers['user-agent']
   });
-  broadcastToRole('HR', 'interview_scheduled', { id, candidate_id: req.body.candidate_id });
-  return success(res, 201, { id }, 'Interview scheduled successfully');
+  broadcastToRole('HR', 'interview_scheduled', { id, candidate_id: candidateId });
+  return success(res, 201, { id, candidate_id: candidateId }, 'Interview scheduled successfully');
 });
 
 export const getInterview = asyncHandler(async (req, res) => {

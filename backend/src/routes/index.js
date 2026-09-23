@@ -140,7 +140,6 @@ router.use('/v1', templateRoutes);
 router.use('/v1', providerRoutes);
 router.use('/v1', jobRoutes);
 router.use('/v1', interviewRoutes);
-router.use('/v1', integrationRoutes);
 
 router.use('/v1', payrollRoutes);
 router.use('/v1', performanceRoutes);
@@ -164,7 +163,6 @@ router.use('/v1', couponRoutes);
 router.use('/v1', reportRoutes);
 router.use('/v1', scheduledReportRoutes);
 router.use('/v1', apiKeyRoutes);
-router.use('/v1', webhookRoutes);
 router.use('/v1', orderRoutes);
 
 router.use('/v1', predictiveRoutes);

@@ -29,14 +29,14 @@ export const listAttendance = asyncHandler(async (req, res) => {
 });
 
 export const checkIn = asyncHandler(async (req, res) => {
-  const userId = req.user.id;
-  await Attendance.checkIn(userId);
+  const userId = (['HR', 'ADMIN', 'SUPER_ADMIN'].includes(req.user.role) && req.body.user_id) ? req.body.user_id : req.user.id;
+  await Attendance.checkIn(userId, req.body.date, req.body.status || 'PRESENT');
   await AuditLog.create({
     user_id: req.user.id,
     action: 'CHECK_IN',
     entity_type: 'ATTENDANCE',
     entity_id: userId,
-    new_value: { user_id: userId, time: new Date() },
+    new_value: { user_id: userId, time: new Date(), date: req.body.date, status: req.body.status },
     ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
     user_agent: req.headers['user-agent']
   });

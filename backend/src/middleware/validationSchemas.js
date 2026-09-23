@@ -48,13 +48,15 @@ export const schemas = {
   },
 
   createEmployee: {
-    required: ['user_id', 'employee_code', 'department', 'designation', 'date_of_joining'],
+    required: ['department', 'designation'],
     fields: {
-      user_id: { type: 'string', required: true, uuid: true },
-      employee_code: { type: 'string', required: true, maxLength: 50 },
+      user_id: { type: 'string', uuid: true },
+      employee_code: { type: 'string', maxLength: 50 },
+      name: { type: 'string', minLength: 2, maxLength: 255 },
+      email: { type: 'string', email: true, maxLength: 255 },
       department: { type: 'string', required: true, maxLength: 100 },
       designation: { type: 'string', required: true, maxLength: 100 },
-      date_of_joining: { type: 'string', required: true, date: true },
+      date_of_joining: { type: 'string', date: true },
       pan: { type: 'string', maxLength: 255 },
       bank_account: { type: 'string', maxLength: 255 },
       pf_number: { type: 'string', maxLength: 255 }
@@ -62,27 +64,33 @@ export const schemas = {
   },
 
   createIntern: {
-    required: ['user_id', 'college_name', 'start_date', 'end_date'],
+    required: ['college_name'],
     fields: {
-      user_id: { type: 'string', required: true, uuid: true },
+      user_id: { type: 'string', uuid: true },
+      name: { type: 'string', maxLength: 255 },
+      email: { type: 'string', email: true, maxLength: 255 },
       mentor_id: { type: 'string', uuid: true },
+      mentor: { type: 'string', maxLength: 255 },
       college_name: { type: 'string', required: true, maxLength: 255 },
       stipend: { type: 'number', min: 0 },
-      start_date: { type: 'string', required: true, date: true },
-      end_date: { type: 'string', required: true, date: true }
+      start_date: { type: 'string', date: true },
+      end_date: { type: 'string', date: true },
+      project_target: { type: 'string', maxLength: 255 }
     }
   },
 
   createCourse: {
-    required: ['code', 'name', 'duration_days'],
     fields: {
-      code: { type: 'string', required: true, maxLength: 50 },
-      name: { type: 'string', required: true, maxLength: 255 },
+      code: { type: 'string', maxLength: 50 },
+      name: { type: 'string', maxLength: 255 },
+      title: { type: 'string', maxLength: 255 },
       description: { type: 'string', maxLength: 5000 },
-      duration_days: { type: 'number', required: true, min: 1 },
+      category: { type: 'string', maxLength: 100 },
+      duration_days: { type: 'number', min: 1 },
       fee: { type: 'number', min: 0 },
       tutor_id: { type: 'string', uuid: true },
-      is_active: { type: 'boolean' }
+      is_active: { type: 'boolean' },
+      is_published: { type: 'boolean' }
     }
   },
 
@@ -281,12 +289,16 @@ export const schemas = {
   },
 
   createInterview: {
-    required: ['candidate_id', 'round', 'scheduled_at'],
+    required: ['round'],
     fields: {
-      candidate_id: { type: 'string', required: true, uuid: true },
+      candidate_id: { type: 'string', uuid: true },
+      candidate_name: { type: 'string', maxLength: 255 },
+      vacancy: { type: 'string', maxLength: 255 },
       round: { type: 'string', required: true, enum: ['ROUND_1', 'ROUND_2', 'HR_ROUND'] },
       interviewer_id: { type: 'string', uuid: true },
-      scheduled_at: { type: 'string', required: true, datetime: true },
+      interviewer_name: { type: 'string', maxLength: 255 },
+      scheduled_at: { type: 'string' },
+      interview_date: { type: 'string' },
       duration_minutes: { type: 'number', min: 15, max: 480 },
       meeting_link: { type: 'string', maxLength: 500 },
       feedback: { type: 'string', maxLength: 5000 },

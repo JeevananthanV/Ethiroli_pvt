@@ -9,9 +9,9 @@ const router = express.Router();
 router.use(authenticate);
 
 router.get('/employees', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), listEmployees);
-router.post('/employees', requireRole('HR', 'ADMIN'), validateBody('createEmployee'), createEmployee);
+router.post('/employees', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), validateBody('createEmployee'), createEmployee);
 router.get('/employees/:id', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), getEmployee);
-router.patch('/employees/:id', requireRole('HR', 'ADMIN'), validateBody('createEmployee'), updateEmployee);
-router.delete('/employees/:id', requireRole('ADMIN', 'SUPER_ADMIN'), deleteEmployee);
+router.patch('/employees/:id', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), validateBody('createEmployee'), updateEmployee);
+router.delete('/employees/:id', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), deleteEmployee);
 
 export default router;

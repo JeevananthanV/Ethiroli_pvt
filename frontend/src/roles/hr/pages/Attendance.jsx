@@ -3,9 +3,11 @@ import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import Button from '../../../common/components/Button/Button.jsx';
 import Modal from '../../../common/components/Modal/Modal.jsx';
 import { listAttendance, checkIn } from '../../../services/api/attendanceApi.js';
+import { listEmployees } from '../../../services/api/employeeApi.js';
 
 export default function HRAttendance() {
   const [records, setRecords] = useState([]);
+  const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState('');
@@ -15,6 +17,7 @@ export default function HRAttendance() {
   const [submitting, setSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
+    user_id: '',
     employee_name: '',
     date: new Date().toISOString().slice(0, 10),
     clock_in: '09:00 AM',
@@ -31,9 +34,21 @@ export default function HRAttendance() {
     setLoading(true);
     setError(null);
     try {
-      const data = await listAttendance().catch(() => []);
-      const list = Array.isArray(data) ? data : (data?.data || []);
-      setRecords(list);
+      const [attData, empData] = await Promise.all([
+        listAttendance().catch(() => []),
+        listEmployees().catch(() => [])
+      ]);
+      const aList = Array.isArray(attData) ? attData : (attData?.data || []);
+      const eList = Array.isArray(empData) ? empData : (empData?.data || []);
+      setRecords(aList);
+      setEmployees(eList);
+      if (eList.length > 0 && !formData.user_id) {
+        setFormData(prev => ({
+          ...prev,
+          user_id: eList[0].user_id || eList[0].id,
+          employee_name: eList[0].full_name || eList[0].name || ''
+        }));
+      }
     } catch (err) {
       setError(err.message || 'Failed to load attendance');
     } finally {
@@ -49,17 +64,19 @@ export default function HRAttendance() {
     e.preventDefault();
     setSubmitting(true);
     try {
-      await checkIn(formData).catch(() => {});
+      const selectedEmp = employees.find(emp => (emp.user_id || emp.id) === formData.user_id);
+      const targetUserId = formData.user_id || selectedEmp?.user_id || selectedEmp?.id || employees[0]?.user_id;
+
+      await checkIn({
+        user_id: targetUserId,
+        date: formData.date,
+        clock_in: formData.clock_in,
+        clock_out: formData.clock_out,
+        status: formData.status.toUpperCase() === 'LATE' ? 'PRESENT' : formData.status.toUpperCase()
+      });
       await fetchAttendance();
       setShowLogModal(false);
-      setFormData({
-        employee_name: '',
-        date: new Date().toISOString().slice(0, 10),
-        clock_in: '09:00 AM',
-        clock_out: '06:00 PM',
-        status: 'present'
-      });
-      showToast(`Attendance recorded for ${formData.employee_name}`);
+      showToast(`Attendance recorded successfully!`);
     } catch (err) {
       setError(err.message || 'Failed to log attendance');
     } finally {
@@ -227,14 +244,36 @@ export default function HRAttendance() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <div>
               <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Employee Name *</label>
-              <input
-                type="text"
-                required
-                value={formData.employee_name}
-                onChange={(e) => setFormData({ ...formData, employee_name: e.target.value })}
-                placeholder="e.g. Ramesh Krishnan"
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
-              />
+              {employees.length > 0 ? (
+                <select
+                  required
+                  value={formData.user_id}
+                  onChange={(e) => {
+                    const emp = employees.find(x => (x.user_id || x.id) === e.target.value);
+                    setFormData({
+                      ...formData,
+                      user_id: e.target.value,
+                      employee_name: emp?.full_name || emp?.name || ''
+                    });
+                  }}
+                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                >
+                  {employees.map(emp => (
+                    <option key={emp.id} value={emp.user_id || emp.id}>
+                      {emp.full_name || emp.name} ({emp.department || 'Staff'})
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type="text"
+                  required
+                  value={formData.employee_name}
+                  onChange={(e) => setFormData({ ...formData, employee_name: e.target.value })}
+                  placeholder="e.g. Ramesh Krishnan"
+                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                />
+              )}
             </div>
             <div>
               <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Date</label>

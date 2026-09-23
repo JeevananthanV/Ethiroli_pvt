@@ -3,9 +3,17 @@ import pool from '../config/database.js';
 export default class SystemConfig {
   static format(row) {
     if (!row) return null;
+    let val = row.config_value;
+    if (typeof val === 'string') {
+      try {
+        val = JSON.parse(val);
+      } catch {
+        // Fallback to raw string if not valid JSON
+      }
+    }
     return {
       ...row,
-      config_value: typeof row.config_value === 'string' ? JSON.parse(row.config_value) : row.config_value
+      config_value: val
     };
   }
 

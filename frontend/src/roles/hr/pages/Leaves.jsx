@@ -4,9 +4,11 @@ import Button from '../../../common/components/Button/Button.jsx';
 import Modal from '../../../common/components/Modal/Modal.jsx';
 import LeaveApprovalModal from '../../../modules/hrms/components/LeaveApprovalModal.jsx';
 import { listLeaves, createLeave, approveLeave, rejectLeave } from '../../../services/api/leaveApi.js';
+import { listEmployees } from '../../../services/api/employeeApi.js';
 
 export default function HRLeaves() {
   const [leaves, setLeaves] = useState([]);
+  const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [statusTab, setStatusTab] = useState('ALL');
@@ -17,6 +19,7 @@ export default function HRLeaves() {
   const [submitting, setSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
+    user_id: '',
     employee_name: '',
     leave_type: 'CASUAL',
     start_date: new Date().toISOString().slice(0, 10),
@@ -33,9 +36,21 @@ export default function HRLeaves() {
     setLoading(true);
     setError(null);
     try {
-      const data = await listLeaves().catch(() => []);
-      const list = Array.isArray(data) ? data : (data?.data || []);
-      setLeaves(list);
+      const [leaveData, empData] = await Promise.all([
+        listLeaves().catch(() => []),
+        listEmployees().catch(() => [])
+      ]);
+      const lList = Array.isArray(leaveData) ? leaveData : (leaveData?.data || []);
+      const eList = Array.isArray(empData) ? empData : (empData?.data || []);
+      setLeaves(lList);
+      setEmployees(eList);
+      if (eList.length > 0 && !formData.user_id) {
+        setFormData(prev => ({
+          ...prev,
+          user_id: eList[0].user_id || eList[0].id,
+          employee_name: eList[0].full_name || eList[0].name || ''
+        }));
+      }
     } catch (err) {
       setError(err.message || 'Failed to load leave requests');
     } finally {
@@ -94,17 +109,19 @@ export default function HRLeaves() {
     e.preventDefault();
     setSubmitting(true);
     try {
-      await createLeave(formData).catch(() => {});
+      const selectedEmp = employees.find(emp => (emp.user_id || emp.id) === formData.user_id);
+      const targetUserId = formData.user_id || selectedEmp?.user_id || selectedEmp?.id;
+
+      await createLeave({
+        user_id: targetUserId,
+        leave_type: formData.leave_type,
+        start_date: formData.start_date,
+        end_date: formData.end_date,
+        reason: formData.reason || 'Leave requested by HR operations'
+      });
       await fetchLeaves();
       setShowApplyModal(false);
-      setFormData({
-        employee_name: '',
-        leave_type: 'CASUAL',
-        start_date: new Date().toISOString().slice(0, 10),
-        end_date: new Date().toISOString().slice(0, 10),
-        reason: ''
-      });
-      showToast(`Leave application submitted for ${formData.employee_name}`);
+      showToast(`Leave application submitted successfully!`);
     } catch (err) {
       setError(err.message || 'Failed to submit leave request');
     } finally {
@@ -271,14 +288,36 @@ export default function HRLeaves() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <div>
               <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Employee Name *</label>
-              <input
-                type="text"
-                required
-                value={formData.employee_name}
-                onChange={(e) => setFormData({ ...formData, employee_name: e.target.value })}
-                placeholder="e.g. Anand Kumar"
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
-              />
+              {employees.length > 0 ? (
+                <select
+                  required
+                  value={formData.user_id}
+                  onChange={(e) => {
+                    const emp = employees.find(x => (x.user_id || x.id) === e.target.value);
+                    setFormData({
+                      ...formData,
+                      user_id: e.target.value,
+                      employee_name: emp?.full_name || emp?.name || ''
+                    });
+                  }}
+                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                >
+                  {employees.map(emp => (
+                    <option key={emp.id} value={emp.user_id || emp.id}>
+                      {emp.full_name || emp.name} ({emp.department || 'Staff'})
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type="text"
+                  required
+                  value={formData.employee_name}
+                  onChange={(e) => setFormData({ ...formData, employee_name: e.target.value })}
+                  placeholder="e.g. Anand Kumar"
+                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                />
+              )}
             </div>
             <div>
               <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Leave Category</label>

@@ -96,16 +96,17 @@ export default class Attendance {
     return rows[0].total;
   }
 
-  static async checkIn(user_id) {
-    const today = new Date().toISOString().slice(0, 10);
+  static async checkIn(user_id, customDate = null, customStatus = 'PRESENT') {
+    const date = customDate || new Date().toISOString().slice(0, 10);
     const now = new Date();
     const isLate = now.getHours() >= 9 && now.getMinutes() > 0;
+    const statusVal = String(customStatus).toUpperCase();
 
     await pool.execute(
       `INSERT INTO attendance (user_id, date, check_in_time, status, is_late)
-       VALUES (?, ?, ?, 'PRESENT', ?)
-       ON DUPLICATE KEY UPDATE check_in_time = ?`,
-      [user_id, today, now, isLate, now]
+       VALUES (?, ?, ?, ?, ?)
+       ON DUPLICATE KEY UPDATE check_in_time = ?, status = ?`,
+      [user_id, date, now, statusVal, isLate, now, statusVal]
     );
   }
 

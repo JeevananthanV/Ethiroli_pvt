@@ -124,6 +124,8 @@ export const ROLE_NAVIGATION = Object.freeze({
   ],
   HR: [
     { label: 'Dashboard', path: '/app/hr/dashboard', icon: 'dashboard' },
+    { label: 'Job Applications', path: '/app/hr/applications', icon: 'person_lines_fill' },
+    { label: 'Website Inquiries', path: '/app/hr/inquiries', icon: 'contact_mail' },
     { label: 'Employees', path: '/app/hr/employees', icon: 'badge' },
     { label: 'Interns', path: '/app/hr/interns', icon: 'school' },
     { label: 'Onboarding', path: '/app/hr/onboarding', icon: 'person_add' },

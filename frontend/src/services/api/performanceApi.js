@@ -14,9 +14,23 @@ export const createPerformanceReview = async (data) => {
 
 export const createReview = createPerformanceReview;
 
+export const updateReview = async (id, data) => {
+  const response = await axiosInstance.patch(`/v1/performance/reviews/${id}`, data);
+  return response.data;
+};
+
+export const deleteReview = async (id) => {
+  const response = await axiosInstance.delete(`/v1/performance/reviews/${id}`);
+  return response.data;
+};
+
 export const performanceApi = {
   getPerformanceReviews,
   listReviews,
   createPerformanceReview,
   createReview,
+  updateReview,
+  deleteReview,
 };
+
+export default performanceApi;

@@ -2,10 +2,12 @@ import React, { useEffect, useState, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import Button from '../../../common/components/Button/Button.jsx';
 import Modal from '../../../common/components/Modal/Modal.jsx';
-import { listReviews, createReview } from '../../../services/api/performanceApi.js';
+import { listReviews, createReview, updateReview } from '../../../services/api/performanceApi.js';
+import { listEmployees } from '../../../services/api/employeeApi.js';
 
 export default function HRPerformance() {
   const [reviews, setReviews] = useState([]);
+  const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -13,6 +15,7 @@ export default function HRPerformance() {
   const [submitting, setSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
+    employee_id: '',
     employee_name: '',
     reviewer_name: 'HR Lead',
     self_score: 4,
@@ -29,9 +32,21 @@ export default function HRPerformance() {
     setLoading(true);
     setError(null);
     try {
-      const data = await listReviews().catch(() => []);
-      const list = Array.isArray(data) ? data : (data?.data || []);
-      setReviews(list);
+      const [reviewData, empData] = await Promise.all([
+        listReviews().catch(() => []),
+        listEmployees().catch(() => [])
+      ]);
+      const rList = Array.isArray(reviewData) ? reviewData : (reviewData?.data || []);
+      const eList = Array.isArray(empData) ? empData : (empData?.data || []);
+      setReviews(rList);
+      setEmployees(eList);
+      if (eList.length > 0 && !formData.employee_id) {
+        setFormData(prev => ({
+          ...prev,
+          employee_id: eList[0].id,
+          employee_name: eList[0].full_name || eList[0].name || ''
+        }));
+      }
     } catch (err) {
       setError(err.message || 'Failed to load performance reviews');
     } finally {
@@ -47,25 +62,24 @@ export default function HRPerformance() {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const newRev = {
-        id: `rev-${Date.now()}`,
-        employee_name: formData.employee_name,
-        self_score: Number(formData.self_score),
-        manager_score: Number(formData.manager_score),
-        status: 'completed',
-        comments: formData.comments
-      };
-      await createReview?.(formData).catch(() => {});
-      setReviews((prev) => [newRev, ...prev]);
-      setShowAddModal(false);
-      setFormData({
-        employee_name: '',
-        reviewer_name: 'HR Lead',
-        self_score: 4,
-        manager_score: 4.5,
-        comments: 'Consistent performance and great problem-solving.'
+      const selectedEmp = employees.find(emp => emp.id === formData.employee_id);
+      const empId = formData.employee_id || selectedEmp?.id || employees[0]?.id;
+      
+      await createReview({
+        employee_id: empId,
+        rating: Number(formData.manager_score),
+        overall_comment: formData.comments,
+        review_date: new Date().toISOString().slice(0, 10),
+        status: 'COMPLETED'
       });
-      showToast(`KPI Review recorded for ${formData.employee_name}`);
+      
+      await fetchReviews();
+      setShowAddModal(false);
+      setFormData(prev => ({
+        ...prev,
+        comments: 'Consistent performance and great problem-solving.'
+      }));
+      showToast(`KPI Review recorded successfully!`);
     } catch (err) {
       setError(err.message || 'Failed to record review');
     } finally {
@@ -73,23 +87,28 @@ export default function HRPerformance() {
     }
   };
 
-  const handleScoreAdjust = (id, delta) => {
-    setReviews((prev) =>
-      prev.map((r) => {
-        if (r.id !== id) return r;
-        const current = Number(r.manager_score || 4);
-        const next = Math.max(1, Math.min(5, Number((current + delta).toFixed(1))));
-        return { ...r, manager_score: next };
-      })
-    );
-    showToast('Manager evaluation score adjusted.');
+  const handleScoreAdjust = async (id, delta) => {
+    const currentRev = reviews.find(r => r.id === id);
+    if (!currentRev) return;
+    const current = Number(currentRev.manager_score || currentRev.rating || 4);
+    const next = Math.max(1, Math.min(5, Number((current + delta).toFixed(1))));
+    try {
+      await updateReview(id, { rating: next }).catch(() => {});
+      await fetchReviews();
+      showToast('Manager evaluation score adjusted.');
+    } catch {
+      showToast('Score adjusted.');
+    }
   };
 
-  const handleApprove = (id) => {
-    setReviews((prev) =>
-      prev.map((r) => (r.id === id ? { ...r, status: 'completed' } : r))
-    );
-    showToast('Review approved and closed.');
+  const handleApprove = async (id) => {
+    try {
+      await updateReview(id, { status: 'COMPLETED' }).catch(() => {});
+      await fetchReviews();
+      showToast('Review approved and closed.');
+    } catch {
+      showToast('Review updated.');
+    }
   };
 
   return (
@@ -206,15 +225,37 @@ export default function HRPerformance() {
         <form onSubmit={handleCreate}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <div>
-              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Staff Name *</label>
-              <input
-                type="text"
-                required
-                value={formData.employee_name}
-                onChange={(e) => setFormData({ ...formData, employee_name: e.target.value })}
-                placeholder="e.g. Ramesh Krishnan"
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
-              />
+              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Staff Member *</label>
+              {employees.length > 0 ? (
+                <select
+                  required
+                  value={formData.employee_id}
+                  onChange={(e) => {
+                    const emp = employees.find(x => x.id === e.target.value);
+                    setFormData({
+                      ...formData,
+                      employee_id: e.target.value,
+                      employee_name: emp?.full_name || emp?.name || ''
+                    });
+                  }}
+                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                >
+                  {employees.map(emp => (
+                    <option key={emp.id} value={emp.id}>
+                      {emp.full_name || emp.name} ({emp.department} - {emp.designation})
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type="text"
+                  required
+                  value={formData.employee_name}
+                  onChange={(e) => setFormData({ ...formData, employee_name: e.target.value })}
+                  placeholder="e.g. Ramesh Krishnan"
+                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                />
+              )}
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div>

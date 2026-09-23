@@ -13,21 +13,21 @@ Role:     HR Manager
 ## 🌐 LOGIN URLs
 
 ### Frontend:
-- **HR Login Page**: `http://localhost:5173/auth/hr/login`
-- **HR Dashboard**: `http://localhost:5173/app/hr/dashboard`
-- **Direct Access**: `http://localhost:5173/hr.html` (auto-redirects)
+- **HR Login Page**: `http://localhost:3001/auth/hr/login`
+- **HR Dashboard**: `http://localhost:3001/app/hr/dashboard`
+- **Direct Access**: `http://localhost:3001/hr.html` (auto-redirects)
 
 ### Backend API:
-- **Portal Login**: `POST http://localhost:3000/api/v1/auth/portal-login`
-- **Get Profile**: `GET http://localhost:3000/api/v1/auth/me`
-- **Dashboard Metrics**: `GET http://localhost:3000/api/v1/hr/dashboard/metrics`
+- **Portal Login**: `POST http://localhost:5000/api/v1/auth/portal-login`
+- **Get Profile**: `GET http://localhost:5000/api/v1/auth/me`
+- **Dashboard Metrics**: `GET http://localhost:5000/api/v1/hr/dashboard/metrics`
 
 ---
 
 ## ✅ CORS STATUS - VERIFIED WORKING
 
 ### What is CORS?
-**CORS** (Cross-Origin Resource Sharing) allows frontend (http://localhost:5173) to make requests to backend (http://localhost:3000).
+**CORS** (Cross-Origin Resource Sharing) allows frontend (http://localhost:3000) to make requests to backend (http://localhost:5000).
 
 ### Current Configuration:
 
@@ -35,7 +35,7 @@ Role:     HR Manager
 |---------|-------|--------|
 | **CORS Enabled** | Yes | ✅ |
 | **Credentials** | Yes (HTTPOnly cookies) | ✅ |
-| **Allowed Origins** | localhost:3000, 5173, 5000 | ✅ |
+| **Allowed Origins** | localhost:3000, 3001, 5000, 5173 | ✅ |
 | **Preflight (OPTIONS)** | Supported | ✅ |
 | **Methods** | GET, POST, PATCH, DELETE, OPTIONS | ✅ |
 | **Headers** | Content-Type, Authorization, X-Portal, X-Session-Token | ✅ |
@@ -46,7 +46,7 @@ Role:     HR Manager
 1. Browser sends OPTIONS preflight request
 2. Backend checks Origin header
 3. If origin allowed, returns:
-   - Access-Control-Allow-Origin: http://localhost:5173 ✅
+   - Access-Control-Allow-Origin: http://localhost:3001 ✅
    - Access-Control-Allow-Credentials: true ✅
 4. Browser allows actual request (GET/POST/etc.)
 5. Response cookie sent to frontend ✅
@@ -58,27 +58,27 @@ Role:     HR Manager
 
 ### Terminal 1: Start Backend (API + WebSocket)
 ```bash
-cd backend
+cd J:\eithiroli\ethiroli_react\backend
 npm start
 ```
 
 **Expected Output**:
 ```
-Express server running on port 3000
-WebSocket server running on port 3003
+Express server running on port 5000
+WebSocket server running on port 5000
 Database connected
 ✅ Ready for API requests
 ```
 
 ### Terminal 2: Start Frontend (Vite Dev Server)
 ```bash
-cd frontend
+cd J:\eithiroli\ethiroli_react\frontend
 npm run dev
 ```
 
 **Expected Output**:
 ```
-  Local:   http://localhost:5173/
+  Local:   http://localhost:3001/
   ready in 200ms
 ✅ Frontend loaded
 ```
@@ -89,13 +89,13 @@ npm run dev
 
 ### Way 1: Browser Network Tab (Easiest)
 
-1. Open `http://localhost:5173/auth/hr/login`
+1. Open `http://localhost:3001/auth/hr/login`
 2. Press `F12` → **Network** tab
 3. Enter credentials and click **Login**
 4. Find `portal-login` request
 5. Check **Response Headers**:
    ```
-   ✅ access-control-allow-origin: http://localhost:5173
+   ✅ access-control-allow-origin: http://localhost:3001
    ✅ access-control-allow-credentials: true
    ✅ set-cookie: session_token=...; HttpOnly; SameSite=Lax
    ```
@@ -104,7 +104,7 @@ npm run dev
 
 ```javascript
 // Try this in DevTools Console (F12)
-fetch('http://localhost:3000/api/v1/auth/portal-login', {
+fetch('http://localhost:5000/api/v1/auth/portal-login', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -129,13 +129,13 @@ fetch('http://localhost:3000/api/v1/auth/portal-login', {
 
 ```bash
 # Test CORS headers
-curl -X OPTIONS http://localhost:3000/api/v1/auth/portal-login \
-  -H "Origin: http://localhost:5173" \
+curl -X OPTIONS http://localhost:5000/api/v1/auth/portal-login \
+  -H "Origin: http://localhost:3001" \
   -H "Access-Control-Request-Method: POST" \
   -v
 
 # Expected to see:
-# access-control-allow-origin: http://localhost:5173 ✅
+# access-control-allow-origin: http://localhost:3001 ✅
 ```
 
 ---
@@ -143,7 +143,7 @@ curl -X OPTIONS http://localhost:3000/api/v1/auth/portal-login \
 ## 🔍 TROUBLESHOOTING
 
 ### Issue: CORS Error in Console
-**Error**: `Access to XMLHttpRequest at 'http://localhost:3000/...' from origin 'http://localhost:5173' has been blocked by CORS policy`
+**Error**: `Access to XMLHttpRequest at 'http://localhost:5000/...' from origin 'http://localhost:3001' has been blocked by CORS policy`
 
 **Solution**:
 1. ✅ Make sure backend is running (`npm start` in backend folder)
@@ -155,9 +155,9 @@ curl -X OPTIONS http://localhost:3000/api/v1/auth/portal-login \
 
 **Solution**:
 ```bash
-cd backend
+cd J:\eithiroli\ethiroli_react\backend
 npm start
-# Wait for "Express server running on port 3000"
+# Wait for "Express server running on port 5000"
 ```
 
 ### Issue: Session Cookie Not Persisting
@@ -200,9 +200,9 @@ Set-Cookie: session_token=...
 
 ## 🎯 QUICK VERIFICATION CHECKLIST
 
-- [ ] Backend running on port 3000
-- [ ] Frontend running on port 5173
-- [ ] Can navigate to `http://localhost:5173/auth/hr/login`
+- [ ] Backend running on port 5000
+- [ ] Frontend running on port 3001
+- [ ] Can navigate to `http://localhost:3001/auth/hr/login`
 - [ ] Can enter credentials: `hr@ethiroli.com` / `HrPassword123!`
 - [ ] Login button works (no CORS errors)
 - [ ] Redirected to dashboard at `/app/hr/dashboard`
@@ -226,10 +226,10 @@ Set-Cookie: session_token=...
 ```
 ✅ CORS: Working
 ✅ Credentials: hr@ethiroli.com / HrPassword123!
-✅ Login URL: http://localhost:5173/auth/hr/login
-✅ Dashboard: http://localhost:5173/app/hr/dashboard
-✅ API: http://localhost:3000/api/v1/*
-✅ WebSocket: ws://localhost:3003
+✅ Login URL: http://localhost:3001/auth/hr/login
+✅ Dashboard: http://localhost:3001/app/hr/dashboard
+✅ API: http://localhost:5000/api/v1/*
+✅ WebSocket: ws://localhost:5000
 ✅ All Systems: OPERATIONAL
 ```
 

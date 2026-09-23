@@ -20,3 +20,12 @@ export const getInternPortalConfig = async () => {
   return response.data;
 };
 
+export const updateIntern = async (id, data) => {
+  const response = await axiosInstance.patch(`/v1/interns/${id}`, data);
+  return response.data;
+};
+
+export const deleteIntern = async (id) => {
+  const response = await axiosInstance.delete(`/v1/interns/${id}`);
+  return response.data;
+};

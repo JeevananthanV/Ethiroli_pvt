@@ -5,24 +5,56 @@ import { asyncHandler } from '../middleware/errorHandler.js';
 import { success } from '../utils/response.js';
 import { NotFoundError } from '../utils/errors.js';
 
+import bcrypt from 'bcrypt';
+import User from '../models/User.js';
+
 export const listEmployees = asyncHandler(async (req, res) => {
   const list = await Employee.list();
   return success(res, 200, list);
 });
 
 export const createEmployee = asyncHandler(async (req, res) => {
-  const id = await Employee.create(req.body);
+  let userId = req.body.user_id;
+  if (!userId) {
+    const email = req.body.email || `employee.${Date.now()}@ethiroli.com`;
+    let user = await User.findByEmail(email);
+    if (!user) {
+      const defaultPassword = 'Employee@123';
+      const password_hash = await bcrypt.hash(defaultPassword, 10);
+      userId = await User.create({
+        email,
+        full_name: req.body.name || req.body.full_name || 'Staff Member',
+        role: 'EMPLOYEE',
+        password_hash,
+        is_active: true
+      });
+    } else {
+      userId = user.id;
+    }
+  }
+
+  const employeeCode = req.body.employee_code || `EMP-${Math.floor(1000 + Math.random() * 9000)}`;
+  const dateOfJoining = req.body.date_of_joining || new Date().toISOString().slice(0, 10);
+
+  const payload = {
+    ...req.body,
+    user_id: userId,
+    employee_code: employeeCode,
+    date_of_joining: dateOfJoining
+  };
+
+  const id = await Employee.create(payload);
   await AuditLog.create({
     user_id: req.user.id,
     action: 'CREATE_EMPLOYEE',
     entity_type: 'EMPLOYEE',
     entity_id: id,
-    new_value: req.body,
+    new_value: payload,
     ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
     user_agent: req.headers['user-agent']
   });
   broadcastToRole('HR', 'employee_created', { id });
-  return success(res, 201, { id }, 'Employee created successfully');
+  return success(res, 201, { id, user_id: userId, employee_code: employeeCode }, 'Employee created successfully');
 });
 
 export const getEmployee = asyncHandler(async (req, res) => {

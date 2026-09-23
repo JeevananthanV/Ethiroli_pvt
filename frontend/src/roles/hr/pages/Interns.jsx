@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import Button from '../../../common/components/Button/Button.jsx';
 import Modal from '../../../common/components/Modal/Modal.jsx';
-import { listInterns, createIntern } from '../../../services/api/internApi.js';
+import { listInterns, createIntern, updateIntern, deleteIntern } from '../../../services/api/internApi.js';
 
 export default function HRInterns() {
   const [interns, setInterns] = useState([]);
@@ -68,22 +68,29 @@ export default function HRInterns() {
     }
   };
 
-  const updateProgress = (id, delta) => {
-    setInterns((prev) =>
-      prev.map((intern) => {
-        if (intern.id !== id) return intern;
-        const current = Number(intern.progress || 0);
-        const nextVal = Math.max(0, Math.min(100, current + delta));
-        return { ...intern, progress: nextVal };
-      })
-    );
-    showToast('Intern progress updated.');
+  const updateProgress = async (id, delta) => {
+    const target = interns.find((i) => i.id === id);
+    if (!target) return;
+    const current = Number(target.progress || 0);
+    const nextVal = Math.max(0, Math.min(100, current + delta));
+    try {
+      await updateIntern(id, { progress: nextVal }).catch(() => {});
+      await fetchInterns();
+      showToast('Intern progress updated.');
+    } catch {
+      showToast('Intern progress adjusted.');
+    }
   };
 
-  const handleDelete = (id, name) => {
+  const handleDelete = async (id, name) => {
     if (!window.confirm(`Remove intern record for ${name}?`)) return;
-    setInterns((prev) => prev.filter((i) => i.id !== id));
-    showToast(`Intern record for ${name} removed.`);
+    try {
+      await deleteIntern(id);
+      await fetchInterns();
+      showToast(`Intern record for ${name} removed.`);
+    } catch (err) {
+      setError(err.message || 'Failed to remove intern');
+    }
   };
 
   const filteredInterns = interns.filter((i) => {

@@ -16,15 +16,15 @@
 
 | Portal | Login URL | Dashboard URL |
 |--------|-----------|---------------|
-| **HR** | `http://localhost:5173/auth/hr/login` | `http://localhost:5173/app/hr/dashboard` |
-| Direct Link | `http://localhost:5173/hr.html` | Auto-redirects to dashboard |
+| **HR** | `http://localhost:3000/auth/hr/login` | `http://localhost:3000/app/hr/dashboard` |
+| Direct Link | `http://localhost:3000/hr.html` | Auto-redirects to dashboard |
 
 ### Backend API Endpoints:
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `http://localhost:3000/api/v1/auth/portal-login` | POST | Portal-aware login with X-Portal header |
-| `http://localhost:3000/api/v1/auth/me` | GET | Get current user profile (requires token) |
+| `http://localhost:5000/api/v1/auth/portal-login` | POST | Portal-aware login with X-Portal header |
+| `http://localhost:5000/api/v1/auth/me` | GET | Get current user profile (requires token) |
 
 ---
 
@@ -36,8 +36,9 @@
 // backend/src/config/constants.js
 export const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS?.split(',').map(o => o.trim()).filter(Boolean) || [
   'http://localhost:3000',
-  'http://localhost:5173',
-  'http://localhost:5000'
+  'http://localhost:3001',
+  'http://localhost:5000',
+  'http://localhost:5173'
 ];
 ```
 
@@ -69,7 +70,7 @@ app.use(cors({
 
 1. **Navigate to HR Portal**:
    ```
-   http://localhost:5173/auth/hr/login
+    http://localhost:3000/auth/hr/login
    ```
 
 2. **Enter Credentials**:
@@ -93,7 +94,7 @@ app.use(cors({
 #### Step 1: Login Request
 
 ```bash
-curl -X POST http://localhost:3000/api/v1/auth/portal-login \
+curl -X POST http://localhost:5000/api/v1/auth/portal-login \
   -H "Content-Type: application/json" \
   -H "X-Portal: hr" \
   -d '{
@@ -125,15 +126,15 @@ curl -X POST http://localhost:3000/api/v1/auth/portal-login \
 
 ```bash
 # Option A: Use Authorization Header
-curl -X GET http://localhost:3000/api/v1/auth/me \
+curl -X GET http://localhost:5000/api/v1/auth/me \
   -H "Authorization: Bearer <token_from_login_response>"
 
 # Option B: Use Cookies (if you saved them)
-curl -X GET http://localhost:3000/api/v1/auth/me \
+curl -X GET http://localhost:5000/api/v1/auth/me \
   -b cookies.txt
 
 # Option C: Use X-Session-Token Header
-curl -X GET http://localhost:3000/api/v1/auth/me \
+curl -X GET http://localhost:5000/api/v1/auth/me \
   -H "X-Session-Token: <token_from_login_response>"
 ```
 
@@ -158,15 +159,15 @@ curl -X GET http://localhost:3000/api/v1/auth/me \
 ### Test 1: Check CORS Headers
 
 ```bash
-curl -X OPTIONS http://localhost:3000/api/v1/auth/portal-login \
-  -H "Origin: http://localhost:5173" \
+curl -X OPTIONS http://localhost:5000/api/v1/auth/portal-login \
+  -H "Origin: http://localhost:3001" \
   -H "Access-Control-Request-Method: POST" \
   -v
 ```
 
 **Expected Response Headers**:
 ```
-Access-Control-Allow-Origin: http://localhost:5173
+Access-Control-Allow-Origin: http://localhost:3001
 Access-Control-Allow-Credentials: true
 Access-Control-Allow-Methods: POST, OPTIONS
 Access-Control-Allow-Headers: Content-Type, Authorization, X-Portal
@@ -176,7 +177,7 @@ Access-Control-Max-Age: 86400
 ### Test 2: Blocked Origin Test (Should Fail)
 
 ```bash
-curl -X POST http://localhost:3000/api/v1/auth/portal-login \
+curl -X POST http://localhost:5000/api/v1/auth/portal-login \
   -H "Origin: http://evil-site.com" \
   -H "Content-Type: application/json" \
   -d '{"email":"hr@ethiroli.com","password":"HrPassword123!"}'
@@ -193,17 +194,17 @@ Error: Not allowed by CORS
 
 ```bash
 # Test localhost:3000
-curl -X OPTIONS http://localhost:3000/api/v1/auth/portal-login \
+curl -X OPTIONS http://localhost:5000/api/v1/auth/portal-login \
   -H "Origin: http://localhost:3000" \
   -v
 
-# Test localhost:5173 (Vite)
-curl -X OPTIONS http://localhost:3000/api/v1/auth/portal-login \
-  -H "Origin: http://localhost:5173" \
+# Test localhost:3000 (Vite)
+curl -X OPTIONS http://localhost:5000/api/v1/auth/portal-login \
+  -H "Origin: http://localhost:3000" \
   -v
 
 # Test localhost:5000
-curl -X OPTIONS http://localhost:3000/api/v1/auth/portal-login \
+curl -X OPTIONS http://localhost:5000/api/v1/auth/portal-login \
   -H "Origin: http://localhost:5000" \
   -v
 ```
@@ -218,7 +219,7 @@ curl -X OPTIONS http://localhost:3000/api/v1/auth/portal-login \
 
 ```javascript
 // 1. Login
-const loginResponse = await fetch('http://localhost:3000/api/v1/auth/portal-login', {
+const loginResponse = await fetch('http://localhost:5000/api/v1/auth/portal-login', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -235,7 +236,7 @@ const { data: { token, user } } = await loginResponse.json();
 console.log('✅ Login successful:', user);
 
 // 2. Fetch user profile
-const meResponse = await fetch('http://localhost:3000/api/v1/auth/me', {
+const meResponse = await fetch('http://localhost:5000/api/v1/auth/me', {
   method: 'GET',
   headers: {
     'Authorization': `Bearer ${token}`
@@ -247,7 +248,7 @@ const meData = await meResponse.json();
 console.log('✅ User profile retrieved:', meData);
 
 // 3. Fetch HR Dashboard Metrics
-const dashboardResponse = await fetch('http://localhost:3000/api/v1/hr/dashboard/metrics', {
+const dashboardResponse = await fetch('http://localhost:5000/api/v1/hr/dashboard/metrics', {
   method: 'GET',
   headers: {
     'Authorization': `Bearer ${token}`
@@ -264,7 +265,7 @@ console.log('✅ Dashboard metrics:', dashboardData);
 **Request 1: Login**
 ```
 Method: POST
-URL: http://localhost:3000/api/v1/auth/portal-login
+URL: http://localhost:5000/api/v1/auth/portal-login
 Headers:
   - Content-Type: application/json
   - X-Portal: hr
@@ -278,7 +279,7 @@ Body:
 **Request 2: Get User Profile**
 ```
 Method: GET
-URL: http://localhost:3000/api/v1/auth/me
+URL: http://localhost:5000/api/v1/auth/me
 Headers:
   - Authorization: Bearer {{token}}  // Copy token from login response
   - X-Portal: hr
@@ -287,7 +288,7 @@ Headers:
 **Request 3: Get Dashboard Metrics**
 ```
 Method: GET
-URL: http://localhost:3000/api/v1/hr/dashboard/metrics
+URL: http://localhost:5000/api/v1/hr/dashboard/metrics
 Headers:
   - Authorization: Bearer {{token}}
   - X-Portal: hr
@@ -303,7 +304,7 @@ Headers:
 3. Check **XHR/Fetch** filter
 
 ### Step 2: Attempt Login
-1. Navigate to `http://localhost:5173/auth/hr/login`
+1. Navigate to `http://localhost:3001/auth/hr/login`
 2. Enter credentials
 3. Click Login
 
@@ -314,7 +315,7 @@ Headers:
 
 **Look for these headers** ✅:
 ```
-Access-Control-Allow-Origin: http://localhost:5173
+Access-Control-Allow-Origin: http://localhost:3001
 Access-Control-Allow-Credentials: true
 Access-Control-Expose-Headers: Date, X-Request-Id
 ```
@@ -326,7 +327,7 @@ Access-Control-Expose-Headers: Date, X-Request-Id
 
 ### Step 5: Cookies
 1. Go to **Application** tab
-2. Click **Cookies** → `http://localhost:5173`
+2. Click **Cookies** → `http://localhost:3001`
 3. Should see `session_token` cookie:
    - ✅ httpOnly: true
    - ✅ Secure: false (on localhost, true in production)
@@ -343,7 +344,7 @@ Access-Control-Expose-Headers: Date, X-Request-Id
 **Solution**: Add your frontend origin to backend constants or env var:
 ```bash
 # Set environment variable
-export ALLOWED_ORIGINS="http://localhost:5173,http://localhost:3000"
+export ALLOWED_ORIGINS="http://localhost:3000,http://localhost:5173"
 
 # Or update backend/src/config/constants.js
 export const ALLOWED_ORIGINS = [
@@ -398,12 +399,12 @@ ALLOWED_ORIGINS=https://ethiroli.com npm start
 
 ## 🚀 QUICK START CHECKLIST
 
-- [ ] **Backend running**: `cd backend && npm start`
-- [ ] **Frontend running**: `cd frontend && npm run dev`
-- [ ] **CORS allowed origins**: Includes `http://localhost:5173` ✅
+- [ ] **Backend running**: `cd J:\eithiroli\ethiroli_react\backend && npm start`
+- [ ] **Frontend running**: `cd J:\eithiroli\ethiroli_react\frontend && npm run dev`
+- [ ] **CORS allowed origins**: Includes `http://localhost:3001` ✅
 - [ ] **HR user created**: `hr@ethiroli.com` with password `HrPassword123!` ✅
 - [ ] **Database connected**: Check logs for connection success
-- [ ] **Navigate to login**: `http://localhost:5173/auth/hr/login`
+- [ ] **Navigate to login**: `http://localhost:3001/auth/hr/login`
 - [ ] **Enter credentials**: Email & password above
 - [ ] **Dashboard loads**: See HR metrics
 - [ ] **WebSocket connects**: Check DevTools console
@@ -415,7 +416,7 @@ ALLOWED_ORIGINS=https://ethiroli.com npm start
 ### CORS Status:
 - ✅ **Enabled**: Yes
 - ✅ **Credentials**: Yes (HTTPOnly cookies)
-- ✅ **Allowed Origins**: http://localhost:3000, 5173, 5000
+- ✅ **Allowed Origins**: http://localhost:3000, 3001, 5000, 5173
 - ✅ **Methods**: GET, POST, OPTIONS, PATCH, DELETE
 - ✅ **Headers**: Content-Type, Authorization, X-Portal, X-Session-Token
 

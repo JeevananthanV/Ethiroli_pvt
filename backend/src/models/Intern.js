@@ -1,10 +1,20 @@
 import crypto from 'crypto';
 import pool from '../config/database.js';
+import { decrypt } from '../config/encryption.js';
 
 export default class Intern {
   static format(row) {
     if (!row) return null;
-    return row;
+    const name = row.full_name ? decrypt(row.full_name) : (row.name || null);
+    const mentor = row.mentor_name ? decrypt(row.mentor_name) : (row.mentor || 'Assigned Mentor');
+    return {
+      ...row,
+      full_name: name,
+      name: name,
+      email: row.email ? decrypt(row.email) : null,
+      mentor_name: mentor,
+      mentor: mentor
+    };
   }
 
   static async findById(id) {

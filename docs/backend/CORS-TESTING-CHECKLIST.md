@@ -81,7 +81,7 @@ Status: 200
 
 ### Test 2: Network Tab Inspection
 
-1. Open `http://localhost:5173/auth/hr/login`
+1. Open `http://localhost:3001/auth/hr/login`
 2. Press `F12` → **Network** tab
 3. Enter credentials: `hr@ethiroli.com` / `HrPassword123!`
 4. Click **Login**
@@ -90,7 +90,7 @@ Status: 200
 
 **Expected Headers**:
 ```
-✅ access-control-allow-origin: http://localhost:5173
+✅ access-control-allow-origin: http://localhost:3001
 ✅ access-control-allow-credentials: true
 ✅ access-control-allow-methods: GET,HEAD,PUT,PATCH,POST,DELETE
 ✅ access-control-allow-headers: content-type, x-portal
@@ -99,10 +99,10 @@ Status: 200
 
 ### Test 3: Application Tab - Cookies
 
-1. Open `http://localhost:5173/auth/hr/login`
+1. Open `http://localhost:3001/auth/hr/login`
 2. Press `F12` → **Application** tab
 3. Login with `hr@ethiroli.com` / `HrPassword123!`
-4. Expand **Cookies** → select `http://localhost:5173`
+4. Expand **Cookies** → select `http://localhost:3001`
 
 **Expected Cookie**:
 ```

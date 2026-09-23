@@ -702,7 +702,7 @@ requestId
 
 ### 4.1 Exact Directory Structure
 
-#### Frontend (`ethiroli-react/frontend/src/`)
+#### Frontend (`frontend/src/`)
 
 ```
 src/
@@ -771,7 +771,7 @@ src/
 └── main.jsx
 ```
 
-#### Backend (`ethiroli-react/backend/src/`)
+#### Backend (`backend/src/`)
 
 ```
 src/

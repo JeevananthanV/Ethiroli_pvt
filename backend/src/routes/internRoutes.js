@@ -11,9 +11,9 @@ router.use(authenticate);
 router.get('/interns/portal-config', requireRole('INTERN', 'HR', 'ADMIN', 'SUPER_ADMIN'), getInternPortalConfig);
 router.get('/interns/dashboard', requireRole('INTERN', 'HR', 'ADMIN', 'SUPER_ADMIN'), getInternDashboard);
 router.get('/interns', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), listInterns);
-router.post('/interns', requireRole('HR', 'ADMIN'), validateBody('createIntern'), createIntern);
+router.post('/interns', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), validateBody('createIntern'), createIntern);
 router.get('/interns/:id', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), getIntern);
-router.patch('/interns/:id', requireRole('HR', 'ADMIN'), validateBody('createIntern'), updateIntern);
-router.delete('/interns/:id', requireRole('ADMIN', 'SUPER_ADMIN'), deleteIntern);
+router.patch('/interns/:id', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), validateBody('createIntern'), updateIntern);
+router.delete('/interns/:id', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), deleteIntern);
 
 export default router;

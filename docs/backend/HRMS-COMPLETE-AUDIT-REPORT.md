@@ -72,42 +72,42 @@ All 86 models are present and accessible:
 ### Status: 45+ ROUTES CONFIGURED & VERIFIED
 
 #### Authentication Routes:
-- ✅ `POST /v1/auth/login` - Standard login
-- ✅ `POST /v1/auth/portal-login` - Portal-aware login (HR, Finance, Sales, etc.)
-- ✅ `POST /v1/auth/mfa/verify` - Multi-factor authentication
-- ✅ `GET /v1/auth/oauth/:provider/authorize` - OAuth authorization
-- ✅ `GET /v1/auth/oauth/:provider/callback` - OAuth callback
-- ✅ `POST /v1/logout` - Session logout
-- ✅ `GET /v1/auth/me` - Current user profile
+- ✅ `POST /api/v1/auth/login` - Standard login
+- ✅ `POST /api/v1/auth/portal-login` - Portal-aware login (HR, Finance, Sales, etc.)
+- ✅ `POST /api/v1/auth/mfa/verify` - Multi-factor authentication
+- ✅ `GET /api/v1/auth/oauth/:provider/authorize` - OAuth authorization
+- ✅ `GET /api/v1/auth/oauth/:provider/callback` - OAuth callback
+- ✅ `POST /api/v1/logout` - Session logout
+- ✅ `GET /api/v1/auth/me` - Current user profile
 
 #### HR Routes (Live Data):
-- ✅ `GET /v1/employees` - List employees (RBAC: HR+)
-- ✅ `GET /v1/employees/:id` - Get employee details
-- ✅ `POST /v1/employees` - Create employee (RBAC: HR+)
-- ✅ `PATCH /v1/employees/:id` - Update employee
-- ✅ `DELETE /v1/employees/:id` - Delete employee
+- ✅ `GET /api/v1/employees` - List employees (RBAC: HR+)
+- ✅ `GET /api/v1/employees/:id` - Get employee details
+- ✅ `POST /api/v1/employees` - Create employee (RBAC: HR+)
+- ✅ `PATCH /api/v1/employees/:id` - Update employee
+- ✅ `DELETE /api/v1/employees/:id` - Delete employee
 
-- ✅ `GET /v1/attendance` - List attendance (RBAC: HR+)
-- ✅ `POST /v1/attendance/check-in` - Check-in employee
-- ✅ `POST /v1/attendance/check-out` - Check-out employee
-- ✅ `GET /v1/attendance/:id` - Get attendance record
+- ✅ `GET /api/v1/attendance` - List attendance (RBAC: HR+)
+- ✅ `POST /api/v1/attendance/check-in` - Check-in employee
+- ✅ `POST /api/v1/attendance/check-out` - Check-out employee
+- ✅ `GET /api/v1/attendance/:id` - Get attendance record
 
-- ✅ `GET /v1/leaves` - List leave requests (RBAC: HR+)
-- ✅ `POST /v1/leaves` - Create leave request
-- ✅ `PATCH /v1/leaves/:id` - Update leave status
-- ✅ `GET /v1/leaves/pending` - Pending leaves
+- ✅ `GET /api/v1/leaves` - List leave requests (RBAC: HR+)
+- ✅ `POST /api/v1/leaves` - Create leave request
+- ✅ `PATCH /api/v1/leaves/:id` - Update leave status
+- ✅ `GET /api/v1/leaves/pending` - Pending leaves
 
-- ✅ `GET /v1/payroll` - List payroll records (RBAC: HR+)
-- ✅ `POST /v1/payroll` - Create payroll
-- ✅ `PATCH /v1/payroll/:id` - Update payroll
-- ✅ `GET /v1/payroll/:id` - Get payroll details
+- ✅ `GET /api/v1/payroll` - List payroll records (RBAC: HR+)
+- ✅ `POST /api/v1/payroll` - Create payroll
+- ✅ `PATCH /api/v1/payroll/:id` - Update payroll
+- ✅ `GET /api/v1/payroll/:id` - Get payroll details
 
-- ✅ `GET /v1/performance-reviews` - Performance reviews
-- ✅ `POST /v1/performance-reviews` - Create review
-- ✅ `PATCH /v1/performance-reviews/:id` - Update review
+- ✅ `GET /api/v1/performance-reviews` - Performance reviews
+- ✅ `POST /api/v1/performance-reviews` - Create review
+- ✅ `PATCH /api/v1/performance-reviews/:id` - Update review
 
 #### HR Dashboard Route:
-- ✅ `GET /v1/hr/dashboard/metrics` - Live dashboard metrics
+- ✅ `GET /api/v1/hr/dashboard/metrics` - Live dashboard metrics
   - Total employees count
   - Total interns count
   - Employees on leave today
@@ -141,7 +141,7 @@ All 86 models are present and accessible:
 
 1. **Client sends request**:
    ```
-   POST /v1/auth/portal-login
+   POST /api/v1/auth/portal-login
    Headers: X-Portal: hr
    Body: { email, password }
    ```
@@ -282,7 +282,7 @@ router.get('/hr/dashboard/metrics',
    - ✅ Audit logged in ActivityFeed
 
 #### WebSocket Configuration:
-- ✅ Port: 3003 (configurable via SOCKET_PORT)
+- ✅ Port: 5000 (configurable via SOCKET_PORT)
 - ✅ Transport: WebSocket with HTTP fallback
 - ✅ Auth: Socket authenticated with session token
 - ✅ Rooms: Role-based broadcasting (role:HR, role:ADMIN, etc.)
@@ -579,7 +579,7 @@ Total: ~85ms (6x faster than sequential)
 ✅ DATABASE_URL=mysql://user:pass@host:3306/ethiroli
 ✅ JWT_SECRET=random-secret-key
 ✅ ENCRYPTION_KEY=random-encryption-key
-✅ SOCKET_PORT=3003
+✅ SOCKET_PORT=5000
 ✅ NODE_ENV=production
 ✅ API_URL=https://api.ethiroli.com
 ✅ SOCKET_URL=wss://api.ethiroli.com
@@ -715,15 +715,15 @@ node test-hr-live-auth.js
 ### To start development servers:
 ```bash
 # Backend (API + WebSocket)
-cd backend && npm start
+cd J:\eithiroli\ethiroli_react\backend && npm start
 
 # Frontend (Vite dev server)
-cd frontend && npm run dev
+cd J:\eithiroli\ethiroli_react\frontend && npm run dev
 ```
 
 ### To verify HR portal:
 ```
-Navigate to: http://localhost:5173/hr.html
+Navigate to: http://localhost:3001/auth/hr/login
 Login with: HR credentials
 Verify: Dashboard loads with live metrics
 ```

@@ -12,7 +12,7 @@
   - Portal-specific configuration
 
 ### hr.jsx Entry Point
-- **Location**: `frontend/src/hr.html` → `frontend/src/hr.jsx` → `frontend/src/HRApp.jsx`
+- **Location**: `frontend/src/hr.jsx` → `frontend/src/HRApp.jsx`
 - **Status**: ✅ Updated
 - **Flow**: HTML loads module that renders HRApp with proper providers
 
@@ -37,7 +37,7 @@
 
 ### Authentication Routes
 - **Location**: `backend/src/routes/authRoutes.js`
-- **Endpoint**: `POST /v1/auth/portal-login`
+- **Endpoint**: `POST /api/v1/auth/portal-login`
 - **Headers**: `X-Portal: hr`
 - **Features**:
   - Portal-specific login validation
@@ -79,11 +79,11 @@
 
 | Endpoint | Method | Role | Description |
 |----------|--------|------|-------------|
-| `/v1/employees` | GET | HR, ADMIN, SUPER_ADMIN | List all employees (live data) |
-| `/v1/attendance` | GET | HR, ADMIN, SUPER_ADMIN | Attendance records (live updates) |
-| `/v1/leaves` | GET | HR, ADMIN, SUPER_ADMIN | Leave requests (real-time status) |
-| `/v1/payroll` | GET | HR, ADMIN, SUPER_ADMIN | Payroll data (live calculations) |
-| `/v1/hr/dashboard` | GET | HR, ADMIN, SUPER_ADMIN | Dashboard metrics (live aggregates) |
+| `/api/v1/employees` | GET | HR, ADMIN, SUPER_ADMIN | List all employees (live data) |
+| `/api/v1/attendance` | GET | HR, ADMIN, SUPER_ADMIN | Attendance records (live updates) |
+| `/api/v1/leaves` | GET | HR, ADMIN, SUPER_ADMIN | Leave requests (real-time status) |
+| `/api/v1/payroll` | GET | HR, ADMIN, SUPER_ADMIN | Payroll data (live calculations) |
+| `/api/v1/hr/dashboard/metrics` | GET | HR, ADMIN, SUPER_ADMIN | Dashboard metrics (live aggregates) |
 
 ## ✅ Frontend Routes
 
@@ -155,7 +155,7 @@
 - ✅ `test-hr-integration.js` - Full auth + live data suite
 
 ### Manual Testing
-1. Navigate to `http://localhost:5173/hr.html`
+1. Navigate to `http://localhost:3001/auth/hr/login`
 2. Login with HR credentials
 3. Verify dashboard loads with live metrics
 4. Observe real-time updates when employees check in/out

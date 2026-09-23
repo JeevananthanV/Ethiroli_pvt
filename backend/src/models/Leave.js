@@ -1,10 +1,18 @@
 import crypto from 'crypto';
 import pool from '../config/database.js';
+import { decrypt } from '../config/encryption.js';
 
 export default class Leave {
   static format(row) {
     if (!row) return null;
-    return row;
+    const name = row.full_name ? decrypt(row.full_name) : (row.user_name || null);
+    return {
+      ...row,
+      full_name: name,
+      user_name: name,
+      employee_name: name,
+      email: row.email ? decrypt(row.email) : null
+    };
   }
 
   static async findById(id) {

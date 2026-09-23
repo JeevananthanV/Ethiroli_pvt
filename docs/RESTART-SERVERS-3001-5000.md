@@ -1,12 +1,12 @@
-# 🚀 RESTART SERVERS (PORTS 3001 + 5000)
+# RESTART SERVERS (PORTS 3001 + 5000)
 
-## ⚠️ CRITICAL: Your backend needs to RELOAD the new CORS configuration!
+## CRITICAL: Your backend needs to RELOAD the new CORS configuration!
 
 The CORS fix (adding localhost:3001) won't take effect until you restart the backend.
 
 ---
 
-## 🔴 STEP 1: Kill All Node Processes
+## STEP 1: Kill All Node Processes
 
 ```powershell
 # Kill all node processes (clean slate)
@@ -23,11 +23,11 @@ Get-Process node -ErrorAction SilentlyContinue | Measure-Object | Select-Object 
 
 ---
 
-## 🟢 STEP 2: Start Backend (Port 5000)
+## STEP 2: Start Backend (Port 5000)
 
 **Terminal 1 (Backend):**
 ```powershell
-cd j:\eithiroli\ethiroli_react\ethiroli-react\backend
+cd j:\eithiroli\ethiroli_react\backend
 npm start
 ```
 
@@ -45,11 +45,11 @@ npm start
 
 ---
 
-## 🟢 STEP 3: Start Frontend (Port 3001)
+## STEP 3: Start Frontend (Port 3001)
 
 **Terminal 2 (Frontend):**
 ```powershell
-cd j:\eithiroli\ethiroli_react\ethiroli-react\frontend
+cd j:\eithiroli\ethiroli_react\frontend
 npm run dev
 ```
 
@@ -63,7 +63,7 @@ npm run dev
 
 ---
 
-## 🧪 STEP 4: Test Login (Check for 401 Error)
+## STEP 4: Test Login (Check for 401 Error)
 
 1. **Open Browser**: http://localhost:3001/auth/hr/login
 2. **Press F12** to open DevTools
@@ -76,7 +76,7 @@ npm run dev
 
 ---
 
-## 🔍 STEP 5: Inspect Network Requests
+## STEP 5: Inspect Network Requests
 
 Look in DevTools Network tab for:
 
@@ -124,7 +124,7 @@ Response Headers (should include):
 
 ---
 
-## 📍 STEP 6: Check localStorage After Login
+## STEP 6: Check localStorage After Login
 
 1. Stay in DevTools (F12)
 2. Go to **Application** tab
@@ -144,7 +144,7 @@ Response Headers (should include):
 
 ---
 
-## 📊 STEP 7: Check Cookie After Login
+## STEP 7: Check Cookie After Login
 
 1. Stay in DevTools (F12)
 2. Go to **Application** tab
@@ -163,7 +163,7 @@ Response Headers (should include):
 
 ---
 
-## 🔄 STEP 8: Check for 401 Error on getMe()
+## STEP 8: Check for 401 Error on getMe()
 
 After successful login, the app should call `/auth/me`:
 
@@ -187,7 +187,7 @@ Response should be:
 
 ---
 
-## 🎯 SUCCESS = All Network Requests Return 200
+## SUCCESS = All Network Requests Return 200
 
 ```
 ✅ OPTIONS /auth/portal-login       → 204 No Content (CORS allowed)
@@ -198,7 +198,7 @@ Response should be:
 
 ---
 
-## ❌ TROUBLESHOOTING 401 ERROR
+## TROUBLESHOOTING 401 ERROR
 
 If you still see 401 errors, use this diagnostic script in DevTools Console:
 
@@ -275,7 +275,7 @@ setTimeout(() => {
 
 ---
 
-## 📝 QUICK CHECKLIST
+## QUICK CHECKLIST
 
 - [ ] Backend running on port 5000 (npm start in backend folder)
 - [ ] Frontend running on port 3001 (npm run dev in frontend folder)
@@ -292,7 +292,7 @@ setTimeout(() => {
 
 ---
 
-## 🎉 EXPECTED RESULT
+## EXPECTED RESULT
 
 After login:
 1. ✅ Redirected to /app/hr/dashboard

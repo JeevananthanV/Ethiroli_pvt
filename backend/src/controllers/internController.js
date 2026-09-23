@@ -21,17 +21,43 @@ export const listInterns = asyncHandler(async (req, res) => {
   });
 });
 
+import bcrypt from 'bcrypt';
+import User from '../models/User.js';
+
 export const createIntern = asyncHandler(async (req, res) => {
-  const { user_id, mentor_id, college_name, stipend, start_date, end_date } = req.body;
+  let userId = req.body.user_id;
+  if (!userId) {
+    const email = req.body.email || `intern.${Date.now()}@ethiroli.com`;
+    let user = await User.findByEmail(email);
+    if (!user) {
+      const defaultPassword = 'Intern@123';
+      const password_hash = await bcrypt.hash(defaultPassword, 10);
+      userId = await User.create({
+        email,
+        full_name: req.body.name || req.body.full_name || 'Intern Member',
+        role: 'INTERN',
+        password_hash,
+        is_active: true
+      });
+    } else {
+      userId = user.id;
+    }
+  }
+
+  const startDate = req.body.start_date || new Date().toISOString().slice(0, 10);
+  const endDate = req.body.end_date || new Date(Date.now() + 90 * 86400000).toISOString().slice(0, 10);
+  const collegeName = req.body.college_name || 'Engineering Institution';
+  const stipend = req.body.stipend !== undefined ? Number(req.body.stipend) : 15000;
+
   const id = await Intern.create({
-    user_id,
-    mentor_id,
-    college_name,
+    user_id: userId,
+    mentor_id: req.body.mentor_id || null,
+    college_name: collegeName,
     stipend,
-    start_date,
-    end_date
+    start_date: startDate,
+    end_date: endDate
   });
-  return success(res, 201, { id }, 'Intern created successfully');
+  return success(res, 201, { id, user_id: userId }, 'Intern created successfully');
 });
 
 export const getIntern = asyncHandler(async (req, res) => {

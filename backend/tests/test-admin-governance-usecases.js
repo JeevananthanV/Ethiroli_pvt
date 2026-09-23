@@ -171,7 +171,7 @@ async function run() {
   } else {
     substituteTutorId = tutorRows[1].id;
   }
-
+ 
   const absentTutorId = tutorRows[0].id;
   const handoverRes = await fetch(`${API_BASE}/v1/tutors/${absentTutorId}/reassign-workload`, {
     method: 'POST',

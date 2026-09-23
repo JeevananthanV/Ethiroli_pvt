@@ -4,7 +4,7 @@ import AuditLog from '../models/AuditLog.js';
 import pool from '../config/database.js';
 import { broadcastToRole } from '../services/socketService.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
-import { success } from '../utils/response.js';
+import { success, error } from '../utils/response.js';
 import { NotFoundError } from '../utils/errors.js';
 
 export const listSalaryStructures = asyncHandler(async (req, res) => {
@@ -145,6 +145,16 @@ export const resolveDispute = asyncHandler(async (req, res) => {
   if (!payroll) throw new NotFoundError('Payroll record not found');
 
   const adj = parseFloat(adjustmentAmount) || 0;
+
+  // ABAC Threshold Safeguard: Adjustments exceeding ₹25,000 require Super Admin authority
+  if (Math.abs(adj) > 25000 && req.user?.role !== 'SUPER_ADMIN') {
+    return error(
+      res,
+      403,
+      `Threshold Policy Breach: Dispute adjustment of ₹${adj.toLocaleString()} exceeds the maximum Standard Admin approval limit of ₹25,000. Super Admin authorization required.`
+    );
+  }
+
   const newGross = parseFloat(payroll.gross_salary || 0) + adj;
   const newNet = parseFloat(payroll.net_salary || 0) + adj;
 

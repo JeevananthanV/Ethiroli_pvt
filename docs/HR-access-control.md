@@ -1,12 +1,12 @@
-﻿# ADMIN Access Control
+# HR Access Control
 
 ## 1. Role Title and Summary
-- **Role**: Admin  
-- **Purpose**: Mid‑level administrative role with broad system access, delegated authority for day‑to‑day operations, user management (excluding super‑admin functions), and configuration of assigned modules.  
-- **Portal Slug**: `admin`  
-- **MFA Required**: Yes  
+- **Role**: HR  
+- **Purpose**: Manages employee lifecycle, attendance, leave, training, and related HR operations. Provides full CRUD for HR‑specific resources and read/write for select modules such as calendar, performance, and approvals.  
+- **Portal Slug**: `hr`  
+- **MFA Required**: No  
 - **Session Duration**: 8 hours  
-- **Cookie Path**: `/app/admin`
+- **Cookie Path**: `/app/hr`
 
 ## 2. Permission Matrix
 | Resource / Module | Read | Create | Update | Delete | API Endpoints |
@@ -21,12 +21,12 @@
 | Enrollments | ✅ | ✅ | ✅ | ✅ | `GET /v1/enrollments`, `POST /v1/enrollments`, `PATCH /v1/enrollments/:id`, `DELETE /v1/enrollments/:id` |
 | Quizzes | ✅ | ✅ | ✅ | ✅ | `GET /v1/quizzes`, `POST /v1/quizzes`, `PATCH /v1/quizzes/:id`, `DELETE /v1/quizzes/:id` |
 | Assignments | ✅ | ✅ | ✅ | ✅ | `GET /v1/assignments`, `POST /v1/assignments`, `PATCH /v1/assignments/:id`, `DELETE /v1/assignments/:id` |
-| Interviews | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Payroll | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Performance | ❌ | ❌ | ❌ | ❌ | *No permissions* |
+| Interviews | ✅ | ✅ | ✅ | ✅ | `GET /v1/interviews`, `POST /v1/interviews`, `PATCH /v1/interviews/:id`, `DELETE /v1/interviews/:id` |
+| Payroll | ✅ | ❌ | ❌ | ❌ | `GET /v1/payroll` |
+| Performance | ✅ | ✅ | ✅ | ❌ | `GET /v1/performance`, `POST /v1/performance`, `PATCH /v1/performance/:id` |
 | Calendar | ✅ | ✅ | ✅ | ✅ | `GET /v1/calendar`, `POST /v1/calendar`, `PATCH /v1/calendar/:id`, `DELETE /v1/calendar/:id` |
-| Holidays | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Approvals | ❌ | ❌ | ❌ | ❌ | *No permissions* |
+| Holidays | ✅ | ✅ | ✅ | ✅ | `GET /v1/holidays`, `POST /v1/holidays`, `PATCH /v1/holidays/:id`, `DELETE /v1/holidays/:id` |
+| Approvals | ✅ | ✅ | ✅ | ✅ | `GET /v1/approvals`, `POST /v1/approvals`, `PATCH /v1/approvals/:id`, `DELETE /v1/approvals/:id` |
 | Clients | ❌ | ❌ | ❌ | ❌ | *No permissions* |
 | Subscriptions | ❌ | ❌ | ❌ | ❌ | *No permissions* |
 | Tasks | ❌ | ❌ | ❌ | ❌ | *No permissions* |
@@ -43,29 +43,30 @@
 | Projects | ❌ | ❌ | ❌ | ❌ | *No permissions* |
 | Mind Maps | ❌ | ❌ | ❌ | ❌ | *No permissions* |
 | Payslips | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Auth & Users | ✅ | ✅ | ✅ | ✅ | `GET /v1/users`, `POST /v1/users`, `PATCH /v1/users/:id`, `DELETE /v1/users/:id` |
-| Roles | ✅ | ✅ | ✅ | ✅ | `GET /v1/role`, `POST /v1/role`, `PATCH /v1/role/:id`, `DELETE /v1/role/:id` |
+| Auth & Users | ❌ | ❌ | ❌ | ❌ | *No permissions* |
+| Roles | ❌ | ❌ | ❌ | ❌ | *No permissions* |
 | System Settings | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Audit Logs | ✅ | ❌ | ❌ | ❌ | `GET /v1/audit-logs` |
+| Audit Logs | ❌ | ❌ | ❌ | ❌ | *No permissions* |
 | Health Checks | ❌ | ❌ | ❌ | ❌ | `GET /health` |
 | Monitoring | ❌ | ❌ | ❌ | ❌ | *No permissions* |
 
 ## 3. Access Boundaries
-- Cannot create, update, or delete any resource (read‑only for most modules).  
-- No access to financial modules (payroll, payments, transactions, invoices).  
-- Cannot modify system settings, tenant configurations, or global role definitions.  
-- Limited to managing own portal scope (`/app/admin`); cannot access other role‑specific endpoints.
+- No access to financial or invoicing modules.
+- Cannot manage user roles or system configurations.
+- HR actions are limited to employee and intern data; cannot view payroll details.
+- No access to client‑facing modules (clients, subscriptions, leads).
 
 ## 4. User Flow & Typical Actions
-- Review attendance, leave requests, and course enrollment records.  
-- Approve or reject leave applications, performance reviews.  
-- Generate ad‑hoc reports for internal stakeholders.  
-- Manage user accounts within the admin portal (view, reset passwords, assign temporary roles).
+- Process employee attendance and leave submissions.
+- Create and update course enrollments, lessons, and assessments.
+- Manage holiday calendars and departmental events.
+- Generate performance reports and audit trails for HR analytics.
+- Approve or reject leave requests and attendance corrections.
 
 ## 5. Compliance & Security Considerations
-- All read actions are logged; deletion of records is prohibited.  
-- Access to audit logs is permitted for accountability.  
-- MFA enforced; session timeout after 8 hours.  
-- Data retention policies apply; sensitive information must be accessed only for legitimate review.
+- HR data is sensitive; access logged and reviewed.
+- All HR actions require justification; escalation for deletions.
+- MFA optional but recommended.
+- Data retention aligns with labor regulations; automatic purging of terminated employee records after 6 months.
 
 Generated from `backend/src/config/constants.js` `ROLE_PERMISSIONS` and `backend/src/routes/index.js`.

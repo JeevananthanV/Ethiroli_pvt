@@ -3,15 +3,16 @@ import { listUsers, createUser, getUser, updateUser, deleteUser } from '../contr
 import { authenticate } from '../middleware/auth.js';
 import { requireRole } from '../middleware/rbac.js';
 import { validateBody } from '../middleware/validation.js';
+import { enforcePrivilegeHierarchy } from '../middleware/rbacGuard.js';
 
 const router = express.Router();
 
 router.use(authenticate);
 
 router.get('/', requireRole('ADMIN', 'SUPER_ADMIN'), listUsers);
-router.post('/', requireRole('ADMIN', 'SUPER_ADMIN'), validateBody('createUser'), createUser);
+router.post('/', requireRole('ADMIN', 'SUPER_ADMIN'), validateBody('createUser'), enforcePrivilegeHierarchy, createUser);
 router.get('/:id', requireRole('ADMIN', 'SUPER_ADMIN'), getUser);
-router.patch('/:id', requireRole('ADMIN', 'SUPER_ADMIN'), validateBody('updateUser'), updateUser);
+router.patch('/:id', requireRole('ADMIN', 'SUPER_ADMIN'), validateBody('updateUser'), enforcePrivilegeHierarchy, updateUser);
 router.delete('/:id', requireRole('SUPER_ADMIN'), deleteUser);
 
 export default router;

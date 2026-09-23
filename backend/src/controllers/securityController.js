@@ -4,6 +4,7 @@ import AuditLog from '../models/AuditLog.js';
 import { success, error } from '../utils/response.js';
 import { logger } from '../config/logger.js';
 import { broadcastToRole, getIO } from '../socket/index.js';
+import { ROLE_RANKS } from '../middleware/rbacGuard.js';
 
 /**
  * Lists real-time intercepted security threats
@@ -39,6 +40,18 @@ export const revokeAllSessions = async (req, res, next) => {
     const { userId, reason = 'administrative_revocation' } = req.body;
     if (!userId) {
       return error(res, 400, 'userId is required');
+    }
+
+    // Anti-Privilege Escalation Check: Non-Super Admins cannot revoke equal or higher rank sessions
+    if (req.user?.role !== 'SUPER_ADMIN') {
+      const [targetUsers] = await pool.query('SELECT role FROM users WHERE id = ?', [userId]);
+      if (targetUsers.length > 0) {
+        const targetRank = ROLE_RANKS[targetUsers[0].role] || 0;
+        const callerRank = ROLE_RANKS[req.user?.role] || 0;
+        if (targetRank >= callerRank) {
+          return error(res, 403, `Privilege Boundary Violation: You cannot revoke sessions for account with equal or higher rank (${targetUsers[0].role})`);
+        }
+      }
     }
 
     // 1. Delete all active sessions from the database
@@ -97,6 +110,15 @@ export const lockUserAccount = async (req, res, next) => {
     const [userRows] = await pool.query(`SELECT id, email, role FROM users WHERE id = ?`, [id]);
     if (userRows.length === 0) {
       return error(res, 404, 'User not found');
+    }
+
+    // Anti-Privilege Escalation Check: Non-Super Admins cannot lock equal or higher rank accounts
+    if (req.user?.role !== 'SUPER_ADMIN') {
+      const targetRank = ROLE_RANKS[userRows[0].role] || 0;
+      const callerRank = ROLE_RANKS[req.user?.role] || 0;
+      if (targetRank >= callerRank) {
+        return error(res, 403, `Privilege Boundary Violation: You cannot lock or suspend an account with equal or higher rank (${userRows[0].role})`);
+      }
     }
 
     // Lock user account and flag password reset
@@ -164,6 +186,135 @@ export const blockIpAddress = async (req, res, next) => {
     return success(res, 201, { id: threatId, sourceIp, status: 'IP_BLOCKED' }, `IP ${sourceIp} blocked successfully`);
   } catch (err) {
     logger.error('Failed to block IP', { error: err.message });
+    next(err);
+  }
+};
+
+/**
+ * Initiate Break-Glass Emergency Procedure
+ */
+export const initiateBreakGlass = async (req, res, next) => {
+  try {
+    const { reason, incidentTicketId } = req.body;
+    if (!reason || !incidentTicketId) {
+      return error(res, 400, 'reason and incidentTicketId are required to initiate break-glass');
+    }
+
+    const eventId = crypto.randomUUID();
+    await pool.query(
+      `INSERT INTO break_glass_events (id, initiator_user_id, reason, incident_ticket_id, status, ip_address)
+       VALUES (?, ?, ?, ?, 'PENDING', ?)`,
+      [eventId, req.user.id, reason, incidentTicketId, req.ip || '127.0.0.1']
+    );
+
+    await AuditLog.create({
+      user_id: req.user.id,
+      action: 'SECURITY_BREAK_GLASS_INITIATED',
+      entity_type: 'SECURITY_BREAK_GLASS',
+      entity_id: eventId,
+      new_value: { incidentTicketId, reason },
+      ip_address: req.ip || '127.0.0.1'
+    });
+
+    broadcastToRole('SUPER_ADMIN', 'break_glass_alert', {
+      eventId,
+      initiator: req.user.id,
+      incidentTicketId,
+      status: 'PENDING_APPROVAL'
+    });
+
+    return success(res, 201, {
+      eventId,
+      status: 'PENDING',
+      incidentTicketId,
+      notice: 'Break-glass initiated. Awaiting second Super Admin dual authorization.'
+    }, 'Break-glass emergency procedure initiated');
+  } catch (err) {
+    logger.error('Failed to initiate break glass', { error: err.message });
+    next(err);
+  }
+};
+
+/**
+ * Approve Break-Glass Emergency Procedure (Four-Eyes Principle / Dual Control)
+ */
+export const approveBreakGlass = async (req, res, next) => {
+  try {
+    const { eventId } = req.body;
+    if (!eventId) {
+      return error(res, 400, 'eventId is required');
+    }
+
+    const [events] = await pool.query('SELECT * FROM break_glass_events WHERE id = ?', [eventId]);
+    if (events.length === 0) {
+      return error(res, 404, 'Break glass event not found');
+    }
+
+    const event = events[0];
+    if (event.status !== 'PENDING') {
+      return error(res, 400, `Break glass event is already in status '${event.status}'`);
+    }
+
+    // Four-Eyes Principle: Approver cannot be the same Super Admin who initiated
+    if (event.initiator_user_id === req.user.id) {
+      return error(res, 403, 'Dual Control Violation: The initiating Super Admin cannot approve their own break-glass request');
+    }
+
+    await pool.query(
+      `UPDATE break_glass_events 
+       SET approver_user_id = ?, status = 'ACTIVE', activated_at = NOW(), expires_at = DATE_ADD(NOW(), INTERVAL 60 MINUTE)
+       WHERE id = ?`,
+      [req.user.id, eventId]
+    );
+
+    await AuditLog.create({
+      user_id: req.user.id,
+      action: 'SECURITY_BREAK_GLASS_APPROVED',
+      entity_type: 'SECURITY_BREAK_GLASS',
+      entity_id: eventId,
+      new_value: { approver: req.user.id, expires_in: '60m' },
+      ip_address: req.ip || '127.0.0.1'
+    });
+
+    broadcastToRole('SUPER_ADMIN', 'break_glass_activated', {
+      eventId,
+      approvedBy: req.user.id,
+      ttlMinutes: 60
+    });
+
+    return success(res, 200, {
+      eventId,
+      status: 'ACTIVE',
+      expiresIn: '60 minutes',
+      ttlSeconds: 3600
+    }, 'Break-glass dual authorization confirmed. Elevated emergency root bypass active for 60 minutes.');
+  } catch (err) {
+    logger.error('Failed to approve break glass', { error: err.message });
+    next(err);
+  }
+};
+
+/**
+ * Get active Break-Glass procedures status
+ */
+export const getBreakGlassStatus = async (req, res, next) => {
+  try {
+    const [events] = await pool.query(
+      `SELECT bg.*, u1.full_name as initiator_name, u2.full_name as approver_name
+       FROM break_glass_events bg
+       LEFT JOIN users u1 ON bg.initiator_user_id = u1.id
+       LEFT JOIN users u2 ON bg.approver_user_id = u2.id
+       ORDER BY bg.created_at DESC
+       LIMIT 10`
+    );
+
+    const hasActive = events.some(e => e.status === 'ACTIVE' && new Date(e.expires_at) > new Date());
+    return success(res, 200, {
+      activeBreakGlass: hasActive,
+      recentEvents: events
+    }, 'Break-glass status retrieved');
+  } catch (err) {
+    logger.error('Failed to get break glass status', { error: err.message });
     next(err);
   }
 };

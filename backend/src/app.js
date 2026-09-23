@@ -1,12 +1,20 @@
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 import routes from './routes/index.js';
+import healthRoutes from './routes/healthRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { csrfProtection } from './middleware/csrf.js';
 import { apiLimiter } from './middleware/rateLimiter.js';
 import { securityHeaders, requestLogger } from './middleware/security.js';
 import requestId from './middleware/requestId.js';
 import apiVersioning from './middleware/apiVersioning.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const envOrigins = (process.env.ALLOWED_ORIGINS || process.env.FRONTEND_ORIGIN || '')
   .split(',')
   .map(o => o.trim())
@@ -26,6 +34,15 @@ app.use(requestLogger);
 
 // Assign unique request ID to every request
 app.use(requestId);
+
+// Load balancer worker tracking headers
+app.use((req, res, next) => {
+  res.setHeader('X-Worker-Pid', process.pid);
+  if (process.env.CLUSTER_WORKER_ID) {
+    res.setHeader('X-Worker-Id', process.env.CLUSTER_WORKER_ID);
+  }
+  next();
+});
 
 // API versioning middleware
 app.use(apiVersioning);
@@ -104,16 +121,9 @@ app.use('/v1', (req, res, next) => {
 });
 
 // Health check endpoints (outside /api for load balancer accessibility)
-import healthRoutes from './routes/healthRoutes.js';
 app.use('/health', healthRoutes);
 
 // === Single-Domain Static Frontend Serving (ethiroli.net) ===
-import path from 'path';
-import fs from 'fs';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const candidatePaths = [
   process.env.CLIENT_BUILD_PATH,

@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
+    "start:cluster": "node src/cluster.js",
+    "test:cluster": "node tests/test-load-balancer.js",
     "test": "node tests/test-phase1.js",
     "test:all": "node tests/test-phase1.js && node tests/test-phase2.js && node tests/test-phase3.js && node tests/test-phase4.js && node tests/test-phase5.js && node tests/test-phase6.js && node tests/test-phase7.js && node tests/test-phase8.js",
     "seed": "node scripts/seed-hr-data.js",
@@ -13,6 +15,7 @@
     "migrate": "node src/config/migrate.js"
   },
   "dependencies": {
+    "@socket.io/cluster-adapter": "^0.3.0",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.6",
     "dotenv": "^16.6.1",

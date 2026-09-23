@@ -1,6 +1,9 @@
 import 'dotenv/config';
 import mysql from 'mysql2/promise';
 
+const defaultLimit = process.env.CLUSTER_MODE === 'true' ? 10 : 25;
+const connectionLimit = Number(process.env.DB_POOL_SIZE || defaultLimit);
+
 const pool = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
   port: Number(process.env.DB_PORT || 3306),
@@ -8,7 +11,7 @@ const pool = mysql.createPool({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME || 'ethiroli',
   waitForConnections: true,
-  connectionLimit: 10,
+  connectionLimit,
   enableKeepAlive: true,
   keepAliveInitialDelay: 10000,
   connectTimeout: 20000

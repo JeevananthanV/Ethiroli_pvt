@@ -1,4 +1,5 @@
 import { Server } from 'socket.io';
+import { createAdapter } from '@socket.io/cluster-adapter';
 import Session from '../models/Session.js';
 import { logger } from '../config/logger.js';
 import { ALLOWED_ORIGINS } from '../config/constants.js';
@@ -16,6 +17,15 @@ export const initSocketServer = (server) => {
     pingTimeout: Number(process.env.SOCKET_PING_TIMEOUT || 60000),
     pingInterval: Number(process.env.SOCKET_PING_INTERVAL || 25000)
   });
+
+  if (process.env.CLUSTER_MODE === 'true') {
+    try {
+      io.adapter(createAdapter());
+      logger.info('Socket.IO Cluster worker adapter enabled');
+    } catch (err) {
+      logger.warn('Socket.IO cluster adapter init warning', { error: err.message });
+    }
+  }
 
   io.use(async (socket, next) => {
     const token = socket.handshake.auth?.token || socket.handshake.query?.token;

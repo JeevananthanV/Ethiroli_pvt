@@ -52,18 +52,8 @@ export default function HREmployees() {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const newEmp = {
-        id: `emp-${Date.now()}`,
-        employee_code: `EMP-${Math.floor(100 + Math.random() * 900)}`,
-        full_name: formData.name,
-        name: formData.name,
-        department: formData.department,
-        designation: formData.designation,
-        date_of_joining: formData.date_of_joining,
-        is_active: true
-      };
       await createEmployee(formData).catch(() => {});
-      setEmployees((prev) => [newEmp, ...prev]);
+      await fetchEmployees();
       setShowAddModal(false);
       setFormData({
         name: '',
@@ -98,13 +88,7 @@ export default function HREmployees() {
     setSubmitting(true);
     try {
       await updateEmployee(selectedEmp.id, formData).catch(() => {});
-      setEmployees((prev) =>
-        prev.map((item) =>
-          item.id === selectedEmp.id
-            ? { ...item, full_name: formData.name, name: formData.name, department: formData.department, designation: formData.designation }
-            : item
-        )
-      );
+      await fetchEmployees();
       setShowEditModal(false);
       showToast(`Employee ${formData.name} updated.`);
     } catch (err) {
@@ -114,19 +98,22 @@ export default function HREmployees() {
     }
   };
 
-  const handleToggleStatus = (emp) => {
+  const handleToggleStatus = async (emp) => {
     const newStatus = !emp.is_active;
-    setEmployees((prev) =>
-      prev.map((item) => (item.id === emp.id ? { ...item, is_active: newStatus } : item))
-    );
-    showToast(`${emp.full_name || emp.name} marked as ${newStatus ? 'Active' : 'Inactive'}`);
+    try {
+      await updateEmployee(emp.id, { is_active: newStatus }).catch(() => {});
+      await fetchEmployees();
+      showToast(`${emp.full_name || emp.name} marked as ${newStatus ? 'Active' : 'Inactive'}`);
+    } catch (err) {
+      showToast('Status update failed');
+    }
   };
 
   const handleDelete = async (id, name) => {
     if (!window.confirm(`Are you sure you want to remove ${name}?`)) return;
     try {
       await deleteEmployee(id).catch(() => {});
-      setEmployees((prev) => prev.filter((item) => item.id !== id));
+      await fetchEmployees();
       showToast(`Employee ${name} removed.`);
     } catch (err) {
       setError(err.message || 'Failed to delete employee');

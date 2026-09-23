@@ -5,6 +5,37 @@
 > **Content-Type**: `application/json`
 > **Authentication**: Session cookie (`session_token`) or `X-API-Key` header for service-to-service calls.
 
+## Project Structure
+
+```
+backend/
+├── docs/
+│   └── API-ROUTES.md          ← This file
+├── scripts/
+│   ├── create-table.js
+│   ├── seed-hr-data.js
+│   └── ...
+├── src/
+│   ├── app.js
+│   ├── server.js
+│   ├── config/
+│   ├── controllers/
+│   ├── graphql/
+│   ├── integrations/
+│   ├── middleware/
+│   ├── migrations/
+│   ├── models/
+│   ├── routes/
+│   ├── services/
+│   ├── socket/
+│   └── utils/
+├── tests/
+├── .env.example
+├── package.json
+├── README.md
+└── schema.sql
+```
+
 ---
 
 ## Table of Contents
@@ -1754,3 +1785,6 @@ Places an order from the cart.
 - Dates in request bodies: `YYYY-MM-DD`. Date-times: ISO 8601 (`2026-01-01T00:00:00.000Z`).
 - Soft deletes are used throughout. Deleted records have `deleted_at` set and are excluded from list queries.
 - Tenant context is resolved by the `resolveTenant` middleware applied globally to `/api` routes.
+- Source code is organized under `backend/src/` with controllers, routes, models, services, and middleware.
+- Configuration and environment setup: see `backend/.env.example` and `backend/README.md`.
+- Database migrations and schema extensions live in `backend/src/migrations/` and `backend/schema.sql`.

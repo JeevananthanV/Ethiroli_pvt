@@ -6,12 +6,23 @@ export default class Attendance {
   static format(row) {
     if (!row) return null;
     const name = row.full_name ? decrypt(row.full_name) : (row.name || null);
+    const formatTime = (ts) => {
+      if (!ts) return '—';
+      try {
+        const d = new Date(ts);
+        return isNaN(d.getTime()) ? String(ts) : d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      } catch {
+        return String(ts);
+      }
+    };
     return {
       ...row,
       full_name: name,
       employee_name: name,
       user_name: name,
-      email: row.email ? decrypt(row.email) : null
+      email: row.email ? decrypt(row.email) : null,
+      clock_in: formatTime(row.check_in_time),
+      clock_out: formatTime(row.check_out_time)
     };
   }
 

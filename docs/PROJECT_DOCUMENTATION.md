@@ -5,9 +5,8 @@
 **Ethiroli** is an enterprise-grade, all-in-one SaaS platform designed for training institutes and businesses. It unifies nine core operational modules into a single, role-based web application with real-time collaboration, encrypted data storage, and multi-tenant support.
 
 The repository is structured as a **monorepo** containing three primary packages:
-- **`ethiroli-react/backend`**: An Express.js REST API + Socket.IO server (Node.js, ES Modules, MySQL).
-- **`ethiroli-react/frontend`**: A React 19 admin portal and public marketing site, powered by Vite, Redux Toolkit, React Router DOM, Axios, Socket.IO Client, and Framer Motion.
-- **`ethiroli-vue`**: A Vue 3 public marketing site with Vue Router 4 and Vite.
+- **`backend/`**: An Express.js REST API + Socket.IO server (Node.js, ES Modules, MySQL).
+- **`frontend/`**: A React 19 admin portal and public marketing site, powered by Vite, Redux Toolkit, React Router DOM, Axios, Socket.IO Client, and Framer Motion.
 
 The backend is organized into **8 development phases**, each adding a discrete set of modules, controllers, routes, models, and services. The React frontend mirrors this modularity through feature-based `modules/`, domain-specific `store/slices/`, dedicated `services/api/` clients, and **11 role-scoped dashboards** under `src/roles/`.
 
@@ -319,7 +318,7 @@ J:\eithiroli\ethiroli_react\
 │           └── utils/
 │               └── registerServiceWorker.js
 │
-├── ethiroli-vue/
+├── ethiroli-vue
 │   ├── package.json                      # Vue 3, vue-router, Vite
 │   ├── vite.config.js
 │   ├── index.html

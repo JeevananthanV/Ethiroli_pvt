@@ -12,6 +12,113 @@ This project consolidates **5 distinct React project iterations** into a **singl
 4. **J:/eithiroli/ethiroli_rt/ethiroli-react** - Admin-centric React application
 5. **J:/eithiroli/ethiroli_406283/ethiroli-react** - Feature-rich frontend with extensive modules
 
+## Repository Structure
+
+```
+J:\eithiroli\ethiroli_react\
+├── package.json                          # Root workspace descriptor
+├── README.md                             # Project overview
+│
+├── backend/                              # Express + Socket.IO API
+│   ├── package.json                      # Backend dependencies (Express, mysql2, socket.io, bcrypt)
+│   ├── schema.sql                        # MySQL DDL
+│   ├── .env.example                      # Environment variable template
+│   ├── .env
+│   ├── tests/
+│   │   └── verify.js
+│   └── src/
+│       ├── server.js                     # HTTP + Socket.IO bootstrap
+│       ├── app.js                        # Express middleware stack
+│       ├── config/
+│       ├── controllers/                  # 58 request handlers
+│       ├── models/                       # 73 models
+│       ├── routes/                       # 62 route files
+│       ├── middleware/                   # 13 middleware files
+│       ├── services/                     # Business logic & integrations
+│       ├── socket/                       # Socket.IO server
+│       └── utils/                        # Utilities
+│
+├── frontend/                             # React 19 admin portal + public site
+│   ├── README.md
+│   ├── package.json                      # React, Redux, Vite
+│   ├── vite.config.js                    # Vite multi-page config
+│   ├── eslint.config.js                  # ESLint flat config
+│   ├── index.html                        # Main entry point
+│   ├── admin.html                        # Admin portal entry point
+│   ├── tutor.html                        # Tutor role entry point
+│   ├── super-admin.html                  # Super admin entry point
+│   ├── student.html                      # Student role entry point
+│   ├── hr.html                           # HR role entry point
+│   ├── finance.html                      # Finance role entry point
+│   ├── employee.html                     # Employee role entry point
+│   ├── pm.html                           # Project manager entry point
+│   ├── reception.html                    # Receptionist role entry point
+│   ├── sales.html                        # Sales role entry point
+│   ├── intern.html                       # Intern role entry point
+│   ├── .env                              # Environment variables
+│   ├── .env.example                      # Environment variable template
+│   ├── .env.production                   # Production environment variables
+│   ├── package-lock.json
+│   ├── public/                           # Static assets
+│   │   ├── vite.svg
+│   │   ├── sw.js
+│   │   ├── sitemap.xml
+│   │   ├── robots.txt
+│   │   ├── firebase-messaging-sw.js
+│   │   ├── .htaccess
+│   │   └── assets/
+│   │       └── images/
+│   ├── scripts/                          # Build/code generation scripts
+│   │   ├── write-components.js
+│   │   └── write-slices.js
+│   ├── tests/                            # Test files
+│   │   ├── setup.js
+│   │   └── roleRouting.test.js
+│   └── src/                              # Application source
+│       ├── main.jsx                      # Entry point
+│       ├── App.jsx                       # Main layout (public site)
+│       ├── App.css
+│       ├── index.css
+│       ├── admin.jsx                     # Admin portal bootstrap
+│       ├── AdminApp.jsx                  # Admin router tree
+│       ├── AdminApp.complex.jsx
+│       ├── hr.jsx
+│       ├── InternApp.jsx
+│       ├── routes.js
+│       ├── socket.js
+│       ├── admin/                        # Admin-specific modules
+│       ├── app/                          # App/marketing modules
+│       │   └── marketing/
+│       │       └── main.jsx
+│       ├── assets/                       # Static assets
+│       ├── auth/                         # Authentication module
+│       ├── common/                       # Shared components & contexts
+│       ├── components/                   # UI components
+│       ├── hooks/                        # Custom hooks
+│       ├── modules/                      # Feature modules (26+)
+│       ├── pages/                        # Application pages
+│       ├── roles/                        # 11 role-scoped dashboards
+│       ├── services/                     # API layer
+│       ├── store/                        # State management (Redux)
+│       ├── styles/                       # CSS architecture
+│       └── utils/                        # Utilities
+│
+├── docs/                                 # Documentation
+│   ├── SETUP.md
+│   ├── BLUEPRINT.md
+│   ├── PROJECT_DOCUMENTATION.md
+│   ├── EXECUTION_GUIDE.md
+│   ├── CONSOLIDATION_PLAN.md
+│   ├── MULTI_TENANT_AUTH_IMPLEMENTATION_PLAN.md
+│   ├── PORT-3001-FIX.md
+│   ├── COMPLETE-FIX-GUIDE.md
+│   └── RESTART-SERVERS-3001-5000.md
+│
+├── scripts/                              # Root scripts
+│
+└── package.json                          # Root workspace config
+```
+
 ## Consolidation Strategy
 
 ### Primary Goals:
@@ -29,99 +136,189 @@ This project consolidates **5 distinct React project iterations** into a **singl
 
 ## File Structure After Consolidation
 
-### Frontend Application (`ethiroli-react/frontend`)
+### Frontend Application (`frontend`)
 ```
+frontend/
 ├── package.json
 ├── vite.config.js
 ├── eslint.config.js
 ├── index.html
-├── src/
-│   ├── main.jsx                    # Entry point
-│   ├── App.jsx                     # Main layout
-│   ├── common/                     # Shared components (13+)
-│   │   ├── Button/Button.jsx
-│   │   ├── Input/Input.jsx
-│   │   ├── Modal/Modal.jsx
-│   │   ├── Card/Card.jsx
-│   │   ├── Dropdown/Dropdown.jsx
-│   │   ├── Badge/Badge.jsx
-│   │   ├── Avatar/Avatar.jsx
-│   │   ├── DataTable/DataTable.jsx
-│   │   ├── Toast/Toast.jsx
-│   │   ├── Toast/ToastContainer.jsx
-│   │   ├── Spinner/Spinner.jsx
-│   │   ├── AdminPage/AdminPage.jsx
-│   │   └── ErrorBoundary/ErrorBoundary.jsx
-│   ├── modules/                   # Feature modules (26+)
-│   │   ├── monitoring/
-│   │   ├── predictive/
-│   │   ├── pms/
-│   │   ├── finance/
-│   │   ├── hrms/
-│   │   ├── interviews/
-│   │   ├── lms/
-│   │   ├── communication/
-│   │   ├── automation/
-│   │   ├── calendar/
-│   │   ├── marketplace/
-│   │   ├── multi-tenant/
-│   │   ├── gamification/
-│   │   ├── integrations/
-│   │   ├── feed/
-│   │   ├── reporting/
-│   │   ├── crm/
-│   │   ├── jobs/
-│   │   ├── jobsBoard/
-│   │   ├── settings/
-│   │   ├── developer-portal/
-│   │   ├── projects/
-│   │   ├── users/
-│   │   ├── certificates/
-│   │   ├── approvals/
-│   │   ├── audit/
-│   │   ├── mindmap/
-│   │   ├── roles/ (12 roles)
-│   │   └── pages/
-│   ├── services/                  # API layer
-│   │   ├── api/ (70+)
-│   │   ├── authService.js
-│   │   ├── userService.js
-│   │   ├── leadService.js
-│   │   └── adminApi.js
-│   ├── store/                     # State management
-│   │   ├── index.js
-│   │   └── slices/ (50+)
-│   ├── styles/                    # CSS architecture
-│   │   ├── global.css
-│   │   ├── premium-motion.css
-│   │   └── admin.css
-│   ├── utils/                     # Utilities
-│   │   ├── registerServiceWorker.js
-│   │   └── errorHandler.js
-│   ├── test/                      # Test files
-│   │   ├── setup.js
-│   │   └── roleRouting.test.js
-│   ├── roles/                     # Role-based access
-│   └── pages/                     # Application pages
-└── public/                         # Static assets
+├── tutor.html
+├── super-admin.html
+├── student.html
+├── hr.html
+├── finance.html
+├── employee.html
+├── pm.html
+├── reception.html
+├── sales.html
+├── intern.html
+├── admin.html
+├── .env.example
+├── .env.production
+├── .env
+├── public/                             # Static assets
+│   ├── vite.svg
+│   ├── sw.js
+│   ├── sitemap.xml
+│   ├── robots.txt
+│   ├── firebase-messaging-sw.js
+│   ├── .htaccess
+│   └── assets/
+│       └── images/
+├── scripts/                            # Code generation scripts
+│   ├── write-components.js
+│   └── write-slices.js
+├── tests/                              # Test files
+│   ├── setup.js
+│   └── roleRouting.test.js
+└── src/
+    ├── main.jsx                        # Entry point
+    ├── App.jsx                         # Main layout (public site)
+    ├── App.css
+    ├── index.css
+    ├── admin.jsx                       # Admin portal bootstrap
+    ├── AdminApp.jsx                    # Admin router tree with PrivateRoute guards
+    ├── AdminApp.complex.jsx
+    ├── hr.jsx
+    ├── InternApp.jsx
+    ├── routes.js
+    ├── socket.js
+    ├── admin/
+    ├── app/
+    │   └── marketing/
+    │       └── main.jsx
+    ├── assets/
+    ├── auth/
+    ├── common/                         # Shared components & contexts
+    │   ├── components/                 # Core UI components
+    │   │   ├── Button/Button.jsx
+    │   │   ├── Input/Input.jsx
+    │   │   ├── Modal/Modal.jsx
+    │   │   ├── Card/Card.jsx
+    │   │   ├── Dropdown/Dropdown.jsx
+    │   │   ├── Badge/Badge.jsx
+    │   │   ├── Avatar/Avatar.jsx
+    │   │   ├── DataTable/DataTable.jsx
+    │   │   ├── Toast/Toast.jsx
+    │   │   ├── Toast/ToastContainer.jsx
+    │   │   ├── Spinner/Spinner.jsx
+    │   │   ├── AdminPage/AdminPage.jsx
+    │   │   ├── ErrorBoundary/ErrorBoundary.jsx
+    │   │   └── PrivateRoute/PrivateRoute.jsx
+    │   ├── contexts/                   # React contexts
+    │   │   ├── AuthContext.jsx
+    │   │   ├── SocketContext.jsx
+    │   │   └── ThemeContext.jsx
+    │   ├── hooks/
+    │   │   ├── useAuth.js
+    │   │   ├── useDebounce.js
+    │   │   ├── useLocalStorage.js
+    │   │   ├── useNotification.js
+    │   │   └── useSocket.js
+    │   ├── layout/
+    │   │   ├── MainLayout.jsx
+    │   │   ├── Navbar.jsx
+    │   │   └── Sidebar.jsx
+    │   └── utils/
+    │       ├── constants.js
+    │       ├── dateUtils.js
+    │       ├── errorHandler.js
+    │       ├── permissions.js
+    │       └── validators.js
+    ├── components/                     # UI sections (about, career, home, projects, shared)
+    ├── hooks/                          # Custom hooks
+    │   └── usePushNotification.js
+    ├── modules/                        # Feature modules (26+)
+    │   ├── monitoring/
+    │   ├── predictive/
+    │   ├── pms/
+    │   ├── finance/
+    │   ├── hrms/
+    │   ├── interviews/
+    │   ├── lms/
+    │   ├── communication/
+    │   ├── automation/
+    │   ├── calendar/
+    │   ├── marketplace/
+    │   ├── multi-tenant/
+    │   ├── gamification/
+    │   ├── integrations/
+    │   ├── feed/
+    │   ├── reporting/
+    │   ├── crm/
+    │   ├── jobs/
+    │   ├── jobsBoard/
+    │   ├── settings/
+    │   ├── developer-portal/
+    │   ├── projects/
+    │   ├── users/
+    │   ├── certificates/
+    │   ├── approvals/
+    │   ├── audit/
+    │   ├── mindmap/
+    │   └── roles/
+    ├── pages/                          # Application pages
+    ├── roles/                          # 11 role-scoped admin dashboards
+    │   ├── admin/
+    │   ├── employee/
+    │   ├── finance/
+    │   ├── hr/
+    │   ├── intern/
+    │   ├── project-manager/
+    │   ├── public/
+    │   ├── reception/
+    │   ├── sales/
+    │   ├── student/
+    │   ├── super-admin/
+    │   └── tutor/
+    ├── services/                       # API layer
+    │   ├── adminApi.js
+    │   ├── authService.js
+    │   ├── userService.js
+    │   ├── leadService.js
+    │   └── api/                          # 70+ Axios API clients
+    │       ├── axiosInstance.js
+    │       ├── authApi.js
+    │       └── ...
+    ├── store/                          # State management
+    │   ├── index.js
+    │   ├── hooks.js
+    │   └── slices/                       # 50+ Redux Toolkit slices
+    ├── styles/                         # CSS architecture
+    │   ├── global.css
+    │   ├── premium-motion.css
+    │   ├── admin.css
+    │   ├── jcidigitalskills.css
+    │   ├── home-hero.css
+    │   ├── EthiroliStyles.css
+    │   ├── career-apply.css
+    │   └── contact-page.css
+    └── utils/                          # Utilities
+        ├── registerServiceWorker.js
+        └── errorHandler.js
 ```
 
-### Backend Application (`ethiroli-react/backend`)
+### Backend Application (`backend`)
 ```
+backend/
 ├── package.json
 ├── .env.example
+├── .env
 ├── schema.sql
+├── tests/
+│   └── verify.js
 └── src/
-    ├── server.js
-    ├── app.js
+    ├── server.js                       # HTTP + Socket.IO bootstrap
+    ├── app.js                          # Express middleware stack
     ├── config/
-    ├── controllers/ (58)
-    ├── models/ (73)
-    ├── routes/ (62)
-    ├── middleware/ (13)
-    ├── services/
-    ├── socket/
-    └── utils/
+    ├── controllers/                    # 58 request handlers
+    ├── models/                         # 73 models
+    ├── routes/                         # 62 route files
+    ├── middleware/                     # 13 middleware files
+    ├── services/                       # Business logic
+    ├── socket/                         # Socket.IO server
+    └── utils/                          # Utilities
 ```
 
 ## Key Integrations
@@ -163,18 +360,18 @@ This project consolidates **5 distinct React project iterations** into a **singl
 
 ### Phase 1: Configuration Consolidation
 1. **Master package.json** (`J:/eithiroli/ethiroli_react/package.json`)
-   - Monorepo configuration with workspaces
-   - Combined dependencies from all versions
-   - Scripts for all development workflows
+    - Monorepo configuration with workspaces
+    - Combined dependencies from all versions
+    - Scripts for all development workflows
 
-2. **Frontend package.json** (`J:/eithiroli/ethiroli_react/ethiroli-react/frontend/package.json`)
-   - React + Vite + Redux + Socket.IO
-   - Testing with Vitest
-   - Linting with ESLint
+2. **Frontend package.json** (`J:/eithiroli/ethiroli_react/frontend/package.json`)
+    - React + Vite + Redux + Socket.IO
+    - Testing with Vitest
+    - Linting with ESLint
 
-3. **Backend package.json** (`J:/eithiroli/ethiroli_react/ethiroli-react/backend/package.json`)
-   - Express + MySQL + Socket.IO + bcrypt
-   - Session-based authentication
+3. **Backend package.json** (`J:/eithiroli/ethiroli_react/backend/package.json`)
+    - Express + MySQL + Socket.IO + bcrypt
+    - Session-based authentication
 
 ### Phase 2: File Consolidation Strategy
 
@@ -216,25 +413,30 @@ const MODULE_PRIORITY = [
 #### Validation Commands:
 ```bash
 # 1. Install dependencies
-cd ethiroli-react && npm install
+cd J:\eithiroli\ethiroli_react
+npm install
 
 # 2. Run linting
-cd ethiroli-react/frontend && npm run lint
+cd frontend
+npm run lint
 
 # 3. Run tests
-cd ethiroli-react/frontend && npm run test
+cd frontend
+npm run test
 
 # 4. Production build
-cd ethiroli-react/frontend && npm run build
+cd frontend
+npm run build
 
 # 5. Backend tests
-cd ethiroli-react/backend && npm test:all
+cd backend
+npm test:all
 ```
 
 ### Phase 4: Production Deployment
 
 #### Build Configuration:
-- **Multi-page setup**: Main + Admin pages
+- **Multi-page setup**: Main + Admin pages + role-specific HTML entry points
 - **Optimization**: Code splitting, lazy loading
 - **Security**: Proper headers, CSP
 - **Performance**: Tree shaking, minification

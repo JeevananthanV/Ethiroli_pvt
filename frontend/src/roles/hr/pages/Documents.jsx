@@ -32,48 +32,7 @@ export default function HRDocuments() {
     try {
       const data = await listDocuments().catch(() => []);
       const docList = Array.isArray(data) ? data : (data?.data || []);
-      if (docList.length === 0) {
-        setDocuments([
-          {
-            id: 'doc-1',
-            title: 'Employment Agreement & Non-Disclosure (NDA)',
-            employee_name: 'Anand Kumar',
-            employee_code: 'EMP-101',
-            document_type: 'NDA',
-            status: 'VERIFIED',
-            created_at: '2026-08-15'
-          },
-          {
-            id: 'doc-2',
-            title: 'PAN Card & Aadhaar Proof',
-            employee_name: 'Sneha Patel',
-            employee_code: 'EMP-102',
-            document_type: 'ID_PROOF',
-            status: 'PENDING',
-            created_at: '2026-09-02'
-          },
-          {
-            id: 'doc-3',
-            title: 'B.Tech Degree Certificate & Transcripts',
-            employee_name: 'Vijay Chandran',
-            employee_code: 'INT-014',
-            document_type: 'DEGREE_CERTIFICATE',
-            status: 'VERIFIED',
-            created_at: '2026-08-20'
-          },
-          {
-            id: 'doc-4',
-            title: 'Previous Experience & Relieving Letter',
-            employee_name: 'Deepak Sharma',
-            employee_code: 'EMP-103',
-            document_type: 'EXPERIENCE_LETTER',
-            status: 'PENDING',
-            created_at: '2026-09-05'
-          }
-        ]);
-      } else {
-        setDocuments(docList);
-      }
+      setDocuments(docList);
     } catch (err) {
       setError(err.message || 'Failed to load documents');
     } finally {

@@ -33,17 +33,7 @@ export default function HRAttendance() {
     try {
       const data = await listAttendance().catch(() => []);
       const list = Array.isArray(data) ? data : (data?.data || []);
-      // If table empty, provide default mock records for clean initial audit
-      if (list.length === 0) {
-        setRecords([
-          { id: 'att-1', employee_name: 'Anand Kumar', date: new Date().toISOString().slice(0, 10), clock_in: '09:02 AM', clock_out: '06:05 PM', status: 'present' },
-          { id: 'att-2', employee_name: 'Sneha Patel', date: new Date().toISOString().slice(0, 10), clock_in: '09:45 AM', clock_out: '06:00 PM', status: 'late' },
-          { id: 'att-3', employee_name: 'Vijay Chandran', date: new Date().toISOString().slice(0, 10), clock_in: '08:55 AM', clock_out: '05:30 PM', status: 'present' },
-          { id: 'att-4', employee_name: 'Deepak Sharma', date: new Date().toISOString().slice(0, 10), clock_in: '—', clock_out: '—', status: 'absent' }
-        ]);
-      } else {
-        setRecords(list);
-      }
+      setRecords(list);
     } catch (err) {
       setError(err.message || 'Failed to load attendance');
     } finally {
@@ -59,16 +49,8 @@ export default function HRAttendance() {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const newRec = {
-        id: `att-${Date.now()}`,
-        employee_name: formData.employee_name,
-        date: formData.date,
-        clock_in: formData.clock_in,
-        clock_out: formData.clock_out,
-        status: formData.status
-      };
       await checkIn(formData).catch(() => {});
-      setRecords((prev) => [newRec, ...prev]);
+      await fetchAttendance();
       setShowLogModal(false);
       setFormData({
         employee_name: '',

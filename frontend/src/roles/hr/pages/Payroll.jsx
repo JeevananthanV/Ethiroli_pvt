@@ -29,57 +29,7 @@ export default function HRPayroll() {
     try {
       const data = await listPayrollHistory().catch(() => []);
       const list = Array.isArray(data) ? data : (data?.data || []);
-      if (list.length === 0) {
-        setPayroll([
-          {
-            id: 'pay-1',
-            employee_name: 'Anand Kumar',
-            employee_code: 'EMP-101',
-            department: 'Engineering',
-            month_year: '2026-08-01',
-            basic: 45000,
-            hra: 18000,
-            da: 5000,
-            allowances: 23000,
-            deductions: 5400,
-            gross: 68000,
-            net_pay: 62600,
-            status: 'PAID'
-          },
-          {
-            id: 'pay-2',
-            employee_name: 'Sneha Patel',
-            employee_code: 'EMP-102',
-            department: 'Human Resources',
-            month_year: '2026-08-01',
-            basic: 55000,
-            hra: 22000,
-            da: 6000,
-            allowances: 28000,
-            deductions: 6600,
-            gross: 83000,
-            net_pay: 76400,
-            status: 'PAID'
-          },
-          {
-            id: 'pay-3',
-            employee_name: 'Deepak Sharma',
-            employee_code: 'EMP-103',
-            department: 'Operations',
-            month_year: '2026-08-01',
-            basic: 38000,
-            hra: 15000,
-            da: 4000,
-            allowances: 19000,
-            deductions: 4500,
-            gross: 57000,
-            net_pay: 52500,
-            status: 'PROCESSED'
-          }
-        ]);
-      } else {
-        setPayroll(list);
-      }
+      setPayroll(list);
     } catch (err) {
       setError(err.message || 'Failed to load payroll data');
     } finally {

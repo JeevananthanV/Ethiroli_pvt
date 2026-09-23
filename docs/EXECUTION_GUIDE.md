@@ -27,11 +27,10 @@ Before starting consolidation, ensure:
 
 ### Step 1.1: Create Working Directory Structure
 ```bash
-mkdir -p J:/eithiroli/ethiroli_react/consolidated
-mkdir -p J:/eithiroli/ethiroli_react/consolidated/frontend/src/{common/components,modules,services/api,styles,utils,test,store/slices}
-mkdir -p J:/eithiroli/ethiroli_react/consolidated/frontend/public/assets/images
-mkdir -p J:/eithiroli/ethiroli_react/consolidated/backend/src/{config,controllers,models,routes,middleware,services,socket,utils}
-mkdir -p J:/eithiroli/ethiroli_react/consolidated/scripts
+mkdir -p J:/eithiroli/ethiroli_react/frontend/src/{common/components,modules,services/api,styles,utils,test,store/slices}
+mkdir -p J:/eithiroli/ethiroli_react/frontend/public/assets/images
+mkdir -p J:/eithiroli/ethiroli_react/backend/src/{config,controllers,models,routes,middleware,services,socket,utils}
+mkdir -p J:/eithiroli/ethiroli_react/scripts
 ```
 
 ### Step 1.2: Initialize Git Worktree
@@ -55,24 +54,21 @@ Create `J:/eithiroli/ethiroli_react/package.json`:
   "version": "2.0.0",
   "private": true,
   "scripts": {
-    "build": "npm --prefix ethiroli-vue run build",
-    "build:vue": "npm --prefix ethiroli-vue run build",
-    "build:react": "npm --prefix ethiroli-react/frontend run build",
-    "postinstall": "npm --prefix ethiroli-vue install",
-    "dev": "concurrently \"npm run dev:vue\" \"npm run dev:react\"",
-    "dev:vue": "npm --prefix ethiroli-vue run dev",
-    "dev:react": "npm --prefix ethiroli-react/frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:backend": "npm --prefix backend run dev",
     "test": "vitest run --pool=threads",
     "test:watch": "vitest --pool=threads",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-  "workspaces": ["ethiroli-vue", "ethiroli-react/frontend", "ethiroli-react/backend"]
+  "workspaces": ["frontend", "backend"]
 }
 ```
 
 ### Step 2.2: Frontend package.json
-Create `J:/eithiroli/ethiroli_react/ethiroli-react/frontend/package.json`:
+Create `J:/eithiroli/ethiroli_react/frontend/package.json`:
 ```json
 {
   "name": "ethiroli-react",
@@ -117,7 +113,7 @@ Create `J:/eithiroli/ethiroli_react/ethiroli-react/frontend/package.json`:
 ```
 
 ### Step 2.3: ESLint Configuration
-Create `J:/eithiroli/ethiroli_react/ethiroli-react/frontend/eslint.config.js`:
+Create `J:/eithiroli/ethiroli_react/frontend/eslint.config.js`:
 ```javascript
 import js from '@eslint/js'
 import globals from 'globals'
@@ -161,7 +157,7 @@ export default defineConfig([
 ```
 
 ### Step 2.4: Vite Configuration
-Create `J:/eithiroli/ethiroli_react/ethiroli-react/frontend/vite.config.js`:
+Create `J:/eithiroli/ethiroli_react/frontend/vite.config.js`:
 ```javascript
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -195,7 +191,7 @@ export default defineConfig({
 ```
 
 ### Step 2.5: Index.html
-Create `J:/eithiroli/ethiroli_react/ethiroli-react/frontend/index.html`:
+Create `J:/eithiroli/ethiroli_react/frontend/index.html`:
 ```html
 <!doctype html>
 <html lang="en">
@@ -215,7 +211,7 @@ Create `J:/eithiroli/ethiroli_react/ethiroli-react/frontend/index.html`:
 ```
 
 ### Step 2.6: Environment Configuration
-Create `J:/eithiroli/ethiroli_react/ethiroli-react/backend/.env.example`:
+Create `J:/eithiroli/ethiroli_react/backend/.env.example`:
 ```env
 PORT=5000
 SOCKET_PORT=3003
@@ -329,7 +325,7 @@ All modules from ethiroli-406283 and ethiroli-rt take priority. Copy all files f
 ## Phase 4: Backend Consolidation
 
 ### Step 4.1: Backend Structure
-The backend at `J:/eithiroli/ethiroli_react/ethiroli-react/backend/` already contains:
+The backend at `J:/eithiroli/ethiroli_react/backend/` already contains:
 - `src/app.js`, `src/server.js` - Main server files
 - `src/config/` - Configuration files
 - `src/controllers/` - 58 controller files
@@ -343,7 +339,7 @@ The backend at `J:/eithiroli/ethiroli_react/ethiroli-react/backend/` already con
 - `.env`, `.env.example` - Environment configuration
 
 ### Step 4.2: Backend package.json
-Already exists at `J:/eithiroli/ethiroli_react/ethiroli-react/backend/package.json` with Express, MySQL2, Socket.IO, bcrypt, cors, dotenv, express-session.
+Already exists at `J:/eithiroli/ethiroli_react/backend/package.json` with Express, MySQL2, Socket.IO, bcrypt, cors, dotenv, express-session.
 
 ### Step 4.3: Additional Backend Files from ethiroli-4064
 The ethiroli-4064 version has backend/src/ with controllers, models, and routes directories (currently empty). Copy any non-empty files to the consolidated backend.
@@ -354,26 +350,25 @@ The ethiroli-4064 version has backend/src/ with controllers, models, and routes 
 ```bash
 cd J:/eithiroli/ethiroli_react
 npm install
-cd ethiroli-react/frontend && npm install
+cd frontend && npm install
 cd ../backend && npm install
-cd ../../ethiroli-vue && npm install
 ```
 
 ### Step 5.2: Run Linting
 ```bash
-cd ethiroli-react/frontend
+cd frontend
 npm run lint
 ```
 
 ### Step 5.3: Run Unit Tests
 ```bash
-cd ethiroli-react/frontend
+cd frontend
 npm run test
 ```
 
 ### Step 5.4: Run Integration Tests
 ```bash
-cd ethiroli-react/backend
+cd backend
 node test-phase1.js
 node test-phase2.js
 node test-phase3.js
@@ -386,7 +381,7 @@ node test-phase8.js
 
 ### Step 5.5: Run Build Test
 ```bash
-cd ethiroli-react/frontend
+cd frontend
 npm run build
 ```
 
@@ -394,7 +389,7 @@ npm run build
 
 ### Step 6.1: Optimize Build
 ```bash
-cd ethiroli-react/frontend
+cd frontend
 npm run build
 ```
 
@@ -406,7 +401,7 @@ du -sh dist/
 
 ### Step 6.3: Start Development Server
 ```bash
-cd ethiroli-react/frontend
+cd frontend
 npm run dev
 ```
 
@@ -488,44 +483,41 @@ See [Validation Checklist](VALIDATION_CHECKLIST.md)
 ```
 J:/eithiroli/ethiroli_react/
 ├── package.json                    # Monorepo root
-├── frontend/                       # (merged into ethiroli-react/frontend)
-├── ethiroli-react/
-│   ├── frontend/
-│   │   ├── package.json           # Frontend dependencies
-│   │   ├── vite.config.js         # Build configuration
-│   │   ├── eslint.config.js       # Linting configuration
-│   │   ├── index.html             # Entry HTML
-│   │   └── src/
-│   │       ├── main.jsx           # Application entry
-│   │       ├── App.jsx            # Main component
-│   │       ├── common/            # Shared components
-│   │       ├── modules/           # Feature modules (26+)
-│   │       ├── services/          # API and services
-│   │       ├── store/             # Redux store
-│   │       ├── styles/            # CSS files
-│   │       ├── utils/             # Utility functions
-│   │       ├── test/              # Test files
-│   │       ├── roles/             # Role-based pages (12 roles)
-│   │       └── pages/             # Application pages
-│   ├── backend/
-│   │   ├── package.json           # Backend dependencies
-│   │   ├── .env.example           # Environment template
-│   │   ├── schema.sql             # Database schema
-│   │   └── src/
-│   │       ├── server.js          # Server entry
-│   │       ├── app.js             # Express app
-│   │       ├── controllers/       # 58 controllers
-│   │       ├── models/            # 73 models
-│   │       ├── routes/            # 62 route files
-│   │       ├── middleware/        # 13 middleware
-│   │       ├── services/          # Business logic
-│   │       ├── socket/            # Socket.IO
-│   │       └── utils/             # Utilities
-│   └── public/                    # Static assets
-├── ethiroli-vue/                  # Vue.js frontend
+├── frontend/                       # React admin portal + public site
+│   ├── scripts/
+│   ├── src/
+│   │   ├── admin/
+│   │   ├── app/
+│   │   ├── assets/
+│   │   ├── auth/
+│   │   ├── common/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── modules/
+│   │   ├── pages/
+│   │   ├── roles/
+│   │   ├── services/
+│   │   ├── store/
+│   │   ├── styles/
+│   │   └── utils/
+│   └── tests/
+├── backend/
+│   ├── docs/
+│   ├── scripts/
+│   ├── src/
+│   │   ├── config/
+│   │   ├── controllers/
+│   │   ├── graphql/
+│   │   ├── integrations/
+│   │   ├── middleware/
+│   │   ├── migrations/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   ├── services/
+│   │   ├── socket/
+│   │   └── utils/
+│   └── tests/
+├── docs/
 ├── scripts/
-│   └── consolidate.js            # Automation script
-├── CONSOLIDATION_PLAN.md          # This document
-├── VALIDATION_CHECKLIST.md        # Verification checklist
-└── CONSOLIDATION_REPORT.md        # Generated after completion
+└── README.md
 ```

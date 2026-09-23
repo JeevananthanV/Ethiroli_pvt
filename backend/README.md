@@ -2,6 +2,34 @@
 
 Node.js + Express + MySQL backend for the Ethiroli SaaS platform.
 
+## Project Structure
+
+```
+backend/
+├── README.md
+├── docs/
+│   └── API-ROUTES.md
+├── scripts/
+│   ├── create-table.js
+│   ├── seed-hr-data.js
+│   └── ...
+├── src/
+│   ├── app.js
+│   ├── server.js
+│   ├── config/
+│   ├── controllers/
+│   ├── graphql/
+│   ├── integrations/
+│   ├── middleware/
+│   ├── migrations/
+│   ├── models/
+│   ├── routes/
+│   ├── services/
+│   ├── socket/
+│   └── utils/
+└── tests/
+```
+
 ## Tech Stack
 
 - **Runtime**: Node.js (ES Modules)
@@ -14,6 +42,9 @@ Node.js + Express + MySQL backend for the Ethiroli SaaS platform.
 ## Quick Start
 
 ```bash
+# Navigate to backend directory
+cd J:\eithiroli\ethiroli_react\backend
+
 # Install dependencies
 npm install
 
@@ -22,7 +53,8 @@ cp .env.example .env
 # Edit .env with your database credentials and secrets
 
 # Run database migrations
-# Execute schema.sql against your MySQL database
+npm run migrate
+# Or execute schema.sql against your MySQL database
 
 # Start development server
 npm run dev
@@ -49,6 +81,12 @@ See `.env.example` for all available configuration options.
 - Rate Limiting: 100 requests/minute per IP
 - CSRF Protection: Origin/Referer validation
 
+## Port Configuration
+
+- Backend API: Port 5000
+- Socket.IO Server: Port 3003
+- Frontend Development: Port 5173
+
 ## Role-Based Access
 
 The system supports 11 roles:
@@ -62,6 +100,7 @@ All protected routes require authentication. Most routes additionally require sp
 - Sensitive fields encrypted at rest (AES-256-GCM)
 - Email lookups use deterministic encryption for exact matching
 - Schema defined in `schema.sql` (65+ tables)
+- Migrations in `src/migrations/`
 
 ## Socket.IO
 
@@ -76,21 +115,34 @@ All protected routes require authentication. Most routes additionally require sp
 # Run tests
 npm test
 
+# Run all tests
+npm run test:all
+
+# Seed initial HR data
+npm run seed
+
+# Migrate database
+npm run migrate
+
 # Lint code
 npm run lint
 
-# Format code
-npm run format
+# No formatter configured
 ```
 
 ## Architecture
 
-- **Controllers**: Request handlers in `src/controllers/`
-- **Routes**: Route definitions in `src/routes/`
-- **Models**: Data access layer in `src/models/`
-- **Services**: Business logic in `src/services/`
-- **Middleware**: Cross-cutting concerns in `src/middleware/`
-- **Socket**: Real-time handlers in `src/socket/`
+- **Controllers**: `src/controllers/` - Request handlers
+- **Routes**: `src/routes/` - Route definitions
+- **Models**: `src/models/` - Data access layer
+- **Services**: `src/services/` - Business logic
+- **Middleware**: `src/middleware/` - Cross-cutting concerns
+- **Socket**: `src/socket/` - Real-time handlers
+- **Config**: `src/config/` - Configuration and database setup
+- **GraphQL**: `src/graphql/` - GraphQL schema and resolvers
+- **Integrations**: `src/integrations/` - Third-party integration templates
+- **Migrations**: `src/migrations/` - Database schema extensions
+- **Utils**: `src/utils/` - Helper utilities
 
 ## Security Features
 
@@ -101,3 +153,7 @@ npm run format
 - Rate limiting on all API endpoints
 - Role-scoped Socket.IO broadcasts
 - Security headers (X-Content-Type-Options, X-Frame-Options)
+
+## Related Documentation
+
+- [API Routes Reference](docs/API-ROUTES.md) - Complete API endpoint documentation

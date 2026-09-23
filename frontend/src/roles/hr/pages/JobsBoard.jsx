@@ -32,16 +32,7 @@ export default function HRJobsBoard() {
     try {
       const data = await listJobBoardPosts().catch(() => []);
       const list = Array.isArray(data) ? data : (data?.data || []);
-      if (list.length === 0) {
-        setJobs([
-          { id: 'job-1', title: 'Senior Full Stack Developer (React / Node)', department: 'Engineering', employment_model: 'Full-Time', platform: 'LINKEDIN', status: 'open' },
-          { id: 'job-2', title: 'UI/UX Product Designer', department: 'Design', employment_model: 'Full-Time', platform: 'NAUKRI', status: 'open' },
-          { id: 'job-3', title: 'Software Engineering Intern', department: 'Engineering', employment_model: 'Internship', platform: 'INTERNSHALA', status: 'open' },
-          { id: 'job-4', title: 'HR Associate & Talent Scout', department: 'Human Resources', employment_model: 'Full-Time', platform: 'LINKEDIN', status: 'closed' }
-        ]);
-      } else {
-        setJobs(list);
-      }
+      setJobs(list);
     } catch (err) {
       setError(err.message || 'Failed to load job postings');
     } finally {
@@ -57,16 +48,8 @@ export default function HRJobsBoard() {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const newJob = {
-        id: `job-${Date.now()}`,
-        title: formData.title,
-        department: formData.department,
-        employment_model: formData.employment_model,
-        platform: 'INTERNAL_AND_SYNDICATED',
-        status: formData.status
-      };
       await createJobBoardPost(formData).catch(() => {});
-      setJobs((prev) => [newJob, ...prev]);
+      await fetchJobs();
       setShowPostModal(false);
       setFormData({
         title: '',

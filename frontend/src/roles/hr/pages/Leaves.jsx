@@ -94,17 +94,8 @@ export default function HRLeaves() {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const newLeave = {
-        id: `leave-${Date.now()}`,
-        employee_name: formData.employee_name,
-        leave_type: formData.leave_type,
-        start_date: formData.start_date,
-        end_date: formData.end_date,
-        reason: formData.reason,
-        status: 'PENDING'
-      };
       await createLeave(formData).catch(() => {});
-      setLeaves((prev) => [newLeave, ...prev]);
+      await fetchLeaves();
       setShowApplyModal(false);
       setFormData({
         employee_name: '',

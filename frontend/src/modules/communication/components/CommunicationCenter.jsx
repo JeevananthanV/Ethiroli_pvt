@@ -36,25 +36,19 @@ export default function CommunicationCenter() {
     setLoading(true)
     setError(null)
     try {
-      const [providersData, templatesData, logsData] = await Promise.all([
-        providerApi.getAll().catch(() => [
-          { id: 'p1', name: 'Brevo Transactional SMTP', type: 'Email', status: 'active', lastSync: new Date().toISOString() },
-          { id: 'p2', name: 'Firebase Cloud Messaging', type: 'Push Notification', status: 'active', lastSync: new Date().toISOString() }
-        ]),
-        templateApi.getAll().catch(() => [
-          { id: 't1', name: 'Welcome Onboarding Packet', isActive: true },
-          { id: 't2', name: 'Payroll Disbursement Notification', isActive: true },
-          { id: 't3', name: 'Leave Approval Alert', isActive: true }
-        ]),
-        communicationApi.getLogs().catch(() => [
-          { id: 'l1', recipient: 'All Staff (Engineering, HR, Sales)', channel: 'Email', status: 'sent', sentAt: new Date(Date.now() - 3600000).toISOString() },
-          { id: 'l2', recipient: 'anand@ethiroli.com', channel: 'Push', status: 'sent', sentAt: new Date(Date.now() - 7200000).toISOString() },
-          { id: 'l3', recipient: 'sneha@ethiroli.com', channel: 'Email', status: 'sent', sentAt: new Date(Date.now() - 86400000).toISOString() }
-        ]),
-      ])
-      setProviders(providersData)
-      setTemplates(templatesData)
-      setLogs(logsData)
+      const [providersRes, templatesRes, logsRes] = await Promise.all([
+        providerApi.getAll().catch(() => []),
+        templateApi.getAll().catch(() => []),
+        communicationApi.getLogs().catch(() => []),
+      ]);
+
+      const providersList = Array.isArray(providersRes) ? providersRes : (providersRes?.data || []);
+      const templatesList = Array.isArray(templatesRes) ? templatesRes : (templatesRes?.data || []);
+      const logsList = Array.isArray(logsRes) ? logsRes : (logsRes?.data || []);
+
+      setProviders(providersList);
+      setTemplates(templatesList);
+      setLogs(logsList);
     } catch (err) {
       setError(err.message)
     } finally {

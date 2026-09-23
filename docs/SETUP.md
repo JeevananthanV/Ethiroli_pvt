@@ -10,17 +10,51 @@
 
 ```
 J:\eithiroli\ethiroli_react\
-├── ethiroli-react/
-│   ├── backend/        # Express + Socket.IO API
-│   └── frontend/       # React 19 admin portal + public site
-└── ethiroli-vue/       # Vue 3 public marketing site
+├── backend\
+│   ├── docs\
+│   ├── scripts\
+│   ├── src\
+│   │   ├── config\
+│   │   ├── controllers\
+│   │   ├── graphql\
+│   │   ├── integrations\
+│   │   ├── middleware\
+│   │   ├── migrations\
+│   │   ├── models\
+│   │   ├── routes\
+│   │   ├── services\
+│   │   ├── socket\
+│   │   └── utils\
+│   └── tests\
+├── frontend\
+│   ├── scripts\
+│   ├── src\
+│   │   ├── admin\
+│   │   ├── app\
+│   │   ├── assets\
+│   │   ├── auth\
+│   │   ├── common\
+│   │   ├── components\
+│   │   ├── hooks\
+│   │   ├── modules\
+│   │   ├── pages\
+│   │   ├── roles\
+│   │   ├── services\
+│   │   ├── store\
+│   │   ├── styles\
+│   │   └── utils\
+│   └── tests\
+├── docs\
+├── scripts\
+├── package.json
+└── README.md
 ```
 
 ## Backend Setup
 
 1. Navigate to the backend directory:
    ```powershell
-   cd J:\eithiroli\ethiroli_react\ethiroli-react\backend
+   cd J:\eithiroli\ethiroli_react\backend
    ```
 
 2. Install dependencies:
@@ -60,7 +94,7 @@ J:\eithiroli\ethiroli_react\
 
 1. Navigate to the frontend directory:
    ```powershell
-   cd J:\eithiroli\ethiroli_react\ethiroli-react\frontend
+   cd J:\eithiroli\ethiroli_react\frontend
    ```
 
 2. Install dependencies:
@@ -74,23 +108,6 @@ J:\eithiroli\ethiroli_react\
    ```
 
    The admin portal will be available at `http://localhost:5173`.
-
-## Frontend Setup (Vue Public Site)
-
-1. Navigate to the Vue directory:
-   ```powershell
-   cd J:\eithiroli\ethiroli_react\ethiroli-vue
-   ```
-
-2. Install dependencies:
-   ```powershell
-   npm install
-   ```
-
-3. Start the development server:
-   ```powershell
-   npm run dev
-   ```
 
 ## Default Credentials
 
@@ -125,18 +142,18 @@ After running migrations, a default SUPER_ADMIN user is seeded:
 ## Running Tests
 
 ```powershell
-cd J:\eithiroli\ethiroli_react\ethiroli-react\backend
+cd J:\eithiroli\ethiroli_react\backend
 npm test
 ```
 
 ## Production Build
 
 ```powershell
-cd J:\eithiroli\ethiroli_react\ethiroli-react\frontend
+cd J:\eithiroli\ethiroli_react\frontend
 npm run build
 ```
 
-Build output will be in `ethiroli-react/frontend/dist/`.
+Build output will be in `frontend/dist/`.
 
 ## Security Notes
 

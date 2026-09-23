@@ -49,19 +49,8 @@ export default function HRInterns() {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const newIntern = {
-        id: `intern-${Date.now()}`,
-        full_name: formData.name,
-        name: formData.name,
-        mentor_name: formData.mentor,
-        mentor: formData.mentor,
-        college_name: formData.college_name,
-        project_target: formData.project_target,
-        progress: Number(formData.progress) || 25,
-        stipend: formData.stipend
-      };
       await createIntern(formData).catch(() => {});
-      setInterns((prev) => [newIntern, ...prev]);
+      await fetchInterns();
       setShowAddModal(false);
       setFormData({
         name: '',

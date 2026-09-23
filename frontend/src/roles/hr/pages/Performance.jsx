@@ -31,15 +31,7 @@ export default function HRPerformance() {
     try {
       const data = await listReviews().catch(() => []);
       const list = Array.isArray(data) ? data : (data?.data || []);
-      if (list.length === 0) {
-        setReviews([
-          { id: 'rev-1', employee_name: 'Anand Kumar', self_score: 4.5, manager_score: 5.0, status: 'completed', comments: 'Exceeded project milestones in Q2.' },
-          { id: 'rev-2', employee_name: 'Sneha Patel', self_score: 4.0, manager_score: 4.2, status: 'approved', comments: 'Strong talent acquisition metrics.' },
-          { id: 'rev-3', employee_name: 'Deepak Sharma', self_score: 3.5, manager_score: 4.0, status: 'pending', comments: 'Good progress in compliance reviews.' }
-        ]);
-      } else {
-        setReviews(list);
-      }
+      setReviews(list);
     } catch (err) {
       setError(err.message || 'Failed to load performance reviews');
     } finally {

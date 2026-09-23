@@ -31,48 +31,7 @@ export default function HROffboarding() {
     try {
       const data = await listExitRequests().catch(() => []);
       const items = Array.isArray(data) ? data : (data?.data || []);
-      if (items.length === 0) {
-        setExitRequests([
-          {
-            id: 'exit-1',
-            employee_name: 'Harish R',
-            employee_code: 'EMP-088',
-            department: 'Engineering',
-            resignation_date: '2026-08-25',
-            requested_last_day: '2026-09-25',
-            notice_period_days: 30,
-            status: 'UNDER_REVIEW',
-            reason: 'Pursuing higher studies abroad.',
-            checklist: [
-              { id: 'c1', department: 'IT', task_name: 'Revoke Email, SSO & VPN Access', is_cleared: true },
-              { id: 'c2', department: 'IT', task_name: 'Collect Company Laptop & Hardware', is_cleared: false },
-              { id: 'c3', department: 'HR', task_name: 'Conduct Exit Interview', is_cleared: true },
-              { id: 'c4', department: 'HR', task_name: 'Collect ID Card & Building Access Pass', is_cleared: false },
-              { id: 'c5', department: 'FINANCE', task_name: 'Final Settlement & Leave Encashment', is_cleared: false }
-            ]
-          },
-          {
-            id: 'exit-2',
-            employee_name: 'Meenakshi Sundaram',
-            employee_code: 'EMP-071',
-            department: 'Marketing',
-            resignation_date: '2026-08-10',
-            requested_last_day: '2026-09-10',
-            notice_period_days: 30,
-            status: 'COMPLETED',
-            reason: 'Relocating to another city.',
-            checklist: [
-              { id: 'c6', department: 'IT', task_name: 'Revoke Email, SSO & VPN Access', is_cleared: true },
-              { id: 'c7', department: 'IT', task_name: 'Collect Company Laptop & Hardware', is_cleared: true },
-              { id: 'c8', department: 'HR', task_name: 'Conduct Exit Interview', is_cleared: true },
-              { id: 'c9', department: 'FINANCE', task_name: 'Final Settlement & Leave Encashment', is_cleared: true }
-            ]
-          }
-        ]);
-        setSelectedExit(null);
-      } else {
-        setExitRequests(items);
-      }
+      setExitRequests(items);
     } catch (err) {
       setError(err.message || 'Failed to load exit requests');
     } finally {

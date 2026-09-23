@@ -49,19 +49,8 @@ export default function HRInterviews() {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const newInterview = {
-        id: `int-${Date.now()}`,
-        candidate_name: formData.candidate_name,
-        vacancy: formData.vacancy,
-        interview_date: formData.interview_date,
-        scheduled_at: formData.interview_date,
-        interviewer_name: formData.interviewer_name,
-        round: formData.round,
-        meeting_link: formData.meeting_link,
-        status: 'SCHEDULED'
-      };
       await scheduleInterview(formData).catch(() => {});
-      setInterviews((prev) => [newInterview, ...prev]);
+      await fetchInterviews();
       setShowScheduleModal(false);
       setFormData({
         candidate_name: '',

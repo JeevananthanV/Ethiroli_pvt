@@ -58,6 +58,32 @@ export const updateLeaveStatus = asyncHandler(async (req, res) => {
     user_agent: req.headers['user-agent']
   });
   broadcastToRole('HR', 'leave_status_updated', { id: req.params.id, status });
+
+  if (status === 'APPROVED') {
+    try {
+      const CalendarEvent = (await import('../models/CalendarEvent.js')).default;
+      const notificationRouter = (await import('../services/notificationRouter.js')).default;
+
+      const calEventId = await CalendarEvent.create({
+        title: `Leave: ${leave.leave_type || 'Time Off'} - ${leave.user_name || 'Staff Member'}`,
+        description: `Approved leave: ${leave.reason || 'Personal'}`,
+        event_type: 'LEAVE',
+        event_type_id: 'evt_leave',
+        start_time: `${leave.start_date} 09:00:00`,
+        end_time: `${leave.end_date} 18:00:00`,
+        is_all_day: true,
+        created_by: leave.user_id,
+        assigned_users: [leave.user_id],
+        status: 'scheduled',
+        role: 'HR'
+      });
+      const calEvent = await CalendarEvent.findById(calEventId);
+      await notificationRouter.route('created', calEvent, req.user.id, req.user.role);
+    } catch (calErr) {
+      console.error('Failed to auto-create calendar event for approved leave:', calErr);
+    }
+  }
+
   return success(res, 200, null, 'Leave status updated successfully');
 });
 

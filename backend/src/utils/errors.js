@@ -52,6 +52,9 @@ export class RateLimitError extends AppError {
   }
 }
 
+export const ForbiddenError = AuthorizationError;
+export const ApiError = AppError;
+
 export const formatError = (error) => {
   const statusCode = error.statusCode || error.status || 500;
   const message = error.message || 'Internal server error';
@@ -63,3 +66,4 @@ export const formatError = (error) => {
     details
   };
 };
+

@@ -63,6 +63,36 @@ export const scheduleInterview = asyncHandler(async (req, res) => {
     user_agent: req.headers['user-agent']
   });
   broadcastToRole('HR', 'interview_scheduled', { id, candidate_id: candidateId });
+
+  // Auto-create calendar event for the scheduled interview
+  try {
+    const CalendarEvent = (await import('../models/CalendarEvent.js')).default;
+    const notificationRouter = (await import('../services/notificationRouter.js')).default;
+
+    const startTime = scheduledAt;
+    const durationMin = parseInt(req.body.duration_minutes || req.body.duration || 45, 10);
+    const endTime = new Date(new Date(startTime).getTime() + durationMin * 60000).toISOString().slice(0, 19).replace('T', ' ');
+
+    const calEventId = await CalendarEvent.create({
+      title: `Interview: ${req.body.candidate_name || 'Candidate'} - ${req.body.round || 'Round 1'}`,
+      description: `Interview for ${req.body.position || 'Open Role'} with ${req.body.interviewer_name || 'Interviewer'}. ${req.body.meeting_link ? 'Link: ' + req.body.meeting_link : ''}`,
+      event_type: 'INTERVIEW',
+      event_type_id: 'evt_interview',
+      start_time: startTime,
+      end_time: endTime,
+      created_by: req.user.id,
+      meeting_link: req.body.meeting_link || null,
+      assigned_users: req.body.interviewer_id ? [req.body.interviewer_id] : [req.user.id],
+      status: 'scheduled',
+      role: 'HR'
+    });
+
+    const calEvent = await CalendarEvent.findById(calEventId);
+    await notificationRouter.route('created', calEvent, req.user.id, req.user.role);
+  } catch (calErr) {
+    console.error('Failed to auto-create calendar event for interview:', calErr);
+  }
+
   return success(res, 201, { id, candidate_id: candidateId }, 'Interview scheduled successfully');
 });
 

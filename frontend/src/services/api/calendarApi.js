@@ -1,19 +1,42 @@
-import axiosInstance from './axiosInstance.js';
-
-export const getEvents = async () => {
-  const response = await axiosInstance.get('/v1/events');
-  return response.data;
-};
-
-export const listEvents = getEvents;
-
-export const createEvent = async (data) => {
-  const response = await axiosInstance.post('/v1/events', data);
-  return response.data;
-};
-
-export const calendarApi = {
-  getEvents,
+import calendarApi, {
   listEvents,
+  listExpanded,
+  getEvent,
   createEvent,
+  updateEvent,
+  deleteEvent,
+  getRoleConfig,
+  listAllowedTypes,
+  listEventTypes,
+  createEventType,
+  updateEventType,
+  deleteEventType,
+  createRecurrence,
+  getInstances,
+  skipInstance,
+  cancelInstance
+} from '../calendarApi.js';
+
+export const getEvents = listEvents;
+
+export {
+  listEvents,
+  listExpanded,
+  getEvent,
+  createEvent,
+  updateEvent,
+  deleteEvent,
+  getRoleConfig,
+  listAllowedTypes,
+  listEventTypes,
+  createEventType,
+  updateEventType,
+  deleteEventType,
+  createRecurrence,
+  getInstances,
+  skipInstance,
+  cancelInstance,
+  calendarApi
 };
+
+export default calendarApi;

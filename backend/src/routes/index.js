@@ -86,6 +86,8 @@ import adminRoutes from './admin/adminRoutes.js';
 import vendorRoutes from './vendor/vendorRoutes.js';
 import clientPortalRoutes from './client/clientRoutes.js';
 
+import eventTypeRoutes from './eventTypeRoutes.js';
+
 import { resolveTenant } from '../middleware/tenantResolver.js';
 
 const router = express.Router();
@@ -146,6 +148,7 @@ router.use('/v1', interviewRoutes);
 router.use('/v1', payrollRoutes);
 router.use('/v1', performanceRoutes);
 router.use('/v1', calendarRoutes);
+router.use('/v1', eventTypeRoutes);
 router.use('/v1', holidayRoutes);
 router.use('/v1', workflowRoutes);
 router.use('/v1', approvalRoutes);

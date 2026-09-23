@@ -7,18 +7,20 @@ import integrationsReducer from './slices/integrationsSlice'
 import interviewsReducer from './slices/interviewsSlice'
 import jobsReducer from './slices/jobsSlice'
 import coursesReducer from './slices/coursesSlice'
+import calendarReducer from './slices/calendarSlice'
 
 const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    ui: uiReducer,
-    leads: leadsReducer,
-    feed: feedReducer,
-    integrations: integrationsReducer,
-    interviews: interviewsReducer,
-    jobs: jobsReducer,
-    courses: coursesReducer,
-  },
+   reducer: {
+     auth: authReducer,
+     ui: uiReducer,
+     leads: leadsReducer,
+     feed: feedReducer,
+     integrations: integrationsReducer,
+     interviews: interviewsReducer,
+     jobs: jobsReducer,
+     courses: coursesReducer,
+     calendar: calendarReducer,
+   },
 })
 
 export { store }

@@ -75,3 +75,4 @@ const createLoggerWithPrefix = (prefix) => {
 };
 
 export const logger = createLogger();
+export default logger;

@@ -1,16 +1,48 @@
 import express from 'express';
-import { listEvents, createEvent, getEvent, updateEvent, deleteEvent } from '../controllers/calendarController.js';
+import {
+  listEvents,
+  listExpanded,
+  createEvent,
+  getEvent,
+  updateEvent,
+  deleteEvent,
+  listEventTypes,
+  createRecurrence,
+  getInstances,
+  skipInstance,
+  cancelInstance,
+  getRoleConfig,
+  updateRoleConfig
+} from '../controllers/calendarController.js';
 import { authenticate } from '../middleware/auth.js';
 import { requireRole } from '../middleware/rbac.js';
-import { validateBody } from '../middleware/validation.js';
 
 const router = express.Router();
+
 router.use(authenticate);
 
-router.get('/calendar/events', requireRole('EMPLOYEE', 'INTERN', 'HR', 'TUTOR', 'PROJECT_MANAGER', 'ADMIN', 'SUPER_ADMIN', 'RECEPTION'), listEvents);
-router.post('/calendar/events', requireRole('HR', 'TUTOR', 'PROJECT_MANAGER', 'ADMIN', 'SUPER_ADMIN'), validateBody('createEvent'), createEvent);
-router.get('/calendar/events/:id', requireRole('EMPLOYEE', 'INTERN', 'HR', 'TUTOR', 'PROJECT_MANAGER', 'ADMIN', 'SUPER_ADMIN', 'RECEPTION'), getEvent);
-router.patch('/calendar/events/:id', requireRole('HR', 'TUTOR', 'PROJECT_MANAGER', 'ADMIN', 'SUPER_ADMIN'), validateBody('createEvent'), updateEvent);
-router.delete('/calendar/events/:id', requireRole('ADMIN', 'SUPER_ADMIN'), deleteEvent);
+// 1. Role-aware Calendar Config
+router.get('/calendar/config', getRoleConfig);
+router.patch('/calendar/config', requireRole('ADMIN', 'SUPER_ADMIN'), updateRoleConfig);
+
+// 2. Event Types (backward compatibility)
+router.get('/calendar/event-types', listEventTypes);
+
+// 3. Expanded Calendar Events View (combines base + recurring instances in date range)
+router.get('/calendar/expand', listExpanded);
+
+// 4. Main Event CRUD (Accessible to all active roles, validated per event type in controller)
+router.get('/calendar/events', listEvents);
+router.post('/calendar/events', createEvent);
+router.get('/calendar/events/:id', getEvent);
+router.patch('/calendar/events/:id', updateEvent);
+router.put('/calendar/events/:id', updateEvent);
+router.delete('/calendar/events/:id', deleteEvent);
+
+// 5. Recurring Engine Management
+router.post('/calendar/events/:id/recur', createRecurrence);
+router.get('/calendar/events/:id/instances', getInstances);
+router.post('/calendar/instances/:id/skip', skipInstance);
+router.post('/calendar/instances/:id/cancel', cancelInstance);
 
 export default router;

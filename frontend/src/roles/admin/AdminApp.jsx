@@ -14,6 +14,7 @@ const AdminFinance = lazy(() => import('./pages/Finance.jsx'));
 const AdminAuditLogs = lazy(() => import('./pages/AuditLogs.jsx'));
 const AdminApprovals = lazy(() => import('./pages/Approvals.jsx'));
 const AdminCalendar = lazy(() => import('./pages/Calendar.jsx'));
+const EventTypeAdmin = lazy(() => import('./pages/EventTypeAdmin.jsx'));
 const AdminCommunications = lazy(() => import('./pages/Communications.jsx'));
 const AdminReports = lazy(() => import('./pages/Reports.jsx'));
 const AdminAutomationStudio = lazy(() => import('./pages/AutomationStudio.jsx'));
@@ -88,6 +89,7 @@ export default function AdminApp() {
 
         {/* Campus Operations & Comms */}
         <Route path="calendar" element={<AdminCalendar />} />
+        <Route path="calendar/types" element={<EventTypeAdmin />} />
         <Route path="communications" element={<AdminCommunications />} />
         <Route path="documents" element={<AdminCommunications />} />
         <Route path="notifications" element={<AdminCommunications />} />

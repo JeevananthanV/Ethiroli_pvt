@@ -221,6 +221,11 @@ import TutorCommunications from "./roles/tutor/pages/Communications.jsx";
 import PublicCourseCatalogPage from "./roles/public/pages/CourseCatalog.jsx";
 import PublicCourseDetailPage from "./roles/public/pages/CourseDetail.jsx";
 import PublicCheckoutPage from "./roles/public/pages/Checkout.jsx";
+import DynamicCalendar from "./pages/DynamicCalendar.jsx";
+import HRCalendar from "./roles/hr/pages/Calendar.jsx";
+import TutorCalendar from "./roles/tutor/pages/Calendar.jsx";
+import StudentCalendar from "./roles/student/pages/Calendar.jsx";
+import EventTypeAdmin from "./roles/admin/pages/EventTypeAdmin.jsx";
 
 export default function AdminApp() {
   return (
@@ -284,6 +289,7 @@ export default function AdminApp() {
                       {/* 3. Operations */}
                       <Route path="/app/super-admin/calendar" element={<SuperAdminCalendar />} />
                       <Route path="/app/super-admin/super-calendar" element={<SuperAdminCalendar />} />
+                      <Route path="/app/calendar" element={<DynamicCalendar />} />
                       <Route path="/app/super-admin/approvals" element={<SuperAdminApprovals />} />
                       <Route path="/app/super-admin/super-approvals" element={<SuperAdminApprovals />} />
                       <Route path="/app/super-admin/notifications" element={<SuperAdminNotifications />} />
@@ -360,6 +366,7 @@ export default function AdminApp() {
 
                       {/* Domain 8: OPERATIONS */}
                       <Route path="/app/admin/calendar" element={<AdminCalendar />} />
+                      <Route path="/app/admin/calendar/types" element={<EventTypeAdmin />} />
                       <Route path="/app/admin/communications" element={<AdminCommunications />} />
                       <Route path="/app/admin/documents" element={<HRDocuments />} />
                       <Route path="/app/admin/notifications" element={<SalesNotifications />} />
@@ -403,6 +410,7 @@ export default function AdminApp() {
                       <Route path="/app/hr/jobs-board" element={<HRJobsBoard />} />
                       <Route path="/app/hr/documents" element={<HRDocuments />} />
                       <Route path="/app/hr/reports" element={<HRReports />} />
+                      <Route path="/app/hr/calendar" element={<HRCalendar />} />
                       <Route path="/app/hr/offboarding" element={<HROffboarding />} />
                       <Route path="/app/hr/exit-offboarding" element={<HROffboarding />} />
                     </Route>
@@ -415,6 +423,7 @@ export default function AdminApp() {
                       <Route path="/app/tutor/students" element={<TutorStudents />} />
                       <Route path="/app/tutor/forum" element={<TutorForum />} />
                       <Route path="/app/tutor/communications" element={<TutorCommunications />} />
+                      <Route path="/app/tutor/calendar" element={<TutorCalendar />} />
                     </Route>
                     <Route element={<PrivateRoute allowedRoles={[ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.PROJECT_MANAGER]} />}>
                       <Route path="/app/pm/dashboard" element={<PMDashboard />} />
@@ -578,6 +587,7 @@ export default function AdminApp() {
                       <Route path="/app/student/projects" element={<StudentProjects />} />
                       <Route path="/app/student/mindmap" element={<StudentMindMap />} />
                       <Route path="/app/student/certificates" element={<StudentCertificates />} />
+                      <Route path="/app/student/calendar" element={<StudentCalendar />} />
                     </Route>
                     <Route element={<PrivateRoute allowedRoles={[ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.INTERN]} />}>
                       <Route path="/app/intern/*" element={<InternApp />} />

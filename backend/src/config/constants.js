@@ -290,7 +290,8 @@ export const ROLE_PERMISSIONS = {
     'audit_logs:read',
     'integrations:read', 'integrations:write',
     'monitoring:read',
-    'reports:read', 'reports:write'
+    'reports:read', 'reports:write',
+    'calendar:manage_types', 'calendar:manage_recurring'
   ],
   HR: [
     'employees:read', 'employees:write',
@@ -320,7 +321,7 @@ export const ROLE_PERMISSIONS = {
     'forum:read', 'forum:write',
     'badges:read',
     'certificates:read',
-    'calendar:read'
+    'calendar:read', 'calendar:write'
   ],
   PROJECT_MANAGER: [
     'clients:read', 'clients:write',
@@ -336,12 +337,13 @@ export const ROLE_PERMISSIONS = {
     'payments:read', 'payments:write',
     'transactions:read', 'transactions:write',
     'payroll:read', 'payroll:write',
-    'reports:read', 'reports:write'
+    'reports:read', 'reports:write',
+    'calendar:read', 'calendar:write'
   ],
   SALES: [
     'leads:read', 'leads:write',
     'clients:read',
-    'calendar:read'
+    'calendar:read', 'calendar:write'
   ],
   RECEPTION: [
     'attendance:read', 'attendance:write',
@@ -354,7 +356,7 @@ export const ROLE_PERMISSIONS = {
     'leaves:read', 'leaves:write',
     'tasks:read',
     'performance:read',
-    'calendar:read',
+    'calendar:read', 'calendar:write',
     'approvals:read', 'approvals:write',
     'payslips:read'
   ],
@@ -366,7 +368,7 @@ export const ROLE_PERMISSIONS = {
     'forum:read', 'forum:write',
     'badges:read',
     'certificates:read',
-    'calendar:read',
+    'calendar:read', 'calendar:write',
     'projects:read', 'projects:write',
     'mindmaps:read', 'mindmaps:write'
   ],
@@ -374,7 +376,7 @@ export const ROLE_PERMISSIONS = {
     'attendance:read', 'attendance:write',
     'leaves:read', 'leaves:write',
     'tasks:read', 'tasks:write',
-    'calendar:read',
+    'calendar:read', 'calendar:write',
     'projects:read', 'projects:write'
   ]
 };

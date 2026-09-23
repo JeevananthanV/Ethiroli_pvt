@@ -723,7 +723,7 @@ cd J:\eithiroli\ethiroli_react\frontend && npm run dev
 
 ### To verify HR portal:
 ```
-Navigate to: http://localhost:3001/auth/hr/login
+Navigate to: http://localhost:3000/auth/hr/login
 Login with: HR credentials
 Verify: Dashboard loads with live metrics
 ```

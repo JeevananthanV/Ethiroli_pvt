@@ -45,6 +45,7 @@ import TutorCourses from "./roles/tutor/pages/Courses.jsx";
 import TutorBatches from "./roles/tutor/pages/Batches.jsx";
 import TutorCurriculum from "./roles/tutor/pages/CourseCurriculum.jsx";
 import TutorStudents from "./roles/tutor/pages/Students.jsx";
+import TutorQuestionBank from "./roles/tutor/pages/QuestionBank.jsx";
 import PMDashboard from "./roles/project-manager/pages/Dashboard.jsx";
 import PMClients from "./roles/project-manager/pages/Clients.jsx";
 import PMSubscriptions from "./roles/project-manager/pages/Subscriptions.jsx";
@@ -410,6 +411,7 @@ export default function AdminApp() {
                       <Route path="/app/tutor/courses" element={<TutorCourses />} />
                       <Route path="/app/tutor/batches" element={<TutorBatches />} />
                       <Route path="/app/tutor/curriculum" element={<TutorCurriculum />} />
+                      <Route path="/app/tutor/question-bank" element={<TutorQuestionBank />} />
                       <Route path="/app/tutor/students" element={<TutorStudents />} />
                       <Route path="/app/tutor/forum" element={<TutorForum />} />
                       <Route path="/app/tutor/communications" element={<TutorCommunications />} />

@@ -21,9 +21,9 @@
 ```javascript
 export const ALLOWED_ORIGINS = [
   'http://localhost:3000',
-  'http://localhost:3001',  // ← NOW INCLUDES YOUR FRONTEND!
+  'http://localhost:3000',  // ← NOW INCLUDES YOUR FRONTEND!
   'http://localhost:5000',  // ← Backend
-  'http://localhost:5173'
+  'http://localhost:3000'
 ];
 ```
 
@@ -80,7 +80,7 @@ npm run dev
 
 **Wait for**:
 ```
-➜  Local:   http://localhost:3001/
+➜  Local:   http://localhost:3000/
 ```
 
 ---
@@ -88,7 +88,7 @@ npm run dev
 ## VERIFY IT WORKS
 
 ### Open Browser
-Navigate to: `http://localhost:3001/auth/hr/login`
+Navigate to: `http://localhost:3000/auth/hr/login`
 
 ### Login
 - Email: `hr@ethiroli.com`
@@ -148,7 +148,7 @@ localStorage.getItem('user')        // Returns: {"id":"...","email":"hr@ethiroli
 
 ### 2. Cookie Verification
 
-**F12 → Application → Cookies → http://localhost:3001**
+**F12 → Application → Cookies → http://localhost:3000**
 
 Should see:
 ```
@@ -171,7 +171,7 @@ Method: OPTIONS
 Status: 204 No Content ✅
 
 Response Headers:
-✅ access-control-allow-origin: http://localhost:3001
+✅ access-control-allow-origin: http://localhost:3000
 ✅ access-control-allow-methods: GET,HEAD,PUT,PATCH,POST,DELETE
 ✅ access-control-allow-headers: content-type, x-portal
 ✅ access-control-allow-credentials: true
@@ -195,7 +195,7 @@ Request Body:
 
 Response Headers:
 ✅ set-cookie: session_token=...; HttpOnly; SameSite=Lax; Path=/app/hr
-✅ access-control-allow-origin: http://localhost:3001
+✅ access-control-allow-origin: http://localhost:3000
 ✅ access-control-allow-credentials: true
 
 Response Body:
@@ -276,7 +276,7 @@ Should see:
 3. **CORS Headers Present?**
    ```bash
    # F12 Network tab → login request → Response Headers
-   # Must see: access-control-allow-origin: http://localhost:3001
+   # Must see: access-control-allow-origin: http://localhost:3000
    ```
 
 4. **Session Cookie Sent?**
@@ -298,7 +298,7 @@ Should see:
 
 **All these must be true**:
 
-- [ ] Frontend loads at http://localhost:3001
+- [ ] Frontend loads at http://localhost:3000
 - [ ] No CORS errors in console
 - [ ] Login page appears without errors
 - [ ] Can enter email and password
@@ -317,7 +317,7 @@ Should see:
 
 ## FILES MODIFIED
 
-1. ✅ `backend/src/config/constants.js` - Added localhost:3001 to CORS
+1. ✅ `backend/src/config/constants.js` - Added localhost:3000 to CORS
 2. ✅ `frontend/vite.config.js` - Set port to 3001 + added API proxy
 3. ✅ `frontend/src/services/axios.js` - Verified withCredentials
 4. ✅ `frontend/src/services/api/axiosInstance.js` - Verified withCredentials
@@ -331,7 +331,7 @@ Should see:
 1. Close all terminal windows
 2. Delete any old node_modules/.cache (optional)
 3. Follow "Quick Start (3 Steps)" above
-4. Open http://localhost:3001/auth/hr/login
+4. Open http://localhost:3000/auth/hr/login
 5. Test login with: hr@ethiroli.com / HrPassword123!
 6. Check DevTools for errors or success
 

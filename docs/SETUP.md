@@ -107,7 +107,7 @@ J:\eithiroli\ethiroli_react\
    npm run dev
    ```
 
-   The admin portal will be available at `http://localhost:5173`.
+   The admin portal will be available at `http://localhost:3000`.
 
 ## Default Credentials
 
@@ -127,7 +127,7 @@ After running migrations, a default SUPER_ADMIN user is seeded:
 | `PORT` | Backend HTTP port | `5000` |
 | `SOCKET_PORT` | Socket.IO port | `3003` |
 | `NODE_ENV` | Environment | `development` |
-| `FRONTEND_ORIGIN` | Comma-separated frontend origins | `http://localhost:5173,http://localhost:3000` |
+| `FRONTEND_ORIGIN` | Comma-separated frontend origins | `http://localhost:5173,http://localhost:3000,http://localhost:3001` |
 | `DB_HOST` | MySQL host | `localhost` |
 | `DB_PORT` | MySQL port | `3306` |
 | `DB_USER` | MySQL username | `root` |

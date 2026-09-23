@@ -2,7 +2,7 @@
 
 ## CRITICAL: Your backend needs to RELOAD the new CORS configuration!
 
-The CORS fix (adding localhost:3001) won't take effect until you restart the backend.
+The CORS fix (adding localhost:3000) won't take effect until you restart the backend.
 
 ---
 
@@ -57,7 +57,7 @@ npm run dev
 ```
   VITE v7.3.6  ready in 739 ms
 
-  ➜  Local:   http://localhost:3001/
+  ➜  Local:   http://localhost:3000/
   ➜  Network: use --host to expose
 ```
 
@@ -65,7 +65,7 @@ npm run dev
 
 ## STEP 4: Test Login (Check for 401 Error)
 
-1. **Open Browser**: http://localhost:3001/auth/hr/login
+1. **Open Browser**: http://localhost:3000/auth/hr/login
 2. **Press F12** to open DevTools
 3. **Go to Network tab**
 4. **Clear all previous requests** (Ctrl+Shift+L)
@@ -87,7 +87,7 @@ Method: OPTIONS
 Status: 204 No Content ✅
 
 Response Headers (should include):
-  access-control-allow-origin: http://localhost:3001 ✅
+  access-control-allow-origin: http://localhost:3000 ✅
   access-control-allow-methods: GET,HEAD,PUT,PATCH,POST,DELETE
   access-control-allow-headers: content-type, x-portal
 ```
@@ -128,7 +128,7 @@ Response Headers (should include):
 
 1. Stay in DevTools (F12)
 2. Go to **Application** tab
-3. Click **Storage** → **Local Storage** → http://localhost:3001
+3. Click **Storage** → **Local Storage** → http://localhost:3000
 4. Look for:
    ```
    auth_token = "abc123def456..."  ← Should be here
@@ -148,7 +148,7 @@ Response Headers (should include):
 
 1. Stay in DevTools (F12)
 2. Go to **Application** tab
-3. Click **Cookies** → **http://localhost:3001**
+3. Click **Cookies** → **http://localhost:3000**
 4. Look for:
    ```
    session_token = "abc123def456..."  ← Should be here
@@ -280,10 +280,10 @@ setTimeout(() => {
 - [ ] Backend running on port 5000 (npm start in backend folder)
 - [ ] Frontend running on port 3001 (npm run dev in frontend folder)
 - [ ] Both show "ready" messages in terminal
-- [ ] Frontend loads at http://localhost:3001/auth/hr/login
+- [ ] Frontend loads at http://localhost:3000/auth/hr/login
 - [ ] F12 Network tab shows OPTIONS request with 204 status
 - [ ] F12 Network tab shows POST request with 200 status
-- [ ] Response headers include `access-control-allow-origin: http://localhost:3001`
+- [ ] Response headers include `access-control-allow-origin: http://localhost:3000`
 - [ ] Login response includes `{ data: { token: "..." } }`
 - [ ] localStorage has `auth_token` after login
 - [ ] Cookies has `session_token` after login

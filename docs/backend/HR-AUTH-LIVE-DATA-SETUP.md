@@ -155,7 +155,7 @@
 - ✅ `test-hr-integration.js` - Full auth + live data suite
 
 ### Manual Testing
-1. Navigate to `http://localhost:3001/auth/hr/login`
+1. Navigate to `http://localhost:3000/auth/hr/login`
 2. Login with HR credentials
 3. Verify dashboard loads with live metrics
 4. Observe real-time updates when employees check in/out

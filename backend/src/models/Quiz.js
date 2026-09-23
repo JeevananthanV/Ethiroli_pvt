@@ -1,4 +1,5 @@
 import pool from '../config/database.js';
+import crypto from 'crypto';
 
 export default class Quiz {
   static format(row) {
@@ -12,12 +13,13 @@ export default class Quiz {
   }
 
   static async create({ course_id, title, description, time_limit_minutes = 10, passing_score = 70, is_published = false }) {
-    const [result] = await pool.execute(
-      `INSERT INTO quizzes (course_id, title, description, time_limit_minutes, passing_score, is_published)
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [course_id, title, description, time_limit_minutes, passing_score, is_published]
+    const id = crypto.randomUUID();
+    await pool.execute(
+      `INSERT INTO quizzes (id, course_id, title, description, time_limit_minutes, passing_score, is_published)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [id, course_id, title, description, time_limit_minutes, passing_score, is_published]
     );
-    return result.insertId || result.info;
+    return id;
   }
 
   static async update(id, updates) {
@@ -66,5 +68,88 @@ export default class Quiz {
 
   static async listByCourseId(courseId) {
     return this.list({ course_id: courseId, limit: 1000 });
+  }
+
+  static async attachQuestions(quizId, questionIds) {
+    if (!Array.isArray(questionIds) || questionIds.length === 0) return;
+    for (let i = 0; i < questionIds.length; i++) {
+      const qId = questionIds[i];
+      const linkId = crypto.randomUUID();
+      await pool.execute(
+        `INSERT INTO quiz_questions (id, quiz_id, question_id, question_order)
+         VALUES (?, ?, ?, ?)
+         ON DUPLICATE KEY UPDATE question_order = ?`,
+        [linkId, quizId, qId, i + 1, i + 1]
+      );
+    }
+  }
+
+  static async detachQuestion(quizId, questionId) {
+    await pool.execute(
+      'DELETE FROM quiz_questions WHERE quiz_id = ? AND question_id = ?',
+      [quizId, questionId]
+    );
+  }
+
+  static async getQuestionsForStudent(quizId) {
+    // Queries questions and options but strictly excludes `is_correct`
+    const [qRows] = await pool.execute(
+      `SELECT qb.id, qb.topic, qb.difficulty, qb.question_type, qb.question_text, 
+              qb.code_snippet, qq.points, qq.question_order
+       FROM quiz_questions qq
+       JOIN question_bank qb ON qq.question_id = qb.id
+       WHERE qq.quiz_id = ? AND qb.is_active = TRUE
+       ORDER BY qq.question_order ASC`,
+      [quizId]
+    );
+
+    const questions = await Promise.all(
+      qRows.map(async (q) => {
+        const [optRows] = await pool.execute(
+          `SELECT id, option_text, display_order 
+           FROM question_options 
+           WHERE question_id = ? 
+           ORDER BY display_order ASC`,
+          [q.id]
+        );
+        return {
+          ...q,
+          options: optRows
+        };
+      })
+    );
+
+    return questions;
+  }
+
+  static async getQuestionsWithAnswers(quizId) {
+    // Includes `is_correct` for server-side grading and tutor review
+    const [qRows] = await pool.execute(
+      `SELECT qb.id, qb.topic, qb.difficulty, qb.question_type, qb.question_text, 
+              qb.code_snippet, qb.explanation, qq.points, qq.question_order
+       FROM quiz_questions qq
+       JOIN question_bank qb ON qq.question_id = qb.id
+       WHERE qq.quiz_id = ?
+       ORDER BY qq.question_order ASC`,
+      [quizId]
+    );
+
+    const questions = await Promise.all(
+      qRows.map(async (q) => {
+        const [optRows] = await pool.execute(
+          `SELECT id, option_text, is_correct, display_order 
+           FROM question_options 
+           WHERE question_id = ? 
+           ORDER BY display_order ASC`,
+          [q.id]
+        );
+        return {
+          ...q,
+          options: optRows.map(o => ({ ...o, is_correct: Boolean(o.is_correct) }))
+        };
+      })
+    );
+
+    return questions;
   }
 }

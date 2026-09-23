@@ -1,4 +1,5 @@
 import pool from '../config/database.js';
+import crypto from 'crypto';
 
 export default class Module {
   static format(row) {
@@ -12,11 +13,12 @@ export default class Module {
   }
 
   static async create({ course_id, title, module_order }) {
-    const [result] = await pool.execute(
-      `INSERT INTO modules (course_id, title, module_order) VALUES (?, ?, ?)`,
-      [course_id, title, module_order]
+    const id = crypto.randomUUID();
+    await pool.execute(
+      `INSERT INTO modules (id, course_id, title, module_order) VALUES (?, ?, ?, ?)`,
+      [id, course_id, title, module_order]
     );
-    return result.insertId || result.info;
+    return id;
   }
 
   static async update(id, { title, module_order }) {
@@ -60,5 +62,25 @@ export default class Module {
 
   static async listByCourseId(courseId) {
     return this.list({ course_id: courseId, limit: 1000 });
+  }
+
+  static async reorder(courseId, orderedIds) {
+    if (!Array.isArray(orderedIds) || orderedIds.length === 0) return;
+    const conn = await pool.getConnection();
+    try {
+      await conn.beginTransaction();
+      for (let i = 0; i < orderedIds.length; i++) {
+        await conn.execute(
+          'UPDATE modules SET module_order = ? WHERE id = ? AND course_id = ?',
+          [i + 1, orderedIds[i], courseId]
+        );
+      }
+      await conn.commit();
+    } catch (err) {
+      await conn.rollback();
+      throw err;
+    } finally {
+      conn.release();
+    }
   }
 }

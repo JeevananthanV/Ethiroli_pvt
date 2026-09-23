@@ -19,7 +19,7 @@ cat backend/src/config/constants.js | grep -A 5 "ALLOWED_ORIGINS"
 
 # Expected output:
 # ✅ 'http://localhost:3000'
-# ✅ 'http://localhost:3001'  (Frontend)
+# ✅ 'http://localhost:3000'  (Frontend)
 # ✅ 'http://localhost:5000'
 ```
 
@@ -40,7 +40,7 @@ cat backend/src/controllers/authController.js | grep -A 8 "getCookieConfig"
 
 ### Test 1: Browser Console Test
 
-1. Open `http://localhost:3001/auth/hr/login`
+1. Open `http://localhost:3000/auth/hr/login`
 2. Press `F12` → **Console** tab
 3. Copy-paste this code:
 
@@ -74,14 +74,14 @@ fetch('http://localhost:5000/api/v1/auth/portal-login', {
 **Expected Output**:
 ```
 Status: 200
-✅ CORS Success! Origin allowed: http://localhost:3001
+✅ CORS Success! Origin allowed: http://localhost:3000
 ✅ Credentials allowed: true
 ✅ Login successful!
 ```
 
 ### Test 2: Network Tab Inspection
 
-1. Open `http://localhost:3001/auth/hr/login`
+1. Open `http://localhost:3000/auth/hr/login`
 2. Press `F12` → **Network** tab
 3. Enter credentials: `hr@ethiroli.com` / `HrPassword123!`
 4. Click **Login**
@@ -90,7 +90,7 @@ Status: 200
 
 **Expected Headers**:
 ```
-✅ access-control-allow-origin: http://localhost:3001
+✅ access-control-allow-origin: http://localhost:3000
 ✅ access-control-allow-credentials: true
 ✅ access-control-allow-methods: GET,HEAD,PUT,PATCH,POST,DELETE
 ✅ access-control-allow-headers: content-type, x-portal
@@ -99,10 +99,10 @@ Status: 200
 
 ### Test 3: Application Tab - Cookies
 
-1. Open `http://localhost:3001/auth/hr/login`
+1. Open `http://localhost:3000/auth/hr/login`
 2. Press `F12` → **Application** tab
 3. Login with `hr@ethiroli.com` / `HrPassword123!`
-4. Expand **Cookies** → select `http://localhost:3001`
+4. Expand **Cookies** → select `http://localhost:3000`
 
 **Expected Cookie**:
 ```
@@ -127,7 +127,7 @@ SameSite:    Lax
 
 ### Steps
 
-1. **Navigate to Login**: Open `http://localhost:3001/auth/hr/login`
+1. **Navigate to Login**: Open `http://localhost:3000/auth/hr/login`
 
 2. **Verify Page Loads**:
    - See "HR Login" form
@@ -145,7 +145,7 @@ SameSite:    Lax
    - Login request: `POST /api/v1/auth/portal-login` → Status 200 ✅
 
 5. **Verify CORS Headers** (in Network tab response):
-   - `access-control-allow-origin: http://localhost:3001` ✅
+   - `access-control-allow-origin: http://localhost:3000` ✅
    - `access-control-allow-credentials: true` ✅
 
 6. **Check Session Cookie** (F12 → Application → Cookies):
@@ -177,7 +177,7 @@ SameSite:    Lax
 # 1. Start backend
  cd J:\eithiroli\ethiroli_react\backend && npm start
 
-# 2. Check ALLOWED_ORIGINS includes http://localhost:3001
+# 2. Check ALLOWED_ORIGINS includes http://localhost:3000
 grep "ALLOWED_ORIGINS" backend/src/config/constants.js
 
 # 3. Verify fetch call has credentials
@@ -258,7 +258,7 @@ head -60 backend/src/app.js | tail -20
 
 - ✅ Browser shows no CORS error messages
 - ✅ `portal-login` request gets 200 status
-- ✅ Response headers include `access-control-allow-origin: http://localhost:3001`
+- ✅ Response headers include `access-control-allow-origin: http://localhost:3000`
 - ✅ Response headers include `access-control-allow-credentials: true`
 - ✅ `session_token` cookie created with HttpOnly flag
 - ✅ User redirected to dashboard after login
@@ -275,7 +275,7 @@ Terminal 1: cd J:\eithiroli\ethiroli_react\backend && npm start
 Terminal 2: cd J:\eithiroli\ethiroli_react\frontend && npm run dev
 
 # Wait 5 seconds, then navigate to:
-# http://localhost:3001/auth/hr/login
+# http://localhost:3000/auth/hr/login
 
 # Login with:
 # Email:    hr@ethiroli.com

@@ -13,9 +13,9 @@ Role:     HR Manager
 ## 🌐 LOGIN URLs
 
 ### Frontend:
-- **HR Login Page**: `http://localhost:3001/auth/hr/login`
-- **HR Dashboard**: `http://localhost:3001/app/hr/dashboard`
-- **Direct Access**: `http://localhost:3001/hr.html` (auto-redirects)
+- **HR Login Page**: `http://localhost:3000/auth/hr/login`
+- **HR Dashboard**: `http://localhost:3000/app/hr/dashboard`
+- **Direct Access**: `http://localhost:3000/hr.html` (auto-redirects)
 
 ### Backend API:
 - **Portal Login**: `POST http://localhost:5000/api/v1/auth/portal-login`
@@ -46,7 +46,7 @@ Role:     HR Manager
 1. Browser sends OPTIONS preflight request
 2. Backend checks Origin header
 3. If origin allowed, returns:
-   - Access-Control-Allow-Origin: http://localhost:3001 ✅
+   - Access-Control-Allow-Origin: http://localhost:3000 ✅
    - Access-Control-Allow-Credentials: true ✅
 4. Browser allows actual request (GET/POST/etc.)
 5. Response cookie sent to frontend ✅
@@ -78,7 +78,7 @@ npm run dev
 
 **Expected Output**:
 ```
-  Local:   http://localhost:3001/
+  Local:   http://localhost:3000/
   ready in 200ms
 ✅ Frontend loaded
 ```
@@ -89,13 +89,13 @@ npm run dev
 
 ### Way 1: Browser Network Tab (Easiest)
 
-1. Open `http://localhost:3001/auth/hr/login`
+1. Open `http://localhost:3000/auth/hr/login`
 2. Press `F12` → **Network** tab
 3. Enter credentials and click **Login**
 4. Find `portal-login` request
 5. Check **Response Headers**:
    ```
-   ✅ access-control-allow-origin: http://localhost:3001
+   ✅ access-control-allow-origin: http://localhost:3000
    ✅ access-control-allow-credentials: true
    ✅ set-cookie: session_token=...; HttpOnly; SameSite=Lax
    ```
@@ -130,12 +130,12 @@ fetch('http://localhost:5000/api/v1/auth/portal-login', {
 ```bash
 # Test CORS headers
 curl -X OPTIONS http://localhost:5000/api/v1/auth/portal-login \
-  -H "Origin: http://localhost:3001" \
+  -H "Origin: http://localhost:3000" \
   -H "Access-Control-Request-Method: POST" \
   -v
 
 # Expected to see:
-# access-control-allow-origin: http://localhost:3001 ✅
+# access-control-allow-origin: http://localhost:3000 ✅
 ```
 
 ---
@@ -143,7 +143,7 @@ curl -X OPTIONS http://localhost:5000/api/v1/auth/portal-login \
 ## 🔍 TROUBLESHOOTING
 
 ### Issue: CORS Error in Console
-**Error**: `Access to XMLHttpRequest at 'http://localhost:5000/...' from origin 'http://localhost:3001' has been blocked by CORS policy`
+**Error**: `Access to XMLHttpRequest at 'http://localhost:5000/...' from origin 'http://localhost:3000' has been blocked by CORS policy`
 
 **Solution**:
 1. ✅ Make sure backend is running (`npm start` in backend folder)
@@ -202,7 +202,7 @@ Set-Cookie: session_token=...
 
 - [ ] Backend running on port 5000
 - [ ] Frontend running on port 3001
-- [ ] Can navigate to `http://localhost:3001/auth/hr/login`
+- [ ] Can navigate to `http://localhost:3000/auth/hr/login`
 - [ ] Can enter credentials: `hr@ethiroli.com` / `HrPassword123!`
 - [ ] Login button works (no CORS errors)
 - [ ] Redirected to dashboard at `/app/hr/dashboard`
@@ -226,8 +226,8 @@ Set-Cookie: session_token=...
 ```
 ✅ CORS: Working
 ✅ Credentials: hr@ethiroli.com / HrPassword123!
-✅ Login URL: http://localhost:3001/auth/hr/login
-✅ Dashboard: http://localhost:3001/app/hr/dashboard
+✅ Login URL: http://localhost:3000/auth/hr/login
+✅ Dashboard: http://localhost:3000/app/hr/dashboard
 ✅ API: http://localhost:5000/api/v1/*
 ✅ WebSocket: ws://localhost:5000
 ✅ All Systems: OPERATIONAL

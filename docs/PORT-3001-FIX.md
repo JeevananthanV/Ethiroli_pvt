@@ -4,14 +4,14 @@
 
 ### 1. CORS Configuration Updated
 ```
-✅ Added localhost:3001 to ALLOWED_ORIGINS
+✅ Added localhost:3000 to ALLOWED_ORIGINS
    File: backend/src/config/constants.js
    
    Now allows:
    - http://localhost:3000
-   - http://localhost:3001  ← YOUR FRONTEND
+   - http://localhost:3000  ← YOUR FRONTEND
    - http://localhost:5000
-   - http://localhost:5173
+   - http://localhost:3000
 ```
 
 ### 2. Axios Configuration Verified
@@ -79,18 +79,18 @@ npm start
 cd frontend
 npm run dev
 # Expected output:
-# ➜  Local:   http://localhost:3001/
+# ➜  Local:   http://localhost:3000/
 # ➜ Press h + enter to show help
 ```
 
 ### Step 4: Test in Browser
 ```
-1. Navigate to: http://localhost:3001/auth/hr/login
+1. Navigate to: http://localhost:3000/auth/hr/login
 2. Enter: hr@ethiroli.com / HrPassword123!
 3. Check Network tab (F12) during login:
    - Request: POST http://localhost:5000/api/v1/auth/portal-login
    - Response Status: 200 OK ✅
-   - Response Headers: access-control-allow-origin: http://localhost:3001 ✅
+   - Response Headers: access-control-allow-origin: http://localhost:3000 ✅
    - Response Body: { user: {...}, token: "..." } ← Check if token exists!
    - Cookies: session_token should be set ✅
 ```
@@ -128,7 +128,7 @@ fetch('http://localhost:5000/api/v1/auth/portal-login', {
 ### Check 2: Verify Session Cookie
 After login, check in DevTools:
 ```
-F12 → Application → Cookies → localhost:3001
+F12 → Application → Cookies → localhost:3000
 Look for: session_token (HttpOnly)
 If present ✅, browser will auto-send it on next request
 ```
@@ -156,14 +156,14 @@ fetch('http://localhost:5000/api/v1/auth/me', {
 ## CORS FLOW DIAGRAM (NOW FIXED)
 
 ```
-Browser (localhost:3001)
+Browser (localhost:3000)
          ↓ (CORS preflight)
          OPTIONS /api/v1/auth/portal-login
          ↓ (check origin header)
 Backend (localhost:5000)
-         ✅ origin = localhost:3001 (NOW IN ALLOWED_ORIGINS!)
+         ✅ origin = localhost:3000 (NOW IN ALLOWED_ORIGINS!)
          ↓ (send CORS headers)
-         access-control-allow-origin: http://localhost:3001 ✅
+         access-control-allow-origin: http://localhost:3000 ✅
          access-control-allow-credentials: true ✅
          ↓ (browser allows actual request)
          POST /api/v1/auth/portal-login
@@ -238,11 +238,11 @@ Backend (localhost:5000)
 
 When working correctly, you should see:
 
-- [ ] Frontend loads on http://localhost:3001 (no errors)
-- [ ] Login page accessible at http://localhost:3001/auth/hr/login
+- [ ] Frontend loads on http://localhost:3000 (no errors)
+- [ ] Login page accessible at http://localhost:3000/auth/hr/login
 - [ ] F12 Network tab shows OPTIONS request returns 204
 - [ ] F12 Network tab shows POST request returns 200
-- [ ] Response headers include: access-control-allow-origin: http://localhost:3001
+- [ ] Response headers include: access-control-allow-origin: http://localhost:3000
 - [ ] Application tab shows session_token cookie created
 - [ ] Dashboard loads and displays data
 - [ ] No 401 errors in console after login

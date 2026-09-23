@@ -149,6 +149,7 @@ export const ROLE_NAVIGATION = Object.freeze({
     { label: 'Attendance', path: '/app/tutor/attendance', icon: 'schedule' },
     { label: 'Assignments', path: '/app/tutor/assignments', icon: 'assignment' },
     { label: 'Quizzes', path: '/app/tutor/quizzes', icon: 'quiz' },
+    { label: 'Question Bank', path: '/app/tutor/question-bank', icon: 'help_outline' },
     { label: 'Grades', path: '/app/tutor/grades', icon: 'grade' },
     { label: 'Doubt Management', path: '/app/tutor/doubts', icon: 'help' },
     { label: 'Certificates', path: '/app/tutor/certificates', icon: 'workspace_premium' },

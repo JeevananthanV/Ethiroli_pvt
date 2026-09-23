@@ -1,11 +1,12 @@
 import pool from '../config/database.js';
+import crypto from 'crypto';
 
 export default class QuizAttempt {
   static format(row) {
     if (!row) return null;
     return {
       ...row,
-      answers: row.answers ? JSON.parse(row.answers) : null
+      answers: row.answers ? (typeof row.answers === 'string' ? JSON.parse(row.answers) : row.answers) : null
     };
   }
 
@@ -15,11 +16,13 @@ export default class QuizAttempt {
   }
 
   static async create({ quiz_id, student_id, score, total_questions, time_taken_seconds = 0, answers = null, is_live = false, live_session_id = null }) {
+    const id = crypto.randomUUID();
     await pool.execute(
-      `INSERT INTO quiz_attempts (quiz_id, student_id, score, total_questions, time_taken_seconds, answers, is_live, live_session_id)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [quiz_id, student_id, score, total_questions, time_taken_seconds, answers ? JSON.stringify(answers) : null, is_live, live_session_id]
+      `INSERT INTO quiz_attempts (id, quiz_id, student_id, score, total_questions, time_taken_seconds, answers, is_live, live_session_id)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [id, quiz_id, student_id, score, total_questions, time_taken_seconds, answers ? JSON.stringify(answers) : null, is_live, live_session_id]
     );
+    return id;
   }
 
   static async update(id, updates) {

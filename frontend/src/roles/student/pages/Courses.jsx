@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { getMyEnrollments } from '../../../services/api/enrollmentApi.js';
 
 export default function StudentCourses() {
+  const navigate = useNavigate();
   const [enrollments, setEnrollments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -54,8 +56,12 @@ export default function StudentCourses() {
                       <div style={{ width: `${Math.min(Number(enr.progress || 0), 100)}%`, height: '100%', background: 'var(--admin-primary)', borderRadius: 3 }} />
                     </div>
                   </div>
-                  <button className="btn primary" style={{ marginTop: 12, width: '100%' }}>
-                    {enr.progress > 0 ? 'Resume Class' : 'Start Course'}
+                  <button
+                    onClick={() => navigate(`/app/student/course-player?courseId=${enr.course_id || enr.courseId}`)}
+                    className="btn primary"
+                    style={{ marginTop: 12, width: '100%' }}
+                  >
+                    {Number(enr.progress_percentage || enr.progress || 0) > 0 ? 'Resume Class' : 'Start Course'}
                   </button>
                 </div>
               </div>

@@ -36,9 +36,9 @@
 // backend/src/config/constants.js
 export const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS?.split(',').map(o => o.trim()).filter(Boolean) || [
   'http://localhost:3000',
-  'http://localhost:3001',
+  'http://localhost:3000',
   'http://localhost:5000',
-  'http://localhost:5173'
+  'http://localhost:3000'
 ];
 ```
 
@@ -160,14 +160,14 @@ curl -X GET http://localhost:5000/api/v1/auth/me \
 
 ```bash
 curl -X OPTIONS http://localhost:5000/api/v1/auth/portal-login \
-  -H "Origin: http://localhost:3001" \
+  -H "Origin: http://localhost:3000" \
   -H "Access-Control-Request-Method: POST" \
   -v
 ```
 
 **Expected Response Headers**:
 ```
-Access-Control-Allow-Origin: http://localhost:3001
+Access-Control-Allow-Origin: http://localhost:3000
 Access-Control-Allow-Credentials: true
 Access-Control-Allow-Methods: POST, OPTIONS
 Access-Control-Allow-Headers: Content-Type, Authorization, X-Portal
@@ -304,7 +304,7 @@ Headers:
 3. Check **XHR/Fetch** filter
 
 ### Step 2: Attempt Login
-1. Navigate to `http://localhost:3001/auth/hr/login`
+1. Navigate to `http://localhost:3000/auth/hr/login`
 2. Enter credentials
 3. Click Login
 
@@ -315,7 +315,7 @@ Headers:
 
 **Look for these headers** ✅:
 ```
-Access-Control-Allow-Origin: http://localhost:3001
+Access-Control-Allow-Origin: http://localhost:3000
 Access-Control-Allow-Credentials: true
 Access-Control-Expose-Headers: Date, X-Request-Id
 ```
@@ -327,7 +327,7 @@ Access-Control-Expose-Headers: Date, X-Request-Id
 
 ### Step 5: Cookies
 1. Go to **Application** tab
-2. Click **Cookies** → `http://localhost:3001`
+2. Click **Cookies** → `http://localhost:3000`
 3. Should see `session_token` cookie:
    - ✅ httpOnly: true
    - ✅ Secure: false (on localhost, true in production)
@@ -401,10 +401,10 @@ ALLOWED_ORIGINS=https://ethiroli.com npm start
 
 - [ ] **Backend running**: `cd J:\eithiroli\ethiroli_react\backend && npm start`
 - [ ] **Frontend running**: `cd J:\eithiroli\ethiroli_react\frontend && npm run dev`
-- [ ] **CORS allowed origins**: Includes `http://localhost:3001` ✅
+- [ ] **CORS allowed origins**: Includes `http://localhost:3000` ✅
 - [ ] **HR user created**: `hr@ethiroli.com` with password `HrPassword123!` ✅
 - [ ] **Database connected**: Check logs for connection success
-- [ ] **Navigate to login**: `http://localhost:3001/auth/hr/login`
+- [ ] **Navigate to login**: `http://localhost:3000/auth/hr/login`
 - [ ] **Enter credentials**: Email & password above
 - [ ] **Dashboard loads**: See HR metrics
 - [ ] **WebSocket connects**: Check DevTools console

@@ -48,7 +48,7 @@ export const requireRole = (...allowedRoles) => {
       return next(new AuthorizationError('Authentication required.'));
     }
 
-    if (req.user.role === ROLES.SUPER_ADMIN) {
+    if (req.user.role === ROLES.SUPER_ADMIN || req.user.role === ROLES.ADMIN) {
       return next();
     }
 
@@ -93,7 +93,7 @@ export const checkPermission = (permission) => {
       return next(new AuthorizationError('Authentication required.'));
     }
 
-    if (req.user.role === ROLES.SUPER_ADMIN) {
+    if (req.user.role === ROLES.SUPER_ADMIN || req.user.role === ROLES.ADMIN) {
       return next();
     }
 
@@ -121,27 +121,8 @@ export const enforceRoleBasedRoutes = (req, res, next) => {
     return next();
   }
 
-  if (req.user.role === ROLES.SUPER_ADMIN) {
+  if (req.user.role === ROLES.SUPER_ADMIN || req.user.role === ROLES.ADMIN) {
     return next();
-  }
-
-  const isAdmin = req.user.role === ROLES.ADMIN;
-
-  if (isAdmin) {
-    const adminAllowed = [
-      ROLES.ADMIN,
-      ROLES.HR,
-      ROLES.TUTOR,
-      ROLES.FINANCE,
-      ROLES.SALES,
-      ROLES.RECEPTION,
-      ROLES.EMPLOYEE,
-      ROLES.STUDENT,
-      ROLES.INTERN,
-    ];
-    if (adminAllowed.includes(expectedRole)) {
-      return next();
-    }
   }
 
   if (req.user.role !== expectedRole) {
@@ -160,6 +141,10 @@ export const roleRouteGuard = (allowedRoles = []) => {
       throw new AuthorizationError('Authentication required.');
     }
 
+    if (req.user.role === ROLES.SUPER_ADMIN || req.user.role === ROLES.ADMIN) {
+      return next();
+    }
+
     if (allowedRoles.length > 0 && !allowedRoles.includes(req.user.role)) {
       throw new AuthorizationError(
         `Forbidden: Your role (${req.user.role}) is not authorized for this action.`,
@@ -175,6 +160,10 @@ export const restrictTo = (...roles) => {
   return (req, res, next) => {
     if (!req.user) {
       throw new AuthorizationError('Authentication required.');
+    }
+
+    if (req.user.role === ROLES.SUPER_ADMIN || req.user.role === ROLES.ADMIN) {
+      return next();
     }
 
     if (!roles.includes(req.user.role)) {

@@ -87,6 +87,9 @@ import vendorRoutes from './vendor/vendorRoutes.js';
 import clientPortalRoutes from './client/clientRoutes.js';
 
 import eventTypeRoutes from './eventTypeRoutes.js';
+import securityRoutes from './securityRoutes.js';
+import featureFlagRoutes from './featureFlagRoutes.js';
+import governanceRoutes from './governanceRoutes.js';
 
 import { resolveTenant } from '../middleware/tenantResolver.js';
 
@@ -97,6 +100,10 @@ router.use(resolveTenant);
 router.use('/v1/auth', authRoutes);
 router.use('/v1/users', userRoutes);
 router.use('/v1/leads', leadRoutes);
+router.use('/v1/security', securityRoutes);
+router.use('/v1/feature-flags', featureFlagRoutes);
+router.use('/v1/admin/governance', governanceRoutes);
+router.use('/v1', governanceRoutes);
 router.use('/v1/contact-messages', contactRoutes);
 router.use('/v1/candidates', candidateRoutes);
 router.use('/v1/career-applications', candidateRoutes);

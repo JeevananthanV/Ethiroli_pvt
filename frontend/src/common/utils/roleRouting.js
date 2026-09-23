@@ -59,7 +59,7 @@ export const isRoleAuthorized = (userRole, allowedRoles) => {
   if (!allowedRoles || allowedRoles.length === 0) return true;
   if (!userRole) return false;
   const normalized = String(userRole).trim().toUpperCase();
-  // Super Admin has universal platform scope to preview/manage all role portals
-  if (normalized === ROLES.SUPER_ADMIN) return true;
+  // Super Admin and Admin have universal platform scope to access, preview, and govern all role portals
+  if (normalized === ROLES.SUPER_ADMIN || normalized === ROLES.ADMIN) return true;
   return allowedRoles.includes(normalized);
 };

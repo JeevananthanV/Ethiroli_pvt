@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
+import axiosInstance from '../../../services/api/axiosInstance.js';
 
 export default function AdminTutors() {
   const [tutors, setTutors] = useState([
@@ -12,6 +13,10 @@ export default function AdminTutors() {
   const [search, setSearch] = useState('');
   const [domainFilter, setDomainFilter] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [handoverTarget, setHandoverTarget] = useState(null);
+  const [substituteTutorId, setSubstituteTutorId] = useState('');
+  const [handoverLoading, setHandoverLoading] = useState(false);
+  const [feedback, setFeedback] = useState(null);
 
   const [newTutor, setNewTutor] = useState({
     name: '',
@@ -37,6 +42,34 @@ export default function AdminTutors() {
     setNewTutor({ name: '', email: '', phone: '', domain: 'Full Stack Web Development', status: 'ACTIVE' });
   };
 
+  const handleExecuteHandover = async (e) => {
+    e.preventDefault();
+    if (!handoverTarget || !substituteTutorId) return;
+    setHandoverLoading(true);
+    setFeedback(null);
+    try {
+      const res = await axiosInstance.post(`/v1/tutors/${handoverTarget.id}/reassign-workload`, {
+        substituteTutorId,
+        reassignBatches: true,
+        reassignCalendarEvents: true,
+        reassignTasks: true
+      });
+      setFeedback({
+        type: 'success',
+        message: `Workload transferred successfully! ${res.data?.data?.batchesReassigned || 0} batches and calendar sessions assigned to substitute.`
+      });
+      setHandoverTarget(null);
+      setSubstituteTutorId('');
+    } catch (err) {
+      setFeedback({
+        type: 'danger',
+        message: err.response?.data?.message || err.message || 'Failed to reassign workload.'
+      });
+    } finally {
+      setHandoverLoading(false);
+    }
+  };
+
   const filtered = tutors.filter(t => {
     const q = search.toLowerCase();
     const matchSearch = t.name.toLowerCase().includes(q) || t.email.toLowerCase().includes(q) || t.domain.toLowerCase().includes(q);
@@ -55,6 +88,13 @@ export default function AdminTutors() {
         </button>
       }
     >
+      {feedback && (
+        <div className={`alert alert-${feedback.type} alert-dismissible fade show shadow-sm mb-4`} role="alert">
+          <div>{feedback.message}</div>
+          <button type="button" className="btn-close" onClick={() => setFeedback(null)}></button>
+        </div>
+      )}
+
       {/* Metric Cards */}
       <div className="row g-3 mb-4">
         <div className="col-12 col-sm-6 col-xl-3">
@@ -162,6 +202,16 @@ export default function AdminTutors() {
                     </span>
                   </td>
                   <td className="text-end pe-3">
+                    <button 
+                      className="btn btn-sm btn-outline-warning me-1 text-dark" 
+                      title="Emergency Workload Handover"
+                      onClick={() => {
+                        setHandoverTarget(t);
+                        setSubstituteTutorId('');
+                      }}
+                    >
+                      <i className="bi bi-arrow-left-right me-1"></i>Handover
+                    </button>
                     <button className="btn btn-sm btn-outline-primary me-1" title="Assign Batches">
                       <i className="bi bi-journal-plus me-1"></i>Batches
                     </button>
@@ -175,6 +225,71 @@ export default function AdminTutors() {
           </table>
         </div>
       </div>
+
+      {/* Handover Modal */}
+      {handoverTarget && (
+        <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content border-0 shadow-lg rounded-3">
+              <div className="modal-header border-bottom bg-warning bg-opacity-10">
+                <h5 className="modal-title fw-bold text-dark d-flex align-items-center gap-2">
+                  <i className="bi bi-arrow-left-right text-warning"></i>
+                  Emergency Workload Handover
+                </h5>
+                <button type="button" className="btn-close" onClick={() => setHandoverTarget(null)}></button>
+              </div>
+              <form onSubmit={handleExecuteHandover}>
+                <div className="modal-body p-4">
+                  <div className="alert alert-warning py-2 small mb-3">
+                    Reassign all active batches, upcoming live calendar lectures, and intern review tasks from <strong>{handoverTarget.name}</strong> to a verified substitute instructor.
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label small fw-semibold">Absent Instructor</label>
+                    <div className="form-control bg-light">{handoverTarget.name} ({handoverTarget.domain})</div>
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label small fw-semibold">Select Substitute Instructor</label>
+                    <select 
+                      className="form-select"
+                      required
+                      value={substituteTutorId}
+                      onChange={e => setSubstituteTutorId(e.target.value)}
+                    >
+                      <option value="">-- Choose Substitute Faculty --</option>
+                      {tutors.filter(t => t.id !== handoverTarget.id).map(t => (
+                        <option key={t.id} value={t.id}>
+                          {t.name} ({t.domain}) - Rating: {t.rating}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="border rounded p-3 bg-light small">
+                    <div className="fw-semibold text-dark mb-2">Atomic Handover Scope:</div>
+                    <div className="form-check mb-1">
+                      <input className="form-check-input" type="checkbox" checked readOnly id="hBatch" />
+                      <label className="form-check-label" htmlFor="hBatch">Course Batches ({handoverTarget.active_batches} Active Batches)</label>
+                    </div>
+                    <div className="form-check mb-1">
+                      <input className="form-check-input" type="checkbox" checked readOnly id="hCal" />
+                      <label className="form-check-label" htmlFor="hCal">Future Dynamic Calendar Lecture Occurrences</label>
+                    </div>
+                    <div className="form-check">
+                      <input className="form-check-input" type="checkbox" checked readOnly id="hTasks" />
+                      <label className="form-check-label" htmlFor="hTasks">Student Project Evaluations & Intern Mentorship Tasks</label>
+                    </div>
+                  </div>
+                </div>
+                <div className="modal-footer border-top bg-light">
+                  <button type="button" className="btn btn-light btn-sm" onClick={() => setHandoverTarget(null)}>Cancel</button>
+                  <button type="submit" className="btn btn-warning btn-sm px-3" disabled={handoverLoading || !substituteTutorId}>
+                    {handoverLoading ? 'Transferring Workload...' : 'Confirm Workload Handover'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modal */}
       {showModal && (

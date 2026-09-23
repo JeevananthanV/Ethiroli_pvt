@@ -1,6 +1,7 @@
 import Payroll from '../models/Payroll.js';
 import SalaryStructure from '../models/SalaryStructure.js';
 import AuditLog from '../models/AuditLog.js';
+import pool from '../config/database.js';
 import { broadcastToRole } from '../services/socketService.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 import { success } from '../utils/response.js';
@@ -102,3 +103,87 @@ export const generatePayslip = asyncHandler(async (req, res) => {
   broadcastToRole('FINANCE', 'payslip_generated', { id: req.params.id });
   success(res, 200, { id: req.params.id }, 'Payslip generated successfully');
 });
+
+export const disputePayroll = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { reason = 'Discrepancy in hours/attendance' } = req.body;
+
+  const payroll = await Payroll.findById(id);
+  if (!payroll) throw new NotFoundError('Payroll record not found');
+
+  await pool.query(
+    `UPDATE payroll 
+     SET status = 'DISPUTED', 
+         dispute_reason = ?, 
+         disputed_by = ?, 
+         disputed_at = NOW() 
+     WHERE id = ?`,
+    [reason, req.user?.id || 'SYSTEM', id]
+  );
+
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'DISPUTE_PAYROLL',
+    entity_type: 'PAYROLL',
+    entity_id: id,
+    new_value: { reason, disputed_by: req.user.id },
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+
+  broadcastToRole('ADMIN', 'payroll_dispute_escalated', { id, reason, employee_id: payroll.employee_id });
+  broadcastToRole('FINANCE', 'payroll_dispute_escalated', { id, reason, employee_id: payroll.employee_id });
+
+  success(res, 200, { id, status: 'DISPUTED', reason }, 'Payroll record flagged as disputed and escalated to Admin');
+});
+
+export const resolveDispute = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { adjustmentAmount = 0, resolutionNotes = 'Hours verified and adjusted by Admin' } = req.body;
+
+  const payroll = await Payroll.findById(id);
+  if (!payroll) throw new NotFoundError('Payroll record not found');
+
+  const adj = parseFloat(adjustmentAmount) || 0;
+  const newGross = parseFloat(payroll.gross_salary || 0) + adj;
+  const newNet = parseFloat(payroll.net_salary || 0) + adj;
+
+  await pool.query(
+    `UPDATE payroll 
+     SET status = 'PROCESSED', 
+         adjustment_amount = ?, 
+         gross_salary = ?, 
+         net_salary = ?, 
+         resolved_at = NOW() 
+     WHERE id = ?`,
+    [adj, newGross, newNet, id]
+  );
+
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'RESOLVE_PAYROLL_DISPUTE',
+    entity_type: 'PAYROLL',
+    entity_id: id,
+    new_value: { adjustmentAmount: adj, resolutionNotes, newGross, newNet, resolved_by: req.user.id },
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+
+  broadcastToRole('FINANCE', 'payroll_dispute_resolved', { id, adjustmentAmount: adj, newNet });
+  broadcastToRole('ADMIN', 'payroll_dispute_resolved', { id, adjustmentAmount: adj, newNet });
+
+  success(res, 200, { id, status: 'PROCESSED', adjustmentAmount: adj, newGross, newNet }, 'Payroll dispute resolved and ledger adjusted');
+});
+
+export const listDisputes = asyncHandler(async (req, res) => {
+  const [rows] = await pool.query(
+    `SELECT p.*, u.full_name as employee_name, u.email as employee_email 
+     FROM payroll p 
+     LEFT JOIN employees e ON p.employee_id = e.id 
+     LEFT JOIN users u ON e.user_id = u.id 
+     WHERE p.status = 'DISPUTED' 
+     ORDER BY p.disputed_at DESC`
+  );
+  success(res, 200, rows, 'Disputed payroll records retrieved');
+});
+

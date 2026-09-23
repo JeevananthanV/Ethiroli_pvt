@@ -1,1 +1,0 @@
-import{j as r}from"./vendor-react-zBKSfbbZ.js";import{D as t}from"./AdminApp-B-Q06CB4.js";import"./ErrorBoundary-BoOuOI-O.js";import"./preload-helper-CVfkMyKi.js";function m(){return r.jsx(t,{defaultRole:"INTERN"})}export{m as default};

@@ -272,7 +272,7 @@ export default function AdminApp() {
                 <Route path="/" element={<RoleRedirect />} />
                 <Route element={<PrivateRoute allowedRoles={Object.values(ROLES)} />}>
                   <Route element={<MainLayout />}>
-                    <Route element={<PrivateRoute allowedRoles={[ROLES.SUPER_ADMIN]} />}>
+                    <Route element={<PrivateRoute allowedRoles={[ROLES.SUPER_ADMIN, ROLES.ADMIN]} />}>
                       {/* Dashboard */}
                       <Route path="/app/super-admin/dashboard" element={<SuperAdminDashboard />} />
 

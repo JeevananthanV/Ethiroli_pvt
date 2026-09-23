@@ -19,7 +19,7 @@ cat backend/src/config/constants.js | grep -A 5 "ALLOWED_ORIGINS"
 
 # Expected output:
 # ✅ 'http://localhost:3000'
-# ✅ 'http://localhost:5173'  (Frontend)
+# ✅ 'http://localhost:3001'  (Frontend)
 # ✅ 'http://localhost:5000'
 ```
 
@@ -40,12 +40,12 @@ cat backend/src/controllers/authController.js | grep -A 8 "getCookieConfig"
 
 ### Test 1: Browser Console Test
 
-1. Open `http://localhost:5173/auth/hr/login`
+1. Open `http://localhost:3001/auth/hr/login`
 2. Press `F12` → **Console** tab
 3. Copy-paste this code:
 
 ```javascript
-fetch('http://localhost:3000/api/v1/auth/portal-login', {
+fetch('http://localhost:5000/api/v1/auth/portal-login', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ fetch('http://localhost:3000/api/v1/auth/portal-login', {
 **Expected Output**:
 ```
 Status: 200
-✅ CORS Success! Origin allowed: http://localhost:5173
+✅ CORS Success! Origin allowed: http://localhost:3001
 ✅ Credentials allowed: true
 ✅ Login successful!
 ```
@@ -121,13 +121,13 @@ SameSite:    Lax
 ## 🚀 FULL END-TO-END LOGIN TEST
 
 ### Prerequisites
-- Terminal 1: `cd backend && npm start`
-- Terminal 2: `cd frontend && npm run dev`
+- Terminal 1: `cd J:\eithiroli\ethiroli_react\backend && npm start`
+- Terminal 2: `cd J:\eithiroli\ethiroli_react\frontend && npm run dev`
 - Wait 5 seconds for both servers to start
 
 ### Steps
 
-1. **Navigate to Login**: Open `http://localhost:5173/auth/hr/login`
+1. **Navigate to Login**: Open `http://localhost:3001/auth/hr/login`
 
 2. **Verify Page Loads**:
    - See "HR Login" form
@@ -145,7 +145,7 @@ SameSite:    Lax
    - Login request: `POST /api/v1/auth/portal-login` → Status 200 ✅
 
 5. **Verify CORS Headers** (in Network tab response):
-   - `access-control-allow-origin: http://localhost:5173` ✅
+   - `access-control-allow-origin: http://localhost:3001` ✅
    - `access-control-allow-credentials: true` ✅
 
 6. **Check Session Cookie** (F12 → Application → Cookies):
@@ -158,7 +158,7 @@ SameSite:    Lax
    - Dashboard loads with data ✅
 
 8. **Verify WebSocket Connection** (F12 → Console):
-   - Should see: `Socket connected to ws://localhost:3003` ✅
+   - Should see: `Socket connected to ws://localhost:5000` ✅
    - Or similar WebSocket connection message ✅
 
 ---
@@ -175,9 +175,9 @@ SameSite:    Lax
 **Solutions**:
 ```bash
 # 1. Start backend
-cd backend && npm start
+ cd J:\eithiroli\ethiroli_react\backend && npm start
 
-# 2. Check ALLOWED_ORIGINS includes http://localhost:5173
+# 2. Check ALLOWED_ORIGINS includes http://localhost:3001
 grep "ALLOWED_ORIGINS" backend/src/config/constants.js
 
 # 3. Verify fetch call has credentials
@@ -192,16 +192,16 @@ grep "credentials:" frontend/src/services/authService.js
 **Solution**:
 ```bash
 # Check if server is running
-netstat -ano | findstr :3000
+netstat -ano | findstr :5000
 
 # If not running, start it
-cd backend && npm start
+ cd J:\eithiroli\ethiroli_react\backend && npm start
 
 # Wait 5 seconds for server to fully start
 Start-Sleep -Seconds 5
 
 # Test endpoint directly
-curl -X GET http://localhost:3000/api/v1/auth/me
+curl -X GET http://localhost:5000/api/v1/auth/me
 ```
 
 ### Error: "Cookie not persisting / Session lost"
@@ -240,7 +240,7 @@ head -60 backend/src/app.js | tail -20
 | Component | Expected | Verify How | Status |
 |-----------|----------|-----------|--------|
 | CORS Enabled | Yes | Check app.js line 46-53 | ✅ |
-| Allowed Origins | 3 (localhost:3000, 5173, 5000) | Check constants.js | ✅ |
+| Allowed Origins | 4 (localhost:3000, 3001, 5000, 5173) | Check constants.js | ✅ |
 | Credentials | Enabled (HttpOnly) | Check Response Headers | ✅ |
 | Preflight | OPTIONS 204 | Network tab → portal-login | ✅ |
 | Login Endpoint | POST 200 | Network tab → status | ✅ |
@@ -258,7 +258,7 @@ head -60 backend/src/app.js | tail -20
 
 - ✅ Browser shows no CORS error messages
 - ✅ `portal-login` request gets 200 status
-- ✅ Response headers include `access-control-allow-origin: http://localhost:5173`
+- ✅ Response headers include `access-control-allow-origin: http://localhost:3001`
 - ✅ Response headers include `access-control-allow-credentials: true`
 - ✅ `session_token` cookie created with HttpOnly flag
 - ✅ User redirected to dashboard after login
@@ -271,11 +271,11 @@ head -60 backend/src/app.js | tail -20
 
 ```bash
 # Start Backend + Frontend
-Terminal 1: cd backend && npm start
-Terminal 2: cd frontend && npm run dev
+Terminal 1: cd J:\eithiroli\ethiroli_react\backend && npm start
+Terminal 2: cd J:\eithiroli\ethiroli_react\frontend && npm run dev
 
 # Wait 5 seconds, then navigate to:
-# http://localhost:5173/auth/hr/login
+# http://localhost:3001/auth/hr/login
 
 # Login with:
 # Email:    hr@ethiroli.com

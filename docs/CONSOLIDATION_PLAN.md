@@ -7,7 +7,7 @@ This plan provides a systematic approach to consolidate five distinct iterations
 
 ### Source Repositories Structure:
 1. **ethiroli-ert** - Modular frontend architecture with feature-flag components
-2. **ethiroli-4064-react** - Backend-focused project with admin controllers and models  
+2. **ethiroli-4064-react** - Backend-focused project with admin controllers and models
 3. **ethiroli-ran** - Minimal frontend with test files
 4. **ethiroli-rt** - Admin-centric React application with comprehensive features
 5. **ethiroli-406283** - Feature-rich frontend with extensive module structure
@@ -16,7 +16,7 @@ This plan provides a systematic approach to consolidate five distinct iterations
 - **Version 1 (ethiroli-rt)**: Most complete frontend with routing, monitoring APIs, and production features
 - **Version 4 (ethiroli-406283)**: Largest feature set including automation, calendar, gamification modules
 - **Version 2 (ethiroli-ert)**: Most modular architecture with clear separation of concerns
-- **Version 5 (ethiroli_react)**: Existing monorepo structure with Vue.js and React coexistence
+- **Version 5 (ethiroli_react)**: Existing monorepo structure with React backend and frontend
 
 ## 1. Conflict Resolution & File Merging Strategy
 
@@ -39,8 +39,8 @@ This plan provides a systematic approach to consolidate five distinct iterations
 ### Implementation Method:
 ```bash
 # Create unified source structure
-mkdir -p consolidated/frontend/{src,public,tests,config}
-mkdir -p consolidated/backend/{src,docs}
+mkdir -p J:\eithiroli\ethiroli_react\frontend\src\{admin,app,assets,auth,common,components,hooks,modules,pages,roles,services,store,styles,utils}
+mkdir -p J:\eithiroli\ethiroli_react\backend\src\{config,controllers,graphql,integrations,middleware,migrations,models,routes,services,socket,utils}
 
 # Merge strategy:
 1. Copy core files from ethiroli-rt as base
@@ -201,18 +201,18 @@ mkdir -p consolidated/backend/{src,docs}
 ### Phase 1: Foundation Setup (Weeks 1-2)
 
 1. **Create Unified Directory Structure**:
-   ```
-   J:/eithiroli/ethiroli_react/
-   ├── frontend/
-   │   ├── src/
-   │   ├── public/
-   │   ├── tests/
-   │   └── config/
-   ├── backend/
-   │   ├── src/
-   │   └── docs/
-   └── packages/
-   ```
+    ```
+    J:/eithiroli/ethiroli_react/
+    ├── frontend/
+    │   ├── src/
+    │   ├── public/
+    │   ├── tests/
+    │   └── config/
+    ├── backend/
+    │   ├── src/
+    │   └── docs/
+    └── scripts/
+    ```
 
 2. **Establish Git Worktree** for isolated development
 3. **Create master configuration files** (package.json, vite.config.js, etc.)
@@ -221,16 +221,19 @@ mkdir -p consolidated/backend/{src,docs}
 ### Phase 2: Core Component Consolidation (Weeks 3-4)
 
 1. **Frontend Core**:
+   - Navigate to `J:\eithiroli\ethiroli_react\frontend`
    - Copy App.jsx from ethiroli-react (v4)
    - Integrate ErrorHandling from ethiroli-ert
    - Add Service Worker from ethiroli-react (v4)
 
 2. **API Layer**:
+   - Navigate to `J:\eithiroli\ethiroli_react\frontend\src\services\`
    - Merge monitoring APIs from ethiroli-ert
    - Consolidate axios configurations
    - Create unified API client
 
 3. **State Management**:
+   - Navigate to `J:\eithiroli\ethiroli_react\frontend\src\store\`
    - Merge Redux store configurations
    - Integrate all reducers
    - Set up middleware
@@ -238,29 +241,32 @@ mkdir -p consolidated/backend/{src,docs}
 ### Phase 3: Feature Integration (Weeks 5-6)
 
 1. **Admin Interface**:
+   - Navigate to `J:\eithiroli\ethiroli_react\frontend\src\admin\`
    - Copy from ethiroli-rt (v4)
    - Add monitoring components from ethiroli-ert
    - Integrate role-based access controls
 
 2. **Feature Modules**:
+   - Navigate to `J:\eithiroli\ethiroli_react\frontend\src\modules\`
    - Calendar system from ethiroli-406283
    - Automation workflows from ethiroli-406283
    - Gamification system from ethiroli-406283
 
 3. **Business Logic**:
-   - CRM integration from ethiroli-406283
+   - Integrate CRM modules from ethiroli-406283
    - Finance modules from ethiroli-406283
    - Communication systems from ethiroli-406283
 
 ### Phase 4: Backend Integration (Weeks 7-8)
 
 1. **Backend Foundation**:
+   - Navigate to `J:\eithiroli\ethiroli_react\backend`
    - Copy from ethiroli-4064-react
    - Merge API routes and controllers
    - Consolidate database models
 
 2. **Real-time Features**:
-   - Socket.IO implementation
+   - Socket.IO implementation in `J:\eithiroli\ethiroli_react\backend\src\socket\`
    - WebSocket connections
    - Event-driven architecture
 

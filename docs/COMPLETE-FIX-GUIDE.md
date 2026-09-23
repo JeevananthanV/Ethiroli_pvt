@@ -1,6 +1,6 @@
-# ✅ COMPLETE FIX GUIDE: PORTS 3001 + 5000
+# COMPLETE FIX GUIDE: PORTS 3001 + 5000
 
-## 📋 WHAT WAS WRONG
+## WHAT WAS WRONG
 
 **Error**: `401 Unauthorized` on `/api/v1/auth/me`
 
@@ -13,7 +13,7 @@
 
 ---
 
-## ✅ FIXES APPLIED
+## FIXES APPLIED
 
 ### Fix #1: CORS Configuration Updated
 **File**: `backend/src/config/constants.js`
@@ -52,7 +52,7 @@ server: {
 
 ---
 
-## 🚀 QUICK START (3 STEPS)
+## QUICK START (3 STEPS)
 
 ### Step 1: Kill All Node Processes
 ```powershell
@@ -62,7 +62,7 @@ Start-Sleep -Seconds 2
 
 ### Step 2: Start Backend (Terminal 1)
 ```bash
-cd j:\eithiroli\ethiroli_react\ethiroli-react\backend
+cd j:\eithiroli\ethiroli_react\backend
 npm start
 ```
 
@@ -74,7 +74,7 @@ npm start
 
 ### Step 3: Start Frontend (Terminal 2)
 ```bash
-cd j:\eithiroli\ethiroli_react\ethiroli-react\frontend
+cd j:\eithiroli\ethiroli_react\frontend
 npm run dev
 ```
 
@@ -85,7 +85,7 @@ npm run dev
 
 ---
 
-## 🧪 VERIFY IT WORKS
+## VERIFY IT WORKS
 
 ### Open Browser
 Navigate to: `http://localhost:3001/auth/hr/login`
@@ -116,7 +116,7 @@ Should see:
 
 ---
 
-## 📊 CONFIGURATION SUMMARY
+## CONFIGURATION SUMMARY
 
 | Component | Port | Status |
 |-----------|------|--------|
@@ -129,7 +129,7 @@ Should see:
 
 ---
 
-## 🔍 DETAILED VERIFICATION STEPS
+## DETAILED VERIFICATION STEPS
 
 ### 1. Login Flow Test
 
@@ -253,7 +253,7 @@ Should see:
 
 ---
 
-## ❌ IF 401 ERROR STILL OCCURS
+## IF 401 ERROR STILL OCCURS
 
 **Diagnostic Checklist**:
 
@@ -294,7 +294,7 @@ Should see:
 
 ---
 
-## 🎯 SUCCESS CRITERIA
+## SUCCESS CRITERIA
 
 **All these must be true**:
 
@@ -315,7 +315,7 @@ Should see:
 
 ---
 
-## 📁 FILES MODIFIED
+## FILES MODIFIED
 
 1. ✅ `backend/src/config/constants.js` - Added localhost:3001 to CORS
 2. ✅ `frontend/vite.config.js` - Set port to 3001 + added API proxy
@@ -324,7 +324,7 @@ Should see:
 
 ---
 
-## 🚀 FINAL STEPS
+## FINAL STEPS
 
 **Ready to test?**
 
@@ -337,7 +337,7 @@ Should see:
 
 ---
 
-## 📞 STILL HAVING ISSUES?
+## STILL HAVING ISSUES?
 
 Create a detailed report including:
 

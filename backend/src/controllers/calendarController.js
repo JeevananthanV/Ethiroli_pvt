@@ -12,7 +12,8 @@ import EventTypeService from '../services/eventTypeService.js';
 import logger from '../config/logger.js';
 
 export const listEventTypes = asyncHandler(async (req, res) => {
-  const types = await EventTypeService.list({ isActive: true });
+  // eventTypeService exposes `getAll(isActive)` - there is no `list()`.
+  const types = await EventTypeService.getAll(true);
   return success(res, 200, types, 'Event types retrieved');
 });
 
@@ -35,12 +36,19 @@ export const listEvents = asyncHandler(async (req, res) => {
 export const listExpanded = asyncHandler(async (req, res) => {
   const { start, end, event_type_id, role } = req.query;
   const userRole = req.user?.role;
+  const targetRole = role || userRole;
+  
+  const roleConfig = await CalendarRoleConfigService.getConfigForRole(targetRole);
+
   const events = await CalendarEvent.listExpanded({
     start_date: start,
     end_date: end,
     event_type_id,
-    role: role || (['SUPER_ADMIN', 'ADMIN'].includes(userRole) ? null : userRole),
-    userId: ['SUPER_ADMIN', 'ADMIN'].includes(userRole) ? null : req.user?.id
+    role: ['SUPER_ADMIN', 'ADMIN'].includes(targetRole) ? null : targetRole,
+    userId: req.user?.id,
+    userRole: targetRole,
+    showOthersEvents: roleConfig?.show_others_events ?? true,
+    allowedEventTypes: roleConfig?.event_type_visibility?.length ? roleConfig.event_type_visibility : null
   });
   return success(res, 200, events, 'Expanded calendar events retrieved');
 });
@@ -86,6 +94,27 @@ export const createEvent = asyncHandler(async (req, res) => {
 export const getEvent = asyncHandler(async (req, res) => {
   const event = await CalendarEvent.findById(req.params.id);
   if (!event) throw new NotFoundError('Event not found');
+
+  const userRole = req.user?.role;
+  const userId = req.user?.id;
+  const isAdmin = ['SUPER_ADMIN', 'ADMIN'].includes(userRole);
+
+  if (!isAdmin) {
+    const isOwner = event.created_by === userId;
+    const isAssigned = Array.isArray(event.assigned_users) && event.assigned_users.includes(userId);
+
+    // HR event protection: only HR, owner, or assigned attendee can view
+    const isHrEvent = event.role === 'HR' || ['INTERVIEW', 'LEAVE', 'EVALUATION', 'ONBOARDING'].includes(event.event_type);
+    if (isHrEvent && userRole !== 'HR' && !isOwner && !isAssigned) {
+      throw new ForbiddenError('Access denied: Confidential HR event');
+    }
+
+    // Student event protection: non-students (except instructors/admins) cannot view private student events
+    if (event.role === 'STUDENT' && !['STUDENT', 'TUTOR', 'ADMIN', 'SUPER_ADMIN'].includes(userRole) && !isOwner && !isAssigned) {
+      throw new ForbiddenError('Access denied: Student confidential event');
+    }
+  }
+
   const rule = await RecurringRule.findByEventId(req.params.id);
   return success(res, 200, { ...event, recurrence_rule: rule || event.recurrence_rule }, 'Event retrieved');
 });

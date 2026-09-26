@@ -98,6 +98,37 @@ export const createProject = async (req, res) => {
   }
 };
 
+export const updateProject = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const project = await StudentProject.findById(id);
+    if (!project) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+    await StudentProject.update(id, req.body);
+    const updated = await StudentProject.findById(id);
+    res.json({ success: true, project: updated });
+  } catch (error) {
+    console.error('updateProject error:', error);
+    res.status(500).json({ error: 'Failed to update project' });
+  }
+};
+
+export const deleteProject = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const project = await StudentProject.findById(id);
+    if (!project) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+    await StudentProject.delete(id);
+    res.json({ success: true, message: 'Project deleted successfully' });
+  } catch (error) {
+    console.error('deleteProject error:', error);
+    res.status(500).json({ error: 'Failed to delete project' });
+  }
+};
+
 // ==========================================
 // 2. MILESTONES
 // ==========================================
@@ -360,8 +391,8 @@ export const getPerformanceKPIs = async (req, res) => {
     const [milestoneStats] = await pool.execute(`
       SELECT 
         COUNT(*) as total_milestones,
-        SUM(CASE WHEN status = 'COMPLETED' THEN 1 ELSE 0 END) as completed,
-        SUM(CASE WHEN status = 'DELAYED' THEN 1 ELSE 0 END) as delayed
+        SUM(CASE WHEN status = 'COMPLETED' THEN 1 ELSE 0 END) as completed_count,
+        SUM(CASE WHEN status = 'DELAYED' THEN 1 ELSE 0 END) as delayed_count
       FROM project_milestones
     `);
 
@@ -373,7 +404,7 @@ export const getPerformanceKPIs = async (req, res) => {
     `);
 
     const totalMilestones = milestoneStats[0].total_milestones || 1;
-    const completedMilestones = milestoneStats[0].completed || 0;
+    const completedMilestones = milestoneStats[0].completed_count || 0;
     const onTimeDeliveryRate = Math.round((completedMilestones / totalMilestones) * 100);
 
     res.json({

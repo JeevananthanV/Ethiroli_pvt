@@ -6,7 +6,9 @@ export default class Job {
     if (!row) return null;
     return {
       ...row,
-      required_skills: row.required_skills ? JSON.parse(row.required_skills) : null
+      required_skills: row.required_skills
+        ? (() => { try { return JSON.parse(row.required_skills); } catch { return row.required_skills; } })()
+        : null
     };
   }
 

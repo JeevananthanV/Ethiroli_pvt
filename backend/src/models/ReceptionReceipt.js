@@ -17,7 +17,7 @@ export default class ReceptionReceipt {
     const [rows] = await pool.execute(
       `SELECT r.*, 
               u.full_name as issuer_name, u.email as issuer_email,
-              c.title as course_title
+              c.name as course_title
        FROM reception_receipts r
        LEFT JOIN users u ON r.issued_by = u.id
        LEFT JOIN courses c ON r.course_id = c.id
@@ -31,7 +31,7 @@ export default class ReceptionReceipt {
     const [rows] = await pool.execute(
       `SELECT r.*, 
               u.full_name as issuer_name, u.email as issuer_email,
-              c.title as course_title
+              c.name as course_title
        FROM reception_receipts r
        LEFT JOIN users u ON r.issued_by = u.id
        LEFT JOIN courses c ON r.course_id = c.id
@@ -45,7 +45,7 @@ export default class ReceptionReceipt {
     let sql = `
       SELECT r.*, 
              u.full_name as issuer_name, u.email as issuer_email,
-             c.title as course_title
+             c.name as course_title
       FROM reception_receipts r
       LEFT JOIN users u ON r.issued_by = u.id
       LEFT JOIN courses c ON r.course_id = c.id

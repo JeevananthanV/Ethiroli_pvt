@@ -9,27 +9,43 @@
 
 export const schemas = {
   createUser: {
-    required: ['email', 'password', 'full_name', 'role'],
+    required: ['email', 'role'],
     fields: {
       email: { type: 'string', required: true, email: true, maxLength: 255 },
-      password: { type: 'string', required: true, minLength: 6, maxLength: 255 },
-      full_name: { type: 'string', required: true, minLength: 2, maxLength: 255 },
+      password: { type: 'string', minLength: 6, maxLength: 255 },
+      full_name: { type: 'string', minLength: 2, maxLength: 255 },
+      name: { type: 'string', minLength: 2, maxLength: 255 },
       phone: { type: 'string', phone: true, maxLength: 20 },
-      role: {
-        type: 'string',
-        required: true,
-        enum: ['SUPER_ADMIN', 'ADMIN', 'HR', 'TUTOR', 'PROJECT_MANAGER', 'FINANCE', 'SALES', 'RECEPTION', 'EMPLOYEE', 'STUDENT', 'INTERN', 'CLIENT', 'VENDOR']
-      },
+      role: { type: 'string', required: true },
       is_active: { type: 'boolean' }
     }
   },
 
   updateUser: {
     fields: {
+      email: { type: 'string', email: true, maxLength: 255 },
+      password: { type: 'string', maxLength: 255 },
       full_name: { type: 'string', minLength: 2, maxLength: 255 },
+      name: { type: 'string', minLength: 2, maxLength: 255 },
       phone: { type: 'string', phone: true, maxLength: 20 },
-      role: { type: 'string', enum: ['SUPER_ADMIN', 'ADMIN', 'HR', 'TUTOR', 'PROJECT_MANAGER', 'FINANCE', 'SALES', 'RECEPTION', 'EMPLOYEE', 'STUDENT', 'INTERN', 'CLIENT', 'VENDOR'] },
-      is_active: { type: 'boolean' }
+      role: { type: 'string' },
+      is_active: { type: 'boolean' },
+      status: { type: 'string' }
+    }
+  },
+
+  changePassword: {
+    required: ['currentPassword', 'newPassword'],
+    fields: {
+      currentPassword: { type: 'string', required: true, minLength: 6, maxLength: 255 },
+      newPassword: { type: 'string', required: true, minLength: 6, maxLength: 255 }
+    }
+  },
+
+  impersonate: {
+    required: ['targetUserId'],
+    fields: {
+      targetUserId: { type: 'string', required: true, uuid: true }
     }
   },
 
@@ -37,6 +53,25 @@ export const schemas = {
     required: ['name'],
     fields: {
       name: { type: 'string', required: true, minLength: 2, maxLength: 255 },
+      first_name: { type: 'string', maxLength: 255 },
+      last_name: { type: 'string', maxLength: 255 },
+      company_name: { type: 'string', maxLength: 255 },
+      email: { type: 'string', email: true, maxLength: 255 },
+      phone: { type: 'string', phone: true, maxLength: 20 },
+      source: { type: 'string', enum: ['WEBSITE', 'REFERRAL', 'SOCIAL_MEDIA', 'WALK_IN', 'PHONE', 'INDEED', 'OTHER'] },
+      status: { type: 'string', enum: ['NEW', 'CONTACTED', 'DEMO', 'COUNSELLING', 'ADMISSION', 'PAYMENT', 'LOST'] },
+      assigned_to: { type: 'string', uuid: true },
+      notes: { type: 'string', maxLength: 5000 },
+      follow_up_date: { type: 'string', date: true }
+    }
+  },
+
+  updateLead: {
+    fields: {
+      name: { type: 'string', minLength: 2, maxLength: 255 },
+      first_name: { type: 'string', maxLength: 255 },
+      last_name: { type: 'string', maxLength: 255 },
+      company_name: { type: 'string', maxLength: 255 },
       email: { type: 'string', email: true, maxLength: 255 },
       phone: { type: 'string', phone: true, maxLength: 20 },
       source: { type: 'string', enum: ['WEBSITE', 'REFERRAL', 'SOCIAL_MEDIA', 'WALK_IN', 'PHONE', 'INDEED', 'OTHER'] },
@@ -63,6 +98,23 @@ export const schemas = {
     }
   },
 
+  updateEmployee: {
+    fields: {
+      name: { type: 'string', minLength: 2, maxLength: 255 },
+      full_name: { type: 'string', minLength: 2, maxLength: 255 },
+      email: { type: 'string', email: true, maxLength: 255 },
+      department: { type: 'string', maxLength: 100 },
+      designation: { type: 'string', maxLength: 100 },
+      employee_code: { type: 'string', maxLength: 50 },
+      date_of_joining: { type: 'string', date: true },
+      pan: { type: 'string', maxLength: 255 },
+      bank_account: { type: 'string', maxLength: 255 },
+      pf_number: { type: 'string', maxLength: 255 },
+      salary_structure_id: { type: 'string' },
+      is_active: { type: 'boolean' }
+    }
+  },
+
   createIntern: {
     required: ['college_name'],
     fields: {
@@ -75,7 +127,24 @@ export const schemas = {
       stipend: { type: 'number', min: 0 },
       start_date: { type: 'string', date: true },
       end_date: { type: 'string', date: true },
-      project_target: { type: 'string', maxLength: 255 }
+      project_target: { type: 'string', maxLength: 255 },
+      progress: { type: 'number', min: 0, max: 100 }
+    }
+  },
+
+  updateIntern: {
+    fields: {
+      name: { type: 'string', minLength: 2, maxLength: 255 },
+      full_name: { type: 'string', minLength: 2, maxLength: 255 },
+      email: { type: 'string', email: true, maxLength: 255 },
+      mentor_id: { type: 'string', uuid: true },
+      mentor: { type: 'string', maxLength: 255 },
+      college_name: { type: 'string', maxLength: 255 },
+      stipend: { type: 'number', min: 0 },
+      start_date: { type: 'string', date: true },
+      end_date: { type: 'string', date: true },
+      project_target: { type: 'string', maxLength: 255 },
+      progress: { type: 'number', min: 0, max: 100 }
     }
   },
 
@@ -127,12 +196,13 @@ export const schemas = {
   },
 
   createAssignment: {
-    required: ['course_id', 'title', 'due_date'],
+    required: ['course_id', 'title'],
     fields: {
       course_id: { type: 'string', required: true, uuid: true },
       title: { type: 'string', required: true, maxLength: 255 },
       description: { type: 'string', maxLength: 5000 },
-      due_date: { type: 'string', required: true, date: true },
+      // Optional: an assignment can legitimately be open-ended ("no due date").
+      due_date: { type: 'string', date: true },
       max_score: { type: 'number', min: 1 }
     }
   },
@@ -141,6 +211,17 @@ export const schemas = {
     required: ['name'],
     fields: {
       name: { type: 'string', required: true, minLength: 2, maxLength: 255 },
+      email: { type: 'string', email: true, maxLength: 255 },
+      phone: { type: 'string', phone: true, maxLength: 20 },
+      gst: { type: 'string', maxLength: 255 },
+      address: { type: 'string', maxLength: 5000 },
+      company_name: { type: 'string', maxLength: 255 }
+    }
+  },
+
+  updateClient: {
+    fields: {
+      name: { type: 'string', minLength: 2, maxLength: 255 },
       email: { type: 'string', email: true, maxLength: 255 },
       phone: { type: 'string', phone: true, maxLength: 20 },
       gst: { type: 'string', maxLength: 255 },
@@ -172,11 +253,22 @@ export const schemas = {
     }
   },
 
+  updateTask: {
+    fields: {
+      subscription_id: { type: 'string', uuid: true },
+      description: { type: 'string', maxLength: 5000 },
+      due_date: { type: 'string', date: true },
+      status: { type: 'string', enum: ['PENDING', 'IN_PROGRESS', 'COMPLETED'] },
+      assigned_to: { type: 'string', uuid: true }
+    }
+  },
+
   createInvoice: {
-    required: ['invoice_number', 'client_id', 'issue_date', 'due_date', 'subtotal', 'total'],
+    required: ['invoice_number', 'issue_date', 'due_date', 'subtotal', 'total'],
     fields: {
       invoice_number: { type: 'string', required: true, maxLength: 50 },
       client_id: { type: 'string', uuid: true },
+
       student_id: { type: 'string', uuid: true },
       issue_date: { type: 'string', required: true, date: true },
       due_date: { type: 'string', required: true, date: true },
@@ -262,10 +354,22 @@ export const schemas = {
   },
 
   createJob: {
-    required: ['title', 'description', 'created_by'],
+    required: ['title', 'description'],
     fields: {
       title: { type: 'string', required: true, maxLength: 255 },
       description: { type: 'string', required: true, maxLength: 10000 },
+      department: { type: 'string', maxLength: 100 },
+      location: { type: 'string', maxLength: 255 },
+      salary_range: { type: 'string', maxLength: 100 },
+      required_skills: { type: 'object' },
+      status: { type: 'string', enum: ['DRAFT', 'OPEN', 'CLOSED', 'FILLED'] }
+    }
+  },
+
+  updateJob: {
+    fields: {
+      title: { type: 'string', minLength: 2, maxLength: 255 },
+      description: { type: 'string', maxLength: 10000 },
       department: { type: 'string', maxLength: 100 },
       location: { type: 'string', maxLength: 255 },
       salary_range: { type: 'string', maxLength: 100 },
@@ -418,9 +522,9 @@ export const schemas = {
   },
 
   createCoupon: {
-    required: ['tenant_id', 'code', 'discount_type', 'discount_value', 'valid_from', 'valid_to'],
+    required: ['code', 'discount_type', 'discount_value', 'valid_from', 'valid_to'],
     fields: {
-      tenant_id: { type: 'string', required: true, uuid: true },
+      tenant_id: { type: 'string', uuid: true },
       code: { type: 'string', required: true, maxLength: 50 },
       discount_type: { type: 'string', required: true, enum: ['PERCENTAGE', 'FIXED'] },
       discount_value: { type: 'number', required: true, min: 0 },
@@ -432,6 +536,7 @@ export const schemas = {
       is_active: { type: 'boolean' }
     }
   },
+
 
   createOrder: {
     required: ['order_number', 'subtotal', 'total', 'customer_name', 'customer_email'],
@@ -490,6 +595,8 @@ export const schemas = {
   createLeave: {
     required: ['leave_type', 'start_date', 'end_date'],
     fields: {
+      user_id: { type: 'string' },
+      employee_name: { type: 'string' },
       leave_type: { type: 'string', required: true, enum: ['CASUAL', 'SICK', 'EARNED'] },
       start_date: { type: 'string', required: true, date: true },
       end_date: { type: 'string', required: true, date: true },
@@ -499,8 +606,12 @@ export const schemas = {
 
   createAttendance: {
     fields: {
-      check_in_time: { type: 'string', datetime: true },
-      check_out_time: { type: 'string', datetime: true },
+      user_id: { type: 'string' },
+      date: { type: 'string' },
+      clock_in: { type: 'string' },
+      clock_out: { type: 'string' },
+      check_in_time: { type: 'string' },
+      check_out_time: { type: 'string' },
       status: { type: 'string', enum: ['PRESENT', 'ABSENT', 'HALF_DAY'] }
     }
   },
@@ -510,8 +621,21 @@ export const schemas = {
     fields: {
       course_id: { type: 'string', required: true, uuid: true },
       student_id: { type: 'string', uuid: true },
+      assigned_by_tutor_id: { type: 'string', uuid: true },
+      due_date: { type: 'string' },
+      notes: { type: 'string', maxLength: 1000 },
       progress_percentage: { type: 'number', min: 0, max: 100 },
       status: { type: 'string', enum: ['ACTIVE', 'COMPLETED', 'DROPPED'] }
+    }
+  },
+
+  assignCourses: {
+    required: ['student_id', 'course_ids'],
+    fields: {
+      student_id: { type: 'string', required: true, uuid: true },
+      course_ids: { type: 'array', required: true },
+      due_date: { type: 'string' },
+      notes: { type: 'string', maxLength: 1000 }
     }
   },
 
@@ -523,20 +647,21 @@ export const schemas = {
   },
 
   createForumPost: {
-    required: ['course_id', 'title', 'content'],
+    required: ['title', 'content'],
     fields: {
-      course_id: { type: 'string', required: true, uuid: true },
+      course_id: { type: 'string', required: false, uuid: true },
       title: { type: 'string', required: true, maxLength: 255 },
       content: { type: 'string', required: true, maxLength: 50000 },
+      category: { type: 'string', maxLength: 50, enum: ['general', 'questions', 'discussions', 'announcements'] },
       is_pinned: { type: 'boolean' },
       is_locked: { type: 'boolean' }
     }
   },
 
   createForumReply: {
-    required: ['post_id', 'content'],
+    required: ['content'],
     fields: {
-      post_id: { type: 'string', required: true, uuid: true },
+      post_id: { type: 'string', required: false, uuid: true },
       content: { type: 'string', required: true, maxLength: 50000 },
       is_best_answer: { type: 'boolean' }
     }
@@ -648,12 +773,16 @@ export const schemas = {
   },
 
   createSalaryStructure: {
-    required: ['employee_id', 'basic_salary', 'hra', 'effective_from'],
+    required: ['employee_id', 'hra', 'effective_from'],
     fields: {
       employee_id: { type: 'string', required: true, uuid: true },
-      basic_salary: { type: 'number', required: true, min: 0 },
+      basic: { type: 'number', min: 0 },
+      basic_salary: { type: 'number', min: 0 },
       hra: { type: 'number', required: true, min: 0 },
       da: { type: 'number', min: 0 },
+      pf_percentage: { type: 'number', min: 0 },
+      esi_percentage: { type: 'number', min: 0 },
+      tds_percentage: { type: 'number', min: 0 },
       pf_employee: { type: 'number', min: 0 },
       pf_employer: { type: 'number', min: 0 },
       esi_employee: { type: 'number', min: 0 },
@@ -665,11 +794,12 @@ export const schemas = {
     }
   },
 
+
   processPayroll: {
     required: ['employee_id', 'month_year', 'basic', 'hra'],
     fields: {
-      employee_id: { type: 'string', required: true, uuid: true },
-      month_year: { type: 'string', required: true, maxLength: 7 },
+      employee_id: { type: 'string', required: true },
+      month_year: { type: 'string', required: true, minLength: 7, maxLength: 10 },
       basic: { type: 'number', required: true, min: 0 },
       hra: { type: 'number', required: true, min: 0 },
       da: { type: 'number', min: 0 },
@@ -684,7 +814,8 @@ export const schemas = {
   runPayrollForAll: {
     required: ['month_year'],
     fields: {
-      month_year: { type: 'string', required: true, maxLength: 7 }
+      month_year: { type: 'string', required: true, minLength: 7, maxLength: 10 },
+      notes: { type: 'string', maxLength: 1000 }
     }
   },
 
@@ -723,15 +854,19 @@ export const schemas = {
   },
 
   createCertificate: {
-    required: ['name'],
+    required: ['course_id'],
     fields: {
-      name: { type: 'string', required: true, maxLength: 255 },
-      description: { type: 'string', maxLength: 5000 },
+      course_id: { type: 'string', required: true, uuid: true },
       student_id: { type: 'string', uuid: true },
-      course_id: { type: 'string', uuid: true },
+      enrollment_id: { type: 'string', uuid: true },
+      certificate_number: { type: 'string', maxLength: 50 },
       issue_date: { type: 'string', date: true },
       expiry_date: { type: 'string', date: true },
-      certificate_url: { type: 'string', maxLength: 500 }
+      pdf_url: { type: 'string', maxLength: 500 },
+      qr_code_url: { type: 'string', maxLength: 500 },
+      is_verified: { type: 'boolean' },
+      name: { type: 'string', maxLength: 255 },
+      description: { type: 'string', maxLength: 5000 }
     }
   },
 
@@ -753,7 +888,9 @@ export const schemas = {
   updateLeaveStatus: {
     required: ['status'],
     fields: {
-      status: { type: 'string', required: true, enum: ['PENDING', 'APPROVED', 'REJECTED'] }
+      status: { type: 'string', required: true, enum: ['PENDING', 'APPROVED', 'REJECTED', 'CANCELLED'] },
+      comment: { type: 'string', maxLength: 1000 },
+      comments: { type: 'string', maxLength: 1000 }
     }
   },
 
@@ -848,7 +985,94 @@ export const schemas = {
     fields: {
       ALLOWED_ORIGINS: { type: 'array' }
     }
+  },
+
+  updateAttendance: {
+    fields: {
+      user_id: { type: 'string' },
+      date: { type: 'string' },
+      check_in_time: { type: 'string' },
+      check_out_time: { type: 'string' },
+      status: { type: 'string', enum: ['PRESENT', 'ABSENT', 'HALF_DAY'] },
+      is_late: { type: 'boolean' }
+    }
+  },
+
+  updateLeave: {
+    fields: {
+      leave_type: { type: 'string', enum: ['CASUAL', 'SICK', 'EARNED'] },
+      start_date: { type: 'string', date: true },
+      end_date: { type: 'string', date: true },
+      reason: { type: 'string', maxLength: 1000 },
+      status: { type: 'string', enum: ['PENDING', 'APPROVED', 'REJECTED', 'CANCELLED'] },
+      approved_by: { type: 'string' },
+      approval_chain_step: { type: 'number' }
+    }
+  },
+
+  updateInvoice: {
+    fields: {
+      invoice_number: { type: 'string', maxLength: 50 },
+      client_id: { type: 'string', uuid: true },
+      student_id: { type: 'string', uuid: true },
+      issue_date: { type: 'string', date: true },
+      due_date: { type: 'string', date: true },
+      subtotal: { type: 'number', min: 0 },
+      gst_rate: { type: 'number', min: 0 },
+      gst_amount: { type: 'number', min: 0 },
+      total: { type: 'number', min: 0 },
+      status: { type: 'string' }
+    }
+  },
+
+  updateSalaryStructure: {
+    fields: {
+      basic: { type: 'number', min: 0 },
+      hra: { type: 'number', min: 0 },
+      da: { type: 'number', min: 0 },
+      pf_percentage: { type: 'number', min: 0 },
+      esi_percentage: { type: 'number', min: 0 },
+      tds_percentage: { type: 'number', min: 0 },
+      effective_from: { type: 'string', date: true },
+      effective_to: { type: 'string', date: true },
+      is_active: { type: 'boolean' }
+    }
+  },
+
+  updateHoliday: {
+    fields: {
+      name: { type: 'string', maxLength: 255 },
+      date: { type: 'string', date: true },
+      description: { type: 'string', maxLength: 1000 },
+      is_recurring: { type: 'boolean' },
+      is_optional: { type: 'boolean' }
+    }
+  },
+
+  updateBadge: {
+    fields: {
+      name: { type: 'string', maxLength: 255 },
+      description: { type: 'string', maxLength: 1000 },
+      icon: { type: 'string', maxLength: 255 },
+      criteria: { type: 'object' },
+      is_active: { type: 'boolean' }
+    }
+  },
+
+  updateCoupon: {
+    fields: {
+      code: { type: 'string', maxLength: 50 },
+      discount_type: { type: 'string' },
+      discount_value: { type: 'number', min: 0 },
+      min_order_value: { type: 'number', min: 0 },
+      max_discount_amount: { type: 'number', min: 0 },
+      usage_limit: { type: 'number', min: 1 },
+      valid_from: { type: 'string', date: true },
+      valid_to: { type: 'string', date: true },
+      is_active: { type: 'boolean' }
+    }
   }
 };
+
 
 export default schemas;

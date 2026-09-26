@@ -17,15 +17,15 @@ export default class Lead {
     return rows.length > 0 ? this.formatLead(rows[0]) : null;
   }
 
-  static async create({ name, email = null, phone = null, source = 'OTHER', status = 'NEW', assigned_to = null, notes = null, follow_up_date = null, created_by }) {
+  static async create({ name, first_name = null, last_name = null, company_name = null, email = null, phone = null, source = 'OTHER', status = 'NEW', assigned_to = null, notes = null, follow_up_date = null, created_by }) {
     const encName = encrypt(name);
     const encEmail = email ? encryptDeterministic(email.toLowerCase().trim()) : null;
     const encPhone = phone ? encrypt(phone) : null;
 
     const [result] = await pool.execute(
-      `INSERT INTO leads (name, email, phone, source, status, assigned_to, notes, follow_up_date, created_by)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [encName, encEmail, encPhone, source, status, assigned_to, notes, follow_up_date, created_by]
+      `INSERT INTO leads (name, first_name, last_name, company_name, email, phone, source, status, assigned_to, notes, follow_up_date, created_by)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [encName, first_name, last_name, company_name, encEmail, encPhone, source, status, assigned_to, notes, follow_up_date, created_by]
     );
     return result.insertId || result.info;
   }
@@ -37,6 +37,18 @@ export default class Lead {
     if (updates.name !== undefined) {
       queryParts.push('name = ?');
       values.push(encrypt(updates.name));
+    }
+    if (updates.first_name !== undefined) {
+      queryParts.push('first_name = ?');
+      values.push(updates.first_name);
+    }
+    if (updates.last_name !== undefined) {
+      queryParts.push('last_name = ?');
+      values.push(updates.last_name);
+    }
+    if (updates.company_name !== undefined) {
+      queryParts.push('company_name = ?');
+      values.push(updates.company_name);
     }
     if (updates.email !== undefined) {
       queryParts.push('email = ?');
@@ -135,9 +147,16 @@ export default class Lead {
 
   static formatLead(row) {
     if (!row) return null;
+    const fullName = decrypt(row.name);
+    // `first_name` / `last_name` are plain-text CRM columns used by the sales
+    // joins; fall back to splitting the (encrypted) legacy `name` so older rows
+    // still render a person instead of a blank cell.
+    const [first, ...rest] = String(fullName || '').trim().split(/\s+/);
     return {
       ...row,
-      name: decrypt(row.name),
+      name: fullName,
+      first_name: row.first_name || first || null,
+      last_name: row.last_name || (rest.length ? rest.join(' ') : null),
       email: row.email ? decrypt(row.email) : null,
       phone: row.phone ? decrypt(row.phone) : null
     };

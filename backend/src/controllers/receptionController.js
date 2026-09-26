@@ -248,7 +248,7 @@ export const searchDirectory = asyncHandler(async (req, res) => {
 
   // Search students
   const [students] = await pool.query(`
-    SELECT u.id, u.full_name, u.email, u.phone, e.status as enrollment_status, c.title as course_title
+    SELECT u.id, u.full_name, u.email, u.phone, e.status as enrollment_status, c.name as course_title
     FROM users u
     LEFT JOIN enrollments e ON e.student_id = u.id
     LEFT JOIN courses c ON e.course_id = c.id

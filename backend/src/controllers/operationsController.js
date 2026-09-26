@@ -170,14 +170,14 @@ export const rejectTimesheet = async (req, res) => {
 
 export const getSalesOverview = async (req, res) => {
   try {
-    // Aggregate leads into deal stages & metrics
+    // Aggregate closed/won deals into stage buckets & metrics
     const [leads] = await pool.execute(`
       SELECT 
-        status,
+        s.stage,
         COUNT(*) as count,
-        COALESCE(SUM(estimated_value), 0) as total_value
-      FROM leads
-      GROUP BY status
+        COALESCE(SUM(s.deal_value), 0) as total_value
+      FROM sales_deals s
+      GROUP BY s.stage
     `);
 
     const [recentLeads] = await pool.execute(`
@@ -276,7 +276,7 @@ export const getReceptionOverview = async (req, res) => {
     // Recent student admissions / enrollments
     const [admissions] = await pool.execute(`
       SELECT e.id, e.enrolled_at, e.status, e.progress_percentage,
-             c.title as course_title,
+             c.name as course_title,
              u.full_name as student_name, u.email as student_email
       FROM enrollments e
       JOIN courses c ON e.course_id = c.id

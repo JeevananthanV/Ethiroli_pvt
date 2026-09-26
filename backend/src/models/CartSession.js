@@ -23,12 +23,82 @@ export default class CartSession {
     return rows.length > 0 ? this.format(rows[0]) : null;
   }
 
-  static async create({ tenant_id, user_id = null, session_token, items, expires_at }) {
-    const id = crypto.randomUUID();
+  // cartController historically called `findByUserId` - keep it as the public name.
+  static async findByUserId(userId) {
+    return this.getByUserId(userId);
+  }
+
+  static async getItems(id) {
+    const cart = await this.findById(id);
+    return cart ? cart.items : [];
+  }
+
+  /** Merge a product into the JSON `items` column, refreshing its price. */
+  static async addItem(id, productId, quantity = 1) {
+    const [rows] = await pool.execute(
+      `SELECT p.id, p.course_id, p.price, p.discounted_price, c.name AS course_name
+         FROM products p
+         LEFT JOIN courses c ON c.id = p.course_id
+        WHERE p.id = ?`,
+      [productId]
+    );
+    if (rows.length === 0) throw new Error('Product not found');
+
+    const product = rows[0];
+    const cart = await this.findById(id);
+    const items = cart ? cart.items : [];
+    const price = Number(product.discounted_price ?? product.price ?? 0);
+    const existing = items.find((item) => item.product_id === productId);
+
+    if (existing) {
+      existing.quantity += Number(quantity) || 1;
+      existing.price = price;
+    } else {
+      items.push({
+        product_id: productId,
+        course_id: product.course_id,
+        title: product.course_name || 'Marketplace item',
+        price,
+        quantity: Number(quantity) || 1
+      });
+    }
+
+    await this.update(id, { items });
+    return items;
+  }
+
+  static async removeItem(id, productId) {
+    const cart = await this.findById(id);
+    if (!cart) return [];
+    const items = cart.items.filter((item) => item.product_id !== productId);
+    await this.update(id, { items });
+    return items;
+  }
+
+  static async clear(id) {
+    await this.update(id, { items: [] });
+  }
+
+  static async applyCoupon(id, couponCode) {
+    await this.update(id, { coupon_code: couponCode });
+  }
+
+  static async create({ tenant_id, user_id = null, session_token, items = [], expires_at } = {}) {
+    let tenantId = tenant_id;
+    if (!tenantId) {
+      // The schema makes tenant_id NOT NULL - fall back to the default tenant so
+      // a request without a resolved tenant still gets a working cart.
+      const [tenants] = await pool.execute('SELECT id FROM tenants ORDER BY created_at LIMIT 1');
+      tenantId = tenants[0]?.id;
+    }
+    const [sessionRows] = await pool.execute('SELECT UUID() AS uuid');
+    const id = sessionRows[0].uuid;
+    const token = session_token || crypto.randomUUID();
+    const expiry = expires_at || new Date(Date.now() + 24 * 60 * 60 * 1000);
     await pool.execute(
       `INSERT INTO cart_sessions (id, tenant_id, user_id, session_token, items, expires_at)
        VALUES (?, ?, ?, ?, ?, ?)`,
-      [id, tenant_id, user_id, session_token, JSON.stringify(items), expires_at]
+      [id, tenantId, user_id, token, JSON.stringify(items), expiry]
     );
     return id;
   }

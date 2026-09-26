@@ -184,7 +184,7 @@ export const getMyProjects = asyncHandler(async (req, res) => {
 export const getEnrolledCourses = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const [rows] = await pool.execute(
-    `SELECT e.*, c.title, c.description, c.category, c.level, c.thumbnail_url
+    `SELECT e.*, c.name, c.description, c.category, c.level, c.thumbnail_url
      FROM enrollments e
      JOIN courses c ON e.course_id = c.id
      WHERE e.student_id = ?
@@ -197,8 +197,10 @@ export const getEnrolledCourses = asyncHandler(async (req, res) => {
 export const getAssignments = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const [rows] = await pool.execute(
-    `SELECT a.*, c.title as course_title,
-            s.id as submission_id, s.status as submission_status, s.grade, s.feedback, s.submitted_at
+    `SELECT a.*, c.name as course_title,
+            s.id as submission_id,
+             CASE WHEN s.id IS NOT NULL THEN 'SUBMITTED' ELSE 'NOT_STARTED' END as submission_status,
+             s.grade, s.feedback, s.submitted_at
      FROM assignments a
      JOIN courses c ON a.course_id = c.id
      LEFT JOIN assignment_submissions s ON a.id = s.assignment_id AND s.student_id = ?
@@ -327,7 +329,7 @@ export const getMyApprovals = asyncHandler(async (req, res) => {
     pool.execute(
       `SELECT ai.*, ac.name as chain_name 
        FROM approval_instances ai 
-       LEFT JOIN approval_chains ac ON ai.chain_id = ac.id 
+       LEFT JOIN approval_chains ac ON ai.workflow_id = ac.workflow_id AND ai.current_step = ac.step_order 
        WHERE ai.initiated_by = ? 
        ORDER BY ai.created_at DESC`,
       [userId]
@@ -335,7 +337,7 @@ export const getMyApprovals = asyncHandler(async (req, res) => {
     pool.execute(
       `SELECT ai.*, ac.name as chain_name, u.full_name as initiator_name 
        FROM approval_instances ai 
-       LEFT JOIN approval_chains ac ON ai.chain_id = ac.id 
+       LEFT JOIN approval_chains ac ON ai.workflow_id = ac.workflow_id AND ai.current_step = ac.step_order 
        LEFT JOIN users u ON ai.initiated_by = u.id 
        WHERE ai.status = 'PENDING' 
        ORDER BY ai.created_at DESC`,

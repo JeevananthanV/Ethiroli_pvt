@@ -7,11 +7,11 @@
  * @property {string} error
  */
 
+import axiosInstance from './axiosInstance.js';
+
 /**
  * Standardized fetch with consistent error handling
  */
-import axiosInstance from './axiosInstance.js';
-
 const standardFetch = async (promise, onError) => {
   try {
     const result = await promise;
@@ -37,21 +37,9 @@ export const listEmployees = async () => {
   return standardFetch(axiosInstance.get('/v1/employees'));
 };
 
-/**
- * Employee CRUD
- */
 export const createEmployee = async (data) => {
   return standardFetch(axiosInstance.post('/v1/employees', data));
 };
-
-/**
- * Jobs
- */
-export const listJobs = async (params = {}) => {
-  return standardFetch(axiosInstance.get('/v1/jobs', { params }));
-};
-
-
 
 export const updateEmployee = async (id, data) => {
   return standardFetch(axiosInstance.patch(`/v1/employees/${id}`, data));
@@ -59,6 +47,13 @@ export const updateEmployee = async (id, data) => {
 
 export const deleteEmployee = async (id) => {
   return standardFetch(axiosInstance.delete(`/v1/employees/${id}`));
+};
+
+/**
+ * Jobs
+ */
+export const listJobs = async (params = {}) => {
+  return standardFetch(axiosInstance.get('/v1/jobs', { params }));
 };
 
 /**
@@ -121,6 +116,10 @@ export const uploadDocument = async (data) => {
   return standardFetch(axiosInstance.post('/v1/documents', data));
 };
 
+export const deleteDocument = async (id) => {
+  return standardFetch(axiosInstance.delete(`/v1/documents/${id}`));
+};
+
 /**
  * Performance
  */
@@ -139,9 +138,6 @@ export const listInterns = async () => {
   return standardFetch(axiosInstance.get('/v1/interns'));
 };
 
-/**
- * Intern CRUD
- */
 export const createIntern = async (data) => {
   return standardFetch(axiosInstance.post('/v1/interns', data));
 };
@@ -170,7 +166,7 @@ export const updateInterview = async (id, data) => {
 };
 
 /**
- * HR Routes - Standardized
+ * HR Routes
  */
 export const listHrRoutes = async () => {
   return standardFetch(axiosInstance.get('/v1/hr/routes'));
@@ -191,10 +187,32 @@ export const listInquiries = async (params = {}) => {
 };
 
 /**
- * Communications/Announcements
+ * Communications / Announcements
  */
 export const listCommunications = async (params = {}) => {
   return standardFetch(axiosInstance.get('/v1/communications', { params }));
+};
+
+/**
+ * Calendar Events
+ */
+export const listCalendarEvents = async (params = {}) => {
+  return standardFetch(axiosInstance.get('/v1/calendar/events', { params }));
+};
+
+/**
+ * Offboarding / Exit Requests
+ */
+export const listExitRequests = async (params = {}) => {
+  return standardFetch(axiosInstance.get('/v1/exit-requests', { params }));
+};
+
+export const createExitRequest = async (data) => {
+  return standardFetch(axiosInstance.post('/v1/exit-requests', data));
+};
+
+export const updateExitRequest = async (id, data) => {
+  return standardFetch(axiosInstance.patch(`/v1/exit-requests/${id}`, data));
 };
 
 /**
@@ -214,35 +232,6 @@ export const updateOnboarding = async (id, data) => {
 
 export const deleteOnboarding = async (id) => {
   return standardFetch(axiosInstance.delete(`/v1/onboardings/${id}`));
-};
-
-/**
- * Documents Extra
- */
-export const deleteDocument = async (id) => {
-  return standardFetch(axiosInstance.delete(`/v1/documents/${id}`));
-};
-
-/**
- * Calendar
- */
-export const listCalendarEvents = async (params = {}) => {
-  return standardFetch(axiosInstance.get('/v1/calendar/events', { params }));
-};
-
-/**
- * Offboarding / Exit Requests
- */
-export const listExitRequests = async (params = {}) => {
-  return standardFetch(axiosInstance.get('/v1/exit-requests', { params }));
-};
-
-export const createExitRequest = async (data) => {
-  return standardFetch(axiosInstance.post('/v1/exit-requests', data));
-};
-
-export const updateExitRequest = async (id, data) => {
-  return standardFetch(axiosInstance.patch(`/v1/exit-requests/${id}`, data));
 };
 
 /**

@@ -3,6 +3,9 @@ import http from 'http';
 import app from './app.js';
 import { attachSocket } from './socket/index.js';
 import pool, { logPoolStatus } from './config/database.js';
+import { getRedisClient, closeRedisConnection, checkRedisHealth } from './config/redis.js';
+import { gracefulShutdown as telemetryShutdown, checkTelemetryHealth } from './services/telemetryService.js';
+import { gracefulShutdown as completionShutdown } from './services/completionService.js';
 import bcrypt from 'bcrypt';
 
 const PORT = process.env.PORT || 5000;
@@ -42,6 +45,15 @@ const gracefulShutdown = (signal) => {
       console.log('Closing database connections...');
       await pool.end();
       console.log('Database connections closed.');
+
+      console.log('Closing Redis connection...');
+      await closeRedisConnection();
+      console.log('Redis connection closed.');
+
+      console.log('Disconnecting Kafka producers...');
+      await telemetryShutdown(signal);
+      await completionShutdown(signal);
+      console.log('Kafka producers disconnected.');
 
       console.log('Graceful shutdown complete.');
       process.exit(0);
@@ -92,6 +104,27 @@ const startServers = async () => {
   try {
     await pool.execute('SELECT 1 AS health_check');
     console.log('Database connectivity verified.');
+
+    // Redis health check — non-fatal, server starts regardless
+    try {
+      const redisClient = getRedisClient();
+      if (redisClient) {
+        const redisHealth = await checkRedisHealth(redisClient);
+        console.log('Redis connectivity verified.', { status: redisHealth.connected ? 'healthy' : 'unhealthy', latencyMs: redisHealth.latencyMs });
+      } else {
+        console.log('Redis is disabled (REDIS_ENABLED=false) — skipping health check.');
+      }
+    } catch (redisError) {
+      console.warn('[NON-FATAL] Redis health check failed — app will continue without Redis:', redisError.message);
+    }
+
+    // Telemetry (Kafka) health check — non-fatal, server starts regardless
+    try {
+      const telemetryHealth = await checkTelemetryHealth();
+      console.log('Telemetry health check completed.', { status: telemetryHealth.status });
+    } catch (telemetryError) {
+      console.warn('[NON-FATAL] Telemetry health check failed — app will continue without Kafka:', telemetryError.message);
+    }
 
     server = http.createServer(app);
     io = attachSocket(server);

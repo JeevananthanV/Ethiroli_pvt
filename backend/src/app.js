@@ -35,12 +35,15 @@ app.use(requestLogger);
 // Assign unique request ID to every request
 app.use(requestId);
 
-// Load balancer worker tracking headers
+// Worker identification + upstream connection pooling hints
 app.use((req, res, next) => {
   res.setHeader('X-Worker-Pid', process.pid);
   if (process.env.CLUSTER_WORKER_ID) {
     res.setHeader('X-Worker-Id', process.env.CLUSTER_WORKER_ID);
   }
+  res.setHeader('Connection', 'keep-alive');
+  res.setHeader('Keep-Alive', 'timeout=5, max=1000');
+  res.setHeader('X-Upstream-Connection', 'keep-alive');
   next();
 });
 
@@ -71,13 +74,6 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Strict CORS
 app.use(cors({
   origin: (origin, callback) => {
-    // DEBUG: Log the origin and allowed origins
-    console.log('🔍 CORS Check:', { 
-      receivedOrigin: origin,
-      allowedOrigins: ALLOWED_ORIGINS,
-      isAllowed: !origin || ALLOWED_ORIGINS.includes(origin)
-    });
-    
     let isLocalDevelopmentOrigin = false;
     if (origin && process.env.NODE_ENV !== 'production') {
       try {
@@ -134,23 +130,69 @@ const candidatePaths = [
 
 const clientDist = candidatePaths.find(p => fs.existsSync(p));
 
-if (clientDist) {
-  console.log(`📦 Serving static frontend from: ${clientDist}`);
-  app.use(express.static(clientDist));
+// MPA role → HTML file mapping (mirrors vite.config.js rollupOptions.input)
+const MPA_ROLE_MAP = [
+  ['/app/super-admin', 'super-admin.html'],
+  ['/auth/super-admin', 'super-admin.html'],
+  ['/app/admin',       'admin.html'],
+  ['/auth/admin',      'admin.html'],
+  ['/dashboard',       'admin.html'],
+  ['/admin',           'admin.html'],
+  ['/app/tutor',       'tutor.html'],
+  ['/auth/tutor',      'tutor.html'],
+  ['/app/student',     'student.html'],
+  ['/auth/student',    'student.html'],
+  ['/student',         'student.html'],
+  ['/app/intern',      'intern.html'],
+  ['/auth/intern',     'intern.html'],
+  ['/intern',          'intern.html'],
+  ['/app/hr',          'hr.html'],
+  ['/auth/hr',         'hr.html'],
+  ['/app/pm',          'pm.html'],
+  ['/auth/pm',         'pm.html'],
+  ['/app/finance',     'finance.html'],
+  ['/auth/finance',    'finance.html'],
+  ['/app/sales',       'sales.html'],
+  ['/auth/sales',      'sales.html'],
+  ['/app/reception',   'reception.html'],
+  ['/auth/reception',  'reception.html'],
+  ['/app/employee',    'employee.html'],
+  ['/auth/employee',   'employee.html'],
+  ['/employee',        'employee.html'],
+];
 
-  // SPA fallback for client-side routing
+if (clientDist) {
+  const staticCacheHeaders = (req, res, filePath) => {
+    if (/\.(js|css|woff2?|ttf|eot|ico|png|jpe?g|gif|svg)$/.test(filePath)) {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    } else if (filePath.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    }
+  };
+  app.use(express.static(clientDist, { setHeaders: staticCacheHeaders }));
+
+  // MPA fallback — map each role URL prefix to the correct portal HTML
   app.get('*', (req, res, next) => {
-    if (req.path.startsWith('/api') || req.path.startsWith('/health') || req.path.startsWith('/socket.io')) {
+    // Never intercept API / WebSocket / health routes
+    if (
+      req.path.startsWith('/api') ||
+      req.path.startsWith('/health') ||
+      req.path.startsWith('/socket.io') ||
+      req.path.startsWith('/v1')
+    ) {
       return next();
     }
 
-    if (req.path.startsWith('/app') || req.path.startsWith('/admin')) {
-      const adminFile = path.join(clientDist, 'admin.html');
-      if (fs.existsSync(adminFile)) {
-        return res.sendFile(adminFile);
-      }
+    // Find the matching role HTML
+    const match = MPA_ROLE_MAP.find(([prefix]) => req.path.startsWith(prefix));
+    const htmlFile = match ? match[1] : 'index.html';
+    const filePath = path.join(clientDist, htmlFile);
+
+    if (fs.existsSync(filePath)) {
+      return res.sendFile(filePath);
     }
 
+    // Final fallback to index.html (public login page)
     const indexFile = path.join(clientDist, 'index.html');
     if (fs.existsSync(indexFile)) {
       return res.sendFile(indexFile);

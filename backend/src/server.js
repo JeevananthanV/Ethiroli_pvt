@@ -102,8 +102,13 @@ const seedAdminUser = async () => {
 
 const startServers = async () => {
   try {
-    await pool.execute('SELECT 1 AS health_check');
-    console.log('Database connectivity verified.');
+    // Database health check — non-fatal on startup
+    try {
+      await pool.execute('SELECT 1 AS health_check');
+      console.log('Database connectivity verified.');
+    } catch (dbError) {
+      console.warn('[NON-FATAL] Database connection failed on startup — check DB_HOST, DB_USER, DB_PASSWORD, DB_NAME in environment:', dbError.message);
+    }
 
     // Redis health check — non-fatal, server starts regardless
     try {
@@ -129,9 +134,13 @@ const startServers = async () => {
     server = http.createServer(app);
     io = attachSocket(server);
 
-    server.listen(PORT, '0.0.0.0', async () => {
-      console.log(`API & WebSocket Server running on port ${PORT}`);
-      await seedAdminUser();
+    server.listen(PORT, async () => {
+      console.log(`API & WebSocket Server running on port/socket ${PORT}`);
+      try {
+        await seedAdminUser();
+      } catch (seedErr) {
+        console.warn('Admin seed skipped or failed:', seedErr.message);
+      }
     });
 
     setInterval(() => {
@@ -140,8 +149,7 @@ const startServers = async () => {
 
     return { server, io };
   } catch (error) {
-    console.error('Failed to start servers:', error);
-    process.exit(1);
+    console.error('Failed to start server:', error);
   }
 };
 

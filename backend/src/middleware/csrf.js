@@ -8,14 +8,17 @@ const envOrigins = (process.env.ALLOWED_ORIGINS || process.env.FRONTEND_ORIGIN |
 
 const ALLOWED_ORIGINS = envOrigins.length > 0 ? envOrigins : DEFAULT_ALLOWED_ORIGINS;
 
-const isLocalDevelopmentOrigin = (value) => {
-  if (process.env.NODE_ENV !== 'development' || !value) return false;
+const isAllowedOrigin = (value) => {
+  if (!value) return false;
+  if (ALLOWED_ORIGINS.includes(value)) return true;
   try {
     const { hostname } = new URL(value);
-    return ['localhost', '127.0.0.1', '::1'].includes(hostname);
+    if (['localhost', '127.0.0.1', '::1'].includes(hostname)) return true;
+    if (hostname === 'ethiroli.net' || hostname.endsWith('.ethiroli.net')) return true;
   } catch {
     return false;
   }
+  return false;
 };
 
 export const csrfProtection = (req, res, next) => {
@@ -42,7 +45,7 @@ export const csrfProtection = (req, res, next) => {
 
   const checkUrl = origin || (referer ? new URL(referer).origin : null);
 
-  if (!checkUrl || (!ALLOWED_ORIGINS.includes(checkUrl) && !isLocalDevelopmentOrigin(checkUrl))) {
+  if (!checkUrl || !isAllowedOrigin(checkUrl)) {
     return next(new AuthorizationError(
       `CSRF Blocked: Request origin '${checkUrl}' is not in the allowed list.`,
       { allowedOrigins: ALLOWED_ORIGINS, receivedOrigin: checkUrl }

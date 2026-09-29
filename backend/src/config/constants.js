@@ -346,11 +346,25 @@ export const ROLE_PERMISSIONS = {
   ]
 };
 
-export const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || process.env.FRONTEND_ORIGIN)
-  ? (process.env.ALLOWED_ORIGINS || process.env.FRONTEND_ORIGIN).split(',').map(o => o.trim()).filter(Boolean)
-  : [
-      'http://localhost:3000',
-      'http://localhost:3001',
-      'http://localhost:5000',
-      'http://localhost:5173'
-    ];
+const DEFAULT_ORIGIN_LIST = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://localhost:5000',
+  'http://localhost:5173',
+  'http://127.0.0.1:3000',
+  'http://127.0.0.1:3001',
+  'http://127.0.0.1:5000',
+  'http://127.0.0.1:5173',
+  'https://ethiroli.net',
+  'http://ethiroli.net',
+  'https://www.ethiroli.net',
+  'http://www.ethiroli.net'
+];
+
+const parsedEnvOrigins = (process.env.ALLOWED_ORIGINS || process.env.FRONTEND_ORIGIN || '')
+  .split(',')
+  .map(o => o.trim())
+  .filter(Boolean);
+
+export const ALLOWED_ORIGINS = Array.from(new Set([...DEFAULT_ORIGIN_LIST, ...parsedEnvOrigins]));
+

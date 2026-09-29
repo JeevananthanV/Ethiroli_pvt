@@ -15,14 +15,20 @@ import apiVersioning from './middleware/apiVersioning.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const envOrigins = (process.env.ALLOWED_ORIGINS || process.env.FRONTEND_ORIGIN || '')
-  .split(',')
-  .map(o => o.trim())
-  .filter(Boolean);
+import { ALLOWED_ORIGINS } from './config/constants.js';
 
-const ALLOWED_ORIGINS = envOrigins.length > 0 
-  ? envOrigins 
-  : ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:5000', 'http://127.0.0.1:3000', 'http://127.0.0.1:5173'];
+const isAllowedOrigin = (origin) => {
+  if (!origin) return true;
+  if (ALLOWED_ORIGINS.includes(origin)) return true;
+  try {
+    const { hostname } = new URL(origin);
+    if (['localhost', '127.0.0.1', '::1'].includes(hostname)) return true;
+    if (hostname === 'ethiroli.net' || hostname.endsWith('.ethiroli.net')) return true;
+  } catch {
+    return false;
+  }
+  return false;
+};
 
 const app = express();
 
@@ -71,26 +77,16 @@ app.use((req, res, next) => {
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Strict CORS
+// Strict CORS with multi-environment support (localhost dev + production domain)
 app.use(cors({
   origin: (origin, callback) => {
-    let isLocalDevelopmentOrigin = false;
-    if (origin && process.env.NODE_ENV !== 'production') {
-      try {
-        const { hostname } = new URL(origin);
-        isLocalDevelopmentOrigin = ['localhost', '127.0.0.1', '::1'].includes(hostname);
-      } catch {
-        isLocalDevelopmentOrigin = false;
-      }
-    }
-
-    if (!origin || ALLOWED_ORIGINS.includes(origin) || isLocalDevelopmentOrigin) {
+    if (isAllowedOrigin(origin)) {
       return callback(null, true);
     }
-    callback(new Error('Not allowed by CORS'));
+    callback(new Error(`Not allowed by CORS: ${origin}`));
   },
   credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Portal'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Portal', 'X-CSRF-Token'],
   methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
 }));
 

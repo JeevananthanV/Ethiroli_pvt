@@ -11,17 +11,56 @@ const PASSWORD_HISTORY_LIMIT = 5;
 const BCRYPT_ROUNDS = 12;
 
 export class CredentialService {
+  static async ensureTable() {
+    try {
+      await pool.query(`
+        CREATE TABLE IF NOT EXISTS user_credentials (
+          user_id CHAR(36) PRIMARY KEY,
+          password_hash VARCHAR(255) NOT NULL,
+          password_algo VARCHAR(30) NOT NULL DEFAULT 'BCRYPT',
+          password_updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          failed_login_attempts INT NOT NULL DEFAULT 0,
+          lockout_until TIMESTAMP NULL DEFAULT NULL,
+          requires_password_change BOOLEAN NOT NULL DEFAULT FALSE,
+          password_history JSON NULL,
+          two_factor_secret VARCHAR(255) NULL DEFAULT NULL,
+          two_factor_enabled BOOLEAN NOT NULL DEFAULT FALSE,
+          created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          CONSTRAINT fk_uc_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+      `);
+    } catch (_) {
+      // Ignore if table or constraints exist
+    }
+  }
+
   /**
    * Retrieves credentials entry for a given user.
    * If missing (e.g. legacy user), creates an initial row from `users.password_hash`.
    */
   static async getCredentials(userId) {
-    const [rows] = await pool.query(
-      `SELECT * FROM user_credentials WHERE user_id = ? LIMIT 1`,
-      [userId]
-    );
+    let rows;
+    try {
+      const [result] = await pool.query(
+        `SELECT * FROM user_credentials WHERE user_id = ? LIMIT 1`,
+        [userId]
+      );
+      rows = result;
+    } catch (err) {
+      if (err.message && err.message.includes('user_credentials')) {
+        await this.ensureTable();
+        const [retryResult] = await pool.query(
+          `SELECT * FROM user_credentials WHERE user_id = ? LIMIT 1`,
+          [userId]
+        );
+        rows = retryResult;
+      } else {
+        throw err;
+      }
+    }
 
-    if (rows.length > 0) {
+    if (rows && rows.length > 0) {
       return rows[0];
     }
 

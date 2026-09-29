@@ -9,8 +9,6 @@
 --   lessons/lesson_blocks progress + certificate columns
 -- The runner is idempotent, so it is safe to run repeatedly.
 
-CREATE DATABASE IF NOT EXISTS ethiroli;
-USE ethiroli;
 
 -- Table 1: users
 CREATE TABLE IF NOT EXISTS users (

@@ -79,6 +79,9 @@ const seedAdminUser = async () => {
   }
 
   try {
+    const { CredentialService } = await import('./services/credentialService.js');
+    await CredentialService.ensureTable();
+
     const [rows] = await pool.execute(
       "SELECT id FROM users WHERE email = ? OR role = 'SUPER_ADMIN' LIMIT 1",
       [adminEmail]

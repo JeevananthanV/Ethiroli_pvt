@@ -158,11 +158,13 @@ const MPA_ROLE_MAP = [
 ];
 
 if (clientDist) {
-  const staticCacheHeaders = (req, res, filePath) => {
-    if (/\.(js|css|woff2?|ttf|eot|ico|png|jpe?g|gif|svg)$/.test(filePath)) {
-      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-    } else if (filePath.endsWith('.html')) {
-      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  const staticCacheHeaders = (res, filePath, stat) => {
+    if (typeof filePath === 'string') {
+      if (/\.(js|css|woff2?|ttf|eot|ico|png|jpe?g|gif|svg)$/i.test(filePath)) {
+        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      } else if (filePath.endsWith('.html')) {
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      }
     }
   };
   app.use(express.static(clientDist, { setHeaders: staticCacheHeaders }));

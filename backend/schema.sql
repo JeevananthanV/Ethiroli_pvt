@@ -1,7 +1,7 @@
 -- ============================================================================
 -- Ethiroli Complete All-in-One Database Schema
--- Generated on: 2026-09-29T11:05:17.804Z
--- Compatible with Hostinger MySQL & phpMyAdmin
+-- Generated on: 2026-09-29T11:09:50.712Z
+-- Compatible with Hostinger MySQL, LiteSpeed & phpMyAdmin
 -- ============================================================================
 
 SET FOREIGN_KEY_CHECKS = 0;
@@ -1510,34 +1510,44 @@ CREATE TABLE IF NOT EXISTS interview_schedules (
 -- TRIGGERS FOR updated_at COLUMNS
 -- ============================================
 
-CREATE TRIGGER trg_departments_updated_at AFTER UPDATE ON departments
+DROP TRIGGER IF EXISTS trg_departments_updated_at;
+CREATE TRIGGER trg_departments_updated_at BEFORE UPDATE ON departments
 FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP;
 
-CREATE TRIGGER trg_job_categories_updated_at AFTER UPDATE ON job_categories
+DROP TRIGGER IF EXISTS trg_job_categories_updated_at;
+CREATE TRIGGER trg_job_categories_updated_at BEFORE UPDATE ON job_categories
 FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP;
 
-CREATE TRIGGER trg_job_types_updated_at AFTER UPDATE ON job_types
+DROP TRIGGER IF EXISTS trg_job_types_updated_at;
+CREATE TRIGGER trg_job_types_updated_at BEFORE UPDATE ON job_types
 FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP;
 
-CREATE TRIGGER trg_application_statuses_updated_at AFTER UPDATE ON application_statuses
+DROP TRIGGER IF EXISTS trg_application_statuses_updated_at;
+CREATE TRIGGER trg_application_statuses_updated_at BEFORE UPDATE ON application_statuses
 FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP;
 
-CREATE TRIGGER trg_contact_inquiries_updated_at AFTER UPDATE ON contact_inquiries
+DROP TRIGGER IF EXISTS trg_contact_inquiries_updated_at;
+CREATE TRIGGER trg_contact_inquiries_updated_at BEFORE UPDATE ON contact_inquiries
 FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP;
 
-CREATE TRIGGER trg_contact_inquiry_attachments_updated_at AFTER UPDATE ON contact_inquiry_attachments
+DROP TRIGGER IF EXISTS trg_contact_inquiry_attachments_updated_at;
+CREATE TRIGGER trg_contact_inquiry_attachments_updated_at BEFORE UPDATE ON contact_inquiry_attachments
 FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP;
 
-CREATE TRIGGER trg_applications_updated_at AFTER UPDATE ON applications
+DROP TRIGGER IF EXISTS trg_applications_updated_at;
+CREATE TRIGGER trg_applications_updated_at BEFORE UPDATE ON applications
 FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP;
 
-CREATE TRIGGER trg_application_status_history_updated_at AFTER UPDATE ON application_status_history
+DROP TRIGGER IF EXISTS trg_application_status_history_updated_at;
+CREATE TRIGGER trg_application_status_history_updated_at BEFORE UPDATE ON application_status_history
 FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP;
 
-CREATE TRIGGER trg_candidate_documents_updated_at AFTER UPDATE ON candidate_documents
+DROP TRIGGER IF EXISTS trg_candidate_documents_updated_at;
+CREATE TRIGGER trg_candidate_documents_updated_at BEFORE UPDATE ON candidate_documents
 FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP;
 
-CREATE TRIGGER trg_interview_schedules_updated_at AFTER UPDATE ON interview_schedules
+DROP TRIGGER IF EXISTS trg_interview_schedules_updated_at;
+CREATE TRIGGER trg_interview_schedules_updated_at BEFORE UPDATE ON interview_schedules
 FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP;
 
 -- ============================================

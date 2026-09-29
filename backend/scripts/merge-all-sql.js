@@ -8,11 +8,21 @@ const migrationsDir = path.join(baseDir, 'migrations');
 const srcMigrationsDir = path.join(baseDir, 'src', 'migrations');
 const targetFile = path.join(baseDir, 'schema.sql');
 
+function sanitizeSql(sql) {
+  let cleaned = sql
+    .replace(/^CREATE DATABASE.*?;/gim, '')
+    .replace(/^USE .*?;/gim, '')
+    // Fix MySQL Error 1362: Updating of NEW row is not allowed in after trigger
+    .replace(/CREATE\s+TRIGGER\s+(\w+)\s+AFTER\s+UPDATE\s+ON/gi, 'DROP TRIGGER IF EXISTS $1;\nCREATE TRIGGER $1 BEFORE UPDATE ON')
+    .replace(/CREATE\s+TRIGGER\s+IF\s+NOT\s+EXISTS\s+(\w+)\s+AFTER\s+UPDATE\s+ON/gi, 'DROP TRIGGER IF EXISTS $1;\nCREATE TRIGGER $1 BEFORE UPDATE ON');
+  return cleaned.trim();
+}
+
 const output = [];
 output.push('-- ============================================================================');
 output.push('-- Ethiroli Complete All-in-One Database Schema');
 output.push(`-- Generated on: ${new Date().toISOString()}`);
-output.push('-- Compatible with Hostinger MySQL & phpMyAdmin');
+output.push('-- Compatible with Hostinger MySQL, LiteSpeed & phpMyAdmin');
 output.push('-- ============================================================================');
 output.push('');
 output.push('SET FOREIGN_KEY_CHECKS = 0;');
@@ -20,19 +30,12 @@ output.push('SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";');
 output.push('SET time_zone = "+00:00";');
 output.push('');
 
-function cleanSql(sql) {
-  return sql
-    .replace(/^CREATE DATABASE.*?;/gim, '')
-    .replace(/^USE .*?;/gim, '')
-    .trim();
-}
-
-// 1. Read base schema.sql (backup copy first)
-const originalBaseSchema = fs.readFileSync(targetFile, 'utf8');
+// 1. Read base schema.sql
+const baseSchema = fs.readFileSync(targetFile, 'utf8');
 output.push('-- ============================================================================');
 output.push('-- SECTION 1: Core Base Schema');
 output.push('-- ============================================================================');
-output.push(cleanSql(originalBaseSchema));
+output.push(sanitizeSql(baseSchema));
 output.push('');
 
 // 2. Read backend/migrations/*.sql
@@ -43,12 +46,12 @@ if (fs.existsSync(migrationsDir)) {
     output.push(`-- SECTION: backend/migrations/${f}`);
     output.push('-- ============================================================================');
     const content = fs.readFileSync(path.join(migrationsDir, f), 'utf8');
-    output.push(cleanSql(content));
+    output.push(sanitizeSql(content));
     output.push('');
   }
 }
 
-// 3. Read backend/src/migrations/*.sql (skip 002_analytics_tables.sql which is ClickHouse)
+// 3. Read backend/src/migrations/*.sql (skip 002_analytics_tables.sql ClickHouse)
 if (fs.existsSync(srcMigrationsDir)) {
   const files = fs.readdirSync(srcMigrationsDir).filter(f => f.endsWith('.sql') && f !== '002_analytics_tables.sql').sort();
   for (const f of files) {
@@ -56,7 +59,7 @@ if (fs.existsSync(srcMigrationsDir)) {
     output.push(`-- SECTION: backend/src/migrations/${f}`);
     output.push('-- ============================================================================');
     const content = fs.readFileSync(path.join(srcMigrationsDir, f), 'utf8');
-    output.push(cleanSql(content));
+    output.push(sanitizeSql(content));
     output.push('');
   }
 }
@@ -87,4 +90,4 @@ output.push('');
 
 const finalSql = output.join('\n');
 fs.writeFileSync(targetFile, finalSql, 'utf8');
-console.log(`Successfully generated unified schema.sql (${finalSql.length} bytes, ${finalSql.split('\n').length} lines)`);
+console.log(`Generated unified schema.sql (${finalSql.length} bytes, ${finalSql.split('\n').length} lines)`);

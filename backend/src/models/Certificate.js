@@ -1,10 +1,17 @@
 import crypto from 'crypto';
 import pool from '../config/database.js';
+import { decrypt } from '../config/encryption.js';
 
 export default class Certificate {
   static format(row) {
     if (!row) return null;
-    return row;
+    // Joined user identity is encrypted at rest - decrypt before rendering
+    // the certificate (learner name, email and issuing tutor).
+    const formatted = { ...row };
+    for (const field of ['student_name', 'student_email', 'tutor_name']) {
+      if (formatted[field]) formatted[field] = decrypt(formatted[field]) || formatted[field];
+    }
+    return formatted;
   }
 
   static async findById(id) {
@@ -77,5 +84,74 @@ export default class Certificate {
       [certificateNumber]
     );
     return rows.length > 0 ? this.format(rows[0]) : null;
+  }
+
+  /** Lookup by certificate number, regardless of verification state. */
+  static async findByCode(certificateNumber) {
+    const [rows] = await pool.execute(
+      'SELECT * FROM certificates WHERE certificate_number = ?',
+      [certificateNumber]
+    );
+    return rows.length > 0 ? this.format(rows[0]) : null;
+  }
+
+  /** Idempotency guard: has this learner already earned this course's certificate? */
+  static async findByStudentAndCourse(studentId, courseId) {
+    const [rows] = await pool.execute(
+      `SELECT * FROM certificates
+        WHERE student_id = ? AND course_id = ?
+        ORDER BY issue_date DESC, created_at DESC
+        LIMIT 1`,
+      [studentId, courseId]
+    );
+    return rows.length > 0 ? this.format(rows[0]) : null;
+  }
+
+  static detailSelect() {
+    return `SELECT cert.*,
+                   u.full_name AS student_name,
+                   u.email AS student_email,
+                   c.name AS course_name,
+                   c.code AS course_code,
+                   c.duration_days AS course_duration_days,
+                   t.full_name AS tutor_name,
+                   e.progress_percentage AS enrollment_progress
+              FROM certificates cert
+              JOIN users u ON u.id = cert.student_id
+              JOIN courses c ON c.id = cert.course_id
+              LEFT JOIN enrollments e ON e.id = cert.enrollment_id
+              LEFT JOIN users t ON t.id = c.tutor_id`;
+  }
+
+  /** Certificate joined with learner + course identity (what the UI renders). */
+  static async findByIdWithDetails(id) {
+    const [rows] = await pool.execute(`${this.detailSelect()} WHERE cert.id = ?`, [id]);
+    return rows.length > 0 ? this.format(rows[0]) : null;
+  }
+
+  static async findByCodeWithDetails(certificateNumber) {
+    const [rows] = await pool.execute(`${this.detailSelect()} WHERE cert.certificate_number = ?`, [certificateNumber]);
+    return rows.length > 0 ? this.format(rows[0]) : null;
+  }
+
+  static async listWithDetails({ student_id, course_id, limit = 50, offset = 0 } = {}) {
+    let query = `${this.detailSelect()} WHERE 1=1`;
+    const values = [];
+
+    if (student_id) { query += ' AND cert.student_id = ?'; values.push(student_id); }
+    if (course_id) { query += ' AND cert.course_id = ?'; values.push(course_id); }
+
+    query += ' ORDER BY cert.issue_date DESC LIMIT ? OFFSET ?';
+    values.push(limit, offset);
+
+    const [rows] = await pool.execute(query, values);
+    return rows.map(row => this.format(row));
+  }
+
+  /** True when the given user owns the certificate (ownership check for downloads). */
+  static async isOwnedBy(certificate, userId) {
+    if (!certificate) return false;
+    if (certificate.student_id === userId) return true;
+    return false;
   }
 }

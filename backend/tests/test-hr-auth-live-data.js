@@ -44,7 +44,7 @@ async function runHrAuthLiveDataTests() {
       // If user doesn't exist, create test HR user
       if (err.response?.status === 401) {
         console.log('   ⚠️ HR user not found, creating test user...');
-        const hashedPassword = require('bcrypt').hashSync('HrPassword123!', 10);
+        const hashedPassword = require('bcryptjs').hashSync('HrPassword123!', 10);
         const hrUser = await User.create({
           email: 'hr@ethiroli.com',
           full_name: 'HR Manager',

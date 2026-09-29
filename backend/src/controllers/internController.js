@@ -21,7 +21,7 @@ export const listInterns = asyncHandler(async (req, res) => {
   });
 });
 
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import User from '../models/User.js';
 
 export const createIntern = asyncHandler(async (req, res) => {
@@ -55,7 +55,9 @@ export const createIntern = asyncHandler(async (req, res) => {
     college_name: collegeName,
     stipend,
     start_date: startDate,
-    end_date: endDate
+    end_date: endDate,
+    project_target: req.body.project_target || null,
+    progress: req.body.progress !== undefined ? Number(req.body.progress) : 0
   });
   return success(res, 201, { id, user_id: userId }, 'Intern created successfully');
 });
@@ -70,13 +72,27 @@ export const updateIntern = asyncHandler(async (req, res) => {
   const intern = await Intern.findById(req.params.id);
   if (!intern) throw new NotFoundError('Intern not found');
   await Intern.update(req.params.id, req.body);
-  return success(res, 200, null, 'Intern updated successfully');
+
+  if (intern.user_id && (req.body.name || req.body.full_name || req.body.email)) {
+    const userUpdates = {};
+    if (req.body.name || req.body.full_name) userUpdates.full_name = req.body.name || req.body.full_name;
+    if (req.body.email) userUpdates.email = req.body.email;
+    await User.update(intern.user_id, userUpdates);
+  }
+
+  const updated = await Intern.findById(req.params.id);
+  return success(res, 200, updated, 'Intern updated successfully');
 });
 
 export const deleteIntern = asyncHandler(async (req, res) => {
   const intern = await Intern.findById(req.params.id);
   if (!intern) throw new NotFoundError('Intern not found');
   await Intern.delete(req.params.id);
+  if (intern.user_id) {
+    await User.softDelete(intern.user_id);
+    const pool = (await import('../config/database.js')).default;
+    await pool.query('DELETE FROM sessions WHERE user_id = ?', [intern.user_id]);
+  }
   return success(res, 200, null, 'Intern deleted successfully');
 });
 
@@ -90,5 +106,81 @@ export const getInternPortalConfig = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const config = await Intern.getPortalConfig(userId);
   return success(res, 200, config, 'Intern portal configuration retrieved');
+});
+
+export const getAvailableMentors = asyncHandler(async (req, res) => {
+  const pool = (await import('../config/database.js')).default;
+  const [rows] = await pool.execute(
+    `SELECT id, full_name, email, role FROM users 
+     WHERE role IN ('MENTOR', 'HR', 'ADMIN', 'SUPER_ADMIN') AND is_active = true
+     ORDER BY full_name`
+  );
+  return success(res, 200, rows, 'Available mentors retrieved');
+});
+
+export const bulkUpdateInterns = asyncHandler(async (req, res) => {
+  const { ids, data } = req.body;
+  if (!ids || !Array.isArray(ids) || ids.length === 0) {
+    return success(res, 400, null, 'No intern IDs provided');
+  }
+  
+  const pool = (await import('../config/database.js')).default;
+  const placeholders = ids.map(() => '?').join(',');
+  const updates = [];
+  const values = [];
+  
+  if (data.mentor_id !== undefined) { updates.push('mentor_id = ?'); values.push(data.mentor_id); }
+  if (data.progress !== undefined) { updates.push('progress = ?'); values.push(Number(data.progress)); }
+  if (data.status !== undefined) { updates.push('status = ?'); values.push(data.status); }
+  
+  if (updates.length === 0) {
+    return success(res, 400, null, 'No valid fields to update');
+  }
+  
+  values.push(...ids);
+  await pool.execute(`UPDATE interns SET ${updates.join(', ')} WHERE id IN (${placeholders})`, values);
+  
+  return success(res, 200, { updated: ids.length }, `${ids.length} interns updated successfully`);
+});
+
+export const exportInterns = asyncHandler(async (req, res) => {
+  const { mentor_id } = req.query;
+  
+  const pool = (await import('../config/database.js')).default;
+  let query = `
+    SELECT i.*, u.email, u.full_name, m.full_name as mentor_name 
+    FROM interns i
+    JOIN users u ON i.user_id = u.id
+    LEFT JOIN users m ON i.mentor_id = m.id
+  `;
+  const params = [];
+  
+  if (mentor_id) {
+    query += ' WHERE i.mentor_id = ?';
+    params.push(mentor_id);
+  }
+  
+  const [rows] = await pool.execute(query, params);
+  
+  // Format as CSV
+  const headers = ['ID', 'Name', 'Email', 'Mentor', 'College', 'Stipend', 'Start Date', 'End Date', 'Progress', 'Project Target'];
+  const csvRows = rows.map(row => [
+    row.id,
+    row.full_name,
+    row.email,
+    row.mentor_name || 'Unassigned',
+    row.college_name,
+    row.stipend,
+    row.start_date,
+    row.end_date,
+    row.progress,
+    row.project_target || ''
+  ]);
+  
+  const csvContent = [headers.join(','), ...csvRows.map(r => r.join(','))].join('\n');
+  
+  res.setHeader('Content-Type', 'text/csv');
+  res.setHeader('Content-Disposition', `attachment; filename=interns-export-${new Date().toISOString().slice(0,10)}.csv`);
+  return res.send(csvContent);
 });
 

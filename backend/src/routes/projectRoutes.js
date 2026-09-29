@@ -1,5 +1,5 @@
 import express from 'express';
-import { listStudentProjects, linkRepository, getStudentProject, updateStudentProject } from '../controllers/projectController.js';
+import { listStudentProjects, linkRepository, getStudentProject, updateStudentProject, deleteStudentProject } from '../controllers/projectController.js';
 import { authenticate } from '../middleware/auth.js';
 import { requireRole } from '../middleware/rbac.js';
 import { validateBody } from '../middleware/validation.js';
@@ -7,9 +7,23 @@ import { validateBody } from '../middleware/validation.js';
 const router = express.Router();
 router.use(authenticate);
 
-router.get('/student-projects/projects', requireRole('EMPLOYEE', 'INTERN', 'TUTOR', 'PROJECT_MANAGER', 'ADMIN', 'SUPER_ADMIN', 'RECEPTION'), listStudentProjects);
-router.post('/student-projects/projects', requireRole('TUTOR', 'PROJECT_MANAGER', 'ADMIN', 'SUPER_ADMIN'), validateBody('createStudentProject'), linkRepository);
-router.get('/student-projects/projects/:id', requireRole('EMPLOYEE', 'INTERN', 'TUTOR', 'PROJECT_MANAGER', 'ADMIN', 'SUPER_ADMIN', 'RECEPTION'), getStudentProject);
-router.patch('/student-projects/projects/:id', requireRole('TUTOR', 'PROJECT_MANAGER', 'ADMIN', 'SUPER_ADMIN'), validateBody('createStudentProject'), updateStudentProject);
+const viewRoles = requireRole('STUDENT', 'EMPLOYEE', 'INTERN', 'TUTOR', 'PROJECT_MANAGER', 'ADMIN', 'SUPER_ADMIN', 'RECEPTION');
+const editRoles = requireRole('STUDENT', 'TUTOR', 'PROJECT_MANAGER', 'ADMIN', 'SUPER_ADMIN');
+
+// /student-projects/projects endpoints
+router.get('/student-projects/projects', viewRoles, listStudentProjects);
+router.post('/student-projects/projects', editRoles, validateBody('createStudentProject'), linkRepository);
+router.get('/student-projects/projects/:id', viewRoles, getStudentProject);
+router.put('/student-projects/projects/:id', editRoles, updateStudentProject);
+router.patch('/student-projects/projects/:id', editRoles, updateStudentProject);
+router.delete('/student-projects/projects/:id', editRoles, deleteStudentProject);
+
+// /projects aliases for global frontend projectApi
+router.get('/projects', viewRoles, listStudentProjects);
+router.post('/projects', editRoles, linkRepository);
+router.get('/projects/:id', viewRoles, getStudentProject);
+router.put('/projects/:id', editRoles, updateStudentProject);
+router.patch('/projects/:id', editRoles, updateStudentProject);
+router.delete('/projects/:id', editRoles, deleteStudentProject);
 
 export default router;

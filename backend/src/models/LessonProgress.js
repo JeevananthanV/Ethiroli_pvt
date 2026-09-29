@@ -101,4 +101,15 @@ export default class LessonProgress {
     );
     return rows.map(r => r.lesson_id);
   }
+
+  /** Single-lesson completion lookup for the learner-facing player. */
+  static async findByStudentAndLesson(studentId, lessonId) {
+    const [rows] = await pool.execute(
+      `SELECT id, status, is_completed, completed_at, seconds_watched
+         FROM lesson_progress
+        WHERE student_id = ? AND lesson_id = ?`,
+      [studentId, lessonId]
+    );
+    return rows.length > 0 ? this.format(rows[0]) : null;
+  }
 }

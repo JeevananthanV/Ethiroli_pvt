@@ -15,7 +15,10 @@ import leaveRoutes from './leaveRoutes.js';
 import courseRoutes from './courseRoutes.js';
 import moduleRoutes from './moduleRoutes.js';
 import lessonRoutes from './lessonRoutes.js';
+import progressRoutes from './progressRoutes.js';
 import enrollmentRoutes from './enrollmentRoutes.js';
+import technologyRoutes from './technologyRoutes.js';
+import curriculumRoutes from './curriculumRoutes.js';
 import quizRoutes from './quizRoutes.js';
 import questionBankRoutes from './questionBankRoutes.js';
 import assignmentRoutes from './assignmentRoutes.js';
@@ -77,14 +80,10 @@ import pmRoutes from './pmRoutes.js';
 import financeRoutes from './financeRoutes.js';
 import salesRoutes from './salesRoutes.js';
 import receptionRoutes from './receptionRoutes.js';
+import tutorRoutes from './tutorRoutes.js';
 
 import adminAuthRoutes from './admin/authRoutes.js';
-import vendorAuthRoutes from './vendor/authRoutes.js';
-import clientAuthRoutes from './client/authRoutes.js';
-
 import adminRoutes from './admin/adminRoutes.js';
-import vendorRoutes from './vendor/vendorRoutes.js';
-import clientPortalRoutes from './client/clientRoutes.js';
 
 import eventTypeRoutes from './eventTypeRoutes.js';
 import securityRoutes from './securityRoutes.js';
@@ -117,12 +116,7 @@ router.use('/v1/system', systemRoutes);
 router.use('/v1/role', roleRoutes);
 
 router.use('/v1/admin/auth', adminAuthRoutes);
-router.use('/v1/vendor/auth', vendorAuthRoutes);
-router.use('/v1/client/auth', clientAuthRoutes);
-
 router.use('/v1/admin', adminRoutes);
-router.use('/v1/vendor', vendorRoutes);
-router.use('/v1/client', clientPortalRoutes);
 
 router.use('/v1', employeeRoutes);
 router.use('/v1', internRoutes);
@@ -131,7 +125,10 @@ router.use('/v1', leaveRoutes);
 router.use('/v1', courseRoutes);
 router.use('/v1', moduleRoutes);
 router.use('/v1', lessonRoutes);
+router.use('/v1', progressRoutes);
 router.use('/v1', enrollmentRoutes);
+router.use('/v1', technologyRoutes);
+router.use('/v1', curriculumRoutes);
 router.use('/v1', quizRoutes);
 router.use('/v1', questionBankRoutes);
 router.use('/v1', assignmentRoutes);
@@ -184,6 +181,7 @@ router.use('/v1', hrDashboardRoutes);
 router.use('/v1', employeeDocumentRoutes);
 router.use('/v1', exitRoutes);
 router.use('/v1/employee', employeePortalRoutes);
+router.use('/v1/tutor', tutorRoutes);
 router.use('/v1/lms', lmsRoutes);
 router.use('/v1/operations', operationsRoutes);
 router.use('/v1/pm', pmRoutes);

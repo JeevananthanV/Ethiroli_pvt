@@ -9,9 +9,13 @@ export const listMindMapNodes = asyncHandler(async (req, res) => {
   const { page = 1, limit = 50 } = req.query;
   const offset = (parseInt(page) - 1) * parseInt(limit);
 
+  // Learners read the shared curriculum mind map (authored by tutors/admins);
+  // everyone else keeps seeing only the maps they own.
+  const ownerFilter = req.user.role === 'STUDENT' ? undefined : req.user.id;
+
   const [items, countRow] = await Promise.all([
-    MindMapNode.list({ user_id: req.user.id, limit: parseInt(limit), offset }),
-    MindMapNode.count({ user_id: req.user.id })
+    MindMapNode.list({ user_id: ownerFilter, limit: parseInt(limit), offset }),
+    MindMapNode.count({ user_id: ownerFilter })
   ]);
 
   return success(res, 200, items, 'Mind map nodes retrieved', {

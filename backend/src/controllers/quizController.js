@@ -8,13 +8,21 @@ import { success } from '../utils/response.js';
 import { NotFoundError, BadRequestError } from '../utils/errors.js';
 import pool from '../config/database.js';
 
+const STAFF_ROLES = ['TUTOR', 'ADMIN', 'SUPER_ADMIN'];
+/** Staff may see answer keys and unpublished quizzes; everyone else gets the student view. */
+const isStaff = (user) => STAFF_ROLES.includes(user?.role);
+
 export const listQuizzes = asyncHandler(async (req, res) => {
   const { course_id, is_published, page = 1, limit = 50 } = req.query;
   const offset = (parseInt(page) - 1) * parseInt(limit);
 
+  // Learners only ever see published quizzes, no matter what they pass in.
+  const publishedFilter =
+    is_published !== undefined ? is_published === 'true' : isStaff(req.user) ? undefined : true;
+
   const [items, countRow] = await Promise.all([
-    Quiz.list({ course_id, is_published: is_published !== undefined ? is_published === 'true' : undefined, limit: parseInt(limit), offset }),
-    Quiz.count({ course_id, is_published: is_published !== undefined ? is_published === 'true' : undefined })
+    Quiz.list({ course_id, is_published: publishedFilter, limit: parseInt(limit), offset }),
+    Quiz.count({ course_id, is_published: publishedFilter })
   ]);
 
   // Attach questions count for each quiz
@@ -64,7 +72,11 @@ export const getQuiz = asyncHandler(async (req, res) => {
   const quiz = await Quiz.findById(req.params.id);
   if (!quiz) throw new NotFoundError('Quiz not found');
 
-  const questions = await Quiz.getQuestionsWithAnswers(req.params.id);
+  // Answer keys are staff-only: learners receive the same stripped payload /take returns.
+  const questions = isStaff(req.user)
+    ? await Quiz.getQuestionsWithAnswers(req.params.id)
+    : await Quiz.getQuestionsForStudent(req.params.id);
+
   return success(res, 200, { ...quiz, questions }, 'Quiz retrieved');
 });
 

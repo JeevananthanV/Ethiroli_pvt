@@ -1,7 +1,9 @@
 export const ROLES = {
   SUPER_ADMIN: 'SUPER_ADMIN',
+  HR_SUPERADMIN: 'HR_SUPERADMIN',
   ADMIN: 'ADMIN',
   HR: 'HR',
+  SENIOR_TUTOR: 'SENIOR_TUTOR',
   TUTOR: 'TUTOR',
   PROJECT_MANAGER: 'PROJECT_MANAGER',
   FINANCE: 'FINANCE',
@@ -9,9 +11,19 @@ export const ROLES = {
   RECEPTION: 'RECEPTION',
   EMPLOYEE: 'EMPLOYEE',
   STUDENT: 'STUDENT',
-  INTERN: 'INTERN',
-  CLIENT: 'CLIENT',
-  VENDOR: 'VENDOR'
+  INTERN: 'INTERN'
+};
+
+/**
+ * Impersonation (member-aware role switching) rules.
+ * Defines which roles are allowed to impersonate which target roles.
+ * - SUPER_ADMIN can impersonate every role except SUPER_ADMIN.
+ * - ADMIN can impersonate only EMPLOYEE / INTERN / STUDENT users
+ *   within the same organization (single-business rule is enforced at runtime).
+ */
+export const IMPERSONATION_TARGETS = {
+  SUPER_ADMIN: Object.values(ROLES).filter((role) => role !== ROLES.SUPER_ADMIN),
+  ADMIN: [ROLES.EMPLOYEE, ROLES.INTERN, ROLES.STUDENT]
 };
 
 export const LEAD_STATUS = {
@@ -231,22 +243,6 @@ export const PORTAL_CONFIGS = {
     oauthProviders: [],
     sessionDuration: 24 * 60 * 60,
     cookiePath: '/app/intern'
-  },
-  CLIENT: {
-    slug: 'client',
-    strategies: ['password'],
-    mfaRequired: false,
-    oauthProviders: [],
-    sessionDuration: 24 * 60 * 60,
-    cookiePath: '/app/client'
-  },
-  VENDOR: {
-    slug: 'vendor',
-    strategies: ['password'],
-    mfaRequired: false,
-    oauthProviders: [],
-    sessionDuration: 24 * 60 * 60,
-    cookiePath: '/app/vendor'
   }
 };
 

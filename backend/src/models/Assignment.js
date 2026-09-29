@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import pool from '../config/database.js';
 
 export default class Assignment {
@@ -12,12 +13,16 @@ export default class Assignment {
   }
 
   static async create({ course_id, title, description, due_date = null, max_score = 100 }) {
-    const [result] = await pool.execute(
-      `INSERT INTO assignments (course_id, title, description, due_date, max_score)
-       VALUES (?, ?, ?, ?, ?)`,
-      [course_id, title, description, due_date, max_score]
+    // Generate the UUID in JS: the column defaults to UUID() server-side, which
+    // is never surfaced back through `insertId`, so the caller would otherwise
+    // receive a meaningless `result.info` string.
+    const id = crypto.randomUUID();
+    await pool.execute(
+      `INSERT INTO assignments (id, course_id, title, description, due_date, max_score)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [id, course_id, title, description, due_date, max_score]
     );
-    return result.insertId || result.info;
+    return id;
   }
 
   static async update(id, updates) {
@@ -65,14 +70,43 @@ export default class Assignment {
     return this.list({ course_id: courseId, limit: 1000 });
   }
 
+  /**
+   * Assignments for every course the learner is enrolled in, annotated with
+   * that learner's own submission (grade, feedback, submitted/graded timestamps).
+   */
   static async listByStudentId(studentId) {
     const [rows] = await pool.execute(
-      `SELECT a.*, s.grade, s.feedback, s.submitted_at
-       FROM assignments a
-       LEFT JOIN assignment_submissions s ON a.id = s.assignment_id AND s.student_id = ?
-       WHERE a.course_id IN (SELECT course_id FROM enrollments WHERE student_id = ?)`,
+      `SELECT a.*,
+              c.name AS course_name,
+              c.code AS course_code,
+              s.id AS submission_id,
+              s.file_url AS submission_file_url,
+              s.text_content AS submission_text_content,
+              s.grade, s.feedback, s.submitted_at, s.graded_at
+         FROM assignments a
+         JOIN courses c ON c.id = a.course_id
+         LEFT JOIN assignment_submissions s
+                ON s.assignment_id = a.id
+               AND s.student_id = ?
+        WHERE a.course_id IN (SELECT course_id FROM enrollments WHERE student_id = ?)
+        ORDER BY a.due_date IS NULL, a.due_date ASC, a.created_at DESC`,
       [studentId, studentId]
     );
-    return rows;
+    return rows.map(row => this.format(row));
+  }
+
+  /** Assignments for a set of courses (used for cohort/roster views). */
+  static async listByCourseIds(courseIds) {
+    if (!Array.isArray(courseIds) || courseIds.length === 0) return [];
+    const placeholders = courseIds.map(() => '?').join(', ');
+    const [rows] = await pool.execute(
+      `SELECT a.*, c.name AS course_name, c.code AS course_code
+         FROM assignments a
+         JOIN courses c ON c.id = a.course_id
+        WHERE a.course_id IN (${placeholders})
+        ORDER BY a.due_date IS NULL, a.due_date ASC, a.created_at DESC`,
+      courseIds
+    );
+    return rows.map(row => this.format(row));
   }
 }

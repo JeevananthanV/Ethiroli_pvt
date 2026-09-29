@@ -41,7 +41,11 @@ export const validateBody = (schemaInput) => {
 
         if (value === undefined || value === null) continue;
 
-        if (rules.type && typeof value !== rules.type) {
+        if (rules.type === 'array') {
+          if (!Array.isArray(value)) {
+            errors.push({ field, message: `${field} must be an array`, code: 'INVALID_TYPE', received: typeof value });
+          }
+        } else if (rules.type && typeof value !== rules.type) {
           errors.push({ field, message: `${field} must be of type ${rules.type}`, code: 'INVALID_TYPE', received: typeof value });
         }
 

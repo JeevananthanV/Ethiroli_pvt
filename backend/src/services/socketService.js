@@ -1,8 +1,11 @@
 import { Server } from 'socket.io';
-import { createAdapter } from '@socket.io/cluster-adapter';
+import { createAdapter } from '@socket.io/redis-adapter';
+import { createAdapter as createClusterAdapter } from '@socket.io/cluster-adapter';
 import Session from '../models/Session.js';
 import { logger } from '../config/logger.js';
 import { ALLOWED_ORIGINS } from '../config/constants.js';
+import { getRedisClient } from '../config/redis.js';
+import { lookupSession } from '../middleware/auth.js';
 
 let io = null;
 
@@ -18,13 +21,49 @@ export const initSocketServer = (server) => {
     pingInterval: Number(process.env.SOCKET_PING_INTERVAL || 25000)
   });
 
-  if (process.env.CLUSTER_MODE === 'true') {
-    try {
-      io.adapter(createAdapter());
-      logger.info('Socket.IO Cluster worker adapter enabled');
-    } catch (err) {
-      logger.warn('Socket.IO cluster adapter init warning', { error: err.message });
+  // Initialize adapters for horizontal scaling
+  const isClusterMode = process.env.CLUSTER_MODE === 'true';
+
+  try {
+    if (isClusterMode) {
+      // Use Redis adapter for cluster mode
+      const pubClient = getRedisClient();
+      const subClient = pubClient.duplicate();
+
+      const adapter = createAdapter(pubClient, subClient);
+      io.adapter(adapter);
+
+      logger.info('Socket.IO Redis adapter initialized for cluster mode');
+
+      // Handle Redis adapter events
+      pubClient.on('connect', () => {
+        logger.info('Redis publisher client connected');
+      });
+
+      subClient.on('connect', () => {
+        logger.info('Redis subscriber client connected');
+      });
+
+      pubClient.on('error', (err) => {
+        logger.error('Redis publisher client error', { error: err.message });
+      });
+
+      subClient.on('error', (err) => {
+        logger.error('Redis subscriber client error', { error: err.message });
+      });
+    } else if (typeof process.send === 'function') {
+      // Use cluster adapter for backward compatibility if running in cluster worker
+      const clusterAdapter = createClusterAdapter();
+      io.adapter(clusterAdapter);
+
+      logger.info('Socket.IO cluster adapter initialized for backward compatibility');
+    } else {
+      logger.info('Socket.IO running in standalone single instance mode');
     }
+  } catch (err) {
+    logger.error('Failed to initialize Socket.IO adapter', { error: err.message, stack: err.stack });
+    // Continue without adapter - will work in single instance mode
+    logger.warn('Socket.IO running without adapter (single instance mode)');
   }
 
   io.use(async (socket, next) => {
@@ -35,7 +74,7 @@ export const initSocketServer = (server) => {
     }
 
     try {
-      const session = await Session.findByToken(token);
+      const session = await lookupSession(token);
       if (!session || !session.is_active) {
         return next(new Error('Authentication failed. Invalid or inactive session.'));
       }

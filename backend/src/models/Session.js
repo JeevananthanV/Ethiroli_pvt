@@ -1,9 +1,89 @@
 import pool from '../config/database.js';
+import { getRedisClient } from '../config/redis.js';
+import { logger } from '../config/logger.js';
+
+const SESSION_CACHE_PREFIX = 'session:';
+const SESSION_CACHE_TTL = 30 * 60; // 30 minutes in seconds
+
+const getSessionCacheKey = (token) => `${SESSION_CACHE_PREFIX}${token}`;
 
 export default class Session {
   static format(row) {
     if (!row) return null;
     return row;
+  }
+
+  static async findByTokenRedis(token) {
+    try {
+      const redis = getRedisClient();
+      if (!redis || redis.status !== 'ready') {
+        return null;
+      }
+
+      const key = getSessionCacheKey(token);
+      const cached = await redis.get(key);
+
+      if (cached) {
+        logger.info('Session cache hit', { token: token.slice(0, 8) + '...' });
+        const sessionData = JSON.parse(cached);
+        await redis.expire(key, SESSION_CACHE_TTL).catch((err) => {
+          logger.warn('Failed to refresh session cache TTL', { error: err.message });
+        });
+        return sessionData;
+      }
+
+      logger.info('Session cache miss', { token: token.slice(0, 8) + '...' });
+      return null;
+    } catch (error) {
+      logger.warn('Redis session lookup failed', { error: error.message });
+      return null;
+    }
+  }
+
+  static async setSessionRedis(session) {
+    try {
+      const redis = getRedisClient();
+      if (!redis || redis.status !== 'ready') {
+        return;
+      }
+
+      const key = getSessionCacheKey(session.token);
+      await redis.setex(key, SESSION_CACHE_TTL, JSON.stringify(session));
+      logger.info('Session cached in Redis', { session_id: session.id });
+    } catch (error) {
+      logger.warn('Failed to cache session in Redis', { error: error.message });
+    }
+  }
+
+  static async deleteSessionRedis(token) {
+    try {
+      const redis = getRedisClient();
+      if (!redis || redis.status !== 'ready') {
+        return;
+      }
+
+      const key = getSessionCacheKey(token);
+      await redis.del(key);
+      logger.info('Session cache deleted', { token: token.slice(0, 8) + '...' });
+    } catch (error) {
+      logger.warn('Failed to delete session cache in Redis', { error: error.message });
+    }
+  }
+
+  static async refreshSessionTTL(token) {
+    try {
+      const redis = getRedisClient();
+      if (!redis) {
+        logger.debug('Redis client unavailable, skipping TTL refresh', { token: token.slice(0, 8) + '...' });
+        return;
+      }
+
+      const key = getSessionCacheKey(token);
+      await redis.expire(key, SESSION_CACHE_TTL);
+      logger.info('Session cache TTL refreshed', { token: token.slice(0, 8) + '...' });
+    } catch (error) {
+      logger.warn('Failed to refresh session cache TTL', { error: error.message });
+    }
   }
 
   static async findById(id) {
@@ -14,21 +94,24 @@ export default class Session {
   static async findByToken(token) {
     const [rows] = await pool.execute(
       `SELECT s.*, u.role, u.email, u.full_name, u.is_active,
-              tu.tenant_id, tu.tenant_role
+              tu.tenant_id, tu.tenant_role,
+              im.role AS impersonator_role,
+              im.full_name AS impersonated_by_name
        FROM sessions s
        JOIN users u ON s.user_id = u.id
        LEFT JOIN tenant_users tu ON tu.user_id = u.id AND tu.is_primary = 1
+       LEFT JOIN users im ON s.impersonated_by = im.id
        WHERE s.token = ? AND s.expires_at > CURRENT_TIMESTAMP`,
       [token]
     );
     return rows.length > 0 ? this.format(rows[0]) : null;
   }
 
-  static async create({ user_id, token, expires_at, user_agent = null, ip_address = null, portal_slug = 'app' }) {
+  static async create({ user_id, token, expires_at, user_agent = null, ip_address = null, portal_slug = 'app', impersonated_by = null, impersonation_origin_token = null }) {
     await pool.execute(
-      `INSERT INTO sessions (user_id, token, portal_slug, expires_at, user_agent, ip_address)
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [user_id, token, portal_slug, expires_at, user_agent, ip_address]
+      `INSERT INTO sessions (user_id, token, portal_slug, expires_at, user_agent, ip_address, impersonated_by, impersonation_origin_token)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [user_id, token, portal_slug, expires_at, user_agent, ip_address, impersonated_by, impersonation_origin_token]
     );
   }
 

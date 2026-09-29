@@ -16,7 +16,13 @@ export default class UserBadge {
       'INSERT IGNORE INTO user_badges (user_id, badge_id) VALUES (?, ?)',
       [user_id, badge_id]
     );
+    return `${user_id}_${badge_id}`;
   }
+
+  static async create({ user_id, badge_id }) {
+    return this.award({ user_id, badge_id });
+  }
+
 
   static async delete(id) {
     await pool.execute('DELETE FROM user_badges WHERE id = ?', [id]);

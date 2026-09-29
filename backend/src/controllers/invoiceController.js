@@ -88,3 +88,44 @@ export const updateInvoiceStatus = asyncHandler(async (req, res) => {
   });
   return success(res, 200, null, 'Invoice status updated');
 });
+
+export const updateInvoice = asyncHandler(async (req, res) => {
+  const invoice = await Invoice.findById(req.params.id);
+  if (!invoice) throw new NotFoundError('Invoice not found');
+
+  await Invoice.update(req.params.id, req.body);
+  const updated = await Invoice.findById(req.params.id);
+
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'UPDATE_INVOICE',
+    entity_type: 'INVOICE',
+    entity_id: req.params.id,
+    old_value: invoice,
+    new_value: req.body,
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+
+  return success(res, 200, updated, 'Invoice updated successfully');
+});
+
+export const deleteInvoice = asyncHandler(async (req, res) => {
+  const invoice = await Invoice.findById(req.params.id);
+  if (!invoice) throw new NotFoundError('Invoice not found');
+
+  await Invoice.delete(req.params.id);
+
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'DELETE_INVOICE',
+    entity_type: 'INVOICE',
+    entity_id: req.params.id,
+    old_value: invoice,
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+
+  return success(res, 200, null, 'Invoice deleted successfully');
+});
+

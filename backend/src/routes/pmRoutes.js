@@ -3,6 +3,8 @@ import {
   listProjects,
   getProjectDetails,
   createProject,
+  updateProject,
+  deleteProject,
   listMilestones,
   createMilestone,
   signoffMilestone,
@@ -32,6 +34,9 @@ const pmRole = requireRole('PROJECT_MANAGER', 'ADMIN', 'SUPER_ADMIN');
 router.get('/projects', listProjects);
 router.get('/projects/:id', getProjectDetails);
 router.post('/projects', pmRole, createProject);
+router.put('/projects/:id', pmRole, updateProject);
+router.patch('/projects/:id', pmRole, updateProject);
+router.delete('/projects/:id', pmRole, deleteProject);
 
 // Milestones
 router.get('/milestones', listMilestones);

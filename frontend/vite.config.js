@@ -3,15 +3,50 @@ import react from '@vitejs/plugin-react'
 import { resolve, dirname } from 'path'
 import { existsSync } from 'fs'
 
-// Custom plugin to route /app/* and /admin/* requests to admin.html in dev mode
+// Custom plugin to route deep links (/app/*, /auth/*, ...) to the matching
+// portal html in dev mode, e.g. /app/tutor/dashboard -> /tutor.html.
+const ROLE_HTML = [
+  ['/app/super-admin', '/super-admin.html'],
+  ['/app/student', '/student.html'],
+  ['/app/intern', '/intern.html'],
+  ['/app/tutor', '/tutor.html'],
+  ['/app/pm', '/pm.html'],
+  ['/app/finance', '/finance.html'],
+  ['/app/sales', '/sales.html'],
+  ['/app/reception', '/reception.html'],
+  ['/app/employee', '/employee.html'],
+  ['/app/hr', '/hr.html'],
+  ['/app/admin', '/admin.html'],
+  ['/auth/student', '/student.html'],
+  ['/auth/intern', '/intern.html'],
+  ['/auth/tutor', '/tutor.html'],
+  ['/auth/pm', '/pm.html'],
+  ['/auth/finance', '/finance.html'],
+  ['/auth/sales', '/sales.html'],
+  ['/auth/reception', '/reception.html'],
+  ['/auth/employee', '/employee.html'],
+  ['/auth/hr', '/hr.html'],
+  ['/auth/super-admin', '/super-admin.html'],
+  ['/auth/admin', '/admin.html'],
+  ['/student', '/student.html'],
+  ['/intern', '/intern.html'],
+  ['/employee', '/employee.html'],
+  ['/dashboard', '/admin.html'],
+];
+
+const roleEntryHtml = (url) => {
+  const hit = ROLE_HTML.find(([prefix]) => url.startsWith(prefix));
+  return hit ? hit[1] : '/admin.html';
+};
+
 const multiPageRewritePlugin = () => ({
   name: 'multi-page-rewrite',
   configureServer(server) {
     server.middlewares.use((req, res, next) => {
       const url = req.url ? req.url.split('?')[0] : '';
-      const rolePaths = ['/app', '/admin', '/auth', '/dashboard', '/intern'];
+      const rolePaths = ['/app', '/admin', '/auth', '/dashboard', '/intern', '/student', '/employee'];
       if (rolePaths.some((path) => url.startsWith(path)) && !url.includes('.')) {
-        req.url = '/admin.html';
+        req.url = roleEntryHtml(url);
       }
       next();
     });

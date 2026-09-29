@@ -30,6 +30,8 @@ export const createModule = asyncHandler(async (req, res) => {
   const id = await Module.create({
     course_id: courseId,
     title: req.body.title,
+    description: req.body.description || null,
+    duration_minutes: req.body.duration_minutes ?? null,
     module_order: moduleOrder
   });
 
@@ -46,7 +48,12 @@ export const createModule = asyncHandler(async (req, res) => {
   broadcastToRole('TUTOR', 'module_created', { id, courseId });
   broadcastToRoom(`course:${courseId}`, 'course_curriculum_updated', { courseId });
 
-  return success(res, 201, { id, title: req.body.title, module_order: moduleOrder }, 'Module created successfully');
+  return success(
+    res,
+    201,
+    { id, title: req.body.title, module_order: moduleOrder },
+    'Module created successfully'
+  );
 });
 
 export const getModule = asyncHandler(async (req, res) => {
@@ -61,6 +68,8 @@ export const updateModule = asyncHandler(async (req, res) => {
 
   const updates = {
     title: req.body.title !== undefined ? req.body.title : mod.title,
+    description: req.body.description !== undefined ? req.body.description : mod.description,
+    duration_minutes: req.body.duration_minutes !== undefined ? req.body.duration_minutes : mod.duration_minutes,
     module_order: req.body.module_order !== undefined ? req.body.module_order : (req.body.order !== undefined ? req.body.order : mod.module_order)
   };
 

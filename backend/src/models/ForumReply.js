@@ -1,9 +1,13 @@
 import pool from '../config/database.js';
+import { decrypt } from '../config/encryption.js';
 
 export default class ForumReply {
   static format(row) {
     if (!row) return null;
-    return row;
+    const formatted = { ...row };
+    if (formatted.author_name) formatted.author_name = decrypt(formatted.author_name) || formatted.author_name;
+    if (formatted.author_email) formatted.author_email = decrypt(formatted.author_email) || formatted.author_email;
+    return formatted;
   }
 
   static async findById(id) {

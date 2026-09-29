@@ -89,6 +89,7 @@ export const ROLE_NAVIGATION = Object.freeze({
     { label: 'Learning', path: '/app/admin/learning', icon: 'menu_book', children: [
       { label: 'Courses', path: '/app/admin/courses', icon: 'menu_book' },
       { label: 'Curriculum', path: '/app/admin/curriculum', icon: 'library_books' },
+      { label: 'Assignments', path: '/app/admin/assignments', icon: 'assignment' },
       { label: 'Batches', path: '/app/admin/batches', icon: 'groups' },
       { label: 'Training', path: '/app/admin/training', icon: 'school' },
     ]},
@@ -231,11 +232,12 @@ export const ROLE_NAVIGATION = Object.freeze({
   STUDENT: [
     { label: 'Dashboard', path: '/app/student/dashboard', icon: 'dashboard' },
     { label: 'My Courses', path: '/app/student/courses', icon: 'menu_book' },
+    { label: 'Course Modules', path: '/app/student/modules', icon: 'library_books' },
     { label: 'Course Player', path: '/app/student/course-player', icon: 'play_circle' },
     { label: 'Live Classes', path: '/app/student/live-classes', icon: 'video_call' },
     { label: 'Live Quiz', path: '/app/student/live-quiz', icon: 'quiz' },
     { label: 'Calendar', path: '/app/student/calendar', icon: 'calendar_month' },
-    { label: 'Assessments', path: '/app/student/assessments', icon: 'assignment' },
+    { label: 'Assessments', path: '/app/student/quiz', icon: 'assignment' },
     { label: 'Assignments', path: '/app/student/assignments', icon: 'assignment' },
     { label: 'Projects', path: '/app/student/projects', icon: 'code' },
     { label: 'Attendance', path: '/app/student/attendance', icon: 'schedule' },

@@ -7,7 +7,16 @@ import { success } from '../utils/response.js';
 import { NotFoundError, BadRequestError } from '../utils/errors.js';
 
 export const listCourses = asyncHandler(async (req, res) => {
-  const list = await Course.list({ tutor_id: req.query.tutor_id });
+  const { role } = req.user;
+
+  // Scope the catalogue by caller:
+  //   TUTOR   -> only courses assigned to them (their "My Courses")
+  //   STUDENT -> only published courses (drafts are not enrol-able)
+  //   ADMIN+  -> everything, optionally filtered by ?tutor_id / ?is_active
+  const tutor_id = role === 'TUTOR' ? req.user.id : req.query.tutor_id;
+  const is_active = role === 'STUDENT' ? true : req.query.is_active;
+
+  const list = await Course.list({ tutor_id, is_active });
   return success(res, 200, list);
 });
 

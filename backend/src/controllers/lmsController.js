@@ -6,6 +6,7 @@ import Enrollment from '../models/Enrollment.js';
 import Attendance from '../models/Attendance.js';
 import UserBadge from '../models/UserBadge.js';
 import Certificate from '../models/Certificate.js';
+import { decrypt } from '../config/encryption.js';
 import { broadcastToRoom, broadcastToUser } from '../services/socketService.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 import { success, error } from '../utils/response.js';
@@ -30,10 +31,11 @@ export const getLMSOverview = asyncHandler(async (req, res) => {
       certificates
     ] = await Promise.all([
       pool.execute(
-        `SELECT e.*, c.name, c.code, c.description, c.duration_days, c.fee
+        `SELECT e.*, c.name, c.name as title, c.name as course_name, c.code, c.code as course_code, c.description, c.duration_days, c.fee, t.full_name as assigned_by_tutor_name
          FROM enrollments e
          JOIN courses c ON e.course_id = c.id
-         WHERE e.student_id = ? AND e.status = 'ACTIVE'`,
+         LEFT JOIN users t ON e.assigned_by_tutor_id = t.id
+         WHERE e.student_id = ? AND e.status IN ('ACTIVE', 'ENROLLED', 'COMPLETED')`,
         [userId]
       ),
       Batch.listStudentBatches(userId),
@@ -48,7 +50,7 @@ export const getLMSOverview = asyncHandler(async (req, res) => {
       ),
       pool.execute(
         `SELECT a.id, a.title, a.due_date, a.max_score, c.name as course_name,
-                s.status as submission_status, s.grade
+                CASE WHEN s.id IS NOT NULL THEN 'SUBMITTED' ELSE 'PENDING' END as submission_status, s.grade
          FROM assignments a
          JOIN courses c ON a.course_id = c.id
          JOIN enrollments e ON c.id = e.course_id
@@ -71,13 +73,20 @@ export const getLMSOverview = asyncHandler(async (req, res) => {
       Certificate.list({ student_id: userId, limit: 10 })
     ]);
 
-    const totalDays = attendanceStats[0]?.total_days || 0;
-    const presentDays = attendanceStats[0]?.present_days || 0;
+    const totalDays = Number(attendanceStats[0]?.total_days || 0);
+    const presentDays = Number(attendanceStats[0]?.present_days || 0);
     const attendancePercentage = totalDays > 0 ? Math.round((presentDays / totalDays) * 100) : 100;
+
+    const formattedCourses = (enrolledCourses || []).map((course) => ({
+      ...course,
+      assigned_by_tutor_name: course.assigned_by_tutor_name
+        ? (decrypt(course.assigned_by_tutor_name) || course.assigned_by_tutor_name)
+        : null
+    }));
 
     return success(res, 200, {
       role: 'STUDENT',
-      courses: enrolledCourses,
+      courses: formattedCourses,
       batches: studentBatches,
       upcomingQuizzes,
       upcomingAssignments,
@@ -122,8 +131,18 @@ export const getLMSOverview = asyncHandler(async (req, res) => {
 });
 
 // 2. Academic Batches Management
+const STAFF_ROLES = [ROLES.TUTOR, ROLES.ADMIN, ROLES.SUPER_ADMIN];
+const LEARNER_ROLES = [ROLES.STUDENT, ROLES.INTERN];
+
 export const getBatches = asyncHandler(async (req, res) => {
   const { course_id, is_active } = req.query;
+
+  // Learners only ever see the batches they belong to.
+  if (LEARNER_ROLES.includes(req.user.role)) {
+    const batches = await Batch.listStudentBatches(req.user.id);
+    return success(res, 200, batches, 'Batches retrieved');
+  }
+
   const tutorId = req.user.role === ROLES.TUTOR ? req.user.id : req.query.tutor_id;
 
   const batches = await Batch.list({
@@ -188,7 +207,14 @@ export const getBatchAttendance = asyncHandler(async (req, res) => {
     [date, id]
   );
 
-  return success(res, 200, rows, 'Batch attendance log retrieved');
+  // full_name / email are AES-encrypted at rest.
+  const decrypted = rows.map((row) => ({
+    ...row,
+    student_name: row.student_name ? decrypt(row.student_name) : null,
+    student_email: row.student_email ? decrypt(row.student_email) : null
+  }));
+
+  return success(res, 200, decrypted, 'Batch attendance log retrieved');
 });
 
 export const markBatchAttendance = asyncHandler(async (req, res) => {
@@ -215,7 +241,8 @@ export const markBatchAttendance = asyncHandler(async (req, res) => {
 // 4. Doubt Management Engine
 export const getDoubts = asyncHandler(async (req, res) => {
   const { course_id, status } = req.query;
-  const studentId = req.user.role === ROLES.STUDENT ? req.user.id : undefined;
+  // Learners only see their own doubts; staff see the pool they are assigned to.
+  const studentId = LEARNER_ROLES.includes(req.user.role) ? req.user.id : undefined;
 
   const doubts = await Doubt.list({
     student_id: studentId,
@@ -284,7 +311,9 @@ export const resolveDoubt = asyncHandler(async (req, res) => {
 
 // 5. Student Performance & Analytics
 export const getStudentAnalytics = asyncHandler(async (req, res) => {
-  const studentId = req.user.role === ROLES.STUDENT ? req.user.id : (req.query.student_id || req.user.id);
+  // Staff may inspect any learner; learners are always pinned to themselves.
+  const staff = STAFF_ROLES.includes(req.user.role);
+  const studentId = staff ? (req.query.student_id || req.user.id) : req.user.id;
 
   const [
     [quizScores],

@@ -1,3 +1,14 @@
+-- Ethiroli baseline schema.
+-- IMPORTANT: this file only covers the core tables. After loading it, run
+--   npm run db:migrate
+-- which applies every file in migrations/*.sql in order. Those migrations add
+-- the tables/columns the app requires but that are not in the baseline:
+--   question_bank, question_options, quiz_questions (quiz authoring)
+--   course_modules + module ordering columns (module-based curriculum)
+--   forum_post_votes, forum_posts.category (forum reactions)
+--   lessons/lesson_blocks progress + certificate columns
+-- The runner is idempotent, so it is safe to run repeatedly.
+
 CREATE DATABASE IF NOT EXISTS ethiroli;
 USE ethiroli;
 
@@ -30,10 +41,14 @@ CREATE TABLE IF NOT EXISTS sessions (
   expires_at TIMESTAMP NOT NULL,
   user_agent VARCHAR(255) NULL,
   ip_address VARCHAR(45) NULL,
+  impersonated_by CHAR(36) NULL,
+  impersonation_origin_token VARCHAR(255) NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (impersonated_by) REFERENCES users(id) ON DELETE SET NULL,
   INDEX idx_token_portal (token, portal_slug),
-  INDEX idx_user_portal (user_id, portal_slug)
+  INDEX idx_user_portal (user_id, portal_slug),
+  INDEX idx_sessions_impersonated_by (impersonated_by)
 );
 
 -- Table 2b: mfa_secrets
@@ -106,11 +121,11 @@ CREATE TABLE IF NOT EXISTS audit_logs (
   user_id CHAR(36) NULL,
   action VARCHAR(255) NOT NULL,
   entity_type VARCHAR(100) NOT NULL,
-  entity_id CHAR(36) NULL,
+  entity_id VARCHAR(255) NULL,
   old_value JSON NULL,
   new_value JSON NULL,
   ip_address VARCHAR(45) NULL,
-  user_agent VARCHAR(255) NULL,
+  user_agent VARCHAR(500) NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   INDEX idx_user_action_created (user_id, action, created_at)
 );
@@ -184,7 +199,7 @@ CREATE TABLE IF NOT EXISTS leaves (
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
     reason TEXT,
-    status ENUM('PENDING','APPROVED','REJECTED') DEFAULT 'PENDING',
+    status ENUM('PENDING','APPROVED','REJECTED','CANCELLED') DEFAULT 'PENDING',
     approved_by CHAR(36) DEFAULT NULL,
     approval_chain_step INT DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -217,6 +232,8 @@ CREATE TABLE IF NOT EXISTS modules (
     id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
     course_id CHAR(36) NOT NULL,
     title VARCHAR(255) NOT NULL,
+    description TEXT NULL,
+    duration_minutes INT NULL,
     module_order INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -243,15 +260,23 @@ CREATE TABLE IF NOT EXISTS enrollments (
     id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
     student_id CHAR(36) NOT NULL,
     course_id CHAR(36) NOT NULL,
+    assigned_by_tutor_id CHAR(36) NULL,
     enrolled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     progress_percentage DECIMAL(5,2) DEFAULT 0.00,
     status ENUM('ACTIVE','COMPLETED','DROPPED') DEFAULT 'ACTIVE',
+    due_date TIMESTAMP NULL DEFAULT NULL,
     completed_at TIMESTAMP NULL DEFAULT NULL,
+    notes TEXT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE,
-    UNIQUE KEY unique_enrollment (student_id, course_id)
+    FOREIGN KEY (assigned_by_tutor_id) REFERENCES users(id) ON DELETE SET NULL,
+    UNIQUE KEY unique_enrollment (student_id, course_id),
+    INDEX idx_enrollment_student (student_id),
+    INDEX idx_enrollment_course (course_id),
+    INDEX idx_enrollment_tutor (assigned_by_tutor_id),
+    INDEX idx_enrollment_status (status)
 );
 
 -- Table 15: quizzes
@@ -439,10 +464,12 @@ CREATE TABLE IF NOT EXISTS assignment_submissions (
     text_content LONGTEXT DEFAULT NULL,
     grade INT DEFAULT NULL,
     feedback TEXT DEFAULT NULL,
+    graded_by CHAR(36) DEFAULT NULL,
     submitted_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     graded_at DATETIME DEFAULT NULL,
     FOREIGN KEY (assignment_id) REFERENCES assignments(id) ON DELETE CASCADE,
     FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (graded_by) REFERENCES users(id) ON DELETE SET NULL,
     UNIQUE KEY unique_submission (assignment_id, student_id),
     INDEX idx_assignment (assignment_id)
 );
@@ -2177,6 +2204,40 @@ CREATE TABLE IF NOT EXISTS reception_receipts (
     FOREIGN KEY (issued_by) REFERENCES users(id) ON DELETE CASCADE,
     INDEX idx_receipt_num (receipt_number),
     INDEX idx_receipt_issued (issued_at)
+);
+
+-- Table: lesson_blocks (interactive lesson content components)
+CREATE TABLE IF NOT EXISTS lesson_blocks (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    lesson_id CHAR(36) NOT NULL,
+    block_type ENUM('VIDEO', 'MARKDOWN', 'CODE_PLAYGROUND', 'QUIZ_EMBED', 'RESOURCE_DOWNLOAD', 'CALLOUT') NOT NULL,
+    block_order INT NOT NULL DEFAULT 1,
+    content_payload JSON NOT NULL,
+    is_interactive BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (lesson_id) REFERENCES lessons(id) ON DELETE CASCADE,
+    INDEX idx_lesson_block_order (lesson_id, block_order)
+);
+
+-- Table: lesson_progress (per-student lesson completion tracking)
+CREATE TABLE IF NOT EXISTS lesson_progress (
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    enrollment_id CHAR(36) NOT NULL,
+    student_id CHAR(36) NOT NULL,
+    lesson_id CHAR(36) NOT NULL,
+    status ENUM('NOT_STARTED', 'IN_PROGRESS', 'COMPLETED') DEFAULT 'NOT_STARTED',
+    seconds_watched INT DEFAULT 0,
+    is_completed BOOLEAN DEFAULT FALSE,
+    completed_at DATETIME NULL DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (enrollment_id) REFERENCES enrollments(id) ON DELETE CASCADE,
+    FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (lesson_id) REFERENCES lessons(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_student_lesson (student_id, lesson_id),
+    INDEX idx_lesson_progress_enrollment (enrollment_id),
+    INDEX idx_lesson_progress_student (student_id)
 );
 
 

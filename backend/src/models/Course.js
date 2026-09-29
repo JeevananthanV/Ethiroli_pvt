@@ -1,9 +1,13 @@
 import pool from '../config/database.js';
+import { decrypt } from '../config/encryption.js';
 
 export default class Course {
   static format(row) {
     if (!row) return null;
-    return row;
+    const formatted = { ...row };
+    if (formatted.tutor_name) formatted.tutor_name = decrypt(formatted.tutor_name) || formatted.tutor_name;
+    if (formatted.tutor_email) formatted.tutor_email = decrypt(formatted.tutor_email) || formatted.tutor_email;
+    return formatted;
   }
 
   static async findById(id) {

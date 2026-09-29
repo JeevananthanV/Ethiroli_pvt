@@ -15,10 +15,18 @@ async function migrate() {
 
   const schemaSql = fs.readFileSync(schemaPath, 'utf8');
 
+  // Strip `--` comment lines *inside* each statement before filtering.
+  // schema.sql prefixes every table with a `-- Table N: ...` comment, so
+  // filtering on the raw chunk (`s.startsWith('--')`) used to discard the
+  // entire statement. Comments are removed per line instead.
   const statements = schemaSql
     .split(';')
-    .map(s => s.trim())
-    .filter(s => s.length > 0 && !s.startsWith('--'));
+    .map(statement => statement
+      .split('\n')
+      .filter(line => !line.trim().startsWith('--'))
+      .join('\n')
+      .trim())
+    .filter(s => s.length > 0);
 
   let successCount = 0;
   let skipCount = 0;

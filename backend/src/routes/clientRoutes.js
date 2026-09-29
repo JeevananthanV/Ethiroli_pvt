@@ -9,9 +9,10 @@ const router = express.Router();
 router.use(authenticate);
 
 router.get('/clients', requireRole('PROJECT_MANAGER', 'ADMIN', 'FINANCE', 'SUPER_ADMIN'), listClients);
-router.post('/clients', requireRole('PROJECT_MANAGER', 'ADMIN'), validateBody('createClient'), createClient);
+router.post('/clients', requireRole('PROJECT_MANAGER', 'ADMIN', 'SUPER_ADMIN'), validateBody('createClient'), createClient);
 router.get('/clients/:id', requireRole('PROJECT_MANAGER', 'ADMIN', 'FINANCE', 'SUPER_ADMIN'), getClient);
-router.patch('/clients/:id', requireRole('PROJECT_MANAGER', 'ADMIN'), validateBody('createClient'), updateClient);
+router.put('/clients/:id', requireRole('PROJECT_MANAGER', 'ADMIN', 'SUPER_ADMIN'), validateBody('updateClient'), updateClient);
+router.patch('/clients/:id', requireRole('PROJECT_MANAGER', 'ADMIN', 'SUPER_ADMIN'), validateBody('updateClient'), updateClient);
 router.delete('/clients/:id', requireRole('ADMIN', 'SUPER_ADMIN'), deleteClient);
 
 export default router;

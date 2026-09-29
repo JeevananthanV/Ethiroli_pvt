@@ -251,8 +251,17 @@ export default class CalendarEvent {
     return rows[0].total;
   }
 
-  // Merges single parent events and all child recurring instances in range
-  static async listExpanded({ start_date, end_date, role = null, userId = null, event_type_id = null }) {
+  // Merges single parent events and all child recurring instances in range with role-based visibility
+  static async listExpanded({
+    start_date,
+    end_date,
+    role = null,
+    userId = null,
+    userRole = null,
+    event_type_id = null,
+    showOthersEvents = true,
+    allowedEventTypes = null
+  }) {
     let query = `
       SELECT e.*, t.label as type_label, t.color as type_color, t.icon as type_icon
       FROM calendar_events e
@@ -266,19 +275,44 @@ export default class CalendarEvent {
       values.push(start_date, end_date);
     }
 
+    const effectiveRole = userRole || role;
+    const isAdmin = ['SUPER_ADMIN', 'ADMIN'].includes(effectiveRole);
+
     if (event_type_id) {
-      query += ' AND e.event_type_id = ?';
-      values.push(event_type_id);
+      if (!isAdmin && allowedEventTypes && allowedEventTypes.length > 0 && !allowedEventTypes.includes(event_type_id)) {
+        // Requested event type is not allowed for this role
+        query += ' AND 1 = 0';
+      } else {
+        query += ' AND e.event_type_id = ?';
+        values.push(event_type_id);
+      }
+    } else if (allowedEventTypes && allowedEventTypes.length > 0 && !isAdmin) {
+      const placeholders = allowedEventTypes.map(() => '?').join(',');
+      query += ` AND (e.event_type_id IN (${placeholders}) OR e.created_by = ?)`;
+      values.push(...allowedEventTypes, userId);
     }
 
-    if (userId) {
-      query += ' AND (e.created_by = ? OR JSON_CONTAINS(e.assigned_users, ?))';
-      values.push(userId, JSON.stringify(userId));
-    }
-
-    if (role && role !== 'SUPER_ADMIN' && role !== 'ADMIN') {
-      query += ' AND (e.role IS NULL OR e.role = ? OR e.role = "ALL")';
-      values.push(role);
+    if (!isAdmin && effectiveRole) {
+      if (effectiveRole === 'HR') {
+        // HR sees HR events, company-wide events, or directly assigned events
+        query += " AND (e.role = 'HR' OR e.role = 'ALL' OR e.created_by = ? OR JSON_CONTAINS(e.assigned_users, ?))";
+        query += " AND (e.role != 'STUDENT')";
+        values.push(userId, JSON.stringify(userId));
+      } else if (effectiveRole === 'STUDENT') {
+        // Students exclusively see student events, lectures, or directly assigned tasks
+        query += " AND (e.role = 'STUDENT' OR e.event_type = 'CLASS' OR e.created_by = ? OR JSON_CONTAINS(e.assigned_users, ?))";
+        query += " AND (e.role != 'HR' AND e.event_type NOT IN ('INTERVIEW', 'LEAVE', 'EVALUATION', 'ONBOARDING'))";
+        values.push(userId, JSON.stringify(userId));
+      } else {
+        // Other roles (EMPLOYEE, INTERN, TUTOR, SALES, FINANCE, RECEPTION)
+        if (showOthersEvents) {
+          query += " AND (e.created_by = ? OR JSON_CONTAINS(e.assigned_users, ?) OR ((e.role IS NULL OR e.role = ? OR e.role = 'ALL') AND e.role != 'HR' AND e.role != 'STUDENT'))";
+          values.push(userId, JSON.stringify(userId), effectiveRole);
+        } else {
+          query += " AND (e.created_by = ? OR JSON_CONTAINS(e.assigned_users, ?))";
+          values.push(userId, JSON.stringify(userId));
+        }
+      }
     }
 
     query += ' ORDER BY e.start_time ASC LIMIT 500';

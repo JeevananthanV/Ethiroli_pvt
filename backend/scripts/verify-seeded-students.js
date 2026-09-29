@@ -3,7 +3,7 @@ import pool from '../src/config/database.js';
 import User from '../src/models/User.js';
 import Enrollment from '../src/models/Enrollment.js';
 import Attendance from '../src/models/Attendance.js';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';';
 
 async function verify() {
   console.log('--- Verifying 10 Seeded Students ---');

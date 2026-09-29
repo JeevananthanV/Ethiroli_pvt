@@ -19,9 +19,9 @@ export const getDashboardMetrics = asyncHandler(async (req, res) => {
   ] = await Promise.all([
     pool.execute('SELECT COUNT(*) as total FROM employees e JOIN users u ON e.user_id = u.id WHERE u.is_active = TRUE'),
     pool.execute('SELECT COUNT(*) as total FROM interns i JOIN users u ON i.user_id = u.id WHERE u.is_active = TRUE'),
-    pool.execute('SELECT COUNT(*) as total FROM leaves WHERE status = "APPROVED" AND ? BETWEEN start_date AND end_date', [today]),
-    pool.execute('SELECT COUNT(*) as total FROM attendance WHERE date = ? AND status = "PRESENT"', [today]),
-    pool.execute('SELECT COUNT(*) as total FROM leaves WHERE status = "PENDING"'),
+    pool.execute('SELECT COUNT(*) as total FROM leaves l JOIN employees e ON l.user_id = e.user_id WHERE l.status = "APPROVED" AND ? BETWEEN l.start_date AND l.end_date', [today]),
+    pool.execute('SELECT COUNT(*) as total FROM attendance a JOIN employees e ON a.user_id = e.user_id WHERE a.date = ? AND a.status = "PRESENT"', [today]),
+    pool.execute('SELECT COUNT(*) as total FROM leaves l JOIN users u ON l.user_id = u.id WHERE l.status = "PENDING"'),
     pool.execute('SELECT COUNT(*) as total FROM jobs WHERE status = "OPEN"'),
     pool.execute('SELECT COUNT(*) as total FROM interviews WHERE status = "SCHEDULED" AND scheduled_at >= ?', [today]),
     pool.query('SELECT COUNT(*) as total FROM career_applications'),

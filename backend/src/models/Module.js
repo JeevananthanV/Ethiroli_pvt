@@ -12,20 +12,23 @@ export default class Module {
     return rows.length > 0 ? this.format(rows[0]) : null;
   }
 
-  static async create({ course_id, title, module_order }) {
+  static async create({ course_id, title, description = null, duration_minutes = null, module_order }) {
     const id = crypto.randomUUID();
     await pool.execute(
-      `INSERT INTO modules (id, course_id, title, module_order) VALUES (?, ?, ?, ?)`,
-      [id, course_id, title, module_order]
+      `INSERT INTO modules (id, course_id, title, description, duration_minutes, module_order)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [id, course_id, title, description, duration_minutes, module_order]
     );
     return id;
   }
 
-  static async update(id, { title, module_order }) {
+  static async update(id, { title, description, duration_minutes, module_order }) {
     const queryParts = [];
     const values = [];
 
     if (title !== undefined) { queryParts.push('title = ?'); values.push(title); }
+    if (description !== undefined) { queryParts.push('description = ?'); values.push(description); }
+    if (duration_minutes !== undefined) { queryParts.push('duration_minutes = ?'); values.push(duration_minutes); }
     if (module_order !== undefined) { queryParts.push('module_order = ?'); values.push(module_order); }
 
     if (queryParts.length === 0) return;

@@ -6,7 +6,7 @@ import pool, { logPoolStatus } from './config/database.js';
 import { getRedisClient, closeRedisConnection, checkRedisHealth } from './config/redis.js';
 import { gracefulShutdown as telemetryShutdown, checkTelemetryHealth } from './services/telemetryService.js';
 import { gracefulShutdown as completionShutdown } from './services/completionService.js';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 const PORT = process.env.PORT || 5000;
 const SHUTDOWN_TIMEOUT_MS = Number(process.env.SHUTDOWN_TIMEOUT_MS || 10000);

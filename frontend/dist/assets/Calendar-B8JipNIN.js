@@ -1,1 +1,0 @@
-import{j as t}from"./vendor-react-DjmqOxD7.js";import{D as r}from"./DynamicCalendarPage-BTwAc2DX.js";import"./AdminPage-BO7_p5hn.js";import"./ErrorBoundary-Cl9MLlId.js";function n(){return t.jsx(r,{defaultRole:"STUDENT"})}export{n as default};

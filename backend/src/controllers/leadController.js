@@ -21,6 +21,12 @@ export const listLeads = asyncHandler(async (req, res) => {
   return success(res, 200, leads);
 });
 
+export const getLead = asyncHandler(async (req, res) => {
+  const lead = await Lead.findById(req.params.id);
+  if (!lead) throw new NotFoundError('Lead not found');
+  return success(res, 200, lead);
+});
+
 export const createLead = asyncHandler(async (req, res) => {
   const { name, email, phone, source, status, assigned_to, notes, follow_up_date } = req.body;
 

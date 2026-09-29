@@ -72,3 +72,23 @@ export const updateStudentProject = asyncHandler(async (req, res) => {
   broadcastToRole('STUDENT', 'student_project_updated', { id: req.params.id });
   return success(res, 200, null, 'Student project updated');
 });
+
+export const deleteStudentProject = asyncHandler(async (req, res) => {
+  const project = await StudentProject.findById(req.params.id);
+  if (!project) throw new NotFoundError('Student project not found');
+  if (!isPrivileged(req) && project.student_id !== req.user.id) {
+    throw new AuthorizationError('Forbidden. You can only delete your own projects.');
+  }
+  await StudentProject.delete(req.params.id);
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'DELETE_STUDENT_PROJECT',
+    entity_type: 'STUDENT_PROJECT',
+    entity_id: req.params.id,
+    old_value: project,
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+  broadcastToRole('STUDENT', 'student_project_deleted', { id: req.params.id });
+  return success(res, 200, null, 'Student project deleted');
+});

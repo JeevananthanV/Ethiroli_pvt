@@ -1,1 +1,0 @@
-import{a as s}from"./ErrorBoundary-DrK2p093.js";const r=async()=>(await s.get("/v1/performance-reviews")).data,c=r,t=async e=>(await s.post("/v1/performance-reviews",e)).data,i=t,p=async(e,a)=>(await s.patch(`/v1/performance/reviews/${e}`,a)).data;export{i as c,c as l,p as u};

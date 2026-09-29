@@ -3,18 +3,22 @@ import LessonBlock from '../models/LessonBlock.js';
 import LessonProgress from '../models/LessonProgress.js';
 import AuditLog from '../models/AuditLog.js';
 import { broadcastToRole, broadcastToRoom } from '../services/socketService.js';
+import { awardBadge, issueCourseCompletionCertificate, BADGES } from '../services/certificateService.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 import { success } from '../utils/response.js';
 import { NotFoundError, BadRequestError } from '../utils/errors.js';
 
 export const listLessons = asyncHandler(async (req, res) => {
   const moduleId = req.params.moduleId || req.query.module_id;
+  const isLearner = ['STUDENT', 'INTERN', 'EMPLOYEE'].includes(req.user.role);
+  const viewerId = isLearner ? req.user.id : null;
+
   if (!moduleId) {
     const list = await Lesson.list({ limit: 100 });
     return success(res, 200, list, 'Lessons retrieved');
   }
 
-  const list = await Lesson.listByModuleId(moduleId);
+  const list = await Lesson.listByModuleId(moduleId, viewerId);
   return success(res, 200, list, 'Lessons retrieved');
 });
 
@@ -70,7 +74,7 @@ export const createLesson = asyncHandler(async (req, res) => {
     user_agent: req.headers['user-agent']
   });
 
-  broadcastToRole('STUDENT', 'course_content_updated', { moduleId, lessonId: id });
+  broadcastToRole('STUDENT', 'course_curriculum_updated', { moduleId, lessonId: id });
   return success(res, 201, { id, title: req.body.title, lesson_order: lessonOrder }, 'Lesson created successfully');
 });
 
@@ -79,7 +83,24 @@ export const getLesson = asyncHandler(async (req, res) => {
   if (!lesson) throw new NotFoundError('Lesson not found');
 
   const blocks = await LessonBlock.listByLessonId(req.params.id);
-  return success(res, 200, { ...lesson, blocks }, 'Lesson retrieved');
+
+  const isLearner = ['STUDENT', 'INTERN', 'EMPLOYEE'].includes(req.user.role);
+  const progress = isLearner
+    ? await LessonProgress.findByStudentAndLesson(req.user.id, req.params.id)
+    : null;
+
+  return success(
+    res,
+    200,
+    {
+      ...lesson,
+      blocks,
+      is_completed: Boolean(progress?.is_completed),
+      completed_at: progress?.completed_at || null,
+      seconds_watched: progress?.seconds_watched || 0
+    },
+    'Lesson retrieved'
+  );
 });
 
 export const updateLesson = asyncHandler(async (req, res) => {
@@ -95,7 +116,7 @@ export const updateLesson = asyncHandler(async (req, res) => {
 
   await Lesson.update(req.params.id, updates);
 
-  broadcastToRole('STUDENT', 'course_content_updated', { lessonId: req.params.id });
+  broadcastToRole('STUDENT', 'course_curriculum_updated', { lessonId: req.params.id });
   return success(res, 200, null, 'Lesson updated successfully');
 });
 
@@ -126,14 +147,43 @@ export const completeLesson = asyncHandler(async (req, res) => {
   const result = await LessonProgress.markComplete(studentId, lessonId);
   if (!result) throw new NotFoundError('Lesson not found');
 
+  // --- Gamification + completion pipeline -------------------------------
+  let certificate = null;
+  let badgesAwarded = [];
+
+  if (result.completedLessons === 1) {
+    const badgeId = await awardBadge(studentId, BADGES.FIRST_LESSON);
+    if (badgeId) badgesAwarded.push(BADGES.FIRST_LESSON.name);
+  }
+
+  if (Number(result.percentage) === 100) {
+    const issued = await issueCourseCompletionCertificate({ studentId, courseId: result.course_id });
+    if (issued.certificate) {
+      certificate = issued.certificate;
+      if (issued.badgeId) badgesAwarded.push(BADGES.COURSE_COMPLETED.name);
+    }
+  }
+  // ----------------------------------------------------------------------
+
   broadcastToRole('TUTOR', 'student_progress_updated', {
     studentId,
     lessonId,
     courseId: result.course_id,
     percentage: result.percentage
   });
+  broadcastToRoom(`course:${result.course_id}`, 'lesson_progress_updated', {
+    studentId,
+    lessonId,
+    courseId: result.course_id,
+    percentage: result.percentage
+  });
 
-  return success(res, 200, result, 'Lesson marked as completed');
+  return success(
+    res,
+    200,
+    { ...result, certificate, badges_awarded: badgesAwarded },
+    'Lesson marked as completed'
+  );
 });
 
 export const getLessonBlocks = asyncHandler(async (req, res) => {

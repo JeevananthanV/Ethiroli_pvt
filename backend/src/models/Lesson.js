@@ -63,8 +63,28 @@ export default class Lesson {
     return rows[0].total;
   }
 
-  static async listByModuleId(moduleId) {
-    return this.list({ module_id: moduleId, limit: 1000 });
+  /**
+   * Lessons for a module. When `studentId` is supplied the result is
+   * annotated with that learner's per-lesson completion state, which is what
+   * the syllabus tree renders as a tick / grey bullet.
+   */
+  static async listByModuleId(moduleId, studentId = null) {
+    if (!studentId) return this.list({ module_id: moduleId, limit: 1000 });
+
+    const [rows] = await pool.execute(
+      `SELECT l.*, lp.id IS NOT NULL AS is_completed, lp.completed_at AS completed_at
+         FROM lessons l
+         LEFT JOIN lesson_progress lp
+                ON lp.lesson_id = l.id
+               AND lp.student_id = ?
+        WHERE l.module_id = ?
+        ORDER BY l.lesson_order ASC`,
+      [studentId, moduleId]
+    );
+    return rows.map(row => ({
+      ...this.format(row),
+      is_completed: Boolean(row.is_completed)
+    }));
   }
 
   static async reorder(moduleId, orderedIds) {

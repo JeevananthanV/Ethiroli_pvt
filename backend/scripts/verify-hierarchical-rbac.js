@@ -1,5 +1,5 @@
 import pool from '../src/config/database.js';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import User from '../src/models/User.js';
 import CredentialService from '../src/services/credentialService.js';

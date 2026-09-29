@@ -90,3 +90,39 @@ export const updateTaskStatus = asyncHandler(async (req, res) => {
   });
   return success(res, 200, null, 'Task status updated');
 });
+
+export const deleteTask = asyncHandler(async (req, res) => {
+  const task = await Task.findById(req.params.id);
+  if (!task) throw new NotFoundError('Task not found');
+  await Task.delete(req.params.id);
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'DELETE_TASK',
+    entity_type: 'TASK',
+    entity_id: req.params.id,
+    old_value: task,
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+  return success(res, 200, null, 'Task deleted successfully');
+});
+
+export const moveTask = asyncHandler(async (req, res) => {
+  const task = await Task.findById(req.params.id);
+  if (!task) throw new NotFoundError('Task not found');
+  const { status } = req.body;
+  if (!status) throw new ValidationError('status is required');
+  await Task.updateStatus(req.params.id, status);
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'MOVE_TASK',
+    entity_type: 'TASK',
+    entity_id: req.params.id,
+    old_value: { status: task.status },
+    new_value: { status },
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+  return success(res, 200, { id: req.params.id, status }, 'Task moved successfully');
+});
+

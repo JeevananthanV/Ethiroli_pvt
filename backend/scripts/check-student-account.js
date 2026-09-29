@@ -1,6 +1,6 @@
 import pool from '../src/config/database.js';
 import { decrypt } from '../src/config/encryption.js';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';';
 import crypto from 'crypto';
 
 async function checkStudents() {

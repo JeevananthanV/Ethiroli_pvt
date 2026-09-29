@@ -27,11 +27,11 @@ export default class Intern {
     return rows.length > 0 ? this.format(rows[0]) : null;
   }
 
-  static async create({ id = crypto.randomUUID(), user_id, mentor_id = null, college_name, stipend = 0, start_date, end_date }) {
+  static async create({ id = crypto.randomUUID(), user_id, mentor_id = null, college_name, stipend = 0, start_date, end_date, project_target = null, progress = 0 }) {
     await pool.execute(
-      `INSERT INTO interns (id, user_id, mentor_id, college_name, stipend, start_date, end_date)
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
-      [id, user_id, mentor_id, college_name, stipend, start_date, end_date]
+      `INSERT INTO interns (id, user_id, mentor_id, college_name, stipend, start_date, end_date, project_target, progress)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [id, user_id, mentor_id, college_name, stipend, start_date, end_date, project_target, progress]
     );
     return id;
   }
@@ -45,6 +45,8 @@ export default class Intern {
     if (updates.stipend !== undefined) { queryParts.push('stipend = ?'); values.push(updates.stipend); }
     if (updates.start_date !== undefined) { queryParts.push('start_date = ?'); values.push(updates.start_date); }
     if (updates.end_date !== undefined) { queryParts.push('end_date = ?'); values.push(updates.end_date); }
+    if (updates.project_target !== undefined) { queryParts.push('project_target = ?'); values.push(updates.project_target); }
+    if (updates.progress !== undefined) { queryParts.push('progress = ?'); values.push(updates.progress); }
 
     if (queryParts.length === 0) return;
     values.push(id);

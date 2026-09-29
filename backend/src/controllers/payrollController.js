@@ -17,7 +17,12 @@ export const listSalaryStructures = asyncHandler(async (req, res) => {
 });
 
 export const createSalaryStructure = asyncHandler(async (req, res) => {
-  const id = await SalaryStructure.create(req.body);
+  const payload = { ...req.body };
+  if (payload.basic === undefined && payload.basic_salary !== undefined) {
+    payload.basic = payload.basic_salary;
+  }
+  const id = await SalaryStructure.create(payload);
+
   await AuditLog.create({
     user_id: req.user.id,
     action: 'CREATE_SALARY_STRUCTURE',
@@ -28,8 +33,57 @@ export const createSalaryStructure = asyncHandler(async (req, res) => {
     user_agent: req.headers['user-agent']
   });
   broadcastToRole('FINANCE', 'salary_structure_created', { id });
-  success(res, 201, { id }, 'Salary structure created');
+  return success(res, 201, { id }, 'Salary structure created');
 });
+
+export const getSalaryStructure = asyncHandler(async (req, res) => {
+  const item = await SalaryStructure.findById(req.params.id);
+  if (!item) throw new NotFoundError('Salary structure not found');
+  return success(res, 200, item, 'Salary structure retrieved');
+});
+
+export const updateSalaryStructure = asyncHandler(async (req, res) => {
+  const item = await SalaryStructure.findById(req.params.id);
+  if (!item) throw new NotFoundError('Salary structure not found');
+
+  await SalaryStructure.update(req.params.id, req.body);
+  const updated = await SalaryStructure.findById(req.params.id);
+
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'UPDATE_SALARY_STRUCTURE',
+    entity_type: 'SALARY_STRUCTURE',
+    entity_id: req.params.id,
+    old_value: item,
+    new_value: req.body,
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+
+  broadcastToRole('FINANCE', 'salary_structure_updated', { id: req.params.id });
+  return success(res, 200, updated, 'Salary structure updated');
+});
+
+export const deleteSalaryStructure = asyncHandler(async (req, res) => {
+  const item = await SalaryStructure.findById(req.params.id);
+  if (!item) throw new NotFoundError('Salary structure not found');
+
+  await SalaryStructure.delete(req.params.id);
+
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'DELETE_SALARY_STRUCTURE',
+    entity_type: 'SALARY_STRUCTURE',
+    entity_id: req.params.id,
+    old_value: item,
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+
+  broadcastToRole('FINANCE', 'salary_structure_deleted', { id: req.params.id });
+  return success(res, 200, null, 'Salary structure deleted');
+});
+
 
 export const processPayroll = asyncHandler(async (req, res) => {
   const { employee_id, month_year, basic, hra, da = 0, pf_employee = 0, pf_employer = 0, esi_employee = 0, esi_employer = 0, tds = 0 } = req.body;
@@ -59,16 +113,73 @@ export const processPayroll = asyncHandler(async (req, res) => {
 
 export const runPayrollForAll = asyncHandler(async (req, res) => {
   const { month_year } = req.body;
+  const cycleDate = String(month_year).length === 7 ? `${month_year}-01` : String(month_year).slice(0, 10);
+
+  const [employees] = await pool.execute(`
+    SELECT e.id as employee_id, e.user_id,
+           s.basic, s.hra, s.da, s.pf_percentage, s.esi_percentage, s.tds_percentage
+    FROM employees e
+    JOIN users u ON e.user_id = u.id
+    LEFT JOIN salary_structures s ON e.id = s.employee_id AND s.is_active = TRUE
+    WHERE u.is_active = TRUE
+  `);
+
+  let processedCount = 0;
+
+  for (const emp of employees) {
+    const [existing] = await pool.execute(
+      'SELECT id FROM payroll WHERE employee_id = ? AND month_year = ?',
+      [emp.employee_id, cycleDate]
+    );
+
+    if (existing.length === 0) {
+      const basic = parseFloat(emp.basic || 30000);
+      const hra = parseFloat(emp.hra || 12000);
+      const da = parseFloat(emp.da || 3000);
+      const pfPct = parseFloat(emp.pf_percentage || 12);
+      const esiPct = parseFloat(emp.esi_percentage || 0.75);
+      const tdsPct = parseFloat(emp.tds_percentage || 0);
+
+      const gross = basic + hra + da;
+      const pf_employee = parseFloat(((basic * pfPct) / 100).toFixed(2));
+      const pf_employer = pf_employee;
+      const esi_employee = parseFloat(((gross * esiPct) / 100).toFixed(2));
+      const esi_employer = parseFloat(((gross * 3.25) / 100).toFixed(2));
+      const tds = parseFloat(((gross * tdsPct) / 100).toFixed(2));
+      const totalDeductions = pf_employee + esi_employee + tds;
+      const net = gross - totalDeductions;
+
+      await Payroll.create({
+        employee_id: emp.employee_id,
+        month_year: cycleDate,
+        basic,
+        hra,
+        da,
+        pf_employee,
+        pf_employer,
+        esi_employee,
+        esi_employer,
+        tds,
+        gross_salary: gross,
+        net_salary: net,
+        total_deductions: totalDeductions,
+        status: 'PROCESSED'
+      });
+      processedCount++;
+    }
+  }
+
   await AuditLog.create({
     user_id: req.user.id,
     action: 'RUN_PAYROLL_FOR_ALL',
     entity_type: 'PAYROLL',
-    new_value: { month_year },
+    new_value: { month_year: cycleDate, processed: processedCount },
     ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
     user_agent: req.headers['user-agent']
   });
-  broadcastToRole('FINANCE', 'bulk_payroll_run', { month_year });
-  success(res, 200, { processed: 0, month_year }, 'Bulk payroll run initiated');
+  broadcastToRole('FINANCE', 'bulk_payroll_run', { month_year: cycleDate, processed: processedCount });
+  broadcastToRole('HR', 'bulk_payroll_run', { month_year: cycleDate, processed: processedCount });
+  return success(res, 200, { processed: processedCount, month_year: cycleDate }, `Bulk payroll run completed for ${processedCount} employee(s)`);
 });
 
 export const listPayrollHistory = asyncHandler(async (req, res) => {

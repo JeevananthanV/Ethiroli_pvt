@@ -96,3 +96,20 @@ export const publishJob = asyncHandler(async (req, res) => {
   broadcastToRole('HR', 'job_published', { id: req.params.id });
   return success(res, 200, null, 'Job published');
 });
+
+export const deleteJob = asyncHandler(async (req, res) => {
+  const job = await Job.findById(req.params.id);
+  if (!job) throw new NotFoundError('Job not found');
+  await Job.delete(req.params.id);
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'DELETE_JOB',
+    entity_type: 'JOB',
+    entity_id: req.params.id,
+    old_value: job,
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+  broadcastToRole('HR', 'job_deleted', { id: req.params.id });
+  return success(res, 200, null, 'Job deleted successfully');
+});

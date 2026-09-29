@@ -5,7 +5,7 @@ import { asyncHandler } from '../middleware/errorHandler.js';
 import { success } from '../utils/response.js';
 import { NotFoundError } from '../utils/errors.js';
 
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import User from '../models/User.js';
 
 export const listEmployees = asyncHandler(async (req, res) => {
@@ -63,10 +63,21 @@ export const getEmployee = asyncHandler(async (req, res) => {
   return success(res, 200, emp);
 });
 
+import pool from '../config/database.js';
+
 export const updateEmployee = asyncHandler(async (req, res) => {
   const emp = await Employee.findById(req.params.id);
   if (!emp) throw new NotFoundError('Employee not found');
   await Employee.update(req.params.id, req.body);
+
+  if (emp.user_id && (req.body.name || req.body.full_name || req.body.email || req.body.is_active !== undefined)) {
+    const userUpdates = {};
+    if (req.body.name || req.body.full_name) userUpdates.full_name = req.body.name || req.body.full_name;
+    if (req.body.email) userUpdates.email = req.body.email;
+    if (req.body.is_active !== undefined) userUpdates.is_active = Boolean(req.body.is_active);
+    await User.update(emp.user_id, userUpdates);
+  }
+
   await AuditLog.create({
     user_id: req.user.id,
     action: 'UPDATE_EMPLOYEE',
@@ -78,13 +89,18 @@ export const updateEmployee = asyncHandler(async (req, res) => {
     user_agent: req.headers['user-agent']
   });
   broadcastToRole('HR', 'employee_updated', { id: req.params.id });
-  return success(res, 200, null, 'Employee updated successfully');
+  const updated = await Employee.findById(req.params.id);
+  return success(res, 200, updated, 'Employee updated successfully');
 });
 
 export const deleteEmployee = asyncHandler(async (req, res) => {
   const emp = await Employee.findById(req.params.id);
   if (!emp) throw new NotFoundError('Employee not found');
   await Employee.delete(req.params.id);
+  if (emp.user_id) {
+    await User.softDelete(emp.user_id);
+    await pool.query('DELETE FROM sessions WHERE user_id = ?', [emp.user_id]);
+  }
   await AuditLog.create({
     user_id: req.user.id,
     action: 'DELETE_EMPLOYEE',

@@ -23,16 +23,18 @@ export const listCoupons = asyncHandler(async (req, res) => {
 });
 
 export const createCoupon = asyncHandler(async (req, res) => {
-  const id = await Coupon.create({ ...req.body, tenant_id: req.tenant?.id, created_by: req.user.id });
+  const tenantId = req.tenant?.id || null;
+  const id = await Coupon.create({ ...req.body, tenant_id: tenantId, created_by: req.user.id });
   await AuditLog.create({
     user_id: req.user.id,
     action: 'CREATE_COUPON',
     entity_type: 'COUPON',
     entity_id: id,
-    new_value: { ...req.body, tenant_id: req.tenant?.id, created_by: req.user.id },
+    new_value: { ...req.body, tenant_id: tenantId, created_by: req.user.id },
     ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
     user_agent: req.headers['user-agent']
   });
+
   broadcastToRole('ADMIN', 'coupon_created', { id });
   return success(res, 201, { id }, 'Coupon generated');
 });
@@ -47,6 +49,7 @@ export const updateCoupon = asyncHandler(async (req, res) => {
   const coupon = await Coupon.findById(req.params.id);
   if (!coupon) throw new NotFoundError('Coupon not found');
   await Coupon.update(req.params.id, req.body);
+  const updated = await Coupon.findById(req.params.id);
   await AuditLog.create({
     user_id: req.user.id,
     action: 'UPDATE_COUPON',
@@ -58,11 +61,29 @@ export const updateCoupon = asyncHandler(async (req, res) => {
     user_agent: req.headers['user-agent']
   });
   broadcastToRole('ADMIN', 'coupon_updated', { id: req.params.id });
-  return success(res, 200, null, 'Coupon updated successfully');
+  return success(res, 200, updated, 'Coupon updated successfully');
+});
+
+export const deleteCoupon = asyncHandler(async (req, res) => {
+  const coupon = await Coupon.findById(req.params.id);
+  if (!coupon) throw new NotFoundError('Coupon not found');
+  await Coupon.delete(req.params.id);
+  await AuditLog.create({
+    user_id: req.user.id,
+    action: 'DELETE_COUPON',
+    entity_type: 'COUPON',
+    entity_id: req.params.id,
+    old_value: coupon,
+    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+  broadcastToRole('ADMIN', 'coupon_deleted', { id: req.params.id });
+  return success(res, 200, null, 'Coupon deleted successfully');
 });
 
 export const validateCoupon = asyncHandler(async (req, res) => {
-  const coupon = await Coupon.findByCode(req.body.code);
+  const coupon = await Coupon.findByCode(req.tenant?.id, req.body.code);
   if (!coupon) throw new NotFoundError('Invalid coupon code');
   return success(res, 200, { valid: true, coupon }, 'Coupon is valid');
 });
+

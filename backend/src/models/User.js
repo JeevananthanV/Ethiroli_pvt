@@ -10,7 +10,7 @@ export default class User {
       email: decrypt(row.email),
       full_name: decrypt(row.full_name),
       phone: row.phone ? decrypt(row.phone) : null,
-      preferences: row.preferences ? JSON.parse(row.preferences) : null
+      preferences: row.preferences ? (typeof row.preferences === 'string' ? JSON.parse(row.preferences) : row.preferences) : null
     };
   }
 
@@ -124,19 +124,28 @@ export default class User {
       query += ' AND is_active = ?';
       values.push(is_active);
     }
-    if (search) {
-      query += ' AND full_name LIKE ?';
-      values.push(`%${search}%`);
+
+    query += ' ORDER BY created_at DESC';
+    if (!search) {
+      query += ' LIMIT ? OFFSET ?';
+      values.push(limit, offset);
     }
 
-    query += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
-    values.push(limit, offset);
-
     const [rows] = await pool.execute(query, values);
-    return rows.map(row => this.format(row));
+    const formatted = rows.map(row => this.format(row));
+    if (search) {
+      const q = search.toLowerCase();
+      const filtered = formatted.filter(u =>
+        (u.full_name && u.full_name.toLowerCase().includes(q)) ||
+        (u.email && u.email.toLowerCase().includes(q)) ||
+        (u.role && u.role.toLowerCase().includes(q))
+      );
+      return filtered.slice(offset, offset + limit);
+    }
+    return formatted;
   }
 
-  static async count({ role, is_active, search } = {}) {
+  static async count({ role, is_active } = {}) {
     let query = 'SELECT COUNT(*) as total FROM users WHERE 1=1';
     const values = [];
 
@@ -148,10 +157,6 @@ export default class User {
       query += ' AND is_active = ?';
       values.push(is_active);
     }
-    if (search) {
-      query += ' AND full_name LIKE ?';
-      values.push(`%${search}%`);
-    }
 
     const [rows] = await pool.execute(query, values);
     return rows[0].total;
@@ -160,6 +165,13 @@ export default class User {
   static async softDelete(id) {
     await pool.execute(
       'UPDATE users SET is_active = FALSE WHERE id = ?',
+      [id]
+    );
+  }
+
+  static async restore(id) {
+    await pool.execute(
+      'UPDATE users SET is_active = TRUE WHERE id = ?',
       [id]
     );
   }

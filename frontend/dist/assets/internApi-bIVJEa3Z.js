@@ -1,1 +1,0 @@
-import{a as n}from"./ErrorBoundary-Cl9MLlId.js";const r=async()=>(await n.get("/v1/interns")).data,o=async s=>(await n.post("/v1/interns",s)).data,c=async()=>(await n.get("/v1/interns/dashboard")).data,p=async(s,e)=>(await n.patch(`/v1/interns/${s}`,e)).data,i=async s=>(await n.delete(`/v1/interns/${s}`)).data;export{o as c,i as d,c as g,r as l,p as u};

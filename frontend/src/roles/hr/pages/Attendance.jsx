@@ -249,7 +249,7 @@ export default function HRAttendance() {
           <div className="card" style={{ padding: '1rem 1.25rem', borderLeft: '4px solid #7c3aed' }}>
             <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 600, textTransform: 'uppercase' }}>Student Compliance Standing</span>
             <div style={{ fontSize: '1.75rem', fontWeight: 700, color: '#7c3aed', marginTop: '0.25rem' }}>{stats.studentRate}</div>
-            <span style={{ fontSize: '0.75rem', color: '#7c3aed' }}>Target >= 75% for Exam Access</span>
+            <span style={{ fontSize: '0.75rem', color: '#7c3aed' }}>{'Target >= 75% for Exam Access'}</span>
           </div>
         </div>
 

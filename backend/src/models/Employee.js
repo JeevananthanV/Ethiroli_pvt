@@ -5,8 +5,13 @@ import { encrypt, decrypt } from '../config/encryption.js';
 export default class Employee {
   static format(row) {
     if (!row) return null;
+    const fullName = row.full_name ? decrypt(row.full_name) : (row.name || null);
+    const email = row.email ? decrypt(row.email) : null;
     return {
       ...row,
+      full_name: fullName,
+      name: fullName,
+      email,
       pan: row.pan ? decrypt(row.pan) : null,
       bank_account: row.bank_account ? decrypt(row.bank_account) : null,
       pf_number: row.pf_number ? decrypt(row.pf_number) : null
@@ -14,13 +19,29 @@ export default class Employee {
   }
 
   static async findById(id) {
-    const [rows] = await pool.execute('SELECT * FROM employees WHERE id = ?', [id]);
-    return rows.length > 0 ? this.format(rows[0]) : null;
+    const [rows] = await pool.execute(
+      `SELECT e.*, u.email, u.full_name, u.is_active, u.role 
+       FROM employees e 
+       JOIN users u ON e.user_id = u.id 
+       WHERE e.id = ?`,
+      [id]
+    );
+    if (rows.length > 0) return this.format(rows[0]);
+    const [raw] = await pool.execute('SELECT * FROM employees WHERE id = ?', [id]);
+    return raw.length > 0 ? this.format(raw[0]) : null;
   }
 
   static async findByUserId(userId) {
-    const [rows] = await pool.execute('SELECT * FROM employees WHERE user_id = ?', [userId]);
-    return rows.length > 0 ? this.format(rows[0]) : null;
+    const [rows] = await pool.execute(
+      `SELECT e.*, u.email, u.full_name, u.is_active, u.role 
+       FROM employees e 
+       JOIN users u ON e.user_id = u.id 
+       WHERE e.user_id = ?`,
+      [userId]
+    );
+    if (rows.length > 0) return this.format(rows[0]);
+    const [raw] = await pool.execute('SELECT * FROM employees WHERE user_id = ?', [userId]);
+    return raw.length > 0 ? this.format(raw[0]) : null;
   }
 
   static async create({ id = crypto.randomUUID(), user_id, employee_code, department, designation, date_of_joining, pan = null, bank_account = null, pf_number = null }) {

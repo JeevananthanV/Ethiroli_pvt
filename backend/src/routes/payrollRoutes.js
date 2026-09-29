@@ -1,7 +1,10 @@
 import express from 'express';
 import { 
   listSalaryStructures, 
+  getSalaryStructure,
   createSalaryStructure, 
+  updateSalaryStructure,
+  deleteSalaryStructure,
   processPayroll, 
   runPayrollForAll, 
   listPayrollHistory, 
@@ -18,7 +21,12 @@ const router = express.Router();
 router.use(authenticate);
 
 router.get('/payroll/salary-structures', requireRole('HR', 'ADMIN', 'SUPER_ADMIN', 'FINANCE'), listSalaryStructures);
-router.post('/payroll/salary-structures', requireRole('HR', 'ADMIN', 'FINANCE'), validateBody('createSalaryStructure'), createSalaryStructure);
+router.post('/payroll/salary-structures', requireRole('HR', 'ADMIN', 'SUPER_ADMIN', 'FINANCE'), validateBody('createSalaryStructure'), createSalaryStructure);
+router.get('/payroll/salary-structures/:id', requireRole('HR', 'ADMIN', 'SUPER_ADMIN', 'FINANCE'), getSalaryStructure);
+router.put('/payroll/salary-structures/:id', requireRole('HR', 'ADMIN', 'SUPER_ADMIN', 'FINANCE'), validateBody('updateSalaryStructure'), updateSalaryStructure);
+router.patch('/payroll/salary-structures/:id', requireRole('HR', 'ADMIN', 'SUPER_ADMIN', 'FINANCE'), validateBody('updateSalaryStructure'), updateSalaryStructure);
+router.delete('/payroll/salary-structures/:id', requireRole('HR', 'ADMIN', 'SUPER_ADMIN', 'FINANCE'), deleteSalaryStructure);
+
 router.post('/payroll/process', requireRole('HR', 'ADMIN', 'SUPER_ADMIN', 'FINANCE'), validateBody('processPayroll'), processPayroll);
 router.post('/payroll/run-all', requireRole('HR', 'ADMIN', 'SUPER_ADMIN', 'FINANCE'), validateBody('runPayrollForAll'), runPayrollForAll);
 router.get('/payroll/history', requireRole('HR', 'ADMIN', 'SUPER_ADMIN', 'EMPLOYEE', 'FINANCE'), listPayrollHistory);
@@ -28,3 +36,4 @@ router.post('/payroll/:id/resolve-dispute', requireRole('ADMIN', 'SUPER_ADMIN', 
 router.get('/payroll/:id/payslip', requireRole('HR', 'ADMIN', 'SUPER_ADMIN', 'EMPLOYEE', 'FINANCE'), generatePayslip);
 
 export default router;
+

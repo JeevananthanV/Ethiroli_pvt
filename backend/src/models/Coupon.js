@@ -13,20 +13,31 @@ export default class Coupon {
   }
 
   static async findByCode(tenantId, code) {
-    const [rows] = await pool.execute(
-      'SELECT * FROM coupons WHERE tenant_id = ? AND code = ? AND is_active = TRUE',
-      [tenantId, code]
-    );
+    let targetCode = code;
+    let targetTenant = tenantId;
+    if (code === undefined) {
+      targetCode = tenantId;
+      targetTenant = null;
+    }
+    let query = 'SELECT * FROM coupons WHERE code = ? AND is_active = TRUE';
+    const params = [targetCode];
+    if (targetTenant) {
+      query += ' AND tenant_id = ?';
+      params.push(targetTenant);
+    }
+    const [rows] = await pool.execute(query, params);
     return rows.length > 0 ? this.format(rows[0]) : null;
   }
 
-  static async create({ tenant_id, code, discount_type, discount_value, min_order_value = 0.00, max_discount_amount = null, usage_limit = null, valid_from, valid_to, is_active = true, created_by }) {
+
+  static async create({ tenant_id = null, code, discount_type, discount_value, min_order_value = 0.00, max_discount_amount = null, usage_limit = null, valid_from, valid_to, is_active = true, created_by }) {
     const id = crypto.randomUUID();
     await pool.execute(
       `INSERT INTO coupons (id, tenant_id, code, discount_type, discount_value, min_order_value, max_discount_amount, usage_limit, valid_from, valid_to, is_active, created_by)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [id, tenant_id, code, discount_type, discount_value, min_order_value, max_discount_amount, usage_limit, valid_from, valid_to, is_active, created_by]
     );
+
     return id;
   }
 

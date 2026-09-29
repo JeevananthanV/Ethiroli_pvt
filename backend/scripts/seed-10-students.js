@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';';
 import crypto from 'crypto';
 import pool from '../src/config/database.js';
 import User from '../src/models/User.js';

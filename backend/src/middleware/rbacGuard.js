@@ -5,14 +5,35 @@ import { logger } from '../config/logger.js';
 
 export const ROLE_RANKS = {
   SUPER_ADMIN: 100,
+  HR_SUPERADMIN: 90,
   ADMIN: 80,
   FINANCE: 60,
   HR: 60,
+  SENIOR_TUTOR: 45,
   TUTOR: 40,
   PM: 40,
+  PROJECT_MANAGER: 40,
+  SALES: 30,
+  RECEPTION: 30,
   EMPLOYEE: 20,
   INTERN: 20,
   STUDENT: 10
+};
+
+export const getRoleRank = async (roleCode) => {
+  if (!roleCode) return 0;
+  const upper = String(roleCode).trim().toUpperCase();
+  if (ROLE_RANKS[upper] !== undefined) {
+    return ROLE_RANKS[upper];
+  }
+  try {
+    const [rows] = await pool.query('SELECT security_rank FROM roles WHERE code = ? LIMIT 1', [upper]);
+    if (rows.length > 0 && rows[0].security_rank !== undefined) {
+      ROLE_RANKS[upper] = rows[0].security_rank;
+      return rows[0].security_rank;
+    }
+  } catch (_) {}
+  return 0;
 };
 
 // In-memory cache for role permissions to achieve <1ms lookup
@@ -131,7 +152,7 @@ export const enforcePrivilegeHierarchy = async (req, res, next) => {
       return error(res, 401, 'Unauthenticated user context');
     }
 
-    const callerRank = ROLE_RANKS[caller.role] || 0;
+    const callerRank = await getRoleRank(caller.role);
 
     // Super Admin has root rank (100) and can manage all tiers
     if (caller.role === 'SUPER_ADMIN') {
@@ -157,7 +178,7 @@ export const enforcePrivilegeHierarchy = async (req, res, next) => {
 
     // 2. Validate Role Assignment Rank Ceiling
     if (targetRoleCode) {
-      const assignedRank = ROLE_RANKS[targetRoleCode] || 0;
+      const assignedRank = await getRoleRank(targetRoleCode);
       if (assignedRank >= callerRank) {
         await AuditLog.create({
           user_id: caller.id,
@@ -190,7 +211,7 @@ export const enforcePrivilegeHierarchy = async (req, res, next) => {
 
       if (targetRows.length > 0) {
         const targetUser = targetRows[0];
-        const targetRank = ROLE_RANKS[targetUser.role] || 0;
+        const targetRank = await getRoleRank(targetUser.role);
 
         if (targetRank >= callerRank) {
           await AuditLog.create({

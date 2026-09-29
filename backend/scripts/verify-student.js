@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import User from '../src/models/User.js';
 import pool from '../src/config/database.js';
 

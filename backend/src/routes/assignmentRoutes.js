@@ -1,18 +1,47 @@
 import express from 'express';
-import { listAssignments, createAssignment, getAssignment, updateAssignment, listSubmissions, gradeSubmission } from '../controllers/assignmentController.js';
+import {
+  listAssignments,
+  listMyAssignments,
+  createAssignment,
+  getAssignment,
+  updateAssignment,
+  deleteAssignment,
+  listSubmissions,
+  submitAssignment,
+  getMySubmission,
+  gradeSubmission
+} from '../controllers/assignmentController.js';
 import { authenticate } from '../middleware/auth.js';
 import { requireRole } from '../middleware/rbac.js';
 import { validateBody } from '../middleware/validation.js';
 
 const router = express.Router();
 
+const READ_ROLES = ['STUDENT', 'INTERN', 'EMPLOYEE', 'TUTOR', 'PROJECT_MANAGER', 'ADMIN', 'SUPER_ADMIN', 'RECEPTION'];
+const AUTHOR_ROLES = ['TUTOR', 'ADMIN', 'SUPER_ADMIN'];
+const LEARNER_ROLES = ['STUDENT', 'INTERN', 'EMPLOYEE'];
+
 router.use(authenticate);
 
-router.get('/assignments', requireRole('EMPLOYEE', 'INTERN', 'TUTOR', 'PROJECT_MANAGER', 'ADMIN', 'SUPER_ADMIN', 'RECEPTION'), listAssignments);
-router.post('/assignments', requireRole('TUTOR', 'ADMIN', 'SUPER_ADMIN'), validateBody('createAssignment'), createAssignment);
-router.get('/assignments/:id', requireRole('EMPLOYEE', 'INTERN', 'TUTOR', 'PROJECT_MANAGER', 'ADMIN', 'SUPER_ADMIN', 'RECEPTION'), getAssignment);
-router.patch('/assignments/:id', requireRole('TUTOR', 'ADMIN', 'SUPER_ADMIN'), validateBody('createAssignment'), updateAssignment);
-router.get('/assignments/:id/submissions', requireRole('TUTOR', 'ADMIN', 'SUPER_ADMIN'), listSubmissions);
-router.patch('/submissions/:submissionId/grade', requireRole('TUTOR', 'ADMIN', 'SUPER_ADMIN'), gradeSubmission);
+// Listing
+router.get('/assignments', requireRole(...READ_ROLES), listAssignments);
+// NOTE: literal segments must be registered before '/assignments/:id'
+router.get('/assignments/me', requireRole(...LEARNER_ROLES), listMyAssignments);
+
+// Authoring (tutors / admins)
+router.post('/assignments', requireRole(...AUTHOR_ROLES), validateBody('createAssignment'), createAssignment);
+router.get('/assignments/:id', requireRole(...READ_ROLES), getAssignment);
+router.patch('/assignments/:id', requireRole(...AUTHOR_ROLES), updateAssignment);
+router.put('/assignments/:id', requireRole(...AUTHOR_ROLES), updateAssignment);
+router.delete('/assignments/:id', requireRole(...AUTHOR_ROLES), deleteAssignment);
+
+// Submission lifecycle
+router.post('/assignments/:id/submissions', requireRole(...LEARNER_ROLES, 'TUTOR', 'ADMIN', 'SUPER_ADMIN'), submitAssignment);
+router.get('/assignments/:id/mine', requireRole(...LEARNER_ROLES), getMySubmission);
+
+// Grading
+router.get('/assignments/:id/submissions', requireRole(...AUTHOR_ROLES), listSubmissions);
+router.patch('/submissions/:submissionId/grade', requireRole(...AUTHOR_ROLES), gradeSubmission);
+router.put('/submissions/:submissionId/grade', requireRole(...AUTHOR_ROLES), gradeSubmission);
 
 export default router;

@@ -15,6 +15,7 @@ const isAllowedOrigin = (value) => {
     const { hostname } = new URL(value);
     if (['localhost', '127.0.0.1', '::1'].includes(hostname)) return true;
     if (hostname === 'ethiroli.net' || hostname.endsWith('.ethiroli.net')) return true;
+    if (hostname.endsWith('.hostingersite.com') || hostname.endsWith('.hostinger.com')) return true;
   } catch {
     return false;
   }

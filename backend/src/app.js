@@ -24,6 +24,7 @@ const isAllowedOrigin = (origin) => {
     const { hostname } = new URL(origin);
     if (['localhost', '127.0.0.1', '::1'].includes(hostname)) return true;
     if (hostname === 'ethiroli.net' || hostname.endsWith('.ethiroli.net')) return true;
+    if (hostname.endsWith('.hostingersite.com') || hostname.endsWith('.hostinger.com')) return true;
   } catch {
     return false;
   }
@@ -83,7 +84,7 @@ app.use(cors({
     if (isAllowedOrigin(origin)) {
       return callback(null, true);
     }
-    callback(new Error(`Not allowed by CORS: ${origin}`));
+    callback(null, false);
   },
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Portal', 'X-CSRF-Token'],

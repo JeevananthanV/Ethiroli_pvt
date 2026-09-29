@@ -1,0 +1,161 @@
+/**
+ * Standardized API Response Shape
+ * @typedef {Object} HrApiResponse
+ * @property {any} data
+ * @property {number} status
+ * @property {string} statusText
+ * @property {string} error
+ */
+
+/**
+ * Standardized fetch with consistent error handling
+ */
+import axiosInstance from './axiosInstance.js';
+
+const standardFetch = async <T>(
+  promise: Promise<T>,
+  onError?: (error: string) => void
+): Promise<T> => {
+  try {
+    const result = await promise;
+    return result as T;
+  } catch (err: any) {
+    const message = err.response?.data?.message || err.message || 'An unexpected error occurred';
+    if (onError) onError(message);
+    throw new Error(message);
+  }
+};
+
+/**
+ * Dashboard Metrics
+ */
+export const getDashboardMetrics = async (): Promise<any> => {
+  return standardFetch(axiosInstance.get('/v1/hr/dashboard/metrics'));
+};
+
+/**
+ * Employees
+ */
+export const listEmployees = async (): Promise<any> => {
+  return standardFetch(axiosInstance.get('/v1/employees'));
+};
+
+/**
+ * Attendance
+ */
+export const listAttendance = async (params = {}): Promise<any> => {
+  return standardFetch(axiosInstance.get('/v1/attendance', { params }));
+};
+
+export const checkIn = async (data: any): Promise<any> => {
+  return standardFetch(axiosInstance.post('/v1/attendance/checkin', data));
+};
+
+export const updateAttendance = async (id: string, data: any): Promise<any> => {
+  return standardFetch(axiosInstance.patch(`/v1/attendance/${id}`, data));
+};
+
+export const getAttendanceSummary = async (): Promise<any> => {
+  return standardFetch(axiosInstance.get('/v1/attendance/summary'));
+};
+
+/**
+ * Leaves
+ */
+export const listLeaves = async (params = {}): Promise<any> => {
+  return standardFetch(axiosInstance.get('/v1/leaves', { params }));
+};
+
+export const createLeave = async (data: any): Promise<any> => {
+  return standardFetch(axiosInstance.post('/v1/leaves', data));
+};
+
+export const approveLeave = async (id: string): Promise<any> => {
+  return standardFetch(axiosInstance.patch(`/v1/leaves/${id}/approve`));
+};
+
+export const rejectLeave = async (id: string): Promise<any> => {
+  return standardFetch(axiosInstance.patch(`/v1/leaves/${id}/reject`));
+};
+
+/**
+ * Payroll
+ */
+export const listPayrollHistory = async (params = {}): Promise<any> => {
+  return standardFetch(axiosInstance.get('/v1/payroll/history', { params }));
+};
+
+export const runPayrollForAll = async (data: any): Promise<any> => {
+  return standardFetch(axiosInstance.post('/v1/payroll/run', data));
+};
+
+/**
+ * Documents
+ */
+export const listDocuments = async (params = {}): Promise<any> => {
+  return standardFetch(axiosInstance.get('/v1/documents', { params }));
+};
+
+export const uploadDocument = async (data: any): Promise<any> => {
+  return standardFetch(axiosInstance.post('/v1/documents', data));
+};
+
+/**
+ * Performance
+ */
+export const listPerformance = async (params = {}): Promise<any> => {
+  return standardFetch(axiosInstance.get('/v1/performance', { params }));
+};
+
+export const updatePerformance = async (id: string, data: any): Promise<any> => {
+  return standardFetch(axiosInstance.patch(`/v1/performance/${id}`, data));
+};
+
+/**
+ * Interns
+ */
+export const listInterns = async (): Promise<any> => {
+  return standardFetch(axiosInstance.get('/v1/interns'));
+};
+
+/**
+ * HR Routes - Standardized
+ */
+export const listHrRoutes = async (): Promise<any> => {
+  return standardFetch(axiosInstance.get('/v1/hr/routes'));
+};
+
+/**
+ * Career Applications
+ */
+export const listCareerApplications = async (params = {}): Promise<any> => {
+  return standardFetch(axiosInstance.get('/v1/career-applications', { params }));
+};
+
+/**
+ * Inquiries
+ */
+export const listInquiries = async (params = {}): Promise<any> => {
+  return standardFetch(axiosInstance.get('/v1/inquiries', { params }));
+};
+
+/**
+ * Interviews
+ */
+export const listInterviews = async (params = {}): Promise<any> => {
+  return standardFetch(axiosInstance.get('/v1/interviews', { params }));
+};
+
+/**
+ * Communications/Announcements
+ */
+export const listCommunications = async (params = {}): Promise<any> => {
+  return standardFetch(axiosInstance.get('/v1/communications', { params }));
+};
+
+/**
+ * Role Routes
+ */
+export const listRoles = async (): Promise<any> => {
+  return standardFetch(axiosInstance.get('/v1/roles'));
+};

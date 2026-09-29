@@ -4,7 +4,7 @@ import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 export default function Dashboard() {
   return (
     <AdminPage title="Project Manager Dashboard" subtitle="Project and client management">
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-md-4">
           <div className="card bg-primary text-white h-100">
             <div className="card-body">
@@ -30,7 +30,7 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-md-12">
           <div className="card h-100">
             <div className="card-header">
@@ -48,7 +48,7 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-md-6">
           <div className="card h-100">
             <div className="card-header">

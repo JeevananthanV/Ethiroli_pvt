@@ -9,8 +9,8 @@ export default function Messaging() {
   ]);
 
   return (
-    <div className="container-fluid p-4 bg-light min-vh-100">
-      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div className="container-fluid p-3 bg-light min-vh-100">
+      <div className="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
         <div>
           <h2 className="fw-bold mb-1 d-flex align-items-center gap-2">
             <i className="bi bi-chat-left-text text-primary" aria-hidden="true"></i>
@@ -28,7 +28,7 @@ export default function Messaging() {
       <div className="row g-4">
         {providers.map(prov => (
           <div key={prov.id} className="col-md-6 col-lg-3">
-            <div className="card border-0 shadow-sm rounded-3 p-4 bg-white h-100">
+            <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100">
               <div className="d-flex justify-content-between align-items-start mb-3">
                 <span className={`badge ${prov.type === 'EMAIL' ? 'bg-primary' : prov.type === 'SMS' ? 'bg-info text-dark' : 'bg-success'}`}>
                   {prov.type}
@@ -53,9 +53,9 @@ export default function Messaging() {
         ))}
       </div>
 
-      <div className="card border-0 shadow-sm rounded-3 bg-white p-4 mt-4">
+      <div className="card border-0 shadow-sm rounded-3 bg-white p-3 mt-4">
         <h5 className="fw-bold mb-3">Global Dispatch Quotas & Routing Rules</h5>
-        <p className="text-secondary small mb-4">
+        <p className="text-secondary small mb-2">
           Configure default fallback carriers, rate-limiting per tenant, and regulatory opt-out suppression lists.
         </p>
 

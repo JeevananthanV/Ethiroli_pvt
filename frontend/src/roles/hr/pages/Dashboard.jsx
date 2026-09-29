@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getDashboardMetrics } from '../../../services/api/hrApi.js';
+import { useHrData } from '../../../hooks/useHrData';
+import { getDashboardMetrics } from '../../../../services/api/hrApi.standardized.js';
 import './Dashboard.css';
 
 const empty = {
@@ -15,30 +16,43 @@ const empty = {
   totalInquiries: 0
 };
 
+/**
+ * HRDashboard - Dynamic Dashboard with Proper Data Flow
+ * 
+ * Uses useHrData hook for consistent state management,
+ * hrApi.standardized.js for consistent API calls,
+ * and AdminPage for unified loading/error/empty states.
+ */
 export default function HRDashboard() {
-  const [metrics, setMetrics] = useState(empty);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  // --- Data Hook with Proper Flow ---
+  const {
+    data: metrics,
+    loading,
+    error,
+    refresh,
+    // No create/update/delete for dashboard metrics, but hook provides structure
+  } = useHrData(
+    getDashboardMetrics,
+    undefined,
+    undefined, // no create
+    undefined, // no update
+    undefined, // no delete
+    // getSummaryFn is used internally by useHrData, but we pass getDashboardMetrics as fetchFn
+    // The hook will call getDashboardMetrics and store result in data
+  );
 
-  const refresh = useCallback(async () => {
-    setLoading(true);
-    setError('');
-    try {
-      const data = await getDashboardMetrics();
-      setMetrics({ ...empty, ...(data?.data || data) });
-    } catch {
-      setError('Workforce data could not be refreshed.');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  // --- Refresh/Reset ---
+  // refresh is already provided by useHrData and tied to the fetch function
 
-  useEffect(() => {
-    refresh();
-  }, [refresh]);
+  // --- Cards Data ---
+  // metrics comes directly from the API via useHrData
+  // We compute derived values from the fetched metrics
 
-  const attendance = metrics.totalEmployees ? Math.round((metrics.presentToday / metrics.totalEmployees) * 100) : 0;
+  const attendance = metrics.totalEmployees > 0
+    ? Math.min(100, Math.max(0, Math.round((metrics.presentToday / metrics.totalEmployees) * 100)))
+    : 0;
 
+  // cards derived from metrics
   const cards = [
     ['Active employees', metrics.totalEmployees, 'bi-people', 'indigo', 'Across all departments'],
     ['Job applications', metrics.totalApplications, 'bi-person-lines-fill', 'purple', 'From website career page'],

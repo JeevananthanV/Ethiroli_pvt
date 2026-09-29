@@ -13,8 +13,8 @@ export default function AutomationStudio() {
   };
 
   return (
-    <div className="container-fluid p-4 bg-light min-vh-100">
-      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div className="container-fluid p-3 bg-light min-vh-100">
+      <div className="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
         <div>
           <h2 className="fw-bold mb-1 d-flex align-items-center gap-2">
             <i className="bi bi-robot text-primary" aria-hidden="true"></i>
@@ -29,7 +29,7 @@ export default function AutomationStudio() {
         </button>
       </div>
 
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-md-3">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white">
             <span className="text-secondary small fw-semibold text-uppercase">Active Workflows</span>
@@ -60,7 +60,7 @@ export default function AutomationStudio() {
         </div>
       </div>
 
-      <div className="card border-0 shadow-sm rounded-3 bg-white p-4">
+      <div className="card border-0 shadow-sm rounded-3 bg-white p-3">
         <h5 className="fw-bold mb-3">Configured Workflows</h5>
         <div className="table-responsive">
           <table className="table table-hover align-middle">

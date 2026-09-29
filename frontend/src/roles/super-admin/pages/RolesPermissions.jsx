@@ -42,9 +42,9 @@ export default function RolesPermissions() {
   );
 
   return (
-    <div className="container-fluid p-4 bg-light min-vh-100">
+    <div className="container-fluid p-3 bg-light min-vh-100">
       {/* Header */}
-      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+      <div className="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
         <div>
           <h2 className="fw-bold mb-1 d-flex align-items-center gap-2">
             <i className="bi bi-shield-lock text-primary" aria-hidden="true"></i>
@@ -65,7 +65,7 @@ export default function RolesPermissions() {
       </div>
 
       {/* Scope Highlights */}
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-md-3">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white border-start border-primary border-4">
             <small className="text-secondary fw-semibold text-uppercase">Platform Roles</small>
@@ -136,7 +136,7 @@ export default function RolesPermissions() {
 
         {/* Selected Role Permissions */}
         <div className="col-lg-8">
-          <div className="card border-0 shadow-sm rounded-3 bg-white p-4">
+          <div className="card border-0 shadow-sm rounded-3 bg-white p-3">
             <div className="d-flex justify-content-between align-items-center mb-3">
               <div>
                 <h5 className="fw-bold mb-0">Permissions for: <span className="text-primary">{roles.find(r => r.id === selectedRole)?.name}</span></h5>

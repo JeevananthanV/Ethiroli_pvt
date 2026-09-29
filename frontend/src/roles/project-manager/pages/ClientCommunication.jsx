@@ -102,7 +102,7 @@ export default function PMClientCommunication() {
               <span className="badge bg-success bg-opacity-10 text-success">Client Portal Active</span>
             </div>
 
-            <div className="card-body p-4 flex-grow-1 overflow-auto" style={{ maxHeight: '420px' }}>
+            <div className="card-body p-3 flex-grow-1 overflow-auto" style={{ maxHeight: '420px' }}>
               <div className="d-flex flex-column gap-3">
                 {messages.map(m => (
                   <div key={m.id} className={`d-flex ${m.isMe ? 'justify-content-end' : 'justify-content-start'}`}>

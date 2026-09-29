@@ -66,7 +66,7 @@ export default function Profile() {
       onRetry={loadProfile}
     >
       {successMsg && (
-        <div className="alert alert-success alert-dismissible fade show d-flex align-items-center mb-4" role="alert">
+        <div className="alert alert-success alert-dismissible fade show d-flex align-items-center mb-2" role="alert">
           <i className="bi bi-check-circle-fill me-2 fs-5"></i>
           <div>{successMsg}</div>
           <button type="button" className="btn-close" onClick={() => setSuccessMsg('')}></button>
@@ -76,7 +76,7 @@ export default function Profile() {
       <div className="row g-4">
         {/* Left Column: Summary Card */}
         <div className="col-lg-4">
-          <div className="card shadow-sm border-0 text-center p-4">
+          <div className="card shadow-sm border-0 text-center p-3">
             <div className="d-inline-flex justify-content-center mb-3">
               <div
                 className="rounded-circle bg-primary bg-gradient text-white d-flex align-items-center justify-content-center shadow"
@@ -119,11 +119,11 @@ export default function Profile() {
 
         {/* Right Column: Profile Edit & Info Tabs */}
         <div className="col-lg-8">
-          <div className="card shadow-sm border-0 mb-4">
+          <div className="card shadow-sm border-0 mb-2">
             <div className="card-header bg-white py-3">
               <h6 className="mb-0 fw-bold">Contact & Identity Details</h6>
             </div>
-            <div className="card-body p-4">
+            <div className="card-body p-3">
               <form onSubmit={handleUpdate}>
                 <div className="row g-3">
                   <div className="col-md-6">
@@ -179,7 +179,7 @@ export default function Profile() {
             <div className="card-header bg-white py-3">
               <h6 className="mb-0 fw-bold">Tax & Banking Compliance</h6>
             </div>
-            <div className="card-body p-4">
+            <div className="card-body p-3">
               <div className="row g-3">
                 <div className="col-md-4">
                   <div className="p-3 bg-light rounded-3">

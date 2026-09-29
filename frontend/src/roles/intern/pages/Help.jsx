@@ -74,7 +74,7 @@ export default function InternHelp() {
       }
     >
       {/* Help Categories Banner */}
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-12 col-md-4">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100">
             <div className="d-flex align-items-center gap-3">
@@ -117,7 +117,7 @@ export default function InternHelp() {
       </div>
 
       {/* Support Tickets Section */}
-      <div className="card border-0 shadow-sm rounded-3 bg-white mb-4">
+      <div className="card border-0 shadow-sm rounded-3 bg-white mb-2">
         <div className="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
           <h6 className="mb-0 fw-bold text-dark">
             <i className="bi bi-ticket-perforated me-2 text-primary"></i> My Support Tickets
@@ -174,7 +174,7 @@ export default function InternHelp() {
       </div>
 
       {/* Frequently Asked Questions */}
-      <div className="card border-0 shadow-sm rounded-3 bg-white p-4">
+      <div className="card border-0 shadow-sm rounded-3 bg-white p-3">
         <h6 className="fw-bold text-dark mb-3">Frequently Asked Questions</h6>
         <div className="accordion" id="faqAccordion">
           <div className="accordion-item border-0 border-bottom">

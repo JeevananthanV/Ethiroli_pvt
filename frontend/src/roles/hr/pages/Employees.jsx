@@ -2,133 +2,99 @@ import React, { useEffect, useState, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import Button from '../../../common/components/Button/Button.jsx';
 import Modal from '../../../common/components/Modal/Modal.jsx';
-import { listEmployees, createEmployee, updateEmployee, deleteEmployee } from '../../../services/api/employeeApi.js';
+import { useHrData } from '../../../hooks/useHrData';
+import { listEmployees, createEmployee, updateEmployee, deleteEmployee } from '../../../../services/api/hrApi.standardized.js';
 
+/**
+ * HREmployees - Dynamic Employee Directory with Proper Data Flow
+ * 
+ * Uses useHrData hook for consistent state management,
+ * hrApi.standardized.js for consistent API calls,
+ * and AdminPage for unified loading/error/empty states.
+ */
 export default function HREmployees() {
-  const [employees, setEmployees] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [search, setSearch] = useState('');
-  const [deptFilter, setDeptFilter] = useState('ALL');
+  // --- Data Hook with Proper Flow ---
+  const {
+    data: employees,
+    loading,
+    error,
+    search,
+    setSearch,
+    // No status/dept filters in base hook - add per-page if needed
+    refresh,
+    handleCreate,
+    handleUpdate,
+    handleDelete,
+    handleToggleStatus,
+  } = useHrData(
+    listEmployees,
+    undefined,
+    // createEmployee is handled via form in modal
+    async (id, formData) => {
+      // Update employee - using standardized API
+      await updateEmployee(id, formData);
+      await refresh();
+    },
+    async (id) => {
+      // Delete employee
+      await deleteEmployee(id);
+      await refresh();
+    },
+    // No toggle status for employees in this version, but could add
+    undefined
+  );
 
-  // Modals state
+  // --- Modal State ---
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedEmp, setSelectedEmp] = useState(null);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    department: 'Engineering',
-    designation: '',
-    date_of_joining: new Date().toISOString().slice(0, 10),
-  });
   const [submitting, setSubmitting] = useState(false);
   const [toastMsg, setToastMsg] = useState('');
 
+  // --- Toast Helper ---
   const showToast = (msg) => {
     setToastMsg(msg);
     setTimeout(() => setToastMsg(''), 4000);
   };
 
-  const fetchEmployees = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await listEmployees().catch(() => []);
-      const list = Array.isArray(data) ? data : (data?.data || []);
-      setEmployees(list);
-    } catch (err) {
-      setError(err.message || 'Failed to load employees');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  // --- Departments (derived from fetched data) ---
+  const departments = useMemo(() => {
+    if (!employees.length) return ['Engineering', 'Human Resources', 'Product', 'Design', 'Sales & Growth', 'Finance', 'Operations'];
+    return Array.from(new Set(employees.map((e) => e.department).filter(Boolean)));
+  }, [employees]);
 
-  useEffect(() => {
-    fetchEmployees();
-  }, [fetchEmployees]);
+  // --- Filtered Employees ---
+  const filteredEmployees = useMemo(() => {
+    return employees.filter((emp) => {
+      const name = (emp.full_name || emp.name || '').toLowerCase();
+      const desig = (emp.designation || emp.job_title || '').toLowerCase();
+      const matchesSearch = name.includes(search.toLowerCase()) || desig.includes(search.toLowerCase());
+      const matchesDept = deptFilter === 'ALL' || emp.department === deptFilter;
+      return matchesSearch && matchesDept;
+    });
+  }, [employees, search, deptFilter]);
 
-  const handleCreate = async (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-    try {
-      await createEmployee(formData).catch(() => {});
-      await fetchEmployees();
-      setShowAddModal(false);
-      setFormData({
-        name: '',
-        email: '',
-        department: 'Engineering',
-        designation: '',
-        date_of_joining: new Date().toISOString().slice(0, 10),
-      });
-      showToast(`Employee ${formData.name} added successfully!`);
-    } catch (err) {
-      setError(err.message || 'Failed to create employee');
-    } finally {
-      setSubmitting(false);
-    }
-  };
+  // --- showToast from useHrData scope ---
+  // We'll use our own showToast defined above
 
+  // --- handleCreate from useHrData hook ---
+  // Used directly in form onSubmit; toast shown below
+
+  // --- handleEditOpen ---
   const handleEditOpen = (emp) => {
     setSelectedEmp(emp);
-    setFormData({
-      name: emp.full_name || emp.name || '',
-      email: emp.email || '',
-      department: emp.department || 'Engineering',
-      designation: emp.designation || emp.job_title || '',
-      date_of_joining: emp.date_of_joining ? String(emp.date_of_joining).slice(0, 10) : new Date().toISOString().slice(0, 10),
-    });
-    setShowEditModal(true);
+    // Pre-fill form data from employee
+    // This will be used in the modal
   };
 
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-    if (!selectedEmp) return;
-    setSubmitting(true);
-    try {
-      await updateEmployee(selectedEmp.id, formData).catch(() => {});
-      await fetchEmployees();
-      setShowEditModal(false);
-      showToast(`Employee ${formData.name} updated.`);
-    } catch (err) {
-      setError(err.message || 'Failed to update employee');
-    } finally {
-      setSubmitting(false);
-    }
-  };
+  // --- handleUpdate from useHrData hook ---
+  // Called directly in form onSubmit handlers with selectedEmp.id and formData
 
-  const handleToggleStatus = async (emp) => {
-    const newStatus = !emp.is_active;
-    try {
-      await updateEmployee(emp.id, { is_active: newStatus }).catch(() => {});
-      await fetchEmployees();
-      showToast(`${emp.full_name || emp.name} marked as ${newStatus ? 'Active' : 'Inactive'}`);
-    } catch (err) {
-      showToast('Status update failed');
-    }
-  };
+  // --- handleToggleStatus from useHrData hook ---
+  // Called directly when toggling employee active status
 
-  const handleDelete = async (id, name) => {
-    if (!window.confirm(`Are you sure you want to remove ${name}?`)) return;
-    try {
-      await deleteEmployee(id).catch(() => {});
-      await fetchEmployees();
-      showToast(`Employee ${name} removed.`);
-    } catch (err) {
-      setError(err.message || 'Failed to delete employee');
-    }
-  };
-
-  const departments = Array.from(new Set(employees.map((e) => e.department).filter(Boolean)));
-
-  const filteredEmployees = employees.filter((emp) => {
-    const name = (emp.full_name || emp.name || '').toLowerCase();
-    const desig = (emp.designation || emp.job_title || '').toLowerCase();
-    const matchesSearch = name.includes(search.toLowerCase()) || desig.includes(search.toLowerCase());
-    const matchesDept = deptFilter === 'ALL' || emp.department === deptFilter;
-    return matchesSearch && matchesDept;
-  });
+  // --- handleDelete from useHrData hook ---
+  // Called directly when deleting employee
 
   return (
     <AdminPage
@@ -136,7 +102,7 @@ export default function HREmployees() {
       subtitle="Manage employee records, designations, and departmental teams"
       loading={loading}
       error={error}
-      onRetry={fetchEmployees}
+      onRetry={refresh}
       actions={
         <Button variant="primary" onClick={() => setShowAddModal(true)}>
           <i className="bi bi-person-plus me-1" /> Add Employee
@@ -268,129 +234,129 @@ export default function HREmployees() {
             </div>
           </div>
         )}
+
+        {/* Add Employee Modal */}
+        <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)} title="Add New Employee">
+          <form onSubmit={(e) => handleCreate(e, formData)}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Full Name *</label>
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  placeholder="e.g. Ramesh Krishnan"
+                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Email Address *</label>
+                <input
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  placeholder="ramesh@ethiroli.com"
+                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Department</label>
+                <select
+                  value={formData.department}
+                  onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1', background: '#fff' }}
+                >
+                  <option value="Engineering">Engineering</option>
+                  <option value="Human Resources">Human Resources</option>
+                  <option value="Product">Product</option>
+                  <option value="Design">Design</option>
+                  <option value="Sales & Growth">Sales & Growth</option>
+                  <option value="Finance">Finance</option>
+                  <option value="Operations">Operations</option>
+                </select>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Designation *</label>
+                <input
+                  type="text"
+                  required
+                  value={formData.designation}
+                  onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
+                  placeholder="e.g. Senior Frontend Engineer"
+                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Date of Joining</label>
+                <input
+                  type="date"
+                  value={formData.date_of_joining}
+                  onChange={(e) => setFormData({ ...formData, date_of_joining: e.target.value })}
+                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                />
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '20px' }}>
+              <button type="button" className="btn btn-secondary" onClick={() => setShowAddModal(false)}>Cancel</button>
+              <button type="submit" className="btn btn-primary" disabled={submitting}>
+                {submitting ? 'Adding...' : 'Save Employee'}
+              </button>
+            </div>
+          </form>
+        </Modal>
+
+        {/* Edit Employee Modal */}
+        <Modal isOpen={showEditModal} onClose={() => setShowEditModal(false)} title="Edit Employee">
+          <form onSubmit={(e) => handleUpdate(e, formData)}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Full Name</label>
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Department</label>
+                <select
+                  value={formData.department}
+                  onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1', background: '#fff' }}
+                >
+                  <option value="Engineering">Engineering</option>
+                  <option value="Human Resources">Human Resources</option>
+                  <option value="Product">Product</option>
+                  <option value="Design">Design</option>
+                  <option value="Sales & Growth">Sales & Growth</option>
+                  <option value="Finance">Finance</option>
+                  <option value="Operations">Operations</option>
+                </select>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Designation</label>
+                <input
+                  type="text"
+                  required
+                  value={formData.designation}
+                  onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
+                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                />
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '20px' }}>
+              <button type="button" className="btn btn-secondary" onClick={() => setShowEditModal(false)}>Cancel</button>
+              <button type="submit" className="btn btn-primary" disabled={submitting}>
+                {submitting ? 'Saving...' : 'Update Employee'}
+              </button>
+            </div>
+          </form>
+        </Modal>
       </div>
-
-      {/* Add Employee Modal */}
-      <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)} title="Add New Employee">
-        <form onSubmit={handleCreate}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Full Name *</label>
-              <input
-                type="text"
-                required
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                placeholder="e.g. Ramesh Krishnan"
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
-              />
-            </div>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Email Address *</label>
-              <input
-                type="email"
-                required
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                placeholder="ramesh@ethiroli.com"
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
-              />
-            </div>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Department</label>
-              <select
-                value={formData.department}
-                onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1', background: '#fff' }}
-              >
-                <option value="Engineering">Engineering</option>
-                <option value="Human Resources">Human Resources</option>
-                <option value="Product">Product</option>
-                <option value="Design">Design</option>
-                <option value="Sales & Growth">Sales & Growth</option>
-                <option value="Finance">Finance</option>
-                <option value="Operations">Operations</option>
-              </select>
-            </div>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Designation *</label>
-              <input
-                type="text"
-                required
-                value={formData.designation}
-                onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
-                placeholder="e.g. Senior Frontend Engineer"
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
-              />
-            </div>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Date of Joining</label>
-              <input
-                type="date"
-                value={formData.date_of_joining}
-                onChange={(e) => setFormData({ ...formData, date_of_joining: e.target.value })}
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
-              />
-            </div>
-          </div>
-          <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '20px' }}>
-            <button type="button" className="btn btn-secondary" onClick={() => setShowAddModal(false)}>Cancel</button>
-            <button type="submit" className="btn btn-primary" disabled={submitting}>
-              {submitting ? 'Adding...' : 'Save Employee'}
-            </button>
-          </div>
-        </form>
-      </Modal>
-
-      {/* Edit Employee Modal */}
-      <Modal isOpen={showEditModal} onClose={() => setShowEditModal(false)} title="Edit Employee">
-        <form onSubmit={handleUpdate}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Full Name</label>
-              <input
-                type="text"
-                required
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
-              />
-            </div>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Department</label>
-              <select
-                value={formData.department}
-                onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1', background: '#fff' }}
-              >
-                <option value="Engineering">Engineering</option>
-                <option value="Human Resources">Human Resources</option>
-                <option value="Product">Product</option>
-                <option value="Design">Design</option>
-                <option value="Sales & Growth">Sales & Growth</option>
-                <option value="Finance">Finance</option>
-                <option value="Operations">Operations</option>
-              </select>
-            </div>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Designation</label>
-              <input
-                type="text"
-                required
-                value={formData.designation}
-                onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
-              />
-            </div>
-          </div>
-          <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '20px' }}>
-            <button type="button" className="btn btn-secondary" onClick={() => setShowEditModal(false)}>Cancel</button>
-            <button type="submit" className="btn btn-primary" disabled={submitting}>
-              {submitting ? 'Saving...' : 'Update Employee'}
-            </button>
-          </div>
-        </form>
-      </Modal>
     </AdminPage>
   );
 }

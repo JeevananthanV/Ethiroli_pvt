@@ -64,13 +64,16 @@ export default function SuperAdminApp() {
 
         {/* Operations */}
         <Route path="calendar" element={<SuperAdminCalendar />} />
+        <Route path="super-calendar" element={<SuperAdminCalendar />} />
         <Route path="approvals" element={<SuperAdminApprovals />} />
+        <Route path="super-approvals" element={<SuperAdminApprovals />} />
         <Route path="notifications" element={<SuperAdminNotifications />} />
         <Route path="communications" element={<SuperAdminCommunications />} />
 
         {/* Platform Services & Automation */}
         <Route path="automation" element={<SuperAdminAutomationStudio />} />
         <Route path="integrations" element={<SuperAdminIntegrations />} />
+        <Route path="super-integrations" element={<SuperAdminIntegrations />} />
         <Route path="messaging" element={<SuperAdminMessaging />} />
         <Route path="developer" element={<SuperAdminDeveloperPortal />} />
         <Route path="marketplace" element={<SuperAdminMarketplace />} />
@@ -79,6 +82,7 @@ export default function SuperAdminApp() {
         <Route path="reports" element={<SuperAdminReports />} />
         <Route path="analytics" element={<SuperAdminAIAnalytics />} />
         <Route path="gamification" element={<SuperAdminGamification />} />
+        <Route path="super-gamification" element={<SuperAdminGamification />} />
 
         {/* System & Telemetry */}
         <Route path="monitoring" element={<SuperAdminMonitoring />} />

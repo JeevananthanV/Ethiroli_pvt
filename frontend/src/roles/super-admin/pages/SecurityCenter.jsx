@@ -91,8 +91,8 @@ export default function SecurityCenter() {
   };
 
   return (
-    <div className="container-fluid p-4 bg-light min-vh-100">
-      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div className="container-fluid p-3 bg-light min-vh-100">
+      <div className="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
         <div>
           <h2 className="fw-bold mb-1 d-flex align-items-center gap-2">
             <i className="bi bi-shield-shaded text-primary" aria-hidden="true"></i>
@@ -125,7 +125,7 @@ export default function SecurityCenter() {
       </div>
 
       {feedback && (
-        <div className={`alert alert-${feedback.type} alert-dismissible fade show shadow-sm mb-4`} role="alert">
+        <div className={`alert alert-${feedback.type} alert-dismissible fade show shadow-sm mb-2`} role="alert">
           <div className="d-flex align-items-center gap-2">
             <i className={`bi ${feedback.type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'} fs-5`}></i>
             <div>{feedback.message}</div>
@@ -135,7 +135,7 @@ export default function SecurityCenter() {
       )}
 
       {/* Metrics Row */}
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-md-3">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white border-start border-success border-4">
             <span className="text-secondary small fw-semibold text-uppercase">Platform Security Posture</span>
@@ -167,7 +167,7 @@ export default function SecurityCenter() {
       </div>
 
       {/* Threat Interceptions Table */}
-      <div className="card border-0 shadow-sm rounded-3 bg-white p-4">
+      <div className="card border-0 shadow-sm rounded-3 bg-white p-3">
         <h5 className="fw-bold mb-3 d-flex align-items-center justify-content-between">
           <span>Real-time WAF & Threat Interceptions</span>
           <span className="badge bg-secondary">{threats.length} Recorded</span>
@@ -245,7 +245,7 @@ export default function SecurityCenter() {
                 <button type="button" className="btn-close btn-close-white" onClick={() => setShowRevokeModal(false)}></button>
               </div>
               <form onSubmit={handleRevokeSessions}>
-                <div className="modal-body p-4">
+                <div className="modal-body p-3">
                   <div className="alert alert-warning py-2 small mb-3">
                     <i className="bi bi-exclamation-triangle-fill me-1"></i>
                     This action immediately purges all active JWT sessions in the database, sends a force-disconnect across all cluster worker forks, and locks out the account.
@@ -306,7 +306,7 @@ export default function SecurityCenter() {
                 <button type="button" className="btn-close btn-close-white" onClick={() => setShowBlockModal(false)}></button>
               </div>
               <form onSubmit={handleBlockIp}>
-                <div className="modal-body p-4">
+                <div className="modal-body p-3">
                   <div className="mb-3">
                     <label className="form-label fw-semibold small">IP Address / Range</label>
                     <input 
@@ -350,7 +350,7 @@ export default function SecurityCenter() {
                 <h5 className="modal-title fw-bold">Threat Metadata Details</h5>
                 <button type="button" className="btn-close" onClick={() => setSelectedThreat(null)}></button>
               </div>
-              <div className="modal-body p-4">
+              <div className="modal-body p-3">
                 <pre className="bg-light p-3 rounded font-monospace small mb-0" style={{ maxHeight: '300px', overflowY: 'auto' }}>
                   {JSON.stringify(selectedThreat, null, 2)}
                 </pre>

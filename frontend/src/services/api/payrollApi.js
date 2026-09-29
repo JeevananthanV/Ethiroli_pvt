@@ -1,12 +1,27 @@
 import axiosInstance from './axiosInstance.js';
 
-export const getSalaryStructures = async () => {
-  const response = await axiosInstance.get('/v1/payroll/salary-structures');
+export const getSalaryStructures = async (params = {}) => {
+  const response = await axiosInstance.get('/v1/payroll/salary-structures', { params });
+  return response.data;
+};
+
+export const getSalaryStructure = async (id) => {
+  const response = await axiosInstance.get(`/v1/payroll/salary-structures/${id}`);
   return response.data;
 };
 
 export const createSalaryStructure = async (data) => {
   const response = await axiosInstance.post('/v1/payroll/salary-structures', data);
+  return response.data;
+};
+
+export const updateSalaryStructure = async (id, data) => {
+  const response = await axiosInstance.put(`/v1/payroll/salary-structures/${id}`, data);
+  return response.data;
+};
+
+export const deleteSalaryStructure = async (id) => {
+  const response = await axiosInstance.delete(`/v1/payroll/salary-structures/${id}`);
   return response.data;
 };
 
@@ -35,7 +50,10 @@ export const getPayslip = async (id) => {
 export const payrollApi = {
   getAll: getSalaryStructures,
   getSalaryStructures,
+  getSalaryStructure,
   createSalaryStructure,
+  updateSalaryStructure,
+  deleteSalaryStructure,
   processPayroll,
   runPayrollForAll,
   getPayrollHistory,
@@ -44,3 +62,4 @@ export const payrollApi = {
 };
 
 export default payrollApi;
+

@@ -21,6 +21,27 @@ export default function Navbar({ role, onSearchClick, onToggleFeed, unreadFeedCo
 
   const userInitial = (user?.full_name || user?.email || 'U').charAt(0).toUpperCase();
 
+  const [userMenuOpen, setUserMenuOpen] = React.useState(false);
+
+  const getRoleSlug = (r) => {
+    switch (r) {
+      case ROLES.SUPER_ADMIN: return 'super-admin';
+      case ROLES.ADMIN: return 'admin';
+      case ROLES.HR: return 'hr';
+      case ROLES.TUTOR: return 'tutor';
+      case ROLES.PROJECT_MANAGER: return 'pm';
+      case ROLES.FINANCE: return 'finance';
+      case ROLES.SALES: return 'sales';
+      case ROLES.RECEPTION: return 'reception';
+      case ROLES.EMPLOYEE: return 'employee';
+      case ROLES.STUDENT: return 'student';
+      case ROLES.INTERN: return 'intern';
+      default: return 'admin';
+    }
+  };
+
+  const roleSlug = getRoleSlug(currentRole);
+
   return (
     <header className="portalNavbar" role="banner">
       <div className="portalNavbarBrand">
@@ -73,7 +94,7 @@ export default function Navbar({ role, onSearchClick, onToggleFeed, unreadFeedCo
         <button 
           type="button" 
           className="portalSearchPill" 
-          onClick={onSearchClick || (() => navigate(currentRole === ROLES.INTERN ? '/app/intern/tasks' : '#'))} 
+          onClick={onSearchClick || (() => navigate(`/app/${roleSlug}/dashboard`))} 
           title="Global Search"
         >
           <i className="bi bi-search"></i>
@@ -85,7 +106,7 @@ export default function Navbar({ role, onSearchClick, onToggleFeed, unreadFeedCo
         <button
           type="button"
           className="portalNotificationBtn"
-          onClick={onToggleFeed || (() => navigate(currentRole === ROLES.INTERN ? '/app/intern/notifications' : '#'))}
+          onClick={onToggleFeed || (() => navigate(`/app/${roleSlug}/notifications`))}
           title="Notifications"
           aria-label="View notifications"
         >
@@ -101,7 +122,7 @@ export default function Navbar({ role, onSearchClick, onToggleFeed, unreadFeedCo
         <button
           type="button"
           className="portalNotificationBtn"
-          onClick={() => navigate(currentRole === ROLES.INTERN ? '/app/intern/messages' : '#')}
+          onClick={() => navigate(`/app/${roleSlug}/messages`)}
           title="Messages"
           aria-label="View messages"
         >
@@ -112,7 +133,7 @@ export default function Navbar({ role, onSearchClick, onToggleFeed, unreadFeedCo
         <button
           type="button"
           className="portalNotificationBtn"
-          onClick={() => navigate(currentRole === ROLES.INTERN ? '/app/intern/help' : '#')}
+          onClick={() => navigate(`/app/${roleSlug}/help`)}
           title="Help & Support"
           aria-label="Help & Support"
         >
@@ -120,13 +141,14 @@ export default function Navbar({ role, onSearchClick, onToggleFeed, unreadFeedCo
         </button>
 
         {user && (
-          <div className="dropdown">
+          <div className="dropdown" style={{ position: 'relative' }}>
             <button
               type="button"
               className="portalUserPill btn p-0 border-0 d-flex align-items-center dropdown-toggle"
               id="userMenuButton"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
+              onClick={() => setUserMenuOpen(prev => !prev)}
+              aria-expanded={userMenuOpen}
+              aria-haspopup="true"
               style={{ background: 'transparent' }}
             >
               <div className="portalAvatar" title={user.email}>
@@ -141,38 +163,69 @@ export default function Navbar({ role, onSearchClick, onToggleFeed, unreadFeedCo
                 </div>
               </div>
             </button>
-            <ul className="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userMenuButton" style={{ minWidth: '200px' }}>
-              <li className="px-3 py-2 border-bottom">
-                <div className="fw-bold text-truncate">{user.full_name || 'Portal User'}</div>
-                <small className="text-muted text-truncate d-block">{user.email}</small>
-              </li>
-              <li>
-                <button className="dropdown-item d-flex align-items-center gap-2 py-2" onClick={() => navigate(currentRole === ROLES.INTERN ? '/app/intern/profile' : '#')}>
-                  <i className="bi bi-person-circle"></i> My Profile
-                </button>
-              </li>
-              <li>
-                <button className="dropdown-item d-flex align-items-center gap-2 py-2" onClick={() => navigate(currentRole === ROLES.INTERN ? '/app/intern/notifications' : '#')}>
-                  <i className="bi bi-bell"></i> Notifications
-                </button>
-              </li>
-              <li>
-                <button className="dropdown-item d-flex align-items-center gap-2 py-2" onClick={() => navigate(currentRole === ROLES.INTERN ? '/app/intern/messages' : '#')}>
-                  <i className="bi bi-chat-dots"></i> Messages
-                </button>
-              </li>
-              <li>
-                <button className="dropdown-item d-flex align-items-center gap-2 py-2" onClick={() => navigate(currentRole === ROLES.INTERN ? '/app/intern/help' : '#')}>
-                  <i className="bi bi-question-circle"></i> Help & Support
-                </button>
-              </li>
-              <li><hr className="dropdown-divider my-1" /></li>
-              <li>
-                <button className="dropdown-item d-flex align-items-center gap-2 py-2 text-danger" onClick={logout}>
-                  <i className="bi bi-box-arrow-right"></i> Logout
-                </button>
-              </li>
-            </ul>
+            {userMenuOpen && (
+              <ul
+                className="dropdown-menu dropdown-menu-end shadow-sm show"
+                aria-labelledby="userMenuButton"
+                style={{
+                  minWidth: '220px',
+                  display: 'block',
+                  position: 'absolute',
+                  right: 0,
+                  top: '100%',
+                  marginTop: '8px',
+                  zIndex: 1050,
+                  borderRadius: '10px',
+                  border: '1px solid var(--admin-border-subtle, rgba(0,0,0,0.1))'
+                }}
+              >
+                <li className="px-3 py-2 border-bottom">
+                  <div className="fw-bold text-truncate">{user.full_name || 'Portal User'}</div>
+                  <small className="text-muted text-truncate d-block">{user.email}</small>
+                </li>
+                <li>
+                  <button
+                    className="dropdown-item d-flex align-items-center gap-2 py-2"
+                    onClick={() => { setUserMenuOpen(false); navigate(`/app/${roleSlug}/profile`); }}
+                  >
+                    <i className="bi bi-person-circle"></i> My Profile
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="dropdown-item d-flex align-items-center gap-2 py-2"
+                    onClick={() => { setUserMenuOpen(false); if (onToggleFeed) onToggleFeed(); else navigate(`/app/${roleSlug}/notifications`); }}
+                  >
+                    <i className="bi bi-bell"></i> Notifications
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="dropdown-item d-flex align-items-center gap-2 py-2"
+                    onClick={() => { setUserMenuOpen(false); navigate(`/app/${roleSlug}/messages`); }}
+                  >
+                    <i className="bi bi-chat-dots"></i> Messages
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="dropdown-item d-flex align-items-center gap-2 py-2"
+                    onClick={() => { setUserMenuOpen(false); navigate(`/app/${roleSlug}/help`); }}
+                  >
+                    <i className="bi bi-question-circle"></i> Help & Support
+                  </button>
+                </li>
+                <li><hr className="dropdown-divider my-1" /></li>
+                <li>
+                  <button
+                    className="dropdown-item d-flex align-items-center gap-2 py-2 text-danger"
+                    onClick={() => { setUserMenuOpen(false); logout(); }}
+                  >
+                    <i className="bi bi-box-arrow-right"></i> Logout
+                  </button>
+                </li>
+              </ul>
+            )}
           </div>
         )}
       </div>

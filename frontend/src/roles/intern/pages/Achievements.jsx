@@ -85,11 +85,11 @@ export default function Achievements() {
     >
       <div className="container-fluid px-0">
         {/* KPI Stats Cards */}
-        <div className="row g-3 mb-4">
+        <div className="row g-3 mb-2">
           {stats.map((st) => (
             <div key={st.label} className="col-sm-6 col-lg-3">
               <div className="card shadow-sm border-0 h-100">
-                <div className="card-body p-4 d-flex align-items-center gap-3">
+                <div className="card-body p-3 d-flex align-items-center gap-3">
                   <div className={`p-3 rounded-circle bg-${st.color}-subtle text-${st.color}`}>
                     <i className={`bi ${st.icon} fs-3`}></i>
                   </div>
@@ -105,7 +105,7 @@ export default function Achievements() {
         </div>
 
         {/* Badges Grid */}
-        <div className="card shadow-sm border-0 mb-4">
+        <div className="card shadow-sm border-0 mb-2">
           <div className="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
             <h5 className="mb-0 fw-bold text-dark">
               <i className="bi bi-patch-check-fill text-warning me-2"></i>Badges & Honors
@@ -114,7 +114,7 @@ export default function Achievements() {
               {badges.filter((b) => b.status === 'EARNED').length} of {badges.length} Unlocked
             </span>
           </div>
-          <div className="card-body p-4 pt-0">
+          <div className="card-body p-3 pt-0">
             <div className="row g-3">
               {badges.map((b) => (
                 <div key={b.id} className="col-md-6 col-lg-4">

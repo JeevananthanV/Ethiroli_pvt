@@ -14,28 +14,30 @@ const ROLE_PORTAL_MAP = {
   RECEPTION: 'reception',
   EMPLOYEE: 'employee',
   STUDENT: 'student',
-  INTERN: 'intern',
-  CLIENT: 'client',
-  VENDOR: 'vendor',
+  INTERN: 'intern'
 };
 
+import StudentLoginPage from '../../../auth/portals/pages/StudentLoginPage.jsx';
+
 function LoginPage() {
+  const { role: roleParam } = useParams();
+
+  // Route to the dedicated, dynamic Student Login page for the student role
+  if (roleParam === 'student') {
+    return <StudentLoginPage />;
+  }
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
-  const { role: roleParam } = useParams();
 
   const portalLabel = roleParam === 'super-admin'
     ? 'Super Admin'
     : roleParam === 'pm'
     ? 'Project Manager'
-    : roleParam === 'client'
-    ? 'Client'
-    : roleParam === 'vendor'
-    ? 'Vendor'
     : roleParam
     ? roleParam.charAt(0).toUpperCase() + roleParam.slice(1)
     : 'System';
@@ -45,7 +47,7 @@ function LoginPage() {
     setLoading(true);
     setError('');
     try {
-      const roleKey = roleParam === 'super-admin' ? 'SUPER_ADMIN' : roleParam === 'pm' ? 'PROJECT_MANAGER' : roleParam === 'client' ? 'CLIENT' : roleParam === 'vendor' ? 'VENDOR' : roleParam?.toUpperCase();
+      const roleKey = roleParam === 'super-admin' ? 'SUPER_ADMIN' : roleParam === 'pm' ? 'PROJECT_MANAGER' : roleParam?.toUpperCase();
       const portal = ROLE_PORTAL_MAP[roleKey];
       const data = await login(email, password, portal);
       const actualRole = data?.user?.role;
@@ -59,13 +61,14 @@ function LoginPage() {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
-      <div className="container col-md-4 col-lg-3">
+    <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light py-4">
+      <div className="container col-md-5 col-lg-4">
         <div className="card shadow-sm border-0">
           <div className="card-header bg-primary text-white text-center py-4">
             <h2 className="h4 mb-0">{portalLabel} Login</h2>
+            <small className="opacity-75">Ethiroli System Portal</small>
           </div>
-          <div className="card-body p-4">
+          <div className="card-body p-3">
             {error && <div className="alert alert-danger">{error}</div>}
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
@@ -73,6 +76,7 @@ function LoginPage() {
                 <input
                   type="email"
                   className="form-control"
+                  placeholder="name@ethiroli.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -83,6 +87,7 @@ function LoginPage() {
                 <input
                   type="password"
                   className="form-control"
+                  placeholder="Enter password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required

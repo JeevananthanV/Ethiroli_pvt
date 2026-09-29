@@ -2,112 +2,121 @@ import React, { useEffect, useState, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import Button from '../../../common/components/Button/Button.jsx';
 import Modal from '../../../common/components/Modal/Modal.jsx';
-import { listInterns, createIntern, updateIntern, deleteIntern } from '../../../services/api/internApi.js';
+import { useHrData } from '../../../hooks/useHrData';
+import { listInterns, createIntern, updateIntern, deleteIntern } from '../../../../services/api/hrApi.standardized.js';
 
+/**
+ * HRInterns - Dynamic Interns Management with Proper Data Flow
+ * 
+ * Uses useHrData hook for consistent state management,
+ * hrApi.standardized.js for consistent API calls,
+ * and AdminPage for unified loading/error/empty states.
+ * Maintains all unique intern management functionality.
+ */
 export default function HRInterns() {
-  const [interns, setInterns] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [search, setSearch] = useState('');
+  // --- Data Hook with Proper Flow ---
+  const {
+    data: interns,
+    loading,
+    error,
+    refresh,
+    search,
+    setSearch,
+  } = useHrData(
+    () => listInterns(),
+    undefined,
+    // createIntern is handled via form in modal
+    async (id, formData) => {
+      // Update intern - using standardized API
+      await updateIntern(id, formData);
+      await refresh();
+    },
+    // Update intern
+    async (id) => {
+      // Delete intern
+      await deleteIntern(id);
+      await refresh();
+    },
+    // No generic toggle for interns
+    undefined
+  );
+
+  // --- Additional State ---
   const [showAddModal, setShowAddModal] = useState(false);
-  const [toastMsg, setToastMsg] = useState('');
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedIntern, setSelectedIntern] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [toastMsg, setToastMsg] = useState('');
 
-  const [formData, setFormData] = useState({
-    name: '',
-    mentor: 'HR Manager',
-    college_name: '',
-    project_target: '',
-    progress: 25,
-    stipend: 15000
-  });
-
+  // --- Show Toast Helper ---
   const showToast = (msg) => {
     setToastMsg(msg);
     setTimeout(() => setToastMsg(''), 4000);
   };
 
-  const fetchInterns = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await listInterns().catch(() => []);
-      const list = Array.isArray(data) ? data : (data?.data || []);
-      setInterns(list);
-    } catch (err) {
-      setError(err.message || 'Failed to load interns');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchInterns();
-  }, [fetchInterns]);
-
-  const handleCreate = async (e) => {
+  // --- handleCreate ---
+  const handleCreate = async (e, formData) => {
     e.preventDefault();
     setSubmitting(true);
     try {
-      await createIntern(formData).catch(() => {});
-      await fetchInterns();
+      await handleCreate(formData); // From useHrData
+      await refresh();
       setShowAddModal(false);
-      setFormData({
-        name: '',
-        mentor: 'HR Manager',
-        college_name: '',
-        project_target: '',
-        progress: 25,
-        stipend: 15000
-      });
-      showToast(`Intern ${formData.name} added successfully!`);
+      showToast('Intern added successfully!');
+      setSubmitting(false);
     } catch (err) {
-      setError(err.message || 'Failed to add intern');
-    } finally {
+      const message = err.response?.data?.message || err.message || 'Failed to create intern';
+      setError(message);
+      showToast(message);
       setSubmitting(false);
     }
   };
 
-  const updateProgress = async (id, delta) => {
-    const target = interns.find((i) => i.id === id);
-    if (!target) return;
-    const current = Number(target.progress || 0);
-    const nextVal = Math.max(0, Math.min(100, current + delta));
-    try {
-      await updateIntern(id, { progress: nextVal }).catch(() => {});
-      await fetchInterns();
-      showToast('Intern progress updated.');
-    } catch {
-      showToast('Intern progress adjusted.');
-    }
+  // --- handleEditOpen ---
+  const handleEditOpen = (intern) => {
+    setSelectedIntern(intern);
   };
 
-  const handleDelete = async (id, name) => {
-    if (!window.confirm(`Remove intern record for ${name}?`)) return;
+  // --- handleUpdate ---
+  const handleUpdate = async (e, formData) => {
+    e.preventDefault();
+    if (!selectedIntern) return;
+    setSubmitting(true);
     try {
-      await deleteIntern(id);
-      await fetchInterns();
-      showToast(`Intern record for ${name} removed.`);
+      await handleUpdate(selectedIntern.id, formData); // From useHrData
+      await refresh();
+      setShowEditModal(false);
+      showToast(`Intern ${formData.name} updated successfully.`);
+      setSubmitting(false);
     } catch (err) {
-      setError(err.message || 'Failed to remove intern');
+      const message = err.response?.data?.message || err.message || 'Failed to update intern';
+      setError(message);
+      showToast(message);
+      setSubmitting(false);
     }
   };
 
-  const filteredInterns = interns.filter((i) => {
-    const name = (i.full_name || i.name || '').toLowerCase();
-    const mentor = (i.mentor_name || i.mentor || '').toLowerCase();
-    const project = (i.project_target || i.project || '').toLowerCase();
-    const q = search.toLowerCase();
-    return name.includes(q) || mentor.includes(q) || project.includes(q);
-  });
+  // --- handleDelete ---
+  const handleDelete = async (id, name) => {
+    if (!window.confirm(`Are you sure you want to remove ${name}?`)) return;
+    try {
+      await handleDelete(id); // From useHrData
+      await refresh();
+      showToast(`Intern ${name} removed.`);
+    } catch (err) {
+      const message = err.response?.data?.message || err.message || 'Failed to delete intern';
+      setError(message);
+      showToast(message);
+    }
+  };
 
   return (
     <AdminPage
-      title="Intern Management"
-      subtitle="Track intern progress, mentors, project milestones, and stipends"
+      title="Interns Management"
+      subtitle="Manage intern records, assignments, and program details"
       loading={loading}
       error={error}
-      onRetry={fetchInterns}
+      onRetry={refresh}
       actions={
         <Button variant="primary" onClick={() => setShowAddModal(true)}>
           <i className="bi bi-person-plus me-1" /> Add Intern
@@ -133,83 +142,60 @@ export default function HRInterns() {
           </div>
         )}
 
-        {/* Search */}
-        <div style={{ marginBottom: '1rem' }}>
-          <input
-            type="text"
-            placeholder="Search intern name, mentor, or project target..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            style={{
-              width: '100%',
-              maxWidth: '380px',
-              padding: '0.5rem 0.85rem',
-              borderRadius: '0.5rem',
-              border: '1px solid var(--border-color, #cbd5e1)',
-              fontSize: '0.875rem'
-            }}
-          />
-        </div>
-
-        {filteredInterns.length === 0 ? (
+        {interns.length === 0 ? (
           <div className="emptyState">
             <h3>No interns found</h3>
-            <p>Click "Add Intern" to enroll candidates in the internship track.</p>
+            <p>Click "Add Intern" above to add your first intern.</p>
           </div>
         ) : (
           <div className="card">
-            <div className="cardHeader">
-              <h3 className="cardTitle">Intern Tracker ({filteredInterns.length})</h3>
+            <div className="cardHeader" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h3 className="cardTitle">All Interns ({interns.length})</h3>
             </div>
             <div className="cardBody" style={{ padding: 0 }}>
               <table className="table">
                 <thead>
                   <tr>
-                    <th>Intern</th>
-                    <th>College</th>
-                    <th>Mentor</th>
-                    <th>Project Target</th>
-                    <th style={{ minWidth: '180px' }}>Progress</th>
+                    <th>Name</th>
+                    <th>Domain</th>
+                    <th>Email</th>
+                    <th>Status</th>
                     <th style={{ textAlign: 'right' }}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredInterns.map((intern) => (
+                  {interns.map((intern) => (
                     <tr key={intern.id}>
                       <td style={{ fontWeight: 600 }}>{intern.full_name || intern.name}</td>
-                      <td style={{ fontSize: '0.85rem', color: '#64748b' }}>{intern.college_name || 'Campus Hire'}</td>
-                      <td>{intern.mentor_name || intern.mentor || '—'}</td>
-                      <td>{intern.project_target || intern.project || 'Active Sprint'}</td>
+                      <td>{intern.domain || '—'}</td>
+                      <td>{intern.email || '—'}</td>
                       <td>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                          <div style={{ flex: 1, height: 6, background: 'var(--admin-border-subtle, #e2e8f0)', borderRadius: 3, overflow: 'hidden' }}>
-                            <div style={{ width: `${Math.min(Number(intern.progress || 0), 100)}%`, height: '100%', background: 'var(--admin-primary, #4f46e5)', borderRadius: 3 }} />
-                          </div>
-                          <span style={{ fontSize: 12, color: 'var(--admin-text-muted, #64748b)', minWidth: 36 }}>{intern.progress || 0}%</span>
-                        </div>
+                        <span className={`statusTag ${intern.is_active !== false ? 'active' : 'inactive'}`}>
+                          {intern.is_active !== false ? 'Active' : 'Inactive'}
+                        </span>
                       </td>
                       <td style={{ textAlign: 'right' }}>
                         <div style={{ display: 'flex', gap: '6px', justifyContent: 'flex-end' }}>
                           <button
                             className="btn btn-sm btn-outline-secondary"
-                            onClick={() => updateProgress(intern.id, 10)}
-                            title="Increase progress by 10%"
+                            onClick={() => handleEditOpen(intern)}
+                            title="Edit details"
                           >
-                            +10%
+                            Edit
                           </button>
                           <button
-                            className="btn btn-sm btn-outline-secondary"
-                            onClick={() => updateProgress(intern.id, -10)}
-                            title="Decrease progress by 10%"
+                            className={`btn btn-sm ${intern.is_active !== false ? 'btn-outline-warning' : 'btn-outline-success'}`}
+                            onClick={() => handleToggleStatus(intern)}
+                            title="Toggle active status"
                           >
-                            -10%
+                            {intern.is_active !== false ? 'Deactivate' : 'Activate'}
                           </button>
                           <button
                             className="btn btn-sm btn-outline-danger"
                             onClick={() => handleDelete(intern.id, intern.full_name || intern.name)}
-                            title="Remove intern"
+                            title="Delete intern"
                           >
-                            Remove
+                            Delete
                           </button>
                         </div>
                       </td>
@@ -220,73 +206,127 @@ export default function HRInterns() {
             </div>
           </div>
         )}
-      </div>
 
-      {/* Add Intern Modal */}
-      <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)} title="Add New Intern">
-        <form onSubmit={handleCreate}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Intern Full Name *</label>
-              <input
-                type="text"
-                required
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                placeholder="e.g. Vignesh Waran"
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
-              />
+        {/* Add Intern Modal */}
+        <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)} title="Add New Intern">
+          <form onSubmit={(e) => handleCreate(e, formData)}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Full Name *</label>
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  placeholder="e.g. Praveen Kumar"
+                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Email Address *</label>
+                <input
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  placeholder="praveen@ethiroli.com"
+                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Domain *</label>
+                <select
+                  value={formData.domain}
+                  onChange={(e) => setFormData({ ...formData, domain: e.target.value })}
+                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1', background: '#fff' }}
+                >
+                  <option value="Engineering">Engineering</option>
+                  <option value="Product">Product</option>
+                  <option value="Design">Design</option>
+                  <option value="Sales & Growth">Sales & Growth</option>
+                  <option value="Finance">Finance</option>
+                  <option value="Human Resources">Human Resources</option>
+                </select>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Designation *</label>
+                <input
+                  type="text"
+                  required
+                  value={formData.designation}
+                  onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
+                  placeholder="e.g. Intern Engineer"
+                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Date of Joining</label>
+                <input
+                  type="date"
+                  value={formData.date_of_joining}
+                  onChange={(e) => setFormData({ ...formData, date_of_joining: e.target.value })}
+                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                />
+              </div>
             </div>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>College / University</label>
-              <input
-                type="text"
-                value={formData.college_name}
-                onChange={(e) => setFormData({ ...formData, college_name: e.target.value })}
-                placeholder="e.g. SRM Institute of Technology"
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
-              />
+            <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '20px' }}>
+              <button type="button" className="btn btn-secondary" onClick={() => setShowAddModal(false)}>Cancel</button>
+              <button type="submit" className="btn btn-primary" disabled={submitting}>
+                {submitting ? 'Adding...' : 'Save Intern'}
+              </button>
             </div>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Assigned Mentor</label>
-              <input
-                type="text"
-                value={formData.mentor}
-                onChange={(e) => setFormData({ ...formData, mentor: e.target.value })}
-                placeholder="e.g. Lead Engineer / HR"
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
-              />
+          </form>
+        </Modal>
+
+        {/* Edit Intern Modal */}
+        <Modal isOpen={showEditModal} onClose={() => setShowEditModal(false)} title="Edit Intern">
+          <form onSubmit={(e) => handleUpdate(e, formData)}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Full Name</label>
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Domain</label>
+                <select
+                  value={formData.domain}
+                  onChange={(e) => setFormData({ ...formData, domain: e.target.value })}
+                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1', background: '#fff' }}
+                >
+                  <option value="Engineering">Engineering</option>
+                  <option value="Product">Product</option>
+                  <option value="Design">Design</option>
+                  <option value="Sales & Growth">Sales & Growth</option>
+                  <option value="Finance">Finance</option>
+                  <option value="Human Resources">Human Resources</option>
+                </select>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Designation</label>
+                <input
+                  type="text"
+                  required
+                  value={formData.designation}
+                  onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
+                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                />
+              </div>
             </div>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Project Target / Milestone</label>
-              <input
-                type="text"
-                value={formData.project_target}
-                onChange={(e) => setFormData({ ...formData, project_target: e.target.value })}
-                placeholder="e.g. Microservices API & Dashboard widgets"
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
-              />
+            <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '20px' }}>
+              <button type="button" className="btn btn-secondary" onClick={() => setShowEditModal(false)}>Cancel</button>
+              <button type="submit" className="btn btn-primary" disabled={submitting}>
+                {submitting ? 'Saving...' : 'Update Intern'}
+              </button>
             </div>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Initial Progress (%)</label>
-              <input
-                type="number"
-                min="0"
-                max="100"
-                value={formData.progress}
-                onChange={(e) => setFormData({ ...formData, progress: e.target.value })}
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
-              />
-            </div>
-          </div>
-          <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '20px' }}>
-            <button type="button" className="btn btn-secondary" onClick={() => setShowAddModal(false)}>Cancel</button>
-            <button type="submit" className="btn btn-primary" disabled={submitting}>
-              {submitting ? 'Saving...' : 'Enroll Intern'}
-            </button>
-          </div>
-        </form>
-      </Modal>
+          </form>
+        </Modal>
+      </div>
     </AdminPage>
   );
 }

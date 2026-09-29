@@ -96,7 +96,7 @@ export default function Users() {
 
   return (
     <div className="p-3">
-      <div className="d-flex justify-content-between align-items-center mb-4">
+      <div className="d-flex justify-content-between align-items-center mb-2">
         <div>
           <h1 className="h3 fw-bold text-white mb-1">Global User Directory</h1>
           <p className="text-secondary small mb-0">
@@ -125,7 +125,7 @@ export default function Users() {
       )}
 
       {showForm && (
-        <div className="card bg-dark text-white border-secondary mb-4 shadow-sm">
+        <div className="card bg-dark text-white border-secondary mb-2 shadow-sm">
           <div className="card-header border-secondary">
             <h5 className="mb-0 fs-6 fw-semibold text-primary">{editingUser ? 'Edit User Record' : 'Provision User Account'}</h5>
           </div>

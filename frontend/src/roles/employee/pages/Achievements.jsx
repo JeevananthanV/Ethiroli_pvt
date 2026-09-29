@@ -66,7 +66,7 @@ export default function Achievements() {
       <div className="row g-4">
         {achievements.map((badge) => (
           <div key={badge.id} className="col-md-6 col-lg-4">
-            <div className="card h-100 shadow-sm border-0 text-center p-4">
+            <div className="card h-100 shadow-sm border-0 text-center p-3">
               <div className="d-inline-flex justify-content-center mb-3">
                 <div
                   className="rounded-circle bg-warning bg-opacity-10 text-warning d-flex align-items-center justify-content-center"
@@ -81,7 +81,7 @@ export default function Achievements() {
                 {badge.tier || 'HONOR'}
               </span>
 
-              <p className="card-text text-muted small mb-4 flex-grow-1">
+              <p className="card-text text-muted small mb-2 flex-grow-1">
                 {badge.description}
               </p>
 

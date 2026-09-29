@@ -15,8 +15,6 @@ export const ROLES = Object.freeze({
   EMPLOYEE: 'EMPLOYEE',
   STUDENT: 'STUDENT',
   INTERN: 'INTERN',
-  CLIENT: 'CLIENT',
-  VENDOR: 'VENDOR',
 });
 
 /**
@@ -34,8 +32,6 @@ export const ROLE_DEFAULT_ROUTES = Object.freeze({
   [ROLES.EMPLOYEE]: '/app/employee/dashboard',
   [ROLES.STUDENT]: '/app/student/dashboard',
   [ROLES.INTERN]: '/app/intern/dashboard',
-  [ROLES.CLIENT]: '/app/client/dashboard',
-  [ROLES.VENDOR]: '/app/vendor/dashboard',
 });
 
 /**

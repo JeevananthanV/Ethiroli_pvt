@@ -131,7 +131,7 @@ export default function Leads() {
       subtitle="Capture inbound prospects, qualify opportunities, and convert leads into revenue deals"
     >
       {/* Header Actions */}
-      <div className="card border-0 shadow-sm rounded-3 p-3 bg-white mb-4">
+      <div className="card border-0 shadow-sm rounded-3 p-3 bg-white mb-2">
         <div className="row g-3 align-items-center">
           <div className="col-md-4">
             <div className="input-group">

@@ -13,8 +13,6 @@ import { ROLES } from './common/utils/roleRouting.js';
 // Auth Pages
 import LoginPage from './auth/pages/LoginPage.jsx';
 import AdminLoginPage from './auth/pages/AdminLoginPage.jsx';
-import VendorLoginPage from './auth/pages/VendorLoginPage.jsx';
-import ClientLoginPage from './auth/pages/ClientLoginPage.jsx';
 
 // Portal Login Pages
 import SuperAdminLoginPage from './auth/portals/pages/SuperAdminLoginPage.jsx';
@@ -150,8 +148,6 @@ export default function AdminApp() {
                 {/* Authentication Routes */}
                 <Route path="/app/login" element={<LoginPage />} />
                 <Route path="/admin/login" element={<AdminLoginPage />} />
-                <Route path="/vendor/login" element={<VendorLoginPage />} />
-                <Route path="/client/login" element={<ClientLoginPage />} />
                 <Route path="/login" element={<Navigate to="/app/login" replace />} />
 
                 {/* Portal-Specific Login Routes */}

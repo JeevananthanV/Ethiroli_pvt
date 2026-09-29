@@ -33,7 +33,7 @@ export default function Dashboard() {
       title="Super Admin Dashboard" 
       subtitle="Real-time multi-tenant platform controls, database telemetry, and system operations"
     >
-      <div className="d-flex justify-content-between align-items-center mb-4">
+      <div className="d-flex justify-content-between align-items-center mb-2">
         <div className="d-flex align-items-center gap-2">
           <span className="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1">
             <i className="bi bi-circle-fill me-1" style={{ fontSize: '0.5rem' }}></i> Live Database Connected
@@ -55,14 +55,14 @@ export default function Dashboard() {
       </div>
 
       {error && (
-        <div className="alert alert-danger py-2 mb-4" role="alert">
+        <div className="alert alert-danger py-2 mb-2" role="alert">
           <i className="bi bi-exclamation-triangle me-2"></i>
           {error}
         </div>
       )}
 
       {/* Live Metrics Grid fetched directly from MySQL */}
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-md-3 col-sm-6">
           <div className="card bg-primary text-white h-100 shadow-sm border-0">
             <div className="card-body">
@@ -140,7 +140,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-md-6">
           <div className="card h-100 shadow-sm border-0" style={{ background: 'var(--admin-card-bg, #1a1f2c)' }}>
             <div className="card-header bg-transparent border-bottom border-secondary border-opacity-25 py-3">

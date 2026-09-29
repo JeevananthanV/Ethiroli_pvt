@@ -91,7 +91,7 @@ export default function PMSprints() {
       }
     >
       {activeSprint && (
-        <div className="card border-0 shadow-sm rounded-3 p-4 bg-primary text-white mb-4">
+        <div className="card border-0 shadow-sm rounded-3 p-3 bg-primary text-white mb-2">
           <div className="d-flex flex-wrap justify-content-between align-items-start gap-3">
             <div>
               <span className="badge bg-white text-primary fw-bold mb-2">ACTIVE SPRINT</span>

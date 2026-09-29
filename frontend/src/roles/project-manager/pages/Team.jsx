@@ -42,7 +42,7 @@ export default function PMTeam() {
       title="Team & Resource Allocation"
       subtitle="Manage team members, roles, workload, and cross-functional project assignments"
     >
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-md-3">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white">
             <small className="text-muted text-uppercase fw-semibold">Total Members</small>

@@ -111,7 +111,7 @@ export default function FinanceSettings() {
                 </div>
 
                 <h6 className="fw-bold mt-4 mb-3 text-dark">Invoice Numbering & Tax Rates</h6>
-                <div className="row g-3 mb-4">
+                <div className="row g-3 mb-2">
                   <div className="col-md-4">
                     <label className="form-label">Invoice Prefix</label>
                     <input

@@ -120,14 +120,14 @@ export default function WorkLog() {
     >
       <div className="container-fluid px-0">
         {alert.text && (
-          <div className={`alert alert-${alert.type} alert-dismissible fade show mb-4`} role="alert">
+          <div className={`alert alert-${alert.type} alert-dismissible fade show mb-2`} role="alert">
             <i className={`bi bi-${alert.type === 'success' ? 'check-circle' : 'info-circle'} me-2`}></i>
             {alert.text}
             <button type="button" className="btn-close" onClick={() => setAlert({ type: '', text: '' })}></button>
           </div>
         )}
 
-        <div className="row g-4 mb-4">
+        <div className="row g-4 mb-2">
           {/* Daily Report Form */}
           <div className="col-lg-6">
             <div className="card shadow-sm border-0">
@@ -139,7 +139,7 @@ export default function WorkLog() {
                   Date: {formData.date}
                 </span>
               </div>
-              <div className="card-body p-4 pt-0">
+              <div className="card-body p-3 pt-0">
                 <form onSubmit={handleSubmit}>
                   <div className="row g-3 mb-3">
                     <div className="col-sm-6">
@@ -226,7 +226,7 @@ export default function WorkLog() {
                     />
                   </div>
 
-                  <div className="mb-4">
+                  <div className="mb-2">
                     <label className="form-label small fw-semibold d-block">6. Any blockers for tomorrow?</label>
                     <div className="d-flex gap-3 align-items-center mb-2">
                       <div className="form-check">

@@ -5,6 +5,7 @@ import { getMyEnrollments } from '../../../services/api/enrollmentApi.js';
 import { listModules } from '../../../services/api/moduleApi.js';
 import { listLessons, getLesson, completeLesson } from '../../../services/api/lessonApi.js';
 import { useSocket } from '../../../common/contexts/SocketContext.jsx';
+import lmsApi from '../../../services/api/lmsApi.js';
 import axios from '../../../services/axios.js';
 
 export default function StudentCoursePlayer() {
@@ -28,6 +29,9 @@ export default function StudentCoursePlayer() {
   const [doubtForm, setDoubtForm] = useState({ title: '', description: '', code_snippet: '' });
   const [submittingDoubt, setSubmittingDoubt] = useState(false);
   const [doubtSuccess, setDoubtSuccess] = useState('');
+  const [celebration, setCelebration] = useState(null);
+
+  const hasAutoSelectedRef = useRef(false);
 
   // 1. Fetch Student Enrollments
   useEffect(() => {
@@ -49,6 +53,15 @@ export default function StudentCoursePlayer() {
     })();
     return () => { isMounted = false; };
   }, [selectedCourseId, setSearchParams]);
+
+  // Update progress percentage when enrollments change
+  useEffect(() => {
+    if (!selectedCourseId || !enrollments.length) return;
+    const enr = enrollments.find(e => (e.course_id || e.courseId) === selectedCourseId);
+    if (enr) {
+      setProgressPercentage(Number(enr.progress_percentage || enr.progress || 0));
+    }
+  }, [selectedCourseId, enrollments]);
 
   // 2. Fetch Course Structure (Modules & Lessons)
   const fetchCourseStructure = useCallback(async (courseId) => {
@@ -77,25 +90,34 @@ export default function StudentCoursePlayer() {
       );
       setModules(enrichedModules);
 
-      // Select first lesson if none selected
-      if (!activeLesson && enrichedModules.length > 0 && enrichedModules[0].lessons.length > 0) {
-        loadLessonDetails(enrichedModules[0].lessons[0].id);
+      // Seed completion state from the server so ticks survive a reload.
+      const flatLessons = enrichedModules.flatMap((mod) => mod.lessons);
+      const serverCompleted = flatLessons.filter((lsn) => lsn.is_completed).map((lsn) => lsn.id);
+      if (serverCompleted.length > 0) {
+        setCompletedLessonIds((prev) => [...new Set([...prev, ...serverCompleted])]);
       }
 
-      // Check current progress
-      const enr = enrollments.find(e => (e.course_id || e.courseId) === courseId);
-      if (enr) {
-        setProgressPercentage(Number(enr.progress_percentage || enr.progress || 0));
+      // Resume support: honour ?lessonId=, otherwise open the first lesson
+      // that has not been completed yet (falling back to lesson one).
+      if (!hasAutoSelectedRef.current && flatLessons.length > 0) {
+        hasAutoSelectedRef.current = true;
+        const requestedLessonId = new URLSearchParams(window.location.search).get('lessonId');
+        const target =
+          (requestedLessonId && flatLessons.find((lsn) => lsn.id === requestedLessonId)) ||
+          flatLessons.find((lsn) => !lsn.is_completed && !serverCompleted.includes(lsn.id)) ||
+          flatLessons[0];
+        loadLessonDetails(target.id);
       }
     } catch (err) {
       console.error('Failed to fetch course curriculum', err);
     } finally {
       setLoading(false);
     }
-  }, [enrollments, activeLesson]);
+  }, []);
 
   useEffect(() => {
     if (selectedCourseId) {
+      hasAutoSelectedRef.current = false;
       fetchCourseStructure(selectedCourseId);
     }
   }, [selectedCourseId, fetchCourseStructure]);
@@ -143,6 +165,16 @@ export default function StudentCoursePlayer() {
         setProgressPercentage(res.percentage);
       }
 
+      // Gamification feedback: badges earned or a certificate issued.
+      if (res?.certificate) {
+        setCelebration({
+          kind: 'certificate',
+          text: `🎉 Course complete! Certificate ${res.certificate.certificate_number || ''} issued.`
+        });
+      } else if (Array.isArray(res?.badges_awarded) && res.badges_awarded.length > 0) {
+        setCelebration({ kind: 'badge', text: `🏅 Badge earned: ${res.badges_awarded.join(', ')}` });
+      }
+
       // Auto-advance to next lesson
       let nextLesson = null;
       let foundCurrent = false;
@@ -174,14 +206,19 @@ export default function StudentCoursePlayer() {
   const handleSubmitDoubt = async (e) => {
     e.preventDefault();
     if (!doubtForm.title || !doubtForm.description) return;
+    if (!selectedCourseId) {
+      alert('Open a course before raising a doubt.');
+      return;
+    }
     setSubmittingDoubt(true);
     try {
-      await axios.post('/doubts', {
+      // POST /api/doubts has no backend handler; doubts live at /v1/lms/doubts.
+      await lmsApi.submitDoubt({
         course_id: selectedCourseId,
-        lesson_id: activeLesson?.id,
+        lesson_id: activeLesson?.id || null,
         title: doubtForm.title,
         description: doubtForm.description,
-        code_snippet: doubtForm.code_snippet
+        code_snippet: doubtForm.code_snippet || null
       });
       setDoubtSuccess('Doubt submitted directly to course tutor!');
       setDoubtForm({ title: '', description: '', code_snippet: '' });
@@ -220,6 +257,41 @@ export default function StudentCoursePlayer() {
       loading={loading}
       onRetry={() => fetchCourseStructure(selectedCourseId)}
     >
+      {/* Gamification banner: certificate / badge earned */}
+      {celebration && (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: 12,
+            padding: '12px 16px',
+            marginBottom: 18,
+            borderRadius: 8,
+            background: celebration.kind === 'certificate'
+              ? 'linear-gradient(135deg, rgba(129,158,53,0.18), rgba(26,75,72,0.18))'
+              : 'linear-gradient(135deg, rgba(175,67,30,0.16), rgba(129,158,53,0.16))',
+            border: '1px solid rgba(129,158,53,0.45)',
+            fontSize: 14,
+            animation: 'fadeIn 0.3s ease-in'
+          }}
+        >
+          <span>{celebration.text}</span>
+          <div style={{ display: 'flex', gap: 8 }}>
+            {celebration.kind === 'certificate' && (
+              <button className="btn primary" style={{ padding: '6px 12px', fontSize: 12 }}
+                onClick={() => navigate('/app/student/certificates')}>
+                View Certificate
+              </button>
+            )}
+            <button className="btn secondary" style={{ padding: '6px 12px', fontSize: 12 }}
+              onClick={() => setCelebration(null)}>
+              Dismiss
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Course Switcher & Header Bar */}
       <div className="card" style={{ marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -419,7 +491,7 @@ export default function StudentCoursePlayer() {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 4 }}>
                     {mod.lessons?.map((lsn, lsnIdx) => {
                       const isSelected = activeLesson?.id === lsn.id;
-                      const isDone = completedLessonIds.includes(lsn.id);
+                      const isDone = completedLessonIds.includes(lsn.id) || Boolean(lsn.is_completed);
 
                       return (
                         <button

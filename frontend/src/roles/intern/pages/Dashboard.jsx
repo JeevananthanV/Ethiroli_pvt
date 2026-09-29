@@ -300,7 +300,7 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="card-body p-4 pt-0">
+              <div className="card-body p-3 pt-0">
                 <div className="progress mb-3" style={{ height: '6px' }}>
                   <div
                     className="progress-bar bg-success"
@@ -353,7 +353,7 @@ export default function Dashboard() {
                     <i className="bi bi-mortarboard-fill text-primary"></i> Curriculum Progress
                   </h5>
                 </div>
-                <div className="card-body p-4 pt-0">
+                <div className="card-body p-3 pt-0">
                   <div className="d-flex justify-content-between align-items-center mb-1">
                     <span className="fw-semibold text-dark">{curriculum.track}</span>
                     <span className="fw-bold text-primary">{curriculum.progress}% Completed</span>
@@ -389,7 +389,7 @@ export default function Dashboard() {
                   </h5>
                   <span className="badge bg-success-subtle text-success">{mentorCard.status}</span>
                 </div>
-                <div className="card-body p-4 pt-0">
+                <div className="card-body p-3 pt-0">
                   <div className="d-flex align-items-center gap-3 mb-3">
                     <div className="avatar-circle bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold fs-5" style={{ width: '48px', height: '48px' }}>
                       {mentorCard.avatar}
@@ -432,7 +432,7 @@ export default function Dashboard() {
                   Full Calendar <i className="bi bi-chevron-right"></i>
                 </Link>
               </div>
-              <div className="card-body p-4 pt-0">
+              <div className="card-body p-3 pt-0">
                 <div className="d-flex flex-column gap-3">
                   {upcomingSchedule.map((item, idx) => (
                     <div key={idx} className="d-flex align-items-start gap-3 p-3 bg-light rounded-3 border">
@@ -459,7 +459,7 @@ export default function Dashboard() {
                   <i className="bi bi-clock-history text-secondary"></i> Recent Activity Stream
                 </h5>
               </div>
-              <div className="card-body p-4 pt-0">
+              <div className="card-body p-3 pt-0">
                 <ul className="timeline-list list-unstyled mb-0">
                   {recentActivity.map((act, idx) => (
                     <li key={idx} className="timeline-item d-flex gap-3 pb-3 border-bottom mb-3">

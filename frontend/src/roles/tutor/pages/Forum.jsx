@@ -1,26 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import AdminPage from '../../../common/components/AdminPage'
 import { forumApi } from '../../../services/api/forumApi'
+import { listCourses } from '../../../services/api/courseApi'
 import Button from '../../../common/components/Button'
 import Modal from '../../../common/components/Modal'
 import Input from '../../../common/components/Input'
 
+const EMPTY_FORM = { title: '', content: '', category: 'general', course_id: '' }
+
 export default function TutorForum() {
   const [threads, setThreads] = useState([])
+  const [courses, setCourses] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [showModal, setShowModal] = useState(false)
   const [selectedThread, setSelectedThread] = useState(null)
-  const [formData, setFormData] = useState({ title: '', content: '', category: 'general' })
+  const [formData, setFormData] = useState(EMPTY_FORM)
 
   const fetchThreads = async () => {
     setLoading(true)
     setError(null)
     try {
       const data = await forumApi.getAllThreads()
-      setThreads(data)
+      setThreads(Array.isArray(data) ? data : (data?.data || []))
     } catch (err) {
-      setError(err.message)
+      setError(err.message || 'Failed to load forum threads')
     } finally {
       setLoading(false)
     }
@@ -28,28 +32,37 @@ export default function TutorForum() {
 
   useEffect(() => {
     fetchThreads()
+    // The course picker is required: forum_posts.course_id is NOT NULL, so a
+    // thread cannot be created without belonging to a course.
+    listCourses()
+      .then((data) => setCourses(Array.isArray(data) ? data : (data?.data || [])))
+      .catch(() => setCourses([]))
   }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
       if (selectedThread) {
-        await forumApi.createReply(selectedThread.id, formData)
+        await forumApi.createReply(selectedThread.id, { content: formData.content })
       } else {
+        if (!formData.course_id) {
+          alert('Please choose a course for this thread.')
+          return
+        }
         await forumApi.createThread(formData)
       }
       setShowModal(false)
       setSelectedThread(null)
-      setFormData({ title: '', content: '', category: 'general' })
+      setFormData(EMPTY_FORM)
       fetchThreads()
     } catch (err) {
-      alert('Failed to save: ' + err.message)
+      alert('Failed to save: ' + (err.response?.data?.message || err.message))
     }
   }
 
   const handleReply = (thread) => {
     setSelectedThread(thread)
-    setFormData({ title: '', content: '', category: 'general' })
+    setFormData(EMPTY_FORM)
     setShowModal(true)
   }
 
@@ -70,7 +83,7 @@ export default function TutorForum() {
       error={error}
       onRetry={fetchThreads}
       actions={
-        <Button onClick={() => { setSelectedThread(null); setFormData({ title: '', content: '', category: 'general' }); setShowModal(true) }}>
+        <Button onClick={() => { setSelectedThread(null); setFormData(EMPTY_FORM); setShowModal(true) }}>
           New Thread
         </Button>
       }
@@ -89,7 +102,7 @@ export default function TutorForum() {
         <div className="statCard">
           <div className="statLabel">Replies</div>
           <div className="statValue" style={{ color: 'var(--admin-info)' }}>
-            {threads.reduce((sum, t) => sum + (t.replies?.length || 0), 0)}
+            {threads.reduce((sum, t) => sum + (Number(t.replyCount) || 0), 0)}
           </div>
         </div>
       </div>
@@ -121,7 +134,7 @@ export default function TutorForum() {
                   <tr key={thread.id}>
                     <td className="fontSemibold">{thread.title}</td>
                     <td>{thread.category || 'general'}</td>
-                    <td>{thread.replies?.length || 0}</td>
+                    <td>{Number(thread.replyCount) || 0}</td>
                     <td className="textSecondary">
                       {thread.updatedAt ? new Date(thread.updatedAt).toLocaleDateString() : '-'}
                     </td>
@@ -146,6 +159,29 @@ export default function TutorForum() {
       <Modal isOpen={showModal} onClose={() => setShowModal(false)} title={selectedThread ? 'Reply to Thread' : 'New Thread'}>
         <form onSubmit={handleSubmit}>
           <div className="form">
+            {!selectedThread && (
+              <div className="formGroup">
+                <label className="label required">Course</label>
+                <select
+                  className="select"
+                  value={formData.course_id}
+                  onChange={(e) => setFormData({ ...formData, course_id: e.target.value })}
+                  required
+                >
+                  <option value="">Choose a course…</option>
+                  {courses.map((course) => (
+                    <option key={course.id} value={course.id}>
+                      {course.code ? `${course.code} - ` : ''}{course.name}
+                    </option>
+                  ))}
+                </select>
+                {courses.length === 0 && (
+                  <p style={{ margin: '6px 0 0', fontSize: 12, color: 'var(--admin-text-muted)' }}>
+                    No courses assigned to you yet - a thread must belong to a course.
+                  </p>
+                )}
+              </div>
+            )}
             {!selectedThread && (
               <div className="formGroup">
                 <label className="label required">Title</label>

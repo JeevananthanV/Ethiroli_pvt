@@ -35,30 +35,30 @@ export default function PMPerformance() {
       title="Project Performance & Delivery KPIs"
       subtitle="Executive portfolio metrics, delivery velocity, schedule adherence, and resource efficiency"
     >
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-md-3">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white text-center">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white text-center">
             <small className="text-muted text-uppercase fw-semibold">On-Time Delivery Rate</small>
             <h1 className="fw-bold text-success my-2">{kpis?.onTimeDeliveryRate || '92%'}</h1>
             <small className="text-muted">Target: &gt; 90%</small>
           </div>
         </div>
         <div className="col-md-3">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white text-center">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white text-center">
             <small className="text-muted text-uppercase fw-semibold">Avg Sprint Velocity</small>
             <h1 className="fw-bold text-primary my-2">{kpis?.teamVelocityAverage || 42}</h1>
             <small className="text-muted">Story points / sprint</small>
           </div>
         </div>
         <div className="col-md-3">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white text-center">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white text-center">
             <small className="text-muted text-uppercase fw-semibold">Milestones Cleared</small>
             <h1 className="fw-bold text-info my-2">{kpis?.milestoneStats?.completed || 8}</h1>
             <small className="text-muted">of {kpis?.milestoneStats?.total_milestones || 12} total gates</small>
           </div>
         </div>
         <div className="col-md-3">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white text-center">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white text-center">
             <small className="text-muted text-uppercase fw-semibold">Billable Cost Ratio</small>
             <h1 className="fw-bold text-warning my-2">78%</h1>
             <small className="text-muted">High commercial return</small>
@@ -68,7 +68,7 @@ export default function PMPerformance() {
 
       <div className="row g-3">
         <div className="col-md-6">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white h-100">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100">
             <h6 className="fw-bold text-dark mb-3">Delivery Velocity Trends</h6>
             <div className="d-flex flex-column gap-3">
               <div>
@@ -103,7 +103,7 @@ export default function PMPerformance() {
         </div>
 
         <div className="col-md-6">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white h-100">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100">
             <h6 className="fw-bold text-dark mb-3">Resource Health Indicators</h6>
             <ul className="list-group list-group-flush small">
               <li className="list-group-item d-flex justify-content-between px-0 py-2">

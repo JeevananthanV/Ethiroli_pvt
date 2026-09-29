@@ -17,6 +17,7 @@ const HRTraining = lazy(() => import('./pages/Training.jsx'));
 const HRDocuments = lazy(() => import('./pages/Documents.jsx'));
 const HRReports = lazy(() => import('./pages/Reports.jsx'));
 const HROffboarding = lazy(() => import('./pages/Offboarding.jsx'));
+const HRCalendar = lazy(() => import('./pages/Calendar.jsx'));
 const HRCareerApplications = lazy(() => import('./pages/CareerApplications.jsx'));
 const HRInquiries = lazy(() => import('./pages/Inquiries.jsx'));
 
@@ -54,7 +55,9 @@ export default function HRApp() {
         <Route path="training" element={<HRTraining />} />
         <Route path="documents" element={<HRDocuments />} />
         <Route path="reports" element={<HRReports />} />
+        <Route path="calendar" element={<HRCalendar />} />
         <Route path="offboarding" element={<HROffboarding />} />
+        <Route path="exit-offboarding" element={<HROffboarding />} />
         <Route path="applications" element={<HRCareerApplications />} />
         <Route path="career-applications" element={<HRCareerApplications />} />
         <Route path="inquiries" element={<HRInquiries />} />

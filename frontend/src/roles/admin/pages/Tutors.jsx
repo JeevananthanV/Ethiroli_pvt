@@ -1,45 +1,140 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import axiosInstance from '../../../services/api/axiosInstance.js';
+import { getUsers, createUser, updateUserStatus } from '../../../services/api/userApi.js';
+import { courseApi } from '../../../services/api/courseApi.js';
+import lmsApi from '../../../services/api/lmsApi.js';
+
+/** Students counted per batch (guarded so a huge install cannot fan out N requests). */
+const MAX_BATCH_LOOKUPS = 30;
+
+const unwrap = (res) => res?.data ?? res;
 
 export default function AdminTutors() {
-  const [tutors, setTutors] = useState([
-    { id: '1', name: 'Dr. R. Ramanathan', email: 'ramanathan@ethiroli.edu', phone: '+91 98401 22334', domain: 'Data Science & Machine Learning', active_batches: 2, total_students: 48, rating: 4.9, status: 'ACTIVE' },
-    { id: '2', name: 'S. Karthikeyan', email: 'karthik.s@ethiroli.edu', phone: '+91 97890 33445', domain: 'Full Stack Web Development', active_batches: 3, total_students: 72, rating: 4.8, status: 'ACTIVE' },
-    { id: '3', name: 'Priya Sundararajan', email: 'priya.s@ethiroli.edu', phone: '+91 99402 44556', domain: 'UI/UX Product Design', active_batches: 1, total_students: 24, rating: 4.9, status: 'ACTIVE' },
-    { id: '4', name: 'M. Vignesh Kumar', email: 'vignesh.k@ethiroli.edu', phone: '+91 98415 55667', domain: 'Cloud Architecture & DevOps', active_batches: 2, total_students: 40, rating: 4.7, status: 'ON_LEAVE' }
-  ]);
+  const [tutors, setTutors] = useState([]);
+  const [batches, setBatches] = useState([]);
+  const [courses, setCourses] = useState([]);
+  const [batchSizes, setBatchSizes] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const [search, setSearch] = useState('');
-  const [domainFilter, setDomainFilter] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [handoverTarget, setHandoverTarget] = useState(null);
   const [substituteTutorId, setSubstituteTutorId] = useState('');
   const [handoverLoading, setHandoverLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [feedback, setFeedback] = useState(null);
 
   const [newTutor, setNewTutor] = useState({
-    name: '',
+    full_name: '',
     email: '',
     phone: '',
-    domain: 'Full Stack Web Development',
-    status: 'ACTIVE'
+    password: ''
   });
 
-  const handleCreate = (e) => {
+  const load = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const [usersRes, batchesRes, coursesRes] = await Promise.all([
+        getUsers({ role: 'TUTOR', limit: 200 }),
+        lmsApi.getBatches().catch(() => null),
+        courseApi.getAll().catch(() => null)
+      ]);
+
+      const userList = unwrap(usersRes);
+      const batchList = unwrap(batchesRes) || [];
+      const courseList = unwrap(coursesRes) || [];
+
+      setTutors(Array.isArray(userList) ? userList : []);
+      setBatches(Array.isArray(batchList) ? batchList : []);
+      setCourses(Array.isArray(courseList) ? courseList : []);
+
+      // Batch rosters drive the "learners mentored" metric.
+      const trackable = (Array.isArray(batchList) ? batchList : []).slice(0, MAX_BATCH_LOOKUPS);
+      if (trackable.length > 0) {
+        const sizes = await Promise.all(
+          trackable.map((b) =>
+            lmsApi
+              .getBatchStudents(b.id)
+              .then((res) => (unwrap(res) || []).length)
+              .catch(() => 0)
+          )
+        );
+        setBatchSizes(
+          trackable.reduce((acc, b, i) => {
+            acc[b.id] = sizes[i];
+            return acc;
+          }, {})
+        );
+      } else {
+        setBatchSizes({});
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || err.message || 'Failed to load faculty');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    load();
+  }, [load]);
+
+  /** Domain track is derived from the courses actually assigned to the tutor. */
+  const tracksFor = (tutorId) =>
+    courses.filter((c) => c.tutor_id === tutorId).map((c) => c.name || c.title).filter(Boolean);
+
+  const batchesFor = (tutorId) => batches.filter((b) => b.tutor_id === tutorId);
+  const activeBatchesFor = (tutorId) =>
+    batchesFor(tutorId).filter((b) => b.is_active === undefined || b.is_active === true || b.is_active === 1);
+  const studentsFor = (tutorId) =>
+    batchesFor(tutorId).reduce((sum, b) => sum + (batchSizes[b.id] || 0), 0);
+
+  const handleCreate = async (e) => {
     e.preventDefault();
-    setTutors([
-      {
-        id: String(Date.now()),
-        ...newTutor,
-        active_batches: 1,
-        total_students: 0,
-        rating: 5.0
-      },
-      ...tutors
-    ]);
-    setShowModal(false);
-    setNewTutor({ name: '', email: '', phone: '', domain: 'Full Stack Web Development', status: 'ACTIVE' });
+    setSaving(true);
+    setFeedback(null);
+    try {
+      const payload = {
+        full_name: newTutor.full_name,
+        email: newTutor.email,
+        phone: newTutor.phone || undefined,
+        role: 'TUTOR',
+        ...(newTutor.password ? { password: newTutor.password } : {})
+      };
+      await createUser(payload);
+      setFeedback({ type: 'success', message: `${newTutor.full_name} registered as faculty.` });
+      setShowModal(false);
+      setNewTutor({ full_name: '', email: '', phone: '', password: '' });
+      await load();
+    } catch (err) {
+      setFeedback({
+        type: 'danger',
+        message: err.response?.data?.message || err.message || 'Failed to register faculty.'
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleToggleStatus = async (tutor) => {
+    const nextActive = !(tutor.is_active === undefined ? true : Boolean(tutor.is_active));
+    try {
+      await updateUserStatus(tutor.id, nextActive ? 'active' : 'inactive');
+      setFeedback({
+        type: 'success',
+        message: `${tutor.full_name} ${nextActive ? 'reactivated' : 'deactivated'}.`
+      });
+      await load();
+    } catch (err) {
+      setFeedback({
+        type: 'danger',
+        message: err.response?.data?.message || err.message || 'Failed to update status.'
+      });
+    }
   };
 
   const handleExecuteHandover = async (e) => {
@@ -54,12 +149,14 @@ export default function AdminTutors() {
         reassignCalendarEvents: true,
         reassignTasks: true
       });
+      const payload = res?.data || {};
       setFeedback({
         type: 'success',
-        message: `Workload transferred successfully! ${res.data?.data?.batchesReassigned || 0} batches and calendar sessions assigned to substitute.`
+        message: `Workload transferred successfully! ${payload.batchesReassigned || 0} batches reassigned to the substitute.`
       });
       setHandoverTarget(null);
       setSubstituteTutorId('');
+      await load();
     } catch (err) {
       setFeedback({
         type: 'danger',
@@ -70,17 +167,29 @@ export default function AdminTutors() {
     }
   };
 
-  const filtered = tutors.filter(t => {
+  const filtered = tutors.filter((t) => {
     const q = search.toLowerCase();
-    const matchSearch = t.name.toLowerCase().includes(q) || t.email.toLowerCase().includes(q) || t.domain.toLowerCase().includes(q);
-    const matchDomain = domainFilter ? t.domain === domainFilter : true;
-    return matchSearch && matchDomain;
+    const tracks = tracksFor(t.id).join(' ').toLowerCase();
+    const matchSearch =
+      (t.full_name || '').toLowerCase().includes(q) ||
+      (t.email || '').toLowerCase().includes(q) ||
+      tracks.includes(q);
+    const isActive = t.is_active === undefined ? true : Boolean(t.is_active);
+    const matchStatus = statusFilter ? (statusFilter === 'ACTIVE') === isActive : true;
+    return matchSearch && matchStatus;
   });
+
+  const totalActiveBatches = tutors.reduce((sum, t) => sum + activeBatchesFor(t.id).length, 0);
+  const totalStudents = tutors.reduce((sum, t) => sum + studentsFor(t.id), 0);
+  const assignedCourses = courses.filter((c) => c.tutor_id).length;
 
   return (
     <AdminPage
       title="Faculty & Tutors Management"
-      subtitle="Organization-wide faculty directory, domain tracks, active batch assignments, and performance ratings"
+      subtitle="Organization-wide faculty directory, course assignments, active batch load, and workload handover"
+      loading={loading}
+      error={error}
+      onRetry={load}
       actions={
         <button className="btn btn-primary d-flex align-items-center gap-2 shadow-sm" onClick={() => setShowModal(true)}>
           <i className="bi bi-person-plus-fill"></i>
@@ -89,14 +198,14 @@ export default function AdminTutors() {
       }
     >
       {feedback && (
-        <div className={`alert alert-${feedback.type} alert-dismissible fade show shadow-sm mb-4`} role="alert">
+        <div className={`alert alert-${feedback.type} alert-dismissible fade show shadow-sm mb-2`} role="alert">
           <div>{feedback.message}</div>
           <button type="button" className="btn-close" onClick={() => setFeedback(null)}></button>
         </div>
       )}
 
       {/* Metric Cards */}
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-12 col-sm-6 col-xl-3">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white">
             <span className="text-secondary small fw-medium">Total Instructors</span>
@@ -106,31 +215,25 @@ export default function AdminTutors() {
         <div className="col-12 col-sm-6 col-xl-3">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white">
             <span className="text-secondary small fw-medium">Active Teaching Batches</span>
-            <h3 className="fw-bold mb-0 mt-1 text-primary">
-              {tutors.reduce((sum, t) => sum + t.active_batches, 0)}
-            </h3>
+            <h3 className="fw-bold mb-0 mt-1 text-primary">{totalActiveBatches}</h3>
           </div>
         </div>
         <div className="col-12 col-sm-6 col-xl-3">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white">
-            <span className="text-secondary small fw-medium">Total Learners Mentored</span>
-            <h3 className="fw-bold mb-0 mt-1 text-success">
-              {tutors.reduce((sum, t) => sum + t.total_students, 0)}
-            </h3>
+            <span className="text-secondary small fw-medium">Learners Mentored</span>
+            <h3 className="fw-bold mb-0 mt-1 text-success">{totalStudents}</h3>
           </div>
         </div>
         <div className="col-12 col-sm-6 col-xl-3">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white">
-            <span className="text-secondary small fw-medium">Average Student Rating</span>
-            <h3 className="fw-bold mb-0 mt-1 text-warning">
-              <i className="bi bi-star-fill text-warning me-1"></i>4.8 / 5.0
-            </h3>
+            <span className="text-secondary small fw-medium">Courses With Assigned Tutor</span>
+            <h3 className="fw-bold mb-0 mt-1 text-info">{assignedCourses}</h3>
           </div>
         </div>
       </div>
 
       {/* Filter Bar */}
-      <div className="card border-0 shadow-sm rounded-3 p-3 mb-4 bg-white">
+      <div className="card border-0 shadow-sm rounded-3 p-3 mb-2 bg-white">
         <div className="row g-2 align-items-center">
           <div className="col-12 col-md-8">
             <div className="input-group">
@@ -138,7 +241,7 @@ export default function AdminTutors() {
               <input
                 type="text"
                 className="form-control bg-light border-0"
-                placeholder="Search tutor name, email, or domain..."
+                placeholder="Search tutor name, email, or assigned course..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -147,14 +250,12 @@ export default function AdminTutors() {
           <div className="col-12 col-md-4">
             <select
               className="form-select bg-light border-0"
-              value={domainFilter}
-              onChange={(e) => setDomainFilter(e.target.value)}
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
             >
-              <option value="">All Domains</option>
-              <option value="Full Stack Web Development">Full Stack Web Development</option>
-              <option value="Data Science & Machine Learning">Data Science & AI</option>
-              <option value="UI/UX Product Design">UI/UX Product Design</option>
-              <option value="Cloud Architecture & DevOps">Cloud & DevOps</option>
+              <option value="">All Statuses</option>
+              <option value="ACTIVE">Active</option>
+              <option value="INACTIVE">Inactive</option>
             </select>
           </div>
         </div>
@@ -167,60 +268,78 @@ export default function AdminTutors() {
             <thead className="table-light">
               <tr>
                 <th className="ps-3">Instructor</th>
-                <th>Domain Track</th>
+                <th>Assigned Courses</th>
                 <th>Active Batches</th>
-                <th>Total Students</th>
-                <th>Rating</th>
+                <th>Learners</th>
                 <th>Status</th>
                 <th className="text-end pe-3">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {filtered.map(t => (
-                <tr key={t.id}>
-                  <td className="ps-3">
-                    <div className="fw-semibold text-dark">{t.name}</div>
-                    <small className="text-muted">{t.email} &bull; {t.phone}</small>
-                  </td>
-                  <td>
-                    <span className="badge bg-light text-dark border px-2 py-1">{t.domain}</span>
-                  </td>
-                  <td>
-                    <span className="badge bg-primary bg-opacity-10 text-primary font-monospace">{t.active_batches} Batches</span>
-                  </td>
-                  <td>
-                    <span className="fw-medium text-dark">{t.total_students} Enrolled</span>
-                  </td>
-                  <td>
-                    <span className="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 px-2 py-1">
-                      <i className="bi bi-star-fill me-1"></i>{t.rating}
-                    </span>
-                  </td>
-                  <td>
-                    <span className={`badge ${t.status === 'ACTIVE' ? 'bg-success bg-opacity-10 text-success' : 'bg-secondary bg-opacity-10 text-secondary'}`}>
-                      {t.status}
-                    </span>
-                  </td>
-                  <td className="text-end pe-3">
-                    <button 
-                      className="btn btn-sm btn-outline-warning me-1 text-dark" 
-                      title="Emergency Workload Handover"
-                      onClick={() => {
-                        setHandoverTarget(t);
-                        setSubstituteTutorId('');
-                      }}
-                    >
-                      <i className="bi bi-arrow-left-right me-1"></i>Handover
-                    </button>
-                    <button className="btn btn-sm btn-outline-primary me-1" title="Assign Batches">
-                      <i className="bi bi-journal-plus me-1"></i>Batches
-                    </button>
-                    <a href={`mailto:${t.email}`} className="btn btn-sm btn-light border" title="Email Tutor">
-                      <i className="bi bi-envelope"></i>
-                    </a>
+              {filtered.length === 0 && (
+                <tr>
+                  <td colSpan={6} className="text-center text-muted py-4">
+                    {loading ? 'Loading faculty…' : 'No instructors match the current filters.'}
                   </td>
                 </tr>
-              ))}
+              )}
+              {filtered.map((t) => {
+                const tracks = tracksFor(t.id);
+                const isActive = t.is_active === undefined ? true : Boolean(t.is_active);
+                return (
+                  <tr key={t.id}>
+                    <td className="ps-3">
+                      <div className="fw-semibold text-dark">{t.full_name}</div>
+                      <small className="text-muted">{t.email}{t.phone ? ` • ${t.phone}` : ''}</small>
+                    </td>
+                    <td>
+                      {tracks.length === 0 ? (
+                        <span className="text-muted small">No course assigned</span>
+                      ) : (
+                        tracks.map((name) => (
+                          <span key={name} className="badge bg-light text-dark border px-2 py-1 me-1">{name}</span>
+                        ))
+                      )}
+                    </td>
+                    <td>
+                      <span className="badge bg-primary bg-opacity-10 text-primary font-monospace">
+                        {activeBatchesFor(t.id).length} Batches
+                      </span>
+                    </td>
+                    <td>
+                      <span className="fw-medium text-dark">{studentsFor(t.id)} Enrolled</span>
+                    </td>
+                    <td>
+                      <span className={`badge ${isActive ? 'bg-success bg-opacity-10 text-success' : 'bg-secondary bg-opacity-10 text-secondary'}`}>
+                        {isActive ? 'ACTIVE' : 'INACTIVE'}
+                      </span>
+                    </td>
+                    <td className="text-end pe-3">
+                      <button
+                        className="btn btn-sm btn-outline-warning me-1 text-dark"
+                        title="Emergency Workload Handover"
+                        onClick={() => {
+                          setHandoverTarget(t);
+                          setSubstituteTutorId('');
+                        }}
+                      >
+                        <i className="bi bi-arrow-left-right me-1"></i>Handover
+                      </button>
+                      <button
+                        className="btn btn-sm btn-outline-secondary me-1"
+                        title={isActive ? 'Deactivate Instructor' : 'Reactivate Instructor'}
+                        onClick={() => handleToggleStatus(t)}
+                      >
+                        <i className={`bi ${isActive ? 'bi-pause-circle' : 'bi-play-circle'} me-1`}></i>
+                        {isActive ? 'Suspend' : 'Activate'}
+                      </button>
+                      <a href={`mailto:${t.email}`} className="btn btn-sm btn-light border" title="Email Tutor">
+                        <i className="bi bi-envelope"></i>
+                      </a>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -239,35 +358,42 @@ export default function AdminTutors() {
                 <button type="button" className="btn-close" onClick={() => setHandoverTarget(null)}></button>
               </div>
               <form onSubmit={handleExecuteHandover}>
-                <div className="modal-body p-4">
+                <div className="modal-body p-3">
                   <div className="alert alert-warning py-2 small mb-3">
-                    Reassign all active batches, upcoming live calendar lectures, and intern review tasks from <strong>{handoverTarget.name}</strong> to a verified substitute instructor.
+                    Reassign all active batches, upcoming live calendar lectures, and intern review tasks from{' '}
+                    <strong>{handoverTarget.full_name}</strong> to a verified substitute instructor.
                   </div>
                   <div className="mb-3">
                     <label className="form-label small fw-semibold">Absent Instructor</label>
-                    <div className="form-control bg-light">{handoverTarget.name} ({handoverTarget.domain})</div>
+                    <div className="form-control bg-light">
+                      {handoverTarget.full_name} ({tracksFor(handoverTarget.id).join(', ') || 'No course assigned'})
+                    </div>
                   </div>
                   <div className="mb-3">
                     <label className="form-label small fw-semibold">Select Substitute Instructor</label>
-                    <select 
+                    <select
                       className="form-select"
                       required
                       value={substituteTutorId}
-                      onChange={e => setSubstituteTutorId(e.target.value)}
+                      onChange={(e) => setSubstituteTutorId(e.target.value)}
                     >
                       <option value="">-- Choose Substitute Faculty --</option>
-                      {tutors.filter(t => t.id !== handoverTarget.id).map(t => (
-                        <option key={t.id} value={t.id}>
-                          {t.name} ({t.domain}) - Rating: {t.rating}
-                        </option>
-                      ))}
+                      {tutors
+                        .filter((t) => t.id !== handoverTarget.id && (t.is_active === undefined || t.is_active))
+                        .map((t) => (
+                          <option key={t.id} value={t.id}>
+                            {t.full_name} ({tracksFor(t.id).join(', ') || 'No course assigned'})
+                          </option>
+                        ))}
                     </select>
                   </div>
                   <div className="border rounded p-3 bg-light small">
                     <div className="fw-semibold text-dark mb-2">Atomic Handover Scope:</div>
                     <div className="form-check mb-1">
                       <input className="form-check-input" type="checkbox" checked readOnly id="hBatch" />
-                      <label className="form-check-label" htmlFor="hBatch">Course Batches ({handoverTarget.active_batches} Active Batches)</label>
+                      <label className="form-check-label" htmlFor="hBatch">
+                        Course Batches ({activeBatchesFor(handoverTarget.id).length} Active Batches)
+                      </label>
                     </div>
                     <div className="form-check mb-1">
                       <input className="form-check-input" type="checkbox" checked readOnly id="hCal" />
@@ -275,7 +401,7 @@ export default function AdminTutors() {
                     </div>
                     <div className="form-check">
                       <input className="form-check-input" type="checkbox" checked readOnly id="hTasks" />
-                      <label className="form-check-label" htmlFor="hTasks">Student Project Evaluations & Intern Mentorship Tasks</label>
+                      <label className="form-check-label" htmlFor="hTasks">Student Project Evaluations &amp; Intern Mentorship Tasks</label>
                     </div>
                   </div>
                 </div>
@@ -291,7 +417,7 @@ export default function AdminTutors() {
         </div>
       )}
 
-      {/* Modal */}
+      {/* Register Modal */}
       {showModal && (
         <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
           <div className="modal-dialog modal-dialog-centered">
@@ -301,7 +427,7 @@ export default function AdminTutors() {
                 <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
               </div>
               <form onSubmit={handleCreate}>
-                <div className="modal-body p-4">
+                <div className="modal-body p-3">
                   <div className="row g-3">
                     <div className="col-12">
                       <label className="form-label small fw-semibold">Faculty Full Name *</label>
@@ -309,8 +435,8 @@ export default function AdminTutors() {
                         type="text"
                         className="form-control"
                         required
-                        value={newTutor.name}
-                        onChange={(e) => setNewTutor({ ...newTutor, name: e.target.value })}
+                        value={newTutor.full_name}
+                        onChange={(e) => setNewTutor({ ...newTutor, full_name: e.target.value })}
                         placeholder="e.g. Dr. K. Anand"
                       />
                     </div>
@@ -336,23 +462,23 @@ export default function AdminTutors() {
                       />
                     </div>
                     <div className="col-12">
-                      <label className="form-label small fw-semibold">Domain Track</label>
-                      <select
-                        className="form-select"
-                        value={newTutor.domain}
-                        onChange={(e) => setNewTutor({ ...newTutor, domain: e.target.value })}
-                      >
-                        <option value="Full Stack Web Development">Full Stack Web Development</option>
-                        <option value="Data Science & Machine Learning">Data Science & AI</option>
-                        <option value="Cloud Architecture & DevOps">Cloud & DevOps</option>
-                        <option value="UI/UX Product Design">UI/UX Product Design</option>
-                      </select>
+                      <label className="form-label small fw-semibold">Temporary Password</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={newTutor.password}
+                        onChange={(e) => setNewTutor({ ...newTutor, password: e.target.value })}
+                        placeholder="Leave blank to use the platform default"
+                      />
+                      <div className="form-text">The account is created with role TUTOR and can sign in immediately.</div>
                     </div>
                   </div>
                 </div>
                 <div className="modal-footer border-top bg-light">
                   <button type="button" className="btn btn-light" onClick={() => setShowModal(false)}>Cancel</button>
-                  <button type="submit" className="btn btn-primary px-4">Register Faculty</button>
+                  <button type="submit" className="btn btn-primary px-4" disabled={saving}>
+                    {saving ? 'Registering...' : 'Register Faculty'}
+                  </button>
                 </div>
               </form>
             </div>

@@ -72,7 +72,7 @@ export default function Documents() {
       error={error}
       onRetry={loadDocuments}
     >
-      <div className="d-flex justify-content-between align-items-center mb-4">
+      <div className="d-flex justify-content-between align-items-center mb-2">
         <div>
           <h5 className="mb-0 fw-bold">Verified Employee Records</h5>
           <small className="text-muted">All uploaded documents are encrypted and reviewed by HR</small>

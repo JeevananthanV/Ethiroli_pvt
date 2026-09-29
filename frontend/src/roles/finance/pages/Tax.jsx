@@ -70,7 +70,7 @@ export default function FinanceTax() {
       title="Tax & Statutory GST / TDS Compliance"
       subtitle="GST returns (GSTR-1, GSTR-3B), Input Tax Credit (ITC) reconciliation, and withholding TDS registers"
     >
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-md-3">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white border-start border-primary border-4">
             <small className="text-muted text-uppercase fw-semibold">Output GST (Invoiced)</small>
@@ -101,7 +101,7 @@ export default function FinanceTax() {
         </div>
       </div>
 
-      <div className="card border-0 shadow-sm rounded-3 mb-4">
+      <div className="card border-0 shadow-sm rounded-3 mb-2">
         <div className="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
           <h6 className="mb-0 fw-bold">GST & TDS Return Filing Status</h6>
           <div className="d-flex gap-2">

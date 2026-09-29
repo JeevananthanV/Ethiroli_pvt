@@ -109,7 +109,7 @@ export default function Payslips() {
                 </div>
                 <button type="button" className="btn-close" onClick={() => setSelectedSlip(null)}></button>
               </div>
-              <div className="modal-body p-4">
+              <div className="modal-body p-3">
                 <div className="d-flex justify-content-between mb-3 border-bottom pb-2">
                   <span className="text-muted">Employee Code:</span>
                   <span className="fw-semibold text-dark">{selectedSlip.employee_code || 'EMP-1002'}</span>

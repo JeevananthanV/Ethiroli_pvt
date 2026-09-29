@@ -96,7 +96,7 @@ export default function FinancePayroll() {
       title="Payroll Execution & Statutory Disbursements"
       subtitle="Monthly automated payroll batch processing, statutory PF/ESI/TDS withholdings, and corporate bank batch exports"
     >
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-md-4">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white border-start border-primary border-4">
             <small className="text-muted text-uppercase fw-semibold">Total Gross Payroll</small>

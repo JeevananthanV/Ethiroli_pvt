@@ -21,8 +21,8 @@ export default function Configuration() {
   };
 
   return (
-    <div className="container-fluid p-4 bg-light min-vh-100">
-      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div className="container-fluid p-3 bg-light min-vh-100">
+      <div className="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
         <div>
           <h2 className="fw-bold mb-1 d-flex align-items-center gap-2">
             <i className="bi bi-sliders2 text-primary" aria-hidden="true"></i>
@@ -38,7 +38,7 @@ export default function Configuration() {
       </div>
 
       {saved && (
-        <div className="alert alert-success d-flex align-items-center gap-2 mb-4" role="alert">
+        <div className="alert alert-success d-flex align-items-center gap-2 mb-2" role="alert">
           <i className="bi bi-check-circle-fill"></i>
           <span>Global system configuration successfully applied and synced across worker nodes.</span>
         </div>
@@ -46,7 +46,7 @@ export default function Configuration() {
 
       <div className="row g-4">
         <div className="col-lg-6">
-          <div className="card border-0 shadow-sm rounded-3 bg-white p-4 h-100">
+          <div className="card border-0 shadow-sm rounded-3 bg-white p-3 h-100">
             <h5 className="fw-bold mb-3 border-bottom pb-2">Network & Origin Policies</h5>
             <div className="mb-3">
               <label className="form-label small fw-semibold">Platform Brand Name</label>
@@ -81,7 +81,7 @@ export default function Configuration() {
         </div>
 
         <div className="col-lg-6">
-          <div className="card border-0 shadow-sm rounded-3 bg-white p-4 h-100">
+          <div className="card border-0 shadow-sm rounded-3 bg-white p-3 h-100">
             <h5 className="fw-bold mb-3 border-bottom pb-2">Security & Session Parameters</h5>
             <div className="mb-3">
               <label className="form-label small fw-semibold">JWT Access Token Expiration (Minutes)</label>

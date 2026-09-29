@@ -67,7 +67,7 @@ export default function PMProjects() {
         </button>
       }
     >
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-md-4">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-primary bg-opacity-10 text-primary">
             <div className="d-flex justify-content-between align-items-center">

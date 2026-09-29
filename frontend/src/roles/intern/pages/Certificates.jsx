@@ -57,14 +57,14 @@ export default function Certificates() {
     >
       <div className="container-fluid px-0">
         {alert.text && (
-          <div className={`alert alert-${alert.type} alert-dismissible fade show mb-4`} role="alert">
+          <div className={`alert alert-${alert.type} alert-dismissible fade show mb-2`} role="alert">
             <i className="bi bi-check-circle me-2"></i>{alert.text}
             <button type="button" className="btn-close" onClick={() => setAlert({ type: '', text: '' })}></button>
           </div>
         )}
 
         {/* View State Switch */}
-        <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div className="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
           <div className="btn-group" role="group">
             <button
               type="button"
@@ -98,12 +98,12 @@ export default function Certificates() {
                     All conditions below must be verified by your mentor and the Directorate before certificate issuance.
                   </p>
                 </div>
-                <div className="card-body p-4 pt-0">
+                <div className="card-body p-3 pt-0">
                   <div className="d-flex justify-content-between align-items-center mb-2">
                     <span className="fw-semibold small text-dark">Overall Progress Toward Certificate</span>
                     <strong className="text-primary">{eligibilityPercent}% Complete</strong>
                   </div>
-                  <div className="progress mb-4" style={{ height: '8px' }}>
+                  <div className="progress mb-2" style={{ height: '8px' }}>
                     <div
                       className="progress-bar bg-primary"
                       style={{ width: `${eligibilityPercent}%` }}
@@ -144,7 +144,7 @@ export default function Certificates() {
                 <div className="card-header bg-white py-3 border-0">
                   <h5 className="fw-bold mb-0 text-dark">Certification Guidelines</h5>
                 </div>
-                <div className="card-body p-4 pt-0">
+                <div className="card-body p-3 pt-0">
                   <div className="p-3 bg-primary-subtle border border-primary-subtle rounded-3 mb-3 small">
                     <strong className="text-primary d-block mb-1">
                       <i className="bi bi-award-fill me-1"></i>Distinction Criteria
@@ -173,14 +173,14 @@ export default function Certificates() {
         {viewState === 'preview' && (
           <div className="row justify-content-center">
             <div className="col-lg-10">
-              <div className="card shadow-lg border-0 rounded-4 overflow-hidden mb-4">
+              <div className="card shadow-lg border-0 rounded-4 overflow-hidden mb-2">
                 {/* Gold Header Stripe */}
                 <div className="bg-dark p-3 text-white text-center border-bottom border-warning border-3 d-flex justify-content-between align-items-center px-4">
                   <span className="badge bg-warning text-dark fw-bold">OFFICIAL CREDENTIAL</span>
                   <span className="small text-white-50">ID: {certData.certificateNumber}</span>
                 </div>
 
-                <div className="card-body p-4 p-md-5 text-center bg-white">
+                <div className="card-body p-3 p-md-5 text-center bg-white">
                   <div className="mb-2">
                     <span className="text-warning display-5">★ ★ ★ ★ ★</span>
                   </div>
@@ -197,7 +197,7 @@ export default function Certificates() {
                     {certData.issuedTo}
                   </h3>
 
-                  <p className="text-muted w-75 mx-auto mb-4 small" style={{ lineHeight: 1.8 }}>
+                  <p className="text-muted w-75 mx-auto mb-2 small" style={{ lineHeight: 1.8 }}>
                     For successful completion of the intensive 45-day professional engineering internship in{' '}
                     <strong className="text-dark">{certData.track}</strong>. Having demonstrated mastery
                     in modern web engineering, component architectures, relational data systems, and production deliverables with Grade <strong className="text-success">{certData.grade}</strong>.
@@ -220,7 +220,7 @@ export default function Certificates() {
                 </div>
 
                 {/* Action Buttons: Download PDF, Verification Page, LinkedIn, WhatsApp */}
-                <div className="card-footer bg-light p-4 border-0 d-flex flex-wrap justify-content-center gap-2">
+                <div className="card-footer bg-light p-3 border-0 d-flex flex-wrap justify-content-center gap-2">
                   <button
                     className="btn btn-primary btn-sm px-3 fw-semibold"
                     onClick={handleDownload}
@@ -262,7 +262,7 @@ export default function Certificates() {
                   <h5 className="modal-title fw-bold">Credential Authenticity Ledger</h5>
                   <button type="button" className="btn-close" onClick={() => setShowVerifyModal(false)}></button>
                 </div>
-                <div className="modal-body text-center p-4">
+                <div className="modal-body text-center p-3">
                   <div className="p-3 bg-light d-inline-block rounded-3 mb-3 border">
                     <i className="bi bi-shield-fill-check fs-1 text-success"></i>
                   </div>

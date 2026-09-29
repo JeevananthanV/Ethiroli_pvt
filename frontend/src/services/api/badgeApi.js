@@ -27,6 +27,21 @@ export const createBadge = async (data) => {
   return response.data
 }
 
+export const updateBadge = async (id, data) => {
+  const response = await axios.put(`/badges/${id}`, data)
+  return response.data
+}
+
+export const deleteBadge = async (id) => {
+  const response = await axios.delete(`/badges/${id}`)
+  return response.data
+}
+
+export const revokeBadge = async (userBadgeId) => {
+  const response = await axios.delete(`/user-badges/${userBadgeId}`)
+  return response.data
+}
+
 export const badgeApi = {
   getBadges,
   getAll,
@@ -34,6 +49,10 @@ export const badgeApi = {
   getUserBadges,
   awardBadge,
   createBadge,
+  updateBadge,
+  deleteBadge,
+  revokeBadge
 };
 
 export default badgeApi;
+

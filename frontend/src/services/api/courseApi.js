@@ -1,13 +1,21 @@
 import axios from '../axios'
 
+const unwrap = (res) => {
+  if (!res) return [];
+  if (Array.isArray(res)) return res;
+  if (Array.isArray(res.data)) return res.data;
+  if (Array.isArray(res.data?.data)) return res.data.data;
+  return res.data ?? res;
+};
+
 export const getCourses = async () => {
   const response = await axios.get('/courses')
-  return response.data
+  return unwrap(response)
 }
 
 export const getCourse = async (id) => {
   const response = await axios.get(`/courses/${id}`)
-  return response.data
+  return response?.data ?? response
 }
 
 export const createCourse = async (data) => {

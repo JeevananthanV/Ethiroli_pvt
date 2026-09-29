@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { listCourses } from '../../../services/api/courseApi.js';
 import { listModules, createModule, updateModule, deleteModule, reorderModules } from '../../../services/api/moduleApi.js';
-import { listLessons, createLesson, updateLesson, deleteLesson, reorderLessons, createLessonBlock } from '../../../services/api/lessonApi.js';
+import { listLessons, createLesson, deleteLesson, reorderLessons, createLessonBlock } from '../../../services/api/lessonApi.js';
 import axios from '../../../services/axios.js';
 
 export default function TutorCurriculum() {
@@ -14,7 +14,8 @@ export default function TutorCurriculum() {
 
   // Modals & Forms
   const [showModuleModal, setShowModuleModal] = useState(false);
-  const [moduleTitle, setModuleTitle] = useState('');
+  const emptyModuleForm = { title: '', description: '', duration_minutes: '' };
+  const [moduleForm, setModuleForm] = useState(emptyModuleForm);
   const [editingModule, setEditingModule] = useState(null);
 
   const [showLessonModal, setShowLessonModal] = useState(false);
@@ -35,7 +36,7 @@ export default function TutorCurriculum() {
     setError(null);
     try {
       const data = await listCourses().catch(() => []);
-      const courseList = Array.isArray(data) ? data : [];
+      const courseList = Array.isArray(data) ? data : (data?.data || []);
       setCourses(courseList);
       if (courseList.length > 0 && !selectedCourseId) {
         setSelectedCourseId(courseList[0].id);
@@ -80,15 +81,20 @@ export default function TutorCurriculum() {
   // 3. Module Operations
   const handleSaveModule = async (e) => {
     e.preventDefault();
-    if (!moduleTitle.trim() || !selectedCourseId) return;
+    if (!moduleForm.title.trim() || !selectedCourseId) return;
     try {
+      const payload = {
+        title: moduleForm.title.trim(),
+        description: moduleForm.description.trim() || null,
+        duration_minutes: moduleForm.duration_minutes === '' ? null : Number(moduleForm.duration_minutes)
+      };
       if (editingModule) {
-        await updateModule(editingModule.id, { title: moduleTitle });
+        await updateModule(editingModule.id, payload);
       } else {
-        await createModule(selectedCourseId, { title: moduleTitle });
+        await createModule(selectedCourseId, payload);
       }
       setShowModuleModal(false);
-      setModuleTitle('');
+      setModuleForm(emptyModuleForm);
       setEditingModule(null);
       fetchCurriculum(selectedCourseId);
     } catch (err) {
@@ -268,7 +274,7 @@ export default function TutorCurriculum() {
           <button
             onClick={() => {
               setEditingModule(null);
-              setModuleTitle('');
+              setModuleForm(emptyModuleForm);
               setShowModuleModal(true);
             }}
             className="btn primary"
@@ -323,6 +329,13 @@ export default function TutorCurriculum() {
                       Module {modIdx + 1}
                     </span>
                     <h3 style={{ margin: 0, fontSize: 18 }}>{mod.title}</h3>
+                    {(mod.description || mod.duration_minutes) && (
+                      <p style={{ margin: '4px 0 0 0', fontSize: 13, color: 'var(--admin-text-muted)' }}>
+                        {mod.description}
+                        {mod.description && mod.duration_minutes ? ' · ' : ''}
+                        {mod.duration_minutes ? `${mod.duration_minutes} min` : ''}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -341,7 +354,11 @@ export default function TutorCurriculum() {
                   <button
                     onClick={() => {
                       setEditingModule(mod);
-                      setModuleTitle(mod.title);
+                      setModuleForm({
+                        title: mod.title || '',
+                        description: mod.description || '',
+                        duration_minutes: mod.duration_minutes ?? ''
+                      });
                       setShowModuleModal(true);
                     }}
                     className="btn secondary"
@@ -450,9 +467,30 @@ export default function TutorCurriculum() {
                 <input
                   type="text"
                   required
-                  value={moduleTitle}
-                  onChange={(e) => setModuleTitle(e.target.value)}
+                  value={moduleForm.title}
+                  onChange={(e) => setModuleForm({ ...moduleForm, title: e.target.value })}
                   placeholder="e.g., Foundations of State Management"
+                  style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
+                />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ display: 'block', fontSize: 13, marginBottom: 6 }}>Description <span style={{ color: 'var(--admin-text-muted)' }}>(optional)</span></label>
+                <textarea
+                  rows={3}
+                  value={moduleForm.description}
+                  onChange={(e) => setModuleForm({ ...moduleForm, description: e.target.value })}
+                  placeholder="What this module covers..."
+                  style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white', resize: 'vertical' }}
+                />
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ display: 'block', fontSize: 13, marginBottom: 6 }}>Estimated Duration (minutes) <span style={{ color: 'var(--admin-text-muted)' }}>(optional)</span></label>
+                <input
+                  type="number"
+                  min="0"
+                  value={moduleForm.duration_minutes}
+                  onChange={(e) => setModuleForm({ ...moduleForm, duration_minutes: e.target.value })}
+                  placeholder="e.g., 45"
                   style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
                 />
               </div>

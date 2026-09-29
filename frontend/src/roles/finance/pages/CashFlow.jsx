@@ -36,7 +36,7 @@ export default function FinanceCashFlow() {
       title="Cash Flow Forecasting & Runway"
       subtitle="Predictive 90-day liquidity simulation, recurring MRR inflows, committed payroll outflows, and burn rate"
     >
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-md-4">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100">
             <small className="text-muted text-uppercase fw-semibold">Current Liquid Reserves</small>
@@ -62,7 +62,7 @@ export default function FinanceCashFlow() {
         </div>
       </div>
 
-      <div className="card border-0 shadow-sm rounded-3 mb-4">
+      <div className="card border-0 shadow-sm rounded-3 mb-2">
         <div className="card-header bg-white border-0 py-3">
           <h6 className="fw-bold mb-0 text-dark">90-Day Predictive Cash Runway Projection</h6>
         </div>

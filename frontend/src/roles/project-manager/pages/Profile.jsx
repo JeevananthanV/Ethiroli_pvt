@@ -26,7 +26,7 @@ export default function PMProfile() {
     >
       <div className="row g-4">
         <div className="col-md-4">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white text-center">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white text-center">
             <div
               className="rounded-circle bg-primary bg-opacity-10 text-primary mx-auto d-flex align-items-center justify-content-center fw-bold fs-2 mb-3"
               style={{ width: '90px', height: '90px' }}
@@ -48,7 +48,7 @@ export default function PMProfile() {
         </div>
 
         <div className="col-md-8">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white">
             <h6 className="fw-bold mb-3">Update Profile Details</h6>
             {saved && (
               <div className="alert alert-success d-flex align-items-center gap-2 mb-3">
@@ -78,7 +78,7 @@ export default function PMProfile() {
                 </div>
               </div>
 
-              <div className="row g-3 mb-4">
+              <div className="row g-3 mb-2">
                 <div className="col-md-6">
                   <label className="form-label">Phone Number</label>
                   <input

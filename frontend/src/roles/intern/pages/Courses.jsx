@@ -130,7 +130,7 @@ export default function Courses() {
     >
       <div className="container-fluid px-0">
         {/* Course Selection Cards */}
-        <div className="row g-3 mb-4">
+        <div className="row g-3 mb-2">
           {courses.map((c) => (
             <div key={c.id} className="col-12 col-sm-6 col-lg-3">
               <div
@@ -289,7 +289,7 @@ export default function Courses() {
                 </ul>
               </div>
 
-              <div className="card-body p-4">
+              <div className="card-body p-3">
                 {activeTab === 'lesson' && (
                   <div>
                     <h6 className="fw-bold mb-2">Lesson Overview & Key Takeaways</h6>

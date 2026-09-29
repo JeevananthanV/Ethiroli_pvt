@@ -75,7 +75,7 @@ export default function Leaves() {
       onRetry={loadLeaves}
     >
       {successMsg && (
-        <div className="alert alert-success alert-dismissible fade show d-flex align-items-center mb-4" role="alert">
+        <div className="alert alert-success alert-dismissible fade show d-flex align-items-center mb-2" role="alert">
           <i className="bi bi-check-circle-fill me-2 fs-5"></i>
           <div>{successMsg}</div>
           <button type="button" className="btn-close" onClick={() => setSuccessMsg('')}></button>
@@ -83,10 +83,10 @@ export default function Leaves() {
       )}
 
       {/* Balances Row */}
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         {balances.map((b) => (
           <div key={b.leave_type} className="col-md-4">
-            <div className="card shadow-sm border-0 h-100 p-4 bg-white">
+            <div className="card shadow-sm border-0 h-100 p-3 bg-white">
               <div className="d-flex justify-content-between align-items-center mb-2">
                 <span className="badge bg-primary bg-opacity-10 text-primary fw-semibold">
                   {b.leave_type} LEAVE

@@ -58,7 +58,7 @@ export default function Dashboard() {
       onRetry={fetchOverview}
     >
       {punchMsg && (
-        <div className="alert alert-success alert-dismissible fade show d-flex align-items-center mb-4" role="alert">
+        <div className="alert alert-success alert-dismissible fade show d-flex align-items-center mb-2" role="alert">
           <i className="bi bi-check-circle-fill me-2 fs-5"></i>
           <div>{punchMsg}</div>
           <button type="button" className="btn-close" onClick={() => setPunchMsg('')}></button>
@@ -66,7 +66,7 @@ export default function Dashboard() {
       )}
 
       {/* Row 1: KPI Summary Cards */}
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         {/* Clock In / Out Card */}
         <div className="col-md-6 col-lg-3">
           <div className="card shadow-sm border-0 h-100 p-3 bg-white">
@@ -159,11 +159,11 @@ export default function Dashboard() {
       </div>
 
       {/* Row 2: Navigation Hub across 5 Core Domains */}
-      <div className="card shadow-sm border-0 mb-4">
+      <div className="card shadow-sm border-0 mb-2">
         <div className="card-header bg-white py-3">
           <h6 className="mb-0 fw-bold">Employee Navigation Hub</h6>
         </div>
-        <div className="card-body p-4">
+        <div className="card-body p-3">
           <div className="row g-3">
             {/* Employee Management */}
             <div className="col-md-6 col-lg-3">

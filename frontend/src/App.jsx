@@ -9,15 +9,17 @@ import Navbar from './common/layout/Navbar';
 import Sidebar from './common/layout/Sidebar';
 import Unauthorized from './common/components/Unauthorized/Unauthorized';
 import LoginPage from './roles/public/pages/Login';
+import StudentLoginPage from './auth/portals/pages/StudentLoginPage.jsx';
+import TutorLoginPage from './auth/portals/pages/TutorLoginPage.jsx';
 
 // Modular Multi-Route Role Applications
 const SuperAdminApp = lazy(() => import('./roles/super-admin/SuperAdminApp'));
 const AdminApp = lazy(() => import('./roles/admin/AdminApp'));
 const HRApp = lazy(() => import('./roles/hr/HRApp'));
 const InternApp = lazy(() => import('./roles/intern/InternApp'));
+const TutorRoutes = lazy(() => import('./roles/tutor/TutorRoutes'));
 
 // Dashboards for other roles
-const TutorDashboard = lazy(() => import('./roles/tutor/pages/Dashboard'));
 const PMDashboard = lazy(() => import('./roles/project-manager/pages/Dashboard'));
 const FinanceDashboard = lazy(() => import('./roles/finance/pages/Dashboard'));
 const SalesDashboard = lazy(() => import('./roles/sales/pages/Dashboard'));
@@ -29,7 +31,7 @@ const ROLE_DASHBOARD_MAP = {
   SUPER_ADMIN: SuperAdminApp,
   ADMIN: AdminApp,
   HR: HRApp,
-  TUTOR: TutorDashboard,
+  TUTOR: TutorRoutes,
   PROJECT_MANAGER: PMDashboard,
   FINANCE: FinanceDashboard,
   SALES: SalesDashboard,
@@ -100,6 +102,12 @@ function RoleLayout() {
 function App() {
   return (
     <Routes>
+      <Route path="/auth/student/login" element={<StudentLoginPage />} />
+      <Route path="/student/login" element={<StudentLoginPage />} />
+      <Route path="/student" element={<Navigate to="/auth/student/login" replace />} />
+      <Route path="/auth/tutor/login" element={<TutorLoginPage />} />
+      <Route path="/tutor/login" element={<TutorLoginPage />} />
+      <Route path="/tutor" element={<Navigate to="/auth/tutor/login" replace />} />
       <Route path="/auth/:role/login" element={<LoginPage />} />
       <Route path="/auth/login" element={<LoginPage />} />
       <Route

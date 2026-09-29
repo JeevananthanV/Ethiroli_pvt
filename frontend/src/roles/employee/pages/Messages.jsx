@@ -102,7 +102,7 @@ export default function Messages() {
             </div>
 
             {/* Message Stream */}
-            <div className="p-4 overflow-auto flex-grow-1 d-flex flex-column gap-3 bg-light">
+            <div className="p-3 overflow-auto flex-grow-1 d-flex flex-column gap-3 bg-light">
               {messages.length === 0 ? (
                 <div className="text-center my-auto py-5 text-muted">
                   <i className="bi bi-chat-dots fs-1 d-block mb-2"></i>

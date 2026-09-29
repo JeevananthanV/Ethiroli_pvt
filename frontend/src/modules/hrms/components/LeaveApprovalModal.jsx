@@ -34,12 +34,12 @@ export default function LeaveApprovalModal({ isOpen, onClose, leaveRequest, onAp
       }
       onApproved?.({
         ...leaveRequest,
-        status: selectedAction === 'approve' ? 'approved' : 'rejected',
+        status: selectedAction === 'approve' ? 'APPROVED' : 'REJECTED',
         comment,
       })
       onClose?.()
     } catch (err) {
-      setError(err.message || `Failed to ${selectedAction} leave request`)
+      setError(err.response?.data?.message || err.message || `Failed to ${selectedAction} leave request`)
     } finally {
       setSubmitting(false)
     }

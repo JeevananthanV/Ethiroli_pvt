@@ -1,23 +1,8 @@
 import axiosInstance from './axiosInstance.js';
 
 export const getDashboardMetrics = async () => {
-  try {
-    const response = await axiosInstance.get('/v1/hr/dashboard/metrics');
-    return response.data || response;
-  } catch (err) {
-    // Return clean zero-state metrics without static mock data
-    return {
-      totalEmployees: 0,
-      totalInterns: 0,
-      onLeaveToday: 0,
-      presentToday: 0,
-      pendingLeaves: 0,
-      openJobs: 0,
-      upcomingInterviews: 0,
-      totalApplications: 0,
-      totalInquiries: 0
-    };
-  }
+  const response = await axiosInstance.get('/v1/hr/dashboard/metrics');
+  return response.data || response;
 };
 
 export const listDocuments = async (params = {}) => {

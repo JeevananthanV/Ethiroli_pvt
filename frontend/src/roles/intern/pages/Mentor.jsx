@@ -148,15 +148,15 @@ export default function Mentor() {
     >
       <div className="container-fluid px-0">
         {alert.text && (
-          <div className={`alert alert-${alert.type} alert-dismissible fade show mb-4`} role="alert">
+          <div className={`alert alert-${alert.type} alert-dismissible fade show mb-2`} role="alert">
             <i className="bi bi-check-circle me-2"></i>{alert.text}
             <button type="button" className="btn-close" onClick={() => setAlert({ type: '', text: '' })}></button>
           </div>
         )}
 
         {/* Assigned Mentor Profile Card */}
-        <div className="card shadow-sm border-0 mb-4">
-          <div className="card-body p-4">
+        <div className="card shadow-sm border-0 mb-2">
+          <div className="card-body p-3">
             <div className="row align-items-center g-4">
               <div className="col-md-7 d-flex align-items-center gap-3">
                 <div className="avatar-circle bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold fs-3" style={{ width: '72px', height: '72px' }}>
@@ -234,7 +234,7 @@ export default function Mentor() {
             </ul>
           </div>
 
-          <div className="card-body p-4">
+          <div className="card-body p-3">
             {/* Doubts Tab */}
             {activeTab === 'doubts' && (
               <div>
@@ -292,7 +292,7 @@ export default function Mentor() {
                 <div className="row g-3">
                   {sessions.map((s) => (
                     <div key={s.id} className="col-lg-6">
-                      <div className="card border p-4 rounded-3 h-100 bg-light-subtle">
+                      <div className="card border p-3 rounded-3 h-100 bg-light-subtle">
                         <div className="d-flex justify-content-between align-items-start mb-2">
                           <span className="badge bg-primary-subtle text-primary border">{s.status}</span>
                           <span className="small text-muted">{s.time}</span>
@@ -323,7 +323,7 @@ export default function Mentor() {
                 <h6 className="fw-bold text-dark mb-3">All Mentor Evaluations & Feedback</h6>
                 <div className="d-flex flex-column gap-3">
                   {reviews.map((r) => (
-                    <div key={r.id} className="card border p-4 rounded-3 bg-light-subtle">
+                    <div key={r.id} className="card border p-3 rounded-3 bg-light-subtle">
                       <div className="d-flex justify-content-between align-items-center mb-2">
                         <h6 className="fw-bold mb-0 text-dark">{r.period}</h6>
                         <span className="text-warning fw-bold">

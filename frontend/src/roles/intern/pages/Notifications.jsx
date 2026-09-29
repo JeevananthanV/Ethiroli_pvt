@@ -94,7 +94,7 @@ export default function InternNotifications() {
       }
     >
       {/* Category Filter Pills */}
-      <div className="d-flex gap-2 flex-wrap mb-4">
+      <div className="d-flex gap-2 flex-wrap mb-2">
         {categories.map((cat) => (
           <button
             key={cat}

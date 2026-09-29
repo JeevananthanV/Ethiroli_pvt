@@ -1,0 +1,1 @@
+import{f as o}from"./ErrorBoundary-Cl9MLlId.js";const s=async()=>(await o.get("/communication")).data,a=async n=>(await o.get(`/communication/${n}`)).data,e=async n=>(await o.post("/communication/send",n)).data,c=async(n={})=>(await o.get("/communication/logs",{params:n})).data,m={getAll:s,getById:a,send:e,getLogs:c};export{m as c,c as g};

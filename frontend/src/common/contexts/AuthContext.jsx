@@ -10,7 +10,11 @@ export const AuthProvider = ({ children }) => {
   const dispatch = useAppDispatch();
   const authState = useAppSelector((state) => state?.auth) || {};
   const { user = null, isAuthenticated = false, socketToken = null, activePortal = null, loading: reduxLoading = false } = authState;
-  const [loading, setLoading] = useState(reduxLoading);
+  // A stored token means a session may still be valid: keep the guard in its
+  // "Authenticating..." state until getMe() resolves instead of bouncing a
+  // hard reload straight to the login screen.
+  const hasStoredToken = Boolean(localStorage.getItem('auth_token') || localStorage.getItem('token'));
+  const [loading, setLoading] = useState(reduxLoading || hasStoredToken);
 
   const [activeRole, setActiveRole] = useState(() => {
     return localStorage.getItem('active_role') || null;

@@ -35,7 +35,7 @@ export default function Profile() {
       <div className="row g-4">
         {/* Profile Card */}
         <div className="col-lg-4">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white text-center h-100">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white text-center h-100">
             <div className="rounded-circle bg-primary bg-opacity-10 text-primary mx-auto mb-3 d-flex align-items-center justify-content-center fw-bold fs-2" style={{ width: '88px', height: '88px' }}>
               RS
             </div>
@@ -76,7 +76,7 @@ export default function Profile() {
 
         {/* Performance Statistics */}
         <div className="col-lg-8">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white mb-4">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white mb-2">
             <h5 className="fw-bold mb-3">Fiscal Quota Attainment Pacing</h5>
             <div className="row g-3 mb-3">
               <div className="col-md-4">
@@ -111,7 +111,7 @@ export default function Profile() {
             </small>
           </div>
 
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white">
             <h5 className="fw-bold mb-3">Key Performance Indicators</h5>
             <div className="row g-3">
               <div className="col-md-6">

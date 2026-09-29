@@ -41,7 +41,7 @@ export default function TutorQuestionBank() {
         search: search || undefined,
         difficulty: selectedDifficulty || undefined
       });
-      setQuestions(Array.isArray(data) ? data : []);
+      setQuestions(Array.isArray(data) ? data : (data?.data || []));
     } catch (err) {
       setError(err.message || 'Failed to load question bank');
     } finally {

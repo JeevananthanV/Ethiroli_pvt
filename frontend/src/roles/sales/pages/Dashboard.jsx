@@ -52,7 +52,7 @@ export default function Dashboard() {
       subtitle="Comprehensive revenue pipeline, quota attainment, lead velocity, and high-impact deal monitoring"
     >
       {/* KPI Cards Strip */}
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         {/* Card 1: Pipeline Value */}
         <div className="col-md-3">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100 border-start border-primary border-4">
@@ -131,9 +131,9 @@ export default function Dashboard() {
       </div>
 
       {/* Row 2: Pipeline Stages & Funnel */}
-      <div className="row g-4 mb-4">
+      <div className="row g-4 mb-2">
         <div className="col-lg-8">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white h-100">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100">
             <div className="d-flex justify-content-between align-items-center mb-3">
               <div>
                 <h5 className="fw-bold mb-0">Sales Pipeline Velocity by Stage</h5>
@@ -194,9 +194,9 @@ export default function Dashboard() {
 
         {/* Lead Funnel & Quota Attainment */}
         <div className="col-lg-4">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white h-100">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100">
             <h5 className="fw-bold mb-3">Lead Conversion Status</h5>
-            <div className="list-group list-group-flush mb-4">
+            <div className="list-group list-group-flush mb-2">
               <div className="list-group-item px-0 d-flex justify-content-between align-items-center">
                 <span><i className="bi bi-circle-fill text-info me-2 fs-6"></i>Total Leads Inbound</span>
                 <span className="badge bg-light text-dark fs-6">{summary?.leads?.total || 0}</span>
@@ -234,7 +234,7 @@ export default function Dashboard() {
       </div>
 
       {/* Row 3: Recent Deals Table */}
-      <div className="card border-0 shadow-sm rounded-3 p-4 bg-white">
+      <div className="card border-0 shadow-sm rounded-3 p-3 bg-white">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h5 className="fw-bold mb-0">High-Impact Active & Recent Deals</h5>
           <a href="#/proposals" className="btn btn-sm btn-outline-secondary">View Quotations</a>

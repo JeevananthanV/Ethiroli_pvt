@@ -11,8 +11,8 @@ export default function TutorCourses() {
     setLoading(true);
     setError(null);
     try {
-      const data = await listCourses().catch(() => []);
-      setCourses(Array.isArray(data) ? data : []);
+      const data = await listCourses();
+      setCourses(Array.isArray(data) ? data : (data?.data || []));
     } catch (err) {
       setError(err.message || 'Failed to load courses');
     } finally {
@@ -40,21 +40,35 @@ export default function TutorCourses() {
           </div>
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 18 }}>
-            {courses.map((course) => (
-              <div key={course.id} className="card">
-                <div className="cardHeader">
-                  <h3 className="cardTitle">{course.title}</h3>
+            {courses.map((course) => {
+              const published = course.is_active === true || course.is_active === 1 || course.status === 'published';
+              const lessonCount = course.lessons_count ?? course.lessonCount ?? null;
+
+              return (
+                <div key={course.id} className="card">
+                  <div className="cardHeader">
+                    <h3 className="cardTitle">{course.name || course.code}</h3>
+                    {course.code && (
+                      <span style={{ fontSize: 12, color: 'var(--admin-text-muted)' }}>{course.code}</span>
+                    )}
+                  </div>
+                  <div className="cardBody">
+                    {course.description && (
+                      <p style={{ margin: '4px 0 8px', fontSize: 13, color: 'var(--admin-text-secondary)' }}>
+                        {course.description}
+                      </p>
+                    )}
+                    <p style={{ margin: '8px 0', fontSize: 13, color: 'var(--admin-text-secondary)' }}>
+                      {lessonCount !== null && lessonCount !== undefined ? `${lessonCount} Lessons • ` : ''}
+                      {course.duration_days ? `${course.duration_days} days` : 'Duration not set'}
+                    </p>
+                    <span className={`statusTag ${published ? 'active' : 'pending'}`}>
+                      {published ? 'PUBLISHED' : 'DRAFT'}
+                    </span>
+                  </div>
                 </div>
-                <div className="cardBody">
-                  <p style={{ margin: '8px 0', fontSize: 13, color: 'var(--admin-text-secondary)' }}>
-                    {course.lessons_count || course.lessonCount || 0} Lessons • {course.level || 'All Levels'}
-                  </p>
-                  <span className={`statusTag ${course.status === 'published' ? 'active' : 'pending'}`}>
-                    {course.status === 'published' ? 'PUBLISHED' : 'DRAFT'}
-                  </span>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

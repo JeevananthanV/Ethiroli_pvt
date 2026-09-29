@@ -15,8 +15,18 @@ export const checkOut = async (data = {}) => {
   return response.data;
 };
 
+export const getAttendanceById = async (id) => {
+  const response = await axiosInstance.get(`/v1/attendance/${id}`);
+  return response.data;
+};
+
 export const updateAttendance = async (id, data) => {
-  const response = await axiosInstance.patch(`/v1/attendance/${id}`, data);
+  const response = await axiosInstance.put(`/v1/attendance/${id}`, data);
+  return response.data;
+};
+
+export const deleteAttendance = async (id) => {
+  const response = await axiosInstance.delete(`/v1/attendance/${id}`);
   return response.data;
 };
 
@@ -30,10 +40,13 @@ export const listAttendance = getAttendance;
 export const attendanceApi = {
   getAll: getAttendance,
   getAttendance,
+  getById: getAttendanceById,
   checkIn,
   checkOut,
   update: updateAttendance,
+  delete: deleteAttendance,
   getSummary: getAttendanceSummary,
 };
 
 export default attendanceApi;
+

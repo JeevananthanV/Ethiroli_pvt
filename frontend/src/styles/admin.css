@@ -1415,3 +1415,19 @@ textarea:focus {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+@keyframes pulseSkeleton {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Global Accessible Focus Indicators (WCAG 2.1 AA) */
+*:focus-visible {
+  outline: 2px solid var(--admin-primary, #819E35);
+  outline-offset: 2px;
+}
+

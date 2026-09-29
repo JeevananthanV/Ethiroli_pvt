@@ -20,7 +20,8 @@ const UserTable = () => {
     setError(null);
     try {
       const data = await getUsers();
-      setUsers(data.users || data || []);
+      const list = data?.data?.users || data?.data || data?.users || (Array.isArray(data) ? data : []);
+      setUsers(Array.isArray(list) ? list : []);
     } catch (err) {
       setError(err.message);
     } finally {

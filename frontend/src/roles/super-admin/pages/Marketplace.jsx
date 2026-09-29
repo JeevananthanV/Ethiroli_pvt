@@ -9,8 +9,8 @@ export default function Marketplace() {
   ]);
 
   return (
-    <div className="container-fluid p-4 bg-light min-vh-100">
-      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div className="container-fluid p-3 bg-light min-vh-100">
+      <div className="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
         <div>
           <h2 className="fw-bold mb-1 d-flex align-items-center gap-2">
             <i className="bi bi-shop text-primary" aria-hidden="true"></i>
@@ -28,7 +28,7 @@ export default function Marketplace() {
       <div className="row g-4">
         {plugins.map(p => (
           <div key={p.id} className="col-md-6 col-lg-3">
-            <div className="card border-0 shadow-sm rounded-3 p-4 bg-white h-100 d-flex flex-column">
+            <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100 d-flex flex-column">
               <div className="d-flex justify-content-between align-items-start mb-2">
                 <span className="badge bg-light text-primary border">{p.category}</span>
                 <span className={`badge ${p.status === 'ACTIVE' ? 'bg-success' : 'bg-secondary'}`}>

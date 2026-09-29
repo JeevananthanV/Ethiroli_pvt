@@ -75,14 +75,14 @@ export default function Feedback() {
     >
       <div className="container-fluid px-0">
         {alert.text && (
-          <div className={`alert alert-${alert.type} alert-dismissible fade show mb-4`} role="alert">
+          <div className={`alert alert-${alert.type} alert-dismissible fade show mb-2`} role="alert">
             <i className="bi bi-check-circle me-2"></i>{alert.text}
             <button type="button" className="btn-close" onClick={() => setAlert({ type: '', text: '' })}></button>
           </div>
         )}
 
         {/* Tab Navigation */}
-        <div className="card shadow-sm border-0 mb-4">
+        <div className="card shadow-sm border-0 mb-2">
           <div className="card-header bg-white border-0 pt-3 pb-0">
             <ul className="nav nav-tabs card-header-tabs">
               <li className="nav-item">
@@ -104,11 +104,11 @@ export default function Feedback() {
             </ul>
           </div>
 
-          <div className="card-body p-4">
+          <div className="card-body p-3">
             {/* Tab 1: Mentor's Evaluation */}
             {activeTab === 'evaluation' && (
               <div>
-                <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4 p-3 bg-light rounded-3 border">
+                <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-2 p-3 bg-light rounded-3 border">
                   <div>
                     <h5 className="fw-bold mb-1 text-dark">{evaluation.period}</h5>
                     <p className="text-muted small mb-0">Evaluated by Mentor Arun Kumar</p>
@@ -122,7 +122,7 @@ export default function Feedback() {
 
                 {/* Scorecard Bars */}
                 <h6 className="fw-bold text-dark mb-3">Weekly Performance Scorecard</h6>
-                <div className="row g-3 mb-4">
+                <div className="row g-3 mb-2">
                   {evaluation.scores.map((sc) => (
                     <div key={sc.category} className="col-md-6">
                       <div className="p-3 bg-white border rounded-3">
@@ -142,7 +142,7 @@ export default function Feedback() {
                 </div>
 
                 {/* Mentor Notes */}
-                <div className="p-3 bg-light rounded-3 border mb-4">
+                <div className="p-3 bg-light rounded-3 border mb-2">
                   <h6 className="fw-bold text-primary small mb-1">
                     <i className="bi bi-chat-quote-fill me-1"></i>Mentor Notes:
                   </h6>
@@ -272,7 +272,7 @@ export default function Feedback() {
                       </div>
                     </div>
 
-                    <div className="mb-4">
+                    <div className="mb-2">
                       <label className="form-label small fw-semibold">Any concerns or suggestions?</label>
                       <textarea
                         className="form-control form-control-sm"

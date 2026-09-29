@@ -36,7 +36,7 @@ export default function FinanceSubscriptions() {
       title="Client Subscriptions & Recurring Revenue (MRR)"
       subtitle="Track monthly retainer contracts, recurring billing schedules, ARR runrate, and upcoming contract renewals"
     >
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-md-4">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white border-start border-primary border-4">
             <small className="text-muted text-uppercase fw-semibold">Monthly Recurring Revenue (MRR)</small>

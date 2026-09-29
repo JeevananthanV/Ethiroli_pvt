@@ -6,7 +6,7 @@ export default function FinanceApprovals() {
     { id: 'app-1', type: 'EXPENSE_REIMBURSEMENT', title: 'Senior Cloud Architect Travel & AWS Summit', initiator: 'DevOps Lead', amount: 32000, date: '2026-09-08', status: 'PENDING_FINANCE', urgency: 'MEDIUM' },
     { id: 'app-2', type: 'CUSTOMER_REFUND', title: 'Refund Request for Batch Transfer Cancellation', initiator: 'Support Desk', amount: 8000, date: '2026-09-09', status: 'PENDING_FINANCE', urgency: 'HIGH' },
     { id: 'app-3', type: 'CONTRACTOR_INVOICE', title: 'Mobile UI Deliverable Milestone Sign-off', initiator: 'Project Manager', amount: 45000, date: '2026-09-07', status: 'PENDING_FINANCE', urgency: 'HIGH' },
-    { id: 'app-4', type: 'PAYROLL_OVERRIDE', title: 'Prorated Mid-Month Joining Salary Adjustment', initiator: 'HR Manager', amount: 18500, date: '2026-09-05', status: 'APPROVED', urgency: 'LOW' }
+    { id: 'app-3', type: 'PAYROLL_OVERRIDE', title: 'Prorated Mid-Month Joining Salary Adjustment', initiator: 'HR Manager', amount: 18500, date: '2026-09-05', status: 'APPROVED', urgency: 'LOW' }
   ]);
 
   const handleAction = (id, action) => {

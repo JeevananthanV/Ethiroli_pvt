@@ -170,14 +170,14 @@ export default function Assignments() {
     >
       <div className="container-fluid px-0">
         {alert.text && (
-          <div className={`alert alert-${alert.type} alert-dismissible fade show mb-4`} role="alert">
+          <div className={`alert alert-${alert.type} alert-dismissible fade show mb-2`} role="alert">
             <i className="bi bi-check-circle me-2"></i>{alert.text}
             <button type="button" className="btn-close" onClick={() => setAlert({ type: '', text: '' })}></button>
           </div>
         )}
 
         {/* Filter Tabs */}
-        <div className="d-flex gap-2 flex-wrap mb-4">
+        <div className="d-flex gap-2 flex-wrap mb-2">
           <button
             type="button"
             className={`btn btn-sm ${activeTab === 'ALL' ? 'btn-primary' : 'btn-outline-secondary'}`}
@@ -220,7 +220,7 @@ export default function Assignments() {
           {filteredAssignments.map((asg) => (
             <div key={asg.id} className="col-lg-6">
               <div className="card shadow-sm border-0 h-100">
-                <div className="card-body p-4 d-flex flex-column">
+                <div className="card-body p-3 d-flex flex-column">
                   <div className="d-flex justify-content-between align-items-start mb-2">
                     <span className="badge bg-light text-secondary border small">{asg.course}</span>
                     {getStatusBadge(asg.status)}

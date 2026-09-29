@@ -211,14 +211,14 @@ export default function Documents() {
     >
       <div className="container-fluid px-0">
         {alert.text && (
-          <div className={`alert alert-${alert.type} alert-dismissible fade show mb-4`} role="alert">
+          <div className={`alert alert-${alert.type} alert-dismissible fade show mb-2`} role="alert">
             <i className="bi bi-check-circle me-2"></i>{alert.text}
             <button type="button" className="btn-close" onClick={() => setAlert({ type: '', text: '' })}></button>
           </div>
         )}
 
         {/* Vault Categories & Upload Action */}
-        <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+        <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-2">
           <div className="d-flex gap-2 flex-wrap">
             <button
               type="button"
@@ -278,7 +278,7 @@ export default function Documents() {
           {filteredDocs.map((doc) => (
             <div key={doc.id} className="col-md-6 col-lg-4">
               <div className="card shadow-sm border-0 h-100">
-                <div className="card-body p-4 d-flex flex-column">
+                <div className="card-body p-3 d-flex flex-column">
                   <div className="d-flex justify-content-between align-items-start mb-2">
                     <span className="badge bg-light text-secondary border small">{doc.categoryLabel}</span>
                     {getStatusBadge(doc.status)}

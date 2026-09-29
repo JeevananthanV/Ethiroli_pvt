@@ -38,14 +38,14 @@ export default function AdminSettings() {
       subtitle="Organization profile, business operational parameters, academic year rules, and security compliance policies"
     >
       {savedAlert && (
-        <div className="alert alert-success d-flex align-items-center gap-2 mb-4 shadow-sm">
+        <div className="alert alert-success d-flex align-items-center gap-2 mb-2 shadow-sm">
           <i className="bi bi-check-circle-fill fs-5"></i>
           <div><strong>Settings Updated!</strong> Organization configurations have been synchronized successfully.</div>
         </div>
       )}
 
       {/* Tabs */}
-      <div className="d-flex gap-2 mb-4 border-bottom pb-2">
+      <div className="d-flex gap-2 mb-2 border-bottom pb-2">
         <button
           className={`btn btn-sm ${activeTab === 'GENERAL' ? 'btn-primary' : 'btn-light'}`}
           onClick={() => setActiveTab('GENERAL')}
@@ -73,7 +73,7 @@ export default function AdminSettings() {
       </div>
 
       <form onSubmit={handleSave}>
-        <div className="card border-0 shadow-sm rounded-3 p-4 bg-white mb-4">
+        <div className="card border-0 shadow-sm rounded-3 p-3 bg-white mb-2">
           {activeTab === 'GENERAL' && (
             <div>
               <h5 className="fw-bold text-dark mb-3">Company / Institution Profile</h5>

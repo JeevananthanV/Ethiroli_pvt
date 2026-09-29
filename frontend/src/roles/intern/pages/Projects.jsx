@@ -99,7 +99,7 @@ export default function Projects() {
     >
       <div className="container-fluid px-0">
         {/* Project Selector Cards */}
-        <div className="row g-4 mb-4">
+        <div className="row g-4 mb-2">
           {projects.map((proj) => (
             <div key={proj.id} className="col-lg-6">
               <div
@@ -109,7 +109,7 @@ export default function Projects() {
                 onClick={() => setSelectedProject(proj)}
                 style={{ cursor: 'pointer', transition: 'all 0.2s ease' }}
               >
-                <div className="card-body p-4 d-flex flex-column">
+                <div className="card-body p-3 d-flex flex-column">
                   <div className="d-flex justify-content-between align-items-start mb-2">
                     <span className="badge bg-primary-subtle text-primary border">{proj.role}</span>
                     <span className="badge bg-success-subtle text-success">{proj.status}</span>
@@ -180,14 +180,14 @@ export default function Projects() {
             </div>
           </div>
 
-          <div className="card-body p-4 pt-0">
+          <div className="card-body p-3 pt-0">
             <div className="row g-4">
               {/* Deliverables Checklist */}
               <div className="col-lg-7">
                 <h6 className="fw-bold mb-3 text-dark d-flex align-items-center gap-2">
                   <i className="bi bi-check2-all text-primary"></i> Deliverables & Sprint Checklist
                 </h6>
-                <div className="list-group list-group-flush border rounded-3 p-2 bg-light mb-4">
+                <div className="list-group list-group-flush border rounded-3 p-2 bg-light mb-2">
                   {selectedProject.deliverables.map((d, idx) => (
                     <div
                       key={idx}
@@ -258,7 +258,7 @@ export default function Projects() {
                 <h6 className="fw-bold mb-3 text-dark d-flex align-items-center gap-2">
                   <i className="bi bi-people-fill text-primary"></i> Team Members & Roles
                 </h6>
-                <div className="d-flex flex-column gap-2 mb-4">
+                <div className="d-flex flex-column gap-2 mb-2">
                   {selectedProject.team.map((member) => (
                     <div key={member.name} className="d-flex align-items-center gap-3 p-3 bg-light rounded-3 border">
                       <div className="avatar-circle bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold small" style={{ width: '40px', height: '40px' }}>

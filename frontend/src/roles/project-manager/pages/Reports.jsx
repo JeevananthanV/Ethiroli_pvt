@@ -14,15 +14,15 @@ export default function PMReports() {
       title="Project Performance Reports"
       subtitle="Analytics on sprint velocity, deliverable milestones, and budget burn rates"
     >
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         {reports.map((r, i) => (
           <div key={i} className="col-md-6">
-            <div className="card border-0 shadow-sm rounded-3 p-4 h-100 bg-white">
+            <div className="card border-0 shadow-sm rounded-3 p-3 h-100 bg-white">
               <div className="d-flex justify-content-between align-items-start mb-3">
                 <h5 className="fw-bold mb-0 text-dark">{r.title}</h5>
                 <span className="badge bg-primary bg-opacity-10 text-primary">{r.metric}</span>
               </div>
-              <p className="text-muted small mb-4">{r.desc}</p>
+              <p className="text-muted small mb-2">{r.desc}</p>
               <div className="d-flex justify-content-between align-items-center mt-auto pt-2 border-top">
                 <small className="text-muted"><i className="bi bi-clock me-1"></i>{r.date}</small>
                 <button className="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">

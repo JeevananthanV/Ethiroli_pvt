@@ -64,9 +64,9 @@ export default function Notifications() {
 
         <div className="list-group list-group-flush">
           {loading ? (
-            <div className="p-4 text-center">Loading notifications...</div>
+            <div className="p-3 text-center">Loading notifications...</div>
           ) : notifications.length === 0 ? (
-            <div className="p-4 text-center text-muted">No notifications to display.</div>
+            <div className="p-3 text-center text-muted">No notifications to display.</div>
           ) : (
             notifications.map(n => (
               <div

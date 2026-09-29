@@ -135,7 +135,7 @@ export default function TrainingPlan() {
     >
       <div className="container-fluid px-0">
         {/* Header Info Card */}
-        <div className="card shadow-sm border-0 mb-4 bg-primary text-white p-4">
+        <div className="card shadow-sm border-0 mb-2 bg-primary text-white p-3">
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
             <div>
               <div className="d-flex align-items-center gap-2 mb-2 flex-wrap">
@@ -189,7 +189,7 @@ export default function TrainingPlan() {
                   </div>
                 </div>
 
-                <div className="card-body p-4 pt-0">
+                <div className="card-body p-3 pt-0">
                   {/* Progress Bar */}
                   <div className="d-flex align-items-center gap-2 mb-3">
                     <div className="progress flex-grow-1" style={{ height: '6px' }}>

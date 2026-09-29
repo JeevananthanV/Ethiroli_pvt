@@ -55,10 +55,10 @@ export default function SalesReports() {
       subtitle="Executive revenue pacing, lead conversion funnel, sales rep leaderboards, and historical win/loss ratios"
     >
       {/* Row 1: Funnel & Rep Leaderboard */}
-      <div className="row g-4 mb-4">
+      <div className="row g-4 mb-2">
         {/* Lead Funnel */}
         <div className="col-lg-6">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white h-100">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100">
             <h5 className="fw-bold mb-3">CRM Lead Conversion Funnel</h5>
             <div className="d-flex flex-column gap-3">
               {reports?.lead_funnel?.map((item, idx) => {
@@ -103,7 +103,7 @@ export default function SalesReports() {
 
         {/* Rep Leaderboard */}
         <div className="col-lg-6">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white h-100">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100">
             <h5 className="fw-bold mb-3">Sales Representative Leaderboard</h5>
             <div className="table-responsive">
               <table className="table table-hover align-middle mb-0">
@@ -147,7 +147,7 @@ export default function SalesReports() {
       </div>
 
       {/* Row 2: Monthly Win/Loss Pacing Table */}
-      <div className="card border-0 shadow-sm rounded-3 bg-white p-4">
+      <div className="card border-0 shadow-sm rounded-3 bg-white p-3">
         <h5 className="fw-bold mb-3">Historical Monthly Bookings & Pacing</h5>
         <div className="table-responsive">
           <table className="table table-hover align-middle mb-0">

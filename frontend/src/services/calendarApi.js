@@ -16,9 +16,10 @@ export const listEvents = async (params = {}) => {
   return response.data?.data || response.data;
 };
 
-export const listExpanded = async ({ start, end, event_type_id = null }) => {
+export const listExpanded = async ({ start, end, event_type_id = null, role = null }) => {
   const params = { start, end };
   if (event_type_id) params.event_type_id = event_type_id;
+  if (role) params.role = role;
   const response = await api.get('/calendar/expand', { params });
   return response.data?.data || response.data || [];
 };
@@ -43,13 +44,15 @@ export const deleteEvent = async (id) => {
   return response.data?.data || response.data;
 };
 
-export const getRoleConfig = async () => {
-  const response = await api.get('/calendar/config');
+export const getRoleConfig = async (role = null) => {
+  const params = role ? { role } : {};
+  const response = await api.get('/calendar/config', { params });
   return response.data?.data || response.data;
 };
 
-export const listAllowedTypes = async () => {
-  const response = await api.get('/calendar/types');
+export const listAllowedTypes = async (role = null) => {
+  const params = role ? { for_role: role } : {};
+  const response = await api.get('/calendar/types', { params });
   return response.data?.data || response.data || [];
 };
 
@@ -74,7 +77,7 @@ export const deleteEventType = async (id) => {
 };
 
 export const createRecurrence = async (id, ruleData) => {
-  const response = await api.post(`/calendar/events/${id}/recurrence`, ruleData);
+  const response = await api.post(`/calendar/events/${id}/recur`, ruleData);
   return response.data?.data || response.data;
 };
 

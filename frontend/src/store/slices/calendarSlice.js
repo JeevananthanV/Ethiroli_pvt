@@ -3,9 +3,9 @@ import calendarApi from '../../services/calendarApi.js';
 
 export const fetchRoleConfig = createAsyncThunk(
   'calendar/fetchRoleConfig',
-  async (_, { rejectWithValue }) => {
+  async (role = null, { rejectWithValue }) => {
     try {
-      return await calendarApi.getRoleConfig();
+      return await calendarApi.getRoleConfig(role);
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || 'Failed to fetch role calendar configuration');
     }
@@ -14,9 +14,9 @@ export const fetchRoleConfig = createAsyncThunk(
 
 export const fetchAllowedTypes = createAsyncThunk(
   'calendar/fetchAllowedTypes',
-  async (_, { rejectWithValue }) => {
+  async (role = null, { rejectWithValue }) => {
     try {
-      return await calendarApi.listAllowedTypes();
+      return await calendarApi.listAllowedTypes(role);
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || 'Failed to fetch allowed event types');
     }
@@ -25,9 +25,9 @@ export const fetchAllowedTypes = createAsyncThunk(
 
 export const fetchExpandedEvents = createAsyncThunk(
   'calendar/fetchExpandedEvents',
-  async ({ start, end, event_type_id }, { rejectWithValue }) => {
+  async ({ start, end, event_type_id, role = null }, { rejectWithValue }) => {
     try {
-      return await calendarApi.listExpanded({ start, end, event_type_id });
+      return await calendarApi.listExpanded({ start, end, event_type_id, role });
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || 'Failed to fetch calendar events in range');
     }

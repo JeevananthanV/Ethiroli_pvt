@@ -30,8 +30,8 @@ export default function Notifications() {
   };
 
   return (
-    <div className="container-fluid p-4 bg-light min-vh-100">
-      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div className="container-fluid p-3 bg-light min-vh-100">
+      <div className="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
         <div>
           <h2 className="fw-bold mb-1 d-flex align-items-center gap-2">
             <i className="bi bi-bell text-primary" aria-hidden="true"></i>
@@ -49,7 +49,7 @@ export default function Notifications() {
         </button>
       </div>
 
-      <div className="card border-0 shadow-sm rounded-3 bg-white p-4">
+      <div className="card border-0 shadow-sm rounded-3 bg-white p-3">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h5 className="fw-bold mb-0">Platform Notification Feed</h5>
           <button 
@@ -99,7 +99,7 @@ export default function Notifications() {
                 <button type="button" className="btn-close" onClick={() => setBroadcastModal(false)}></button>
               </div>
               <form onSubmit={handleBroadcast}>
-                <div className="modal-body p-4">
+                <div className="modal-body p-3">
                   <div className="mb-3">
                     <label className="form-label small fw-semibold">Broadcast Title</label>
                     <input 

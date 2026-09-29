@@ -13,9 +13,7 @@ const ALL_ROLES = [
   'PROJECT_MANAGER',
   'FINANCE',
   'SALES',
-  'RECEPTION',
-  'VENDOR',
-  'CLIENT'
+  'RECEPTION'
 ];
 
 export default function EventTypeAdmin() {
@@ -142,7 +140,7 @@ export default function EventTypeAdmin() {
         </button>
       }
     >
-      <div className="card border-0 shadow-sm rounded-3 overflow-hidden bg-white mb-4">
+      <div className="card border-0 shadow-sm rounded-3 overflow-hidden bg-white mb-2">
         <div className="table-responsive">
           <table className="table table-hover align-middle mb-0">
             <thead className="table-light">
@@ -242,7 +240,7 @@ export default function EventTypeAdmin() {
               </div>
 
               <form onSubmit={handleSubmit}>
-                <div className="modal-body p-4">
+                <div className="modal-body p-3">
                   <div className="row g-3">
                     <div className="col-md-6">
                       <label className="form-label small fw-bold">Label / Display Name *</label>

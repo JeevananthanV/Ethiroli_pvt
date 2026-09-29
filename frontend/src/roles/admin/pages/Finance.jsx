@@ -90,7 +90,7 @@ export default function AdminFinance() {
       }
     >
       {feedback && (
-        <div className={`alert alert-${feedback.type} alert-dismissible fade show shadow-sm mb-4`} role="alert">
+        <div className={`alert alert-${feedback.type} alert-dismissible fade show shadow-sm mb-2`} role="alert">
           <div>{feedback.message}</div>
           <button type="button" className="btn-close" onClick={() => setFeedback(null)}></button>
         </div>

@@ -67,7 +67,7 @@ const CalendarEventTypeForm = ({ eventType, eventTypes, onCreate, onUpdate, onCa
       <div className="form-group">
         <label>Allowed Create Roles</label>
         <div className="checkbox-group">
-          {['SUPER_ADMIN', 'ADMIN', 'HR', 'TUTOR', 'PROJECT_MANAGER', 'RECEPTION', 'VENDOR', 'CLIENT'].map(role => (
+          {['SUPER_ADMIN', 'ADMIN', 'HR', 'TUTOR', 'PROJECT_MANAGER', 'RECEPTION'].map(role => (
             <label key={role}>
               <input type="checkbox" checked={(formData.allowedCreateRoles || []).includes(role)} onChange={() => handleRoleChange(role, 'allowedCreateRoles')} />
               {role}

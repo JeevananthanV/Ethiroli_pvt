@@ -90,14 +90,14 @@ export default function Doubts() {
       onRetry={loadData}
     >
       {successMsg && (
-        <div className="alert alert-success alert-dismissible fade show d-flex align-items-center mb-4" role="alert">
+        <div className="alert alert-success alert-dismissible fade show d-flex align-items-center mb-2" role="alert">
           <i className="bi bi-check-circle-fill me-2 fs-5"></i>
           <div>{successMsg}</div>
           <button type="button" className="btn-close" onClick={() => setSuccessMsg('')}></button>
         </div>
       )}
 
-      <div className="d-flex justify-content-between align-items-center mb-4">
+      <div className="d-flex justify-content-between align-items-center mb-2">
         <div>
           <h5 className="mb-0 fw-bold">My Submitted Doubts</h5>
           <small className="text-muted">Track tutor answers and code reviews</small>
@@ -118,7 +118,7 @@ export default function Doubts() {
           doubts.map((item) => (
             <div key={item.id} className="col-12">
               <div className="card shadow-sm border-0 border-start border-4 border-primary">
-                <div className="card-body p-4">
+                <div className="card-body p-3">
                   <div className="d-flex justify-content-between align-items-start mb-2">
                     <div className="d-flex align-items-center gap-2">
                       <span className="badge bg-light text-dark border">{item.course_name || 'Course'}</span>

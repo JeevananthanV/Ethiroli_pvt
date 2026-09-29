@@ -86,7 +86,7 @@ export default function AdminDashboard() {
       }
     >
       {/* Live Connection Banner */}
-      <div className="d-flex align-items-center justify-content-between p-2 px-3 mb-4 rounded-3 border bg-white shadow-sm">
+      <div className="d-flex align-items-center justify-content-between p-2 px-3 mb-2 rounded-3 border bg-white shadow-sm">
         <div className="d-flex align-items-center gap-2">
           <span className="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1">
             <i className="bi bi-circle-fill me-1" style={{ fontSize: '0.45rem' }}></i> Live Database Connected
@@ -101,13 +101,13 @@ export default function AdminDashboard() {
       </div>
 
       {error && (
-        <div className="alert alert-danger py-2 mb-4" role="alert">
+        <div className="alert alert-danger py-2 mb-2" role="alert">
           <i className="bi bi-exclamation-triangle me-2"></i>{error}
         </div>
       )}
 
       {/* 6 Executive Live KPI Cards */}
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-12 col-sm-6 col-xl-2">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100 border-start border-4 border-primary">
             <span className="text-secondary small fw-medium">Total People</span>
@@ -156,7 +156,7 @@ export default function AdminDashboard() {
       <h6 className="fw-bold text-dark mb-3 text-uppercase small" style={{ letterSpacing: '0.05em' }}>
         Organization Operations Hub (12 Functional Domains)
       </h6>
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         {domains.map((d, idx) => (
           <div className="col-12 col-md-6 col-xl-3" key={idx}>
             <a href={d.link} className="text-decoration-none">
@@ -178,7 +178,7 @@ export default function AdminDashboard() {
       {/* Operational Pulse & Activity Feed */}
       <div className="row g-3">
         <div className="col-12 col-lg-8">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white h-100">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100">
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h6 className="fw-bold text-dark mb-0">
                 <i className="bi bi-activity text-primary me-2"></i>Live Operational Pulse
@@ -227,7 +227,7 @@ export default function AdminDashboard() {
         </div>
 
         <div className="col-12 col-lg-4">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white h-100">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100">
             <h6 className="fw-bold text-dark mb-3">
               <i className="bi bi-lightning-charge-fill text-warning me-2"></i>Quick Administrative Actions
             </h6>

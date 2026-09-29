@@ -22,8 +22,8 @@ export default function Profile() {
   };
 
   return (
-    <div className="container-fluid p-4 bg-light min-vh-100">
-      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div className="container-fluid p-3 bg-light min-vh-100">
+      <div className="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
         <div>
           <h2 className="fw-bold mb-1 d-flex align-items-center gap-2">
             <i className="bi bi-person-circle text-primary" aria-hidden="true"></i>
@@ -36,7 +36,7 @@ export default function Profile() {
       </div>
 
       {saved && (
-        <div className="alert alert-success d-flex align-items-center gap-2 mb-4" role="alert">
+        <div className="alert alert-success d-flex align-items-center gap-2 mb-2" role="alert">
           <i className="bi bi-check-circle-fill"></i>
           <span>Super Admin credentials and security preferences updated successfully.</span>
         </div>
@@ -44,7 +44,7 @@ export default function Profile() {
 
       <div className="row g-4">
         <div className="col-lg-5">
-          <div className="card border-0 shadow-sm rounded-3 bg-white p-4 text-center">
+          <div className="card border-0 shadow-sm rounded-3 bg-white p-3 text-center">
             <div 
               className="rounded-circle bg-primary bg-gradient d-flex align-items-center justify-content-center text-white fw-bold mx-auto mb-3 shadow"
               style={{ width: '80px', height: '80px', fontSize: '2rem' }}
@@ -82,7 +82,7 @@ export default function Profile() {
         </div>
 
         <div className="col-lg-7">
-          <div className="card border-0 shadow-sm rounded-3 bg-white p-4">
+          <div className="card border-0 shadow-sm rounded-3 bg-white p-3">
             <h5 className="fw-bold mb-3 border-bottom pb-2">Profile & Security Settings</h5>
             <form onSubmit={handleUpdate}>
               <div className="mb-3">
@@ -115,7 +115,7 @@ export default function Profile() {
                 <label className="form-check-label fw-semibold">Require Multi-Factor Authentication on every login</label>
               </div>
 
-              <div className="form-check form-switch mb-4">
+              <div className="form-check form-switch mb-2">
                 <input 
                   className="form-check-input" 
                   type="checkbox" 

@@ -83,7 +83,7 @@ export default function FinanceReports() {
       subtitle="Audited financial reporting: Profit & Loss (Income Statement), Balance Sheet, and Gross Margin analytics"
     >
       {/* Date Filter & Statement Switcher */}
-      <div className="card border-0 shadow-sm rounded-3 mb-4">
+      <div className="card border-0 shadow-sm rounded-3 mb-2">
         <div className="card-body p-3 d-flex flex-wrap align-items-center justify-content-between gap-3">
           <div className="btn-group">
             <button

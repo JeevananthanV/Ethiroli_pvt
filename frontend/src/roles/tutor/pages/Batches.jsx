@@ -126,14 +126,14 @@ export default function Batches() {
       onRetry={loadData}
     >
       {successMsg && (
-        <div className="alert alert-success alert-dismissible fade show d-flex align-items-center mb-4" role="alert">
+        <div className="alert alert-success alert-dismissible fade show d-flex align-items-center mb-2" role="alert">
           <i className="bi bi-check-circle-fill me-2 fs-5"></i>
           <div>{successMsg}</div>
           <button type="button" className="btn-close" onClick={() => setSuccessMsg('')}></button>
         </div>
       )}
 
-      <div className="d-flex justify-content-between align-items-center mb-4">
+      <div className="d-flex justify-content-between align-items-center mb-2">
         <div>
           <h5 className="mb-0 fw-bold">Active Batches</h5>
           <small className="text-muted">Total {batches.length} cohorts running</small>
@@ -308,7 +308,7 @@ export default function Batches() {
                 </div>
                 <button type="button" className="btn-close" onClick={() => setShowAttendanceModal(false)}></button>
               </div>
-              <div className="modal-body p-4">
+              <div className="modal-body p-3">
                 <div className="d-flex justify-content-between align-items-center mb-3">
                   <div className="d-flex align-items-center gap-2">
                     <label className="form-label fw-semibold mb-0">Attendance Date:</label>

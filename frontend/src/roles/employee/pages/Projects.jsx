@@ -36,7 +36,7 @@ export default function Projects() {
       <div className="row g-4">
         {projects.length === 0 ? (
           <div className="col-12 text-center py-5">
-            <div className="rounded-circle bg-light d-inline-flex p-4 mb-3 text-muted">
+            <div className="rounded-circle bg-light d-inline-flex p-3 mb-3 text-muted">
               <i className="bi bi-kanban fs-1"></i>
             </div>
             <h5>No Projects Assigned Yet</h5>

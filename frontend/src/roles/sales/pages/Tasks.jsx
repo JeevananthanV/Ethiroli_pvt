@@ -99,9 +99,9 @@ export default function Tasks() {
 
         <div className="list-group list-group-flush">
           {loading ? (
-            <div className="p-4 text-center">Loading tasks...</div>
+            <div className="p-3 text-center">Loading tasks...</div>
           ) : tasks.length === 0 ? (
-            <div className="p-4 text-center text-muted">No pending tasks. You are all caught up!</div>
+            <div className="p-3 text-center text-muted">No pending tasks. You are all caught up!</div>
           ) : (
             tasks.map(task => {
               const isDone = task.outcome === 'COMPLETED';

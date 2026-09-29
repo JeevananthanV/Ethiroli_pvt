@@ -101,6 +101,12 @@ export default function Sidebar({ role, navItems }) {
     return icon.startsWith('bi-') ? `bi ${icon}` : `bi bi-${icon}`;
   };
 
+  const handleNavClick = () => {
+    if (typeof window !== 'undefined' && window.innerWidth < 992 && sidebarOpen) {
+      dispatch(toggleSidebar());
+    }
+  };
+
   const userInitial = (user?.full_name || user?.email || 'U').charAt(0).toUpperCase();
 
   return (
@@ -178,6 +184,7 @@ export default function Sidebar({ role, navItems }) {
                           <li key={child.path}>
                             <Link
                               to={child.path}
+                              onClick={handleNavClick}
                               aria-current={active ? 'page' : undefined}
                               className={`portalNavLink ${active ? 'active' : ''}`}
                             >
@@ -198,6 +205,7 @@ export default function Sidebar({ role, navItems }) {
               <li key={item.path || index} className="nav-item">
                 <Link
                   to={item.path}
+                  onClick={handleNavClick}
                   aria-current={singleActive ? 'page' : undefined}
                   className={`portalNavLink ${singleActive ? 'active' : ''}`}
                 >

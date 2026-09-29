@@ -92,7 +92,7 @@ export default function Activities() {
       }
     >
       {/* Type Filter Header */}
-      <div className="card border-0 shadow-sm rounded-3 p-3 bg-white mb-4">
+      <div className="card border-0 shadow-sm rounded-3 p-3 bg-white mb-2">
         <div className="row g-3 align-items-center">
           <div className="col-md-4">
             <select
@@ -117,7 +117,7 @@ export default function Activities() {
       </div>
 
       {/* Activity Timeline */}
-      <div className="card border-0 shadow-sm rounded-3 bg-white p-4">
+      <div className="card border-0 shadow-sm rounded-3 bg-white p-3">
         <div className="timeline">
           {loading ? (
             <div className="py-4 text-center">Loading activity timeline...</div>
@@ -125,7 +125,7 @@ export default function Activities() {
             <div className="py-4 text-center text-muted">No activities found matching criteria.</div>
           ) : (
             activities.map(act => (
-              <div key={act.id} className="d-flex gap-3 mb-4 pb-3 border-bottom position-relative">
+              <div key={act.id} className="d-flex gap-3 mb-2 pb-3 border-bottom position-relative">
                 <div className="rounded-circle bg-light p-3 d-flex align-items-center justify-content-center flex-shrink-0" style={{ width: '48px', height: '48px' }}>
                   <i className={`bi ${getTypeIcon(act.activity_type)} fs-5`}></i>
                 </div>

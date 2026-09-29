@@ -3,6 +3,19 @@ import { Link } from 'react-router-dom';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import lmsApi from '../../../services/api/lmsApi.js';
 
+const QUICK_ACTIONS = [
+  { label: 'My Courses',     to: '/app/student/courses',       icon: 'bi-book'              },
+  { label: 'Course Player',  to: '/app/student/course-player', icon: 'bi-play-circle'       },
+  { label: 'Quizzes',        to: '/app/student/quiz',          icon: 'bi-patch-question'    },
+  { label: 'Live Arena',     to: '/app/student/live-quiz',     icon: 'bi-lightning-charge'  },
+  { label: 'Doubts & Q&A',   to: '/app/student/doubts',        icon: 'bi-chat-square-dots'  },
+  { label: 'Assignments',    to: '/app/student/assignments',   icon: 'bi-clipboard-check'   },
+  { label: 'Attendance',     to: '/app/student/attendance',    icon: 'bi-calendar-check'    },
+  { label: 'Forum',          to: '/app/student/forum',         icon: 'bi-people'            },
+  { label: 'Mind Map',       to: '/app/student/mindmap',       icon: 'bi-diagram-3'         },
+  { label: 'Certificates',   to: '/app/student/certificates',  icon: 'bi-award'             },
+];
+
 export default function Dashboard() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -13,8 +26,7 @@ export default function Dashboard() {
     setError(null);
     try {
       const res = await lmsApi.getLMSOverview();
-      const payload = res?.data || res;
-      setData(payload);
+      setData(res?.data || res);
     } catch (err) {
       setError(err.message || 'Failed to load LMS dashboard overview');
     } finally {
@@ -22,16 +34,14 @@ export default function Dashboard() {
     }
   }, []);
 
-  useEffect(() => {
-    fetchOverview();
-  }, [fetchOverview]);
+  useEffect(() => { fetchOverview(); }, [fetchOverview]);
 
-  const courses = data?.courses || [];
-  const batches = data?.batches || [];
-  const upcomingQuizzes = data?.upcomingQuizzes || [];
+  const courses            = data?.courses || [];
+  const batches            = data?.batches || [];
+  const upcomingQuizzes    = data?.upcomingQuizzes || [];
   const upcomingAssignments = data?.upcomingAssignments || [];
-  const attendance = data?.attendance || { percentage: 100, presentDays: 0, totalDays: 0 };
-  const unresolvedDoubts = data?.unresolvedDoubts || [];
+  const attendance         = data?.attendance || { percentage: 100, presentDays: 0, totalDays: 0 };
+  const unresolvedDoubts   = data?.unresolvedDoubts || [];
 
   return (
     <AdminPage
@@ -41,224 +51,182 @@ export default function Dashboard() {
       error={error}
       onRetry={fetchOverview}
     >
-      {/* Row 1: KPI Stat Cards */}
-      <div className="row g-3 mb-4">
-        <div className="col-md-6 col-lg-3">
-          <div className="card shadow-sm border-0 h-100 p-3 bg-white">
-            <div className="d-flex justify-content-between align-items-center mb-2">
-              <span className="text-muted small text-uppercase fw-semibold">Enrolled Courses</span>
-              <i className="bi bi-book text-primary fs-4"></i>
-            </div>
-            <div className="fw-bold fs-3 text-dark mb-1">{courses.length}</div>
-            <div className="text-muted small mb-2">{batches.length} Active Cohorts</div>
-            <div className="mt-auto pt-2 border-top">
-              <Link to="/app/student/courses" className="text-primary text-decoration-none small fw-semibold">
-                Explore courses &rarr;
-              </Link>
-            </div>
-          </div>
+      {/* KPI Stat Cards */}
+      <div className="lmsStatGrid">
+        <div className="lmsStatCard primary">
+          <div className="lmsStatIcon"><i className="bi bi-book-half"></i></div>
+          <div className="lmsStatLabel">Enrolled Courses</div>
+          <div className="lmsStatValue">{courses.length}</div>
+          <div className="lmsStatMeta">{batches.length} active cohort{batches.length !== 1 ? 's' : ''}</div>
+          <Link to="/app/student/courses" className="lmsStatLink">
+            Explore courses <i className="bi bi-arrow-right"></i>
+          </Link>
         </div>
 
-        <div className="col-md-6 col-lg-3">
-          <div className="card shadow-sm border-0 h-100 p-3 bg-white">
-            <div className="d-flex justify-content-between align-items-center mb-2">
-              <span className="text-muted small text-uppercase fw-semibold">Attendance Rate</span>
-              <i className="bi bi-calendar-check text-success fs-4"></i>
-            </div>
-            <div className="fw-bold fs-3 text-dark mb-1">{attendance.percentage}%</div>
-            <div className="text-muted small mb-2">{attendance.presentDays} of {attendance.totalDays} sessions attended</div>
-            <div className="mt-auto pt-2 border-top">
-              <span className={`badge ${attendance.percentage >= 75 ? 'bg-success' : 'bg-danger'}`}>
-                {attendance.percentage >= 75 ? 'Good Standing' : 'Defaulter Alert'}
-              </span>
-            </div>
-          </div>
+        <div className="lmsStatCard success">
+          <div className="lmsStatIcon"><i className="bi bi-calendar-check"></i></div>
+          <div className="lmsStatLabel">Attendance Rate</div>
+          <div className="lmsStatValue">{attendance.percentage}%</div>
+          <div className="lmsStatMeta">{attendance.presentDays} of {attendance.totalDays} sessions</div>
+          <Link to="/app/student/attendance" className="lmsStatLink">
+            <span className={`statusTag ${attendance.percentage >= 75 ? 'success' : 'danger'}`} style={{ padding: '2px 8px', fontSize: 11 }}>
+              {attendance.percentage >= 75 ? 'Good Standing' : 'Needs Attention'}
+            </span>
+          </Link>
         </div>
 
-        <div className="col-md-6 col-lg-3">
-          <div className="card shadow-sm border-0 h-100 p-3 bg-white">
-            <div className="d-flex justify-content-between align-items-center mb-2">
-              <span className="text-muted small text-uppercase fw-semibold">Assessments Due</span>
-              <i className="bi bi-journal-check text-warning fs-4"></i>
-            </div>
-            <div className="fw-bold fs-3 text-dark mb-1">{upcomingQuizzes.length + upcomingAssignments.length}</div>
-            <div className="text-muted small mb-2">{upcomingAssignments.length} assignments, {upcomingQuizzes.length} quizzes</div>
-            <div className="mt-auto pt-2 border-top">
-              <Link to="/app/student/quiz" className="text-warning text-decoration-none small fw-semibold">
-                Start assessments &rarr;
-              </Link>
-            </div>
-          </div>
+        <div className="lmsStatCard warning">
+          <div className="lmsStatIcon"><i className="bi bi-journal-check"></i></div>
+          <div className="lmsStatLabel">Assessments Due</div>
+          <div className="lmsStatValue">{upcomingQuizzes.length + upcomingAssignments.length}</div>
+          <div className="lmsStatMeta">{upcomingAssignments.length} assignments · {upcomingQuizzes.length} quizzes</div>
+          <Link to="/app/student/quiz" className="lmsStatLink">
+            Start assessments <i className="bi bi-arrow-right"></i>
+          </Link>
         </div>
 
-        <div className="col-md-6 col-lg-3">
-          <div className="card shadow-sm border-0 h-100 p-3 bg-white">
-            <div className="d-flex justify-content-between align-items-center mb-2">
-              <span className="text-muted small text-uppercase fw-semibold">Live Doubts</span>
-              <i className="bi bi-question-circle text-info fs-4"></i>
-            </div>
-            <div className="fw-bold fs-3 text-dark mb-1">{unresolvedDoubts.length}</div>
-            <div className="text-muted small mb-2">Awaiting instructor reply</div>
-            <div className="mt-auto pt-2 border-top">
-              <Link to="/app/student/doubts" className="text-info text-decoration-none small fw-semibold">
-                Ask a doubt &rarr;
-              </Link>
-            </div>
-          </div>
+        <div className="lmsStatCard info">
+          <div className="lmsStatIcon"><i className="bi bi-question-circle"></i></div>
+          <div className="lmsStatLabel">Live Doubts</div>
+          <div className="lmsStatValue">{unresolvedDoubts.length}</div>
+          <div className="lmsStatMeta">Awaiting instructor reply</div>
+          <Link to="/app/student/doubts" className="lmsStatLink">
+            Ask a doubt <i className="bi bi-arrow-right"></i>
+          </Link>
         </div>
       </div>
 
-      {/* Row 2: In-Progress Courses & Quick Resume */}
-      <div className="card shadow-sm border-0 mb-4">
-        <div className="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-          <h6 className="mb-0 fw-bold">Active Learning Tracks</h6>
-          <Link to="/app/student/courses" className="small text-primary text-decoration-none">
-            View All ({courses.length})
-          </Link>
+      {/* Active Learning Tracks */}
+      <div className="lmsCard">
+        <div className="lmsCardHead">
+          <h3><i className="bi bi-play-circle" style={{ marginRight: 8, opacity: 0.7 }}></i>Active Learning Tracks</h3>
+          <Link to="/app/student/courses">View All ({courses.length})</Link>
         </div>
-        <div className="card-body p-4">
+        <div className="lmsCardBody">
           {courses.length === 0 ? (
-            <div className="text-center py-4 text-muted">
-              <p className="mb-2">You are not actively enrolled in any courses.</p>
-              <Link to="/app/student/courses" className="btn btn-sm btn-primary">Browse Course Catalog</Link>
+            <div className="lmsEmpty" style={{ border: 'none', padding: '32px 0 8px' }}>
+              <i className="bi bi-book lmsEmptyIcon"></i>
+              <h4>No courses enrolled yet</h4>
+              <p>Browse the course catalog or wait for your tutor to assign coursework.</p>
             </div>
           ) : (
-            <div className="row g-3">
-              {courses.slice(0, 3).map((c) => (
-                <div key={c.id || c.course_id} className="col-md-4">
-                  <div className="p-3 border rounded-3 h-100 d-flex flex-column bg-light">
-                    <div className="d-flex justify-content-between align-items-center mb-2">
-                      <span className="badge bg-primary bg-opacity-10 text-primary border">{c.code || 'COURSE'}</span>
-                      <small className="text-muted">{c.duration_days ? `${c.duration_days} Days` : ''}</small>
+            <div className="courseCardGrid">
+              {courses.slice(0, 3).map((c) => {
+                const progress = Number(c.progress_percentage ?? 0);
+                const courseId = c.course_id || c.id;
+                return (
+                  <div key={courseId} className="courseCard">
+                    <div className="courseCardBanner"></div>
+                    <div className="courseCardHeader">
+                      <div className="courseCardMeta">
+                        <h4 className="courseCardTitle">{c.name || 'Course'}</h4>
+                        {c.code && <span className="courseCode">{c.code}</span>}
+                      </div>
+                      {c.duration_days && (
+                        <div className="lmsStatMeta">{c.duration_days} day program</div>
+                      )}
                     </div>
-                    <h6 className="fw-bold text-dark mb-1">{c.name}</h6>
-                    <p className="text-muted small mb-3 flex-grow-1 text-truncate">
-                      {c.description || 'Master software engineering concepts and technical best practices.'}
-                    </p>
-
-                    <div className="mt-auto">
-                      <div className="d-flex justify-content-between small text-muted mb-1">
-                        <span>Progress</span>
-                        <span className="fw-semibold text-dark">{c.progress_percentage || 0}%</span>
+                    <div className="courseCardBody">
+                      <p style={{ fontSize: 12, color: 'var(--color-text-muted)', margin: 0, lineHeight: 1.5, WebkitLineClamp: 2, overflow: 'hidden', display: '-webkit-box', WebkitBoxOrient: 'vertical' }}>
+                        {c.description || 'Master software engineering concepts and technical best practices.'}
+                      </p>
+                      <div>
+                        <div className="progressRow">
+                          <span>Progress</span>
+                          <span className="pct">{progress}%</span>
+                        </div>
+                        <div className="progressTrack">
+                          <div className="progressFill" style={{ width: `${Math.min(progress, 100)}%` }}></div>
+                        </div>
                       </div>
-                      <div className="progress mb-3" style={{ height: '6px' }}>
-                        <div
-                          className="progress-bar bg-success"
-                          role="progressbar"
-                          style={{ width: `${c.progress_percentage || 0}%` }}
-                        ></div>
-                      </div>
-
-                      <Link
-                        to={`/app/student/course-player?courseId=${c.course_id || c.id}`}
-                        className="btn btn-sm btn-primary w-100 d-flex align-items-center justify-content-center gap-1"
-                      >
+                    </div>
+                    <div className="courseCardFooter">
+                      <Link to={`/app/student/course-player?courseId=${courseId}`} className="btnResume">
                         <i className="bi bi-play-circle"></i>
-                        <span>Continue Learning</span>
+                        {progress > 0 ? 'Continue Learning' : 'Start Course'}
                       </Link>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
       </div>
 
-      {/* Row 3: Navigation Quick Actions */}
-      <div className="card shadow-sm border-0 mb-4">
-        <div className="card-header bg-white py-3">
-          <h6 className="mb-0 fw-bold">Academic & Engagement Navigation</h6>
+      {/* Quick Actions */}
+      <div className="lmsCard">
+        <div className="lmsCardHead">
+          <h3><i className="bi bi-grid-3x3-gap" style={{ marginRight: 8, opacity: 0.7 }}></i>Academic & Engagement</h3>
         </div>
-        <div className="card-body p-4">
-          <div className="d-flex gap-2 flex-wrap">
-            <Link to="/app/student/courses" className="btn btn-outline-primary d-flex align-items-center gap-2">
-              <i className="bi bi-book"></i> My Courses
-            </Link>
-            <Link to="/app/student/course-player" className="btn btn-outline-info d-flex align-items-center gap-2">
-              <i className="bi bi-play-circle"></i> Course Player
-            </Link>
-            <Link to="/app/student/quiz" className="btn btn-outline-warning d-flex align-items-center gap-2">
-              <i className="bi bi-patch-question"></i> Quizzes
-            </Link>
-            <Link to="/app/student/live-quiz" className="btn btn-outline-danger d-flex align-items-center gap-2">
-              <i className="bi bi-lightning-charge"></i> Live Arena
-            </Link>
-            <Link to="/app/student/doubts" className="btn btn-outline-secondary d-flex align-items-center gap-2">
-              <i className="bi bi-chat-square-dots"></i> Doubts & Q&A
-            </Link>
-            <Link to="/app/student/forum" className="btn btn-outline-secondary d-flex align-items-center gap-2">
-              <i className="bi bi-people"></i> Discussion Forum
-            </Link>
-            <Link to="/app/student/projects" className="btn btn-outline-secondary d-flex align-items-center gap-2">
-              <i className="bi bi-kanban"></i> Projects
-            </Link>
-            <Link to="/app/student/certificates" className="btn btn-outline-success d-flex align-items-center gap-2">
-              <i className="bi bi-award"></i> Certificates
-            </Link>
-            <Link to="/app/student/mindmap" className="btn btn-outline-secondary d-flex align-items-center gap-2">
-              <i className="bi bi-diagram-3"></i> Architecture Mind Map
-            </Link>
+        <div className="lmsCardBody">
+          <div className="quickNavGrid">
+            {QUICK_ACTIONS.map((action) => (
+              <Link key={action.to} to={action.to} className="quickNavBtn">
+                <i className={`bi ${action.icon}`}></i>
+                {action.label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Row 4: Upcoming Quizzes & Deadlines */}
-      <div className="row g-4">
-        <div className="col-lg-6">
-          <div className="card shadow-sm border-0 h-100">
-            <div className="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-              <h6 className="mb-0 fw-bold">Upcoming Quizzes</h6>
-              <Link to="/app/student/quiz" className="small text-primary text-decoration-none">View All</Link>
-            </div>
-            <div className="card-body p-3">
-              {upcomingQuizzes.length === 0 ? (
-                <div className="text-center py-4 text-muted small">No quizzes scheduled right now.</div>
-              ) : (
-                <div className="list-group list-group-flush">
-                  {upcomingQuizzes.map((q) => (
-                    <div key={q.id} className="list-group-item px-0 py-2 d-flex justify-content-between align-items-center">
-                      <div>
-                        <div className="fw-semibold text-dark small">{q.title}</div>
-                        <small className="text-muted">{q.course_name} &bull; {q.time_limit_minutes} mins</small>
-                      </div>
-                      <Link to={`/app/student/quiz`} className="btn btn-sm btn-outline-primary">
-                        Take Quiz
-                      </Link>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+      {/* Upcoming Quizzes & Assignments */}
+      <div className="lmsTwoCol">
+        <div className="lmsCard" style={{ marginBottom: 0 }}>
+          <div className="lmsCardHead">
+            <h3><i className="bi bi-patch-question" style={{ marginRight: 8, opacity: 0.7 }}></i>Upcoming Quizzes</h3>
+            <Link to="/app/student/quiz">View All</Link>
           </div>
+          {upcomingQuizzes.length === 0 ? (
+            <div className="lmsCardBody" style={{ padding: '24px 22px' }}>
+              <p style={{ margin: 0, color: 'var(--color-text-muted)', fontSize: 13, textAlign: 'center' }}>
+                No quizzes scheduled right now — check back later.
+              </p>
+            </div>
+          ) : (
+            <div className="lmsList">
+              {upcomingQuizzes.slice(0, 4).map((q) => (
+                <div key={q.id} className="lmsListItem">
+                  <div>
+                    <div className="lmsListItemTitle">{q.title}</div>
+                    <div className="lmsListItemMeta">{q.course_name} · {q.time_limit_minutes} min</div>
+                  </div>
+                  <Link to="/app/student/quiz" className="btn small primary">Take Quiz</Link>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
-        <div className="col-lg-6">
-          <div className="card shadow-sm border-0 h-100">
-            <div className="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-              <h6 className="mb-0 fw-bold">Assignment Deadlines</h6>
-              <Link to="/app/student/courses" className="small text-primary text-decoration-none">View All</Link>
-            </div>
-            <div className="card-body p-3">
-              {upcomingAssignments.length === 0 ? (
-                <div className="text-center py-4 text-muted small">No pending assignments.</div>
-              ) : (
-                <div className="list-group list-group-flush">
-                  {upcomingAssignments.map((a) => (
-                    <div key={a.id} className="list-group-item px-0 py-2 d-flex justify-content-between align-items-center">
-                      <div>
-                        <div className="fw-semibold text-dark small">{a.title}</div>
-                        <small className="text-muted">Due: {a.due_date ? new Date(a.due_date).toLocaleDateString() : 'Flexible'}</small>
-                      </div>
-                      <span className={`badge ${a.submission_status ? 'bg-success' : 'bg-warning text-dark'}`}>
-                        {a.submission_status ? 'Submitted' : 'Pending'}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+        <div className="lmsCard" style={{ marginBottom: 0 }}>
+          <div className="lmsCardHead">
+            <h3><i className="bi bi-clipboard-check" style={{ marginRight: 8, opacity: 0.7 }}></i>Assignment Deadlines</h3>
+            <Link to="/app/student/assignments">View All</Link>
           </div>
+          {upcomingAssignments.length === 0 ? (
+            <div className="lmsCardBody" style={{ padding: '24px 22px' }}>
+              <p style={{ margin: 0, color: 'var(--color-text-muted)', fontSize: 13, textAlign: 'center' }}>
+                No pending assignments — great work staying on top!
+              </p>
+            </div>
+          ) : (
+            <div className="lmsList">
+              {upcomingAssignments.slice(0, 4).map((a) => (
+                <div key={a.id} className="lmsListItem">
+                  <div>
+                    <div className="lmsListItemTitle">{a.title}</div>
+                    <div className="lmsListItemMeta">
+                      Due: {a.due_date ? new Date(a.due_date).toLocaleDateString() : 'Flexible'}
+                    </div>
+                  </div>
+                  <span className={`statusTag ${a.submission_status ? 'success' : 'pending'}`}>
+                    {a.submission_status ? 'Submitted' : 'Pending'}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </AdminPage>

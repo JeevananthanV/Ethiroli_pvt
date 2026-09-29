@@ -60,7 +60,7 @@ export default function FinancePayables() {
       title="Accounts Payable & Vendor Dues"
       subtitle="Track operational vendor bills, cloud infrastructure commitments, contractor fees, and outgoing disbursements"
     >
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-md-4">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white border-start border-danger border-4">
             <small className="text-muted text-uppercase fw-semibold">Total Accounts Payable</small>

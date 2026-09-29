@@ -50,7 +50,7 @@ export default function Approvals() {
       error={error}
       onRetry={loadApprovals}
     >
-      <div className="d-flex gap-2 mb-4 border-bottom pb-2">
+      <div className="d-flex gap-2 mb-2 border-bottom pb-2">
         <button
           className={`btn btn-sm ${activeTab === 'MY_REQUESTS' ? 'btn-primary' : 'btn-light'}`}
           onClick={() => setActiveTab('MY_REQUESTS')}

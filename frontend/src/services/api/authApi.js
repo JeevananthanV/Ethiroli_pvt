@@ -26,3 +26,19 @@ export const getMe = async () => {
   const response = await axiosInstance.get('/v1/auth/me');
   return response.data;
 };
+
+export const impersonate = async (targetUserId) => {
+  const response = await axiosInstance.post('/v1/auth/impersonate', { targetUserId });
+  return response.data;
+};
+
+export const stopImpersonation = async () => {
+  const response = await axiosInstance.post('/v1/auth/stop-impersonation');
+  return response.data;
+};
+
+export const getDemoUsers = async (role = 'STUDENT') => {
+  const response = await axiosInstance.get(`/v1/auth/demo-users?role=${role}`);
+  return response.data?.data || response.data || [];
+};
+

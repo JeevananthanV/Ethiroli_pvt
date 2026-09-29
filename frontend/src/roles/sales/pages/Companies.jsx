@@ -49,7 +49,7 @@ export default function Companies() {
       subtitle="Institutional clients, corporate parent accounts, tier classifications, and annual recurring revenue tracking"
     >
       {/* Search & Filter Header */}
-      <div className="card border-0 shadow-sm rounded-3 p-3 bg-white mb-4">
+      <div className="card border-0 shadow-sm rounded-3 p-3 bg-white mb-2">
         <div className="row g-3 align-items-center">
           <div className="col-md-5">
             <div className="input-group">
@@ -94,7 +94,7 @@ export default function Companies() {
         ) : (
           filtered.map(comp => (
             <div className="col-md-6 col-lg-4" key={comp.id}>
-              <div className="card border-0 shadow-sm rounded-3 h-100 p-4 bg-white hover-shadow transition">
+              <div className="card border-0 shadow-sm rounded-3 h-100 p-3 bg-white hover-shadow transition">
                 <div className="d-flex justify-content-between align-items-start mb-3">
                   <div className="rounded-3 bg-light p-2 text-primary fw-bold fs-4 d-flex align-items-center justify-content-center" style={{ width: '48px', height: '48px' }}>
                     <i className="bi bi-building"></i>

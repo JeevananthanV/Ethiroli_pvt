@@ -72,7 +72,7 @@ export default function Monitoring() {
 
   if (loading && !telemetry && logs.length === 0) {
     return (
-      <div className="container-fluid p-4 text-center text-muted py-5">
+      <div className="container-fluid p-3 text-center text-muted py-5">
         <div className="spinner-border spinner-border-sm me-2" role="status"></div>
         Loading host telemetry and logs...
       </div>
@@ -86,8 +86,8 @@ export default function Monitoring() {
   };
 
   return (
-    <div className="container-fluid p-4 bg-light min-vh-100">
-      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div className="container-fluid p-3 bg-light min-vh-100">
+      <div className="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
         <div>
           <h2 className="fw-bold mb-1 d-flex align-items-center gap-2">
             <i className="bi bi-cpu text-primary" aria-hidden="true"></i>
@@ -113,7 +113,7 @@ export default function Monitoring() {
       </div>
 
       {feedback && (
-        <div className={`alert alert-${feedback.type} alert-dismissible fade show shadow-sm mb-4`} role="alert">
+        <div className={`alert alert-${feedback.type} alert-dismissible fade show shadow-sm mb-2`} role="alert">
           <i className="bi bi-check-circle-fill me-2"></i>
           {feedback.message}
           <button type="button" className="btn-close" onClick={() => setFeedback(null)}></button>
@@ -122,7 +122,7 @@ export default function Monitoring() {
 
       {/* Cluster & DB Pool Telemetry Section */}
       {telemetry && (
-        <div className="row g-3 mb-4">
+        <div className="row g-3 mb-2">
           <div className="col-md-3">
             <div className="card border-0 shadow-sm rounded-3 p-3 bg-white border-start border-primary border-4">
               <span className="text-secondary small fw-semibold text-uppercase">Cluster Worker PID</span>
@@ -163,7 +163,7 @@ export default function Monitoring() {
       )}
 
       {/* Error Log Stat Cards */}
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-md-4">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white">
             <div className="text-secondary small fw-semibold text-uppercase">Total Errors</div>
@@ -188,7 +188,7 @@ export default function Monitoring() {
       </div>
 
       {/* Error Logs Table */}
-      <div className="card border-0 shadow-sm rounded-3 bg-white p-4">
+      <div className="card border-0 shadow-sm rounded-3 bg-white p-3">
         <h5 className="fw-bold mb-3">Recorded Host Error Incidents</h5>
         <div className="table-responsive">
           {logs.length === 0 ? (

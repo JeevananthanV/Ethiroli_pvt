@@ -54,7 +54,7 @@ export default function Dashboard() {
       subtitle="Executive liquidity metrics, cash flow health, double-entry tracking, and statutory compliance"
     >
       {/* KPI Cards Strip */}
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-md-3">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100 border-start border-primary border-4">
             <div className="d-flex justify-content-between align-items-center">
@@ -110,7 +110,7 @@ export default function Dashboard() {
       </div>
 
       {/* Secondary Metrics: AP & Tax Liabilities */}
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-md-6">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white">
             <div className="d-flex justify-content-between align-items-center mb-2">
@@ -159,7 +159,7 @@ export default function Dashboard() {
       </div>
 
       {/* Cash Flow Trajectory & Action Hub */}
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-md-8">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100">
             <div className="d-flex justify-content-between align-items-center mb-3">

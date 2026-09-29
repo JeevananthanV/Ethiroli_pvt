@@ -63,7 +63,7 @@ export default function FinanceReceivables() {
       subtitle="Track outstanding client invoices, aging buckets, debt recovery workflows, and automated dunning"
     >
       {/* Aging Metric Cards */}
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-md-2">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100 border-start border-primary border-4">
             <small className="text-muted text-uppercase fw-semibold">Total AR</small>

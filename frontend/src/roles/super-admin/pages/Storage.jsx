@@ -9,8 +9,8 @@ export default function Storage() {
   ]);
 
   return (
-    <div className="container-fluid p-4 bg-light min-vh-100">
-      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div className="container-fluid p-3 bg-light min-vh-100">
+      <div className="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
         <div>
           <h2 className="fw-bold mb-1 d-flex align-items-center gap-2">
             <i className="bi bi-database text-primary" aria-hidden="true"></i>
@@ -28,7 +28,7 @@ export default function Storage() {
       <div className="row g-4">
         {datastores.map((ds, idx) => (
           <div key={idx} className="col-md-6 col-lg-3">
-            <div className="card border-0 shadow-sm rounded-3 p-4 bg-white h-100">
+            <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100">
               <div className="d-flex justify-content-between align-items-start mb-2">
                 <span className="badge bg-light text-secondary border font-monospace" style={{ fontSize: '0.7rem' }}>
                   {ds.type}
@@ -56,7 +56,7 @@ export default function Storage() {
         ))}
       </div>
 
-      <div className="card border-0 shadow-sm rounded-3 bg-white p-4 mt-4">
+      <div className="card border-0 shadow-sm rounded-3 bg-white p-3 mt-4">
         <h5 className="fw-bold mb-3">Multi-Tenant Namespace Allocation</h5>
         <div className="table-responsive">
           <table className="table table-hover align-middle">

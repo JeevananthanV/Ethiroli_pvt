@@ -92,16 +92,16 @@ export default function Profile() {
     >
       <div className="container-fluid px-0">
         {alert.text && (
-          <div className={`alert alert-${alert.type} alert-dismissible fade show mb-4`} role="alert">
+          <div className={`alert alert-${alert.type} alert-dismissible fade show mb-2`} role="alert">
             <i className="bi bi-check-circle me-2"></i>{alert.text}
             <button type="button" className="btn-close" onClick={() => setAlert({ type: '', text: '' })}></button>
           </div>
         )}
 
-        <div className="row g-4 mb-4">
+        <div className="row g-4 mb-2">
           {/* Identity Card */}
           <div className="col-lg-4">
-            <div className="card shadow-sm border-0 text-center p-4">
+            <div className="card shadow-sm border-0 text-center p-3">
               <div
                 className="bg-primary text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center fw-bold fs-2"
                 style={{ width: '84px', height: '84px' }}
@@ -188,7 +188,7 @@ export default function Profile() {
                 </ul>
               </div>
 
-              <div className="card-body p-4">
+              <div className="card-body p-3">
                 {/* Personal Information Tab */}
                 {activeTab === 'personal' && (
                   <form onSubmit={handleSaveProfile}>
@@ -417,7 +417,7 @@ export default function Profile() {
                 {activeTab === 'skills' && (
                   <div>
                     <h6 className="fw-bold text-dark small mb-2">Technical Skills & Competencies</h6>
-                    <div className="d-flex flex-wrap gap-2 mb-4">
+                    <div className="d-flex flex-wrap gap-2 mb-2">
                       {skills.map((skill) => (
                         <span key={skill} className="badge bg-light text-dark border p-2 d-flex align-items-center gap-2">
                           {skill}
@@ -487,7 +487,7 @@ export default function Profile() {
                         onChange={(e) => setSocialLinks({ ...socialLinks, portfolio: e.target.value })}
                       />
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-2">
                       <label className="form-label small fw-semibold">
                         <i className="bi bi-twitter-x me-1"></i>Twitter / X Profile URL
                       </label>
@@ -541,7 +541,7 @@ export default function Profile() {
                           />
                         </div>
                       </div>
-                      <button type="submit" className="btn btn-danger btn-sm px-4 mb-4">
+                      <button type="submit" className="btn btn-danger btn-sm px-4 mb-2">
                         Update Password
                       </button>
                     </form>

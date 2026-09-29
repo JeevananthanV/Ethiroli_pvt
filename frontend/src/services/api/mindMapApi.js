@@ -19,3 +19,12 @@ export const deleteMindMapNode = async (id) => {
   const response = await axiosInstance.delete(`/v1/mindmap/nodes/${id}`);
   return response.data;
 };
+
+export const mindMapApi = {
+  getMindMapNodes,
+  createMindMapNode,
+  updateMindMapNode,
+  deleteMindMapNode
+};
+
+export default mindMapApi;

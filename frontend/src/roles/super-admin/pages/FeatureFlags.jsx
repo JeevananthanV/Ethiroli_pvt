@@ -107,8 +107,8 @@ export default function FeatureFlags() {
   };
 
   return (
-    <div className="container-fluid p-4 bg-light min-vh-100">
-      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div className="container-fluid p-3 bg-light min-vh-100">
+      <div className="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
         <div>
           <h2 className="fw-bold mb-1 d-flex align-items-center gap-2">
             <i className="bi bi-toggles text-primary" aria-hidden="true"></i>
@@ -132,13 +132,13 @@ export default function FeatureFlags() {
       </div>
 
       {feedback && (
-        <div className={`alert alert-${feedback.type} alert-dismissible fade show shadow-sm mb-4`} role="alert">
+        <div className={`alert alert-${feedback.type} alert-dismissible fade show shadow-sm mb-2`} role="alert">
           <div>{feedback.message}</div>
           <button type="button" className="btn-close" onClick={() => setFeedback(null)}></button>
         </div>
       )}
 
-      <div className="card border-0 shadow-sm rounded-3 bg-white p-4">
+      <div className="card border-0 shadow-sm rounded-3 bg-white p-3">
         <h5 className="fw-bold mb-3 d-flex align-items-center justify-content-between">
           <span>Active Feature Flag Toggles</span>
           <span className="badge bg-secondary">{flags.length} Flags Configured</span>
@@ -226,7 +226,7 @@ export default function FeatureFlags() {
                 <button type="button" className="btn-close btn-close-white" onClick={() => setShowCreateModal(false)}></button>
               </div>
               <form onSubmit={handleCreateFlag}>
-                <div className="modal-body p-4">
+                <div className="modal-body p-3">
                   <div className="mb-3">
                     <label className="form-label fw-semibold small">Flag Key (Unique ID)</label>
                     <input 
@@ -308,7 +308,7 @@ export default function FeatureFlags() {
                 </h5>
                 <button type="button" className="btn-close btn-close-white" onClick={() => setKillSwitchTarget(null)}></button>
               </div>
-              <div className="modal-body p-4">
+              <div className="modal-body p-3">
                 <p className="mb-2">Are you sure you want to engage the emergency kill-switch for:</p>
                 <div className="p-3 bg-light rounded border mb-3">
                   <strong className="text-danger">{killSwitchTarget.name}</strong>

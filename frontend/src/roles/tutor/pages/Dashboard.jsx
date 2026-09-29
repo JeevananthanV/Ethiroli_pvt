@@ -1,11 +1,25 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { listCourses } from '../../../services/api/courseApi.js';
-import { getMyEnrollments } from '../../../services/api/enrollmentApi.js';
+import { getTutorAssignedCourses } from '../../../services/api/enrollmentApi.js';
+import lmsApi from '../../../services/api/lmsApi.js';
+
+const QUICK_LINKS = [
+  { label: 'Courses',       to: '/app/tutor/courses',       icon: 'bi-book'              },
+  { label: 'Curriculum',    to: '/app/tutor/curriculum',    icon: 'bi-journal-code'      },
+  { label: 'Students',      to: '/app/tutor/students',      icon: 'bi-people'            },
+  { label: 'Assignments',   to: '/app/tutor/assignments',   icon: 'bi-clipboard-check'   },
+  { label: 'Question Bank', to: '/app/tutor/question-bank', icon: 'bi-patch-question'    },
+  { label: 'Batches',       to: '/app/tutor/batches',       icon: 'bi-grid-3x3-gap'      },
+  { label: 'Calendar',      to: '/app/tutor/calendar',      icon: 'bi-calendar3'         },
+  { label: 'Forum',         to: '/app/tutor/forum',         icon: 'bi-chat-dots'         },
+];
 
 export default function Dashboard() {
   const [courses, setCourses] = useState([]);
   const [enrollments, setEnrollments] = useState([]);
+  const [openDoubts, setOpenDoubts] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -13,12 +27,20 @@ export default function Dashboard() {
     setLoading(true);
     setError(null);
     try {
-      const [coursesData, enrollmentsData] = await Promise.all([
-        listCourses().catch(() => []),
-        getMyEnrollments().catch(() => []),
+      const [coursesData, enrollmentData, doubtData] = await Promise.all([
+        listCourses().catch((err) => ({ __error: err })),
+        getTutorAssignedCourses().catch((err) => ({ __error: err })),
+        lmsApi.getDoubts({ status: 'OPEN' }).then((res) => res?.data ?? []).catch((err) => ({ __error: err }))
       ]);
-      setCourses(Array.isArray(coursesData) ? coursesData : []);
-      setEnrollments(Array.isArray(enrollmentsData) ? enrollmentsData : []);
+
+      const failures = [coursesData, enrollmentData, doubtData]
+        .filter((v) => v && v.__error)
+        .map((v) => v.__error.message);
+      if (failures.length > 0) throw new Error(failures.join('; '));
+
+      setCourses(Array.isArray(coursesData) ? coursesData : (coursesData?.data || []));
+      setEnrollments(Array.isArray(enrollmentData) ? enrollmentData : (enrollmentData?.data || []));
+      setOpenDoubts(Array.isArray(doubtData) ? doubtData.length : (doubtData?.data?.length || 0));
     } catch (err) {
       setError(err.message || 'Failed to load tutor dashboard data');
     } finally {
@@ -26,100 +48,122 @@ export default function Dashboard() {
     }
   }, []);
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  useEffect(() => { fetchData(); }, [fetchData]);
 
-  const activeStudents = new Set(enrollments.map(e => e.student_id || e.user_id)).size;
+  const activeStudents = new Set(enrollments.map((e) => e.student_id || e.user_id)).size;
 
   return (
     <AdminPage
       title="Tutor Dashboard"
-      subtitle="Track courses, students, and performance metrics"
+      subtitle="Monitor your courses, students, and real-time engagement metrics"
       loading={loading}
       error={error}
       onRetry={fetchData}
     >
-      <div className="dashboard">
-        <div className="row g-3 mb-4">
-          <div className="col-md-3">
-            <div className="card bg-primary text-white h-100">
-              <div className="card-body">
-                <h6 className="card-title">Courses Taught</h6>
-                <h2 className="card-text">{courses.length}</h2>
-              </div>
-            </div>
+      {/* KPI Stat Cards */}
+      <div className="lmsStatGrid">
+        <div className="lmsStatCard primary">
+          <div className="lmsStatIcon"><i className="bi bi-book-half"></i></div>
+          <div className="lmsStatLabel">Courses Taught</div>
+          <div className="lmsStatValue">{courses.length}</div>
+          <div className="lmsStatMeta">{courses.length === 1 ? '1 active course' : `${courses.length} active courses`}</div>
+          <Link to="/app/tutor/courses" className="lmsStatLink">
+            View courses <i className="bi bi-arrow-right"></i>
+          </Link>
+        </div>
+
+        <div className="lmsStatCard success">
+          <div className="lmsStatIcon"><i className="bi bi-people-fill"></i></div>
+          <div className="lmsStatLabel">Active Students</div>
+          <div className="lmsStatValue">{activeStudents}</div>
+          <div className="lmsStatMeta">{enrollments.length} total enrollments</div>
+          <Link to="/app/tutor/students" className="lmsStatLink">
+            Manage students <i className="bi bi-arrow-right"></i>
+          </Link>
+        </div>
+
+        <div className="lmsStatCard info">
+          <div className="lmsStatIcon"><i className="bi bi-clipboard-data"></i></div>
+          <div className="lmsStatLabel">Total Enrollments</div>
+          <div className="lmsStatValue">{enrollments.length}</div>
+          <div className="lmsStatMeta">Across all courses</div>
+          <Link to="/app/tutor/students" className="lmsStatLink">
+            View roster <i className="bi bi-arrow-right"></i>
+          </Link>
+        </div>
+
+        <div className="lmsStatCard warning">
+          <div className="lmsStatIcon"><i className="bi bi-question-circle-fill"></i></div>
+          <div className="lmsStatLabel">Open Doubts</div>
+          <div className="lmsStatValue">{openDoubts}</div>
+          <div className="lmsStatMeta">Awaiting your reply</div>
+          <Link to="/app/tutor/forum" className="lmsStatLink">
+            Answer doubts <i className="bi bi-arrow-right"></i>
+          </Link>
+        </div>
+      </div>
+
+      {/* Two-column layout: Course table + Quick Navigation */}
+      <div className="lmsTwoCol">
+        {/* Courses Table */}
+        <div className="lmsCard" style={{ marginBottom: 0 }}>
+          <div className="lmsCardHead">
+            <h3><i className="bi bi-journals" style={{ marginRight: 8, opacity: 0.7 }}></i>My Courses</h3>
+            <Link to="/app/tutor/courses">View All ({courses.length})</Link>
           </div>
-          <div className="col-md-3">
-            <div className="card bg-success text-white h-100">
-              <div className="card-body">
-                <h6 className="card-title">Active Students</h6>
-                <h2 className="card-text">{activeStudents}</h2>
+          <div className="lmsCardBody noPad">
+            {courses.length === 0 ? (
+              <div className="lmsEmpty" style={{ border: 'none', borderRadius: 0 }}>
+                <i className="bi bi-book lmsEmptyIcon"></i>
+                <h4>No courses yet</h4>
+                <p>Your assigned courses will appear here once they are linked to your account.</p>
               </div>
-            </div>
-          </div>
-          <div className="col-md-3">
-            <div className="card bg-info text-white h-100">
-              <div className="card-body">
-                <h6 className="card-title">Total Enrollments</h6>
-                <h2 className="card-text">{enrollments.length}</h2>
+            ) : (
+              <div className="lmsScrollBox">
+                <table className="tutorCourseTable">
+                  <thead>
+                    <tr>
+                      <th>Course Name</th>
+                      <th>Code</th>
+                      <th style={{ textAlign: 'center' }}>Students</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {courses.slice(0, 6).map((course) => (
+                      <tr key={course.id}>
+                        <td style={{ fontWeight: 600, maxWidth: 220, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          {course.name || 'Untitled Course'}
+                        </td>
+                        <td>
+                          {course.code ? (
+                            <span className="courseCode">{course.code}</span>
+                          ) : '—'}
+                        </td>
+                        <td style={{ textAlign: 'center', fontWeight: 700, color: 'var(--color-accent)' }}>
+                          {enrollments.filter((e) => e.course_id === course.id).length}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            </div>
-          </div>
-          <div className="col-md-3">
-            <div className="card bg-warning text-dark h-100">
-              <div className="card-body">
-                <h6 className="card-title">Pending Queries</h6>
-                <h2 className="card-text">5</h2>
-              </div>
-            </div>
+            )}
           </div>
         </div>
-        <div className="row g-3 mb-4">
-          <div className="col-md-6">
-            <div className="card h-100">
-              <div className="card-header">
-                <h6 className="mb-0">My Courses</h6>
-              </div>
-              <div className="card-body">
-                {courses.length === 0 ? (
-                  <p className="text-muted">No courses found. Create your first course to get started.</p>
-                ) : (
-                  <div style={{ overflowX: 'auto' }}>
-                    <table className="table table-sm">
-                      <thead>
-                        <tr><th>Title</th><th>Level</th><th>Students</th></tr>
-                      </thead>
-                      <tbody>
-                        {courses.slice(0, 5).map((course) => (
-                          <tr key={course.id}>
-                            <td style={{ fontWeight: 500 }}>{course.title || 'Untitled Course'}</td>
-                            <td>{course.level || 'All Levels'}</td>
-                            <td>{enrollments.filter(e => e.course_id === course.id).length}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-              </div>
-            </div>
+
+        {/* Quick Navigation */}
+        <div className="lmsCard" style={{ marginBottom: 0 }}>
+          <div className="lmsCardHead">
+            <h3><i className="bi bi-grid-3x3-gap" style={{ marginRight: 8, opacity: 0.7 }}></i>Quick Navigation</h3>
           </div>
-          <div className="col-md-6">
-            <div className="card h-100">
-              <div className="card-header">
-                <h6 className="mb-0">Quick Navigation</h6>
-              </div>
-              <div className="card-body">
-                <ul className="list-unstyled mb-0">
-                  <li className="mb-2"><a href="/app/tutor/courses" className="text-decoration-none">Courses</a></li>
-                  <li className="mb-2"><a href="/app/tutor/curriculum" className="text-decoration-none">Curriculum</a></li>
-                  <li className="mb-2"><a href="/app/tutor/students" className="text-decoration-none">Students</a></li>
-                  <li className="mb-2"><a href="/app/tutor/attendance" className="text-decoration-none">Attendance</a></li>
-                  <li className="mb-2"><a href="/app/tutor/assignments" className="text-decoration-none">Assignments</a></li>
-                  <li className="mb-2"><a href="/app/tutor/quizzes" className="text-decoration-none">Quizzes</a></li>
-                </ul>
-              </div>
+          <div className="lmsCardBody">
+            <div className="quickNavGrid">
+              {QUICK_LINKS.map((link) => (
+                <Link key={link.to} to={link.to} className="quickNavBtn">
+                  <i className={`bi ${link.icon}`}></i>
+                  {link.label}
+                </Link>
+              ))}
             </div>
           </div>
         </div>
@@ -127,3 +171,4 @@ export default function Dashboard() {
     </AdminPage>
   );
 }
+

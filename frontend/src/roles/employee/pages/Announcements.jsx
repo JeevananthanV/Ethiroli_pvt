@@ -36,7 +36,7 @@ export default function Announcements() {
       <div className="row g-4">
         {announcements.length === 0 ? (
           <div className="col-12 text-center py-5">
-            <div className="rounded-circle bg-light d-inline-flex p-4 mb-3 text-muted">
+            <div className="rounded-circle bg-light d-inline-flex p-3 mb-3 text-muted">
               <i className="bi bi-megaphone fs-1"></i>
             </div>
             <h5>No Active Announcements</h5>
@@ -46,7 +46,7 @@ export default function Announcements() {
           announcements.map((item) => (
             <div key={item.id} className="col-12">
               <div className="card shadow-sm border-0 border-start border-primary border-4">
-                <div className="card-body p-4">
+                <div className="card-body p-3">
                   <div className="d-flex justify-content-between align-items-center mb-2">
                     <div className="d-flex align-items-center gap-2">
                       <span className="badge bg-primary bg-opacity-10 text-primary">OFFICIAL NOTICE</span>

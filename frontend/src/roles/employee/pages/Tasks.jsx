@@ -59,7 +59,7 @@ export default function Tasks() {
       error={error}
       onRetry={fetchTasks}
     >
-      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+      <div className="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
         <div className="btn-group" role="group">
           <button
             type="button"

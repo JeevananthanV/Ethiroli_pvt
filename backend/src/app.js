@@ -181,6 +181,11 @@ if (clientDist) {
       return next();
     }
 
+    // Never return HTML for static file extensions (e.g. missing .js, .css, images)
+    if (/\.(js|css|png|jpe?g|gif|svg|ico|woff2?|ttf|eot|json|map)$/i.test(req.path)) {
+      return res.status(404).type('text/plain').send('Static resource not found');
+    }
+
     // Find the matching role HTML
     const match = MPA_ROLE_MAP.find(([prefix]) => req.path.startsWith(prefix));
     const htmlFile = match ? match[1] : 'index.html';

@@ -2,14 +2,8 @@ import pool from '../config/database.js';
 import { logger } from '../config/logger.js';
 import { sendBrevoEmail, getDailyQuotaStatus, sendBrevoTestEmail } from './brevoService.js';
 
-let nodemailer = null;
-let nodemailerAvailable = false;
-try {
-  nodemailer = await import('nodemailer');
-  nodemailerAvailable = true;
-} catch (error) {
-  logger.warn('nodemailer package not available. Email sending will be disabled.', { error: error.message });
-}
+import nodemailer from 'nodemailer';
+const nodemailerAvailable = true;
 
 let transporter = null;
 

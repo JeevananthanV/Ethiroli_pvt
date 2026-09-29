@@ -1,0 +1,1 @@
+import{j as u}from"./vendor-react-DjmqOxD7.js";function m({children:t,variant:o="primary",disabled:s=!1,onClick:n,type:r="button",className:a="",...e}){const i=["btn",o,a].filter(Boolean).join(" ");return u.jsx("button",{type:r,className:i,disabled:s,onClick:n,...e,children:t})}export{m as B};

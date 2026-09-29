@@ -1,0 +1,1 @@
+import{j as r}from"./vendor-react-DjmqOxD7.js";import{D as a}from"./DynamicCalendarPage-DAy9KZCt.js";import"./AdminPage-BO7_p5hn.js";import"./ErrorBoundary-DrK2p093.js";function i(){return r.jsx(a,{defaultRole:"SUPER_ADMIN"})}export{i as default};

@@ -1,0 +1,1 @@
+import{j as e}from"./vendor-react-DjmqOxD7.js";function i({label:s="Loading module..."}){return e.jsx("div",{className:"d-flex justify-content-center align-items-center py-5",style:{minHeight:"350px"},children:e.jsx("div",{className:"spinner-border text-primary",role:"status",children:e.jsx("span",{className:"visually-hidden",children:s})})})}export{i as R};

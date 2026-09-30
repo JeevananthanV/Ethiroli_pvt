@@ -279,12 +279,14 @@ export const ROLE_NAVIGATION = Object.freeze({
     { label: 'Courses', path: '/app/tutor/courses', icon: 'menu_book' },
     { label: 'Batches', path: '/app/tutor/batches', icon: 'groups' },
     { label: 'Curriculum', path: '/app/tutor/curriculum', icon: 'library_books' },
-    { label: 'Students', path: '/app/tutor/students', icon: 'groups' },
+    { label: 'Students', path: '/app/tutor/students', icon: 'school' },
     { label: 'Assignments', path: '/app/tutor/assignments', icon: 'assignment' },
     { label: 'Question Bank', path: '/app/tutor/question-bank', icon: 'quiz' },
+    { label: 'Quiz Management', path: '/app/tutor/quizzes', icon: 'checklist' },
     { label: 'Forum', path: '/app/tutor/forum', icon: 'forum' },
-    { label: 'Communications', path: '/app/tutor/communications', icon: 'mail' },
+    { label: 'Communications', path: '/app/tutor/communications', icon: 'campaign' },
     { label: 'Calendar', path: '/app/tutor/calendar', icon: 'calendar_month' },
+    { label: 'Reports', path: '/app/tutor/reports', icon: 'bar_chart' },
   ],
 
   [ROLES.PROJECT_MANAGER]: [

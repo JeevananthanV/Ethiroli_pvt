@@ -3,7 +3,9 @@ import {
   getTutorProfile,
   updateTutorProfile,
   changeTutorPassword,
-  getTutorMetrics
+  getTutorMetrics,
+  getTutorDashboardStats,
+  getTutorQuizAttempts
 } from '../controllers/tutorController.js';
 import { authenticate } from '../middleware/auth.js';
 import { requireRole } from '../middleware/rbac.js';
@@ -17,5 +19,8 @@ router.get('/profile', getTutorProfile);
 router.patch('/profile', updateTutorProfile);
 router.put('/credentials/password', changeTutorPassword);
 router.get('/metrics', getTutorMetrics);
+router.get('/dashboard-stats', getTutorDashboardStats);
+router.get('/quiz-attempts', getTutorQuizAttempts);
 
 export default router;
+

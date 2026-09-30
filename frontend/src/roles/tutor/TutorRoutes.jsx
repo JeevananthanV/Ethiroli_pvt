@@ -9,10 +9,12 @@ const TutorBatches = lazy(() => import('./pages/Batches.jsx'));
 const TutorCurriculum = lazy(() => import('./pages/CourseCurriculum.jsx'));
 const TutorAssignments = lazy(() => import('./pages/Assignments.jsx'));
 const TutorQuestionBank = lazy(() => import('./pages/QuestionBank.jsx'));
+const TutorQuizManagement = lazy(() => import('./pages/QuizManagement.jsx'));
 const TutorStudents = lazy(() => import('./pages/Students.jsx'));
 const TutorForum = lazy(() => import('./pages/Forum.jsx'));
 const TutorCommunications = lazy(() => import('./pages/Communications.jsx'));
 const TutorCalendar = lazy(() => import('./pages/Calendar.jsx'));
+const TutorReports = lazy(() => import('./pages/Reports.jsx'));
 const TutorProfile = lazy(() => import('../../common/components/RoleProfile/RoleProfile.jsx'));
 
 /**
@@ -30,13 +32,17 @@ export default function TutorRoutes() {
         <Route path="curriculum" element={<TutorCurriculum />} />
         <Route path="assignments" element={<TutorAssignments />} />
         <Route path="question-bank" element={<TutorQuestionBank />} />
+        <Route path="quizzes" element={<TutorQuizManagement />} />
+        <Route path="quiz-management" element={<TutorQuizManagement />} />
         <Route path="students" element={<TutorStudents />} />
         <Route path="forum" element={<TutorForum />} />
         <Route path="communications" element={<TutorCommunications />} />
         <Route path="calendar" element={<TutorCalendar />} />
+        <Route path="reports" element={<TutorReports />} />
         <Route path="profile" element={<TutorProfile title="Tutor Faculty Profile" subtitle="Manage your academic credentials, profile photo, and teaching security access" />} />
         <Route path="*" element={<Navigate to="dashboard" replace />} />
       </Routes>
     </Suspense>
   );
 }
+

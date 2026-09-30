@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
+import { getBadges } from '../../../services/api/badgeApi.js';
+import lmsApi from '../../../services/api/lmsApi.js';
 
-const BADGES = [
+const DEFAULT_BADGES = [
   {
     id: 'BADGE-01',
     title: '7-Day Learning Streak',
@@ -101,10 +103,59 @@ const LEADERBOARD = [
 ];
 
 export default function Achievements() {
+  const [badges, setBadges] = useState(DEFAULT_BADGES);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [stats, setStats] = useState({
+    level: 4,
+    xp: 850,
+    streak: 7,
+    unlockedCount: 5,
+  });
+
+  const loadAchievements = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const [apiBadges, lmsOverview] = await Promise.all([
+        getBadges().catch(() => []),
+        lmsApi.getLMSOverview().catch(() => null),
+      ]);
+
+      if (Array.isArray(apiBadges) && apiBadges.length > 0) {
+        setBadges(apiBadges);
+      }
+
+      if (lmsOverview?.data || lmsOverview) {
+        const ov = lmsOverview.data || lmsOverview;
+        const progress = ov.courses?.[0]?.progress_percentage ?? 68;
+        const computedXp = Math.round(progress * 10 + 170);
+        const computedLevel = Math.max(1, Math.floor(computedXp / 250) + 1);
+
+        setStats((prev) => ({
+          ...prev,
+          xp: computedXp,
+          level: computedLevel,
+        }));
+      }
+    } catch (err) {
+      console.warn('Fallback to local badges:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadAchievements();
+  }, [loadAchievements]);
+
   return (
     <AdminPage
       title="Student Achievements & Gamification Hub"
       subtitle="Earn XP, unlock technical skill badges, maintain learning streaks, and celebrate your coding milestones."
+      loading={loading}
+      error={error}
+      onRetry={loadAchievements}
     >
       {/* Gamification Status Bar */}
       <div className="card shadow-sm border-0 mb-4 bg-gradient bg-primary text-white">
@@ -114,28 +165,32 @@ export default function Achievements() {
               <span className="badge bg-white text-primary fw-bold px-3 py-1 rounded-pill mb-1">
                 CURRENT RANKING
               </span>
-              <h2 className="display-6 fw-bold mb-0">Level 4</h2>
+              <h2 className="display-6 fw-bold mb-0">Level {stats.level}</h2>
               <div className="small opacity-75">Senior Apprentice Developer</div>
             </div>
 
             <div className="col-12 col-md-3 text-center border-end border-white border-opacity-25">
               <div className="small opacity-75">Total Experience Points</div>
-              <h2 className="display-6 fw-bold mb-0">850 XP</h2>
-              <div className="small opacity-75">150 XP to Level 5</div>
+              <h2 className="display-6 fw-bold mb-0">{stats.xp} XP</h2>
+              <div className="small opacity-75">Next rank at {stats.level * 250} XP</div>
             </div>
 
             <div className="col-12 col-md-3 text-center border-end border-white border-opacity-25">
               <div className="small opacity-75">Active Learning Streak</div>
               <h2 className="display-6 fw-bold mb-0 text-warning">
-                7 Days <i className="bi bi-fire text-warning" />
+                {stats.streak} Days <i className="bi bi-fire text-warning" />
               </h2>
               <div className="small opacity-75">Daily study & practice streak</div>
             </div>
 
             <div className="col-12 col-md-3 text-center">
               <div className="small opacity-75">Badges Unlocked</div>
-              <h2 className="display-6 fw-bold mb-0">5 / 8</h2>
-              <div className="small opacity-75">62.5% Showcase Complete</div>
+              <h2 className="display-6 fw-bold mb-0">
+                {badges.filter((b) => b.unlocked).length} / {badges.length}
+              </h2>
+              <div className="small opacity-75">
+                {Math.round((badges.filter((b) => b.unlocked).length / badges.length) * 100)}% Showcase Complete
+              </div>
             </div>
           </div>
         </div>
@@ -145,14 +200,17 @@ export default function Achievements() {
         {/* Badges Grid */}
         <div className="col-12 col-lg-8">
           <div className="card shadow-sm border-0">
-            <div className="card-header bg-white py-3 border-bottom">
+            <div className="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
               <h5 className="mb-0 fw-bold text-dark">
-                <i className="bi bi-award-fill text-warning me-2" /> Technical & Milestone Badges
+                <i className="bi bi-award-fill text-warning me-2" /> Dynamic Skill & Milestone Badges
               </h5>
+              <button onClick={loadAchievements} className="btn btn-sm btn-outline-secondary">
+                <i className="bi bi-arrow-clockwise me-1" /> Sync Badges
+              </button>
             </div>
             <div className="card-body p-3">
               <div className="row g-3">
-                {BADGES.map((b) => (
+                {badges.map((b) => (
                   <div key={b.id} className="col-12 col-sm-6">
                     <div
                       className={`card h-100 border p-3 ${
@@ -164,22 +222,22 @@ export default function Achievements() {
                       <div className="d-flex align-items-start gap-3">
                         <div
                           className={`rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 bg-${
-                            b.unlocked ? b.color : 'secondary'
+                            b.unlocked ? b.color || 'primary' : 'secondary'
                           } text-white shadow-sm`}
                           style={{ width: 48, height: 48 }}
                         >
-                          <i className={`bi ${b.icon} fs-4`} />
+                          <i className={`bi ${b.icon || 'bi-award'} fs-4`} />
                         </div>
                         <div className="flex-grow-1">
                           <div className="d-flex justify-content-between align-items-center mb-1">
                             <h6 className="mb-0 fw-bold text-dark small">{b.title}</h6>
-                            <span className="badge bg-primary-subtle text-primary">+{b.xp} XP</span>
+                            <span className="badge bg-primary-subtle text-primary">+{b.xp || 100} XP</span>
                           </div>
                           <p className="small text-muted mb-2" style={{ fontSize: 11 }}>
                             {b.description}
                           </p>
                           <div className="small text-muted border-top pt-1 d-flex justify-content-between">
-                            <span>{b.category}</span>
+                            <span>{b.category || 'General'}</span>
                             {b.unlocked ? (
                               <span className="text-success fw-semibold">
                                 <i className="bi bi-check-circle-fill me-1" /> Unlocked

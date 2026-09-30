@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import Button from '../../../common/components/Button/Button.jsx';
+import { getMyEnrollments } from '../../../services/api/enrollmentApi.js';
+import lmsApi from '../../../services/api/lmsApi.js';
 
-const LEARNING_PATH_DATA = {
+const INITIAL_LEARNING_PATH_DATA = {
   courseName: 'Full Stack + AI Web Developer Masterclass',
   overallProgress: 68,
   currentPhase: 2,
@@ -128,8 +130,45 @@ const LEARNING_PATH_DATA = {
 };
 
 export default function LearningPath() {
+  const [path, setPath] = useState(INITIAL_LEARNING_PATH_DATA);
   const [selectedPhase, setSelectedPhase] = useState(2);
-  const path = LEARNING_PATH_DATA;
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchLearningPath = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const [enrollments, lmsOverview] = await Promise.all([
+        getMyEnrollments().catch(() => []),
+        lmsApi.getLMSOverview().catch(() => null),
+      ]);
+
+      if (Array.isArray(enrollments) && enrollments.length > 0) {
+        const activeCourse = enrollments[0];
+        const progress = Number(activeCourse.progress_percentage || activeCourse.progress || 68);
+        const currentDay = Math.max(1, Math.round((progress / 100) * 32));
+        const computedPhase = progress > 75 ? 3 : progress > 30 ? 2 : 1;
+
+        setPath((prev) => ({
+          ...prev,
+          courseName: activeCourse.course_name || activeCourse.course?.name || prev.courseName,
+          overallProgress: progress,
+          currentDay: currentDay,
+          currentPhase: computedPhase,
+        }));
+        setSelectedPhase(computedPhase);
+      }
+    } catch (err) {
+      console.warn('Learning path data loaded with fallback defaults:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchLearningPath();
+  }, [fetchLearningPath]);
 
   const getStatusBadge = (status) => {
     switch (status) {
@@ -149,6 +188,9 @@ export default function LearningPath() {
     <AdminPage
       title="Interactive Learning Path & Roadmap"
       subtitle={`Milestone-driven roadmap for ${path.courseName}. Complete prerequisites to unlock advanced phases.`}
+      loading={loading}
+      error={error}
+      onRetry={fetchLearningPath}
     >
       {/* Progress Header Card */}
       <div className="lmsCard mb-4">
@@ -156,11 +198,11 @@ export default function LearningPath() {
           <div className="d-flex flex-wrap justify-content-between align-items-center gap-3">
             <div>
               <span className="badge bg-primary-subtle text-primary fw-semibold px-3 py-2 rounded-pill mb-2">
-                <i className="bi bi-compass me-1" /> Active Learning Roadmap
+                <i className="bi bi-compass me-1" /> Dynamic Learning Roadmap
               </span>
               <h3 className="h4 mb-1 fw-bold text-dark">{path.courseName}</h3>
               <p className="text-muted small mb-0">
-                You are currently in <strong>Phase 2 · Day {path.currentDay} of {path.totalDays}</strong> (React Hooks Mastery)
+                You are currently in <strong>Phase {path.currentPhase} · Day {path.currentDay} of {path.totalDays}</strong>
               </p>
             </div>
             <div className="d-flex align-items-center gap-3">
@@ -229,7 +271,7 @@ export default function LearningPath() {
 
             <div className="lmsCardBody p-3">
               <div className="row g-3">
-                {phase.modules.map((mod, idx) => (
+                {phase.modules.map((mod) => (
                   <div key={mod.id} className="col-12 col-lg-4">
                     <div
                       className={`card h-100 border ${

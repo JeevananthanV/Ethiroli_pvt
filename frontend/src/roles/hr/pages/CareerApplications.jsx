@@ -23,7 +23,7 @@ export default function HRCareerApplications() {
     search,
     setSearch,
   } = useHrData(
-    () => listCareerApplications(),
+    listCareerApplications,
     undefined,
     undefined,
     undefined,

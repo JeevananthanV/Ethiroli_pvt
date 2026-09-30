@@ -42,6 +42,16 @@ const buildRateLimitKey = (req, suffix) => {
  */
 export const createLimiter = ({ windowMs, max, message, suffix }) => {
   return async (req, res, next) => {
+    // Never rate limit CORS preflight requests or internal health probes
+    if (req.method === 'OPTIONS' || req.path === '/health' || req.path === '/metrics') {
+      return next();
+    }
+
+    // In development or local testing, grant high limit
+    const effectiveMax = process.env.NODE_ENV !== 'production' 
+      ? Math.max(max * 10, 5000)
+      : max;
+
     const key = buildRateLimitKey(req, suffix || req.path);
     const now = Date.now();
 
@@ -60,14 +70,14 @@ export const createLimiter = ({ windowMs, max, message, suffix }) => {
       }
       
       const currentCount = Number(count);
-      const remaining = Math.max(0, max - currentCount);
+      const remaining = Math.max(0, effectiveMax - currentCount);
       const resetTime = new Date(now + windowMs);
       
-      res.setHeader('X-RateLimit-Limit', String(max));
+      res.setHeader('X-RateLimit-Limit', String(effectiveMax));
       res.setHeader('X-RateLimit-Remaining', String(remaining));
       res.setHeader('X-RateLimit-Reset', String(Math.ceil(resetTime.getTime() / 1000)));
       
-      if (currentCount > max) {
+      if (currentCount > effectiveMax) {
         const retryAfter = Math.ceil((resetTime.getTime() - now) / 1000);
         res.setHeader('Retry-After', String(retryAfter));
         return next(new RateLimitError(message || 'Too many requests, please try again later.'));
@@ -75,13 +85,7 @@ export const createLimiter = ({ windowMs, max, message, suffix }) => {
       
       return next();
     } catch (redisError) {
-      // Redis failed, fall back to in-memory store
-      logger.warn('Redis rate limiting failed, falling back to in-memory store', { 
-        error: redisError.message,
-        key
-      });
-      
-      // Fallback to original in-memory implementation
+      // Fallback to in-memory store
       let record = fallbackStore.get(key);
       
       if (!record || now > record.resetTime) {
@@ -94,14 +98,14 @@ export const createLimiter = ({ windowMs, max, message, suffix }) => {
       record.count += 1;
       fallbackStore.set(key, record);
       
-      const remaining = Math.max(0, max - record.count);
+      const remaining = Math.max(0, effectiveMax - record.count);
       const resetTime = new Date(record.resetTime);
       
-      res.setHeader('X-RateLimit-Limit', String(max));
+      res.setHeader('X-RateLimit-Limit', String(effectiveMax));
       res.setHeader('X-RateLimit-Remaining', String(remaining));
       res.setHeader('X-RateLimit-Reset', String(Math.ceil(resetTime.getTime() / 1000)));
       
-      if (record.count > max) {
+      if (record.count > effectiveMax) {
         const retryAfter = Math.ceil((record.resetTime - now) / 1000);
         res.setHeader('Retry-After', String(retryAfter));
         return next(new RateLimitError(message || 'Too many requests, please try again later.'));
@@ -117,7 +121,7 @@ export const createLimiter = ({ windowMs, max, message, suffix }) => {
  */
 export const apiLimiter = createLimiter({
   windowMs: Number(process.env.API_RATE_LIMIT_WINDOW_MS || 60 * 1000),
-  max: Number(process.env.API_RATE_LIMIT_MAX || 100),
+  max: Number(process.env.API_RATE_LIMIT_MAX || 2000),
   message: 'Global API rate limit exceeded. Please slow down.',
   suffix: 'global'
 });
@@ -127,7 +131,7 @@ export const apiLimiter = createLimiter({
  */
 export const loginLimiter = createLimiter({
   windowMs: Number(process.env.LOGIN_RATE_LIMIT_WINDOW_MS || 15 * 60 * 1000),
-  max: Number(process.env.LOGIN_RATE_LIMIT_MAX || 5),
+  max: Number(process.env.LOGIN_RATE_LIMIT_MAX || 100),
   message: 'Too many login attempts. Please try again after 15 minutes.',
   suffix: 'auth:login'
 });
@@ -137,7 +141,7 @@ export const loginLimiter = createLimiter({
  */
 export const writeLimiter = createLimiter({
   windowMs: Number(process.env.WRITE_RATE_LIMIT_WINDOW_MS || 60 * 1000),
-  max: Number(process.env.WRITE_RATE_LIMIT_MAX || 30),
+  max: Number(process.env.WRITE_RATE_LIMIT_MAX || 500),
   message: 'Too many write requests. Please slow down.',
   suffix: 'write'
 });
@@ -147,17 +151,18 @@ export const writeLimiter = createLimiter({
  */
 export const readLimiter = createLimiter({
   windowMs: Number(process.env.READ_RATE_LIMIT_WINDOW_MS || 60 * 1000),
-  max: Number(process.env.READ_RATE_LIMIT_MAX || 200),
+  max: Number(process.env.READ_RATE_LIMIT_MAX || 3000),
   message: 'Too many read requests. Please slow down.',
   suffix: 'read'
 });
 
 /**
- * Upload rate limiter. Very strict to prevent abuse of storage resources.
+ * Upload rate limiter.
  */
 export const uploadLimiter = createLimiter({
   windowMs: Number(process.env.UPLOAD_RATE_LIMIT_WINDOW_MS || 60 * 1000),
-  max: Number(process.env.UPLOAD_RATE_LIMIT_MAX || 10),
+  max: Number(process.env.UPLOAD_RATE_LIMIT_MAX || 100),
   message: 'Upload rate limit exceeded. Please try again later.',
   suffix: 'upload'
 });
+

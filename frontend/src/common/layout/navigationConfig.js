@@ -491,20 +491,57 @@ export const ROLE_NAVIGATION = Object.freeze({
 
   [ROLES.STUDENT]: [
     { label: 'Dashboard', path: '/app/student/dashboard', icon: 'dashboard' },
-    { label: 'My Courses', path: '/app/student/courses', icon: 'menu_book' },
-    { label: 'Course Modules', path: '/app/student/modules', icon: 'library_books' },
-    { label: 'Course Player', path: '/app/student/course-player', icon: 'play_circle' },
-    { label: 'Live Quiz', path: '/app/student/live-quiz', icon: 'quiz' },
-    { label: 'Assessments', path: '/app/student/quiz', icon: 'assignment' },
-    { label: 'Assignments', path: '/app/student/assignments', icon: 'assignment' },
-    { label: 'Projects', path: '/app/student/projects', icon: 'code' },
-    { label: 'Attendance', path: '/app/student/attendance', icon: 'schedule' },
-    { label: 'Calendar', path: '/app/student/calendar', icon: 'calendar_month' },
-    { label: 'Doubts', path: '/app/student/doubts', icon: 'help' },
-    { label: 'Discussion Forum', path: '/app/student/forum', icon: 'forum' },
-    { label: 'Mind Map', path: '/app/student/mindmap', icon: 'account_tree' },
-    { label: 'Certificates', path: '/app/student/certificates', icon: 'workspace_premium' },
-    { label: 'Profile', path: '/app/student/profile', icon: 'person' },
+    {
+      label: 'Learning',
+      icon: 'menu_book',
+      children: [
+        { label: 'My Courses', path: '/app/student/courses', icon: 'menu_book' },
+        { label: 'Learning Path', path: '/app/student/learning-path', icon: 'route' },
+        { label: 'Course Modules', path: '/app/student/modules', icon: 'library_books' },
+        { label: 'Course Player', path: '/app/student/course-player', icon: 'play_circle' },
+      ],
+    },
+    {
+      label: 'Practice & Labs',
+      icon: 'code',
+      children: [
+        { label: 'Live Classes', path: '/app/student/live-classes', icon: 'bi-camera-video' },
+        { label: 'Live Quiz', path: '/app/student/live-quiz', icon: 'quiz' },
+        { label: 'Assessments', path: '/app/student/quiz', icon: 'assignment' },
+        { label: 'Assignments', path: '/app/student/assignments', icon: 'checklist' },
+        { label: 'Projects', path: '/app/student/projects', icon: 'code' },
+      ],
+    },
+    {
+      label: 'Schedule & Attendance',
+      icon: 'schedule',
+      children: [
+        { label: 'Attendance', path: '/app/student/attendance', icon: 'schedule' },
+        { label: 'Calendar', path: '/app/student/calendar', icon: 'calendar_month' },
+      ],
+    },
+    {
+      label: 'Support & Community',
+      icon: 'forum',
+      children: [
+        { label: 'Doubts & Mentorship', path: '/app/student/doubts', icon: 'help' },
+        { label: 'Discussion Forum', path: '/app/student/forum', icon: 'forum' },
+        { label: 'Curriculum Mind Map', path: '/app/student/mindmap', icon: 'account_tree' },
+        { label: 'Resources Library', path: '/app/student/resources', icon: 'folder' },
+      ],
+    },
+    {
+      label: 'Growth & Career',
+      icon: 'workspace_premium',
+      children: [
+        { label: 'Notifications', path: '/app/student/notifications', icon: 'notifications' },
+        { label: 'Academic Feedback', path: '/app/student/feedback', icon: 'rate_review' },
+        { label: 'Certificates', path: '/app/student/certificates', icon: 'workspace_premium' },
+        { label: 'Achievements & XP', path: '/app/student/achievements', icon: 'emoji_events' },
+        { label: 'Career & Placement', path: '/app/student/career', icon: 'work' },
+      ],
+    },
+    { label: 'Student Profile', path: '/app/student/profile', icon: 'person' },
   ],
 
   [ROLES.INTERN]: [

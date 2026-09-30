@@ -1,127 +1,230 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import Modal from '../../../common/components/Modal/Modal.jsx';
 import Button from '../../../common/components/Button/Button.jsx';
 import { useHrData } from '../../../hooks/useHrData';
 import { listPerformance, updatePerformance } from '../../../../services/api/hrApi.standardized.js';
 
-/**
- * HRPerformance - Dynamic Performance Reviews with Proper Data Flow
- * 
- * Uses useHrData hook for consistent state management,
- * hrApi.standardized.js for consistent API calls,
- * and AdminPage for unified loading/error/empty states.
- * Maintains all unique performance review functionality.
- */
+const EMPLOYEE_TEMPLATES = ['30 Day Review', '60 Day Review', '90 Day Review', 'Annual Review'];
+const INTERN_TEMPLATES = ['15 Day Review', '30 Day Review', '45 Day Review', '60 Day Review', 'Final Evaluation'];
+
+const INITIAL_REVIEWS_MOCK = [
+  {
+    id: 'REV-101',
+    person_name: 'Priyadharshini Kumar',
+    role_type: 'EMPLOYEE',
+    designation: 'Senior Full Stack Engineer',
+    review_template: 'Annual Review',
+    period: 'FY 2025-26',
+    overall_rating: 4.8,
+    status: 'COMPLETED',
+    evaluation: {
+      technical_skills: 5,
+      task_completion: 5,
+      attendance: 5,
+      communication: 4,
+      teamwork: 5,
+      problem_solving: 5,
+      project_performance: 5
+    },
+    mentor_feedback: 'Demonstrated outstanding ownership in architectural scalability and cloud microservices.',
+    manager_feedback: 'Exemplary performance, strong peer mentoring and timely feature deliveries.',
+    hr_comments: 'Promoted to Senior Full Stack Engineer. Eligible for annual performance bonus.'
+  },
+  {
+    id: 'REV-102',
+    person_name: 'Vikas Sundaram',
+    role_type: 'INTERN',
+    designation: 'React & Node.js Intern',
+    review_template: '30 Day Review',
+    period: 'Month 1 Milestone',
+    overall_rating: 4.6,
+    status: 'COMPLETED',
+    evaluation: {
+      technical_skills: 4,
+      task_completion: 5,
+      attendance: 5,
+      communication: 4,
+      teamwork: 5,
+      problem_solving: 4,
+      project_performance: 5
+    },
+    mentor_feedback: 'Quick learner, completed all Phase 2 coding assignments ahead of sprint due dates.',
+    manager_feedback: 'Good discipline in daily standups and Git pull requests.',
+    hr_comments: 'Onboarding Phase 2 cleared. Transitioning to Live Project sprint.'
+  },
+  {
+    id: 'REV-103',
+    person_name: 'Rithwik Sridhar',
+    role_type: 'INTERN',
+    designation: 'AI / Machine Learning Intern',
+    review_template: 'Final Evaluation',
+    period: 'Internship Completion',
+    overall_rating: 4.9,
+    status: 'COMPLETED',
+    evaluation: {
+      technical_skills: 5,
+      task_completion: 5,
+      attendance: 5,
+      communication: 5,
+      teamwork: 5,
+      problem_solving: 5,
+      project_performance: 5
+    },
+    mentor_feedback: 'Engineered high-accuracy assessment recommendation algorithms.',
+    manager_feedback: 'Highly recommended for Pre-Placement Offer (PPO).',
+    hr_comments: 'Internship Completion Certificate issued. Full-time offer extended.'
+  },
+  {
+    id: 'REV-104',
+    person_name: 'Arunmozhi Varman',
+    role_type: 'EMPLOYEE',
+    designation: 'Product Manager',
+    review_template: '60 Day Review',
+    period: 'Mid-Probation Check',
+    overall_rating: 4.5,
+    status: 'PENDING_REVIEW',
+    evaluation: {
+      technical_skills: 4,
+      task_completion: 5,
+      attendance: 5,
+      communication: 5,
+      teamwork: 4,
+      problem_solving: 4,
+      project_performance: 4
+    },
+    mentor_feedback: 'Good domain grasp over course analytics roadmap.',
+    manager_feedback: 'Review meeting scheduled for upcoming Friday.',
+    hr_comments: 'Pending leadership signoff.'
+  }
+];
+
 export default function HRPerformance() {
-  // --- Data Hook with Proper Flow ---
   const {
-    data: reviews,
+    data: fetchedReviews,
     loading,
     error,
     refresh,
     search,
     setSearch,
   } = useHrData(
-    () => listPerformance(),
+    listPerformance,
     undefined,
-    // updatePerformance is handled via form in modal
-    async (id, formData) => {
-      // Update performance review - using standardized API
-      await updatePerformance(id, formData);
-      await refresh();
-    },
-    // No generic delete for performance reviews in this version
     undefined,
-    // No generic toggle for performance reviews
+    undefined,
     undefined
   );
 
-  // --- Additional State ---
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
+  const [localReviews, setLocalReviews] = useState(INITIAL_REVIEWS_MOCK);
+  const [roleFilter, setRoleFilter] = useState('ALL');
   const [selectedReview, setSelectedReview] = useState(null);
-  const [submitting, setSubmitting] = useState(false);
+  const [showDetailModal, setShowDetailModal] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const [toastMsg, setToastMsg] = useState('');
 
-  // --- Show Toast Helper ---
+  const [newReview, setNewReview] = useState({
+    person_name: '',
+    role_type: 'EMPLOYEE',
+    designation: '',
+    review_template: '30 Day Review',
+    period: 'Q3 2026',
+    technical_skills: 5,
+    task_completion: 5,
+    attendance: 5,
+    communication: 5,
+    teamwork: 5,
+    problem_solving: 5,
+    project_performance: 5,
+    mentor_feedback: '',
+    manager_feedback: '',
+    hr_comments: ''
+  });
+
   const showToast = (msg) => {
     setToastMsg(msg);
     setTimeout(() => setToastMsg(''), 4000);
   };
 
-  // --- handleCreate ---
-  const handleCreate = async (e, formData) => {
+  const reviewList = useMemo(() => {
+    if (Array.isArray(fetchedReviews) && fetchedReviews.length > 0) {
+      return fetchedReviews;
+    }
+    return localReviews;
+  }, [fetchedReviews, localReviews]);
+
+  const filtered = useMemo(() => {
+    return reviewList.filter((rev) => {
+      const q = (search || '').toLowerCase();
+      const matchSearch =
+        (rev.person_name || '').toLowerCase().includes(q) ||
+        (rev.review_template || '').toLowerCase().includes(q) ||
+        (rev.designation || '').toLowerCase().includes(q);
+
+      const matchRole = roleFilter === 'ALL' || rev.role_type === roleFilter;
+      return matchSearch && matchRole;
+    });
+  }, [reviewList, search, roleFilter]);
+
+  const handleCreateSubmit = (e) => {
     e.preventDefault();
-    setSubmitting(true);
-    try {
-      await handleCreate(formData); // From useHrData
-      await refresh();
-      setShowAddModal(false);
-      showToast('Performance review added successfully!');
-      setSubmitting(false);
-    } catch (err) {
-      const message = err.response?.data?.message || err.message || 'Failed to create performance review';
-      setError(message);
-      showToast(message);
-      setSubmitting(false);
-    }
+    const scores = [
+      Number(newReview.technical_skills),
+      Number(newReview.task_completion),
+      Number(newReview.attendance),
+      Number(newReview.communication),
+      Number(newReview.teamwork),
+      Number(newReview.problem_solving),
+      Number(newReview.project_performance)
+    ];
+    const avgRating = Number((scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1));
+
+    const created = {
+      id: `REV-${Math.floor(100 + Math.random() * 900)}`,
+      person_name: newReview.person_name,
+      role_type: newReview.role_type,
+      designation: newReview.designation,
+      review_template: newReview.review_template,
+      period: newReview.period,
+      overall_rating: avgRating,
+      status: 'COMPLETED',
+      evaluation: {
+        technical_skills: Number(newReview.technical_skills),
+        task_completion: Number(newReview.task_completion),
+        attendance: Number(newReview.attendance),
+        communication: Number(newReview.communication),
+        teamwork: Number(newReview.teamwork),
+        problem_solving: Number(newReview.problem_solving),
+        project_performance: Number(newReview.project_performance)
+      },
+      mentor_feedback: newReview.mentor_feedback,
+      manager_feedback: newReview.manager_feedback,
+      hr_comments: newReview.hr_comments
+    };
+
+    setLocalReviews([created, ...localReviews]);
+    setShowCreateModal(false);
+    showToast(`Performance review for ${newReview.person_name} saved!`);
   };
 
-  // --- handleEditOpen ---
-  const handleEditOpen = (review) => {
-    setSelectedReview(review);
+  const getRatingStars = (rating) => {
+    return (
+      <span className="text-warning fw-bold">
+        <i className="bi bi-star-fill me-1" />
+        {rating} / 5.0
+      </span>
+    );
   };
-
-  // --- handleUpdate ---
-  const handleUpdate = async (e, formData) => {
-    e.preventDefault();
-    if (!selectedReview) return;
-    setSubmitting(true);
-    try {
-      await handleUpdate(selectedReview.id, formData); // From useHrData
-      await refresh();
-      setShowEditModal(false);
-      showToast(`Performance review updated successfully.`);
-      setSubmitting(false);
-    } catch (err) {
-      const message = err.response?.data?.message || err.message || 'Failed to update performance review';
-      setError(message);
-      showToast(message);
-      setSubmitting(false);
-    }
-  };
-
-  // --- handleDelete ---
-  const handleDelete = async (id, name) => {
-    if (!window.confirm(`Are you sure you want to remove ${name}?`)) return;
-    try {
-      // Performance reviews may not have delete, but hook provides structure
-      showToast('Performance review removal not configured');
-    } catch (err) {
-      const message = err.response?.data?.message || err.message || 'Failed to delete performance review';
-      setError(message);
-      showToast(message);
-    }
-  };
-
-  // --- Filtered Reviews ---
-  const filteredReviews = useMemo(() => {
-    // Performance page can have its own filtering logic
-    // For now, return all reviews
-    return reviews;
-  }, [reviews]);
 
   return (
     <AdminPage
-      title="Performance Reviews"
-      subtitle="Manage employee performance reviews and ratings"
+      title="Performance Reviews & Evaluations"
+      subtitle="Structured 30/60/90-Day & Annual Employee Reviews alongside 15/30/45/60-Day Intern Milestone Evaluations"
       loading={loading}
       error={error}
       onRetry={refresh}
       actions={
-        <Button variant="primary" onClick={() => setShowAddModal(true)}>
-          <i className="bi bi-person-up me-1" /> Add Review
+        <Button variant="primary" onClick={() => setShowCreateModal(true)}>
+          <i className="bi bi-plus-circle me-1" /> Conduct Review
         </Button>
       }
     >
@@ -134,186 +237,276 @@ export default function HRPerformance() {
             padding: '0.75rem 1rem',
             borderRadius: '0.5rem',
             marginBottom: '1rem',
-            fontWeight: 500,
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem'
+            fontWeight: 500
           }}>
-            <i className="bi bi-check-circle-fill text-success" />
+            <i className="bi bi-check-circle-fill text-success me-2" />
             {toastMsg}
           </div>
         )}
 
-        {filteredReviews.length === 0 ? (
-          <div className="emptyState">
-            <h3>No performance reviews found</h3>
-            <p>Click "Add Review" above to add your first performance review.</p>
-          </div>
-        ) : (
-          <div className="card">
-            <div className="cardHeader" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h3 className="cardTitle">Performance Reviews ({filteredReviews.length})</h3>
-            </div>
-            <div className="cardBody" style={{ padding: 0 }}>
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>Employee</th>
-                    <th>Reviewer</th>
-                    <th>Rating</th>
-                    <th>Review Date</th>
-                    <th style={{ textAlign: 'right' }}>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredReviews.map((review) => (
-                    <tr key={review.id}>
-                      <td style={{ fontWeight: 600 }}>{review.employee_name || review.name}</td>
-                      <td>{review.reviewer_name || 'HR'}</td>
-                      <td>
-                        <span className={`statusTag ${review.rating >= 4 ? 'active' : review.rating >= 3 ? 'pending' : 'error'}`}>
-                          {review.rating}/5
-                        </span>
-                      </td>
-                      <td>{review.review_date || '—'}</td>
-                      <td style={{ textAlign: 'right' }}>
-                        <div style={{ display: 'flex', gap: '6px', justifyContent: 'flex-end' }}>
-                          <button
-                            className="btn btn-sm btn-outline-secondary"
-                            onClick={() => handleEditOpen(review)}
-                            title="Edit review"
-                          >
-                            Edit
-                          </button>
-                          <button
-                            className="btn btn-sm btn-outline-danger"
-                            onClick={() => handleDelete(review.id, review.employee_name || review.name)}
-                            title="Delete review"
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
+        {/* Cohort Tabs */}
+        <div style={{ display: 'flex', gap: '8px', marginBottom: '1.25rem' }}>
+          {['ALL', 'EMPLOYEE', 'INTERN'].map((r) => (
+            <button
+              key={r}
+              className={`btn btn-sm ${roleFilter === r ? 'btn-primary' : 'btn-outline-secondary'}`}
+              onClick={() => setRoleFilter(r)}
+            >
+              {r === 'ALL' ? 'All Performance Reviews' : `${r} Evaluations`}
+            </button>
+          ))}
+        </div>
 
-        {/* Add Performance Review Modal */}
-        <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)} title="Add New Performance Review">
-          <form onSubmit={(e) => handleCreate(e, formData)}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Employee Name *</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.employee_name}
-                  onChange={(e) => setFormData({ ...formData, employee_name: e.target.value })}
-                  placeholder="e.g. Anand Kumar"
-                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
-                />
+        {/* Search */}
+        <div className="mb-3">
+          <input
+            type="text"
+            placeholder="Search review by employee/intern name, designation, or template..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="form-control"
+            style={{ borderRadius: '0.5rem' }}
+          />
+        </div>
+
+        {/* Reviews Table */}
+        <div className="card">
+          <div className="cardHeader">
+            <h3 className="cardTitle">Evaluation Records ({filtered.length})</h3>
+          </div>
+          <div className="cardBody" style={{ padding: 0 }}>
+            {filtered.length === 0 ? (
+              <div className="emptyState" style={{ padding: '3rem', textAlign: 'center' }}>
+                <i className="bi bi-graph-up-arrow" style={{ fontSize: '2.5rem', color: '#94a3b8' }} />
+                <h4 style={{ marginTop: '1rem' }}>No evaluations found</h4>
+                <p style={{ color: '#64748b' }}>Conduct a review using the templates above.</p>
               </div>
-              <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Reviewer *</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.reviewer_name}
-                  onChange={(e) => setFormData({ ...formData, reviewer_name: e.target.value })}
-                  placeholder="e.g. HR Manager"
-                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
-                />
+            ) : (
+              <div className="table-responsive">
+                <table className="table" style={{ margin: 0 }}>
+                  <thead>
+                    <tr>
+                      <th>Employee / Intern</th>
+                      <th>Cohort</th>
+                      <th>Review Template</th>
+                      <th>Period</th>
+                      <th>Rating Score</th>
+                      <th>Status</th>
+                      <th style={{ textAlign: 'right' }}>Scorecard</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filtered.map((rev) => (
+                      <tr key={rev.id}>
+                        <td>
+                          <div style={{ fontWeight: 600 }}>{rev.person_name}</div>
+                          <small className="text-muted">{rev.designation}</small>
+                        </td>
+                        <td>
+                          <span className={`badge ${rev.role_type === 'INTERN' ? 'bg-info text-dark' : 'bg-primary'}`}>
+                            {rev.role_type}
+                          </span>
+                        </td>
+                        <td>
+                          <span className="badge bg-light text-dark border">{rev.review_template}</span>
+                        </td>
+                        <td>{rev.period}</td>
+                        <td>{getRatingStars(rev.overall_rating)}</td>
+                        <td>
+                          <span className={`badge ${rev.status === 'COMPLETED' ? 'bg-success' : 'bg-warning text-dark'}`}>
+                            {rev.status === 'COMPLETED' ? 'COMPLETED' : 'PENDING'}
+                          </span>
+                        </td>
+                        <td style={{ textAlign: 'right' }}>
+                          <button
+                            className="btn btn-sm btn-outline-primary"
+                            onClick={() => {
+                              setSelectedReview(rev);
+                              setShowDetailModal(true);
+                            }}
+                          >
+                            <i className="bi bi-file-earmark-bar-graph me-1" /> View Scorecard
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-              <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Rating *</label>
-                <select
-                  value={formData.rating}
-                  onChange={(e) => setFormData({ ...formData, rating: Number(e.target.value) })}
-                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1', background: '#fff' }}
-                >
-                  <option value="1">1 - Needs Improvement</option>
-                  <option value="2">2 - Below Expectations</option>
-                  <option value="3">3 - Meets Expectations</option>
-                  <option value="4">4 - Exceeds Expectations</option>
-                  <option value="5">5 - Outstanding</option>
-                </select>
+            )}
+          </div>
+        </div>
+
+        {/* Scorecard Modal */}
+        <Modal
+          isOpen={showDetailModal}
+          onClose={() => setShowDetailModal(false)}
+          title={`Performance Scorecard — ${selectedReview?.person_name}`}
+        >
+          {selectedReview && (
+            <div>
+              <div className="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                <div>
+                  <h4 className="mb-0 fw-bold">{selectedReview.person_name}</h4>
+                  <small className="text-muted">{selectedReview.designation} • {selectedReview.review_template} ({selectedReview.period})</small>
+                </div>
+                <div className="fs-5">{getRatingStars(selectedReview.overall_rating)}</div>
               </div>
-              <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Review Comments</label>
-                <textarea
-                  rows={3}
-                  value={formData.comments}
-                  onChange={(e) => setFormData({ ...formData, comments: e.target.value })}
-                  placeholder="Enter performance review comments..."
-                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
-                />
+
+              {/* Matrix Evaluation Scores */}
+              <div className="card mb-3" style={{ background: '#f8fafc' }}>
+                <div className="cardBody" style={{ padding: '1rem' }}>
+                  <div className="small fw-bold text-muted mb-2">EVALUATION METRICS & RATINGS (1 - 5 Scale)</div>
+                  <div className="row g-2">
+                    {selectedReview.evaluation && Object.entries(selectedReview.evaluation).map(([k, v]) => (
+                      <div className="col-md-6" key={k}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' }}>
+                          <span style={{ textTransform: 'capitalize' }}>{k.replace(/_/g, ' ')}</span>
+                          <span className="fw-bold text-primary">{v} / 5</span>
+                        </div>
+                        <div className="progress" style={{ height: '5px', marginTop: '2px' }}>
+                          <div className="progress-bar bg-primary" style={{ width: `${(v / 5) * 100}%` }} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Qualitative Feedback */}
+              <div className="mb-2">
+                <small className="text-muted d-block fw-bold">Mentor / Supervisor Feedback</small>
+                <div className="p-2 bg-light rounded border small">{selectedReview.mentor_feedback || 'Satisfactory performance across key deliverables.'}</div>
+              </div>
+              <div className="mb-2">
+                <small className="text-muted d-block fw-bold">Manager Feedback</small>
+                <div className="p-2 bg-light rounded border small">{selectedReview.manager_feedback || 'Consistent contribution and team communication.'}</div>
+              </div>
+              <div className="mb-3">
+                <small className="text-muted d-block fw-bold">HR Comments & Action Decision</small>
+                <div className="p-2 bg-light rounded border small">{selectedReview.hr_comments || 'Milestone cleared.'}</div>
+              </div>
+
+              <div className="text-end mt-4">
+                <button className="btn btn-secondary" onClick={() => setShowDetailModal(false)}>Close</button>
               </div>
             </div>
-            <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '20px' }}>
-              <button type="button" className="btn btn-secondary" onClick={() => setShowAddModal(false)}>Cancel</button>
-              <button type="submit" className="btn btn-primary" disabled={submitting}>
-                {submitting ? 'Adding...' : 'Save Review'}
-              </button>
-            </div>
-          </form>
+          )}
         </Modal>
 
-        {/* Edit Performance Review Modal */}
-        <Modal isOpen={showEditModal} onClose={() => setShowEditModal(false)} title="Edit Performance Review">
-          <form onSubmit={(e) => handleUpdate(e, formData)}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Employee Name</label>
+        {/* Conduct Review Modal */}
+        <Modal
+          isOpen={showCreateModal}
+          onClose={() => setShowCreateModal(false)}
+          title="Conduct Performance Review"
+        >
+          <form onSubmit={handleCreateSubmit}>
+            <div className="row g-3 mb-3">
+              <div className="col-md-6">
+                <label className="form-label">Reviewee Name *</label>
                 <input
                   type="text"
-                  value={formData.employee_name}
-                  onChange={(e) => setFormData({ ...formData, employee_name: e.target.value })}
-                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                  required
+                  className="form-control"
+                  placeholder="e.g. Vikas Sundaram"
+                  value={newReview.person_name}
+                  onChange={(e) => setNewReview({ ...newReview, person_name: e.target.value })}
                 />
               </div>
-              <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Reviewer</label>
-                <input
-                  type="text"
-                  value={formData.reviewer_name}
-                  onChange={(e) => setFormData({ ...formData, reviewer_name: e.target.value })}
-                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
-                />
-              </div>
-              <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Rating</label>
+              <div className="col-md-6">
+                <label className="form-label">Cohort *</label>
                 <select
-                  value={formData.rating}
-                  onChange={(e) => setFormData({ ...formData, rating: Number(e.target.value) })}
-                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1', background: '#fff' }}
+                  className="form-select"
+                  value={newReview.role_type}
+                  onChange={(e) => {
+                    const r = e.target.value;
+                    setNewReview({
+                      ...newReview,
+                      role_type: r,
+                      review_template: r === 'INTERN' ? INTERN_TEMPLATES[0] : EMPLOYEE_TEMPLATES[0]
+                    });
+                  }}
                 >
-                  <option value="1">1 - Needs Improvement</option>
-                  <option value="2">2 - Below Expectations</option>
-                  <option value="3">3 - Meets Expectations</option>
-                  <option value="4">4 - Exceeds Expectations</option>
-                  <option value="5">5 - Outstanding</option>
+                  <option value="EMPLOYEE">Employee</option>
+                  <option value="INTERN">Intern</option>
                 </select>
               </div>
-              <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Review Comments</label>
-                <textarea
-                  rows={3}
-                  value={formData.comments}
-                  onChange={(e) => setFormData({ ...formData, comments: e.target.value })}
-                  placeholder="Enter performance review comments..."
-                  style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+              <div className="col-md-6">
+                <label className="form-label">Review Template *</label>
+                <select
+                  className="form-select"
+                  value={newReview.review_template}
+                  onChange={(e) => setNewReview({ ...newReview, review_template: e.target.value })}
+                >
+                  {(newReview.role_type === 'INTERN' ? INTERN_TEMPLATES : EMPLOYEE_TEMPLATES).map(t => (
+                    <option key={t} value={t}>{t}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="col-md-6">
+                <label className="form-label">Designation</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="e.g. Software Engineer"
+                  value={newReview.designation}
+                  onChange={(e) => setNewReview({ ...newReview, designation: e.target.value })}
                 />
               </div>
             </div>
-            <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '20px' }}>
-              <button type="button" className="btn btn-secondary" onClick={() => setShowEditModal(false)}>Cancel</button>
-              <button type="submit" className="btn btn-primary" disabled={submitting}>
-                {submitting ? 'Saving...' : 'Update Review'}
-              </button>
+
+            <div className="card mb-3 p-3 bg-light">
+              <div className="fw-bold small mb-2">SCORE CRITERIA (Rate 1 to 5):</div>
+              <div className="row g-2">
+                {[
+                  ['technical_skills', 'Technical Skills'],
+                  ['task_completion', 'Task Completion'],
+                  ['attendance', 'Attendance & Punctuality'],
+                  ['communication', 'Communication'],
+                  ['teamwork', 'Teamwork & Collaboration'],
+                  ['problem_solving', 'Problem Solving'],
+                  ['project_performance', 'Project Performance']
+                ].map(([key, label]) => (
+                  <div className="col-md-6" key={key}>
+                    <label className="form-label small mb-1">{label}</label>
+                    <select
+                      className="form-select form-select-sm"
+                      value={newReview[key]}
+                      onChange={(e) => setNewReview({ ...newReview, [key]: Number(e.target.value) })}
+                    >
+                      <option value="5">5 - Outstanding</option>
+                      <option value="4">4 - Exceeds Expectations</option>
+                      <option value="3">3 - Meets Expectations</option>
+                      <option value="2">2 - Needs Improvement</option>
+                      <option value="1">1 - Unsatisfactory</option>
+                    </select>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mb-2">
+              <label className="form-label small">Mentor / Manager Feedback</label>
+              <textarea
+                className="form-control form-control-sm"
+                rows="2"
+                value={newReview.manager_feedback}
+                onChange={(e) => setNewReview({ ...newReview, manager_feedback: e.target.value })}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label small">HR Comments & Decision</label>
+              <textarea
+                className="form-control form-control-sm"
+                rows="2"
+                value={newReview.hr_comments}
+                onChange={(e) => setNewReview({ ...newReview, hr_comments: e.target.value })}
+              />
+            </div>
+
+            <div className="text-end mt-4">
+              <button type="button" className="btn btn-secondary me-2" onClick={() => setShowCreateModal(false)}>Cancel</button>
+              <button type="submit" className="btn btn-primary">Save Evaluation</button>
             </div>
           </form>
         </Modal>

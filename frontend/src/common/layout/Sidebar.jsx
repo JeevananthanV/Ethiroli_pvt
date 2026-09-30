@@ -92,6 +92,12 @@ export default function Sidebar({ role, navItems }) {
     assignment: 'bi-clipboard-check',
     edit_note: 'bi-pencil-square',
     rate_review: 'bi-star-half',
+    work: 'bi-briefcase',
+    person_add: 'bi-person-plus',
+    exit_to_app: 'bi-box-arrow-right',
+    campaign: 'bi-megaphone',
+    record_voice_over: 'bi-person-video3',
+    description: 'bi-file-earmark-text',
     workspace_premium: 'bi-award',
   };
 

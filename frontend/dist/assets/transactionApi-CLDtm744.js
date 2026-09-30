@@ -1,0 +1,1 @@
+import{e as n}from"./ErrorBoundary-CueMlL4x.js";const a=async()=>(await n.get("/transactions")).data,t=async s=>(await n.post("/transactions",s)).data,r=a,c=async s=>t({...s,type:"income"}),p=async s=>t({...s,type:"expense"});export{p as a,r as g,c as l};

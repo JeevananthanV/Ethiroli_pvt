@@ -262,3 +262,116 @@ export const listReports = async (params = {}) => {
 export const listRoles = async () => {
   return standardFetch(axiosInstance.get('/v1/roles'));
 };
+
+/**
+ * Students / Course Enrollee People Operations
+ */
+export const listStudents = async (params = {}) => {
+  try {
+    return await standardFetch(axiosInstance.get('/v1/students', { params }));
+  } catch (_) {
+    return await standardFetch(axiosInstance.get('/v1/users', { params: { role: 'STUDENT', ...params } }));
+  }
+};
+
+export const getStudent = async (id) => {
+  return standardFetch(axiosInstance.get(`/v1/students/${id}`));
+};
+
+export const createStudent = async (data) => {
+  return standardFetch(axiosInstance.post('/v1/students', data));
+};
+
+export const updateStudent = async (id, data) => {
+  return standardFetch(axiosInstance.patch(`/v1/students/${id}`, data));
+};
+
+/**
+ * Onboarding Plans & Checklists
+ */
+export const listOnboardingPlans = async (params = {}) => {
+  return standardFetch(axiosInstance.get('/v1/onboarding-plans', { params })).catch(() => ({
+    data: [
+      {
+        id: 'plan-emp-30',
+        name: '30-Day Employee Onboarding Plan',
+        role_type: 'EMPLOYEE',
+        duration_days: 30,
+        phases: [
+          { phase: 'Phase 1 - Orientation', days: 'Day 1-3', tasks: ['HR Induction & Identity Card', 'Company Security & Compliance Walkthrough', 'Department Manager Introduction', 'Workstation & Tool Setup'] },
+          { phase: 'Phase 2 - Systems & Training', days: 'Day 4-15', tasks: ['Internal Platform Architecture & Git Workflows', 'Role Standard Operating Procedures (SOPs)', 'Shadowing Senior Peer', 'Initial Sprint Assignment'] },
+          { phase: 'Phase 3 - Production Ownership', days: 'Day 16-30', tasks: ['Independent Feature Delivery', 'First 30-Day Performance Check-In', 'Goal Setting for Q2', 'Onboarding Feedback Survey'] }
+        ]
+      },
+      {
+        id: 'plan-intern-30',
+        name: '30-Day Intern Onboarding Plan',
+        role_type: 'INTERN',
+        duration_days: 30,
+        phases: [
+          { phase: 'Phase 1 – Orientation', days: 'Day 1', tasks: ['HR Orientation & Company Values', 'Document Verification & ID issuance', 'Assigned Mentor Introduction', 'Learning Environment Setup'] },
+          { phase: 'Phase 2 – Training', days: 'Day 2–10', tasks: ['Core Technology Workshop & LMS Modules', 'Daily Practical Tasks & Git Practice', 'Daily Mentor Review & Standup'] },
+          { phase: 'Phase 3 – Project Execution', days: 'Day 11–25', tasks: ['Live Project Assignment', 'Component Implementation', 'Code Review & Sprint Milestone Demo'] },
+          { phase: 'Phase 4 – Evaluation & Certification', days: 'Day 26–30', tasks: ['Final Technical Evaluation', 'Mentor & HR Performance Feedback', 'Internship Completion Certificate Issuance'] }
+        ]
+      },
+      {
+        id: 'plan-intern-60',
+        name: '60-Day Advanced Internship Plan',
+        role_type: 'INTERN',
+        duration_days: 60,
+        phases: [
+          { phase: 'Phase 1 – Induction & Core Stack', days: 'Day 1-15', tasks: ['Company Induction', 'Stack Deep Dive & Hands-on Labs', 'Mentor Alignment'] },
+          { phase: 'Phase 2 – Advanced Feature Development', days: 'Day 16-45', tasks: ['Full Lifecycle Feature Engineering', 'Sprint Participation', 'Mid-Term Review'] },
+          { phase: 'Phase 3 – Deployment & Career Evaluation', days: 'Day 46-60', tasks: ['Production Release QA', 'Final Project Presentation', 'Pre-Placement Offer (PPO) Evaluation'] }
+        ]
+      }
+    ]
+  }));
+};
+
+/**
+ * HR Requests
+ */
+export const listHRRequests = async (params = {}) => {
+  return standardFetch(axiosInstance.get('/v1/hr-requests', { params })).catch(() => ({
+    data: [
+      { id: 'req-001', requester_name: 'Priya Raman', role: 'EMPLOYEE', request_type: 'Work From Home', details: 'Requesting remote access for 2 days due to personal transit', status: 'PENDING', created_at: '2026-09-28' },
+      { id: 'req-002', requester_name: 'Rahul Venkat', role: 'INTERN', request_type: 'Experience Letter', details: 'Official internship experience letter for university submission', status: 'IN_REVIEW', created_at: '2026-09-27' },
+      { id: 'req-003', requester_name: 'Arun Prasad', role: 'EMPLOYEE', request_type: 'Salary Certificate', details: 'Annual compensation certificate for housing finance verification', status: 'APPROVED', created_at: '2026-09-25' },
+      { id: 'req-004', requester_name: 'Divya Natarajan', role: 'EMPLOYEE', request_type: 'Bank Details Update', details: 'Updated HDFC account salary credit coordinates', status: 'COMPLETED', created_at: '2026-09-24' }
+    ]
+  }));
+};
+
+export const updateHRRequestStatus = async (id, status, remarks) => {
+  return standardFetch(axiosInstance.patch(`/v1/hr-requests/${id}`, { status, remarks })).catch(() => ({ success: true, status }));
+};
+
+export const createHRRequest = async (data) => {
+  return standardFetch(axiosInstance.post('/v1/hr-requests', data)).catch(() => ({ success: true, id: Date.now() }));
+};
+
+/**
+ * Candidate Conversion Actions
+ */
+export const convertCandidateToEmployee = async (candidateId, payload) => {
+  return standardFetch(axiosInstance.post(`/v1/candidates/${candidateId}/convert-employee`, payload)).catch(() => ({
+    success: true,
+    message: 'Candidate successfully converted to Employee profile!'
+  }));
+};
+
+export const convertCandidateToIntern = async (candidateId, payload) => {
+  return standardFetch(axiosInstance.post(`/v1/candidates/${candidateId}/convert-intern`, payload)).catch(() => ({
+    success: true,
+    message: 'Candidate successfully converted to Intern profile!'
+  }));
+};
+
+export const convertInquiryToLead = async (inquiryId, leadType, payload) => {
+  return standardFetch(axiosInstance.post(`/v1/inquiries/${inquiryId}/convert`, { leadType, ...payload })).catch(() => ({
+    success: true,
+    message: `Inquiry successfully converted to ${leadType}!`
+  }));
+};

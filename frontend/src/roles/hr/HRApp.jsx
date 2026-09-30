@@ -5,6 +5,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 const HRDashboard = lazy(() => import('./pages/Dashboard.jsx'));
 const HREmployees = lazy(() => import('./pages/Employees.jsx'));
 const HRInterns = lazy(() => import('./pages/Interns.jsx'));
+const HRStudents = lazy(() => import('./pages/Students.jsx'));
 const HRAttendance = lazy(() => import('./pages/Attendance.jsx'));
 const HRLeaves = lazy(() => import('./pages/Leaves.jsx'));
 const HRInterviews = lazy(() => import('./pages/Interviews.jsx'));
@@ -13,8 +14,12 @@ const HRPayroll = lazy(() => import('./pages/Payroll.jsx'));
 const HRPerformance = lazy(() => import('./pages/Performance.jsx'));
 const HRJobsBoard = lazy(() => import('./pages/JobsBoard.jsx'));
 const HROnboarding = lazy(() => import('./pages/Onboarding.jsx'));
+const HROnboardingPlans = lazy(() => import('./pages/OnboardingPlans.jsx'));
+const HROnboardingChecklists = lazy(() => import('./pages/OnboardingChecklists.jsx'));
 const HRTraining = lazy(() => import('./pages/Training.jsx'));
 const HRDocuments = lazy(() => import('./pages/Documents.jsx'));
+const HRRequests = lazy(() => import('./pages/HRRequests.jsx'));
+const HRLetters = lazy(() => import('./pages/HRLetters.jsx'));
 const HRReports = lazy(() => import('./pages/Reports.jsx'));
 const HROffboarding = lazy(() => import('./pages/Offboarding.jsx'));
 const HRCalendar = lazy(() => import('./pages/Calendar.jsx'));
@@ -43,6 +48,7 @@ export default function HRApp() {
         <Route path="dashboard" element={<HRDashboard />} />
         <Route path="employees" element={<HREmployees />} />
         <Route path="interns" element={<HRInterns />} />
+        <Route path="students" element={<HRStudents />} />
         <Route path="attendance" element={<HRAttendance />} />
         <Route path="leaves" element={<HRLeaves />} />
         <Route path="interviews" element={<HRInterviews />} />
@@ -53,8 +59,17 @@ export default function HRApp() {
         <Route path="jobs-board" element={<HRJobsBoard />} />
         <Route path="jobs" element={<HRJobsBoard />} />
         <Route path="onboarding" element={<HROnboarding />} />
+        <Route path="onboarding-plans" element={<HROnboardingPlans />} />
+        <Route path="plans" element={<HROnboardingPlans />} />
+        <Route path="checklists" element={<HROnboardingChecklists />} />
+        <Route path="onboarding-checklists" element={<HROnboardingChecklists />} />
         <Route path="training" element={<HRTraining />} />
         <Route path="documents" element={<HRDocuments />} />
+        <Route path="requests" element={<HRRequests />} />
+        <Route path="hr-requests" element={<HRRequests />} />
+        <Route path="letters" element={<HRLetters />} />
+        <Route path="hr-letters" element={<HRLetters />} />
+        <Route path="offers" element={<HRLetters />} />
         <Route path="reports" element={<HRReports />} />
         <Route path="calendar" element={<HRCalendar />} />
         <Route path="offboarding" element={<HROffboarding />} />

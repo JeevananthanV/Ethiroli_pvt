@@ -203,75 +203,85 @@ export const ROLE_NAVIGATION = Object.freeze({
   [ROLES.HR]: [
     { label: 'Dashboard', path: '/app/hr/dashboard', icon: 'dashboard' },
     {
-      label: 'PEOPLE',
-      icon: 'groups',
-      children: [
-        { label: 'Employees', path: '/app/hr/employees', icon: 'badge' },
-        { label: 'Interns', path: '/app/hr/interns', icon: 'school' },
-        { label: 'Students', path: '/app/hr/students', icon: 'menu_book' },
-      ],
-    },
-    {
-      label: 'RECRUITMENT',
+      label: 'Recruitment',
       icon: 'work',
       children: [
-        { label: 'Jobs Board', path: '/app/hr/jobs-board', icon: 'work' },
         { label: 'Job Applications', path: '/app/hr/applications', icon: 'bi-person-lines-fill' },
+        { label: 'Website Inquiries', path: '/app/hr/inquiries', icon: 'bi-envelope-paper' },
+        { label: 'Jobs Board', path: '/app/hr/jobs-board', icon: 'work' },
         { label: 'Interviews', path: '/app/hr/interviews', icon: 'record_voice_over' },
-        { label: 'Offers', path: '/app/hr/offers', icon: 'description' },
+        { label: 'Candidate Pipeline', path: '/app/hr/applications', icon: 'route' },
       ],
     },
     {
-      label: 'ONBOARDING',
+      label: 'Students',
+      icon: 'school',
+      children: [
+        { label: 'Student Admissions', path: '/app/hr/students', icon: 'menu_book' },
+        { label: 'Payment Verification', path: '/app/hr/students', icon: 'paid' },
+        { label: 'Tutor Assignment', path: '/app/hr/students', icon: 'person' },
+        { label: 'LMS Progress', path: '/app/hr/students', icon: 'trending_up' },
+        { label: 'Certificate Clearance', path: '/app/hr/students', icon: 'workspace_premium' },
+      ],
+    },
+    {
+      label: 'Employees',
+      icon: 'badge',
+      children: [
+        { label: 'Employee Directory', path: '/app/hr/employees', icon: 'badge' },
+        { label: 'Payroll & CTC', path: '/app/hr/payroll', icon: 'payments' },
+      ],
+    },
+    {
+      label: 'Interns',
+      icon: 'bi-mortarboard',
+      children: [
+        { label: 'Intern Directory', path: '/app/hr/interns', icon: 'school' },
+      ],
+    },
+    {
+      label: 'Onboarding',
       icon: 'checklist',
       children: [
-        { label: 'Onboarding', path: '/app/hr/onboarding', icon: 'person_add' },
-        { label: 'Onboarding Plans', path: '/app/hr/onboarding-plans', icon: 'route' },
-        { label: 'Checklists', path: '/app/hr/checklists', icon: 'checklist' },
+        { label: 'New Joiners & Overview', path: '/app/hr/onboarding', icon: 'person_add' },
+        { label: 'Onboarding Plans (30/60/90D)', path: '/app/hr/onboarding-plans', icon: 'route' },
+        { label: 'Checklists & Verification', path: '/app/hr/checklists', icon: 'checklist' },
       ],
     },
     {
-      label: 'WORKFORCE',
+      label: 'Attendance & Leaves',
       icon: 'schedule',
       children: [
-        { label: 'Attendance', path: '/app/hr/attendance', icon: 'schedule' },
-        { label: 'Leaves', path: '/app/hr/leaves', icon: 'event_busy' },
-        { label: 'Training', path: '/app/hr/training', icon: 'school' },
-        { label: 'Performance', path: '/app/hr/performance', icon: 'trending_up' },
+        { label: 'Workforce Attendance', path: '/app/hr/attendance', icon: 'schedule' },
+        { label: 'Leave Management', path: '/app/hr/leaves', icon: 'event_busy' },
       ],
     },
     {
-      label: 'HR OPERATIONS',
-      icon: 'payments',
+      label: 'Training & LMS',
+      icon: 'menu_book',
       children: [
-        { label: 'Payroll', path: '/app/hr/payroll', icon: 'payments' },
-        { label: 'Documents', path: '/app/hr/documents', icon: 'folder' },
-        { label: 'HR Letters', path: '/app/hr/letters', icon: 'description' },
+        { label: 'Training Pathways', path: '/app/hr/training', icon: 'school' },
+      ],
+    },
+    {
+      label: 'Performance',
+      icon: 'trending_up',
+      children: [
+        { label: 'Reviews & Goals / KPIs', path: '/app/hr/performance', icon: 'trending_up' },
+      ],
+    },
+    {
+      label: 'HR Documents & Vault',
+      icon: 'folder',
+      children: [
+        { label: 'Documents Repository', path: '/app/hr/documents', icon: 'folder' },
+        { label: 'HR Letters & Offers', path: '/app/hr/letters', icon: 'description' },
         { label: 'HR Requests', path: '/app/hr/requests', icon: 'bi-inbox' },
-        { label: 'Announcements', path: '/app/hr/announcements', icon: 'campaign' },
       ],
     },
-    {
-      label: 'OFFBOARDING',
-      icon: 'exit_to_app',
-      children: [
-        { label: 'Exit / Offboarding', path: '/app/hr/offboarding', icon: 'exit_to_app' },
-      ],
-    },
-    {
-      label: 'COMMUNICATION',
-      icon: 'forum',
-      children: [
-        { label: 'Website Inquiries', path: '/app/hr/inquiries', icon: 'bi-envelope-paper' },
-      ],
-    },
-    {
-      label: 'REPORTS',
-      icon: 'bar_chart',
-      children: [
-        { label: 'HR Reports', path: '/app/hr/reports', icon: 'bar_chart' },
-      ],
-    },
+    { label: 'Announcements', path: '/app/hr/announcements', icon: 'campaign' },
+    { label: 'Offboarding & Exit', path: '/app/hr/offboarding', icon: 'exit_to_app' },
+    { label: 'Reports & Analytics', path: '/app/hr/reports', icon: 'bar_chart' },
   ],
 
   [ROLES.TUTOR]: [

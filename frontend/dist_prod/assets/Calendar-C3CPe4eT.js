@@ -1,0 +1,1 @@
+import{j as r}from"./vendor-react-DjmqOxD7.js";import{D as a}from"./DynamicCalendarPage-ASFJUIvY.js";import"./AdminPage-Dc0J-txs.js";import"./ErrorBoundary-DA90U6T8.js";function i(){return r.jsx(a,{defaultRole:"PROJECT_MANAGER"})}export{i as default};

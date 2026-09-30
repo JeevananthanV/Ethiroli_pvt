@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 60" width="250" height="60" fill="none">
+  <g transform="translate(10, 8)">
+    <!-- Delicate Floral Icon -->
+    <circle cx="16" cy="18" r="4" fill="#64748B" />
+    <path d="M16 10C16 14 12 18 8 18C12 18 16 22 16 26C16 22 20 18 24 18C20 18 16 14 16 10Z" fill="#94A3B8" opacity="0.8" />
+  </g>
+  <!-- Script Styled Bloom -->
+  <text x="44" y="32" font-family="'Playfair Display', 'Georgia', 'Brush Script MT', cursive, serif" font-size="26" font-style="italic" font-weight="700" fill="#1E293B">Bloom</text>
+  <text x="136" y="32" font-family="'Montserrat', sans-serif" font-size="11" font-weight="700" fill="#64748B" letter-spacing="4">BOUTIQUE</text>
+</svg>

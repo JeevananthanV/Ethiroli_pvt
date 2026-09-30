@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 60" width="260" height="60" fill="none">
+  <g transform="translate(10, 8)">
+    <!-- Faceted Geometric Diamond Crest -->
+    <path d="M20 4L36 18L20 42L4 18L20 4Z" stroke="#334155" stroke-width="2.5" fill="none" />
+    <path d="M4 18H36M20 4V42" stroke="#334155" stroke-width="1.5" />
+    <polygon points="20,4 28,18 20,42" fill="#64748B" opacity="0.35" />
+  </g>
+  <text x="56" y="27" font-family="'Montserrat', sans-serif" font-size="16" font-weight="900" fill="#1E293B" letter-spacing="2.5">ZENITH</text>
+  <text x="56" y="44" font-family="'Montserrat', sans-serif" font-size="11" font-weight="600" fill="#64748B" letter-spacing="4">ACADEMY</text>
+</svg>

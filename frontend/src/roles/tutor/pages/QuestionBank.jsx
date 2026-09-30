@@ -81,6 +81,7 @@ export default function TutorQuestionBank() {
   const [error, setError] = useState(null);
 
   // Filters
+  const [activePhase, setActivePhase] = useState('ALL'); // 'ALL' | 1 | 2 | 3 | 4
   const [search, setSearch] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
   const [selectedTopic, setSelectedTopic] = useState('');
@@ -163,9 +164,14 @@ export default function TutorQuestionBank() {
       const matchesDiff = !selectedDifficulty || q.difficulty === selectedDifficulty;
       const matchesTopic = !selectedTopic || q.topic === selectedTopic;
       const matchesDay = !selectedDay || String(q.day_number) === String(selectedDay);
-      return matchesSearch && matchesDiff && matchesTopic && matchesDay;
+      const matchesPhase = activePhase === 'ALL' ||
+        (activePhase === 1 && (!q.day_number || (q.day_number >= 1 && q.day_number <= 10))) ||
+        (activePhase === 2 && q.day_number >= 11 && q.day_number <= 20) ||
+        (activePhase === 3 && q.day_number >= 21 && q.day_number <= 25) ||
+        (activePhase === 4 && q.day_number >= 26);
+      return matchesSearch && matchesDiff && matchesTopic && matchesDay && matchesPhase;
     });
-  }, [questions, search, selectedDifficulty, selectedTopic, selectedDay]);
+  }, [questions, search, selectedDifficulty, selectedTopic, selectedDay, activePhase]);
 
   // Save New Question
   const handleSaveQuestion = async (e) => {
@@ -245,6 +251,76 @@ export default function TutorQuestionBank() {
       error={error}
       onRetry={fetchData}
     >
+      {/* Phase Stepper Bar with Previous & Next Navigation */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, flexWrap: 'wrap', gap: 10, padding: '10px 14px', background: 'rgba(255,255,255,0.03)', borderRadius: 8, border: '1px solid var(--admin-border-subtle)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+          <button
+            className="btn btn-sm btn-outline-secondary"
+            title="Previous Phase Questions"
+            onClick={() => {
+              const phases = ['ALL', 1, 2, 3, 4];
+              const idx = phases.indexOf(activePhase);
+              const prev = idx > 0 ? idx - 1 : phases.length - 1;
+              setActivePhase(phases[prev]);
+            }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}
+          >
+            <i className="bi bi-chevron-left"></i>
+            <span>Prev Phase</span>
+          </button>
+
+          <button
+            className={`btn btn-sm ${activePhase === 'ALL' ? 'btn-primary' : 'btn-secondary'}`}
+            onClick={() => setActivePhase('ALL')}
+          >
+            All Phases ({questions.length} Questions)
+          </button>
+          <button
+            className={`btn btn-sm ${activePhase === 1 ? 'btn-primary' : 'btn-secondary'}`}
+            onClick={() => setActivePhase(1)}
+          >
+            Phase 1: Foundation
+          </button>
+          <button
+            className={`btn btn-sm ${activePhase === 2 ? 'btn-primary' : 'btn-secondary'}`}
+            onClick={() => setActivePhase(2)}
+          >
+            Phase 2: Core
+          </button>
+          <button
+            className={`btn btn-sm ${activePhase === 3 ? 'btn-primary' : 'btn-secondary'}`}
+            onClick={() => setActivePhase(3)}
+          >
+            Phase 3: Integration
+          </button>
+          <button
+            className={`btn btn-sm ${activePhase === 4 ? 'btn-primary' : 'btn-secondary'}`}
+            onClick={() => setActivePhase(4)}
+          >
+            Phase 4: Capstone
+          </button>
+
+          <button
+            className="btn btn-sm btn-outline-secondary"
+            title="Next Phase Questions"
+            onClick={() => {
+              const phases = ['ALL', 1, 2, 3, 4];
+              const idx = phases.indexOf(activePhase);
+              const next = idx < phases.length - 1 ? idx + 1 : 0;
+              setActivePhase(phases[next]);
+            }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}
+          >
+            <span>Next Phase</span>
+            <i className="bi bi-chevron-right"></i>
+          </button>
+        </div>
+
+        <div style={{ fontSize: 13, color: 'var(--admin-text-muted)' }}>
+          Showing <strong>{filteredQuestions.length}</strong> questions
+        </div>
+      </div>
+
       {/* Top Filter & Action Bar */}
       <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap', alignItems: 'center' }}>
         <div style={{ flex: 1, minWidth: 260, position: 'relative' }}>

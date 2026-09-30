@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import AdminPage from '../AdminPage/AdminPage.jsx';
 import AvatarUploader from '../AvatarUploader/AvatarUploader.jsx';
 import { useAuth } from '../../contexts/AuthContext.jsx';
+import useDocumentTitle from '../../hooks/useDocumentTitle.js';
 import { updateMyProfile } from '../../../services/api/userApi.js';
 import { changePassword as apiChangePassword } from '../../../services/api/authApi.js';
 
 export default function RoleProfile({ title = 'My Account Profile', subtitle = 'Manage your identity, profile picture, contact credentials, and security preferences' }) {
   const { user, updateProfile } = useAuth();
+  useDocumentTitle('Account Profile', { role: user?.role });
+
   const [formData, setFormData] = useState({
     full_name: user?.full_name || '',
     email: user?.email || '',

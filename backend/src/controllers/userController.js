@@ -7,6 +7,7 @@ import { asyncHandler } from '../middleware/errorHandler.js';
 import { success, error } from '../utils/response.js';
 import { NotFoundError, ValidationError } from '../utils/errors.js';
 import CredentialService from '../services/credentialService.js';
+import StorageService from '../services/storageService.js';
 
 const normalizeRole = (role) => {
   if (!role) return 'EMPLOYEE';
@@ -46,14 +47,21 @@ export const updateMyProfile = asyncHandler(async (req, res) => {
 
   const resolvedAvatar = avatar_url !== undefined ? avatar_url : avatar;
   if (resolvedAvatar !== undefined) {
-    updates.avatar_url = resolvedAvatar ? String(resolvedAvatar).trim() : null;
+    // Process image through StorageService with two-phase commit & transactional rollback
+    const storedUrl = await StorageService.updateUserAvatarWithRollback(req.user.id, resolvedAvatar);
+    updates.avatar_url = storedUrl;
   }
 
   if (Object.keys(updates).length === 0) {
     throw new ValidationError('Nothing to update. Send full_name, phone, and/or avatar_url.');
   }
 
-  await User.update(req.user.id, updates);
+  // Update remaining fields if any
+  const { avatar_url: _, ...otherUpdates } = updates;
+  if (Object.keys(otherUpdates).length > 0) {
+    await User.update(req.user.id, otherUpdates);
+  }
+
   await AuditLog.create({
     user_id: req.user.id,
     action: 'UPDATE_PROFILE',

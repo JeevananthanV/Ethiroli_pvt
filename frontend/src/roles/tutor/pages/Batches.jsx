@@ -59,15 +59,15 @@ export default function Batches() {
       const courseList = coursesRes?.data || (Array.isArray(coursesRes) ? coursesRes : []);
       setBatches(batchList);
       setCourses(courseList);
-      if (courseList.length > 0 && !createForm.course_id) {
-        setCreateForm(prev => ({ ...prev, course_id: courseList[0].id }));
+      if (courseList.length > 0) {
+        setCreateForm(prev => (prev.course_id ? prev : { ...prev, course_id: courseList[0].id }));
       }
     } catch (err) {
       setError(err.message || 'Failed to load cohort batches');
     } finally {
       setLoading(false);
     }
-  }, [createForm.course_id]);
+  }, []);
 
   useEffect(() => {
     loadData();

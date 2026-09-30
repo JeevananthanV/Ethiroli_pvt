@@ -72,15 +72,15 @@ export default function TutorCurriculum() {
       const data = await listCourses().catch(() => []);
       const courseList = Array.isArray(data) ? data : (data?.data || []);
       setCourses(courseList);
-      if (courseList.length > 0 && !selectedCourseId) {
-        setSelectedCourseId(courseList[0].id);
+      if (courseList.length > 0) {
+        setSelectedCourseId(prev => prev || courseList[0].id);
       }
     } catch (err) {
       setError(err.message || 'Failed to load courses');
     } finally {
       setLoading(false);
     }
-  }, [selectedCourseId]);
+  }, []);
 
   useEffect(() => {
     fetchCourses();

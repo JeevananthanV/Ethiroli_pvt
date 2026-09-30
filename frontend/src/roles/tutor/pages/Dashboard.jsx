@@ -82,8 +82,8 @@ export default function Dashboard() {
       setEnrollments(Array.isArray(enrollmentData) ? enrollmentData : (enrollmentData?.data || []));
       setDashboardData(statsRes.data?.data || statsRes.data);
 
-      if (cList.length > 0 && !liveForm.course_name) {
-        setLiveForm(prev => ({
+      if (cList.length > 0) {
+        setLiveForm(prev => (prev.course_name ? prev : {
           ...prev,
           course_name: cList[0].name || cList[0].title || 'Full Stack Track',
           batch_name: 'MERN-SEP-01'
@@ -94,9 +94,11 @@ export default function Dashboard() {
     } finally {
       setLoading(false);
     }
-  }, [liveForm.course_name]);
+  }, []);
 
-  useEffect(() => { fetchData(); }, [fetchData]);
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const kpis = dashboardData?.kpis || {
     active_courses: courses.length || 5,

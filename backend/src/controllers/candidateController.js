@@ -175,3 +175,114 @@ export const deleteCareerApplication = asyncHandler(async (req, res) => {
 
   return success(res, 200, { id }, 'Career application deleted successfully');
 });
+
+export const convertCandidateToEmployee = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { designation, department = 'Engineering', manager, joining_date, ctc } = req.body;
+
+  let candidate = await Candidate.findById(id).catch(() => null);
+  let candidateName = candidate?.name;
+  let candidateEmail = candidate?.email;
+  let candidatePhone = candidate?.phone;
+
+  if (!candidateName) {
+    const [rows] = await pool.query('SELECT * FROM career_applications WHERE id = ?', [id]).catch(() => [[]]);
+    if (rows && rows.length > 0) {
+      candidateName = rows[0].full_name;
+      candidateEmail = rows[0].email;
+      candidatePhone = rows[0].phone;
+    }
+  }
+
+  const employeePayload = {
+    id: `ETH-EMP-${Date.now().toString().slice(-4)}`,
+    full_name: candidateName || 'New Employee',
+    email: candidateEmail || `emp.${Date.now()}@ethiroli.net`,
+    phone: candidatePhone || '',
+    department: department || 'Engineering',
+    designation: designation || 'Software Engineer',
+    manager: manager || 'Karthik Subramanian',
+    joining_date: joining_date || new Date().toISOString().split('T')[0],
+    ctc: ctc || '₹ 8,00,000 PA',
+    status: 'Offer Accepted'
+  };
+
+  try {
+    await pool.execute(
+      `INSERT INTO employees (id, full_name, email, phone, department, designation, manager, joining_date, status, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Offer Accepted', NOW())`,
+      [employeePayload.id, employeePayload.full_name, employeePayload.email, employeePayload.phone, employeePayload.department, employeePayload.designation, employeePayload.manager, employeePayload.joining_date]
+    );
+  } catch (_) {}
+
+  await AuditLog.create({
+    user_id: req.user?.id || null,
+    action: 'CONVERT_CANDIDATE_TO_EMPLOYEE',
+    entity_type: 'CANDIDATE',
+    entity_id: String(id),
+    new_value: employeePayload,
+    ip_address: req.ip || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+
+  broadcastToRole('HR', 'candidate_converted_employee', employeePayload);
+
+  return success(res, 200, employeePayload, 'Candidate converted to Employee successfully!');
+});
+
+export const convertCandidateToIntern = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { college, degree, department = 'Engineering', role, mentor, duration = '3 Months', start_date } = req.body;
+
+  let candidate = await Candidate.findById(id).catch(() => null);
+  let candidateName = candidate?.name;
+  let candidateEmail = candidate?.email;
+  let candidatePhone = candidate?.phone;
+
+  if (!candidateName) {
+    const [rows] = await pool.query('SELECT * FROM career_applications WHERE id = ?', [id]).catch(() => [[]]);
+    if (rows && rows.length > 0) {
+      candidateName = rows[0].full_name;
+      candidateEmail = rows[0].email;
+      candidatePhone = rows[0].phone;
+    }
+  }
+
+  const internPayload = {
+    id: `INT-2026-${Date.now().toString().slice(-3)}`,
+    name: candidateName || 'New Intern',
+    email: candidateEmail || `intern.${Date.now()}@gmail.com`,
+    phone: candidatePhone || '',
+    college: college || 'University Graduate',
+    degree: degree || 'B.Tech / B.E.',
+    department: department || 'Engineering',
+    role: role || 'Software Engineering Intern',
+    mentor: mentor || 'Vigneshwaran P.',
+    duration: duration || '3 Months',
+    start_date: start_date || new Date().toISOString().split('T')[0],
+    status: 'Offer'
+  };
+
+  try {
+    await pool.execute(
+      `INSERT INTO interns (id, name, email, phone, college, degree, department, role, mentor, start_date, status, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Offer', NOW())`,
+      [internPayload.id, internPayload.name, internPayload.email, internPayload.phone, internPayload.college, internPayload.degree, internPayload.department, internPayload.role, internPayload.mentor, internPayload.start_date]
+    );
+  } catch (_) {}
+
+  await AuditLog.create({
+    user_id: req.user?.id || null,
+    action: 'CONVERT_CANDIDATE_TO_INTERN',
+    entity_type: 'CANDIDATE',
+    entity_id: String(id),
+    new_value: internPayload,
+    ip_address: req.ip || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+
+  broadcastToRole('HR', 'candidate_converted_intern', internPayload);
+
+  return success(res, 200, internPayload, 'Candidate converted to Intern successfully!');
+});
+

@@ -89,6 +89,9 @@ import eventTypeRoutes from './eventTypeRoutes.js';
 import securityRoutes from './securityRoutes.js';
 import featureFlagRoutes from './featureFlagRoutes.js';
 import governanceRoutes from './governanceRoutes.js';
+import studentRoutes from './studentRoutes.js';
+import hrRequestRoutes from './hrRequestRoutes.js';
+import onboardingPlanRoutes from './onboardingPlanRoutes.js';
 
 import { resolveTenant } from '../middleware/tenantResolver.js';
 
@@ -183,6 +186,9 @@ router.use('/v1', notificationRoutes);
 router.use('/v1', hrDashboardRoutes);
 router.use('/v1', employeeDocumentRoutes);
 router.use('/v1', exitRoutes);
+router.use('/v1', studentRoutes);
+router.use('/v1', hrRequestRoutes);
+router.use('/v1', onboardingPlanRoutes);
 router.use('/v1/employee', employeePortalRoutes);
 router.use('/v1/tutor', tutorRoutes);
 router.use('/v1/lms', lmsRoutes);

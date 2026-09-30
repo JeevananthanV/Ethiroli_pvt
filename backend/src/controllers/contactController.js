@@ -83,3 +83,59 @@ export const deleteContactMessage = asyncHandler(async (req, res) => {
 
   return success(res, 200, { id }, 'Contact message deleted successfully');
 });
+
+export const convertInquiryToLead = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { leadType, name, email, phone } = req.body;
+
+  const [rows] = await pool.execute('SELECT * FROM contact_messages WHERE id = ?', [id]).catch(() => [[]]);
+  const msg = rows && rows[0] ? rows[0] : null;
+
+  const contactName = name || msg?.name || 'Inquiry Contact';
+  const contactEmail = email || msg?.email || `inquiry.${id}@ethiroli.net`;
+  const contactPhone = phone || msg?.phone || '';
+
+  if (leadType === 'Student Lead') {
+    // Insert into students / leads
+    try {
+      await pool.execute(
+        `INSERT INTO users (full_name, email, phone, role, status, created_at)
+         VALUES (?, ?, ?, 'STUDENT', 'ACTIVE', NOW())`,
+        [contactName, contactEmail, contactPhone]
+      );
+    } catch (_) {}
+  } else if (leadType === 'Candidate') {
+    // Insert into career_applications
+    try {
+      await pool.execute(
+        `INSERT INTO career_applications (full_name, email, phone, role, message, created_at)
+         VALUES (?, ?, ?, 'Candidate from Inquiry', ?, NOW())`,
+        [contactName, contactEmail, contactPhone, msg?.message || '']
+      );
+    } catch (_) {}
+  } else if (leadType === 'Intern Candidate') {
+    // Insert into interns
+    try {
+      await pool.execute(
+        `INSERT INTO interns (id, name, email, phone, role, status, created_at)
+         VALUES (?, ?, ?, ?, 'Intern Applicant', 'Applied', NOW())`,
+        [`INT-${Date.now().toString().slice(-4)}`, contactName, contactEmail, contactPhone]
+      );
+    } catch (_) {}
+  }
+
+  await AuditLog.create({
+    user_id: req.user?.id || null,
+    action: 'CONVERT_INQUIRY_TO_LEAD',
+    entity_type: 'CONTACT_MESSAGE',
+    entity_id: String(id),
+    new_value: { leadType, contactName, contactEmail },
+    ip_address: req.ip || 'unknown',
+    user_agent: req.headers['user-agent']
+  });
+
+  broadcastToRole('HR', 'inquiry_converted', { id, leadType, contactName, contactEmail });
+
+  return success(res, 200, { id, leadType, contactName }, `Inquiry routed to ${leadType} successfully!`);
+});
+

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import jobApi from '../../../../services/api/jobApi'
 import integrationApi from '../../../../services/api/integrationApi'
 

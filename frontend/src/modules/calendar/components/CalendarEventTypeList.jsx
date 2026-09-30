@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const CalendarEventTypeList = ({ eventTypes, loading, onEventTypeFilterChange }) => {
   const [filters, setFilters] = React.useState([]);

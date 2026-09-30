@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import { projectApi } from '../../../services/api/projectApi'
 import { assignmentApi } from '../../../services/api/assignmentApi'
 

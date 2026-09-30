@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import AdminPage from '../../../common/components/AdminPage'
 import { subscriptionApi } from '../../../services/api/subscriptionApi'
 import { paymentApi } from '../../../services/api/paymentApi'

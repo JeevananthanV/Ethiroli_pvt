@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import interviewApi from '../../../../services/api/interviewApi'
 
 export default function FeedbackForm({ interviewId, onSubmit, onClose }) {

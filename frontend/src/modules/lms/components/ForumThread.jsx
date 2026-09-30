@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react';
 import forumApi from '../../../../services/api/forumApi'
 import ForumReplyForm from './ForumReplyForm'
 

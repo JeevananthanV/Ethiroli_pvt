@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import enrollmentApi from '../../../../services/api/enrollmentApi'
 import AdminPage from '../../../common/components/AdminPage'
 import Button from '../../../common/components/Button'

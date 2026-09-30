@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import courseApi from '../../../../services/api/courseApi'
 import lessonApi from '../../../../services/api/lessonApi'
 import enrollmentApi from '../../../../services/api/enrollmentApi'

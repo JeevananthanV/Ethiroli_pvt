@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import { projectApi, assignmentApi } from '../../../services/api'
 
 export const useTaskSuggestions = (currentTasks, projectId) => {

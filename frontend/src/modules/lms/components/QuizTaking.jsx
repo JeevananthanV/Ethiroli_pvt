@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react';
 import quizApi from '../../../../services/api/quizApi'
 
 export default function QuizTaking({ quizId, onComplete }) {

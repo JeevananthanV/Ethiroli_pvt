@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import AdminPage from '../../common/components/AdminPage'
 import Button from '../../common/components/Button'
 import { badgeApi } from '../../services/api/badgeApi'

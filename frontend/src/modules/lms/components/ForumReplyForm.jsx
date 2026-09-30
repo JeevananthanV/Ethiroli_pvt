@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import forumApi from '../../../../services/api/forumApi'
 
 export default function ForumReplyForm({ threadId, onReply }) {

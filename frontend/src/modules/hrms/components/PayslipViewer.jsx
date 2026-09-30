@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react';
 import Modal from '../../../common/components/Modal/Modal.jsx'
 import Button from '../../../common/components/Button/Button.jsx'
 import { payrollApi } from '../../../services/api/payrollApi.js'

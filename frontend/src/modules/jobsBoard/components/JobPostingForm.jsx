@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react';
 import jobBoardApi from '../../../../services/api/jobBoardApi'
 
 export default function JobPostingForm({ postId, onClose, onSuccess }) {

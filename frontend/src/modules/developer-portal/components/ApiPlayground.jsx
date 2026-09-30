@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import AdminPage from '../../common/components/AdminPage/AdminPage.jsx'
 import Button from '../../common/components/Button/Button.jsx'
 import Input from '../../common/components/Input/Input.jsx'

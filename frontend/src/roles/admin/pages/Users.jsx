@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import AdminPage from '../../../common/components/AdminPage'
 import { getUsers, createUser, updateUser, deleteUser } from '../../../services/api/userApi'
 import axiosInstance from '../../../services/api/axiosInstance.js'

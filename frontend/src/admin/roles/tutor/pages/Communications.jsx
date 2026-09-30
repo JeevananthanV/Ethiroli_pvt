@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import AdminPage from '../../../common/components/AdminPage'
 import { communicationApi } from '../../../services/api/communicationApi'
 import { providerApi } from '../../../services/api/providerApi'

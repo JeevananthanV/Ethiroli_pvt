@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const Comming_Soon = () => {
   // Inject CSS dynamically

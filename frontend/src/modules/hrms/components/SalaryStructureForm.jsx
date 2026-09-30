@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import Modal from '../../../common/components/Modal/Modal.jsx'
 import Input from '../../../common/components/Input/Input.jsx'
 import Button from '../../../common/components/Button/Button.jsx'

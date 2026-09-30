@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react';
 import assignmentApi from '../../../../services/api/assignmentApi'
 
 export default function AssignmentSubmit({ assignmentId, onSuccess }) {

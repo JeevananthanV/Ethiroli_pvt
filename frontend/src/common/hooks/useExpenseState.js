@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import { projectApi } from '../../../services/api/projectApi'
 
 // Approval state machine thresholds

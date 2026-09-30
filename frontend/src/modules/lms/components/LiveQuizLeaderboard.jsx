@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import liveQuizApi from '../../../../services/api/liveQuizApi'
 
 export default function LiveQuizLeaderboard({ quizId }) {

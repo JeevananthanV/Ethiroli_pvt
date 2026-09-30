@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback } from 'react';
 import { getFollowUps, createFollowUp, deleteFollowUp } from '../../../services/api/followUpApi.js'
 import { sendFollowUp } from '../../../services/api/leadApi.js'
 import Modal from '../../../common/components/Modal/Modal.jsx'

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react';
 import { feedApi } from '../../../services/api/feedApi.js'
 import FeedItem from './FeedItem.jsx'
 

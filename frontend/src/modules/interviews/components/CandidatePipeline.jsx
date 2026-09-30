@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import candidateApi from '../../../../services/api/candidateApi'
 import interviewApi from '../../../../services/api/interviewApi'
 

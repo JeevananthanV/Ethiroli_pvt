@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import Modal from '../../common/components/Modal'
 import Button from '../../common/components/Button'
 import Input from '../../common/components/Input'

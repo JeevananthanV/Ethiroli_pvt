@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react';
 import courseApi from '../../../services/api/courseApi'
 import AdminPage from '../../../common/components/AdminPage'
 import Button from '../../../common/components/Button'

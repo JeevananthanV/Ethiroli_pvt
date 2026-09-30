@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react';
 import enrollmentApi from '../../../../services/api/enrollmentApi'
 import BadgeDisplay from './BadgeDisplay'
 

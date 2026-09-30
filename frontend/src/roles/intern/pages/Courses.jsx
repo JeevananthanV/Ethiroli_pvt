@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 
 export default function Courses() {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react';
 import certificateApi from '../../../../services/api/certificateApi'
 
 export default function CertificateViewer({ certificateId }) {

@@ -109,6 +109,72 @@ export default function TutorCommunications() {
         </div>
       </div>
 
+      {/* Quick Academic Broadcast Actions */}
+      <div className="card mb4 p3" style={{ background: 'rgba(255,255,255,0.02)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, flexWrap: 'wrap', gap: 8 }}>
+          <h4 style={{ margin: 0, fontSize: 15, fontWeight: 700 }}>
+            <i className="bi bi-broadcast me-2 text-primary"></i>1-Click Faculty Broadcast Actions
+          </h4>
+          <span className="textSecondary textSm">Trigger bulk WhatsApp, SMS, or Email alerts to cohorts</span>
+        </div>
+
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          <button
+            className="btn btn-sm btn-outline-primary"
+            onClick={() => {
+              setCompose({
+                channel: 'WHATSAPP',
+                recipient: 'all-active-students@cohort',
+                subject: '🚀 Live Session Starting in 10 Minutes!',
+                content: 'Hello everyone! Our live interactive lecture on "API Integration & DOM Architecture" is starting in 10 minutes. Please join the live classroom: https://meet.google.com/new',
+                template_id: ''
+              });
+              setComposeOpen(true);
+            }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+          >
+            <i className="bi bi-camera-video-fill text-primary"></i>
+            <span>Live Class Reminder</span>
+          </button>
+
+          <button
+            className="btn btn-sm btn-outline-warning"
+            onClick={() => {
+              setCompose({
+                channel: 'EMAIL',
+                recipient: 'at-risk-students@cohort',
+                subject: '⚠️ Academic Support: Let\'s get your milestones back on track!',
+                content: 'Hi there! We noticed you have pending quizzes or tasks in this week\'s phase. Please book a 1-on-1 tutoring slot or submit your code for review so we can help you stay on track for certification!',
+                template_id: ''
+              });
+              setComposeOpen(true);
+            }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+          >
+            <i className="bi bi-exclamation-diamond-fill text-warning"></i>
+            <span>At-Risk Student Nudge</span>
+          </button>
+
+          <button
+            className="btn btn-sm btn-outline-success"
+            onClick={() => {
+              setCompose({
+                channel: 'EMAIL',
+                recipient: 'all-students@batch',
+                subject: '⏰ Reminder: Day Assignment Due by Midnight',
+                content: 'Friendly reminder that your Day Practical Assignment code is due tonight. Please push your code to your GitHub repo and submit the link in the student portal.',
+                template_id: ''
+              });
+              setComposeOpen(true);
+            }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+          >
+            <i className="bi bi-clock-history text-success"></i>
+            <span>Assignment Due Alert</span>
+          </button>
+        </div>
+      </div>
+
       <div className="card mb4">
         <div className="cardHeader">
           <h3 className="cardTitle">Recent Messages</h3>

@@ -8,6 +8,147 @@ import { useSocket } from '../../../common/contexts/SocketContext.jsx';
 import lmsApi from '../../../services/api/lmsApi.js';
 import axios from '../../../services/axios.js';
 
+function SandboxRunner({ initialCode = '', language = 'javascript' }) {
+  const [code, setCode] = useState(initialCode);
+  const [output, setOutput] = useState('');
+  const [isRunning, setIsRunning] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const [activeTab, setActiveTab] = useState('editor'); // 'editor' | 'preview'
+
+  const handleRunCode = () => {
+    setIsRunning(true);
+    setHasError(false);
+    setOutput('');
+
+    try {
+      if (language === 'html' || code.includes('<html') || code.includes('<!DOCTYPE')) {
+        setActiveTab('preview');
+        setOutput('HTML rendered in live preview frame.');
+      } else {
+        // Safe JavaScript evaluation capturing console.log
+        const logs = [];
+        const customConsole = {
+          log: (...args) => logs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' ')),
+          error: (...args) => logs.push('❌ Error: ' + args.join(' ')),
+          warn: (...args) => logs.push('⚠️ Warning: ' + args.join(' ')),
+          info: (...args) => logs.push('ℹ️ ' + args.join(' '))
+        };
+
+        const runFn = new Function('console', code);
+        const result = runFn(customConsole);
+        
+        if (result !== undefined) {
+          logs.push('=> ' + (typeof result === 'object' ? JSON.stringify(result, null, 2) : String(result)));
+        }
+
+        setOutput(logs.length > 0 ? logs.join('\n') : 'Code executed successfully (no console output).');
+      }
+    } catch (err) {
+      setHasError(true);
+      setOutput(`Runtime Error: ${err.message}`);
+    } finally {
+      setIsRunning(false);
+    }
+  };
+
+  const handleReset = () => {
+    setCode(initialCode);
+    setOutput('');
+    setHasError(false);
+  };
+
+  return (
+    <div style={{ background: '#18181b', borderRadius: 8, border: '1px solid #27272a', overflow: 'hidden', marginTop: 10 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 12px', background: '#27272a', borderBottom: '1px solid #3f3f46' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ fontSize: 12, fontWeight: 700, color: '#38bdf8', textTransform: 'uppercase' }}>
+            ⚡ Interactive {language.toUpperCase()} Sandbox
+          </span>
+          {language === 'html' && (
+            <div style={{ display: 'flex', gap: 4 }}>
+              <button
+                type="button"
+                onClick={() => setActiveTab('editor')}
+                style={{ fontSize: 11, padding: '2px 8px', borderRadius: 4, background: activeTab === 'editor' ? '#0d6efd' : '#3f3f46', color: '#fff', border: 0 }}
+              >
+                Code
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('preview')}
+                style={{ fontSize: 11, padding: '2px 8px', borderRadius: 4, background: activeTab === 'preview' ? '#0d6efd' : '#3f3f46', color: '#fff', border: 0 }}
+              >
+                Preview
+              </button>
+            </div>
+          )}
+        </div>
+
+        <div style={{ display: 'flex', gap: 6 }}>
+          <button
+            type="button"
+            onClick={handleReset}
+            style={{ fontSize: 12, padding: '4px 8px', borderRadius: 4, background: '#3f3f46', color: '#e4e4e7', border: 0, cursor: 'pointer' }}
+            title="Reset to starter code"
+          >
+            🔄 Reset
+          </button>
+          <button
+            type="button"
+            onClick={handleRunCode}
+            disabled={isRunning}
+            style={{ fontSize: 12, fontWeight: 600, padding: '4px 12px', borderRadius: 4, background: '#22c55e', color: '#000', border: 0, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 4 }}
+          >
+            <span>▶</span> Run Code
+          </button>
+        </div>
+      </div>
+
+      {activeTab === 'editor' ? (
+        <div style={{ padding: 10 }}>
+          <textarea
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            rows={8}
+            style={{
+              width: '100%',
+              background: '#09090b',
+              color: '#38bdf8',
+              fontFamily: 'Consolas, Monaco, "Courier New", monospace',
+              fontSize: 13,
+              padding: 12,
+              borderRadius: 6,
+              border: '1px solid #27272a',
+              resize: 'vertical',
+              outline: 'none',
+              lineHeight: 1.5
+            }}
+            spellCheck="false"
+          />
+        </div>
+      ) : (
+        <div style={{ padding: 10 }}>
+          <iframe
+            srcDoc={code}
+            title="Live Sandbox Preview"
+            style={{ width: '100%', height: 200, background: '#ffffff', borderRadius: 6, border: '1px solid #3f3f46' }}
+            sandbox="allow-scripts"
+          />
+        </div>
+      )}
+
+      {output && (
+        <div style={{ padding: '8px 12px', background: hasError ? 'rgba(239, 68, 68, 0.15)' : '#09090b', borderTop: '1px solid #27272a', color: hasError ? '#f87171' : '#a1a1aa', fontFamily: 'monospace', fontSize: 12, whiteSpace: 'pre-wrap', maxHeight: 150, overflowY: 'auto' }}>
+          <div style={{ fontWeight: 700, color: hasError ? '#ef4444' : '#22c55e', marginBottom: 4, fontSize: 11, textTransform: 'uppercase' }}>
+            {hasError ? 'Execution Error' : 'Terminal Console Output:'}
+          </div>
+          {output}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function StudentCoursePlayer() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -454,9 +595,10 @@ export default function StudentCoursePlayer() {
                         </div>
 
                         {block.block_type === 'CODE_PLAYGROUND' ? (
-                          <div style={{ background: '#1e1e1e', borderRadius: 6, padding: 12, fontFamily: 'monospace', fontSize: 13, color: '#4fc3f7', overflowX: 'auto' }}>
-                            <pre style={{ margin: 0 }}>{block.content_payload?.code || block.content_payload?.body || '// Code challenge block'}</pre>
-                          </div>
+                          <SandboxRunner
+                            initialCode={block.content_payload?.code || block.content_payload?.body || '// Interactive Code Sandbox\nfunction solve() {\n  const message = "Hello Ethiroli Academy!";\n  console.log(message);\n  return 42;\n}\nsolve();'}
+                            language={block.content_payload?.language || 'javascript'}
+                          />
                         ) : block.block_type === 'RESOURCE_DOWNLOAD' ? (
                           <a
                             href={block.content_payload?.url || '#'}

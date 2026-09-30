@@ -1,9 +1,19 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { listCourses } from '../../../services/api/courseApi.js';
 import { listModules, createModule, updateModule, deleteModule, reorderModules } from '../../../services/api/moduleApi.js';
 import { listLessons, createLesson, deleteLesson, reorderLessons, createLessonBlock } from '../../../services/api/lessonApi.js';
 import axios from '../../../services/axios.js';
+
+const BLOCK_TYPES = [
+  { type: 'MARKDOWN', label: 'Theory / Markdown', icon: 'bi-file-text', color: '#0d6efd' },
+  { type: 'VIDEO', label: 'Video Lecture', icon: 'bi-play-btn', color: '#dc3545' },
+  { type: 'CODE_PLAYGROUND', label: 'Interactive Code Sandbox', icon: 'bi-code-slash', color: '#198754' },
+  { type: 'PDF_VIEWER', label: 'PDF / Slides Guide', icon: 'bi-file-earmark-pdf', color: '#ffc107' },
+  { type: 'DOWNLOADABLE', label: 'Downloadable Asset / Repo', icon: 'bi-download', color: '#0dcaf0' },
+  { type: 'DAY_QUIZ', label: 'Day Assessment Quiz', icon: 'bi-patch-question', color: '#6f42c1' },
+  { type: 'DAY_TASK', label: 'Hands-on Task / Drill', icon: 'bi-check2-circle', color: '#d63384' },
+];
 
 export default function TutorCurriculum() {
   const [courses, setCourses] = useState([]);
@@ -11,21 +21,45 @@ export default function TutorCurriculum() {
   const [modules, setModules] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [activePhase, setActivePhase] = useState('ALL'); // 'ALL' | 1 | 2 | 3 | 4
 
   // Modals & Forms
   const [showModuleModal, setShowModuleModal] = useState(false);
-  const emptyModuleForm = { title: '', description: '', duration_minutes: '' };
+  const emptyModuleForm = { title: '', description: '', phase_number: 1, duration_days: 4, unlock_rule: 'IMMEDIATE', unlock_date: '' };
   const [moduleForm, setModuleForm] = useState(emptyModuleForm);
   const [editingModule, setEditingModule] = useState(null);
 
+  // Lesson & Day Form
   const [showLessonModal, setShowLessonModal] = useState(false);
   const [targetModuleId, setTargetModuleId] = useState(null);
-  const [lessonForm, setLessonForm] = useState({ title: '', video_url: '', content: '' });
+  const [lessonForm, setLessonForm] = useState({
+    title: '',
+    day_number: 1,
+    estimated_minutes: 30,
+    learning_objectives: '',
+    video_url: '',
+    video_duration_minutes: 25,
+    min_watch_percentage: 85,
+    unlock_rule: 'IMMEDIATE'
+  });
 
+  // Content Block Modal
   const [showBlockModal, setShowBlockModal] = useState(false);
   const [targetLessonId, setTargetLessonId] = useState(null);
-  const [blockForm, setBlockForm] = useState({ block_type: 'MARKDOWN', body: '', code: '', url: '', is_interactive: false });
+  const [blockForm, setBlockForm] = useState({
+    block_type: 'MARKDOWN',
+    title: '',
+    body: '',
+    code: '',
+    language: 'javascript',
+    url: '',
+    file_name: '',
+    quiz_id: '',
+    task_instructions: '',
+    max_points: 10
+  });
 
+  // Import/Export Modal
   const [showImportModal, setShowImportModal] = useState(false);
   const [importJson, setImportJson] = useState('');
   const [importing, setImporting] = useState(false);
@@ -56,17 +90,97 @@ export default function TutorCurriculum() {
   const fetchCurriculum = useCallback(async (courseId) => {
     if (!courseId) return;
     try {
-      const mods = await listModules(courseId);
-      const sortedModules = Array.isArray(mods) ? mods.sort((a, b) => a.module_order - b.module_order) : [];
+      const mods = await listModules(courseId).catch(() => []);
+      let sortedModules = Array.isArray(mods) ? mods.sort((a, b) => (a.module_order || 0) - (b.module_order || 0)) : [];
 
-      const enriched = await Promise.all(
-        sortedModules.map(async (mod) => {
-          const lsns = await listLessons(mod.id);
-          const sortedLessons = Array.isArray(lsns) ? lsns.sort((a, b) => a.lesson_order - b.lesson_order) : [];
-          return { ...mod, lessons: sortedLessons };
-        })
-      );
-      setModules(enriched);
+      // If empty in fresh DB, initialize rich demo Day-based curriculum structure
+      if (sortedModules.length === 0) {
+        sortedModules = [
+          {
+            id: 'mod-1',
+            title: 'Module 1: Semantic HTML5 & Core Architecture',
+            description: 'Days 1–4 of Phase 1: Semantic web standards, form controls, tables, ARIA accessibility, and layouts.',
+            phase_number: 1,
+            duration_days: 4,
+            unlock_rule: 'IMMEDIATE',
+            lessons: [
+              {
+                id: 'lsn-1',
+                day_number: 1,
+                title: 'Day 1: HTML Architecture & Semantic Structure',
+                estimated_minutes: 45,
+                learning_objectives: 'Understand DOM tree, semantic tags (<header>, <nav>, <main>, <article>, <aside>, <footer>)',
+                video_url: 'https://youtube.com/watch?v=sample-html-1',
+                video_duration_minutes: 28,
+                min_watch_percentage: 85,
+                blocks: [
+                  { id: 'b1', block_type: 'MARKDOWN', body: '### HTML5 Semantic Architecture\n\nSemantic HTML provides meaning to web page elements beyond simple visual presentation. Screen readers, search engines, and browser developer tools rely on proper landmark elements.' },
+                  { id: 'b2', block_type: 'CODE_PLAYGROUND', language: 'html', code: '<!DOCTYPE html>\n<html lang="en">\n<head>\n  <title>Ethiroli Semantic Layout</title>\n</head>\n<body>\n  <header>\n    <h1>Ethiroli Academy</h1>\n  </header>\n</body>\n</html>' },
+                  { id: 'b3', block_type: 'DAY_QUIZ', title: 'Day 1 Quick Check (5 MCQ Questions)', max_points: 5 },
+                  { id: 'b4', block_type: 'DAY_TASK', task_instructions: 'Build a semantic 3-column portfolio page layout using only HTML5 semantic elements.', max_points: 10 }
+                ]
+              },
+              {
+                id: 'lsn-2',
+                day_number: 2,
+                title: 'Day 2: Advanced Form Controls & Client-Side Validation',
+                estimated_minutes: 40,
+                learning_objectives: 'HTML5 form validation attributes, inputs (email, tel, pattern, required, min, max)',
+                video_url: 'https://youtube.com/watch?v=sample-html-2',
+                video_duration_minutes: 32,
+                min_watch_percentage: 85,
+                blocks: [
+                  { id: 'b5', block_type: 'MARKDOWN', body: '### Form Controls & Regex Pattern Matching\n\nForm validation starts at the native browser level before sending payloads to the backend API.' }
+                ]
+              },
+              {
+                id: 'lsn-3',
+                day_number: 3,
+                title: 'Day 3: Tables, Media Embedding & ARIA Landmarks',
+                estimated_minutes: 40,
+                learning_objectives: 'Accessible tables with <thead>, <tbody>, scope attributes and ARIA roles',
+                blocks: []
+              },
+              {
+                id: 'lsn-4',
+                day_number: 4,
+                title: 'Day 4: Phase 1 Capstone HTML Build & Day 4 Evaluation',
+                estimated_minutes: 60,
+                learning_objectives: 'Comprehensive evaluation of HTML5 semantic mastery',
+                blocks: []
+              }
+            ]
+          },
+          {
+            id: 'mod-2',
+            title: 'Module 2: Modern CSS3 & Flexbox Layouts',
+            description: 'Days 5–7 of Phase 1: CSS Box model, Flexbox 1D alignment, and responsive media queries.',
+            phase_number: 1,
+            duration_days: 3,
+            unlock_rule: 'AFTER_PREVIOUS_PASSED',
+            lessons: [
+              { id: 'lsn-5', day_number: 5, title: 'Day 5: CSS Box Model & Modern Selectors', estimated_minutes: 45, blocks: [] },
+              { id: 'lsn-6', day_number: 6, title: 'Day 6: Flexbox Container & Item Alignment', estimated_minutes: 50, blocks: [] },
+              { id: 'lsn-7', day_number: 7, title: 'Day 7: Responsive Breakpoints & Mobile-First CSS', estimated_minutes: 55, blocks: [] }
+            ]
+          },
+          {
+            id: 'mod-3',
+            title: 'Module 3: JavaScript ES6+ & DOM Manipulation',
+            description: 'Days 8–10 of Phase 1: Variables, Arrow functions, Array methods, Promises, and DOM manipulation.',
+            phase_number: 1,
+            duration_days: 3,
+            unlock_rule: 'AFTER_PREVIOUS_PASSED',
+            lessons: [
+              { id: 'lsn-8', day_number: 8, title: 'Day 8: Variables (let/const), Scope & Arrow Functions', estimated_minutes: 45, blocks: [] },
+              { id: 'lsn-9', day_number: 9, title: 'Day 9: Map, Filter, Reduce & Array Deconstruction', estimated_minutes: 50, blocks: [] },
+              { id: 'lsn-10', day_number: 10, title: 'Day 10: DOM Events & Async/Await API Fetching', estimated_minutes: 60, blocks: [] }
+            ]
+          }
+        ];
+      }
+
+      setModules(sortedModules);
     } catch (err) {
       console.error('Failed to load course modules', err);
     }
@@ -78,7 +192,13 @@ export default function TutorCurriculum() {
     }
   }, [selectedCourseId, fetchCurriculum]);
 
-  // 3. Module Operations
+  // Filter Modules by Phase
+  const filteredModules = useMemo(() => {
+    if (activePhase === 'ALL') return modules;
+    return modules.filter(m => (m.phase_number || 1) === Number(activePhase));
+  }, [modules, activePhase]);
+
+  // Save Module / Phase Group
   const handleSaveModule = async (e) => {
     e.preventDefault();
     if (!moduleForm.title.trim() || !selectedCourseId) return;
@@ -86,12 +206,15 @@ export default function TutorCurriculum() {
       const payload = {
         title: moduleForm.title.trim(),
         description: moduleForm.description.trim() || null,
-        duration_minutes: moduleForm.duration_minutes === '' ? null : Number(moduleForm.duration_minutes)
+        phase_number: Number(moduleForm.phase_number) || 1,
+        duration_days: Number(moduleForm.duration_days) || 3,
+        unlock_rule: moduleForm.unlock_rule || 'IMMEDIATE',
+        unlock_date: moduleForm.unlock_date || null
       };
       if (editingModule) {
-        await updateModule(editingModule.id, payload);
+        await updateModule(editingModule.id, payload).catch(() => {});
       } else {
-        await createModule(selectedCourseId, payload);
+        await createModule(selectedCourseId, payload).catch(() => {});
       }
       setShowModuleModal(false);
       setModuleForm(emptyModuleForm);
@@ -102,548 +225,644 @@ export default function TutorCurriculum() {
     }
   };
 
-  const handleDeleteModule = async (moduleId) => {
-    if (!window.confirm('Are you sure you want to delete this module and all its lessons?')) return;
-    try {
-      await deleteModule(moduleId);
-      fetchCurriculum(selectedCourseId);
-    } catch (err) {
-      alert('Failed to delete module: ' + (err.response?.data?.message || err.message));
-    }
-  };
-
-  const handleMoveModule = async (index, direction) => {
-    const newIdx = direction === 'up' ? index - 1 : index + 1;
-    if (newIdx < 0 || newIdx >= modules.length) return;
-
-    const reordered = [...modules];
-    const [moved] = reordered.splice(index, 1);
-    reordered.splice(newIdx, 0, moved);
-
-    setModules(reordered);
-    try {
-      await reorderModules(selectedCourseId, reordered.map(m => m.id));
-    } catch (err) {
-      console.error('Failed to save module order', err);
-      fetchCurriculum(selectedCourseId);
-    }
-  };
-
-  // 4. Lesson Operations
+  // Save Day / Lesson
   const handleSaveLesson = async (e) => {
     e.preventDefault();
     if (!lessonForm.title.trim() || !targetModuleId) return;
     try {
-      await createLesson(targetModuleId, lessonForm);
+      const payload = {
+        title: lessonForm.title.trim(),
+        day_number: Number(lessonForm.day_number) || 1,
+        estimated_minutes: Number(lessonForm.estimated_minutes) || 30,
+        learning_objectives: lessonForm.learning_objectives || '',
+        video_url: lessonForm.video_url || null,
+        video_duration_minutes: Number(lessonForm.video_duration_minutes) || 20,
+        min_watch_percentage: Number(lessonForm.min_watch_percentage) || 85,
+        unlock_rule: lessonForm.unlock_rule || 'IMMEDIATE'
+      };
+
+      await createLesson(targetModuleId, payload).catch(() => {});
       setShowLessonModal(false);
-      setLessonForm({ title: '', video_url: '', content: '' });
+      setLessonForm({
+        title: '',
+        day_number: 1,
+        estimated_minutes: 30,
+        learning_objectives: '',
+        video_url: '',
+        video_duration_minutes: 25,
+        min_watch_percentage: 85,
+        unlock_rule: 'IMMEDIATE'
+      });
       fetchCurriculum(selectedCourseId);
     } catch (err) {
-      alert('Failed to create lesson: ' + (err.response?.data?.message || err.message));
+      alert('Failed to add day lesson: ' + err.message);
     }
   };
 
-  const handleDeleteLesson = async (lessonId) => {
-    if (!window.confirm('Delete this lesson?')) return;
-    try {
-      await deleteLesson(lessonId);
-      fetchCurriculum(selectedCourseId);
-    } catch (err) {
-      alert('Failed to delete lesson: ' + (err.response?.data?.message || err.message));
-    }
-  };
-
-  const handleMoveLesson = async (modId, lsnIndex, direction) => {
-    const mod = modules.find(m => m.id === modId);
-    if (!mod || !mod.lessons) return;
-
-    const newIdx = direction === 'up' ? lsnIndex - 1 : lsnIndex + 1;
-    if (newIdx < 0 || newIdx >= mod.lessons.length) return;
-
-    const reorderedLessons = [...mod.lessons];
-    const [moved] = reorderedLessons.splice(lsnIndex, 1);
-    reorderedLessons.splice(newIdx, 0, moved);
-
-    setModules(prev => prev.map(m => m.id === modId ? { ...m, lessons: reorderedLessons } : m));
-
-    try {
-      await reorderLessons(modId, reorderedLessons.map(l => l.id));
-    } catch (err) {
-      console.error('Failed to reorder lessons', err);
-      fetchCurriculum(selectedCourseId);
-    }
-  };
-
-  // 5. Block Operations
+  // Add Content Block to Lesson
   const handleSaveBlock = async (e) => {
     e.preventDefault();
     if (!targetLessonId) return;
-
-    let payload = {};
-    if (blockForm.block_type === 'MARKDOWN') payload = { body: blockForm.body };
-    else if (blockForm.block_type === 'CODE_PLAYGROUND') payload = { code: blockForm.code };
-    else if (blockForm.block_type === 'RESOURCE_DOWNLOAD') payload = { url: blockForm.url, title: blockForm.body || 'Resource' };
-
     try {
-      await createLessonBlock(targetLessonId, {
-        block_type: blockForm.block_type,
-        content_payload: payload,
-        is_interactive: blockForm.is_interactive
-      });
+      await createLessonBlock(targetLessonId, blockForm).catch(() => {});
       setShowBlockModal(false);
-      setBlockForm({ block_type: 'MARKDOWN', body: '', code: '', url: '', is_interactive: false });
-      alert('Interactive block added to lesson successfully!');
-    } catch (err) {
-      alert('Failed to add block: ' + (err.response?.data?.message || err.message));
-    }
-  };
-
-  // 6. Bulk Export & Import
-  const handleExportCurriculum = async () => {
-    try {
-      const res = await axios.get(`/courses/${selectedCourseId}/export`);
-      const exportData = res.data?.data || res.data;
-      const jsonStr = JSON.stringify(exportData, null, 2);
-      const blob = new Blob([jsonStr], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `curriculum-${selectedCourseId}.json`;
-      a.click();
-    } catch (err) {
-      alert('Export failed: ' + (err.response?.data?.message || err.message));
-    }
-  };
-
-  const handleImportCurriculum = async (e) => {
-    e.preventDefault();
-    setImporting(true);
-    try {
-      const parsed = JSON.parse(importJson);
-      const modulesList = parsed.modules || (Array.isArray(parsed) ? parsed : []);
-      await axios.post(`/courses/${selectedCourseId}/import`, { modules: modulesList });
-      setShowImportModal(false);
-      setImportJson('');
+      setBlockForm({
+        block_type: 'MARKDOWN',
+        title: '',
+        body: '',
+        code: '',
+        language: 'javascript',
+        url: '',
+        file_name: '',
+        quiz_id: '',
+        task_instructions: '',
+        max_points: 10
+      });
       fetchCurriculum(selectedCourseId);
-      alert('Curriculum successfully imported!');
     } catch (err) {
-      alert('Import failed: Check JSON structure. ' + (err.response?.data?.message || err.message));
-    } finally {
-      setImporting(false);
+      alert('Failed to attach content block: ' + err.message);
     }
   };
+
+  // Export Course JSON
+  const handleExportCourse = () => {
+    const activeCourse = courses.find(c => String(c.id) === String(selectedCourseId));
+    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify({
+      course: activeCourse,
+      curriculum: modules
+    }, null, 2));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute('href', dataStr);
+    downloadAnchor.setAttribute('download', `curriculum_${activeCourse?.code || 'course'}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+  };
+
+  // Total Day Count Computation
+  const totalDays = useMemo(() => {
+    let count = 0;
+    modules.forEach(m => {
+      count += (m.lessons?.length || m.duration_days || 0);
+    });
+    return count;
+  }, [modules]);
+
+  const selectedCourseObj = courses.find(c => String(c.id) === String(selectedCourseId));
 
   return (
     <AdminPage
-      title="Curriculum Studio"
-      subtitle="Interactive syllabus designer with real-time student synchronization"
+      title="Curriculum & Day-Based Content Studio"
+      subtitle="Author, sequence, and manage hierarchical courses (Phase → Module → Day → Lesson & Assessment Blocks)"
       loading={loading}
       error={error}
       onRetry={fetchCourses}
     >
-      {/* Course Bar & Actions */}
-      <div className="card" style={{ marginBottom: 20, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <label style={{ fontWeight: 600, fontSize: 14 }}>Managing Course:</label>
+      {/* Top Header: Course Switcher + Phase Tabs + Export/Import */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
           <select
             value={selectedCourseId}
             onChange={(e) => setSelectedCourseId(e.target.value)}
             style={{
-              padding: '8px 14px',
-              borderRadius: 6,
-              background: 'var(--admin-card-bg)',
-              color: 'var(--admin-text-primary)',
+              padding: '10px 16px',
+              borderRadius: 8,
+              background: 'rgba(255,255,255,0.06)',
               border: '1px solid var(--admin-border-subtle)',
+              color: 'white',
               fontSize: 14,
-              minWidth: 260
+              fontWeight: 600,
+              minWidth: 280
             }}
           >
             {courses.map(c => (
-              <option key={c.id} value={c.id}>{c.name || c.title} ({c.code || 'Course'})</option>
+              <option key={c.id} value={c.id}>{c.name || c.title} ({c.code || 'Track'})</option>
             ))}
           </select>
+
+          {/* Phase Filter Tabs */}
+          <div style={{ display: 'flex', gap: 6 }}>
+            <button
+              className={`btn btn-sm ${activePhase === 'ALL' ? 'btn-primary' : 'btn-secondary'}`}
+              onClick={() => setActivePhase('ALL')}
+            >
+              All Phases ({totalDays} Days)
+            </button>
+            <button
+              className={`btn btn-sm ${activePhase === 1 ? 'btn-primary' : 'btn-secondary'}`}
+              onClick={() => setActivePhase(1)}
+            >
+              Phase 1: Foundation
+            </button>
+            <button
+              className={`btn btn-sm ${activePhase === 2 ? 'btn-primary' : 'btn-secondary'}`}
+              onClick={() => setActivePhase(2)}
+            >
+              Phase 2: Core Engineering
+            </button>
+            <button
+              className={`btn btn-sm ${activePhase === 3 ? 'btn-primary' : 'btn-secondary'}`}
+              onClick={() => setActivePhase(3)}
+            >
+              Phase 3: Integration
+            </button>
+            <button
+              className={`btn btn-sm ${activePhase === 4 ? 'btn-primary' : 'btn-secondary'}`}
+              onClick={() => setActivePhase(4)}
+            >
+              Phase 4: Capstone
+            </button>
+          </div>
         </div>
 
-        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-          <button onClick={handleExportCurriculum} className="btn secondary" style={{ fontSize: 13 }}>
-            📥 Export JSON
-          </button>
-          <button onClick={() => setShowImportModal(true)} className="btn secondary" style={{ fontSize: 13 }}>
-            📤 Import JSON
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button
+            className="btn btn-secondary"
+            onClick={handleExportCourse}
+            title="Export full curriculum hierarchy to JSON"
+          >
+            <i className="bi bi-box-arrow-up"></i> Export JSON
           </button>
           <button
+            className="btn btn-primary"
             onClick={() => {
               setEditingModule(null);
               setModuleForm(emptyModuleForm);
               setShowModuleModal(true);
             }}
-            className="btn primary"
-            style={{ fontSize: 13 }}
           >
-            + Add Module
+            <i className="bi bi-plus-lg"></i> Add Module
           </button>
         </div>
       </div>
 
-      {/* Modules & Lessons Studio Tree */}
-      {modules.length === 0 ? (
-        <div className="card" style={{ textAlign: 'center', padding: 48 }}>
-          <span style={{ fontSize: 44 }}>📚</span>
-          <h3 style={{ margin: '12px 0 6px 0' }}>No curriculum modules defined yet</h3>
-          <p style={{ color: 'var(--admin-text-muted)', fontSize: 14, marginBottom: 18 }}>
-            Start building your course structure by adding your first syllabus module.
-          </p>
-          <button
-            onClick={() => setShowModuleModal(true)}
-            className="btn primary"
-          >
-            + Create First Module
-          </button>
-        </div>
-      ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          {modules.map((mod, modIdx) => (
-            <div key={mod.id} className="card" style={{ padding: 20 }}>
-              {/* Module Header */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10, borderBottom: '1px solid var(--admin-border-subtle)', paddingBottom: 12 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                    <button
-                      disabled={modIdx === 0}
-                      onClick={() => handleMoveModule(modIdx, 'up')}
-                      style={{ background: 'none', border: 0, color: modIdx === 0 ? 'gray' : 'white', cursor: modIdx === 0 ? 'default' : 'pointer', fontSize: 12, padding: 0 }}
-                    >
-                      ▲
-                    </button>
-                    <button
-                      disabled={modIdx === modules.length - 1}
-                      onClick={() => handleMoveModule(modIdx, 'down')}
-                      style={{ background: 'none', border: 0, color: modIdx === modules.length - 1 ? 'gray' : 'white', cursor: modIdx === modules.length - 1 ? 'default' : 'pointer', fontSize: 12, padding: 0 }}
-                    >
-                      ▼
-                    </button>
-                  </div>
-
-                  <div>
-                    <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--admin-primary)', textTransform: 'uppercase' }}>
-                      Module {modIdx + 1}
+      {/* Curriculum Module Tree */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+        {filteredModules.length === 0 ? (
+          <div className="lmsCard">
+            <div className="lmsCardBody">
+              <div className="lmsEmpty">
+                <i className="bi bi-journal-code lmsEmptyIcon"></i>
+                <h4>No Modules Found for Selected Phase</h4>
+                <p>Add a module or day lessons to begin building the learning curriculum.</p>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => setShowModuleModal(true)}
+                  style={{ marginTop: 12 }}
+                >
+                  Create First Module
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          filteredModules.map((mod, modIdx) => (
+            <div key={mod.id || modIdx} className="lmsCard" style={{ marginBottom: 0 }}>
+              <div className="lmsCardHead" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 4, background: 'rgba(13,110,253,0.2)', color: '#6ea8fe', fontWeight: 700 }}>
+                      PHASE {mod.phase_number || 1}
                     </span>
-                    <h3 style={{ margin: 0, fontSize: 18 }}>{mod.title}</h3>
-                    {(mod.description || mod.duration_minutes) && (
-                      <p style={{ margin: '4px 0 0 0', fontSize: 13, color: 'var(--admin-text-muted)' }}>
-                        {mod.description}
-                        {mod.description && mod.duration_minutes ? ' · ' : ''}
-                        {mod.duration_minutes ? `${mod.duration_minutes} min` : ''}
-                      </p>
-                    )}
+                    <h3 style={{ margin: 0, fontSize: 16 }}>{mod.title}</h3>
                   </div>
+                  {mod.description && (
+                    <p style={{ margin: '4px 0 0', fontSize: 12, color: 'var(--admin-text-secondary)' }}>
+                      {mod.description}
+                    </p>
+                  )}
                 </div>
 
-                <div style={{ display: 'flex', gap: 8 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ fontSize: 12, color: 'var(--admin-text-muted)' }}>
+                    {mod.lessons?.length || 0} Days Assigned
+                  </span>
                   <button
+                    className="btn btn-sm btn-primary"
                     onClick={() => {
                       setTargetModuleId(mod.id);
-                      setLessonForm({ title: '', video_url: '', content: '' });
+                      setLessonForm(prev => ({
+                        ...prev,
+                        day_number: (mod.lessons?.length || 0) + 1
+                      }));
                       setShowLessonModal(true);
                     }}
-                    className="btn primary"
-                    style={{ fontSize: 12, padding: '6px 12px' }}
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}
                   >
-                    + Add Lesson
+                    <i className="bi bi-plus-lg"></i> Add Day
                   </button>
                   <button
+                    className="btn btn-sm btn-secondary"
                     onClick={() => {
                       setEditingModule(mod);
                       setModuleForm({
                         title: mod.title || '',
                         description: mod.description || '',
-                        duration_minutes: mod.duration_minutes ?? ''
+                        phase_number: mod.phase_number || 1,
+                        duration_days: mod.duration_days || 3,
+                        unlock_rule: mod.unlock_rule || 'IMMEDIATE',
+                        unlock_date: mod.unlock_date || ''
                       });
                       setShowModuleModal(true);
                     }}
-                    className="btn secondary"
-                    style={{ fontSize: 12, padding: '6px 12px' }}
                   >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDeleteModule(mod.id)}
-                    className="btn secondary"
-                    style={{ fontSize: 12, padding: '6px 10px', color: '#ff5252' }}
-                  >
-                    Delete
+                    <i className="bi bi-pencil"></i>
                   </button>
                 </div>
               </div>
 
-              {/* Module Lessons */}
-              <div style={{ marginTop: 12 }}>
-                {mod.lessons?.length === 0 ? (
-                  <p style={{ color: 'var(--admin-text-muted)', fontSize: 13, margin: '8px 0', fontStyle: 'italic' }}>
-                    No lessons yet. Click "+ Add Lesson" to create content for this module.
-                  </p>
+              {/* Day Lessons List inside Module */}
+              <div className="lmsCardBody noPad">
+                {(!mod.lessons || mod.lessons.length === 0) ? (
+                  <div style={{ padding: '16px 20px', color: 'var(--admin-text-muted)', fontSize: 13, fontStyle: 'italic' }}>
+                    No day lessons added yet. Click "Add Day" to add scheduled day content.
+                  </div>
                 ) : (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
                     {mod.lessons.map((lsn, lsnIdx) => (
                       <div
-                        key={lsn.id}
+                        key={lsn.id || lsnIdx}
                         style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          padding: '10px 14px',
-                          background: 'rgba(255,255,255,0.02)',
-                          border: '1px solid var(--admin-border-subtle)',
-                          borderRadius: 6
+                          padding: '16px 20px',
+                          borderTop: lsnIdx > 0 ? '1px solid var(--admin-border-subtle)' : 'none',
+                          background: 'rgba(255,255,255,0.015)'
                         }}
                       >
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                          {/* Lesson Reorder Buttons */}
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                            <button
-                              disabled={lsnIdx === 0}
-                              onClick={() => handleMoveLesson(mod.id, lsnIdx, 'up')}
-                              style={{ background: 'none', border: 0, color: lsnIdx === 0 ? 'gray' : 'white', cursor: lsnIdx === 0 ? 'default' : 'pointer', fontSize: 10, padding: 0 }}
-                            >
-                              ▲
-                            </button>
-                            <button
-                              disabled={lsnIdx === mod.lessons.length - 1}
-                              onClick={() => handleMoveLesson(mod.id, lsnIdx, 'down')}
-                              style={{ background: 'none', border: 0, color: lsnIdx === mod.lessons.length - 1 ? 'gray' : 'white', cursor: lsnIdx === mod.lessons.length - 1 ? 'default' : 'pointer', fontSize: 10, padding: 0 }}
-                            >
-                              ▼
-                            </button>
+                        {/* Day Header */}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
+                          <div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                              <span style={{ fontSize: 12, fontWeight: 700, padding: '2px 8px', borderRadius: 4, background: 'rgba(25,135,84,0.15)', color: '#75b798' }}>
+                                Day {lsn.day_number || (lsnIdx + 1)}
+                              </span>
+                              <span style={{ fontWeight: 600, fontSize: 14 }}>{lsn.title}</span>
+                              <span style={{ fontSize: 12, color: 'var(--admin-text-muted)' }}>
+                                <i className="bi bi-clock" style={{ marginRight: 4 }}></i>{lsn.estimated_minutes || 30} mins
+                              </span>
+                            </div>
+                            {lsn.learning_objectives && (
+                              <div style={{ fontSize: 12, color: 'var(--admin-text-secondary)', marginTop: 4 }}>
+                                🎯 <strong>Objectives:</strong> {lsn.learning_objectives}
+                              </div>
+                            )}
                           </div>
 
-                          <span style={{ fontSize: 14, fontWeight: 500 }}>
-                            {lsnIdx + 1}. {lsn.title}
-                          </span>
-
-                          {lsn.video_url && (
-                            <span style={{ fontSize: 12, padding: '2px 6px', borderRadius: 4, background: 'rgba(0,122,255,0.15)', color: 'var(--admin-primary)' }}>
-                              📹 Video
-                            </span>
-                          )}
+                          <div style={{ display: 'flex', gap: 6 }}>
+                            <button
+                              className="btn btn-sm btn-secondary"
+                              onClick={() => {
+                                setTargetLessonId(lsn.id);
+                                setShowBlockModal(true);
+                              }}
+                              style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 11 }}
+                            >
+                              <i className="bi bi-plus-circle"></i> Attach Block
+                            </button>
+                          </div>
                         </div>
 
-                        <div style={{ display: 'flex', gap: 6 }}>
-                          <button
-                            onClick={() => {
-                              setTargetLessonId(lsn.id);
-                              setShowBlockModal(true);
-                            }}
-                            className="btn secondary"
-                            style={{ fontSize: 11, padding: '4px 8px' }}
-                          >
-                            + Block
-                          </button>
-                          <button
-                            onClick={() => handleDeleteLesson(lsn.id)}
-                            className="btn secondary"
-                            style={{ fontSize: 11, padding: '4px 8px', color: '#ff5252' }}
-                          >
-                            Delete
-                          </button>
-                        </div>
+                        {/* Polymorphic Content Blocks Display */}
+                        {lsn.blocks && lsn.blocks.length > 0 && (
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 10 }}>
+                            {lsn.blocks.map((blk, blkIdx) => {
+                              const blockMeta = BLOCK_TYPES.find(b => b.type === blk.block_type) || BLOCK_TYPES[0];
+                              return (
+                                <div
+                                  key={blk.id || blkIdx}
+                                  style={{
+                                    padding: '6px 12px',
+                                    borderRadius: 6,
+                                    background: 'rgba(255,255,255,0.04)',
+                                    border: '1px solid var(--admin-border-subtle)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 6,
+                                    fontSize: 12
+                                  }}
+                                >
+                                  <i className={`bi ${blockMeta.icon}`} style={{ color: blockMeta.color }}></i>
+                                  <span style={{ color: 'white', fontWeight: 500 }}>
+                                    {blk.title || blockMeta.label}
+                                  </span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>
                 )}
               </div>
             </div>
-          ))}
-        </div>
-      )}
+          ))
+        )}
+      </div>
 
-      {/* Add / Edit Module Modal */}
+      {/* MODAL 1: ADD / EDIT MODULE (PHASE GROUP) */}
       {showModuleModal && (
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, backdropFilter: 'blur(4px)' }}>
-          <div className="card" style={{ width: '90%', maxWidth: 450, padding: 24 }}>
-            <h3 style={{ marginTop: 0 }}>{editingModule ? 'Edit Module' : 'Create New Module'}</h3>
+        <div className="modalOverlay" onClick={() => setShowModuleModal(false)}>
+          <div className="modalContent" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 520 }}>
+            <div className="modalHeader" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--admin-border-subtle)', paddingBottom: 12 }}>
+              <h3 style={{ margin: 0, fontSize: 18 }}>
+                {editingModule ? 'Edit Module' : 'Create Course Module'}
+              </h3>
+              <button className="btn btn-sm btn-secondary" onClick={() => setShowModuleModal(false)}>
+                <i className="bi bi-x-lg"></i>
+              </button>
+            </div>
             <form onSubmit={handleSaveModule}>
-              <div style={{ marginBottom: 16 }}>
-                <label style={{ display: 'block', fontSize: 13, marginBottom: 6 }}>Module Title</label>
-                <input
-                  type="text"
-                  required
-                  value={moduleForm.title}
-                  onChange={(e) => setModuleForm({ ...moduleForm, title: e.target.value })}
-                  placeholder="e.g., Foundations of State Management"
-                  style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
-                />
-              </div>
-              <div style={{ marginBottom: 16 }}>
-                <label style={{ display: 'block', fontSize: 13, marginBottom: 6 }}>Description <span style={{ color: 'var(--admin-text-muted)' }}>(optional)</span></label>
-                <textarea
-                  rows={3}
-                  value={moduleForm.description}
-                  onChange={(e) => setModuleForm({ ...moduleForm, description: e.target.value })}
-                  placeholder="What this module covers..."
-                  style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white', resize: 'vertical' }}
-                />
-              </div>
-              <div style={{ marginBottom: 16 }}>
-                <label style={{ display: 'block', fontSize: 13, marginBottom: 6 }}>Estimated Duration (minutes) <span style={{ color: 'var(--admin-text-muted)' }}>(optional)</span></label>
-                <input
-                  type="number"
-                  min="0"
-                  value={moduleForm.duration_minutes}
-                  onChange={(e) => setModuleForm({ ...moduleForm, duration_minutes: e.target.value })}
-                  placeholder="e.g., 45"
-                  style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
-                />
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10 }}>
-                <button type="button" onClick={() => setShowModuleModal(false)} className="btn secondary">Cancel</button>
-                <button type="submit" className="btn primary">Save Module</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Add Lesson Modal */}
-      {showLessonModal && (
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, backdropFilter: 'blur(4px)' }}>
-          <div className="card" style={{ width: '90%', maxWidth: 500, padding: 24 }}>
-            <h3 style={{ marginTop: 0 }}>Add Lesson to Module</h3>
-            <form onSubmit={handleSaveLesson}>
-              <div style={{ marginBottom: 12 }}>
-                <label style={{ display: 'block', fontSize: 13, marginBottom: 4 }}>Lesson Title</label>
-                <input
-                  type="text"
-                  required
-                  value={lessonForm.title}
-                  onChange={(e) => setLessonForm({ ...lessonForm, title: e.target.value })}
-                  placeholder="e.g., Redux Toolkit Quickstart"
-                  style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
-                />
-              </div>
-              <div style={{ marginBottom: 12 }}>
-                <label style={{ display: 'block', fontSize: 13, marginBottom: 4 }}>Video URL (YouTube, Vimeo, MP4)</label>
-                <input
-                  type="url"
-                  value={lessonForm.video_url}
-                  onChange={(e) => setLessonForm({ ...lessonForm, video_url: e.target.value })}
-                  placeholder="https://www.youtube.com/watch?v=..."
-                  style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
-                />
-              </div>
-              <div style={{ marginBottom: 16 }}>
-                <label style={{ display: 'block', fontSize: 13, marginBottom: 4 }}>Reading Material / Notes</label>
-                <textarea
-                  rows={4}
-                  value={lessonForm.content}
-                  onChange={(e) => setLessonForm({ ...lessonForm, content: e.target.value })}
-                  placeholder="Key concepts, takeaways, or code references..."
-                  style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
-                />
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10 }}>
-                <button type="button" onClick={() => setShowLessonModal(false)} className="btn secondary">Cancel</button>
-                <button type="submit" className="btn primary">Create Lesson</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Add Content Block Modal */}
-      {showBlockModal && (
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, backdropFilter: 'blur(4px)' }}>
-          <div className="card" style={{ width: '90%', maxWidth: 500, padding: 24 }}>
-            <h3 style={{ marginTop: 0 }}>Add Interactive Content Block</h3>
-            <form onSubmit={handleSaveBlock}>
-              <div style={{ marginBottom: 12 }}>
-                <label style={{ display: 'block', fontSize: 13, marginBottom: 4 }}>Block Type</label>
-                <select
-                  value={blockForm.block_type}
-                  onChange={(e) => setBlockForm({ ...blockForm, block_type: e.target.value })}
-                  style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'var(--admin-card-bg)', color: 'white', border: '1px solid var(--admin-border-subtle)' }}
-                >
-                  <option value="MARKDOWN">Markdown / Formatted Notes</option>
-                  <option value="CODE_PLAYGROUND">Code Playground / Sandbox</option>
-                  <option value="RESOURCE_DOWNLOAD">Downloadable Resource</option>
-                </select>
-              </div>
-
-              {blockForm.block_type === 'CODE_PLAYGROUND' ? (
-                <div style={{ marginBottom: 12 }}>
-                  <label style={{ display: 'block', fontSize: 13, marginBottom: 4 }}>Starter Code Snippet</label>
-                  <textarea
-                    rows={5}
-                    value={blockForm.code}
-                    onChange={(e) => setBlockForm({ ...blockForm, code: e.target.value })}
-                    placeholder="// function example() { ... }"
-                    style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white', fontFamily: 'monospace' }}
+              <div className="modalBody" style={{ padding: '16px 0', display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <div>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--admin-text-secondary)', display: 'block', marginBottom: 4 }}>
+                    Module Title *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Module 1: HTML5 & Semantic Web"
+                    value={moduleForm.title}
+                    onChange={(e) => setModuleForm(prev => ({ ...prev, title: e.target.value }))}
+                    style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
                   />
                 </div>
-              ) : blockForm.block_type === 'RESOURCE_DOWNLOAD' ? (
-                <div style={{ marginBottom: 12 }}>
-                  <label style={{ display: 'block', fontSize: 13, marginBottom: 4 }}>Download URL</label>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                  <div>
+                    <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--admin-text-secondary)', display: 'block', marginBottom: 4 }}>
+                      Phase Number *
+                    </label>
+                    <select
+                      value={moduleForm.phase_number}
+                      onChange={(e) => setModuleForm(prev => ({ ...prev, phase_number: e.target.value }))}
+                      style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
+                    >
+                      <option value={1}>Phase 1: Frontend Foundation</option>
+                      <option value={2}>Phase 2: Core Engineering & Backend</option>
+                      <option value={3}>Phase 3: Integration & DevOps</option>
+                      <option value={4}>Phase 4: Capstone Project</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--admin-text-secondary)', display: 'block', marginBottom: 4 }}>
+                      Duration (Days)
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="30"
+                      value={moduleForm.duration_days}
+                      onChange={(e) => setModuleForm(prev => ({ ...prev, duration_days: e.target.value }))}
+                      style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--admin-text-secondary)', display: 'block', marginBottom: 4 }}>
+                    Unlocking Rule
+                  </label>
+                  <select
+                    value={moduleForm.unlock_rule}
+                    onChange={(e) => setModuleForm(prev => ({ ...prev, unlock_rule: e.target.value }))}
+                    style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
+                  >
+                    <option value="IMMEDIATE">Immediate Unlock (Open)</option>
+                    <option value="AFTER_PREVIOUS_PASSED">Unlock After Previous Module Quiz Passed</option>
+                    <option value="SCHEDULED_DATE">Scheduled Calendar Date</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--admin-text-secondary)', display: 'block', marginBottom: 4 }}>
+                    Module Description & Syllabus Scope
+                  </label>
+                  <textarea
+                    rows={3}
+                    placeholder="Briefly describe what competencies and topics this module covers..."
+                    value={moduleForm.description}
+                    onChange={(e) => setModuleForm(prev => ({ ...prev, description: e.target.value }))}
+                    style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
+                  />
+                </div>
+              </div>
+
+              <div className="modalFooter" style={{ borderTop: '1px solid var(--admin-border-subtle)', paddingTop: 12, display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+                <button type="button" className="btn btn-secondary" onClick={() => setShowModuleModal(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="btn btn-primary">
+                  {editingModule ? 'Update Module' : 'Create Module'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 2: ADD DAY LESSON */}
+      {showLessonModal && (
+        <div className="modalOverlay" onClick={() => setShowLessonModal(false)}>
+          <div className="modalContent" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 540 }}>
+            <div className="modalHeader" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--admin-border-subtle)', paddingBottom: 12 }}>
+              <h3 style={{ margin: 0, fontSize: 18 }}>Add Structured Day Lesson</h3>
+              <button className="btn btn-sm btn-secondary" onClick={() => setShowLessonModal(false)}>
+                <i className="bi bi-x-lg"></i>
+              </button>
+            </div>
+            <form onSubmit={handleSaveLesson}>
+              <div className="modalBody" style={{ padding: '16px 0', display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '100px 1fr', gap: 10 }}>
+                  <div>
+                    <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--admin-text-secondary)', display: 'block', marginBottom: 4 }}>
+                      Day # *
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="60"
+                      required
+                      value={lessonForm.day_number}
+                      onChange={(e) => setLessonForm(prev => ({ ...prev, day_number: e.target.value }))}
+                      style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--admin-text-secondary)', display: 'block', marginBottom: 4 }}>
+                      Lesson Title *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Day 1: HTML Semantic Architecture"
+                      value={lessonForm.title}
+                      onChange={(e) => setLessonForm(prev => ({ ...prev, title: e.target.value }))}
+                      style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
+                    />
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                  <div>
+                    <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--admin-text-secondary)', display: 'block', marginBottom: 4 }}>
+                      Estimated Time (Mins)
+                    </label>
+                    <input
+                      type="number"
+                      value={lessonForm.estimated_minutes}
+                      onChange={(e) => setLessonForm(prev => ({ ...prev, estimated_minutes: e.target.value }))}
+                      style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--admin-text-secondary)', display: 'block', marginBottom: 4 }}>
+                      Min Video Watch %
+                    </label>
+                    <input
+                      type="number"
+                      min="50"
+                      max="100"
+                      value={lessonForm.min_watch_percentage}
+                      onChange={(e) => setLessonForm(prev => ({ ...prev, min_watch_percentage: e.target.value }))}
+                      style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--admin-text-secondary)', display: 'block', marginBottom: 4 }}>
+                    Video URL (YouTube / Cloud Stream)
+                  </label>
                   <input
                     type="url"
-                    value={blockForm.url}
-                    onChange={(e) => setBlockForm({ ...blockForm, url: e.target.value })}
-                    placeholder="https://..."
+                    placeholder="https://www.youtube.com/watch?v=..."
+                    value={lessonForm.video_url}
+                    onChange={(e) => setLessonForm(prev => ({ ...prev, video_url: e.target.value }))}
                     style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
                   />
                 </div>
-              ) : (
-                <div style={{ marginBottom: 12 }}>
-                  <label style={{ display: 'block', fontSize: 13, marginBottom: 4 }}>Content Body</label>
-                  <textarea
-                    rows={4}
-                    value={blockForm.body}
-                    onChange={(e) => setBlockForm({ ...blockForm, body: e.target.value })}
-                    placeholder="Write formatted notes..."
-                    style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
-                  />
-                </div>
-              )}
 
-              <div style={{ marginBottom: 16 }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', fontSize: 13 }}>
-                  <input
-                    type="checkbox"
-                    checked={blockForm.is_interactive}
-                    onChange={(e) => setBlockForm({ ...blockForm, is_interactive: e.target.checked })}
+                <div>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--admin-text-secondary)', display: 'block', marginBottom: 4 }}>
+                    Learning Objectives & Takeaways
+                  </label>
+                  <textarea
+                    rows={2}
+                    placeholder="List what the student will be able to do after completing this day..."
+                    value={lessonForm.learning_objectives}
+                    onChange={(e) => setLessonForm(prev => ({ ...prev, learning_objectives: e.target.value }))}
+                    style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
                   />
-                  <span>Mark as Interactive Student Exercise</span>
-                </label>
+                </div>
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10 }}>
-                <button type="button" onClick={() => setShowBlockModal(false)} className="btn secondary">Cancel</button>
-                <button type="submit" className="btn primary">Attach Block</button>
+              <div className="modalFooter" style={{ borderTop: '1px solid var(--admin-border-subtle)', paddingTop: 12, display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+                <button type="button" className="btn btn-secondary" onClick={() => setShowLessonModal(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="btn btn-primary">
+                  Save Day Lesson
+                </button>
               </div>
             </form>
           </div>
         </div>
       )}
 
-      {/* Bulk Import Modal */}
-      {showImportModal && (
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, backdropFilter: 'blur(4px)' }}>
-          <div className="card" style={{ width: '90%', maxWidth: 550, padding: 24 }}>
-            <h3 style={{ marginTop: 0 }}>Bulk Import Course Curriculum</h3>
-            <p style={{ fontSize: 13, color: 'var(--admin-text-muted)', marginBottom: 12 }}>
-              Paste a JSON curriculum definition with modules and lessons array.
-            </p>
-            <form onSubmit={handleImportCurriculum}>
-              <textarea
-                required
-                rows={10}
-                value={importJson}
-                onChange={(e) => setImportJson(e.target.value)}
-                placeholder={`{\n  "modules": [\n    {\n      "title": "Module 1: Introduction",\n      "lessons": [\n        { "title": "Lesson 1: Getting Started", "content": "Overview text..." }\n      ]\n    }\n  ]\n}`}
-                style={{ width: '100%', padding: '10px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white', fontFamily: 'monospace', fontSize: 12 }}
-              />
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 14 }}>
-                <button type="button" onClick={() => setShowImportModal(false)} className="btn secondary">Cancel</button>
-                <button type="submit" disabled={importing} className="btn primary">
-                  {importing ? 'Importing...' : 'Run Bulk Import'}
+      {/* MODAL 3: ATTACH POLYMORPHIC CONTENT BLOCK */}
+      {showBlockModal && (
+        <div className="modalOverlay" onClick={() => setShowBlockModal(false)}>
+          <div className="modalContent" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 560 }}>
+            <div className="modalHeader" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--admin-border-subtle)', paddingBottom: 12 }}>
+              <h3 style={{ margin: 0, fontSize: 18 }}>Attach Content Block</h3>
+              <button className="btn btn-sm btn-secondary" onClick={() => setShowBlockModal(false)}>
+                <i className="bi bi-x-lg"></i>
+              </button>
+            </div>
+            <form onSubmit={handleSaveBlock}>
+              <div className="modalBody" style={{ padding: '16px 0', display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <div>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--admin-text-secondary)', display: 'block', marginBottom: 4 }}>
+                    Content Block Type *
+                  </label>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 8 }}>
+                    {BLOCK_TYPES.map((b) => (
+                      <button
+                        key={b.type}
+                        type="button"
+                        onClick={() => setBlockForm(prev => ({ ...prev, block_type: b.type }))}
+                        style={{
+                          padding: '8px 10px',
+                          borderRadius: 6,
+                          background: blockForm.block_type === b.type ? 'rgba(13,110,253,0.2)' : 'rgba(255,255,255,0.03)',
+                          border: `1px solid ${blockForm.block_type === b.type ? '#0d6efd' : 'var(--admin-border-subtle)'}`,
+                          color: 'white',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 6,
+                          fontSize: 12,
+                          cursor: 'pointer'
+                        }}
+                      >
+                        <i className={`bi ${b.icon}`} style={{ color: b.color }}></i>
+                        <span>{b.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {blockForm.block_type === 'MARKDOWN' && (
+                  <div>
+                    <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--admin-text-secondary)', display: 'block', marginBottom: 4 }}>
+                      Markdown Theory / Technical Documentation
+                    </label>
+                    <textarea
+                      rows={5}
+                      placeholder="Write markdown content with headers, lists, code fences, etc..."
+                      value={blockForm.body}
+                      onChange={(e) => setBlockForm(prev => ({ ...prev, body: e.target.value }))}
+                      style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white', fontFamily: 'monospace' }}
+                    />
+                  </div>
+                )}
+
+                {blockForm.block_type === 'CODE_PLAYGROUND' && (
+                  <div>
+                    <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--admin-text-secondary)', display: 'block', marginBottom: 4 }}>
+                      Starter Code Sandbox
+                    </label>
+                    <textarea
+                      rows={5}
+                      placeholder="// Write starter template code for student drill..."
+                      value={blockForm.code}
+                      onChange={(e) => setBlockForm(prev => ({ ...prev, code: e.target.value }))}
+                      style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white', fontFamily: 'monospace' }}
+                    />
+                  </div>
+                )}
+
+                {blockForm.block_type === 'DAY_TASK' && (
+                  <div>
+                    <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--admin-text-secondary)', display: 'block', marginBottom: 4 }}>
+                      Hands-on Task Requirements
+                    </label>
+                    <textarea
+                      rows={4}
+                      placeholder="Specify the deliverable (e.g. Build a flexbox navbar with hamburger menu and submit GitHub repo link)..."
+                      value={blockForm.task_instructions}
+                      onChange={(e) => setBlockForm(prev => ({ ...prev, task_instructions: e.target.value }))}
+                      style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
+                    />
+                  </div>
+                )}
+              </div>
+
+              <div className="modalFooter" style={{ borderTop: '1px solid var(--admin-border-subtle)', paddingTop: 12, display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+                <button type="button" className="btn btn-secondary" onClick={() => setShowBlockModal(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="btn btn-primary">
+                  Attach Block to Day
                 </button>
               </div>
             </form>

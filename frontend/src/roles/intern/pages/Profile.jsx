@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
+import AvatarUploader from '../../../common/components/AvatarUploader/AvatarUploader.jsx';
 import { useAuth } from '../../../common/hooks/useAuth.js';
+import { updateMyProfile } from '../../../services/api/userApi.js';
 
 export default function Profile() {
-  const { user } = useAuth();
+  const { user, updateProfile } = useAuth();
   const [activeTab, setActiveTab] = useState('personal'); // 'personal' | 'academic' | 'internship' | 'skills' | 'social' | 'security'
   const [alert, setAlert] = useState({ type: '', text: '' });
+  const [avatarUrl, setAvatarUrl] = useState(user?.avatar_url || '');
 
   const [personalInfo, setPersonalInfo] = useState({
-    firstName: user?.firstName || 'Jeevananthan',
-    lastName: user?.lastName || 'V',
+    firstName: user?.full_name ? user.full_name.split(' ')[0] : 'Jeevananthan',
+    lastName: user?.full_name ? user.full_name.split(' ').slice(1).join(' ') : 'V',
     email: user?.email || 'jeeva@ethiroli.net',
     phone: user?.phone || '+91 63800 49042',
     dob: '2004-05-14',
@@ -19,6 +22,32 @@ export default function Profile() {
     emergencyContactPhone: '+91 94432 12345',
     emergencyRelation: 'Father'
   });
+
+  useEffect(() => {
+    if (user) {
+      if (user.avatar_url) setAvatarUrl(user.avatar_url);
+      if (user.email) setPersonalInfo(p => ({ ...p, email: user.email }));
+      if (user.full_name) {
+        const parts = user.full_name.split(' ');
+        setPersonalInfo(p => ({
+          ...p,
+          firstName: parts[0] || '',
+          lastName: parts.slice(1).join(' ') || ''
+        }));
+      }
+    }
+  }, [user]);
+
+  const handleAvatarChange = async (newAvatar) => {
+    setAvatarUrl(newAvatar || '');
+    try {
+      await updateMyProfile({ avatar_url: newAvatar || '' });
+      updateProfile({ avatar_url: newAvatar || null });
+      setAlert({ type: 'success', text: 'Profile picture successfully updated!' });
+    } catch (err) {
+      setAlert({ type: 'danger', text: err?.message || 'Failed to update profile picture' });
+    }
+  };
 
   const [academicInfo, setAcademicInfo] = useState({
     college: 'Government College of Engineering, Salem',
@@ -58,9 +87,24 @@ export default function Profile() {
     confirmPassword: ''
   });
 
-  const handleSaveProfile = (e) => {
+  const handleSaveProfile = async (e) => {
     e.preventDefault();
-    setAlert({ type: 'success', text: 'Profile details successfully updated!' });
+    const fullName = `${personalInfo.firstName} ${personalInfo.lastName}`.trim();
+    try {
+      await updateMyProfile({
+        full_name: fullName,
+        phone: personalInfo.phone,
+        avatar_url: avatarUrl || null
+      });
+      updateProfile({
+        full_name: fullName,
+        phone: personalInfo.phone,
+        avatar_url: avatarUrl || null
+      });
+      setAlert({ type: 'success', text: 'Profile details successfully updated!' });
+    } catch (err) {
+      setAlert({ type: 'danger', text: err?.message || 'Failed to update profile' });
+    }
   };
 
   const handleAddSkill = (e) => {
@@ -101,12 +145,14 @@ export default function Profile() {
         <div className="row g-4 mb-2">
           {/* Identity Card */}
           <div className="col-lg-4">
-            <div className="card shadow-sm border-0 text-center p-3">
-              <div
-                className="bg-primary text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center fw-bold fs-2"
-                style={{ width: '84px', height: '84px' }}
-              >
-                {personalInfo.firstName.charAt(0)}{personalInfo.lastName.charAt(0)}
+            <div className="card shadow-sm border-0 text-center p-4">
+              <div className="mb-3">
+                <AvatarUploader
+                  value={avatarUrl}
+                  onChange={handleAvatarChange}
+                  name={`${personalInfo.firstName} ${personalInfo.lastName}`}
+                  size={100}
+                />
               </div>
               <h4 className="fw-bold mb-1 text-dark">
                 {personalInfo.firstName} {personalInfo.lastName}

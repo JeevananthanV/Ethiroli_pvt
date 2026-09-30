@@ -31,7 +31,7 @@ export const getUser = asyncHandler(async (req, res) => {
  * role, email and account status stay behind the admin-only routes below.
  */
 export const updateMyProfile = asyncHandler(async (req, res) => {
-  const { full_name, phone } = req.body;
+  const { full_name, phone, avatar_url, avatar } = req.body;
   const updates = {};
 
   if (full_name !== undefined) {
@@ -44,8 +44,13 @@ export const updateMyProfile = asyncHandler(async (req, res) => {
     updates.phone = phone ? String(phone).trim() : null;
   }
 
+  const resolvedAvatar = avatar_url !== undefined ? avatar_url : avatar;
+  if (resolvedAvatar !== undefined) {
+    updates.avatar_url = resolvedAvatar ? String(resolvedAvatar).trim() : null;
+  }
+
   if (Object.keys(updates).length === 0) {
-    throw new ValidationError('Nothing to update. Send full_name and/or phone.');
+    throw new ValidationError('Nothing to update. Send full_name, phone, and/or avatar_url.');
   }
 
   await User.update(req.user.id, updates);
@@ -231,6 +236,11 @@ export const updateUser = asyncHandler(async (req, res) => {
 
   if (password && typeof password === 'string' && password.trim().length >= 6) {
     updates.password_hash = await bcrypt.hash(password.trim(), 10);
+  }
+
+  const resolvedAvatar = req.body.avatar_url !== undefined ? req.body.avatar_url : req.body.avatar;
+  if (resolvedAvatar !== undefined) {
+    updates.avatar_url = resolvedAvatar ? String(resolvedAvatar).trim() : null;
   }
 
   await User.update(id, updates);

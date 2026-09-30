@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useEffect, useCallback, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks.js';
-import { setCredentials, clearCredentials } from '../../store/slices/authSlice.js';
+import { setCredentials, updateUserProfile, clearCredentials } from '../../store/slices/authSlice.js';
 import { getMe, login as apiLogin, logout as apiLogout } from '../../services/api/authApi.js';
 
 const AuthContext = createContext(null);
@@ -104,6 +104,22 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateProfile = useCallback((updates) => {
+    if (!updates) return;
+    dispatch(updateUserProfile(updates));
+    try {
+      const stored = localStorage.getItem('user');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        localStorage.setItem('user', JSON.stringify({ ...parsed, ...updates }));
+      }
+    } catch (_) {}
+  }, [dispatch]);
+
+  const refreshUser = useCallback(async () => {
+    await checkAuth();
+  }, [checkAuth]);
+
   const effectiveRole = activeRole || user?.role || null;
 
   const value = {
@@ -118,6 +134,8 @@ export const AuthProvider = ({ children }) => {
     loading,
     login,
     logout,
+    updateProfile,
+    refreshUser
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

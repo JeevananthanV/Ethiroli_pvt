@@ -93,7 +93,7 @@ export default class Session {
 
   static async findByToken(token) {
     const [rows] = await pool.execute(
-      `SELECT s.*, u.role, u.email, u.full_name, u.is_active,
+      `SELECT s.*, u.role, u.email, u.full_name, u.is_active, u.avatar_url,
               tu.tenant_id, tu.tenant_role,
               im.role AS impersonator_role,
               im.full_name AS impersonated_by_name

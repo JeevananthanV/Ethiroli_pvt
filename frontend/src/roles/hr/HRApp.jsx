@@ -20,6 +20,7 @@ const HROffboarding = lazy(() => import('./pages/Offboarding.jsx'));
 const HRCalendar = lazy(() => import('./pages/Calendar.jsx'));
 const HRCareerApplications = lazy(() => import('./pages/CareerApplications.jsx'));
 const HRInquiries = lazy(() => import('./pages/Inquiries.jsx'));
+const HRProfile = lazy(() => import('../../common/components/RoleProfile/RoleProfile.jsx'));
 
 function HRLoader() {
   return (
@@ -62,6 +63,7 @@ export default function HRApp() {
         <Route path="career-applications" element={<HRCareerApplications />} />
         <Route path="inquiries" element={<HRInquiries />} />
         <Route path="website-inquiries" element={<HRInquiries />} />
+        <Route path="profile" element={<HRProfile title="HR Executive Profile" subtitle="Manage your HR credentials, profile avatar, and security access" />} />
         <Route path="*" element={<Navigate to="dashboard" replace />} />
       </Routes>
     </Suspense>

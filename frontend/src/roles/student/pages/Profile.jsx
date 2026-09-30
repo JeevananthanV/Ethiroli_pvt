@@ -1,17 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
+import AvatarUploader from '../../../common/components/AvatarUploader/AvatarUploader.jsx';
+import { useAuth } from '../../../common/contexts/AuthContext.jsx';
 import { getMe } from '../../../services/api/authApi.js';
 import { updateMyProfile } from '../../../services/api/userApi.js';
 
-/**
- * Student profile - loaded from GET /v1/auth/me and saved through
- * PATCH /v1/users/me (name / phone only; email & role are account-managed).
- */
 export default function StudentProfile() {
+  const { updateProfile } = useAuth();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [saving, setSaving] = useState(false);
-  const [form, setForm] = useState({ full_name: '', phone: '' });
+  const [form, setForm] = useState({ full_name: '', phone: '', avatar_url: '' });
   const [account, setAccount] = useState({ email: '', role: '', id: '' });
   const [saved, setSaved] = useState(false);
   const [saveError, setSaveError] = useState(null);
@@ -21,15 +20,16 @@ export default function StudentProfile() {
     setError(null);
     try {
       const payload = await getMe();
-      const user = payload?.user || payload || {};
+      const user = payload?.data?.user || payload?.user || payload || {};
       setAccount({
         email: user.email || '',
-        role: user.role || '',
+        role: user.role || 'STUDENT',
         id: user.id || ''
       });
       setForm({
         full_name: user.full_name || '',
-        phone: user.phone || ''
+        phone: user.phone || '',
+        avatar_url: user.avatar_url || ''
       });
     } catch (err) {
       setError(err.message || 'Failed to load your profile');
@@ -42,6 +42,18 @@ export default function StudentProfile() {
     loadProfile();
   }, [loadProfile]);
 
+  const handleAvatarChange = async (newAvatar) => {
+    setForm(prev => ({ ...prev, avatar_url: newAvatar || '' }));
+    try {
+      await updateMyProfile({ avatar_url: newAvatar || '' });
+      updateProfile({ avatar_url: newAvatar || null });
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2500);
+    } catch (err) {
+      setSaveError(err.response?.data?.message || err.message || 'Could not update profile picture.');
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.full_name.trim()) return;
@@ -51,12 +63,14 @@ export default function StudentProfile() {
     try {
       const updated = await updateMyProfile({
         full_name: form.full_name.trim(),
-        phone: form.phone.trim() || null
+        phone: form.phone.trim() || null,
+        avatar_url: form.avatar_url || null
       });
       if (updated) {
-        setForm({
-          full_name: updated.full_name ?? form.full_name,
-          phone: updated.phone ?? form.phone
+        updateProfile({
+          full_name: form.full_name.trim(),
+          phone: form.phone.trim() || null,
+          avatar_url: form.avatar_url || null
         });
       }
       setSaved(true);
@@ -70,77 +84,90 @@ export default function StudentProfile() {
 
   return (
     <AdminPage
-      title="My Profile"
-      subtitle="Manage your personal information"
+      title="My Student Profile"
+      subtitle="Manage your student identity, avatar photo, and contact information"
       loading={loading}
       error={error}
       onRetry={loadProfile}
     >
-      <div className="card" style={{ maxWidth: 600, margin: '0 auto' }}>
-        <div className="cardHeader">
-          <h3 className="cardTitle">Student Profile</h3>
-        </div>
-        <div className="cardBody">
-          <div
-            className="formGroup"
-            style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 18 }}
-          >
-            <div style={{ flex: '1 1 180px' }}>
-              <label className="label">Registered Email</label>
-              <input
-                type="email"
-                className="inputField"
-                value={account.email}
-                readOnly
-                disabled
-                style={{ opacity: 0.7, cursor: 'not-allowed' }}
+      <div className="row g-4 justify-content-center">
+        <div className="col-lg-4">
+          <div className="card shadow-sm border-0 text-center p-4 bg-white rounded-3">
+            <div className="mb-3">
+              <AvatarUploader
+                value={form.avatar_url}
+                onChange={handleAvatarChange}
+                name={form.full_name || 'Student'}
+                size={110}
               />
-              <p style={{ margin: '6px 0 0', fontSize: 12, color: 'var(--admin-text-muted)' }}>
-                Email changes are handled by the academy office.
-              </p>
             </div>
-            <div style={{ flex: '0 1 140px' }}>
-              <label className="label">Role</label>
-              <input type="text" className="inputField" value={account.role} readOnly disabled style={{ opacity: 0.7 }} />
-            </div>
+            <h5 className="fw-bold mb-1 text-dark">{form.full_name || 'Student'}</h5>
+            <p className="text-muted small mb-2">{account.email}</p>
+            <span className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-3 py-1">
+              ROLE: {account.role}
+            </span>
           </div>
+        </div>
 
-          <form className="form" onSubmit={handleSubmit}>
-            <div className="formGroup">
-              <label className="label required">Full Name</label>
-              <input
-                type="text"
-                className="inputField"
-                value={form.full_name}
-                onChange={(e) => setForm({ ...form, full_name: e.target.value })}
-                required
-                minLength={2}
-              />
-            </div>
-            <div className="formGroup">
-              <label className="label">Phone</label>
-              <input
-                type="tel"
-                className="inputField"
-                value={form.phone}
-                onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                placeholder="+91 ..."
-              />
-            </div>
+        <div className="col-lg-8">
+          <div className="card shadow-sm border-0 p-4 bg-white rounded-3">
+            <h5 className="fw-bold mb-3 border-bottom pb-2">Edit Student Details</h5>
 
             {saveError && (
-              <p style={{ margin: '0 0 10px', fontSize: 13, color: '#ff5252' }}>{saveError}</p>
+              <div className="alert alert-danger d-flex align-items-center gap-2 mb-3">
+                <i className="bi bi-exclamation-triangle-fill"></i>
+                <span>{saveError}</span>
+              </div>
             )}
             {saved && (
-              <p style={{ margin: '0 0 10px', fontSize: 13, color: '#2e7d32' }}>
-                Profile saved.
-              </p>
+              <div className="alert alert-success d-flex align-items-center gap-2 mb-3">
+                <i className="bi bi-check-circle-fill"></i>
+                <span>Profile updated successfully!</span>
+              </div>
             )}
 
-            <button type="submit" className="btn primary" disabled={saving}>
-              {saving ? 'Saving…' : 'Save Profile'}
-            </button>
-          </form>
+            <form onSubmit={handleSubmit}>
+              <div className="row g-3 mb-3">
+                <div className="col-md-6">
+                  <label className="form-label small fw-semibold">Full Legal Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={form.full_name}
+                    onChange={(e) => setForm({ ...form, full_name: e.target.value })}
+                    required
+                    minLength={2}
+                  />
+                </div>
+                <div className="col-md-6">
+                  <label className="form-label small fw-semibold">Registered Email (Read-Only)</label>
+                  <input
+                    type="email"
+                    className="form-control bg-light"
+                    value={account.email}
+                    disabled
+                  />
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <label className="form-label small fw-semibold">Phone Number</label>
+                <input
+                  type="tel"
+                  className="form-control"
+                  value={form.phone}
+                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                  placeholder="+91 98765 43210"
+                />
+              </div>
+
+              <div className="text-end">
+                <button type="submit" className="btn btn-primary px-4 shadow-sm" disabled={saving}>
+                  {saving ? 'Saving...' : 'Save Profile'}
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </AdminPage>

@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
+import AvatarUploader from '../../../common/components/AvatarUploader/AvatarUploader.jsx';
+import { useAuth } from '../../../common/hooks/useAuth.js';
+import { updateMyProfile } from '../../../services/api/userApi.js';
 
 export default function Profile() {
-  const [user, setUser] = useState({
-    name: 'Rahul Sharma',
+  const { user, updateProfile } = useAuth();
+  const [salesUser, setSalesUser] = useState({
+    name: user?.full_name || 'Rahul Sharma',
     role: 'Senior Enterprise Account Executive',
-    email: 'rahul.sharma@ethiroli.com',
-    phone: '+91 98450 99887',
+    email: user?.email || 'sales@ethiroli.net',
+    phone: user?.phone || '+91 98450 99887',
+    avatar_url: user?.avatar_url || '',
     territory: 'India - South & Enterprise West',
     manager: 'Sales Director (Siddharth Roy)',
     joined_date: 'March 2025',
@@ -16,13 +21,50 @@ export default function Profile() {
     win_rate: '34.8%'
   });
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [editForm, setEditForm] = useState({ ...user });
+  useEffect(() => {
+    if (user) {
+      setSalesUser(prev => ({
+        ...prev,
+        name: user.full_name || prev.name,
+        email: user.email || prev.email,
+        phone: user.phone || prev.phone,
+        avatar_url: user.avatar_url || ''
+      }));
+    }
+  }, [user]);
 
-  const handleSave = (e) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editForm, setEditForm] = useState({ ...salesUser });
+  const [saveSuccess, setSaveSuccess] = useState(false);
+
+  const handleAvatarChange = async (newAvatar) => {
+    setSalesUser(prev => ({ ...prev, avatar_url: newAvatar || '' }));
+    try {
+      await updateMyProfile({ avatar_url: newAvatar || '' });
+      updateProfile({ avatar_url: newAvatar || null });
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 2500);
+    } catch (_) {}
+  };
+
+  const handleSave = async (e) => {
     e.preventDefault();
-    setUser({ ...editForm });
-    setIsEditing(false);
+    try {
+      await updateMyProfile({
+        full_name: editForm.name,
+        phone: editForm.phone,
+        avatar_url: salesUser.avatar_url || null
+      });
+      updateProfile({
+        full_name: editForm.name,
+        phone: editForm.phone,
+        avatar_url: salesUser.avatar_url || null
+      });
+      setSalesUser({ ...editForm, avatar_url: salesUser.avatar_url });
+      setIsEditing(false);
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 2500);
+    } catch (_) {}
   };
 
   const attainment = Math.round((user.achieved_revenue / user.target_revenue) * 100);
@@ -35,12 +77,17 @@ export default function Profile() {
       <div className="row g-4">
         {/* Profile Card */}
         <div className="col-lg-4">
-          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white text-center h-100">
-            <div className="rounded-circle bg-primary bg-opacity-10 text-primary mx-auto mb-3 d-flex align-items-center justify-content-center fw-bold fs-2" style={{ width: '88px', height: '88px' }}>
-              RS
+          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white text-center h-100">
+            <div className="mb-3">
+              <AvatarUploader
+                value={salesUser.avatar_url}
+                onChange={handleAvatarChange}
+                name={salesUser.name}
+                size={100}
+              />
             </div>
-            <h4 className="fw-bold text-dark mb-1">{user.name}</h4>
-            <small className="text-muted d-block mb-3">{user.role}</small>
+            <h4 className="fw-bold text-dark mb-1">{salesUser.name}</h4>
+            <small className="text-muted d-block mb-3">{salesUser.role}</small>
             <div className="mb-3">
               <span className="badge bg-success bg-opacity-10 text-success fs-6 px-3 py-2 border border-success border-opacity-25">
                 <i className="bi bi-award-fill me-1"></i>President's Club (114% Quota)
@@ -52,19 +99,19 @@ export default function Profile() {
             <div className="text-start small">
               <div className="mb-2">
                 <strong className="text-muted d-block">Territory:</strong>
-                <span className="text-dark fw-semibold">{user.territory}</span>
+                <span className="text-dark fw-semibold">{salesUser.territory}</span>
               </div>
               <div className="mb-2">
                 <strong className="text-muted d-block">Reporting Manager:</strong>
-                <span className="text-dark fw-semibold">{user.manager}</span>
+                <span className="text-dark fw-semibold">{salesUser.manager}</span>
               </div>
               <div className="mb-2">
                 <strong className="text-muted d-block">Official Email:</strong>
-                <span className="text-dark fw-semibold">{user.email}</span>
+                <span className="text-dark fw-semibold">{salesUser.email}</span>
               </div>
               <div>
                 <strong className="text-muted d-block">Direct Mobile:</strong>
-                <span className="text-dark fw-semibold">{user.phone}</span>
+                <span className="text-dark fw-semibold">{salesUser.phone}</span>
               </div>
             </div>
 
@@ -82,13 +129,13 @@ export default function Profile() {
               <div className="col-md-4">
                 <div className="p-3 bg-light rounded-3 text-center">
                   <small className="text-muted text-uppercase">Assigned Quota</small>
-                  <h4 className="fw-bold text-dark mt-1">₹{user.target_revenue.toLocaleString()}</h4>
+                  <h4 className="fw-bold text-dark mt-1">₹{salesUser.target_revenue.toLocaleString()}</h4>
                 </div>
               </div>
               <div className="col-md-4">
                 <div className="p-3 bg-light rounded-3 text-center">
                   <small className="text-muted text-uppercase">Achieved Bookings</small>
-                  <h4 className="fw-bold text-success mt-1">₹{user.achieved_revenue.toLocaleString()}</h4>
+                  <h4 className="fw-bold text-success mt-1">₹{salesUser.achieved_revenue.toLocaleString()}</h4>
                 </div>
               </div>
               <div className="col-md-4">
@@ -118,7 +165,7 @@ export default function Profile() {
                 <div className="p-3 border rounded-3 d-flex justify-content-between align-items-center">
                   <div>
                     <small className="text-muted d-block">Closed Won Deals</small>
-                    <strong className="fs-4 text-dark">{user.deals_won} Deals</strong>
+                    <strong className="fs-4 text-dark">{salesUser.deals_won} Deals</strong>
                   </div>
                   <i className="bi bi-trophy text-warning fs-3"></i>
                 </div>
@@ -127,7 +174,7 @@ export default function Profile() {
                 <div className="p-3 border rounded-3 d-flex justify-content-between align-items-center">
                   <div>
                     <small className="text-muted d-block">Win Ratio</small>
-                    <strong className="fs-4 text-primary">{user.win_rate}</strong>
+                    <strong className="fs-4 text-primary">{salesUser.win_rate}</strong>
                   </div>
                   <i className="bi bi-pie-chart text-primary fs-3"></i>
                 </div>

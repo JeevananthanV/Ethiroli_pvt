@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
+import AvatarUploader from '../../../common/components/AvatarUploader/AvatarUploader.jsx';
+import { useAuth } from '../../../common/contexts/AuthContext.jsx';
 import employeePortalApi from '../../../services/api/employeePortalApi.js';
 
 export default function Profile() {
+  const { updateProfile } = useAuth();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,6 +15,7 @@ export default function Profile() {
   const [formData, setFormData] = useState({
     full_name: '',
     phone: '',
+    avatar_url: ''
   });
 
   const loadProfile = useCallback(async () => {
@@ -25,6 +29,7 @@ export default function Profile() {
         setFormData({
           full_name: data.user.full_name || '',
           phone: data.user.phone || '',
+          avatar_url: data.user.avatar_url || ''
         });
       }
     } catch (err) {
@@ -38,6 +43,18 @@ export default function Profile() {
     loadProfile();
   }, [loadProfile]);
 
+  const handleAvatarChange = async (newAvatar) => {
+    setFormData(prev => ({ ...prev, avatar_url: newAvatar || '' }));
+    try {
+      await employeePortalApi.updateMyProfile({ avatar_url: newAvatar || '' });
+      updateProfile({ avatar_url: newAvatar || null });
+      setSuccessMsg('Profile picture updated successfully!');
+      setTimeout(() => setSuccessMsg(''), 3000);
+    } catch (err) {
+      setError(err.message || 'Failed to update profile picture');
+    }
+  };
+
   const handleUpdate = async (e) => {
     e.preventDefault();
     setSaving(true);
@@ -45,6 +62,7 @@ export default function Profile() {
     setSuccessMsg('');
     try {
       await employeePortalApi.updateMyProfile(formData);
+      updateProfile({ full_name: formData.full_name, avatar_url: formData.avatar_url || null });
       setSuccessMsg('Profile contact information updated successfully!');
       await loadProfile();
     } catch (err) {
@@ -76,14 +94,14 @@ export default function Profile() {
       <div className="row g-4">
         {/* Left Column: Summary Card */}
         <div className="col-lg-4">
-          <div className="card shadow-sm border-0 text-center p-3">
-            <div className="d-inline-flex justify-content-center mb-3">
-              <div
-                className="rounded-circle bg-primary bg-gradient text-white d-flex align-items-center justify-content-center shadow"
-                style={{ width: '84px', height: '84px', fontSize: '2rem' }}
-              >
-                {user?.full_name ? user.full_name.charAt(0).toUpperCase() : 'E'}
-              </div>
+          <div className="card shadow-sm border-0 text-center p-4">
+            <div className="mb-3">
+              <AvatarUploader
+                value={formData.avatar_url}
+                onChange={handleAvatarChange}
+                name={user?.full_name || 'Employee'}
+                size={100}
+              />
             </div>
 
             <h5 className="fw-bold mb-1">{user?.full_name || 'Employee'}</h5>

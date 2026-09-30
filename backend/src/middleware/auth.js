@@ -101,6 +101,7 @@ export const authenticate = async (req, res, next) => {
       full_name: sessionRecord.full_name,
       role: sessionRecord.role,
       is_active: sessionRecord.is_active,
+      avatar_url: sessionRecord.avatar_url || null,
       tenant_id: sessionRecord.tenant_id || null,
       tenant_role: sessionRecord.tenant_role || null,
       impersonated_by: sessionRecord.impersonated_by || null,

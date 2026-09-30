@@ -26,6 +26,7 @@ const FinanceApprovals = lazy(() => import('./pages/Approvals.jsx'));
 const FinanceCalendar = lazy(() => import('./pages/Calendar.jsx'));
 const FinanceNotifications = lazy(() => import('./pages/Notifications.jsx'));
 const FinanceSettings = lazy(() => import('./pages/Settings.jsx'));
+const FinanceProfile = lazy(() => import('../../common/components/RoleProfile/RoleProfile.jsx'));
 
 /**
  * FinanceRoutes - route tree for the Finance portal.
@@ -59,6 +60,7 @@ export default function FinanceRoutes() {
         <Route path="calendar" element={<FinanceCalendar />} />
         <Route path="notifications" element={<FinanceNotifications />} />
         <Route path="settings" element={<FinanceSettings />} />
+        <Route path="profile" element={<FinanceProfile title="Finance & Treasury Profile" subtitle="Manage your financial authority credentials, profile photo, and security access" />} />
         <Route path="*" element={<Navigate to="dashboard" replace />} />
       </Routes>
     </Suspense>

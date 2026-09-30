@@ -85,7 +85,18 @@ export const ensureEssentialTables = async () => {
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     `);
 
-    console.log('Essential tables (contact_messages, career_applications, candidates, contact_inquiries) verified/created.');
+    // 5. Ensure avatar_url column on users table
+    try {
+      await pool.execute(`
+        ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar_url MEDIUMTEXT DEFAULT NULL;
+      `);
+    } catch (colErr) {
+      try {
+        await pool.execute(`ALTER TABLE users MODIFY COLUMN avatar_url MEDIUMTEXT DEFAULT NULL;`);
+      } catch (_) {}
+    }
+
+    console.log('Essential tables (contact_messages, career_applications, candidates, contact_inquiries, users.avatar_url) verified/created.');
   } catch (err) {
     console.warn('Warning checking essential tables on startup:', err.message);
   }

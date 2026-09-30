@@ -41,6 +41,8 @@ export default function Navbar({ role, onSearchClick, onToggleFeed, unreadFeedCo
   };
 
   const roleSlug = getRoleSlug(currentRole);
+  const [avatarError, setAvatarError] = React.useState(false);
+  const showAvatarImg = Boolean(user?.avatar_url && !avatarError);
 
   return (
     <header className="portalNavbar" role="banner">
@@ -152,7 +154,16 @@ export default function Navbar({ role, onSearchClick, onToggleFeed, unreadFeedCo
               style={{ background: 'transparent' }}
             >
               <div className="portalAvatar" title={user.email}>
-                {userInitial}
+                {showAvatarImg ? (
+                  <img
+                    src={user.avatar_url}
+                    alt={user.full_name || 'User'}
+                    className="portalAvatarImg"
+                    onError={() => setAvatarError(true)}
+                  />
+                ) : (
+                  userInitial
+                )}
               </div>
               <div className="d-none d-md-block text-start ms-2" style={{ lineHeight: '1.2' }}>
                 <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-text-main)' }}>
@@ -179,9 +190,23 @@ export default function Navbar({ role, onSearchClick, onToggleFeed, unreadFeedCo
                   border: '1px solid var(--admin-border-subtle, rgba(0,0,0,0.1))'
                 }}
               >
-                <li className="px-3 py-2 border-bottom">
-                  <div className="fw-bold text-truncate">{user.full_name || 'Portal User'}</div>
-                  <small className="text-muted text-truncate d-block">{user.email}</small>
+                <li className="px-3 py-2 border-bottom d-flex align-items-center gap-2">
+                  <div className="portalAvatar" style={{ width: '32px', height: '32px', fontSize: '12px', flexShrink: 0 }}>
+                    {showAvatarImg ? (
+                      <img
+                        src={user.avatar_url}
+                        alt={user.full_name || 'User'}
+                        className="portalAvatarImg"
+                        onError={() => setAvatarError(true)}
+                      />
+                    ) : (
+                      userInitial
+                    )}
+                  </div>
+                  <div style={{ overflow: 'hidden' }}>
+                    <div className="fw-bold text-truncate" style={{ fontSize: '13px' }}>{user.full_name || 'Portal User'}</div>
+                    <small className="text-muted text-truncate d-block" style={{ fontSize: '11px' }}>{user.email}</small>
+                  </div>
                 </li>
                 <li>
                   <button

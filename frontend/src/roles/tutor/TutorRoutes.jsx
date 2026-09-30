@@ -13,6 +13,7 @@ const TutorStudents = lazy(() => import('./pages/Students.jsx'));
 const TutorForum = lazy(() => import('./pages/Forum.jsx'));
 const TutorCommunications = lazy(() => import('./pages/Communications.jsx'));
 const TutorCalendar = lazy(() => import('./pages/Calendar.jsx'));
+const TutorProfile = lazy(() => import('../../common/components/RoleProfile/RoleProfile.jsx'));
 
 /**
  * TutorRoutes - route tree for the Tutor / Teaching portal.
@@ -33,6 +34,7 @@ export default function TutorRoutes() {
         <Route path="forum" element={<TutorForum />} />
         <Route path="communications" element={<TutorCommunications />} />
         <Route path="calendar" element={<TutorCalendar />} />
+        <Route path="profile" element={<TutorProfile title="Tutor Faculty Profile" subtitle="Manage your academic credentials, profile photo, and teaching security access" />} />
         <Route path="*" element={<Navigate to="dashboard" replace />} />
       </Routes>
     </Suspense>

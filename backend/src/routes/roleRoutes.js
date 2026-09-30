@@ -8,6 +8,8 @@ import { asyncHandler } from '../middleware/errorHandler.js';
 import { success, error } from '../utils/response.js';
 import { ValidationError, AuthorizationError } from '../utils/errors.js';
 import SystemConfig from '../models/SystemConfig.js';
+import User from '../models/User.js';
+import { updateMyProfile } from '../controllers/userController.js';
 import { broadcastToRole } from '../services/socketService.js';
 import pool from '../config/database.js';
 
@@ -341,16 +343,21 @@ router.get('/portal-config', asyncHandler(async (req, res) => {
 }));
 
 router.get('/profile', asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user.id);
   const profile = {
     id: req.user.id,
-    email: req.user.email,
-    full_name: req.user.full_name,
+    email: user?.email || req.user.email,
+    full_name: user?.full_name || req.user.full_name,
     role: req.user.role,
+    avatar_url: user?.avatar_url || req.user.avatar_url || null,
     is_active: req.user.is_active,
     tenant_id: req.user.tenant_id,
   };
   return success(res, 200, { profile }, 'Profile retrieved successfully');
 }));
+
+router.put('/profile', updateMyProfile);
+router.patch('/profile', updateMyProfile);
 
 router.get('/permissions', asyncHandler(async (req, res) => {
   const permissions = ROLE_PERMISSIONS[req.user.role] || [];
@@ -358,7 +365,10 @@ router.get('/permissions', asyncHandler(async (req, res) => {
 }));
 
 router.get('/me', asyncHandler(async (req, res) => {
-  return success(res, 200, { user: req.user }, 'User data retrieved successfully');
+  const user = await User.findById(req.user.id);
+  const safeUser = user ? { ...user } : { ...req.user };
+  delete safeUser.password_hash;
+  return success(res, 200, { user: safeUser }, 'User data retrieved successfully');
 }));
 
 export default router;

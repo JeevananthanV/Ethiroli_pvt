@@ -233,10 +233,20 @@ export default function Sidebar({ role, navItems }) {
                   justifyContent: 'center',
                   fontWeight: 700,
                   fontSize: '14px',
-                  flexShrink: 0
+                  flexShrink: 0,
+                  overflow: 'hidden'
                 }}
               >
-                {userInitial}
+                {user.avatar_url ? (
+                  <img
+                    src={user.avatar_url}
+                    alt={user.full_name || 'User'}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
+                    onError={(e) => { e.target.style.display = 'none'; }}
+                  />
+                ) : (
+                  userInitial
+                )}
               </div>
               <div style={{ overflow: 'hidden', lineHeight: '1.2' }}>
                 <div style={{ color: '#ffffff', fontSize: '13px', fontWeight: 600, textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden' }}>

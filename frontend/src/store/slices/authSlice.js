@@ -21,6 +21,11 @@ const authSlice = createSlice({
       state.tenantRole = action.payload.user?.tenant_role || null;
       state.activePortal = action.payload.activePortal || null;
     },
+    updateUserProfile: (state, action) => {
+      if (state.user) {
+        state.user = { ...state.user, ...action.payload };
+      }
+    },
     clearCredentials: (state) => {
       state.user = null;
       state.isAuthenticated = false;
@@ -32,7 +37,7 @@ const authSlice = createSlice({
   }
 });
 
-export const { setCredentials, clearCredentials } = authSlice.actions;
+export const { setCredentials, updateUserProfile, clearCredentials } = authSlice.actions;
 
 export const selectCurrentUser = (state) => state.auth.user;
 export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;

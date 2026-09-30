@@ -1,31 +1,66 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
+import AvatarUploader from '../../../common/components/AvatarUploader/AvatarUploader.jsx';
 import { useAuth } from '../../../common/hooks/useAuth.js';
+import { updateMyProfile } from '../../../services/api/userApi.js';
 
 export default function ReceptionProfile() {
-  const { user } = useAuth();
+  const { user, updateProfile } = useAuth();
   const [profile, setProfile] = useState({
     name: user?.full_name || 'Kavitha Ramasamy',
     staff_id: 'REC-STAFF-02',
     email: user?.email || 'reception@ethiroli.org',
-    phone: '+91 98401 99887',
+    phone: user?.phone || '+91 98401 99887',
+    avatar_url: user?.avatar_url || '',
     terminal_id: 'DESK-01-MAIN-LOBBY',
     intercom_ext: '100',
     shift: 'General Day Shift (08:30 AM - 05:30 PM)',
     handover_notes: 'VIP guest Mr. Suresh (Infosys) scheduled at 10:30 AM. Badge VIP-01 pre-assigned. 3 candidate inquiries pending WhatsApp brochure dispatch.'
   });
 
+  useEffect(() => {
+    if (user) {
+      setProfile(p => ({
+        ...p,
+        name: user.full_name || p.name,
+        email: user.email || p.email,
+        phone: user.phone || p.phone,
+        avatar_url: user.avatar_url || ''
+      }));
+    }
+  }, [user]);
+
   const [saving, setSaving] = useState(false);
   const [savedMsg, setSavedMsg] = useState(false);
 
-  const handleSave = (e) => {
-    e.preventDefault();
-    setSaving(true);
-    setTimeout(() => {
-      setSaving(false);
+  const handleAvatarChange = async (newAvatar) => {
+    setProfile(p => ({ ...p, avatar_url: newAvatar || '' }));
+    try {
+      await updateMyProfile({ avatar_url: newAvatar || '' });
+      updateProfile({ avatar_url: newAvatar || null });
       setSavedMsg(true);
       setTimeout(() => setSavedMsg(false), 3000);
-    }, 600);
+    } catch (_) {}
+  };
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    setSaving(true);
+    try {
+      await updateMyProfile({
+        full_name: profile.name,
+        phone: profile.phone,
+        avatar_url: profile.avatar_url || null
+      });
+      updateProfile({
+        full_name: profile.name,
+        phone: profile.phone,
+        avatar_url: profile.avatar_url || null
+      });
+      setSavedMsg(true);
+      setTimeout(() => setSavedMsg(false), 3000);
+    } catch (_) {}
+    setSaving(false);
   };
 
   return (
@@ -37,8 +72,13 @@ export default function ReceptionProfile() {
         {/* Left Column: Officer Identity & Station */}
         <div className="col-12 col-lg-4">
           <div className="card border-0 shadow-sm rounded-3 p-4 bg-white text-center mb-2">
-            <div className="rounded-circle bg-primary bg-gradient text-white mx-auto mb-3 d-flex align-items-center justify-content-center fw-bold fs-2" style={{ width: '80px', height: '80px' }}>
-              {profile.name.charAt(0)}
+            <div className="mb-3">
+              <AvatarUploader
+                value={profile.avatar_url}
+                onChange={handleAvatarChange}
+                name={profile.name}
+                size={100}
+              />
             </div>
             <h5 className="fw-bold text-dark mb-1">{profile.name}</h5>
             <span className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-3 py-1 mb-2">

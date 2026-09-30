@@ -22,6 +22,7 @@ const AdminGamification = lazy(() => import('./pages/Gamification.jsx'));
 const AdminAuditLogs = lazy(() => import('./pages/AuditLogs.jsx'));
 const AdminSettings = lazy(() => import('./pages/Settings.jsx'));
 const AdminMonitoring = lazy(() => import('./pages/Monitoring.jsx'));
+const AdminProfile = lazy(() => import('../../common/components/RoleProfile/RoleProfile.jsx'));
 
 // The admin console deliberately reuses the best screen from each specialised role.
 const HREmployees = lazy(() => import('../hr/pages/Employees.jsx'));
@@ -123,6 +124,7 @@ export default function AdminRoutes() {
         <Route path="audit-logs" element={<AdminAuditLogs />} />
         <Route path="settings" element={<AdminSettings />} />
         <Route path="monitoring" element={<AdminMonitoring />} />
+        <Route path="profile" element={<AdminProfile title="Admin Executive Profile" subtitle="Manage your administrative credentials, avatar image, and security access" />} />
 
         <Route path="*" element={<Navigate to="dashboard" replace />} />
       </Routes>

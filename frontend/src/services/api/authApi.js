@@ -42,3 +42,8 @@ export const getDemoUsers = async (role = 'STUDENT') => {
   return response.data?.data || response.data || [];
 };
 
+export const changePassword = async (currentPassword, newPassword) => {
+  const response = await axiosInstance.post('/v1/auth/change-password', { currentPassword, newPassword });
+  return response.data;
+};
+

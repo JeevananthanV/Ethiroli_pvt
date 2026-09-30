@@ -278,10 +278,19 @@ export const getMyProfile = asyncHandler(async (req, res) => {
 
 export const updateMyProfile = asyncHandler(async (req, res) => {
   const userId = req.user.id;
-  const { phone, full_name, preferences } = req.body;
+  const { phone, full_name, preferences, avatar_url, avatar } = req.body;
+  const updates = {};
+  if (phone !== undefined) updates.phone = phone;
+  if (full_name !== undefined) updates.full_name = full_name;
+  if (preferences !== undefined) updates.preferences = preferences;
+  const resolvedAvatar = avatar_url !== undefined ? avatar_url : avatar;
+  if (resolvedAvatar !== undefined) updates.avatar_url = resolvedAvatar;
 
-  await User.update(userId, { phone, full_name, preferences });
-  return success(res, 200, null, 'Profile updated successfully');
+  await User.update(userId, updates);
+  const updatedUser = await User.findById(userId);
+  const safeUser = updatedUser ? { ...updatedUser } : null;
+  if (safeUser) delete safeUser.password_hash;
+  return success(res, 200, safeUser, 'Profile updated successfully');
 });
 
 // 7. Support Tickets & Help Desk

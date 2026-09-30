@@ -47,10 +47,8 @@ export const resolveTenant = async (req, res, next) => {
 
     next();
   } catch (error) {
-    if (error instanceof AppError) {
-      next(error);
-    } else {
-      next(new NotFoundError('Tenant resolution failed.', { original: error.message }));
-    }
+    // Non-fatal fallback: allow standard non-tenant requests to proceed
+    req.tenant = undefined;
+    next();
   }
 };

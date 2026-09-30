@@ -96,22 +96,25 @@ const router = express.Router();
 
 router.use(resolveTenant);
 
+// Public & Core routes (must be mounted first so auth middleware cannot intercept public endpoints)
+router.use('/health', healthRoutes);
 router.use('/v1/auth', authRoutes);
-router.use('/v1/users', userRoutes);
-router.use('/v1/leads', leadRoutes);
-router.use('/v1/security', securityRoutes);
-router.use('/v1/feature-flags', featureFlagRoutes);
-router.use('/v1/admin/governance', governanceRoutes);
-router.use('/v1', governanceRoutes);
 router.use('/v1/contact-messages', contactRoutes);
 router.use('/v1/candidates', candidateRoutes);
 router.use('/v1/career-applications', candidateRoutes);
+router.use('/v1/leads', leadRoutes);
 router.use('/v1/jobs-board', jobBoardRoutes);
 router.use('/v1/webhooks', webhookRoutes);
+
+// Protected Core Services
+router.use('/v1/users', userRoutes);
+router.use('/v1/security', securityRoutes);
+router.use('/v1/feature-flags', featureFlagRoutes);
+router.use('/v1/admin/governance', governanceRoutes);
+router.use('/v1/governance', governanceRoutes);
 router.use('/v1/integrations', integrationRoutes);
 router.use('/v1/activity-feed', feedRoutes);
 router.use('/v1/audit-logs', auditRoutes);
-router.use('/health', healthRoutes);
 router.use('/v1/system', systemRoutes);
 router.use('/v1/role', roleRoutes);
 

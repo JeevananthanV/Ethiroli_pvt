@@ -140,6 +140,12 @@ const startServers = async () => {
     server.listen(PORT, async () => {
       console.log(`API & WebSocket Server running on port/socket ${PORT}`);
       try {
+        const { ensureEssentialTables } = await import('./config/ensureTables.js');
+        await ensureEssentialTables();
+      } catch (tableErr) {
+        console.warn('Table self-healing skipped or failed:', tableErr.message);
+      }
+      try {
         await seedAdminUser();
       } catch (seedErr) {
         console.warn('Admin seed skipped or failed:', seedErr.message);

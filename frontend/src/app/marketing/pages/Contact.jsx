@@ -26,7 +26,7 @@ const Contact = () => {
         setSubmitState({ loading: true, error: '', success: '' });
 
         try {
-            const rawBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+            const rawBase = import.meta.env.VITE_API_BASE_URL || (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5000');
             const apiBase = rawBase.replace(/\/api\/?$/, '');
             const response = await fetch(`${apiBase}/api/v1/contact-messages`, {
                 method: 'POST',

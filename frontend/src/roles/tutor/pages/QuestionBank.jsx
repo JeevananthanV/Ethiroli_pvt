@@ -287,13 +287,30 @@ export default function TutorQuestionBank() {
           <option value="HARD">Hard</option>
         </select>
 
-        <input
-          type="number"
-          placeholder="Day #"
-          value={selectedDay}
-          onChange={(e) => setSelectedDay(e.target.value)}
-          style={{ width: 85, padding: '10px 12px', borderRadius: 8, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
-        />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+          <button
+            className="btn btn-sm btn-outline-secondary"
+            title="Previous Day Questions"
+            disabled={!selectedDay || Number(selectedDay) <= 1}
+            onClick={() => setSelectedDay(prev => String(Math.max(1, (Number(prev) || 1) - 1)))}
+          >
+            <i className="bi bi-chevron-left"></i>
+          </button>
+          <input
+            type="number"
+            placeholder="Day #"
+            value={selectedDay}
+            onChange={(e) => setSelectedDay(e.target.value)}
+            style={{ width: 80, padding: '10px 10px', textAlign: 'center', borderRadius: 8, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
+          />
+          <button
+            className="btn btn-sm btn-outline-secondary"
+            title="Next Day Questions"
+            onClick={() => setSelectedDay(prev => String((Number(prev) || 0) + 1))}
+          >
+            <i className="bi bi-chevron-right"></i>
+          </button>
+        </div>
 
         <div style={{ display: 'flex', gap: 8 }}>
           <button

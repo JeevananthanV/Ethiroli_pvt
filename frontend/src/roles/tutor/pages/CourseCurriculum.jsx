@@ -340,13 +340,28 @@ export default function TutorCurriculum() {
             ))}
           </select>
 
-          {/* Phase Filter Tabs */}
-          <div style={{ display: 'flex', gap: 6 }}>
+          {/* Phase Filter Tabs with Dynamic Previous & Next Phase */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+            <button
+              className="btn btn-sm btn-outline-secondary"
+              title="Previous Phase"
+              onClick={() => {
+                const phases = ['ALL', 1, 2, 3, 4];
+                const currentIndex = phases.indexOf(activePhase);
+                const prevIndex = currentIndex > 0 ? currentIndex - 1 : phases.length - 1;
+                setActivePhase(phases[prevIndex]);
+              }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}
+            >
+              <i className="bi bi-chevron-left"></i>
+              <span>Prev Phase</span>
+            </button>
+
             <button
               className={`btn btn-sm ${activePhase === 'ALL' ? 'btn-primary' : 'btn-secondary'}`}
               onClick={() => setActivePhase('ALL')}
             >
-              All Phases ({totalDays} Days)
+              All ({totalDays} Days)
             </button>
             <button
               className={`btn btn-sm ${activePhase === 1 ? 'btn-primary' : 'btn-secondary'}`}
@@ -358,19 +373,34 @@ export default function TutorCurriculum() {
               className={`btn btn-sm ${activePhase === 2 ? 'btn-primary' : 'btn-secondary'}`}
               onClick={() => setActivePhase(2)}
             >
-              Phase 2: Core Engineering
+              Phase 2: Core
             </button>
             <button
               className={`btn btn-sm ${activePhase === 3 ? 'btn-primary' : 'btn-secondary'}`}
               onClick={() => setActivePhase(3)}
             >
-              Phase 3: Integration
+              Phase 3: Advanced
             </button>
             <button
               className={`btn btn-sm ${activePhase === 4 ? 'btn-primary' : 'btn-secondary'}`}
               onClick={() => setActivePhase(4)}
             >
               Phase 4: Capstone
+            </button>
+
+            <button
+              className="btn btn-sm btn-outline-secondary"
+              title="Next Phase"
+              onClick={() => {
+                const phases = ['ALL', 1, 2, 3, 4];
+                const currentIndex = phases.indexOf(activePhase);
+                const nextIndex = currentIndex < phases.length - 1 ? currentIndex + 1 : 0;
+                setActivePhase(phases[nextIndex]);
+              }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}
+            >
+              <span>Next Phase</span>
+              <i className="bi bi-chevron-right"></i>
             </button>
           </div>
         </div>

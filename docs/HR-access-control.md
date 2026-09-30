@@ -1,72 +1,76 @@
-# HR Access Control
+# HR Access Control & RBAC Matrix
 
 ## 1. Role Title and Summary
-- **Role**: HR  
-- **Purpose**: Manages employee lifecycle, attendance, leave, training, and related HR operations. Provides full CRUD for HR‑specific resources and read/write for select modules such as calendar, performance, and approvals.  
-- **Portal Slug**: `hr`  
-- **MFA Required**: No  
-- **Session Duration**: 8 hours  
+- **Role**: HR (People Operations)
+- **Purpose**: Manages full Ethiroli People Operations lifecycle: course-selling → students → interns → employees → onboarding → training → performance → offboarding. Provides full CRUD for HR-specific resources and read/write for people analytics, compliance documents, and departmental requests.
+- **Portal Slug**: `hr`
+- **MFA Required**: No (Role-level optional)
+- **Session Duration**: 8 hours
 - **Cookie Path**: `/app/hr`
 
+---
+
 ## 2. Permission Matrix
+
 | Resource / Module | Read | Create | Update | Delete | API Endpoints |
-|-------------------|------|--------|--------|--------|----------------|
-| Employees | ✅ | ✅ | ✅ | ✅ | `GET /v1/employees`, `POST /v1/employees`, `PATCH /v1/employees/:id`, `DELETE /v1/employees/:id` |
-| Interns | ✅ | ✅ | ✅ | ✅ | `GET /v1/interns`, `POST /v1/interns`, `PATCH /v1/interns/:id`, `DELETE /v1/interns/:id` |
-| Attendance | ✅ | ✅ | ✅ | ✅ | `GET /v1/attendance`, `POST /v1/attendance`, `PATCH /v1/attendance/:id`, `DELETE /v1/attendance/:id` |
-| Leaves | ✅ | ✅ | ✅ | ✅ | `GET /v1/leaves`, `POST /v1/leaves`, `PATCH /v1/leaves/:id`, `DELETE /v1/leaves/:id` |
-| Courses | ✅ | ✅ | ✅ | ✅ | `GET /v1/courses`, `POST /v1/courses`, `PATCH /v1/courses/:id`, `DELETE /v1/courses/:id` |
-| Modules | ✅ | ✅ | ✅ | ✅ | `GET /v1/modules`, `POST /v1/modules`, `PATCH /v1/modules/:id`, `DELETE /v1/modules/:id` |
-| Lessons | ✅ | ✅ | ✅ | ✅ | `GET /v1/lessons`, `POST /v1/lessons`, `PATCH /v1/lessons/:id`, `DELETE /v1/lessons/:id` |
-| Enrollments | ✅ | ✅ | ✅ | ✅ | `GET /v1/enrollments`, `POST /v1/enrollments`, `PATCH /v1/enrollments/:id`, `DELETE /v1/enrollments/:id` |
-| Quizzes | ✅ | ✅ | ✅ | ✅ | `GET /v1/quizzes`, `POST /v1/quizzes`, `PATCH /v1/quizzes/:id`, `DELETE /v1/quizzes/:id` |
-| Assignments | ✅ | ✅ | ✅ | ✅ | `GET /v1/assignments`, `POST /v1/assignments`, `PATCH /v1/assignments/:id`, `DELETE /v1/assignments/:id` |
-| Interviews | ✅ | ✅ | ✅ | ✅ | `GET /v1/interviews`, `POST /v1/interviews`, `PATCH /v1/interviews/:id`, `DELETE /v1/interviews/:id` |
-| Payroll | ✅ | ❌ | ❌ | ❌ | `GET /v1/payroll` |
-| Performance | ✅ | ✅ | ✅ | ❌ | `GET /v1/performance`, `POST /v1/performance`, `PATCH /v1/performance/:id` |
-| Calendar | ✅ | ✅ | ✅ | ✅ | `GET /v1/calendar`, `POST /v1/calendar`, `PATCH /v1/calendar/:id`, `DELETE /v1/calendar/:id` |
-| Holidays | ✅ | ✅ | ✅ | ✅ | `GET /v1/holidays`, `POST /v1/holidays`, `PATCH /v1/holidays/:id`, `DELETE /v1/holidays/:id` |
-| Approvals | ✅ | ✅ | ✅ | ✅ | `GET /v1/approvals`, `POST /v1/approvals`, `PATCH /v1/approvals/:id`, `DELETE /v1/approvals/:id` |
-| Clients | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Subscriptions | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Tasks | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Invoices | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Company Settings | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Leads | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Payments | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Transactions | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Reports | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Communications | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Forums | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Badges | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Certificates | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Projects | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Mind Maps | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Payslips | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Auth & Users | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Roles | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| System Settings | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Audit Logs | ❌ | ❌ | ❌ | ❌ | *No permissions* |
-| Health Checks | ❌ | ❌ | ❌ | ❌ | `GET /health` |
-| Monitoring | ❌ | ❌ | ❌ | ❌ | *No permissions* |
+|---|:---:|:---:|:---:|:---:|---|
+| **Employees** | ✅ | ✅ | ✅ | ✅ | `GET /v1/employees`, `POST /v1/employees`, `PATCH /v1/employees/:id`, `DELETE /v1/employees/:id` |
+| **Interns** | ✅ | ✅ | ✅ | ✅ | `GET /v1/interns`, `POST /v1/interns`, `PATCH /v1/interns/:id`, `DELETE /v1/interns/:id` |
+| **Students (Course Enrollees)** | ✅ | ✅ | ✅ | ❌ | `GET /v1/students`, `POST /v1/students`, `PATCH /v1/students/:id` |
+| **Recruitment & Career Applications** | ✅ | ✅ | ✅ | ✅ | `GET /v1/candidates`, `POST /v1/candidates/:id/convert-employee`, `POST /v1/candidates/:id/convert-intern` |
+| **Website Inquiries (Routing)** | ✅ | ❌ | ✅ | ✅ | `GET /v1/contact-messages`, `POST /v1/contact-messages/:id/convert` |
+| **Onboarding Plans & Checklists** | ✅ | ✅ | ✅ | ✅ | `GET /v1/onboarding-plans`, `POST /v1/onboarding-plans`, `GET /v1/onboardings` |
+| **Attendance** | ✅ | ✅ | ✅ | ✅ | `GET /v1/attendance`, `POST /v1/attendance/checkin`, `PATCH /v1/attendance/:id` |
+| **Leaves** | ✅ | ✅ | ✅ | ✅ | `GET /v1/leaves`, `POST /v1/leaves`, `PATCH /v1/leaves/:id/approve` |
+| **Training (HR Pathways)** | ✅ | ✅ | ✅ | ❌ | `GET /v1/trainings`, `POST /v1/trainings`, `PATCH /v1/trainings/:id` |
+| **Performance Reviews** | ✅ | ✅ | ✅ | ❌ | `GET /v1/performance`, `POST /v1/performance`, `PATCH /v1/performance/:id` |
+| **HR Requests & Helpdesk** | ✅ | ✅ | ✅ | ❌ | `GET /v1/hr-requests`, `POST /v1/hr-requests`, `PATCH /v1/hr-requests/:id` |
+| **HR Letters & Templates** | ✅ | ✅ | ✅ | ❌ | Live client-side variable generator + PDF export |
+| **Documents Vault & Verification** | ✅ | ✅ | ✅ | ✅ | `GET /v1/documents`, `POST /v1/documents`, `DELETE /v1/documents/:id` |
+| **Payroll (Compensation Master)** | ✅ | ✅ | ❌ | ❌ | `GET /v1/payroll/history`, `POST /v1/payroll/run` |
+| **Exit & Offboarding (4-Tier)** | ✅ | ✅ | ✅ | ❌ | `GET /v1/exit-requests`, `POST /v1/exit-requests`, `PATCH /v1/exit-requests/:id` |
+| **People Analytics Reports** | ✅ | ✅ | ❌ | ❌ | `GET /v1/reports`, CSV Export |
+| **Announcements / Comms** | ✅ | ✅ | ✅ | ✅ | `GET /v1/communications`, `POST /v1/communications` |
+| **Calendar & Holidays** | ✅ | ✅ | ✅ | ✅ | `GET /v1/calendar/events`, `GET /v1/holidays` |
 
-## 3. Access Boundaries
-- No access to financial or invoicing modules.
-- Cannot manage user roles or system configurations.
-- HR actions are limited to employee and intern data; cannot view payroll details.
-- No access to client‑facing modules (clients, subscriptions, leads).
+---
 
-## 4. User Flow & Typical Actions
-- Process employee attendance and leave submissions.
-- Create and update course enrollments, lessons, and assessments.
-- Manage holiday calendars and departmental events.
-- Generate performance reports and audit trails for HR analytics.
-- Approve or reject leave requests and attendance corrections.
+## 3. Access Boundaries & Separation of Concerns
 
-## 5. Compliance & Security Considerations
-- HR data is sensitive; access logged and reviewed.
-- All HR actions require justification; escalation for deletions.
-- MFA optional but recommended.
-- Data retention aligns with labor regulations; automatic purging of terminated employee records after 6 months.
+1. **HR vs LMS Separation**:
+   - **HR Portal**: Responsible for assigning training pathways, pairing tutors/mentors, verifying tuition payments, monitoring milestone progress %, and issuing completion certificates.
+   - **Tutor / LMS Portal**: Responsible for interactive course video player, lesson curriculum, code playgrounds, daily exercises, and live quizzes.
+2. **HR vs Finance Separation**:
+   - HR manages employee salary master structures, CTC parameters, and attendance multiplier records.
+   - Core accounting ledger, P&L, balance sheets, and tax compliance remain restricted to the `FINANCE` role.
+3. **HR vs Super Admin Separation**:
+   - HR manages people, recruitment, and onboarding within their organization. Platform tenant provisioning and system-level configuration remain restricted to `SUPER_ADMIN`.
 
-Generated from `backend/src/config/constants.js` `ROLE_PERMISSIONS` and `backend/src/routes/index.js`.
+---
+
+## 4. End-to-End User Flow
+```text
+Lead Inquiries / Career Candidates
+  ↓
+Admissions & Recruitment Conversion (/app/hr/students, /app/hr/applications)
+  ↓
+Internship Tracks & Employee 360° Profiles (/app/hr/interns, /app/hr/employees)
+  ↓
+Configurable Onboarding Checklists & Plans (/app/hr/onboarding-plans)
+  ↓
+Attendance & Training Monitoring (/app/hr/attendance, /app/hr/training)
+  ↓
+Milestone Performance Evaluations (/app/hr/performance)
+  ↓
+HR Operations, Letters & Requests (/app/hr/requests, /app/hr/letters)
+  ↓
+4-Tier Exit Clearance Hub (/app/hr/offboarding)
+  ↓
+People Analytics & SLA Reports (/app/hr/reports)
+```
+
+---
+
+## 5. Security & Compliance
+- Full audit logging on candidate conversions, student enrollments, document verifications, and exit clearances via `AuditLog.create()`.
+- Real-time event broadcasting to active HR sockets for instant queue updates.

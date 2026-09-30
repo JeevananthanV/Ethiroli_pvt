@@ -1,0 +1,1 @@
+import{e as t}from"./ErrorBoundary-DhGOQFMl.js";const e=async()=>(await t.get("/system/status")).data,a=e,n=async()=>(await t.get("/system/health")).data,o=async()=>(await t.get("/system/metrics")).data,r=async s=>(await t.put("/system/config",s)).data,i={getSystemStatus:e,getStatus:a,getHealth:n,getMetrics:o,updateConfigs:r};export{n as g,i as s,r as u};

@@ -26,6 +26,8 @@ export default function HREmployees() {
     handleUpdate,
     handleDelete,
     handleToggleStatus,
+    deptFilter,
+    setDeptFilter
   } = useHrData(
     listEmployees,
     undefined,

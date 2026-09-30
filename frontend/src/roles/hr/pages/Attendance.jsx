@@ -15,12 +15,11 @@ export default function HRAttendance() {
     loading,
     error,
     refresh,
-    // Filter state from useHrData base (search)
     search,
-    setSearch,
+    setSearch
   } = useHrData(
-    () => listAttendance({ limit: 200 }),
-    undefined,
+    listAttendance,
+    { limit: 200 },
     undefined,
     undefined,
     undefined

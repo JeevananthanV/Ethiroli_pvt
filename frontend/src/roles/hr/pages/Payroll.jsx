@@ -20,6 +20,8 @@ export default function HRPayroll() {
     loading,
     error,
     refresh,
+    submitting,
+    setSubmitting
   } = useHrData(
     () => listPayrollHistory(),
     undefined,

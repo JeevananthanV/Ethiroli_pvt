@@ -188,6 +188,7 @@ export const useHrData = (
     loading,
     error,
     submitting,
+    setSubmitting,
     search,
     setSearch,
     statusFilter,

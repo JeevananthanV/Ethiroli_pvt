@@ -2,8 +2,8 @@ import 'dotenv/config';
 import Redis from 'ioredis';
 import { logger } from './logger.js';
 
-// Set REDIS_ENABLED=false in Hostinger env vars to run without Redis
-const REDIS_ENABLED = process.env.REDIS_ENABLED !== 'false';
+// Enable Redis only when explicitly enabled or when a remote Redis host/url is configured
+const REDIS_ENABLED = process.env.REDIS_ENABLED === 'true' || Boolean(process.env.REDIS_URL) || (process.env.REDIS_ENABLED !== 'false' && Boolean(process.env.REDIS_HOST && process.env.REDIS_HOST !== '127.0.0.1' && process.env.REDIS_HOST !== 'localhost'));
 
 const isClusterMode = process.env.CLUSTER_MODE === 'true';
 const redisHost = process.env.REDIS_HOST || '127.0.0.1';
@@ -25,7 +25,6 @@ let redisClient = null;
 
 const createRedisClient = () => {
   if (!REDIS_ENABLED) {
-    logger.warn('Redis is disabled (REDIS_ENABLED=false). Using no-op stub.');
     return null;
   }
 
@@ -63,19 +62,15 @@ const createRedisClient = () => {
     maxRetriesPerRequest,
     reconnectOnError,
     retryStrategy: (times) => {
-      // Stop retrying after 5 attempts so server doesn't hang
-      if (times > 5) {
-        logger.error('Redis max retries reached. Giving up.');
-        return null; // stop retrying
+      if (times > 2) {
+        return null; // stop retrying quickly if no local Redis
       }
-      const delay = Math.min(times * 200, 5000);
-      logger.warn('Redis standalone retry', { attempt: times, delayMs: delay });
-      return delay;
+      return 500;
     },
     enableReadyCheck: true,
-    connectTimeout: 3000,
+    connectTimeout: 2000,
     enableOfflineQueue: false,
-    maxRetriesPerRequest,
+    maxRetriesPerRequest: 1,
     keepAlive: 30000
   });
 
@@ -87,7 +82,6 @@ const initializeRedis = () => {
 
   redisClient = createRedisClient();
 
-  // If Redis is disabled, redisClient is null — return null
   if (!redisClient) return null;
 
   redisClient.on('connect', () => {
@@ -99,16 +93,11 @@ const initializeRedis = () => {
   });
 
   redisClient.on('error', (error) => {
-    // Log as warning — don't let uncaught errors crash the process
     logger.warn('Redis client error (non-fatal)', { error: error.message });
   });
 
   redisClient.on('close', () => {
-    logger.warn('Redis client closed');
-  });
-
-  redisClient.on('reconnecting', () => {
-    logger.info('Redis client reconnecting');
+    // Silent close
   });
 
   return redisClient;
@@ -121,12 +110,12 @@ export const getRedisClient = () => {
   return redisClient;
 };
 
-export const isRedisAvailable = () => REDIS_ENABLED && redisClient !== null;
+export const isRedisAvailable = () => REDIS_ENABLED && redisClient !== null && redisClient.status === 'ready';
 
 export const checkRedisHealth = async (clientInstance) => {
   const start = Date.now();
-  if (!clientInstance) {
-    return { connected: false, latencyMs: 0, error: 'Redis disabled or not connected' };
+  if (!clientInstance || !REDIS_ENABLED) {
+    return { connected: false, latencyMs: 0, disabled: true };
   }
   try {
     const result = await clientInstance.ping();
@@ -141,7 +130,7 @@ export const getRedisHealth = async () => {
   const client = getRedisClient();
   const health = await checkRedisHealth(client);
   return {
-    status: health.connected ? 'healthy' : 'unhealthy',
+    status: health.connected ? 'healthy' : (health.disabled ? 'disabled' : 'unhealthy'),
     redis: health,
     timestamp: new Date().toISOString()
   };
@@ -149,13 +138,20 @@ export const getRedisHealth = async () => {
 
 export const closeRedisConnection = async () => {
   if (redisClient) {
-    await redisClient.quit().catch((error) => {
-      logger.error('Error closing Redis connection', { error: error.message });
-    });
+    try {
+      if (redisClient.status === 'ready' || redisClient.status === 'connect') {
+        await redisClient.quit().catch(() => {
+          try { redisClient.disconnect(); } catch (_) {}
+        });
+      } else {
+        redisClient.disconnect();
+      }
+    } catch (_) {
+      try { redisClient.disconnect(); } catch (_) {}
+    }
     redisClient = null;
     logger.info('Redis connection closed');
   }
 };
 
-// Export null when disabled (callers must null-check)
 export default REDIS_ENABLED ? getRedisClient() : null;

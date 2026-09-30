@@ -170,6 +170,14 @@ if (clientDist) {
   };
   app.use(express.static(clientDist, { setHeaders: staticCacheHeaders }));
 
+  app.get('/favicon.ico', (req, res) => {
+    const logoFile = path.join(clientDist, 'assets/images/ethiroli_logo.png');
+    if (fs.existsSync(logoFile)) {
+      return res.sendFile(logoFile);
+    }
+    return res.status(204).end();
+  });
+
   // MPA fallback — map each role URL prefix to the correct portal HTML
   app.get('*', (req, res, next) => {
     // Never intercept API / WebSocket / health routes

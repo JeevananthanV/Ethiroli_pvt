@@ -1,0 +1,117 @@
+{
+  "id": "QZ-MOBILE-RN-COMPREHENSIVE",
+  "module_code": "MOBILE-RN",
+  "title": "Comprehensive Quiz: Mobile Development",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes mobile fundamentals in Mobile Development?",
+      "options": [
+        "Core concept: Mobile fundamentals is fundamental to Mobile Development",
+        "Alternative approach to Mobile fundamentals using different methodology",
+        "Advanced implementation of Mobile fundamentals with optimizations",
+        "Legacy technique for Mobile fundamentals no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Mobile fundamentals is a key topic in Mobile Development. Build cross-platform mobile apps with React Native"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes react native in Mobile Development?",
+      "options": [
+        "Core concept: React Native is fundamental to Mobile Development",
+        "Alternative approach to React Native using different methodology",
+        "Advanced implementation of React Native with optimizations",
+        "Legacy technique for React Native no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "React Native is a key topic in Mobile Development. Build cross-platform mobile apps with React Native"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes components in Mobile Development?",
+      "options": [
+        "Core concept: Components is fundamental to Mobile Development",
+        "Alternative approach to Components using different methodology",
+        "Advanced implementation of Components with optimizations",
+        "Legacy technique for Components no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Components is a key topic in Mobile Development. Build cross-platform mobile apps with React Native"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes navigation in Mobile Development?",
+      "options": [
+        "Core concept: Navigation is fundamental to Mobile Development",
+        "Alternative approach to Navigation using different methodology",
+        "Advanced implementation of Navigation with optimizations",
+        "Legacy technique for Navigation no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Navigation is a key topic in Mobile Development. Build cross-platform mobile apps with React Native"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes forms in Mobile Development?",
+      "options": [
+        "Core concept: Forms is fundamental to Mobile Development",
+        "Alternative approach to Forms using different methodology",
+        "Advanced implementation of Forms with optimizations",
+        "Legacy technique for Forms no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Forms is a key topic in Mobile Development. Build cross-platform mobile apps with React Native"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes state management in Mobile Development?",
+      "options": [
+        "Core concept: State management is fundamental to Mobile Development",
+        "Alternative approach to State management using different methodology",
+        "Advanced implementation of State management with optimizations",
+        "Legacy technique for State management no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "State management is a key topic in Mobile Development. Build cross-platform mobile apps with React Native"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in Mobile Development?",
+      "options": [
+        "React Native",
+        "Expo",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "Mobile Development uses React Native, Expo, TypeScript as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of Mobile Development?",
+      "options": [
+        "Build cross-platform mobile apps with React Native",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Build cross-platform mobile apps with React Native"
+    },
+    {
+      "id": 9,
+      "question": "When applying Mobile Development in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for Mobile Development include following established patterns and using recommended tools."
+    }
+  ]
+}

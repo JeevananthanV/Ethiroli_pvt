@@ -1,0 +1,22 @@
+{
+  "id": "SEC-WEB-SUB01-L01",
+  "day": 1,
+  "module_code": "SEC-WEB",
+  "lesson_order": 1,
+  "title": "Cybersecurity fundamentals: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Cybersecurity fundamentals",
+    "Apply Cybersecurity fundamentals in practical scenarios",
+    "Build a small project using Cybersecurity fundamentals"
+  ],
+  "theory_markdown": "# Cybersecurity fundamentals\n\n## Overview\nThis lesson covers the fundamentals of Cybersecurity fundamentals and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Cybersecurity fundamentals\n- Concept 2 related to Cybersecurity fundamentals\n- Best practices for Cybersecurity fundamentals\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Cybersecurity fundamentals\n2. Implement basic Cybersecurity fundamentals functionality\n3. Apply Cybersecurity fundamentals to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Cybersecurity fundamentals implementation\nconsole.log('Learning Cybersecurity fundamentals');\n\n// Basic Cybersecurity fundamentals example\nconst example = {\n  topic: 'Cybersecurity fundamentals',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Cybersecurity fundamentals usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Cybersecurity fundamentals concepts and generate code examples.\n\n---"
+  }
+}

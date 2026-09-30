@@ -1,0 +1,18 @@
+{
+  "id": "FE-TS-L13",
+  "module_code": "FE-TS",
+  "lesson_order": 13,
+  "title": "API types in TypeScript",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of API types",
+    "Implement real-world code for API types according to industry standards",
+    "Debug and optimize API types integrations"
+  ],
+  "theory_markdown": "### API types\n\nThis lesson covers in-depth technical mechanics of **API types** as part of the TypeScript curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// API types Implementation Example\nexport function handleAPItypes() {\n  console.log('Executing API types workflow...');\n}",
+    "explanation": "Demonstration of how API types is structured in production."
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "EX-JS-CORE-D14",
+  "module_code": "JS-CORE",
+  "day": 14,
+  "title": "Hands-on Lab: Functions, Scope, and Closures",
+  "estimated_minutes": 45,
+  "difficulty": "Beginner",
+  "instructions": "Implement a `createBankAccount` function that returns an object with `deposit`, `withdraw`, and `getBalance` methods. The balance should be private via closure. Add validation: no negative deposits, no overdrafts.",
+  "starter_code": "// Starter file for Functions, Scope, and Closures\n// Task instructions:\n// Implement a `createBankAccount` function that returns an object with `deposit`, `withdraw`, and `getBalance` methods. The balance should be private vi...\n",
+  "solution_code": "// Function declaration — hoisted\r\nfunction add(a, b) { return a + b; }\r\n\r\n// Function expression — not hoisted\r\nconst subtract = function(a, b) { return a - b; };\r\n\r\n// Arrow function\r\nconst multiply = (a, b) => a * b;\r\n\r\n// Arrow with block body\r\nconst divide = (a, b) => {\r\n  if (b === 0) throw new Error(\"Cannot divide by zero\");\r\n  return a / b;\r\n};\r\n\r\n// Default parameters\r\nfunction greet(name = \"World\") {\r\n  return `Hello, ${name}!`;\r\n}\r\n\r\n// Rest parameters\r\nfunction sum(...numbers) {\r\n  return numbers.reduce((total, n) => total + n, 0);\r\n}\r\nsum(1, 2, 3, 4); // 10\r\n\r\n// Closure: counter factory\r\nfunction createCounter() {\r\n  let count = 0;  // Private variable\r\n  return {\r\n    increment() { count++; return count; },\r\n    decrement() { count--; return count; },\r\n    getCount() { return count; }\r\n  };\r\n}\r\n\r\nconst counter = createCounter();\r\ncounter.increment(); // 1\r\ncounter.increment(); // 2\r\nconsole.log(counter.getCount()); // 2\r\n// count is not accessible directly — closure protects it\r\n\r\n// Closure: memoisation\r\nfunction memoize(fn) {\r\n  const cache = new Map();\r\n  return function(...args) {\r\n    const key = JSON.stringify(args);\r\n    if (cache.has(key)) return cache.get(key);\r\n    const result = fn(...args);\r\n    cache.set(key, result);\r\n    return result;\r\n  };\r\n}"
+}

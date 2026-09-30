@@ -1,0 +1,33 @@
+{
+  "id": "AI-DEV-SUB01-E02",
+  "module_code": "AI-DEV",
+  "day": 4,
+  "title": "Hands-on Lab: Generative AI Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Generative AI:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Generative AI in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Generative AI basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Generative AI exercise\n// TODO: Implement Generative AI functionality here\n\nconsole.log('Generative AI exercise starter');\n",
+  "solution_code": "// Solution for Generative AI exercise\nconsole.log('Completed Generative AI exercise');\n\n// Basic implementation\nconst generativeai = {\n  name: 'Generative AI',\n  completed: true\n};\n\nconsole.log(generativeai);"
+}

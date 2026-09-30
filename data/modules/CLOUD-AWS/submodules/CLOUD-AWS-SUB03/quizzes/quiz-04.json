@@ -1,0 +1,70 @@
+{
+  "id": "CLOUD-AWS-SUB03-Q04",
+  "module_code": "CLOUD-AWS",
+  "day": 7,
+  "title": "Quiz 4: DNS Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in DNS?",
+      "options": [
+        "Core principle of DNS",
+        "Advanced DNS technique",
+        "Alternative approach to DNS",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental DNS concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Deployment?",
+      "options": [
+        "Core principle of Deployment",
+        "Advanced Deployment technique",
+        "Alternative approach to Deployment",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Deployment concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Monitoring?",
+      "options": [
+        "Core principle of Monitoring",
+        "Advanced Monitoring technique",
+        "Alternative approach to Monitoring",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Monitoring concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Backup?",
+      "options": [
+        "Core principle of Backup",
+        "Advanced Backup technique",
+        "Alternative approach to Backup",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Backup concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in DNS?",
+      "options": [
+        "Core principle of DNS",
+        "Advanced DNS technique",
+        "Alternative approach to DNS",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental DNS concepts."
+    }
+  ]
+}

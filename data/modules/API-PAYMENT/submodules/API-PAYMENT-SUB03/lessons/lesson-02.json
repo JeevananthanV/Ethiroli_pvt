@@ -1,0 +1,22 @@
+{
+  "id": "API-PAYMENT-SUB03-L02",
+  "day": 3,
+  "module_code": "API-PAYMENT",
+  "lesson_order": 2,
+  "title": "Payment security: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Payment security",
+    "Apply Payment security in practical scenarios",
+    "Build a small project using Payment security"
+  ],
+  "theory_markdown": "# Payment security\n\n## Overview\nThis lesson covers the fundamentals of Payment security and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Payment security\n- Concept 2 related to Payment security\n- Best practices for Payment security\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Payment security\n2. Implement basic Payment security functionality\n3. Apply Payment security to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Payment security implementation\nconsole.log('Learning Payment security');\n\n// Basic Payment security example\nconst example = {\n  topic: 'Payment security',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Payment security usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Payment security concepts and generate code examples.\n\n---"
+  }
+}

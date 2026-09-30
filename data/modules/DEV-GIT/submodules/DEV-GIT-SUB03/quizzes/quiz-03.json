@@ -1,0 +1,70 @@
+{
+  "id": "DEV-GIT-SUB03-Q03",
+  "module_code": "DEV-GIT",
+  "day": 5,
+  "title": "Quiz 3: Pull requests Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Pull requests?",
+      "options": [
+        "Core principle of Pull requests",
+        "Advanced Pull requests technique",
+        "Alternative approach to Pull requests",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Pull requests concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Issues?",
+      "options": [
+        "Core principle of Issues",
+        "Advanced Issues technique",
+        "Alternative approach to Issues",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Issues concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Code review?",
+      "options": [
+        "Core principle of Code review",
+        "Advanced Code review technique",
+        "Alternative approach to Code review",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Code review concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Releases?",
+      "options": [
+        "Core principle of Releases",
+        "Advanced Releases technique",
+        "Alternative approach to Releases",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Releases concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Tags?",
+      "options": [
+        "Core principle of Tags",
+        "Advanced Tags technique",
+        "Alternative approach to Tags",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Tags concepts."
+    }
+  ]
+}

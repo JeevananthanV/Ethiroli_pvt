@@ -1,0 +1,22 @@
+{
+  "id": "SEC-WEB-SUB03-L03",
+  "day": 5,
+  "module_code": "SEC-WEB",
+  "lesson_order": 3,
+  "title": "Vulnerability assessment: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Vulnerability assessment",
+    "Apply Vulnerability assessment in practical scenarios",
+    "Build a small project using Vulnerability assessment"
+  ],
+  "theory_markdown": "# Vulnerability assessment\n\n## Overview\nThis lesson covers the fundamentals of Vulnerability assessment and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Vulnerability assessment\n- Concept 2 related to Vulnerability assessment\n- Best practices for Vulnerability assessment\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Vulnerability assessment\n2. Implement basic Vulnerability assessment functionality\n3. Apply Vulnerability assessment to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Vulnerability assessment implementation\nconsole.log('Learning Vulnerability assessment');\n\n// Basic Vulnerability assessment example\nconst example = {\n  topic: 'Vulnerability assessment',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Vulnerability assessment usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Vulnerability assessment concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "PY-CORE-L02",
+  "module_code": "PY-CORE",
+  "lesson_order": 2,
+  "title": "Variables in Python Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Variables",
+    "Implement real-world code for Variables according to industry standards",
+    "Debug and optimize Variables integrations"
+  ],
+  "theory_markdown": "### Variables\n\nThis lesson covers in-depth technical mechanics of **Variables** as part of the Python Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Variables Implementation Example\nexport function handleVariables() {\n  console.log('Executing Variables workflow...');\n}",
+    "explanation": "Demonstration of how Variables is structured in production."
+  }
+}

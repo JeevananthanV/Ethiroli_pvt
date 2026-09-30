@@ -1,0 +1,22 @@
+{
+  "id": "ARCH-SYSTEM-SUB01-L04",
+  "day": 7,
+  "module_code": "ARCH-SYSTEM",
+  "lesson_order": 4,
+  "title": "Scalability: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Scalability",
+    "Apply Scalability in practical scenarios",
+    "Build a small project using Scalability"
+  ],
+  "theory_markdown": "# Scalability\n\n## Overview\nThis lesson covers the fundamentals of Scalability and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Scalability\n- Concept 2 related to Scalability\n- Best practices for Scalability\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Scalability\n2. Implement basic Scalability functionality\n3. Apply Scalability to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Scalability implementation\nconsole.log('Learning Scalability');\n\n// Basic Scalability example\nconst example = {\n  topic: 'Scalability',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Scalability usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Scalability concepts and generate code examples.\n\n---"
+  }
+}

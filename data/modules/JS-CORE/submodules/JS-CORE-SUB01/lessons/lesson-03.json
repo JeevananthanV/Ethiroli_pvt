@@ -1,0 +1,22 @@
+{
+  "id": "JS-CORE-SUB01-L03",
+  "day": 5,
+  "module_code": "JS-CORE",
+  "lesson_order": 3,
+  "title": "Data types: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Data types",
+    "Apply Data types in practical scenarios",
+    "Build a small project using Data types"
+  ],
+  "theory_markdown": "# Data types\n\n## Overview\nThis lesson covers the fundamentals of Data types and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Data types\n- Concept 2 related to Data types\n- Best practices for Data types\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Data types\n2. Implement basic Data types functionality\n3. Apply Data types to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Data types implementation\nconsole.log('Learning Data types');\n\n// Basic Data types example\nconst example = {\n  topic: 'Data types',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Data types usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Data types concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "MOBILE-RN-SUB03-L03",
+  "day": 5,
+  "module_code": "MOBILE-RN",
+  "lesson_order": 3,
+  "title": "Testing: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Testing",
+    "Apply Testing in practical scenarios",
+    "Build a small project using Testing"
+  ],
+  "theory_markdown": "# Testing\n\n## Overview\nThis lesson covers the fundamentals of Testing and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Testing\n- Concept 2 related to Testing\n- Best practices for Testing\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Testing\n2. Implement basic Testing functionality\n3. Apply Testing to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Testing implementation\nconsole.log('Learning Testing');\n\n// Basic Testing example\nconst example = {\n  topic: 'Testing',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Testing usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Testing concepts and generate code examples.\n\n---"
+  }
+}

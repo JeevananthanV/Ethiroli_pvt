@@ -1,0 +1,70 @@
+{
+  "id": "SEC-AUTH-SUB02-Q01",
+  "module_code": "SEC-AUTH",
+  "day": 1,
+  "title": "Quiz 1: Cookies Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Cookies?",
+      "options": [
+        "Core principle of Cookies",
+        "Advanced Cookies technique",
+        "Alternative approach to Cookies",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Cookies concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Refresh tokens?",
+      "options": [
+        "Core principle of Refresh tokens",
+        "Advanced Refresh tokens technique",
+        "Alternative approach to Refresh tokens",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Refresh tokens concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Role-based access control?",
+      "options": [
+        "Core principle of Role-based access control",
+        "Advanced Role-based access control technique",
+        "Alternative approach to Role-based access control",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Role-based access control concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Permissions?",
+      "options": [
+        "Core principle of Permissions",
+        "Advanced Permissions technique",
+        "Alternative approach to Permissions",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Permissions concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Protected routes?",
+      "options": [
+        "Core principle of Protected routes",
+        "Advanced Protected routes technique",
+        "Alternative approach to Protected routes",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Protected routes concepts."
+    }
+  ]
+}

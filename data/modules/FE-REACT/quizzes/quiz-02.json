@@ -1,0 +1,70 @@
+{
+  "id": "QZ-FE-REACT-D22",
+  "module_code": "FE-REACT",
+  "day": 22,
+  "title": "Quiz: State Management with `useState`",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Why must state be updated immutably?",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    },
+    {
+      "id": 2,
+      "question": "Difference between `setCount(count + 1)` and `setCount(prev => prev + 1)`.",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    },
+    {
+      "id": 3,
+      "question": "What happens if you mutate state directly?",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    },
+    {
+      "id": 4,
+      "question": "What is a controlled component?",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    },
+    {
+      "id": 5,
+      "question": "Why are state updates batched?",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    }
+  ]
+}

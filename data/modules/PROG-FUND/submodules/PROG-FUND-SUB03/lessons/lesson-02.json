@@ -1,0 +1,22 @@
+{
+  "id": "PROG-FUND-SUB03-L02",
+  "day": 3,
+  "module_code": "PROG-FUND",
+  "lesson_order": 2,
+  "title": "Problem solving: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Problem solving",
+    "Apply Problem solving in practical scenarios",
+    "Build a small project using Problem solving"
+  ],
+  "theory_markdown": "# Problem solving\n\n## Overview\nThis lesson covers the fundamentals of Problem solving and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Problem solving\n- Concept 2 related to Problem solving\n- Best practices for Problem solving\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Problem solving\n2. Implement basic Problem solving functionality\n3. Apply Problem solving to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Problem solving implementation\nconsole.log('Learning Problem solving');\n\n// Basic Problem solving example\nconst example = {\n  topic: 'Problem solving',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Problem solving usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Problem solving concepts and generate code examples.\n\n---"
+  }
+}

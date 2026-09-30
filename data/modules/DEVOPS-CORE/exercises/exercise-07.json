@@ -1,0 +1,10 @@
+{
+  "id": "EX-DEVOPS-CORE-L07",
+  "module_code": "DEVOPS-CORE",
+  "title": "Lab Exercise: Containers",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Containers.",
+  "starter_code": "// Lab: Containers\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Containers\nexport const solution = true;\n"
+}

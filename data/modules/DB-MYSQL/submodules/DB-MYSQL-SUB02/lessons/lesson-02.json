@@ -1,0 +1,22 @@
+{
+  "id": "DB-MYSQL-SUB02-L02",
+  "day": 3,
+  "module_code": "DB-MYSQL",
+  "lesson_order": 2,
+  "title": "WHERE: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of WHERE",
+    "Apply WHERE in practical scenarios",
+    "Build a small project using WHERE"
+  ],
+  "theory_markdown": "# WHERE\n\n## Overview\nThis lesson covers the fundamentals of WHERE and its practical applications.\n\n## Key Concepts\n- Concept 1 related to WHERE\n- Concept 2 related to WHERE\n- Best practices for WHERE\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of WHERE\n2. Implement basic WHERE functionality\n3. Apply WHERE to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example WHERE implementation\nconsole.log('Learning WHERE');\n\n// Basic WHERE example\nconst example = {\n  topic: 'WHERE',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic WHERE usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand WHERE concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "MOBILE-RN-SUB01-L02",
+  "day": 3,
+  "module_code": "MOBILE-RN",
+  "lesson_order": 2,
+  "title": "React Native: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of React Native",
+    "Apply React Native in practical scenarios",
+    "Build a small project using React Native"
+  ],
+  "theory_markdown": "# React Native\n\n## Overview\nThis lesson covers the fundamentals of React Native and its practical applications.\n\n## Key Concepts\n- Concept 1 related to React Native\n- Concept 2 related to React Native\n- Best practices for React Native\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of React Native\n2. Implement basic React Native functionality\n3. Apply React Native to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example React Native implementation\nconsole.log('Learning React Native');\n\n// Basic React Native example\nconst example = {\n  topic: 'React Native',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic React Native usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand React Native concepts and generate code examples.\n\n---"
+  }
+}

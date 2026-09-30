@@ -1,0 +1,18 @@
+{
+  "id": "ML-CORE-L11",
+  "module_code": "ML-CORE",
+  "lesson_order": 11,
+  "title": "Cross-validation in Machine Learning",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Cross-validation",
+    "Implement real-world code for Cross-validation according to industry standards",
+    "Debug and optimize Cross-validation integrations"
+  ],
+  "theory_markdown": "### Cross-validation\n\nThis lesson covers in-depth technical mechanics of **Cross-validation** as part of the Machine Learning curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Cross-validation Implementation Example\nexport function handleCrossvalidation() {\n  console.log('Executing Cross-validation workflow...');\n}",
+    "explanation": "Demonstration of how Cross-validation is structured in production."
+  }
+}

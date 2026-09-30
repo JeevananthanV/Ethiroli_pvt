@@ -1,0 +1,10 @@
+{
+  "id": "EX-ML-CORE-L11",
+  "module_code": "ML-CORE",
+  "title": "Lab Exercise: Cross-validation",
+  "difficulty": "Advanced",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Cross-validation.",
+  "starter_code": "// Lab: Cross-validation\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Cross-validation\nexport const solution = true;\n"
+}

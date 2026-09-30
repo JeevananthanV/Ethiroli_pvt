@@ -1,0 +1,22 @@
+{
+  "id": "DESIGN-UIUX-SUB02-L04",
+  "day": 7,
+  "module_code": "DESIGN-UIUX",
+  "lesson_order": 4,
+  "title": "Spacing: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Spacing",
+    "Apply Spacing in practical scenarios",
+    "Build a small project using Spacing"
+  ],
+  "theory_markdown": "# Spacing\n\n## Overview\nThis lesson covers the fundamentals of Spacing and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Spacing\n- Concept 2 related to Spacing\n- Best practices for Spacing\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Spacing\n2. Implement basic Spacing functionality\n3. Apply Spacing to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Spacing implementation\nconsole.log('Learning Spacing');\n\n// Basic Spacing example\nconst example = {\n  topic: 'Spacing',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Spacing usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Spacing concepts and generate code examples.\n\n---"
+  }
+}

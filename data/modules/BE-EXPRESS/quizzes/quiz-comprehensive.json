@@ -1,0 +1,117 @@
+{
+  "id": "QZ-BE-EXPRESS-COMPREHENSIVE",
+  "module_code": "BE-EXPRESS",
+  "title": "Comprehensive Quiz: Express.js",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes express fundamentals in Express.js?",
+      "options": [
+        "Core concept: Express fundamentals is fundamental to Express.js",
+        "Alternative approach to Express fundamentals using different methodology",
+        "Advanced implementation of Express fundamentals with optimizations",
+        "Legacy technique for Express fundamentals no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Express fundamentals is a key topic in Express.js. Build production REST APIs with Express.js"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes server setup in Express.js?",
+      "options": [
+        "Core concept: Server setup is fundamental to Express.js",
+        "Alternative approach to Server setup using different methodology",
+        "Advanced implementation of Server setup with optimizations",
+        "Legacy technique for Server setup no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Server setup is a key topic in Express.js. Build production REST APIs with Express.js"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes routes in Express.js?",
+      "options": [
+        "Core concept: Routes is fundamental to Express.js",
+        "Alternative approach to Routes using different methodology",
+        "Advanced implementation of Routes with optimizations",
+        "Legacy technique for Routes no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Routes is a key topic in Express.js. Build production REST APIs with Express.js"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes controllers in Express.js?",
+      "options": [
+        "Core concept: Controllers is fundamental to Express.js",
+        "Alternative approach to Controllers using different methodology",
+        "Advanced implementation of Controllers with optimizations",
+        "Legacy technique for Controllers no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Controllers is a key topic in Express.js. Build production REST APIs with Express.js"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes middleware in Express.js?",
+      "options": [
+        "Core concept: Middleware is fundamental to Express.js",
+        "Alternative approach to Middleware using different methodology",
+        "Advanced implementation of Middleware with optimizations",
+        "Legacy technique for Middleware no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Middleware is a key topic in Express.js. Build production REST APIs with Express.js"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes request/response in Express.js?",
+      "options": [
+        "Core concept: Request/response is fundamental to Express.js",
+        "Alternative approach to Request/response using different methodology",
+        "Advanced implementation of Request/response with optimizations",
+        "Legacy technique for Request/response no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Request/response is a key topic in Express.js. Build production REST APIs with Express.js"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in Express.js?",
+      "options": [
+        "Express.js",
+        "Node.js",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "Express.js uses Express.js, Node.js as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of Express.js?",
+      "options": [
+        "Build production REST APIs with Express.js",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Build production REST APIs with Express.js"
+    },
+    {
+      "id": 9,
+      "question": "When applying Express.js in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for Express.js include following established patterns and using recommended tools."
+    }
+  ]
+}

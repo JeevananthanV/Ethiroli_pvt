@@ -1,0 +1,20 @@
+{
+  "id": "CLOUD-AWS-D55",
+  "day": 55,
+  "module_code": "CLOUD-AWS",
+  "lesson_order": 1,
+  "title": "Docker, CI/CD, and Cloud Deployment",
+  "duration_minutes": 60,
+  "objectives": [
+    "Containerise applications with Docker, set up CI/CD, and deploy to production."
+  ],
+  "theory_markdown": "Docker packages applications with dependencies into portable containers. `Dockerfile` defines the build. Multi-stage builds keep images small. `docker-compose` orchestrates multiple services (API + database + Redis).\r\n\r\nCI/CD with GitHub Actions: lint → test → build → deploy. Deploy frontend to Vercel/Netlify, backend to Render/Railway/Fly.io, databases to managed services (MongoDB Atlas, PlanetScale, Supabase).",
+  "code_walkthrough": {
+    "language": "dockerfile",
+    "code": "# Dockerfile — multi-stage build for Node.js\r\n\r\n# Stage 1: Build\r\nFROM node:22-alpine AS builder\r\n\r\nWORKDIR /app\r\n\r\n# Copy package files first (leverage cache)\r\nCOPY package*.json ./\r\nRUN npm ci --only=production\r\n\r\n# Copy source\r\nCOPY . .\r\n\r\n# Stage 2: Production\r\nFROM node:22-alpine AS production\r\n\r\nWORKDIR /app\r\n\r\n# Create non-root user\r\nRUN addgroup -g 1001 -S nodejs && \\\r\n    adduser -S nodejs -u 1001\r\n\r\n# Copy from builder\r\nCOPY --from=builder --chown=nodejs:nodejs /app/node_modules ./node_modules\r\nCOPY --from=builder --chown=nodejs:nodejs /app .\r\n\r\nUSER nodejs\r\n\r\nEXPOSE 3000\r\n\r\nHEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \\\r\n  CMD node -e \"fetch('http://localhost:3000/api/health').then(r => process.exit(r.ok ? 0 : 1))\"\r\n\r\nCMD [\"node\", \"src/server.js\"]",
+    "explanation": "Multi-stage Docker builds separate build dependencies from runtime, reducing image size. `npm ci` installs exact versions from lock file. Non-root user improves security. Health checks enable container orchestration. GitHub Actions runs tests before deploying."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Docker** (free for development) and **GitHub Actions** (free for public repos, 2000 minutes/month for private). Use **Railway** or **Render** for simple backend deployment (free tiers available).\r\n\r\n---"
+  }
+}

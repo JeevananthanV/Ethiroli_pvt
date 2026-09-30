@@ -1,0 +1,33 @@
+{
+  "id": "SEC-AUTH-SUB03-E03",
+  "module_code": "SEC-AUTH",
+  "day": 6,
+  "title": "Hands-on Lab: Security best practices Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Security best practices:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Security best practices in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Security best practices basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Security best practices exercise\n// TODO: Implement Security best practices functionality here\n\nconsole.log('Security best practices exercise starter');\n",
+  "solution_code": "// Solution for Security best practices exercise\nconsole.log('Completed Security best practices exercise');\n\n// Basic implementation\nconst securitybestpractices = {\n  name: 'Security best practices',\n  completed: true\n};\n\nconsole.log(securitybestpractices);"
+}

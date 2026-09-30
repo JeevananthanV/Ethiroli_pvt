@@ -87,7 +87,7 @@ export default function ReceptionReceipts() {
       }
     >
       {/* Search Bar */}
-      <div className="card border-0 shadow-sm rounded-3 p-3 mb-4 bg-white">
+      <div className="card border-0 shadow-sm rounded-3 p-3 mb-2 bg-white">
         <div className="input-group">
           <span className="input-group-text bg-light border-0"><i className="bi bi-search text-muted"></i></span>
           <input

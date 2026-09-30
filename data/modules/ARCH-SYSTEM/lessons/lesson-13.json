@@ -1,0 +1,18 @@
+{
+  "id": "ARCH-SYSTEM-L13",
+  "module_code": "ARCH-SYSTEM",
+  "lesson_order": 13,
+  "title": "Microservices in System Design",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Microservices",
+    "Implement real-world code for Microservices according to industry standards",
+    "Debug and optimize Microservices integrations"
+  ],
+  "theory_markdown": "### Microservices\n\nThis lesson covers in-depth technical mechanics of **Microservices** as part of the System Design curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Microservices Implementation Example\nexport function handleMicroservices() {\n  console.log('Executing Microservices workflow...');\n}",
+    "explanation": "Demonstration of how Microservices is structured in production."
+  }
+}

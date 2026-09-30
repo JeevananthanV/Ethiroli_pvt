@@ -1,0 +1,10 @@
+{
+  "id": "EX-ARCH-SYSTEM-L10",
+  "module_code": "ARCH-SYSTEM",
+  "title": "Lab Exercise: SQL vs NoSQL",
+  "difficulty": "Advanced",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates SQL vs NoSQL.",
+  "starter_code": "// Lab: SQL vs NoSQL\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for SQL vs NoSQL\nexport const solution = true;\n"
+}

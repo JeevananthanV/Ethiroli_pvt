@@ -1,0 +1,33 @@
+{
+  "id": "API-PAYMENT-SUB02-E04",
+  "module_code": "API-PAYMENT",
+  "day": 8,
+  "title": "Hands-on Lab: Receipts Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Receipts:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Receipts in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Receipts basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Receipts exercise\n// TODO: Implement Receipts functionality here\n\nconsole.log('Receipts exercise starter');\n",
+  "solution_code": "// Solution for Receipts exercise\nconsole.log('Completed Receipts exercise');\n\n// Basic implementation\nconst receipts = {\n  name: 'Receipts',\n  completed: true\n};\n\nconsole.log(receipts);"
+}

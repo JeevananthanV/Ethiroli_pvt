@@ -1,0 +1,22 @@
+{
+  "id": "BE-REST-SUB03-L04",
+  "day": 7,
+  "module_code": "BE-REST",
+  "lesson_order": 4,
+  "title": "API versioning: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of API versioning",
+    "Apply API versioning in practical scenarios",
+    "Build a small project using API versioning"
+  ],
+  "theory_markdown": "# API versioning\n\n## Overview\nThis lesson covers the fundamentals of API versioning and its practical applications.\n\n## Key Concepts\n- Concept 1 related to API versioning\n- Concept 2 related to API versioning\n- Best practices for API versioning\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of API versioning\n2. Implement basic API versioning functionality\n3. Apply API versioning to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example API versioning implementation\nconsole.log('Learning API versioning');\n\n// Basic API versioning example\nconst example = {\n  topic: 'API versioning',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic API versioning usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand API versioning concepts and generate code examples.\n\n---"
+  }
+}

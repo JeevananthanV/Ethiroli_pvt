@@ -76,7 +76,7 @@ export default function ReceptionVisitors() {
         </button>
       }
     >
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-md-4">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-primary bg-opacity-10 text-primary">
             <small className="text-uppercase fw-semibold">Visitors Today</small>

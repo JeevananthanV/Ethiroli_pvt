@@ -57,7 +57,7 @@ export default function ReceptionFollowUps() {
       }
     >
       {/* Counters */}
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-12 col-sm-4">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white">
             <div className="d-flex align-items-center justify-content-between">

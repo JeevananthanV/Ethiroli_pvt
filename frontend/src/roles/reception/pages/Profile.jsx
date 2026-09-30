@@ -36,7 +36,7 @@ export default function ReceptionProfile() {
       <div className="row g-4">
         {/* Left Column: Officer Identity & Station */}
         <div className="col-12 col-lg-4">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white text-center mb-4">
+          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white text-center mb-2">
             <div className="rounded-circle bg-primary bg-gradient text-white mx-auto mb-3 d-flex align-items-center justify-content-center fw-bold fs-2" style={{ width: '80px', height: '80px' }}>
               {profile.name.charAt(0)}
             </div>

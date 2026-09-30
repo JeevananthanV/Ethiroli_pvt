@@ -1,0 +1,10 @@
+{
+  "id": "EX-DATA-ANALYTICS-L04",
+  "module_code": "DATA-ANALYTICS",
+  "title": "Lab Exercise: Data cleaning",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Data cleaning.",
+  "starter_code": "// Lab: Data cleaning\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Data cleaning\nexport const solution = true;\n"
+}

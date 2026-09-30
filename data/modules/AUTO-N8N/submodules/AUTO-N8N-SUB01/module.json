@@ -1,0 +1,32 @@
+{
+  "code": "AUTO-N8N-SUB01",
+  "title": "n8n Business Automation - Part 1",
+  "category": "Automation",
+  "level": "Intermediate",
+  "duration_hours": 4,
+  "description": "Business automation with n8n covering workflow design, nodes, triggers, webhooks, HTTP requests, expressions, database workflows, and AI automation. This submodule covers: Automation fundamentals, n8n interface, Workflows, Nodes, Triggers, Webhooks.",
+  "topics": [
+    "Automation fundamentals",
+    "n8n interface",
+    "Workflows",
+    "Nodes",
+    "Triggers",
+    "Webhooks"
+  ],
+  "technologies": [
+    "n8n",
+    "REST APIs",
+    "Webhooks"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "BE-NODE",
+    "BE-EXPRESS"
+  ],
+  "learning_outcomes": [
+    "Design and build automation workflows in n8n",
+    "Use various nodes for data processing and transformation",
+    "Create triggers from webhooks, schedules, and events"
+  ]
+}

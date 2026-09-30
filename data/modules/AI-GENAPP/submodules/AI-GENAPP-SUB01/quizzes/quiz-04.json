@@ -1,0 +1,70 @@
+{
+  "id": "AI-GENAPP-SUB01-Q04",
+  "module_code": "AI-GENAPP",
+  "day": 7,
+  "title": "Quiz 4: LLM APIs Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in LLM APIs?",
+      "options": [
+        "Core principle of LLM APIs",
+        "Advanced LLM APIs technique",
+        "Alternative approach to LLM APIs",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental LLM APIs concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Prompt engineering?",
+      "options": [
+        "Core principle of Prompt engineering",
+        "Advanced Prompt engineering technique",
+        "Alternative approach to Prompt engineering",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Prompt engineering concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Tokens?",
+      "options": [
+        "Core principle of Tokens",
+        "Advanced Tokens technique",
+        "Alternative approach to Tokens",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Tokens concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Context?",
+      "options": [
+        "Core principle of Context",
+        "Advanced Context technique",
+        "Alternative approach to Context",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Context concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Structured outputs?",
+      "options": [
+        "Core principle of Structured outputs",
+        "Advanced Structured outputs technique",
+        "Alternative approach to Structured outputs",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Structured outputs concepts."
+    }
+  ]
+}

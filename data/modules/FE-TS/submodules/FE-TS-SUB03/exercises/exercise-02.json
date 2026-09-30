@@ -1,0 +1,33 @@
+{
+  "id": "FE-TS-SUB03-E02",
+  "module_code": "FE-TS",
+  "day": 4,
+  "title": "Hands-on Lab: Type narrowing Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Type narrowing:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Type narrowing in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Type narrowing basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Type narrowing exercise\n// TODO: Implement Type narrowing functionality here\n\nconsole.log('Type narrowing exercise starter');\n",
+  "solution_code": "// Solution for Type narrowing exercise\nconsole.log('Completed Type narrowing exercise');\n\n// Basic implementation\nconst typenarrowing = {\n  name: 'Type narrowing',\n  completed: true\n};\n\nconsole.log(typenarrowing);"
+}

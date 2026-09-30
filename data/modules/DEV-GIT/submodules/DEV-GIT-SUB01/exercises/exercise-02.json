@@ -1,0 +1,33 @@
+{
+  "id": "DEV-GIT-SUB01-E02",
+  "module_code": "DEV-GIT",
+  "day": 4,
+  "title": "Hands-on Lab: Git installation Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Git installation:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Git installation in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Git installation basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Git installation exercise\n// TODO: Implement Git installation functionality here\n\nconsole.log('Git installation exercise starter');\n",
+  "solution_code": "// Solution for Git installation exercise\nconsole.log('Completed Git installation exercise');\n\n// Basic implementation\nconst gitinstallation = {\n  name: 'Git installation',\n  completed: true\n};\n\nconsole.log(gitinstallation);"
+}

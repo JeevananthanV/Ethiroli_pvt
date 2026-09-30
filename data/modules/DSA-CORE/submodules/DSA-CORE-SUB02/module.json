@@ -1,0 +1,31 @@
+{
+  "code": "DSA-CORE-SUB02",
+  "title": "DSA & Problem Solving - Part 2",
+  "category": "Programming",
+  "level": "Intermediate",
+  "duration_hours": 10,
+  "description": "Data structures and algorithms covering arrays, strings, linked lists, stacks, queues, trees, graphs, dynamic programming, and problem-solving with JavaScript, Python, and Java. This submodule covers: Linked lists, Stack, Queue, Hashing, Trees, Graphs.",
+  "topics": [
+    "Linked lists",
+    "Stack",
+    "Queue",
+    "Hashing",
+    "Trees",
+    "Graphs"
+  ],
+  "technologies": [
+    "JavaScript",
+    "Python",
+    "Java"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "PROG-FUND"
+  ],
+  "learning_outcomes": [
+    "Analyze algorithm complexity with Big O notation",
+    "Implement and work with arrays and strings efficiently",
+    "Master searching and sorting algorithms"
+  ]
+}

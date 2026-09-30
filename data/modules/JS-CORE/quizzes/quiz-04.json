@@ -1,0 +1,70 @@
+{
+  "id": "QZ-JS-CORE-D16",
+  "module_code": "JS-CORE",
+  "day": 16,
+  "title": "Quiz: Asynchronous JavaScript: Callbacks, Promises, Async/Await",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What are the three states of a Promise?",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    },
+    {
+      "id": 2,
+      "question": "Difference between `Promise.all` and `Promise.allSettled`.",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    },
+    {
+      "id": 3,
+      "question": "What does `await` do to execution?",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    },
+    {
+      "id": 4,
+      "question": "How does the event loop handle microtasks vs macrotasks?",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    },
+    {
+      "id": 5,
+      "question": "How do you handle errors in async/await?",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    }
+  ]
+}

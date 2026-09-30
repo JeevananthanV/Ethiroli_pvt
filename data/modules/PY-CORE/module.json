@@ -1,0 +1,48 @@
+{
+  "code": "PY-CORE",
+  "title": "Python Development",
+  "category": "Programming",
+  "level": "Beginner",
+  "duration_hours": 16,
+  "description": "Python programming covering syntax, data types, control structures, functions, data structures, OOP, exception handling, file handling, modules, and API development.",
+  "topics": [
+    "Python syntax",
+    "Variables",
+    "Data types",
+    "Operators",
+    "Conditions",
+    "Loops",
+    "Functions",
+    "Lists",
+    "Tuples",
+    "Sets",
+    "Dictionaries",
+    "Strings",
+    "Exception handling",
+    "File handling",
+    "OOP",
+    "Modules",
+    "Packages",
+    "Virtual environments",
+    "APIs",
+    "JSON"
+  ],
+  "technologies": [
+    "Python"
+  ],
+  "practicals": [],
+  "projects": [
+    "Python Automation Application"
+  ],
+  "prerequisites": [
+    "PROG-FUND"
+  ],
+  "learning_outcomes": [
+    "Write Python programs with proper syntax and indentation",
+    "Work with Python data types: strings, numbers, lists, tuples, sets, dicts",
+    "Implement control structures: conditions and loops",
+    "Create and use functions with parameters and return values",
+    "Apply object-oriented programming principles",
+    "Handle exceptions and work with files and modules"
+  ]
+}

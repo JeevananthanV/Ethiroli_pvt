@@ -1,0 +1,22 @@
+{
+  "id": "ARCH-SYSTEM-SUB02-L04",
+  "day": 7,
+  "module_code": "ARCH-SYSTEM",
+  "lesson_order": 4,
+  "title": "SQL vs NoSQL: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of SQL vs NoSQL",
+    "Apply SQL vs NoSQL in practical scenarios",
+    "Build a small project using SQL vs NoSQL"
+  ],
+  "theory_markdown": "# SQL vs NoSQL\n\n## Overview\nThis lesson covers the fundamentals of SQL vs NoSQL and its practical applications.\n\n## Key Concepts\n- Concept 1 related to SQL vs NoSQL\n- Concept 2 related to SQL vs NoSQL\n- Best practices for SQL vs NoSQL\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of SQL vs NoSQL\n2. Implement basic SQL vs NoSQL functionality\n3. Apply SQL vs NoSQL to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example SQL vs NoSQL implementation\nconsole.log('Learning SQL vs NoSQL');\n\n// Basic SQL vs NoSQL example\nconst example = {\n  topic: 'SQL vs NoSQL',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic SQL vs NoSQL usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand SQL vs NoSQL concepts and generate code examples.\n\n---"
+  }
+}

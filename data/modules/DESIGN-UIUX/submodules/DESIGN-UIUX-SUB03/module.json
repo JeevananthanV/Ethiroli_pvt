@@ -1,0 +1,25 @@
+{
+  "code": "DESIGN-UIUX-SUB03",
+  "title": "UI/UX Design - Part 3",
+  "category": "Design",
+  "level": "Beginner",
+  "duration_hours": 5,
+  "description": "User experience and user interface design principles using Figma, covering user research, wireframing, prototyping, usability testing, and developer handoff. This submodule covers: Responsive design, Prototyping, Usability testing, Developer handoff.",
+  "topics": [
+    "Responsive design",
+    "Prototyping",
+    "Usability testing",
+    "Developer handoff"
+  ],
+  "technologies": [
+    "Figma"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [],
+  "learning_outcomes": [
+    "Conduct user research and create personas",
+    "Design user journeys and information architecture",
+    "Apply UI/UX design principles and guidelines"
+  ]
+}

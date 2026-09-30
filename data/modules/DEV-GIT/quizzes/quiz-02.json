@@ -1,0 +1,70 @@
+{
+  "id": "QZ-DEV-GIT-D12",
+  "module_code": "DEV-GIT",
+  "day": 12,
+  "title": "Quiz: GitHub Collaboration: Branches, PRs, and Workflows",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Why use feature branches instead of committing to main?",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    },
+    {
+      "id": 2,
+      "question": "What is the difference between `git merge` and `git rebase`?",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    },
+    {
+      "id": 3,
+      "question": "How do you resolve a merge conflict?",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    },
+    {
+      "id": 4,
+      "question": "What should a good PR description contain?",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    },
+    {
+      "id": 5,
+      "question": "What is a fork and when would you use one?",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    }
+  ]
+}

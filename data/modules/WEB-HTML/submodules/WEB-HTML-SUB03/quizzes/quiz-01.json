@@ -1,0 +1,70 @@
+{
+  "id": "WEB-HTML-SUB03-Q01",
+  "module_code": "WEB-HTML",
+  "day": 1,
+  "title": "Quiz 1: Forms Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Forms?",
+      "options": [
+        "Core principle of Forms",
+        "Advanced Forms technique",
+        "Alternative approach to Forms",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Forms concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Form validation?",
+      "options": [
+        "Core principle of Form validation",
+        "Advanced Form validation technique",
+        "Alternative approach to Form validation",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Form validation concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Accessibility?",
+      "options": [
+        "Core principle of Accessibility",
+        "Advanced Accessibility technique",
+        "Alternative approach to Accessibility",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Accessibility concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in SEO-friendly HTML?",
+      "options": [
+        "Core principle of SEO-friendly HTML",
+        "Advanced SEO-friendly HTML technique",
+        "Alternative approach to SEO-friendly HTML",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental SEO-friendly HTML concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in HTML5 APIs?",
+      "options": [
+        "Core principle of HTML5 APIs",
+        "Advanced HTML5 APIs technique",
+        "Alternative approach to HTML5 APIs",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental HTML5 APIs concepts."
+    }
+  ]
+}

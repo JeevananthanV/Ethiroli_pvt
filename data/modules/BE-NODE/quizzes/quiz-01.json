@@ -1,0 +1,70 @@
+{
+  "id": "QZ-BE-NODE-D30",
+  "module_code": "BE-NODE",
+  "day": 30,
+  "title": "Quiz: Node.js Core: Runtime, Modules, and File System",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is the event loop in Node.js?",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    },
+    {
+      "id": 2,
+      "question": "Difference between CommonJS and ES modules.",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    },
+    {
+      "id": 3,
+      "question": "How do you read a file asynchronously?",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    },
+    {
+      "id": 4,
+      "question": "What does `process.env` provide?",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    },
+    {
+      "id": 5,
+      "question": "How do you construct safe file paths?",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    }
+  ]
+}

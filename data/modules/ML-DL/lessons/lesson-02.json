@@ -1,0 +1,18 @@
+{
+  "id": "ML-DL-L02",
+  "module_code": "ML-DL",
+  "lesson_order": 2,
+  "title": "Perceptron in Deep Learning",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Perceptron",
+    "Implement real-world code for Perceptron according to industry standards",
+    "Debug and optimize Perceptron integrations"
+  ],
+  "theory_markdown": "### Perceptron\n\nThis lesson covers in-depth technical mechanics of **Perceptron** as part of the Deep Learning curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Perceptron Implementation Example\nexport function handlePerceptron() {\n  console.log('Executing Perceptron workflow...');\n}",
+    "explanation": "Demonstration of how Perceptron is structured in production."
+  }
+}

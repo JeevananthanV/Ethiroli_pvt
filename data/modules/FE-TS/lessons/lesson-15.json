@@ -1,0 +1,18 @@
+{
+  "id": "FE-TS-L15",
+  "module_code": "FE-TS",
+  "lesson_order": 15,
+  "title": "Component typing in TypeScript",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Component typing",
+    "Implement real-world code for Component typing according to industry standards",
+    "Debug and optimize Component typing integrations"
+  ],
+  "theory_markdown": "### Component typing\n\nThis lesson covers in-depth technical mechanics of **Component typing** as part of the TypeScript curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Component typing Implementation Example\nexport function handleComponenttyping() {\n  console.log('Executing Component typing workflow...');\n}",
+    "explanation": "Demonstration of how Component typing is structured in production."
+  }
+}

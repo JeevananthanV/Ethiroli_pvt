@@ -1,0 +1,29 @@
+{
+  "code": "DEV-GIT-SUB01",
+  "title": "Git & GitHub - Part 1",
+  "category": "DevOps",
+  "level": "Beginner",
+  "duration_hours": 4,
+  "description": "Version control with Git and GitHub including repository management, branching, merging, conflict resolution, pull requests, and collaborative development workflows. This submodule covers: Version control, Git installation, Repository, Init, Clone, Add, Commit.",
+  "topics": [
+    "Version control",
+    "Git installation",
+    "Repository",
+    "Init",
+    "Clone",
+    "Add",
+    "Commit"
+  ],
+  "technologies": [
+    "Git",
+    "GitHub"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [],
+  "learning_outcomes": [
+    "Initialize and manage Git repositories",
+    "Use branching and merging strategies",
+    "Resolve merge conflicts"
+  ]
+}

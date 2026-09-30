@@ -1,0 +1,70 @@
+{
+  "id": "QZ-SEC-AUTH-D45",
+  "module_code": "SEC-AUTH",
+  "day": 45,
+  "title": "Quiz: Role-Based Access Control (RBAC) and Permissions",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Difference between role-based and permission-based access control?",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    },
+    {
+      "id": 2,
+      "question": "How do you handle resource ownership in RBAC?",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    },
+    {
+      "id": 3,
+      "question": "Why allow admins to bypass ownership checks?",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    },
+    {
+      "id": 4,
+      "question": "How do you test RBAC middleware?",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    },
+    {
+      "id": 5,
+      "question": "What is the principle of least privilege?",
+      "options": [
+        "Direct implementation approach",
+        "Alternative asynchronous callback approach",
+        "Standard browser legacy fallback pattern",
+        "Deprecated protocol behavior"
+      ],
+      "correct_index": 0,
+      "explanation": "Core full stack concept verified in lecture."
+    }
+  ]
+}

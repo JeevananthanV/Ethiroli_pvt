@@ -1,0 +1,18 @@
+{
+  "id": "API-PAYMENT-L04",
+  "module_code": "API-PAYMENT",
+  "lesson_order": 4,
+  "title": "Payment verification in Payment Integration",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Payment verification",
+    "Implement real-world code for Payment verification according to industry standards",
+    "Debug and optimize Payment verification integrations"
+  ],
+  "theory_markdown": "### Payment verification\n\nThis lesson covers in-depth technical mechanics of **Payment verification** as part of the Payment Integration curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Payment verification Implementation Example\nexport function handlePaymentverification() {\n  console.log('Executing Payment verification workflow...');\n}",
+    "explanation": "Demonstration of how Payment verification is structured in production."
+  }
+}

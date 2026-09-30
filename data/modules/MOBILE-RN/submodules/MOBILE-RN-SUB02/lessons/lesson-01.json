@@ -1,0 +1,22 @@
+{
+  "id": "MOBILE-RN-SUB02-L01",
+  "day": 1,
+  "module_code": "MOBILE-RN",
+  "lesson_order": 1,
+  "title": "API integration: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of API integration",
+    "Apply API integration in practical scenarios",
+    "Build a small project using API integration"
+  ],
+  "theory_markdown": "# API integration\n\n## Overview\nThis lesson covers the fundamentals of API integration and its practical applications.\n\n## Key Concepts\n- Concept 1 related to API integration\n- Concept 2 related to API integration\n- Best practices for API integration\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of API integration\n2. Implement basic API integration functionality\n3. Apply API integration to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example API integration implementation\nconsole.log('Learning API integration');\n\n// Basic API integration example\nconst example = {\n  topic: 'API integration',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic API integration usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand API integration concepts and generate code examples.\n\n---"
+  }
+}

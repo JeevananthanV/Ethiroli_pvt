@@ -1,0 +1,70 @@
+{
+  "id": "FE-NEXT-SUB02-Q03",
+  "module_code": "FE-NEXT",
+  "day": 5,
+  "title": "Quiz 3: Routing Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Routing?",
+      "options": [
+        "Core principle of Routing",
+        "Advanced Routing technique",
+        "Alternative approach to Routing",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Routing concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Dynamic routes?",
+      "options": [
+        "Core principle of Dynamic routes",
+        "Advanced Dynamic routes technique",
+        "Alternative approach to Dynamic routes",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Dynamic routes concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Data fetching?",
+      "options": [
+        "Core principle of Data fetching",
+        "Advanced Data fetching technique",
+        "Alternative approach to Data fetching",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Data fetching concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Server actions?",
+      "options": [
+        "Core principle of Server actions",
+        "Advanced Server actions technique",
+        "Alternative approach to Server actions",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Server actions concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in API routes?",
+      "options": [
+        "Core principle of API routes",
+        "Advanced API routes technique",
+        "Alternative approach to API routes",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental API routes concepts."
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "WEB-HTML-SUB01-L01",
+  "day": 1,
+  "module_code": "WEB-HTML",
+  "lesson_order": 1,
+  "title": "HTML fundamentals: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of HTML fundamentals",
+    "Apply HTML fundamentals in practical scenarios",
+    "Build a small project using HTML fundamentals"
+  ],
+  "theory_markdown": "# HTML fundamentals\n\n## Overview\nThis lesson covers the fundamentals of HTML fundamentals and its practical applications.\n\n## Key Concepts\n- Concept 1 related to HTML fundamentals\n- Concept 2 related to HTML fundamentals\n- Best practices for HTML fundamentals\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of HTML fundamentals\n2. Implement basic HTML fundamentals functionality\n3. Apply HTML fundamentals to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example HTML fundamentals implementation\nconsole.log('Learning HTML fundamentals');\n\n// Basic HTML fundamentals example\nconst example = {\n  topic: 'HTML fundamentals',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic HTML fundamentals usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand HTML fundamentals concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "PY-CORE-L11",
+  "module_code": "PY-CORE",
+  "lesson_order": 11,
+  "title": "Dictionaries in Python Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Dictionaries",
+    "Implement real-world code for Dictionaries according to industry standards",
+    "Debug and optimize Dictionaries integrations"
+  ],
+  "theory_markdown": "### Dictionaries\n\nThis lesson covers in-depth technical mechanics of **Dictionaries** as part of the Python Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Dictionaries Implementation Example\nexport function handleDictionaries() {\n  console.log('Executing Dictionaries workflow...');\n}",
+    "explanation": "Demonstration of how Dictionaries is structured in production."
+  }
+}

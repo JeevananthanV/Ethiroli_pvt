@@ -1,0 +1,10 @@
+{
+  "id": "EX-MOBILE-RN-L05",
+  "module_code": "MOBILE-RN",
+  "title": "Lab Exercise: Forms",
+  "difficulty": "Advanced",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Forms.",
+  "starter_code": "// Lab: Forms\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Forms\nexport const solution = true;\n"
+}

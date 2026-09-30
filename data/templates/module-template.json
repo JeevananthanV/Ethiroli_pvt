@@ -1,0 +1,21 @@
+{
+  "code": "MODULE-CODE",
+  "title": "Module Title",
+  "category": "Frontend / Backend / Database / DevOps / AI",
+  "level": "Beginner / Intermediate / Advanced",
+  "duration_hours": 15,
+  "description": "Detailed scope of this modular technology curriculum.",
+  "topics": [
+    "Topic 1",
+    "Topic 2",
+    "Topic 3"
+  ],
+  "skills_acquired": [
+    "Skill A",
+    "Skill B"
+  ],
+  "practical_labs": [
+    "Lab 1: Setting up environment",
+    "Lab 2: Hands-on implementation"
+  ]
+}

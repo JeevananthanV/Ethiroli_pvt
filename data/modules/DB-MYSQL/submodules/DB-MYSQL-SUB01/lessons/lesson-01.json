@@ -1,0 +1,22 @@
+{
+  "id": "DB-MYSQL-SUB01-L01",
+  "day": 1,
+  "module_code": "DB-MYSQL",
+  "lesson_order": 1,
+  "title": "Database fundamentals: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Database fundamentals",
+    "Apply Database fundamentals in practical scenarios",
+    "Build a small project using Database fundamentals"
+  ],
+  "theory_markdown": "# Database fundamentals\n\n## Overview\nThis lesson covers the fundamentals of Database fundamentals and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Database fundamentals\n- Concept 2 related to Database fundamentals\n- Best practices for Database fundamentals\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Database fundamentals\n2. Implement basic Database fundamentals functionality\n3. Apply Database fundamentals to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Database fundamentals implementation\nconsole.log('Learning Database fundamentals');\n\n// Basic Database fundamentals example\nconst example = {\n  topic: 'Database fundamentals',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Database fundamentals usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Database fundamentals concepts and generate code examples.\n\n---"
+  }
+}

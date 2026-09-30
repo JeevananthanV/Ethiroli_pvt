@@ -1,0 +1,45 @@
+{
+  "code": "WEB-CSS",
+  "title": "CSS3 & Responsive Design",
+  "category": "Frontend",
+  "level": "Beginner",
+  "duration_hours": 20,
+  "description": "CSS3 and responsive design fundamentals including selectors, box model, Flexbox, Grid, animations, media queries, and Tailwind CSS for building visually appealing, mobile-ready layouts.",
+  "topics": [
+    "CSS fundamentals",
+    "Selectors",
+    "Colors",
+    "Typography",
+    "Box model",
+    "Display",
+    "Positioning",
+    "Flexbox",
+    "CSS Grid",
+    "Responsive design",
+    "Media queries",
+    "Animations",
+    "Transitions",
+    "Variables",
+    "Responsive navigation",
+    "Component styling"
+  ],
+  "technologies": [
+    "CSS3",
+    "Tailwind CSS"
+  ],
+  "practicals": [],
+  "projects": [
+    "Responsive Company Website"
+  ],
+  "prerequisites": [
+    "WEB-HTML"
+  ],
+  "learning_outcomes": [
+    "Apply CSS selectors and specificity rules",
+    "Style with colors, typography, and box model",
+    "Implement layouts with Flexbox and CSS Grid",
+    "Create responsive designs with media queries",
+    "Add animations and transitions",
+    "Use CSS variables and component-based styling"
+  ]
+}

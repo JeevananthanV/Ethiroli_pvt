@@ -1,0 +1,43 @@
+{
+  "code": "CLOUD-AWS",
+  "title": "Cloud Computing",
+  "category": "DevOps",
+  "level": "Advanced",
+  "duration_hours": 16,
+  "description": "Cloud computing with AWS covering EC2, S3, IAM, RDS, VPC, security, DNS, deployment, monitoring, and backup strategies.",
+  "topics": [
+    "Cloud fundamentals",
+    "AWS architecture",
+    "EC2",
+    "S3",
+    "IAM",
+    "RDS",
+    "VPC fundamentals",
+    "Security groups",
+    "DNS",
+    "Deployment",
+    "Monitoring",
+    "Backup"
+  ],
+  "technologies": [
+    "AWS",
+    "Hostinger",
+    "Cloudflare"
+  ],
+  "practicals": [],
+  "projects": [
+    "Cloud-Deployed Full Stack Application"
+  ],
+  "prerequisites": [
+    "DEVOPS-CORE",
+    "FE-NEXT"
+  ],
+  "learning_outcomes": [
+    "Understand cloud computing concepts and service models",
+    "Provision and manage AWS EC2 instances",
+    "Use AWS S3 for object storage and CDN",
+    "Implement AWS IAM for access control and security",
+    "Use AWS RDS for managed relational databases",
+    "Design secure VPC architectures with proper networking"
+  ]
+}

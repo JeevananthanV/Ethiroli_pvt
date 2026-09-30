@@ -1,0 +1,18 @@
+{
+  "id": "PY-CORE-L03",
+  "module_code": "PY-CORE",
+  "lesson_order": 3,
+  "title": "Data types in Python Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Data types",
+    "Implement real-world code for Data types according to industry standards",
+    "Debug and optimize Data types integrations"
+  ],
+  "theory_markdown": "### Data types\n\nThis lesson covers in-depth technical mechanics of **Data types** as part of the Python Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Data types Implementation Example\nexport function handleDatatypes() {\n  console.log('Executing Data types workflow...');\n}",
+    "explanation": "Demonstration of how Data types is structured in production."
+  }
+}

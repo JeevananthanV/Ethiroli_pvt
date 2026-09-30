@@ -1,0 +1,32 @@
+{
+  "code": "FE-NEXT-SUB01",
+  "title": "Next.js - Part 1",
+  "category": "Frontend",
+  "level": "Advanced",
+  "duration_hours": 8,
+  "description": "Next.js development with App Router, Server/Client Components, API routes, authentication, SEO, image optimization, and production deployment strategies. This submodule covers: Next.js fundamentals, App Router, Pages, Layouts, Server Components, Client Components.",
+  "topics": [
+    "Next.js fundamentals",
+    "App Router",
+    "Pages",
+    "Layouts",
+    "Server Components",
+    "Client Components"
+  ],
+  "technologies": [
+    "Next.js",
+    "TypeScript"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "FE-REACT",
+    "FE-TS",
+    "BE-NODE"
+  ],
+  "learning_outcomes": [
+    "Build full-stack applications with Next.js App Router",
+    "Implement server-side rendering and static site generation",
+    "Create API routes and server actions"
+  ]
+}

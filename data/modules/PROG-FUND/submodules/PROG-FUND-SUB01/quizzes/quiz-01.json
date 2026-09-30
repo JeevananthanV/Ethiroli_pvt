@@ -1,0 +1,70 @@
+{
+  "id": "PROG-FUND-SUB01-Q01",
+  "module_code": "PROG-FUND",
+  "day": 1,
+  "title": "Quiz 1: Programming concepts Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Programming concepts?",
+      "options": [
+        "Core principle of Programming concepts",
+        "Advanced Programming concepts technique",
+        "Alternative approach to Programming concepts",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Programming concepts concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Variables?",
+      "options": [
+        "Core principle of Variables",
+        "Advanced Variables technique",
+        "Alternative approach to Variables",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Variables concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Data types?",
+      "options": [
+        "Core principle of Data types",
+        "Advanced Data types technique",
+        "Alternative approach to Data types",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Data types concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Operators?",
+      "options": [
+        "Core principle of Operators",
+        "Advanced Operators technique",
+        "Alternative approach to Operators",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Operators concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Conditions?",
+      "options": [
+        "Core principle of Conditions",
+        "Advanced Conditions technique",
+        "Alternative approach to Conditions",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Conditions concepts."
+    }
+  ]
+}

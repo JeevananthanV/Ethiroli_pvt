@@ -37,7 +37,7 @@ export default function ReceptionNotifications() {
       }
     >
       {/* Category Pills */}
-      <div className="d-flex gap-2 flex-wrap mb-4">
+      <div className="d-flex gap-2 flex-wrap mb-2">
         <button className={`btn btn-sm ${filter === 'ALL' ? 'btn-primary' : 'btn-white border'}`} onClick={() => setFilter('ALL')}>
           All Alerts ({notifications.length})
         </button>

@@ -1,0 +1,18 @@
+{
+  "id": "MOBILE-RN-L17",
+  "module_code": "MOBILE-RN",
+  "lesson_order": 17,
+  "title": "Deployment in Mobile Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Deployment",
+    "Implement real-world code for Deployment according to industry standards",
+    "Debug and optimize Deployment integrations"
+  ],
+  "theory_markdown": "### Deployment\n\nThis lesson covers in-depth technical mechanics of **Deployment** as part of the Mobile Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Deployment Implementation Example\nexport function handleDeployment() {\n  console.log('Executing Deployment workflow...');\n}",
+    "explanation": "Demonstration of how Deployment is structured in production."
+  }
+}

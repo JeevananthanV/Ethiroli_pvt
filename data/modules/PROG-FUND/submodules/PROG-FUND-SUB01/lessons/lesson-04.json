@@ -1,0 +1,22 @@
+{
+  "id": "PROG-FUND-SUB01-L04",
+  "day": 7,
+  "module_code": "PROG-FUND",
+  "lesson_order": 4,
+  "title": "Operators: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Operators",
+    "Apply Operators in practical scenarios",
+    "Build a small project using Operators"
+  ],
+  "theory_markdown": "# Operators\n\n## Overview\nThis lesson covers the fundamentals of Operators and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Operators\n- Concept 2 related to Operators\n- Best practices for Operators\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Operators\n2. Implement basic Operators functionality\n3. Apply Operators to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Operators implementation\nconsole.log('Learning Operators');\n\n// Basic Operators example\nconst example = {\n  topic: 'Operators',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Operators usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Operators concepts and generate code examples.\n\n---"
+  }
+}

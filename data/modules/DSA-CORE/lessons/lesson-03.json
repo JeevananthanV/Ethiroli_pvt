@@ -1,0 +1,20 @@
+{
+  "id": "DSA-CORE-D20",
+  "day": 20,
+  "module_code": "DSA-CORE",
+  "lesson_order": 3,
+  "title": "Error Handling, Regular Expressions, and Performance",
+  "duration_minutes": 60,
+  "objectives": [
+    "Master error handling patterns, regex, and JavaScript performance profiling."
+  ],
+  "theory_markdown": "Error handling: `try/catch/finally`, custom error classes, async error handling. Never swallow errors silently. Log with context. `Error.captureStackTrace` for V8.\r\n\r\nRegular expressions: `test()`, `match()`, `replace()`, `matchAll()`, named capture groups, lookahead/lookbehind. Performance: avoid `JSON.parse(JSON.stringify())` for deep clone, use `structuredClone()`. Debounce and throttle expensive operations.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Custom error classes\r\nclass AppError extends Error {\r\n  constructor(message, statusCode) {\r\n    super(message);\r\n    this.name = \"AppError\";\r\n    this.statusCode = statusCode;\r\n    Error.captureStackTrace(this, this.constructor);\r\n  }\r\n}\r\n\r\nclass ValidationError extends AppError {\r\n  constructor(message, field) {\r\n    super(message, 400);\r\n    this.name = \"ValidationError\";\r\n    this.field = field;\r\n  }\r\n}\r\n\r\n// Usage\r\nfunction validateEmail(email) {\r\n  const regex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\r\n  if (!regex.test(email)) {\r\n    throw new ValidationError(\"Invalid email format\", \"email\");\r\n  }\r\n  return email.toLowerCase();\r\n}\r\n\r\ntry {\r\n  validateEmail(\"not-an-email\");\r\n} catch (err) {\r\n  if (err instanceof ValidationError) {\r\n    console.log(`Validation failed on ${err.field}: ${err.message}`);\r\n  } else {\r\n    console.error(\"Unexpected error:\", err);\r\n  }\r\n}\r\n\r\n// Named capture groups\r\nconst dateRegex = /(?<year>\\d{4})-(?<month>\\d{2})-(?<day>\\d{2})/;\r\nconst match = \"2026-06-15\".match(dateRegex);\r\nconsole.log(match.groups.year);  // \"2026\"\r\n\r\n// Debounce\r\nfunction debounce(fn, delay) {\r\n  let timeoutId;\r\n  return function(...args) {\r\n    clearTimeout(timeoutId);\r\n    timeoutId = setTimeout(() => fn.apply(this, args), delay);\r\n  };\r\n}\r\n\r\nconst search = debounce((query) => {\r\n  console.log(`Searching for: ${query}`);\r\n}, 300);\r\n\r\n// Structured clone (deep copy)\r\nconst original = { nested: { arr: [1, 2, 3] } };\r\nconst clone = structuredClone(original);\r\nclone.nested.arr.push(4);\r\nconsole.log(original.nested.arr); // [1, 2, 3] — unchanged",
+    "explanation": "Custom errors carry semantic meaning and status codes. Regex named groups make matches readable. Debounce limits function calls during rapid events. `structuredClone` is the modern deep clone solution."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **BrowserStack** or **Lighthouse** to profile JavaScript performance. Use **Regex101.com** (free) to test regex patterns."
+  }
+}

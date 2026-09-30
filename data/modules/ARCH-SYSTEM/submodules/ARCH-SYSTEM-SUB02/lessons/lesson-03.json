@@ -1,0 +1,22 @@
+{
+  "id": "ARCH-SYSTEM-SUB02-L03",
+  "day": 5,
+  "module_code": "ARCH-SYSTEM",
+  "lesson_order": 3,
+  "title": "Database scaling: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Database scaling",
+    "Apply Database scaling in practical scenarios",
+    "Build a small project using Database scaling"
+  ],
+  "theory_markdown": "# Database scaling\n\n## Overview\nThis lesson covers the fundamentals of Database scaling and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Database scaling\n- Concept 2 related to Database scaling\n- Best practices for Database scaling\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Database scaling\n2. Implement basic Database scaling functionality\n3. Apply Database scaling to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Database scaling implementation\nconsole.log('Learning Database scaling');\n\n// Basic Database scaling example\nconst example = {\n  topic: 'Database scaling',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Database scaling usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Database scaling concepts and generate code examples.\n\n---"
+  }
+}

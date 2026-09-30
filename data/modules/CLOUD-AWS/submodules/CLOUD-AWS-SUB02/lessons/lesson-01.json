@@ -1,0 +1,22 @@
+{
+  "id": "CLOUD-AWS-SUB02-L01",
+  "day": 1,
+  "module_code": "CLOUD-AWS",
+  "lesson_order": 1,
+  "title": "IAM: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of IAM",
+    "Apply IAM in practical scenarios",
+    "Build a small project using IAM"
+  ],
+  "theory_markdown": "# IAM\n\n## Overview\nThis lesson covers the fundamentals of IAM and its practical applications.\n\n## Key Concepts\n- Concept 1 related to IAM\n- Concept 2 related to IAM\n- Best practices for IAM\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of IAM\n2. Implement basic IAM functionality\n3. Apply IAM to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example IAM implementation\nconsole.log('Learning IAM');\n\n// Basic IAM example\nconst example = {\n  topic: 'IAM',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic IAM usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand IAM concepts and generate code examples.\n\n---"
+  }
+}

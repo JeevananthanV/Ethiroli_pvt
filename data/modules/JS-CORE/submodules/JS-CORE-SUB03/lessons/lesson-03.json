@@ -1,0 +1,22 @@
+{
+  "id": "JS-CORE-SUB03-L03",
+  "day": 5,
+  "module_code": "JS-CORE",
+  "lesson_order": 3,
+  "title": "Error handling: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Error handling",
+    "Apply Error handling in practical scenarios",
+    "Build a small project using Error handling"
+  ],
+  "theory_markdown": "# Error handling\n\n## Overview\nThis lesson covers the fundamentals of Error handling and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Error handling\n- Concept 2 related to Error handling\n- Best practices for Error handling\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Error handling\n2. Implement basic Error handling functionality\n3. Apply Error handling to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Error handling implementation\nconsole.log('Learning Error handling');\n\n// Basic Error handling example\nconst example = {\n  topic: 'Error handling',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Error handling usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Error handling concepts and generate code examples.\n\n---"
+  }
+}

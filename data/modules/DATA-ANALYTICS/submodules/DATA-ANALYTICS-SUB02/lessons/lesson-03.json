@@ -1,0 +1,22 @@
+{
+  "id": "DATA-ANALYTICS-SUB02-L03",
+  "day": 5,
+  "module_code": "DATA-ANALYTICS",
+  "lesson_order": 3,
+  "title": "EDA: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of EDA",
+    "Apply EDA in practical scenarios",
+    "Build a small project using EDA"
+  ],
+  "theory_markdown": "# EDA\n\n## Overview\nThis lesson covers the fundamentals of EDA and its practical applications.\n\n## Key Concepts\n- Concept 1 related to EDA\n- Concept 2 related to EDA\n- Best practices for EDA\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of EDA\n2. Implement basic EDA functionality\n3. Apply EDA to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example EDA implementation\nconsole.log('Learning EDA');\n\n// Basic EDA example\nconst example = {\n  topic: 'EDA',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic EDA usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand EDA concepts and generate code examples.\n\n---"
+  }
+}

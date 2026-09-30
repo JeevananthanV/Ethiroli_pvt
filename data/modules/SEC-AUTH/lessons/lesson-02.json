@@ -1,0 +1,20 @@
+{
+  "id": "SEC-AUTH-D45",
+  "day": 45,
+  "module_code": "SEC-AUTH",
+  "lesson_order": 2,
+  "title": "Role-Based Access Control (RBAC) and Permissions",
+  "duration_minutes": 60,
+  "objectives": [
+    "Implement RBAC with role hierarchies, permission checks, and resource ownership."
+  ],
+  "theory_markdown": "RBAC assigns permissions to roles, and roles to users. Role hierarchy: super-admin > admin > moderator > user > guest. Permission-based access: fine-grained control where each role has a set of permissions (`user:read`, `user:write`, `post:delete`). Resource ownership: users can only modify their own resources unless they have admin role.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// middleware/rbac.js\r\n\r\n// Role-based middleware\r\nexport function requireRole(...roles) {\r\n  return (req, res, next) => {\r\n    if (!req.user) {\r\n      const err = new Error('Authentication required');\r\n      err.statusCode = 401;\r\n      return next(err);\r\n    }\r\n\r\n    if (!roles.includes(req.user.role)) {\r\n      const err = new Error('Insufficient permissions');\r\n      err.statusCode = 403;\r\n      return next(err);\r\n    }\r\n\r\n    next();\r\n  };\r\n}\r\n\r\n// Permission-based middleware\r\nconst ROLE_PERMISSIONS = {\r\n  admin: ['user:read', 'user:write', 'user:delete',\r\n          'post:read', 'post:write', 'post:delete',\r\n          'comment:read', 'comment:write', 'comment:delete'],\r\n  moderator: ['user:read', 'post:read', 'post:write',\r\n              'comment:read', 'comment:write', 'comment:delete'],\r\n  user: ['post:read', 'post:write', 'comment:read', 'comment:write'],\r\n  guest: ['post:read', 'comment:read']\r\n};\r\n\r\nexport function requirePermission(...permissions) {\r\n  return (req, res, next) => {\r\n    if (!req.user) {\r\n      const err = new Error('Authentication required');\r\n      err.statusCode = 401;\r\n      return next(err);\r\n    }\r\n\r\n    const userPermissions = ROLE_PERMISSIONS[req.user.role] || [];\r\n    const hasPermission = permissions.every(p =>\r\n      userPermissions.includes(p)\r\n    );\r\n\r\n    if (!hasPermission) {\r\n      const err = new Error('Insufficient permissions');\r\n      err.statusCode = 403;\r\n      return next(err);\r\n    }\r\n\r\n    next();\r\n  };\r\n}\r\n\r\n// Resource ownership check\r\nexport function requireOwnership(getResourceUserId) {\r\n  return async (req, res, next) => {\r\n    try {\r\n      const resourceUserId = await getResourceUserId(req);\r\n      if (\r\n        req.user.role !== 'admin' &&\r\n        req.user.id !== resourceUserId\r\n      ) {\r\n        const err = new Error('You can only modify your own resources');\r\n        err.statusCode = 403;\r\n        return next(err);\r\n      }\r\n      next();\r\n    } catch (err) { next(err); }\r\n  };\r\n}",
+    "explanation": "`requireRole` checks exact role match. `requirePermission` checks granular permissions. `requireOwnership` compares resource owner with current user, allowing admins to bypass. Middleware composes for flexible access control."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Casbin** (free, open-source) for more complex access control models (ABAC, RBAC with domains). Use **Postman** to test all role combinations."
+  }
+}

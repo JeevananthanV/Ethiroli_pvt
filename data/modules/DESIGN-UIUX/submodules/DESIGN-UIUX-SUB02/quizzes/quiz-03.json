@@ -1,0 +1,70 @@
+{
+  "id": "DESIGN-UIUX-SUB02-Q03",
+  "module_code": "DESIGN-UIUX",
+  "day": 5,
+  "title": "Quiz 3: Design principles Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Design principles?",
+      "options": [
+        "Core principle of Design principles",
+        "Advanced Design principles technique",
+        "Alternative approach to Design principles",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Design principles concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Typography?",
+      "options": [
+        "Core principle of Typography",
+        "Advanced Typography technique",
+        "Alternative approach to Typography",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Typography concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Colors?",
+      "options": [
+        "Core principle of Colors",
+        "Advanced Colors technique",
+        "Alternative approach to Colors",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Colors concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Spacing?",
+      "options": [
+        "Core principle of Spacing",
+        "Advanced Spacing technique",
+        "Alternative approach to Spacing",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Spacing concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Components?",
+      "options": [
+        "Core principle of Components",
+        "Advanced Components technique",
+        "Alternative approach to Components",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Components concepts."
+    }
+  ]
+}

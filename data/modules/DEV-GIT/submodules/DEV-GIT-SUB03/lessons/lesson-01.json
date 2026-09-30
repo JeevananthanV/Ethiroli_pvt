@@ -1,0 +1,22 @@
+{
+  "id": "DEV-GIT-SUB03-L01",
+  "day": 1,
+  "module_code": "DEV-GIT",
+  "lesson_order": 1,
+  "title": "Pull requests: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Pull requests",
+    "Apply Pull requests in practical scenarios",
+    "Build a small project using Pull requests"
+  ],
+  "theory_markdown": "# Pull requests\n\n## Overview\nThis lesson covers the fundamentals of Pull requests and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Pull requests\n- Concept 2 related to Pull requests\n- Best practices for Pull requests\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Pull requests\n2. Implement basic Pull requests functionality\n3. Apply Pull requests to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Pull requests implementation\nconsole.log('Learning Pull requests');\n\n// Basic Pull requests example\nconst example = {\n  topic: 'Pull requests',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Pull requests usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Pull requests concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "ARCH-SYSTEM-L08",
+  "module_code": "ARCH-SYSTEM",
+  "lesson_order": 8,
+  "title": "Caching in System Design",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Caching",
+    "Implement real-world code for Caching according to industry standards",
+    "Debug and optimize Caching integrations"
+  ],
+  "theory_markdown": "### Caching\n\nThis lesson covers in-depth technical mechanics of **Caching** as part of the System Design curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Caching Implementation Example\nexport function handleCaching() {\n  console.log('Executing Caching workflow...');\n}",
+    "explanation": "Demonstration of how Caching is structured in production."
+  }
+}

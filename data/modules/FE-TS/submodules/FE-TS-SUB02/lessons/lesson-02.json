@@ -1,0 +1,22 @@
+{
+  "id": "FE-TS-SUB02-L02",
+  "day": 3,
+  "module_code": "FE-TS",
+  "lesson_order": 2,
+  "title": "Enums: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Enums",
+    "Apply Enums in practical scenarios",
+    "Build a small project using Enums"
+  ],
+  "theory_markdown": "# Enums\n\n## Overview\nThis lesson covers the fundamentals of Enums and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Enums\n- Concept 2 related to Enums\n- Best practices for Enums\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Enums\n2. Implement basic Enums functionality\n3. Apply Enums to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Enums implementation\nconsole.log('Learning Enums');\n\n// Basic Enums example\nconst example = {\n  topic: 'Enums',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Enums usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Enums concepts and generate code examples.\n\n---"
+  }
+}

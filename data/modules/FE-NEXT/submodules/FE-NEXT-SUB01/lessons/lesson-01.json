@@ -1,0 +1,22 @@
+{
+  "id": "FE-NEXT-SUB01-L01",
+  "day": 1,
+  "module_code": "FE-NEXT",
+  "lesson_order": 1,
+  "title": "Next.js fundamentals: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Next.js fundamentals",
+    "Apply Next.js fundamentals in practical scenarios",
+    "Build a small project using Next.js fundamentals"
+  ],
+  "theory_markdown": "# Next.js fundamentals\n\n## Overview\nThis lesson covers the fundamentals of Next.js fundamentals and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Next.js fundamentals\n- Concept 2 related to Next.js fundamentals\n- Best practices for Next.js fundamentals\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Next.js fundamentals\n2. Implement basic Next.js fundamentals functionality\n3. Apply Next.js fundamentals to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Next.js fundamentals implementation\nconsole.log('Learning Next.js fundamentals');\n\n// Basic Next.js fundamentals example\nconst example = {\n  topic: 'Next.js fundamentals',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Next.js fundamentals usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Next.js fundamentals concepts and generate code examples.\n\n---"
+  }
+}

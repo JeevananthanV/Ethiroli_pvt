@@ -1,0 +1,70 @@
+{
+  "id": "ML-CORE-SUB03-Q03",
+  "module_code": "ML-CORE",
+  "day": 5,
+  "title": "Quiz 3: Train/test split Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Train/test split?",
+      "options": [
+        "Core principle of Train/test split",
+        "Advanced Train/test split technique",
+        "Alternative approach to Train/test split",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Train/test split concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Model evaluation?",
+      "options": [
+        "Core principle of Model evaluation",
+        "Advanced Model evaluation technique",
+        "Alternative approach to Model evaluation",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Model evaluation concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Cross-validation?",
+      "options": [
+        "Core principle of Cross-validation",
+        "Advanced Cross-validation technique",
+        "Alternative approach to Cross-validation",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Cross-validation concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Hyperparameter tuning?",
+      "options": [
+        "Core principle of Hyperparameter tuning",
+        "Advanced Hyperparameter tuning technique",
+        "Alternative approach to Hyperparameter tuning",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Hyperparameter tuning concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Train/test split?",
+      "options": [
+        "Core principle of Train/test split",
+        "Advanced Train/test split technique",
+        "Alternative approach to Train/test split",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Train/test split concepts."
+    }
+  ]
+}

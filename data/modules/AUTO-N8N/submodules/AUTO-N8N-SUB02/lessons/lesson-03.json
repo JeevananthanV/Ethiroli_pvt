@@ -1,0 +1,22 @@
+{
+  "id": "AUTO-N8N-SUB02-L03",
+  "day": 5,
+  "module_code": "AUTO-N8N",
+  "lesson_order": 3,
+  "title": "Expressions: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Expressions",
+    "Apply Expressions in practical scenarios",
+    "Build a small project using Expressions"
+  ],
+  "theory_markdown": "# Expressions\n\n## Overview\nThis lesson covers the fundamentals of Expressions and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Expressions\n- Concept 2 related to Expressions\n- Best practices for Expressions\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Expressions\n2. Implement basic Expressions functionality\n3. Apply Expressions to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Expressions implementation\nconsole.log('Learning Expressions');\n\n// Basic Expressions example\nconst example = {\n  topic: 'Expressions',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Expressions usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Expressions concepts and generate code examples.\n\n---"
+  }
+}

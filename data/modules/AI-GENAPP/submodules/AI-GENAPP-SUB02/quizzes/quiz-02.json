@@ -1,0 +1,70 @@
+{
+  "id": "AI-GENAPP-SUB02-Q02",
+  "module_code": "AI-GENAPP",
+  "day": 3,
+  "title": "Quiz 2: Function calling Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Function calling?",
+      "options": [
+        "Core principle of Function calling",
+        "Advanced Function calling technique",
+        "Alternative approach to Function calling",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Function calling concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Embeddings?",
+      "options": [
+        "Core principle of Embeddings",
+        "Advanced Embeddings technique",
+        "Alternative approach to Embeddings",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Embeddings concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Vector databases?",
+      "options": [
+        "Core principle of Vector databases",
+        "Advanced Vector databases technique",
+        "Alternative approach to Vector databases",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Vector databases concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in RAG?",
+      "options": [
+        "Core principle of RAG",
+        "Advanced RAG technique",
+        "Alternative approach to RAG",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental RAG concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in AI agents?",
+      "options": [
+        "Core principle of AI agents",
+        "Advanced AI agents technique",
+        "Alternative approach to AI agents",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental AI agents concepts."
+    }
+  ]
+}

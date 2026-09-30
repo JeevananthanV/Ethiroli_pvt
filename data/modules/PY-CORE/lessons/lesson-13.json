@@ -1,0 +1,18 @@
+{
+  "id": "PY-CORE-L13",
+  "module_code": "PY-CORE",
+  "lesson_order": 13,
+  "title": "Exception handling in Python Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Exception handling",
+    "Implement real-world code for Exception handling according to industry standards",
+    "Debug and optimize Exception handling integrations"
+  ],
+  "theory_markdown": "### Exception handling\n\nThis lesson covers in-depth technical mechanics of **Exception handling** as part of the Python Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Exception handling Implementation Example\nexport function handleExceptionhandling() {\n  console.log('Executing Exception handling workflow...');\n}",
+    "explanation": "Demonstration of how Exception handling is structured in production."
+  }
+}

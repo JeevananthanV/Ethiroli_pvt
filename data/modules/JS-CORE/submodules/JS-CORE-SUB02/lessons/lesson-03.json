@@ -1,0 +1,22 @@
+{
+  "id": "JS-CORE-SUB02-L03",
+  "day": 5,
+  "module_code": "JS-CORE",
+  "lesson_order": 3,
+  "title": "Spread/rest: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Spread/rest",
+    "Apply Spread/rest in practical scenarios",
+    "Build a small project using Spread/rest"
+  ],
+  "theory_markdown": "# Spread/rest\n\n## Overview\nThis lesson covers the fundamentals of Spread/rest and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Spread/rest\n- Concept 2 related to Spread/rest\n- Best practices for Spread/rest\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Spread/rest\n2. Implement basic Spread/rest functionality\n3. Apply Spread/rest to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Spread/rest implementation\nconsole.log('Learning Spread/rest');\n\n// Basic Spread/rest example\nconst example = {\n  topic: 'Spread/rest',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Spread/rest usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Spread/rest concepts and generate code examples.\n\n---"
+  }
+}

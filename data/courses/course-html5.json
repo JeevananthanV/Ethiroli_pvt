@@ -1,0 +1,111 @@
+{
+  "course": {
+    "code": "ETH-HTML5-01",
+    "name": "HTML5 Fundamentals",
+    "duration_days": 3,
+    "level": "Beginner",
+    "description": "A comprehensive 3-day course covering HTML5 fundamentals, structured content, forms, tables, semantic elements, multimedia integration, canvas drawing, and web accessibility. Students will build progressively more complex web pages and forms, learning best practices for modern HTML5 development."
+  },
+  "modules": [
+    {
+      "title": "Module 1 — HTML5 Basics",
+      "module_order": 10,
+      "lessons": [
+        {
+          "title": "Day 1 — HTML Structure & Tags",
+          "content": "# Day 1 — HTML Structure & Tags\n\n## Learning Objectives\nBy the end of this day, you will be able to:\n- Create a complete, valid HTML5 document structure\n- Use heading tags (h1-h6) appropriately for document hierarchy\n- Apply paragraph, link, and image tags correctly\n- Structure content using lists and divisions\n- Understand the role of the DOCTYPE declaration\n\n## HTML5 Document Structure\nHTML5 introduced a simplified document structure with the <!DOCTYPE html> declaration. Every HTML5 document follows this basic structure:\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Page Title</title>\n</head>\n<body>\n  <!-- Content goes here -->\n</body>\n</html>\n```\n\n## Essential Tags\n- **<!DOCTYPE html>** — Declares HTML5 document type (must be lowercase!)\n- **<html>** — Root element of the page (use lang attribute for accessibility)\n- **<head>** — Contains metadata, title, and link elements\n- **<meta charset=\"UTF-8\">** — Sets character encoding to support all Unicode characters\n- **<meta name=\"viewport\">** — Makes page responsive on mobile devices\n- **<title>** — Page title shown in browser tab and bookmarks\n- **<body>** — Main content area visible to users\n\n## Heading Tags (h1-h6)\nHeadings create a hierarchy for your content:\n- **<h1>** — Primary page heading (only one per page)\n- **<h2>** — Section heading\n- **<h3>** — Subsection heading\n- **<h4>, <h5>, <h6>** — Deeper nesting levels\n\n## Paragraph and Text Tags\n- **<p>** — Paragraph element for text blocks\n- **<br>** — Line break (use sparingly)\n- **<hr>** — Thematic break or section divider\n- **<strong>** — Important text (semantically bold)\n- **<em>** — Emphasized text (semantically italic)\n\n## Link Tags\n- **<a href=\"url\">** — Hyperlink (href is required)\n- **href=\"#\"** — Placeholder link\n- **href=\"mailto:email@example.com\"** — Email link\n- **target=\"_blank\"** — Opens link in new tab\n\n## Image Tags\n- **<img src=\"image.jpg\" alt=\"description\">** — Image element\n- **alt** attribute is required for accessibility\n- **width** and **height** attributes improve page load performance\n\n## List Tags\n- **<ul>** — Unordered (bulleted) list\n- **<ol>** — Ordered (numbered) list\n- **<li>** — List item\n- **<dl>** — Definition list with **<dt>** (term) and **<dd>** (description)\n\n## Division and Span\n- **<div>** — Block-level container for grouping\n- **<span>** — Inline container for text styling\n- Use semantic class names for easier styling",
+          "video_url": null,
+          "lesson_order": 10,
+          "blocks": [
+            {
+              "block_type": "MARKDOWN",
+              "block_order": 1,
+              "content_payload": {
+                "body": "# Day 1 — HTML Structure & Tags\n\n## Learning Objectives\n- Create a complete, valid HTML5 document structure\n- Use heading tags (h1-h6) appropriately for document hierarchy\n- Apply paragraph, link, and image tags correctly\n- Structure content using lists and divisions\n- Understand the role of the DOCTYPE declaration\n\n## HTML5 Document Structure\nHTML5 introduced a simplified document structure with the <!DOCTYPE html> declaration. Every HTML5 document follows this basic structure:\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Page Title</title>\n</head>\n<body>\n  <!-- Content goes here -->\n</body>\n</html>\n```\n\n## Essential Tags\n- **<!DOCTYPE html>** — Declares HTML5 document type (must be lowercase!)\n- **<html>** — Root element of the page (use lang attribute for accessibility)\n- **<head>** — Contains metadata, title, and link elements\n- **<meta charset=\"UTF-8\">** — Sets character encoding to support all Unicode characters\n- **<meta name=\"viewport\">** — Makes page responsive on mobile devices\n- **<title>** — Page title shown in browser tab and bookmarks\n- **<body>** — Main content area visible to users\n\n## Heading Tags (h1-h6)\nHeadings create a hierarchy for your content:\n- **<h1>** — Primary page heading (only one per page)\n- **<h2>** — Section heading\n- **<h3>** — Subsection heading\n- **<h4>, <h5, <h6>** — Deeper nesting levels\n\n## Paragraph and Text Tags\n- **<p>** — Paragraph element for text blocks\n- **<br>** — Line break (use sparingly)\n- **<hr>** — Thematic break or section divider\n- **<strong>** — Important text (semantically bold)\n- **<em>** — Emphasized text (semantically italic)\n\n## Link Tags\n- **<a href=\"url\">** — Hyperlink (href is required)\n- **href=\"#\"** — Placeholder link\n- **href=\"mailto:email@example.com\"** — Email link\n- **target=\"_blank\"** — Opens link in new tab\n\n## Image Tags\n- **<img src=\"image.jpg\" alt=\"description\">** — Image element\n- **alt** attribute is required for accessibility\n- **width** and **height** attributes improve page load performance\n\n## List Tags\n- **<ul>** — Unordered (bulleted) list\n- **<ol>** — Ordered (numbered) list\n- **<li>** — List item\n- **<dl>** — Definition list with **<dt>** (term) and **<dd>** (description)\n\n## Division and Span\n- **<div>** — Block-level container for grouping\n- **<span>** — Inline container for text styling\n- Use semantic class names for easier styling"
+              },
+              "is_interactive": false
+            },
+            {
+              "block_type": "QUIZ",
+              "block_order": 2,
+              "content_payload": {
+                "title": "Day 1 Quiz — HTML Structure & Tags",
+                "questions": [
+                  {"q": "What does <!DOCTYPE html> declare in an HTML5 document?", "type": "MCQ", "options": ["Character encoding", "Document type", "Page title", "Language setting"], "answer": 1},
+                  {"q": "Which HTML element defines the page's title shown in the browser tab?", "type": "MCQ", "options": ["<title>", "<head>", "<header>", "<meta>"], "answer": 0},
+                  {"q": "Which attribute specifies the language of an HTML document?", "type": "MCQ", "options": ["lang", "language", "xml:lang", "dir"], "answer": 0},
+                  {"q": "What is the purpose of the <meta viewport> tag?", "type": "MCQ", "options": ["Set page colors", "Control page zoom", "Make page responsive on mobile", "Link external CSS"], "answer": 2},
+                  {"q": "Which heading tag should be used for the main page heading?", "type": "MCQ", "options": ["<h2>", "<h3>", "<h1>", "<header>"], "answer": 2},
+                  {"q": "True or False: You should use multiple <h1> tags on a single page for SEO.", "type": "True/False", "answer": false},
+                  {"q": "Which tag creates a line break without starting a new paragraph?", "type": "MCQ", "options": ["<br>", "<newline>", "<hr>", "<break>"], "answer": 0},
+                  {"q": "What attribute is REQUIRED for the <img> tag to be accessible?", "type": "MCQ", "options": ["src", "width", "alt", "height"], "answer": 2},
+                  {"q": "Which tag is used for a bulleted list?", "type": "MCQ", "options": ["<ol>", "<li>", "<dl>", "<ul>"], "answer": 3},
+                  {"q": "What is the correct relationship between <ol> and <li>?", "type": "MCQ", "options": ["<ol> goes inside <li>", "<li> goes inside <ol>", "They are independent tags", "<ol> replaces <li>"], "answer": 1}
+                ],
+                "pass_mark": 70
+              },
+              "is_interactive": true
+            },
+            {
+              "block_type": "TASK",
+              "block_order": 3,
+              "content_payload": {
+                "title": "Practical Task: HTML Page Structure",
+                "description": "Create a complete personal profile page that demonstrates proper HTML5 document structure and semantic tag usage.",
+                "requirements": [
+                  "Create an HTML file named profile.html with valid HTML5 doctype",
+                  "Include proper meta charset and viewport tags in the head",
+                  "Add a unique <title> tag with your name",
+                  "Create a main heading using <h1> with your name",
+                  "Include at least one <h2> and one <h3> following the heading hierarchy",
+                  "Add a paragraph about yourself using <p> tags",
+                  "Create an unordered list of 3-5 hobbies using <ul> and <li>",
+                  "Add an image of yourself with descriptive alt text",
+                  "Include at least 2 external links using <a> tags with proper href attributes",
+                  "Group related sections using <div> or semantic HTML5 elements"
+                ]
+              },
+              "is_interactive": true
+            },
+            {
+              "block_type": "ASSIGNMENT",
+              "block_order": 4,
+              "content_payload": {
+                "title": "Assignment: Multi-Section HTML Page",
+                "description": "Build a comprehensive multi-section webpage that showcases all the HTML structure and tag concepts learned today. This should be a well-organized document with multiple content sections.",
+                "requirements": [
+                  "Create a complete HTML5 document with proper structure",
+                  "Include at least 4 distinct content sections (each with its own <h2>)",
+                  "Use all 6 heading levels (h1-h6) appropriately across sections",
+                  "Include both ordered and unordered lists in different sections",
+                  "Add definition list using <dl>, <dt>, and <dd> in at least one section",
+                  "Include an image with responsive width using max-width: 100% styling",
+                  "Create a navigation section with internal anchor links to other sections",
+                  "Use <div> containers to group related content elements",
+                  "Validate the HTML using an online validator to ensure no errors",
+                  "Submit the code to GitHub with a descriptive README.md"
+                ],
+                "submission_type": ["github"]
+              },
+              "is_interactive": true
+            },
+            {
+              "block_type": "WORK_LOG",
+              "block_order": 5,
+              "content_payload": {
+                "questions": [
+                  "What did you learn today about HTML document structure?",
+                  "What did you implement in your practical task?",
+                  "What problem did you face with tag hierarchy or nesting?",
+                  "How did you solve it - did you consult documentation?",
+                  "Hours Worked?"
+                ]
+              },
+              "is_interactive": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

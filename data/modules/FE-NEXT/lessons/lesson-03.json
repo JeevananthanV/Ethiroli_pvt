@@ -1,0 +1,20 @@
+{
+  "id": "FE-NEXT-D29",
+  "day": 29,
+  "module_code": "FE-NEXT",
+  "lesson_order": 3,
+  "title": "Testing React Applications",
+  "duration_minutes": 60,
+  "objectives": [
+    "Master React Testing Library, user-event, and testing best practices."
+  ],
+  "theory_markdown": "Test behaviour, not implementation. React Testing Library queries by role, label, and text — the way users interact. `user-event` simulates real user interactions. Mock API calls with MSW (Mock Service Worker). Test loading, error, and success states.",
+  "code_walkthrough": {
+    "language": "jsx",
+    "code": "// TodoList.test.jsx\r\nimport { render, screen, waitFor } from '@testing-library/react';\r\nimport userEvent from '@testing-library/user-event';\r\nimport { rest } from 'msw';\r\nimport { setupServer } from 'msw/node';\r\nimport TodoList from './TodoList';\r\n\r\n// Mock API\r\nconst server = setupServer(\r\n  rest.get('/api/todos', (req, res, ctx) => {\r\n    return res(ctx.json([\r\n      { id: 1, text: \"Learn React\", done: false },\r\n      { id: 2, text: \"Build project\", done: true },\r\n    ]));\r\n  })\r\n);\r\n\r\nbeforeAll(() => server.listen());\r\nafterEach(() => server.resetHandlers());\r\nafterAll(() => server.close());\r\n\r\ndescribe('TodoList', () => {\r\n  test('renders todos from API', async () => {\r\n    render(<TodoList />);\r\n\r\n    // Loading state\r\n    expect(screen.getByText(/loading/i)).toBeInTheDocument();\r\n\r\n    // Wait for data\r\n    await waitFor(() => {\r\n      expect(screen.getByText(\"Learn React\")).toBeInTheDocument();\r\n      expect(screen.getByText(\"Build project\")).toBeInTheDocument();\r\n    });\r\n  });\r\n\r\n  test('adds a new todo', async () => {\r\n    const user = userEvent.setup();\r\n    render(<TodoList />);\r\n\r\n    await waitFor(() => screen.getByText(\"Learn React\"));\r\n\r\n    const input = screen.getByPlaceholderText(/add a todo/i);\r\n    await user.type(input, \"New todo\");\r\n    await user.click(screen.getByRole('button', { name: /add/i }));\r\n\r\n    expect(screen.getByText(\"New todo\")).toBeInTheDocument();\r\n  });\r\n\r\n  test('toggles todo completion', async () => {\r\n    const user = userEvent.setup();\r\n    render(<TodoList />);\r\n\r\n    await waitFor(() => screen.getByText(\"Learn React\"));\r\n\r\n    const checkbox = screen.getByRole('checkbox', { name: /learn react/i });\r\n    await user.click(checkbox);\r\n\r\n    expect(checkbox).toBeChecked();\r\n  });\r\n});",
+    "explanation": "`screen.getByRole` queries accessible roles. `userEvent.setup()` provides realistic interactions. `waitFor` handles async rendering. MSW intercepts network requests at the service worker level."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Qodo Gen** (free VS Code extension) to generate tests for your components. Use **Cypress** or **Playwright** for E2E testing."
+  }
+}

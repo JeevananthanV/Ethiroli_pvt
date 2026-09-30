@@ -1,0 +1,22 @@
+{
+  "id": "SEC-WEB-SUB02-L04",
+  "day": 7,
+  "module_code": "SEC-WEB",
+  "lesson_order": 4,
+  "title": "API security: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of API security",
+    "Apply API security in practical scenarios",
+    "Build a small project using API security"
+  ],
+  "theory_markdown": "# API security\n\n## Overview\nThis lesson covers the fundamentals of API security and its practical applications.\n\n## Key Concepts\n- Concept 1 related to API security\n- Concept 2 related to API security\n- Best practices for API security\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of API security\n2. Implement basic API security functionality\n3. Apply API security to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example API security implementation\nconsole.log('Learning API security');\n\n// Basic API security example\nconst example = {\n  topic: 'API security',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic API security usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand API security concepts and generate code examples.\n\n---"
+  }
+}

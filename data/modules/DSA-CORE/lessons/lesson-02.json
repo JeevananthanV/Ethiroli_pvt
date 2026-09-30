@@ -1,0 +1,20 @@
+{
+  "id": "DSA-CORE-D19",
+  "day": 19,
+  "module_code": "DSA-CORE",
+  "lesson_order": 2,
+  "title": "Prototypes, Inheritance, and Object-Oriented Patterns",
+  "duration_minutes": 60,
+  "objectives": [
+    "Master prototype chain, prototypal inheritance, and composition over inheritance."
+  ],
+  "theory_markdown": "Every JavaScript object has a prototype. When accessing a property, JavaScript walks the prototype chain until it finds it or reaches `null`. `Object.create(proto)` creates an object with a specific prototype. `class` syntax is sugar over prototypes.\r\n\r\nComposition is often preferred over inheritance: build objects by combining small behaviours rather than deep class hierarchies.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Constructor function (pre-class syntax)\r\nfunction Animal(name) {\r\n  this.name = name;\r\n}\r\nAnimal.prototype.speak = function() {\r\n  console.log(`${this.name} makes a sound`);\r\n};\r\n\r\nfunction Dog(name, breed) {\r\n  Animal.call(this, name);  // Super call\r\n  this.breed = breed;\r\n}\r\nDog.prototype = Object.create(Animal.prototype);\r\nDog.prototype.constructor = Dog;\r\nDog.prototype.speak = function() {\r\n  console.log(`${this.name} barks`);\r\n};\r\n\r\nconst dog = new Dog(\"Rex\", \"Labrador\");\r\ndog.speak(); // \"Rex barks\"\r\n\r\n// Class syntax (same behaviour)\r\nclass Animal2 {\r\n  constructor(name) { this.name = name; }\r\n  speak() { console.log(`${this.name} makes a sound`); }\r\n}\r\nclass Dog2 extends Animal2 {\r\n  constructor(name, breed) {\r\n    super(name);\r\n    this.breed = breed;\r\n  }\r\n  speak() { console.log(`${this.name} barks`); }\r\n}\r\n\r\n// Composition\r\nconst canSwim = (state) => ({\r\n  swim: () => console.log(`${state.name} swims`)\r\n});\r\nconst canFly = (state) => ({\r\n  fly: () => console.log(`${state.name} flies`)\r\n});\r\n\r\nfunction createDuck(name) {\r\n  const state = { name };\r\n  return { ...state, ...canSwim(state), ...canFly(state) };\r\n}\r\n\r\nconst duck = createDuck(\"Donald\");\r\nduck.swim(); // \"Donald swims\"\r\nduck.fly();  // \"Donald flies\"",
+    "explanation": "`Object.create` sets the prototype. `class extends` and `super` are sugar. Composition with spread merges behaviours — more flexible than deep inheritance chains."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Cline** to refactor a class-based hierarchy into composition.\r\n\r\n---"
+  }
+}

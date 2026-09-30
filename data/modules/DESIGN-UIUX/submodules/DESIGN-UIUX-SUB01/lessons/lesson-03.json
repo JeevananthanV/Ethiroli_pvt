@@ -1,0 +1,22 @@
+{
+  "id": "DESIGN-UIUX-SUB01-L03",
+  "day": 5,
+  "module_code": "DESIGN-UIUX",
+  "lesson_order": 3,
+  "title": "Personas: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Personas",
+    "Apply Personas in practical scenarios",
+    "Build a small project using Personas"
+  ],
+  "theory_markdown": "# Personas\n\n## Overview\nThis lesson covers the fundamentals of Personas and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Personas\n- Concept 2 related to Personas\n- Best practices for Personas\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Personas\n2. Implement basic Personas functionality\n3. Apply Personas to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Personas implementation\nconsole.log('Learning Personas');\n\n// Basic Personas example\nconst example = {\n  topic: 'Personas',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Personas usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Personas concepts and generate code examples.\n\n---"
+  }
+}

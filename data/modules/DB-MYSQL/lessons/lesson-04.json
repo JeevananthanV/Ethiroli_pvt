@@ -1,0 +1,20 @@
+{
+  "id": "DB-MYSQL-D39",
+  "day": 39,
+  "module_code": "DB-MYSQL",
+  "lesson_order": 4,
+  "title": "Node.js + MySQL Integration",
+  "duration_minutes": 60,
+  "objectives": [
+    "Connect Node.js to MySQL, use connection pools, and implement repository pattern."
+  ],
+  "theory_markdown": "Use `mysql2` (not `mysql`) — it supports Promises and prepared statements. Connection pooling reuses connections. Prepared statements prevent SQL injection. Repository pattern abstracts database access from business logic.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// db/pool.js\r\nimport mysql from 'mysql2/promise';\r\nimport { config } from '../config/index.js';\r\n\r\nexport const pool = mysql.createPool({\r\n  host: config.db.host,\r\n  user: config.db.user,\r\n  password: config.db.password,\r\n  database: config.db.name,\r\n  waitForConnections: true,\r\n  connectionLimit: 10,\r\n  queueLimit: 0,\r\n  timezone: 'Z',\r\n  dateStrings: false,\r\n});\r\n\r\n// Test connection\r\nexport async function testConnection() {\r\n  try {\r\n    const conn = await pool.getConnection();\r\n    await conn.ping();\r\n    conn.release();\r\n    console.log('Database connected');\r\n  } catch (err) {\r\n    console.error('Database connection failed:', err.message);\r\n    process.exit(1);\r\n  }\r\n}",
+    "explanation": "`pool.execute` uses prepared statements — parameters are escaped automatically. The repository pattern encapsulates all SQL. `?` placeholders prevent SQL injection. `result.insertId` returns the auto-generated ID."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Prisma** (free ORM) or **Drizzle** as alternatives to raw SQL. Use **Knex.js** query builder for complex queries."
+  }
+}

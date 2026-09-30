@@ -1,0 +1,22 @@
+{
+  "id": "SEC-WEB-SUB03-L02",
+  "day": 3,
+  "module_code": "SEC-WEB",
+  "lesson_order": 2,
+  "title": "Security headers: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Security headers",
+    "Apply Security headers in practical scenarios",
+    "Build a small project using Security headers"
+  ],
+  "theory_markdown": "# Security headers\n\n## Overview\nThis lesson covers the fundamentals of Security headers and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Security headers\n- Concept 2 related to Security headers\n- Best practices for Security headers\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Security headers\n2. Implement basic Security headers functionality\n3. Apply Security headers to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Security headers implementation\nconsole.log('Learning Security headers');\n\n// Basic Security headers example\nconst example = {\n  topic: 'Security headers',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Security headers usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Security headers concepts and generate code examples.\n\n---"
+  }
+}

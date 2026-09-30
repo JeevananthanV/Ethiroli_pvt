@@ -1,0 +1,47 @@
+{
+  "code": "ARCH-SYSTEM",
+  "title": "System Design",
+  "category": "Architecture",
+  "level": "Advanced",
+  "duration_hours": 20,
+  "description": "System design covering requirements analysis, architecture patterns, scalability, availability, load balancing, caching, databases, Redis, queues, microservices, and API gateways.",
+  "topics": [
+    "System design fundamentals",
+    "Requirements",
+    "Architecture",
+    "Scalability",
+    "Availability",
+    "Reliability",
+    "Load balancing",
+    "Caching",
+    "Database scaling",
+    "SQL vs NoSQL",
+    "Redis",
+    "Queues",
+    "Microservices",
+    "API Gateway",
+    "Authentication",
+    "Logging",
+    "Monitoring"
+  ],
+  "technologies": [],
+  "practicals": [],
+  "projects": [
+    "E-commerce Architecture",
+    "LMS Architecture",
+    "SaaS Architecture"
+  ],
+  "prerequisites": [
+    "FS-INTEGRATION",
+    "DB-MYSQL",
+    "DEVOPS-CORE"
+  ],
+  "learning_outcomes": [
+    "Analyze system requirements and define architecture",
+    "Design scalable and highly available systems",
+    "Implement load balancing and caching strategies",
+    "Choose appropriate databases (SQL vs NoSQL) for use cases",
+    "Design microservices architectures with API gateways",
+    "Implement logging, monitoring, and observability"
+  ]
+}

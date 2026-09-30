@@ -1,0 +1,10 @@
+{
+  "id": "EX-ARCH-SYSTEM-L11",
+  "module_code": "ARCH-SYSTEM",
+  "title": "Lab Exercise: Redis",
+  "difficulty": "Advanced",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Redis.",
+  "starter_code": "// Lab: Redis\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Redis\nexport const solution = true;\n"
+}

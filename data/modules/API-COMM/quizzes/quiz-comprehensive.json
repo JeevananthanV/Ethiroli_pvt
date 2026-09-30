@@ -1,0 +1,117 @@
+{
+  "id": "QZ-API-COMM-COMPREHENSIVE",
+  "module_code": "API-COMM",
+  "title": "Comprehensive Quiz: Email, SMS & WhatsApp Automation",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes email architecture in Email, SMS & WhatsApp Automation?",
+      "options": [
+        "Core concept: Email architecture is fundamental to Email, SMS & WhatsApp Automation",
+        "Alternative approach to Email architecture using different methodology",
+        "Advanced implementation of Email architecture with optimizations",
+        "Legacy technique for Email architecture no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Email architecture is a key topic in Email, SMS & WhatsApp Automation. Send transactional emails with Nodemailer and Resend"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes transactional emails in Email, SMS & WhatsApp Automation?",
+      "options": [
+        "Core concept: Transactional emails is fundamental to Email, SMS & WhatsApp Automation",
+        "Alternative approach to Transactional emails using different methodology",
+        "Advanced implementation of Transactional emails with optimizations",
+        "Legacy technique for Transactional emails no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Transactional emails is a key topic in Email, SMS & WhatsApp Automation. Send transactional emails with Nodemailer and Resend"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes otp in Email, SMS & WhatsApp Automation?",
+      "options": [
+        "Core concept: OTP is fundamental to Email, SMS & WhatsApp Automation",
+        "Alternative approach to OTP using different methodology",
+        "Advanced implementation of OTP with optimizations",
+        "Legacy technique for OTP no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "OTP is a key topic in Email, SMS & WhatsApp Automation. Send transactional emails with Nodemailer and Resend"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes notifications in Email, SMS & WhatsApp Automation?",
+      "options": [
+        "Core concept: Notifications is fundamental to Email, SMS & WhatsApp Automation",
+        "Alternative approach to Notifications using different methodology",
+        "Advanced implementation of Notifications with optimizations",
+        "Legacy technique for Notifications no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Notifications is a key topic in Email, SMS & WhatsApp Automation. Send transactional emails with Nodemailer and Resend"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes sms in Email, SMS & WhatsApp Automation?",
+      "options": [
+        "Core concept: SMS is fundamental to Email, SMS & WhatsApp Automation",
+        "Alternative approach to SMS using different methodology",
+        "Advanced implementation of SMS with optimizations",
+        "Legacy technique for SMS no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "SMS is a key topic in Email, SMS & WhatsApp Automation. Send transactional emails with Nodemailer and Resend"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes whatsapp messaging in Email, SMS & WhatsApp Automation?",
+      "options": [
+        "Core concept: WhatsApp messaging is fundamental to Email, SMS & WhatsApp Automation",
+        "Alternative approach to WhatsApp messaging using different methodology",
+        "Advanced implementation of WhatsApp messaging with optimizations",
+        "Legacy technique for WhatsApp messaging no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "WhatsApp messaging is a key topic in Email, SMS & WhatsApp Automation. Send transactional emails with Nodemailer and Resend"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in Email, SMS & WhatsApp Automation?",
+      "options": [
+        "Nodemailer",
+        "Resend",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "Email, SMS & WhatsApp Automation uses Nodemailer, Resend, Twilio, Meta WhatsApp Cloud API as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of Email, SMS & WhatsApp Automation?",
+      "options": [
+        "Send transactional emails with Nodemailer and Resend",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Send transactional emails with Nodemailer and Resend"
+    },
+    {
+      "id": 9,
+      "question": "When applying Email, SMS & WhatsApp Automation in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for Email, SMS & WhatsApp Automation include following established patterns and using recommended tools."
+    }
+  ]
+}

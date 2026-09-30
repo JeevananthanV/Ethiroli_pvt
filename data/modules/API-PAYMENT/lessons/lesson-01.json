@@ -1,0 +1,18 @@
+{
+  "id": "API-PAYMENT-L01",
+  "module_code": "API-PAYMENT",
+  "lesson_order": 1,
+  "title": "Payment architecture in Payment Integration",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Payment architecture",
+    "Implement real-world code for Payment architecture according to industry standards",
+    "Debug and optimize Payment architecture integrations"
+  ],
+  "theory_markdown": "### Payment architecture\n\nThis lesson covers in-depth technical mechanics of **Payment architecture** as part of the Payment Integration curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Payment architecture Implementation Example\nexport function handlePaymentarchitecture() {\n  console.log('Executing Payment architecture workflow...');\n}",
+    "explanation": "Demonstration of how Payment architecture is structured in production."
+  }
+}

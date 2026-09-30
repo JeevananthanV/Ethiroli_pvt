@@ -1,0 +1,11 @@
+{
+  "id": "EX-BE-NODE-D32",
+  "module_code": "BE-NODE",
+  "day": 32,
+  "title": "Hands-on Lab: npm Ecosystem, Security, and Environment Management",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Add environment configuration to your API server. Validate `PORT`, `DATABASE_URL`, and `JWT_SECRET`. Create `.env.example` with placeholder values. Run `npm audit` and fix any issues. Set up `npm run dev` with `nodemon` and `npm start` for production.",
+  "starter_code": "// Starter file for npm Ecosystem, Security, and Environment Management\n// Task instructions:\n// Add environment configuration to your API server. Validate `PORT`, `DATABASE_URL`, and `JWT_SECRET`. Create `.env.example` with placeholder values. Ru...\n",
+  "solution_code": "// config.js\r\nimport dotenv from 'dotenv';\r\ndotenv.config();\r\n\r\nconst required = ['DATABASE_URL', 'JWT_SECRET', 'PORT'];\r\nconst missing = required.filter(key => !process.env[key]);\r\n\r\nif (missing.length > 0) {\r\n  console.error(`Missing required env vars: ${missing.join(', ')}`);\r\n  process.exit(1);\r\n}\r\n\r\nexport const config = {\r\n  port: parseInt(process.env.PORT, 10),\r\n  databaseUrl: process.env.DATABASE_URL,\r\n  jwtSecret: process.env.JWT_SECRET,\r\n  nodeEnv: process.env.NODE_ENV || 'development',\r\n  isProduction: process.env.NODE_ENV === 'production',\r\n  isDevelopment: process.env.NODE_ENV !== 'production',\r\n};"
+}

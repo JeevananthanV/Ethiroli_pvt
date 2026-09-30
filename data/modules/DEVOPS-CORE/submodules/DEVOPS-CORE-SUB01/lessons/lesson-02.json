@@ -1,0 +1,22 @@
+{
+  "id": "DEVOPS-CORE-SUB01-L02",
+  "day": 3,
+  "module_code": "DEVOPS-CORE",
+  "lesson_order": 2,
+  "title": "Linux: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Linux",
+    "Apply Linux in practical scenarios",
+    "Build a small project using Linux"
+  ],
+  "theory_markdown": "# Linux\n\n## Overview\nThis lesson covers the fundamentals of Linux and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Linux\n- Concept 2 related to Linux\n- Best practices for Linux\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Linux\n2. Implement basic Linux functionality\n3. Apply Linux to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Linux implementation\nconsole.log('Learning Linux');\n\n// Basic Linux example\nconst example = {\n  topic: 'Linux',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Linux usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Linux concepts and generate code examples.\n\n---"
+  }
+}

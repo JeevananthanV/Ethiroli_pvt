@@ -1,0 +1,10 @@
+{
+  "id": "EX-SEO-TECH-L13",
+  "module_code": "SEO-TECH",
+  "title": "Lab Exercise: Analytics",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Analytics.",
+  "starter_code": "// Lab: Analytics\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Analytics\nexport const solution = true;\n"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "EX-PY-CORE-L13",
+  "module_code": "PY-CORE",
+  "title": "Lab Exercise: Exception handling",
+  "difficulty": "Beginner",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Exception handling.",
+  "starter_code": "// Lab: Exception handling\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Exception handling\nexport const solution = true;\n"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "DEVOPS-CORE-L02",
+  "module_code": "DEVOPS-CORE",
+  "lesson_order": 2,
+  "title": "Linux in DevOps",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Linux",
+    "Implement real-world code for Linux according to industry standards",
+    "Debug and optimize Linux integrations"
+  ],
+  "theory_markdown": "### Linux\n\nThis lesson covers in-depth technical mechanics of **Linux** as part of the DevOps curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Linux Implementation Example\nexport function handleLinux() {\n  console.log('Executing Linux workflow...');\n}",
+    "explanation": "Demonstration of how Linux is structured in production."
+  }
+}

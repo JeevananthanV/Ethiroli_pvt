@@ -1,0 +1,22 @@
+{
+  "id": "FE-NEXT-SUB03-L02",
+  "day": 3,
+  "module_code": "FE-NEXT",
+  "lesson_order": 2,
+  "title": "SEO: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of SEO",
+    "Apply SEO in practical scenarios",
+    "Build a small project using SEO"
+  ],
+  "theory_markdown": "# SEO\n\n## Overview\nThis lesson covers the fundamentals of SEO and its practical applications.\n\n## Key Concepts\n- Concept 1 related to SEO\n- Concept 2 related to SEO\n- Best practices for SEO\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of SEO\n2. Implement basic SEO functionality\n3. Apply SEO to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example SEO implementation\nconsole.log('Learning SEO');\n\n// Basic SEO example\nconst example = {\n  topic: 'SEO',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic SEO usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand SEO concepts and generate code examples.\n\n---"
+  }
+}

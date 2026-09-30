@@ -1,0 +1,33 @@
+{
+  "id": "FE-TS-SUB03-E03",
+  "module_code": "FE-TS",
+  "day": 6,
+  "title": "Hands-on Lab: API types Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice API types:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of API types in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating API types basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for API types exercise\n// TODO: Implement API types functionality here\n\nconsole.log('API types exercise starter');\n",
+  "solution_code": "// Solution for API types exercise\nconsole.log('Completed API types exercise');\n\n// Basic implementation\nconst apitypes = {\n  name: 'API types',\n  completed: true\n};\n\nconsole.log(apitypes);"
+}

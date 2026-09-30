@@ -1,0 +1,70 @@
+{
+  "id": "DATA-ANALYTICS-SUB03-Q04",
+  "module_code": "DATA-ANALYTICS",
+  "day": 7,
+  "title": "Quiz 4: Business KPIs Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Business KPIs?",
+      "options": [
+        "Core principle of Business KPIs",
+        "Advanced Business KPIs technique",
+        "Alternative approach to Business KPIs",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Business KPIs concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Dashboard creation?",
+      "options": [
+        "Core principle of Dashboard creation",
+        "Advanced Dashboard creation technique",
+        "Alternative approach to Dashboard creation",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Dashboard creation concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Data storytelling?",
+      "options": [
+        "Core principle of Data storytelling",
+        "Advanced Data storytelling technique",
+        "Alternative approach to Data storytelling",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Data storytelling concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Business KPIs?",
+      "options": [
+        "Core principle of Business KPIs",
+        "Advanced Business KPIs technique",
+        "Alternative approach to Business KPIs",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Business KPIs concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Dashboard creation?",
+      "options": [
+        "Core principle of Dashboard creation",
+        "Advanced Dashboard creation technique",
+        "Alternative approach to Dashboard creation",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Dashboard creation concepts."
+    }
+  ]
+}

@@ -491,7 +491,7 @@ export default router;
 **Per-Role Auth Controller Example (`src/controllers/admin/authController.js`):**
 
 ```javascript
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import Admin from '../../models/Admin.js';
 import Session from '../../models/Session.js';

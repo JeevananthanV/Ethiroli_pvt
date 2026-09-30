@@ -1,0 +1,22 @@
+{
+  "id": "FE-REACT-SUB02-L01",
+  "day": 1,
+  "module_code": "FE-REACT",
+  "lesson_order": 1,
+  "title": "Forms: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Forms",
+    "Apply Forms in practical scenarios",
+    "Build a small project using Forms"
+  ],
+  "theory_markdown": "# Forms\n\n## Overview\nThis lesson covers the fundamentals of Forms and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Forms\n- Concept 2 related to Forms\n- Best practices for Forms\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Forms\n2. Implement basic Forms functionality\n3. Apply Forms to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Forms implementation\nconsole.log('Learning Forms');\n\n// Basic Forms example\nconst example = {\n  topic: 'Forms',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Forms usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Forms concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "AUTO-N8N-L03",
+  "module_code": "AUTO-N8N",
+  "lesson_order": 3,
+  "title": "Workflows in n8n Business Automation",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Workflows",
+    "Implement real-world code for Workflows according to industry standards",
+    "Debug and optimize Workflows integrations"
+  ],
+  "theory_markdown": "### Workflows\n\nThis lesson covers in-depth technical mechanics of **Workflows** as part of the n8n Business Automation curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Workflows Implementation Example\nexport function handleWorkflows() {\n  console.log('Executing Workflows workflow...');\n}",
+    "explanation": "Demonstration of how Workflows is structured in production."
+  }
+}

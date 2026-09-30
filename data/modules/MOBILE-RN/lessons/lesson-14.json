@@ -1,0 +1,18 @@
+{
+  "id": "MOBILE-RN-L14",
+  "module_code": "MOBILE-RN",
+  "lesson_order": 14,
+  "title": "Backend integration in Mobile Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Backend integration",
+    "Implement real-world code for Backend integration according to industry standards",
+    "Debug and optimize Backend integration integrations"
+  ],
+  "theory_markdown": "### Backend integration\n\nThis lesson covers in-depth technical mechanics of **Backend integration** as part of the Mobile Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Backend integration Implementation Example\nexport function handleBackendintegration() {\n  console.log('Executing Backend integration workflow...');\n}",
+    "explanation": "Demonstration of how Backend integration is structured in production."
+  }
+}

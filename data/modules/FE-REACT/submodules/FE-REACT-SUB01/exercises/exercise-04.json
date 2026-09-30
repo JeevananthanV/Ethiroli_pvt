@@ -1,0 +1,33 @@
+{
+  "id": "FE-REACT-SUB01-E04",
+  "module_code": "FE-REACT",
+  "day": 8,
+  "title": "Hands-on Lab: JSX Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice JSX:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of JSX in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating JSX basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for JSX exercise\n// TODO: Implement JSX functionality here\n\nconsole.log('JSX exercise starter');\n",
+  "solution_code": "// Solution for JSX exercise\nconsole.log('Completed JSX exercise');\n\n// Basic implementation\nconst jsx = {\n  name: 'JSX',\n  completed: true\n};\n\nconsole.log(jsx);"
+}

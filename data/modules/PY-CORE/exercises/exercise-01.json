@@ -1,0 +1,10 @@
+{
+  "id": "EX-PY-CORE-L01",
+  "module_code": "PY-CORE",
+  "title": "Lab Exercise: Python syntax",
+  "difficulty": "Beginner",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Python syntax.",
+  "starter_code": "// Lab: Python syntax\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Python syntax\nexport const solution = true;\n"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "FS-INTEGRATION-SUB03-L03",
+  "day": 5,
+  "module_code": "FS-INTEGRATION",
+  "lesson_order": 3,
+  "title": "Filtering: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Filtering",
+    "Apply Filtering in practical scenarios",
+    "Build a small project using Filtering"
+  ],
+  "theory_markdown": "# Filtering\n\n## Overview\nThis lesson covers the fundamentals of Filtering and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Filtering\n- Concept 2 related to Filtering\n- Best practices for Filtering\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Filtering\n2. Implement basic Filtering functionality\n3. Apply Filtering to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Filtering implementation\nconsole.log('Learning Filtering');\n\n// Basic Filtering example\nconst example = {\n  topic: 'Filtering',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Filtering usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Filtering concepts and generate code examples.\n\n---"
+  }
+}

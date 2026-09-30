@@ -1,0 +1,70 @@
+{
+  "id": "SEC-WEB-SUB03-Q01",
+  "module_code": "SEC-WEB",
+  "day": 1,
+  "title": "Quiz 1: Secure coding Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Secure coding?",
+      "options": [
+        "Core principle of Secure coding",
+        "Advanced Secure coding technique",
+        "Alternative approach to Secure coding",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Secure coding concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Security headers?",
+      "options": [
+        "Core principle of Security headers",
+        "Advanced Security headers technique",
+        "Alternative approach to Security headers",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Security headers concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Vulnerability assessment?",
+      "options": [
+        "Core principle of Vulnerability assessment",
+        "Advanced Vulnerability assessment technique",
+        "Alternative approach to Vulnerability assessment",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Vulnerability assessment concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Secure coding?",
+      "options": [
+        "Core principle of Secure coding",
+        "Advanced Secure coding technique",
+        "Alternative approach to Secure coding",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Secure coding concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Security headers?",
+      "options": [
+        "Core principle of Security headers",
+        "Advanced Security headers technique",
+        "Alternative approach to Security headers",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Security headers concepts."
+    }
+  ]
+}

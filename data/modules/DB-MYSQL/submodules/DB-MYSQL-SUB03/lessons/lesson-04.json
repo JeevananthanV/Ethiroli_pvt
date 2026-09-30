@@ -1,0 +1,22 @@
+{
+  "id": "DB-MYSQL-SUB03-L04",
+  "day": 7,
+  "module_code": "DB-MYSQL",
+  "lesson_order": 4,
+  "title": "Views: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Views",
+    "Apply Views in practical scenarios",
+    "Build a small project using Views"
+  ],
+  "theory_markdown": "# Views\n\n## Overview\nThis lesson covers the fundamentals of Views and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Views\n- Concept 2 related to Views\n- Best practices for Views\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Views\n2. Implement basic Views functionality\n3. Apply Views to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Views implementation\nconsole.log('Learning Views');\n\n// Basic Views example\nconst example = {\n  topic: 'Views',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Views usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Views concepts and generate code examples.\n\n---"
+  }
+}

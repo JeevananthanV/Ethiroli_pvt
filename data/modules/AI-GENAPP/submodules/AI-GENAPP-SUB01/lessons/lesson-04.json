@@ -1,0 +1,22 @@
+{
+  "id": "AI-GENAPP-SUB01-L04",
+  "day": 7,
+  "module_code": "AI-GENAPP",
+  "lesson_order": 4,
+  "title": "Context: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Context",
+    "Apply Context in practical scenarios",
+    "Build a small project using Context"
+  ],
+  "theory_markdown": "# Context\n\n## Overview\nThis lesson covers the fundamentals of Context and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Context\n- Concept 2 related to Context\n- Best practices for Context\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Context\n2. Implement basic Context functionality\n3. Apply Context to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Context implementation\nconsole.log('Learning Context');\n\n// Basic Context example\nconst example = {\n  topic: 'Context',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Context usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Context concepts and generate code examples.\n\n---"
+  }
+}

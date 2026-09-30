@@ -1,0 +1,70 @@
+{
+  "id": "DB-MYSQL-SUB03-Q03",
+  "module_code": "DB-MYSQL",
+  "day": 5,
+  "title": "Quiz 3: Relationships Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Relationships?",
+      "options": [
+        "Core principle of Relationships",
+        "Advanced Relationships technique",
+        "Alternative approach to Relationships",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Relationships concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Normalization?",
+      "options": [
+        "Core principle of Normalization",
+        "Advanced Normalization technique",
+        "Alternative approach to Normalization",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Normalization concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Indexes?",
+      "options": [
+        "Core principle of Indexes",
+        "Advanced Indexes technique",
+        "Alternative approach to Indexes",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Indexes concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Views?",
+      "options": [
+        "Core principle of Views",
+        "Advanced Views technique",
+        "Alternative approach to Views",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Views concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Transactions?",
+      "options": [
+        "Core principle of Transactions",
+        "Advanced Transactions technique",
+        "Alternative approach to Transactions",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Transactions concepts."
+    }
+  ]
+}

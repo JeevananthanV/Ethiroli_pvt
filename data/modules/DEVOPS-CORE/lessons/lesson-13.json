@@ -1,0 +1,18 @@
+{
+  "id": "DEVOPS-CORE-L13",
+  "module_code": "DEVOPS-CORE",
+  "lesson_order": 13,
+  "title": "Logs in DevOps",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Logs",
+    "Implement real-world code for Logs according to industry standards",
+    "Debug and optimize Logs integrations"
+  ],
+  "theory_markdown": "### Logs\n\nThis lesson covers in-depth technical mechanics of **Logs** as part of the DevOps curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Logs Implementation Example\nexport function handleLogs() {\n  console.log('Executing Logs workflow...');\n}",
+    "explanation": "Demonstration of how Logs is structured in production."
+  }
+}

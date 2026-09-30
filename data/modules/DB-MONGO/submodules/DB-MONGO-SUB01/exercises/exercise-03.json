@@ -1,0 +1,33 @@
+{
+  "id": "DB-MONGO-SUB01-E03",
+  "module_code": "DB-MONGO",
+  "day": 6,
+  "title": "Hands-on Lab: Collections Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Collections:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Collections in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Collections basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Collections exercise\n// TODO: Implement Collections functionality here\n\nconsole.log('Collections exercise starter');\n",
+  "solution_code": "// Solution for Collections exercise\nconsole.log('Completed Collections exercise');\n\n// Basic implementation\nconst collections = {\n  name: 'Collections',\n  completed: true\n};\n\nconsole.log(collections);"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "ML-DL-SUB02-L03",
+  "day": 5,
+  "module_code": "ML-DL",
+  "lesson_order": 3,
+  "title": "RNN: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of RNN",
+    "Apply RNN in practical scenarios",
+    "Build a small project using RNN"
+  ],
+  "theory_markdown": "# RNN\n\n## Overview\nThis lesson covers the fundamentals of RNN and its practical applications.\n\n## Key Concepts\n- Concept 1 related to RNN\n- Concept 2 related to RNN\n- Best practices for RNN\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of RNN\n2. Implement basic RNN functionality\n3. Apply RNN to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example RNN implementation\nconsole.log('Learning RNN');\n\n// Basic RNN example\nconst example = {\n  topic: 'RNN',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic RNN usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand RNN concepts and generate code examples.\n\n---"
+  }
+}

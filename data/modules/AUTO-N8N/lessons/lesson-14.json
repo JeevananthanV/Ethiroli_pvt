@@ -1,0 +1,18 @@
+{
+  "id": "AUTO-N8N-L14",
+  "module_code": "AUTO-N8N",
+  "lesson_order": 14,
+  "title": "CRM automation in n8n Business Automation",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of CRM automation",
+    "Implement real-world code for CRM automation according to industry standards",
+    "Debug and optimize CRM automation integrations"
+  ],
+  "theory_markdown": "### CRM automation\n\nThis lesson covers in-depth technical mechanics of **CRM automation** as part of the n8n Business Automation curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// CRM automation Implementation Example\nexport function handleCRMautomation() {\n  console.log('Executing CRM automation workflow...');\n}",
+    "explanation": "Demonstration of how CRM automation is structured in production."
+  }
+}

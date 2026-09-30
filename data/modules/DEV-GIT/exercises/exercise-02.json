@@ -1,0 +1,11 @@
+{
+  "id": "EX-DEV-GIT-D12",
+  "module_code": "DEV-GIT",
+  "day": 12,
+  "title": "Hands-on Lab: GitHub Collaboration: Branches, PRs, and Workflows",
+  "estimated_minutes": 45,
+  "difficulty": "Beginner",
+  "instructions": "Create a GitHub repository for your project. Create a `develop` branch and a feature branch from it. Make changes, push, and open a PR. Review your own PR and merge it. Create a deliberate merge conflict between two branches and resolve it.",
+  "starter_code": "// Starter file for GitHub Collaboration: Branches, PRs, and Workflows\n// Task instructions:\n// Create a GitHub repository for your project. Create a `develop` branch and a feature branch from it. Make changes, push, and open a PR. Review your ow...\n",
+  "solution_code": "# Create and switch to a feature branch\r\ngit checkout -b feature/user-auth\r\n\r\n# Make changes\r\ntouch auth.js\r\n# ... write code ...\r\ngit add auth.js\r\ngit commit -m \"Add JWT authentication module\"\r\n\r\n# Push branch to GitHub\r\ngit push -u origin feature/user-auth\r\n\r\n# On GitHub: open Pull Request → review → merge\r\n# After merge, update local main\r\ngit checkout main\r\ngit pull origin main\r\ngit branch -d feature/user-auth  # Delete local branch"
+}

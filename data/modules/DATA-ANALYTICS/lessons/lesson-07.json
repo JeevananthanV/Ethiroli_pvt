@@ -1,0 +1,18 @@
+{
+  "id": "DATA-ANALYTICS-L07",
+  "module_code": "DATA-ANALYTICS",
+  "lesson_order": 7,
+  "title": "EDA in Data Analytics",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of EDA",
+    "Implement real-world code for EDA according to industry standards",
+    "Debug and optimize EDA integrations"
+  ],
+  "theory_markdown": "### EDA\n\nThis lesson covers in-depth technical mechanics of **EDA** as part of the Data Analytics curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// EDA Implementation Example\nexport function handleEDA() {\n  console.log('Executing EDA workflow...');\n}",
+    "explanation": "Demonstration of how EDA is structured in production."
+  }
+}

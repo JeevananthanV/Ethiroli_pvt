@@ -1,0 +1,44 @@
+{
+  "code": "PROG-FUND",
+  "title": "Programming Fundamentals",
+  "category": "Programming",
+  "level": "Beginner",
+  "duration_hours": 20,
+  "description": "Foundational programming concepts using JavaScript and Python, covering variables, control structures, data structures, and problem-solving techniques essential for beginners entering software development.",
+  "topics": [
+    "Programming concepts",
+    "Variables",
+    "Data types",
+    "Operators",
+    "Conditions",
+    "Loops",
+    "Functions",
+    "Arrays",
+    "Objects",
+    "Error handling",
+    "Debugging",
+    "Problem solving",
+    "Algorithms basics"
+  ],
+  "technologies": [
+    "JavaScript",
+    "Python"
+  ],
+  "practicals": [
+    "Calculator",
+    "Number checker",
+    "Student grade system",
+    "Expense calculator",
+    "Basic CRUD program"
+  ],
+  "projects": [],
+  "prerequisites": [],
+  "learning_outcomes": [
+    "Write programs using variables, data types, and operators",
+    "Implement control structures (conditions and loops)",
+    "Work with arrays and objects for data storage",
+    "Create and use functions with parameters and return values",
+    "Apply error handling and debugging techniques",
+    "Solve basic algorithmic problems"
+  ]
+}

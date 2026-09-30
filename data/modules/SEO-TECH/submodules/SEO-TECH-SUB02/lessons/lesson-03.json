@@ -1,0 +1,22 @@
+{
+  "id": "SEO-TECH-SUB02-L03",
+  "day": 5,
+  "module_code": "SEO-TECH",
+  "lesson_order": 3,
+  "title": "Robots.txt: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Robots.txt",
+    "Apply Robots.txt in practical scenarios",
+    "Build a small project using Robots.txt"
+  ],
+  "theory_markdown": "# Robots.txt\n\n## Overview\nThis lesson covers the fundamentals of Robots.txt and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Robots.txt\n- Concept 2 related to Robots.txt\n- Best practices for Robots.txt\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Robots.txt\n2. Implement basic Robots.txt functionality\n3. Apply Robots.txt to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Robots.txt implementation\nconsole.log('Learning Robots.txt');\n\n// Basic Robots.txt example\nconst example = {\n  topic: 'Robots.txt',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Robots.txt usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Robots.txt concepts and generate code examples.\n\n---"
+  }
+}

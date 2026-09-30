@@ -1,0 +1,22 @@
+{
+  "id": "DESIGN-UIUX-SUB01-L02",
+  "day": 3,
+  "module_code": "DESIGN-UIUX",
+  "lesson_order": 2,
+  "title": "User research: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of User research",
+    "Apply User research in practical scenarios",
+    "Build a small project using User research"
+  ],
+  "theory_markdown": "# User research\n\n## Overview\nThis lesson covers the fundamentals of User research and its practical applications.\n\n## Key Concepts\n- Concept 1 related to User research\n- Concept 2 related to User research\n- Best practices for User research\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of User research\n2. Implement basic User research functionality\n3. Apply User research to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example User research implementation\nconsole.log('Learning User research');\n\n// Basic User research example\nconst example = {\n  topic: 'User research',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic User research usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand User research concepts and generate code examples.\n\n---"
+  }
+}

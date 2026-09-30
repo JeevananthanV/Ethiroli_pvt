@@ -1,0 +1,22 @@
+{
+  "id": "WEB-HTML-SUB03-L04",
+  "day": 7,
+  "module_code": "WEB-HTML",
+  "lesson_order": 4,
+  "title": "SEO-friendly HTML: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of SEO-friendly HTML",
+    "Apply SEO-friendly HTML in practical scenarios",
+    "Build a small project using SEO-friendly HTML"
+  ],
+  "theory_markdown": "# SEO-friendly HTML\n\n## Overview\nThis lesson covers the fundamentals of SEO-friendly HTML and its practical applications.\n\n## Key Concepts\n- Concept 1 related to SEO-friendly HTML\n- Concept 2 related to SEO-friendly HTML\n- Best practices for SEO-friendly HTML\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of SEO-friendly HTML\n2. Implement basic SEO-friendly HTML functionality\n3. Apply SEO-friendly HTML to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example SEO-friendly HTML implementation\nconsole.log('Learning SEO-friendly HTML');\n\n// Basic SEO-friendly HTML example\nconst example = {\n  topic: 'SEO-friendly HTML',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic SEO-friendly HTML usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand SEO-friendly HTML concepts and generate code examples.\n\n---"
+  }
+}

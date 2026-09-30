@@ -1,0 +1,33 @@
+{
+  "id": "PY-CORE-SUB03-E04",
+  "module_code": "PY-CORE",
+  "day": 8,
+  "title": "Hands-on Lab: Virtual environments Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Virtual environments:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Virtual environments in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Virtual environments basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Virtual environments exercise\n// TODO: Implement Virtual environments functionality here\n\nconsole.log('Virtual environments exercise starter');\n",
+  "solution_code": "// Solution for Virtual environments exercise\nconsole.log('Completed Virtual environments exercise');\n\n// Basic implementation\nconst virtualenvironments = {\n  name: 'Virtual environments',\n  completed: true\n};\n\nconsole.log(virtualenvironments);"
+}

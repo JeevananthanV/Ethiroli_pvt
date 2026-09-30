@@ -1,0 +1,20 @@
+{
+  "id": "DB-MONGO-D40",
+  "day": 40,
+  "module_code": "DB-MONGO",
+  "lesson_order": 1,
+  "title": "MongoDB Fundamentals: Documents, Collections, and CRUD",
+  "duration_minutes": 60,
+  "objectives": [
+    "Master MongoDB data model, `mongosh`, and CRUD operations."
+  ],
+  "theory_markdown": "MongoDB is a NoSQL document database. Documents are BSON (binary JSON) stored in collections. Unlike SQL, there is no fixed schema — documents in the same collection can have different fields. `_id` is the primary key, auto-generated as ObjectId.\r\n\r\nCRUD: `insertOne`, `insertMany`, `find`, `findOne`, `updateOne`, `updateMany`, `replaceOne`, `deleteOne`, `deleteMany`. Query operators: `$eq`, `$gt`, `$gte`, `$lt`, `$lte`, `$in`, `$nin`, `$and`, `$or`, `$not`, `$exists`, `$regex`. Update operators: `$set`, `$unset`, `$inc`, `$push`, `$pull`, `$addToSet`.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Using MongoDB Node.js driver\r\nimport { MongoClient, ObjectId } from 'mongodb';\r\n\r\nconst client = new MongoClient('mongodb://localhost:27017');\r\nawait client.connect();\r\n\r\nconst db = client.db('ecommerce');\r\nconst users = db.collection('users');\r\n\r\n// Create\r\nconst insertResult = await users.insertOne({\r\n  name: \"Alice\",\r\n  email: \"alice@example.com\",\r\n  age: 28,\r\n  roles: [\"user\", \"admin\"],\r\n  address: {\r\n    city: \"Delhi\",\r\n    country: \"India\"\r\n  },\r\n  createdAt: new Date()\r\n});\r\nconsole.log('Inserted ID:', insertResult.insertedId);\r\n\r\n// Read\r\nconst allUsers = await users.find().toArray();\r\nconst filtered = await users.find({\r\n  age: { $gte: 25 },\r\n  roles: { $in: [\"admin\"] }\r\n}).toArray();\r\n\r\nconst projected = await users.find(\r\n  { email: /example\\.com$/ },\r\n  { projection: { name: 1, email: 1, _id: 0 } }\r\n).toArray();\r\n\r\n// Update\r\nawait users.updateOne(\r\n  { _id: insertResult.insertedId },\r\n  {\r\n    $set: { age: 29 },\r\n    $push: { roles: \"moderator\" },\r\n    $inc: { loginCount: 1 }\r\n  }\r\n);\r\n\r\n// Upsert — insert if not exists\r\nawait users.updateOne(\r\n  { email: \"bob@example.com\" },\r\n  { $set: { name: \"Bob\", age: 32 } },\r\n  { upsert: true }\r\n);\r\n\r\n// Delete\r\nawait users.deleteOne({ _id: insertResult.insertedId });\r\n\r\n// Bulk operations\r\nconst bulkOps = [\r\n  { insertOne: { document: { name: \"Charlie\", age: 35 } } },\r\n  { updateOne: {\r\n      filter: { name: \"Bob\" },\r\n      update: { $set: { age: 33 } }\r\n  }},\r\n  { deleteOne: { filter: { name: \"Alice\" } } }\r\n];\r\nawait users.bulkWrite(bulkOps);\r\n\r\n// Indexes\r\nawait users.createIndex({ email: 1 }, { unique: true });\r\nawait users.createIndex({ age: -1 });\r\nawait users.createIndex({ name: \"text\", bio: \"text\" });  // Text index\r\n\r\nawait client.close();",
+    "explanation": "`insertOne` returns `insertedId`. `find` accepts a filter and options. `$gte` means greater-than-or-equal. `$push` adds to array; `$addToSet` only adds if not present. `upsert` creates if filter matches nothing. `createIndex` improves query performance."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **MongoDB Compass** (free GUI) to visualise documents and analyse query performance. Use **MongoDB Atlas** free tier for cloud hosting.\r\n\r\n---"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "id": "AUTO-N8N-SUB03-E03",
+  "module_code": "AUTO-N8N",
+  "day": 6,
+  "title": "Hands-on Lab: WhatsApp automation Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice WhatsApp automation:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of WhatsApp automation in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating WhatsApp automation basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for WhatsApp automation exercise\n// TODO: Implement WhatsApp automation functionality here\n\nconsole.log('WhatsApp automation exercise starter');\n",
+  "solution_code": "// Solution for WhatsApp automation exercise\nconsole.log('Completed WhatsApp automation exercise');\n\n// Basic implementation\nconst whatsappautomation = {\n  name: 'WhatsApp automation',\n  completed: true\n};\n\nconsole.log(whatsappautomation);"
+}

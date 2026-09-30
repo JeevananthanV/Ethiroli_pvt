@@ -1,0 +1,31 @@
+{
+  "code": "DB-MYSQL-SUB02",
+  "title": "MySQL Database - Part 2",
+  "category": "Database",
+  "level": "Intermediate",
+  "duration_hours": 7,
+  "description": "MySQL database management covering tables, relationships, joins, subqueries, indexing, transactions, stored procedures, and query optimization with MySQL Workbench. This submodule covers: SELECT, WHERE, ORDER BY, GROUP BY, Joins, Subqueries, Constraints.",
+  "topics": [
+    "SELECT",
+    "WHERE",
+    "ORDER BY",
+    "GROUP BY",
+    "Joins",
+    "Subqueries",
+    "Constraints"
+  ],
+  "technologies": [
+    "MySQL",
+    "MySQL Workbench"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "PROG-FUND"
+  ],
+  "learning_outcomes": [
+    "Design normalized database schemas with ER diagrams",
+    "Write complex SQL queries with joins and subqueries",
+    "Implement transactions and concurrency control"
+  ]
+}

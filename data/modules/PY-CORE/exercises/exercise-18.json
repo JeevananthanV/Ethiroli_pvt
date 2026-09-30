@@ -1,0 +1,10 @@
+{
+  "id": "EX-PY-CORE-L18",
+  "module_code": "PY-CORE",
+  "title": "Lab Exercise: Virtual environments",
+  "difficulty": "Beginner",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Virtual environments.",
+  "starter_code": "// Lab: Virtual environments\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Virtual environments\nexport const solution = true;\n"
+}

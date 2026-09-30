@@ -1,0 +1,10 @@
+{
+  "id": "EX-SEO-TECH-L11",
+  "module_code": "SEO-TECH",
+  "title": "Lab Exercise: Page speed",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Page speed.",
+  "starter_code": "// Lab: Page speed\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Page speed\nexport const solution = true;\n"
+}

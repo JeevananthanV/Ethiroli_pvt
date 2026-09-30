@@ -1,0 +1,22 @@
+{
+  "id": "DB-MYSQL-SUB02-L03",
+  "day": 5,
+  "module_code": "DB-MYSQL",
+  "lesson_order": 3,
+  "title": "ORDER BY: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of ORDER BY",
+    "Apply ORDER BY in practical scenarios",
+    "Build a small project using ORDER BY"
+  ],
+  "theory_markdown": "# ORDER BY\n\n## Overview\nThis lesson covers the fundamentals of ORDER BY and its practical applications.\n\n## Key Concepts\n- Concept 1 related to ORDER BY\n- Concept 2 related to ORDER BY\n- Best practices for ORDER BY\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of ORDER BY\n2. Implement basic ORDER BY functionality\n3. Apply ORDER BY to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example ORDER BY implementation\nconsole.log('Learning ORDER BY');\n\n// Basic ORDER BY example\nconst example = {\n  topic: 'ORDER BY',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic ORDER BY usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand ORDER BY concepts and generate code examples.\n\n---"
+  }
+}

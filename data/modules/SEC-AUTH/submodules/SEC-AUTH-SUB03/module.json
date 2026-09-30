@@ -1,0 +1,29 @@
+{
+  "code": "SEC-AUTH-SUB03",
+  "title": "Authentication & Authorization - Part 3",
+  "category": "Security",
+  "level": "Intermediate",
+  "duration_hours": 4,
+  "description": "Authentication and authorization covering password hashing, JWT, sessions, cookies, role-based access control, OAuth, and security best practices. This submodule covers: OAuth, Google login, Security best practices.",
+  "topics": [
+    "OAuth",
+    "Google login",
+    "Security best practices"
+  ],
+  "technologies": [
+    "JWT",
+    "bcrypt",
+    "OAuth"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "BE-NODE",
+    "DB-MYSQL"
+  ],
+  "learning_outcomes": [
+    "Implement secure password storage with hashing and salting",
+    "Create JWT-based authentication systems",
+    "Manage user sessions and cookies securely"
+  ]
+}

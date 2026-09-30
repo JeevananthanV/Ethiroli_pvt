@@ -1,0 +1,446 @@
+{
+  "course": {
+    "code": "ETH-AIFS-60",
+    "name": "60-Day AI Full Stack Development Program",
+    "duration_days": 60,
+    "level": "Advanced",
+    "description": "A comprehensive 60-day AI-powered full stack development program built from reusable technology modules covering web fundamentals, modern JavaScript, backend development, AI/ML, DevOps, and capstone project.",
+    "final_project": "AI-Powered Full Stack SaaS Application",
+    "architecture": {
+      "hierarchy": "CAREER PROGRAM → PHASE → MODULE → TOPICS → LESSONS → QUIZ → PRACTICAL TASK → ASSIGNMENT → PROJECT",
+      "modules_are_reusable": true,
+      "programs_are_curriculum_paths": true
+    }
+  },
+  "phases": [
+    {
+      "phase_order": 1,
+      "title": "Web Foundation",
+      "description": "Core web development fundamentals covering HTML, CSS, and version control",
+      "modules": [
+        {
+          "module_code": "PROG-FUND",
+          "module_title": "Programming Fundamentals",
+          "category": "Programming",
+          "level": "Beginner",
+          "duration_hours": 20,
+          "topics": ["Programming concepts", "Variables", "Data types", "Operators", "Conditions", "Loops", "Functions", "Arrays", "Objects", "Error handling", "Debugging", "Problem solving", "Algorithms basics"],
+          "technologies": ["JavaScript", "Python"],
+          "practicals": ["Calculator", "Number checker", "Student grade system", "Expense calculator", "Basic CRUD program"],
+          "projects": [],
+          "learning_outcomes": ["Write programs using variables, data types, and operators", "Implement control structures (conditions and loops)", "Work with arrays and objects for data storage", "Create and use functions with parameters and return values", "Apply error handling and debugging techniques", "Solve basic algorithmic problems"]
+        },
+        {
+          "module_code": "WEB-HTML",
+          "module_title": "HTML5 Development",
+          "category": "Frontend",
+          "level": "Beginner",
+          "duration_hours": 15,
+          "topics": ["HTML fundamentals", "Document structure", "Semantic HTML", "Headings", "Paragraphs", "Links", "Images", "Audio/video", "Lists", "Tables", "Forms", "Form validation", "Accessibility", "SEO-friendly HTML", "HTML5 APIs"],
+          "technologies": ["HTML5"],
+          "practicals": [],
+          "projects": ["Responsive Business Website"],
+          "learning_outcomes": ["Create semantic HTML5 document structure", "Use HTML5 elements for text, links, images, and multimedia", "Build accessible forms with validation", "Implement semantic elements for better SEO and accessibility", "Use HTML5 APIs for enhanced functionality", "Create SEO-friendly web pages"]
+        },
+        {
+          "module_code": "WEB-CSS",
+          "module_title": "CSS3 & Responsive Design",
+          "category": "Frontend",
+          "level": "Beginner",
+          "duration_hours": 20,
+          "topics": ["CSS fundamentals", "Selectors", "Colors", "Typography", "Box model", "Display", "Positioning", "Flexbox", "CSS Grid", "Responsive design", "Media queries", "Animations", "Transitions", "Variables", "Responsive navigation", "Component styling"],
+          "technologies": ["CSS3", "Tailwind CSS"],
+          "practicals": [],
+          "projects": ["Responsive Company Website"],
+          "learning_outcomes": ["Apply CSS selectors and specificity rules", "Style with colors, typography, and box model", "Implement layouts with Flexbox and CSS Grid", "Create responsive designs with media queries", "Add animations and transitions", "Use CSS variables and component-based styling"]
+        },
+        {
+          "module_code": "DEV-GIT",
+          "module_title": "Git & GitHub",
+          "category": "DevOps",
+          "level": "Beginner",
+          "duration_hours": 8,
+          "topics": ["Version control", "Git installation", "Repository", "Init", "Clone", "Add", "Commit", "Push", "Pull", "Branches", "Merge", "Rebase", "Conflict resolution", "GitHub", "Pull requests", "Issues", "Code review", "Releases", "Tags", "Git workflow"],
+          "technologies": ["Git", "GitHub"],
+          "practicals": ["Team GitHub Project"],
+          "projects": [],
+          "learning_outcomes": ["Initialize and manage Git repositories", "Use branching and merging strategies", "Resolve merge conflicts", "Collaborate using GitHub pull requests and issues", "Implement Git workflows for team development", "Use GitHub for code review and releases"]
+        }
+      ]
+    },
+    {
+      "phase_order": 2,
+      "title": "JavaScript, TypeScript & Frontend Framework",
+      "description": "Modern JavaScript, TypeScript, and React.js/Next.js for building scalable interactive user interfaces",
+      "modules": [
+        {
+          "module_code": "JS-CORE",
+          "module_title": "JavaScript Development",
+          "category": "Programming",
+          "level": "Intermediate",
+          "duration_hours": 40,
+          "topics": ["JavaScript fundamentals", "Variables", "Data types", "Operators", "Conditions", "Loops", "Functions", "Scope", "Arrays", "Objects", "Destructuring", "Spread/rest", "Array methods", "DOM manipulation", "Events", "Form handling", "Local storage", "JSON", "ES6+", "Modules", "Error handling", "Promises", "Async/Await", "Fetch API", "API integration", "Event loop", "Closures"],
+          "technologies": ["JavaScript"],
+          "practicals": [],
+          "projects": ["Expense Management Application"],
+          "learning_outcomes": ["Master JavaScript fundamentals and ES6+ features", "Manipulate the DOM and handle events", "Work with arrays, objects, and JSON data", "Implement asynchronous programming with promises and async/await", "Integrate with APIs using Fetch", "Organize code with modules and follow best practices"]
+        },
+        {
+          "module_code": "FE-REACT",
+          "module_title": "React.js Development",
+          "category": "Frontend",
+          "level": "Intermediate",
+          "duration_hours": 40,
+          "topics": ["React fundamentals", "Vite", "Components", "JSX", "Props", "State", "Events", "Conditional rendering", "Lists", "Forms", "Controlled components", "Hooks", "useState", "useEffect", "useContext", "Custom hooks", "Component architecture", "Routing", "API integration", "Error handling", "Loading states", "Redux Toolkit", "React Query", "Performance optimization", "Lazy loading", "Code splitting", "Reusable components"],
+          "technologies": ["React.js", "Vite", "React Router", "Redux Toolkit", "TanStack Query"],
+          "practicals": [],
+          "projects": ["Employee Management Dashboard"],
+          "learning_outcomes": ["Build React applications with functional components and hooks", "Manage state with useState, useEffect, and context", "Implement client-side routing with React Router", "Integrate REST APIs with error handling and loading states", "Optimize performance with React Query and code splitting", "Build scalable component architectures with Redux Toolkit"]
+        },
+        {
+          "module_code": "FE-TS",
+          "module_title": "TypeScript",
+          "category": "Frontend",
+          "level": "Intermediate",
+          "duration_hours": 16,
+          "topics": ["TypeScript fundamentals", "Type annotations", "Interfaces", "Type aliases", "Union types", "Intersection types", "Enums", "Functions", "Generics", "Classes", "Utility types", "Type narrowing", "API types", "React + TypeScript", "Component typing"],
+          "technologies": ["TypeScript", "React + TypeScript"],
+          "practicals": [],
+          "projects": ["Type-Safe React Application"],
+          "learning_outcomes": ["Apply TypeScript type annotations and interfaces", "Use generics, union types, and utility types", "Create type-safe React components", "Implement API type definitions", "Apply advanced TypeScript features like mapped types", "Follow TypeScript best practices for large applications"]
+        },
+        {
+          "module_code": "FE-NEXT",
+          "module_title": "Next.js",
+          "category": "Frontend",
+          "level": "Advanced",
+          "duration_hours": 24,
+          "topics": ["Next.js fundamentals", "App Router", "Pages", "Layouts", "Server Components", "Client Components", "Routing", "Dynamic routes", "Data fetching", "Server actions", "API routes", "Middleware", "Authentication", "SEO", "Metadata", "Image optimization", "Caching", "Deployment"],
+          "technologies": ["Next.js", "TypeScript"],
+          "practicals": [],
+          "projects": ["Production SaaS Website"],
+          "learning_outcomes": ["Build full-stack applications with Next.js App Router", "Implement server-side rendering and static site generation", "Create API routes and server actions", "Implement authentication and authorization", "Optimize for SEO and performance", "Deploy production-ready Next.js applications"]
+        }
+      ]
+    },
+    {
+      "phase_order": 3,
+      "title": "Backend & Databases",
+      "description": "Server-side development with Node.js, Express, REST API design, and database management",
+      "modules": [
+        {
+          "module_code": "BE-NODE",
+          "module_title": "Node.js",
+          "category": "Backend",
+          "level": "Intermediate",
+          "duration_hours": 20,
+          "topics": ["Node.js fundamentals", "Runtime architecture", "npm", "Modules", "File system", "Environment variables", "Events", "Streams", "Async programming", "HTTP server", "REST APIs", "Error handling", "Logging", "Security"],
+          "technologies": ["Node.js"],
+          "practicals": [],
+          "projects": ["Node.js REST API"],
+          "learning_outcomes": ["Build server-side applications with Node.js", "Work with file system, streams, and events", "Create REST APIs with Express-like routing", "Implement error handling and logging", "Work with environment variables and configuration", "Follow Node.js security best practices"]
+        },
+        {
+          "module_code": "BE-EXPRESS",
+          "module_title": "Express.js",
+          "category": "Backend",
+          "level": "Intermediate",
+          "duration_hours": 16,
+          "topics": ["Express fundamentals", "Server setup", "Routes", "Controllers", "Middleware", "Request/response", "Validation", "Error handling", "Authentication middleware", "File uploads", "API structure", "Service architecture", "API documentation"],
+          "technologies": ["Express.js", "Node.js"],
+          "practicals": [],
+          "projects": ["Production REST API"],
+          "learning_outcomes": ["Build production REST APIs with Express.js", "Implement middleware for authentication and validation", "Structure APIs with controllers and services", "Handle file uploads and downloads", "Document APIs with OpenAPI/Swagger", "Follow REST API design best practices"]
+        },
+        {
+          "module_code": "BE-REST",
+          "module_title": "REST API Development",
+          "category": "Backend",
+          "level": "Intermediate",
+          "duration_hours": 12,
+          "topics": ["HTTP", "HTTP methods", "Status codes", "REST architecture", "CRUD", "Request parameters", "Query parameters", "Headers", "JSON", "Authentication", "Authorization", "Pagination", "Filtering", "Sorting", "Search", "API versioning", "API documentation"],
+          "technologies": ["REST", "Postman", "Swagger/OpenAPI"],
+          "practicals": [],
+          "projects": [],
+          "learning_outcomes": ["Design RESTful APIs following architectural constraints", "Implement proper HTTP methods and status codes", "Handle request parameters, headers, and JSON bodies", "Implement authentication and authorization mechanisms", "Apply pagination, filtering, and sorting techniques", "Document APIs with Swagger/OpenAPI specifications"]
+        },
+        {
+          "module_code": "DB-MYSQL",
+          "module_title": "MySQL Database",
+          "category": "Database",
+          "level": "Intermediate",
+          "duration_hours": 20,
+          "topics": ["Database fundamentals", "Tables", "Columns", "Data types", "Primary keys", "Foreign keys", "CRUD", "SELECT", "WHERE", "ORDER BY", "GROUP BY", "Joins", "Subqueries", "Constraints", "Relationships", "Normalization", "Indexes", "Views", "Transactions", "Stored procedures", "Query optimization"],
+          "technologies": ["MySQL", "MySQL Workbench"],
+          "practicals": [],
+          "projects": ["Employee Database System"],
+          "learning_outcomes": ["Design normalized database schemas with ER diagrams", "Write complex SQL queries with joins and subqueries", "Implement transactions and concurrency control", "Create indexes for query optimization", "Work with stored procedures and functions", "Design database relationships and constraints"]
+        },
+        {
+          "module_code": "DB-MONGO",
+          "module_title": "MongoDB",
+          "category": "Database",
+          "level": "Intermediate",
+          "duration_hours": 16,
+          "topics": ["NoSQL fundamentals", "MongoDB", "Collections", "Documents", "CRUD", "Query operators", "Aggregation", "Indexing", "Relationships", "Schema design", "MongoDB Atlas", "Mongoose"],
+          "technologies": ["MongoDB", "MongoDB Atlas", "Mongoose"],
+          "practicals": [],
+          "projects": ["MongoDB REST Application"],
+          "learning_outcomes": ["Understand NoSQL concepts and document-oriented databases", "Design MongoDB schemas and data models", "Perform CRUD operations with MongoDB drivers", "Use aggregation pipelines for data processing", "Implement indexing strategies for performance", "Work with MongoDB Atlas and Mongoose ODM"]
+        }
+      ]
+    },
+    {
+      "phase_order": 4,
+      "title": "Security, Integration & Automation",
+      "description": "Authentication, full-stack integration, payment APIs, communication services, and business automation with n8n",
+      "modules": [
+        {
+          "module_code": "SEC-AUTH",
+          "module_title": "Authentication & Authorization",
+          "category": "Security",
+          "level": "Intermediate",
+          "duration_hours": 12,
+          "topics": ["Authentication", "Authorization", "Password hashing", "JWT", "Sessions", "Cookies", "Refresh tokens", "Role-based access control", "Permissions", "Protected routes", "OAuth", "Google login", "Security best practices"],
+          "technologies": ["JWT", "bcrypt", "OAuth"],
+          "practicals": [],
+          "projects": ["Multi-Role Authentication System"],
+          "learning_outcomes": ["Implement secure password storage with hashing and salting", "Create JWT-based authentication systems", "Manage user sessions and cookies securely", "Implement role-based access control (RBAC)", "Integrate third-party authentication (OAuth, Google Login)", "Apply authentication security best practices"]
+        },
+        {
+          "module_code": "FS-INTEGRATION",
+          "module_title": "Full Stack Integration",
+          "category": "Full Stack",
+          "level": "Advanced",
+          "duration_hours": 24,
+          "topics": ["React + Node", "Frontend/backend architecture", "API integration", "Authentication", "CRUD", "Forms", "Validation", "Error handling", "Loading states", "File upload", "Pagination", "Search", "Filtering", "Role-based dashboards", "Database integration"],
+          "technologies": ["React", "Axios / Fetch", "Node.js", "Express.js", "MySQL / MongoDB"],
+          "practicals": [],
+          "projects": ["Full Stack Employee Management System"],
+          "learning_outcomes": ["Build full-stack applications with React and Node.js", "Implement RESTful API communication between frontend and backend", "Manage application state with React hooks and context", "Implement secure authentication and authorization flows", "Handle file uploads and form validation", "Integrate databases with proper error handling"]
+        },
+        {
+          "module_code": "API-PAYMENT",
+          "module_title": "Payment Integration",
+          "category": "API Integration",
+          "level": "Intermediate",
+          "duration_hours": 8,
+          "topics": ["Payment architecture", "Payment gateway", "Order creation", "Payment verification", "Webhooks", "Payment status", "Refunds", "Receipts", "Transaction records", "Payment security"],
+          "technologies": ["Razorpay", "Stripe"],
+          "practicals": [],
+          "projects": ["Online Payment System"],
+          "learning_outcomes": ["Integrate payment gateways (Razorpay, Stripe) into applications", "Create secure payment processing flows", "Handle webhooks for payment events and status updates", "Implement refunds, receipts, and transaction records", "Apply PCI DSS compliance and payment security measures", "Test payment integrations in sandbox environments"]
+        },
+        {
+          "module_code": "API-COMM",
+          "module_title": "Email, SMS & WhatsApp Automation",
+          "category": "API Integration",
+          "level": "Intermediate",
+          "duration_hours": 8,
+          "topics": ["Email architecture", "Transactional emails", "OTP", "Notifications", "SMS", "WhatsApp messaging", "Templates", "Webhooks", "Automation", "Delivery tracking"],
+          "technologies": ["Nodemailer", "Resend", "Twilio", "Meta WhatsApp Cloud API"],
+          "practicals": [],
+          "projects": ["Automated Lead Notification System"],
+          "learning_outcomes": ["Send transactional emails with Nodemailer and Resend", "Implement SMS notifications with Twilio", "Send WhatsApp messages using Meta Cloud API", "Create email/SMS/WhatsApp templates with personalization", "Implement webhook-based automation workflows", "Track delivery status and handle bounces/failures"]
+        },
+        {
+          "module_code": "AUTO-N8N",
+          "module_title": "n8n Business Automation",
+          "category": "Automation",
+          "level": "Intermediate",
+          "duration_hours": 12,
+          "topics": ["Automation fundamentals", "n8n interface", "Workflows", "Nodes", "Triggers", "Webhooks", "HTTP requests", "JSON", "Expressions", "Conditions", "Loops", "Database workflows", "Email automation", "CRM automation", "WhatsApp automation", "AI automation", "Error handling"],
+          "technologies": ["n8n", "REST APIs", "Webhooks"],
+          "practicals": [],
+          "projects": ["Website Lead to CRM", "Lead to WhatsApp", "Lead to Email", "Payment to Receipt", "Attendance to Notification"],
+          "learning_outcomes": ["Design and build automation workflows in n8n", "Use various nodes for data processing and transformation", "Create triggers from webhooks, schedules, and events", "Integrate with APIs, databases, and email services", "Implement conditional logic and looping in workflows", "Build business process automation for CRM, marketing, and operations"]
+        }
+      ]
+    },
+    {
+      "phase_order": 5,
+      "title": "AI & Machine Learning",
+      "description": "Artificial Intelligence and Machine Learning fundamentals, Python development, data analytics, and deep learning",
+      "modules": [
+        {
+          "module_code": "AI-DEV",
+          "module_title": "AI for Developers",
+          "category": "AI/ML",
+          "level": "Beginner",
+          "duration_hours": 12,
+          "topics": ["AI fundamentals", "Generative AI", "LLMs", "Prompt engineering", "AI-assisted coding", "AI debugging", "AI code review", "AI documentation", "AI testing", "AI UI generation", "AI workflow generation", "AI API integration"],
+          "technologies": ["ChatGPT", "Gemini", "Claude", "Cursor", "GitHub Copilot", "v0"],
+          "practicals": [],
+          "projects": ["AI-Assisted Full Stack Application"],
+          "learning_outcomes": ["Understand AI fundamentals and large language models", "Apply prompt engineering techniques for better AI responses", "Use AI assistants for code generation, debugging, and review", "Automate documentation, testing, and UI generation with AI", "Integrate AI APIs into development workflows", "Follow ethical AI practices and limitations awareness"]
+        },
+        {
+          "module_code": "AI-GENAPP",
+          "module_title": "Generative AI Application Development",
+          "category": "AI/ML",
+          "level": "Advanced",
+          "duration_hours": 24,
+          "topics": ["LLM APIs", "Prompt engineering", "Tokens", "Context", "Structured outputs", "Function calling", "Embeddings", "Vector databases", "RAG", "AI agents", "AI chatbots", "Document processing", "AI search"],
+          "technologies": ["OpenAI API", "Gemini API", "Vector DB", "LangChain/LangGraph"],
+          "practicals": [],
+          "projects": ["AI Knowledge Assistant"],
+          "learning_outcomes": ["Work with LLM APIs (OpenAI, Gemini) and manage tokens/context", "Implement prompt engineering for structured outputs", "Use function calling and tools with AI models", "Create embeddings and work with vector databases", "Implement Retrieval-Augmented Generation (RAG) systems", "Build AI agents, chatbots, and document processing applications"]
+        },
+        {
+          "module_code": "PY-CORE",
+          "module_title": "Python Development",
+          "category": "Programming",
+          "level": "Beginner",
+          "duration_hours": 16,
+          "topics": ["Python syntax", "Variables", "Data types", "Operators", "Conditions", "Loops", "Functions", "Lists", "Tuples", "Sets", "Dictionaries", "Strings", "Exception handling", "File handling", "OOP", "Modules", "Packages", "Virtual environments", "APIs", "JSON"],
+          "technologies": ["Python"],
+          "practicals": [],
+          "projects": ["Python Automation Application"],
+          "learning_outcomes": ["Write Python programs with proper syntax and indentation", "Work with Python data types: strings, numbers, lists, tuples, sets, dicts", "Implement control structures: conditions and loops", "Create and use functions with parameters and return values", "Apply object-oriented programming principles", "Handle exceptions and work with files and modules"]
+        },
+        {
+          "module_code": "DATA-ANALYTICS",
+          "module_title": "Data Analytics",
+          "category": "Data",
+          "level": "Intermediate",
+          "duration_hours": 20,
+          "topics": ["Data fundamentals", "Excel", "SQL", "Data cleaning", "Data transformation", "Statistics", "EDA", "Data visualization", "Business KPIs", "Dashboard creation", "Data storytelling"],
+          "technologies": ["Excel", "MySQL", "Python", "Pandas", "NumPy", "Power BI"],
+          "practicals": [],
+          "projects": ["Business Analytics Dashboard"],
+          "learning_outcomes": ["Clean and transform data using Pandas and Python", "Perform exploratory data analysis (EDA) with statistics", "Create data visualizations with Matplotlib/Seaborn", "Build interactive dashboards with Power BI", "Calculate business KPIs and metrics", "Tell data-driven stories with visualizations and narratives"]
+        },
+        {
+          "module_code": "ML-CORE",
+          "module_title": "Machine Learning",
+          "category": "AI/ML",
+          "level": "Advanced",
+          "duration_hours": 24,
+          "topics": ["ML fundamentals", "Supervised learning", "Unsupervised learning", "Regression", "Classification", "Clustering", "Feature engineering", "Data preprocessing", "Train/test split", "Model evaluation", "Cross-validation", "Hyperparameter tuning"],
+          "technologies": ["Python", "NumPy", "Pandas", "Scikit-learn"],
+          "practicals": [],
+          "projects": ["House Price Prediction", "Customer Churn Prediction", "Customer Segmentation"],
+          "learning_outcomes": ["Understand machine learning concepts and workflows", "Implement supervised learning algorithms (regression, classification)", "Apply unsupervised learning techniques (clustering)", "Perform feature engineering and data preprocessing", "Evaluate model performance with appropriate metrics", "Optimize models with cross-validation and hyperparameter tuning"]
+        },
+        {
+          "module_code": "ML-DL",
+          "module_title": "Deep Learning",
+          "category": "AI/ML",
+          "level": "Advanced",
+          "duration_hours": 24,
+          "topics": ["Neural networks", "Perceptron", "Activation functions", "Forward propagation", "Backpropagation", "CNN", "RNN", "LSTM", "Transfer learning", "Model training", "Model evaluation"],
+          "technologies": ["Python", "TensorFlow", "Keras", "PyTorch"],
+          "practicals": [],
+          "projects": ["Image Classification System"],
+          "learning_outcomes": ["Understand neural network fundamentals and architectures", "Implement convolutional neural networks (CNNs) for image tasks", "Work with recurrent neural networks (RNNs) and LSTMs for sequences", "Apply transfer learning with pre-trained models", "Train and evaluate deep learning models effectively", "Use frameworks like TensorFlow, Keras, and PyTorch"]
+        }
+      ]
+    },
+    {
+      "phase_order": 6,
+      "title": "Testing, DevOps & Cloud",
+      "description": "Software testing, DevOps practices, cloud deployment, and cybersecurity",
+      "modules": [
+        {
+          "module_code": "QA-TEST",
+          "module_title": "Software Testing",
+          "category": "Testing",
+          "level": "Intermediate",
+          "duration_hours": 16,
+          "topics": ["Testing fundamentals", "SDLC/STLC", "Test cases", "Test scenarios", "Bug reporting", "Functional testing", "Regression testing", "Integration testing", "API testing", "Database testing", "Automation testing", "CI testing"],
+          "technologies": ["Postman", "Jest", "Playwright", "Cypress"],
+          "practicals": [],
+          "projects": ["Automated Web Testing Project"],
+          "learning_outcomes": ["Understand software testing fundamentals and methodologies", "Design effective test cases and test scenarios", "Perform functional, regression, and integration testing", "Test APIs and databases for correctness", "Implement test automation with frameworks like Jest and Cypress", "Integrate testing into CI/CD pipelines"]
+        },
+        {
+          "module_code": "DEVOPS-CORE",
+          "module_title": "DevOps",
+          "category": "DevOps",
+          "level": "Intermediate",
+          "duration_hours": 16,
+          "topics": ["DevOps fundamentals", "Linux", "Git", "CI/CD", "Build pipelines", "Docker", "Containers", "Docker Compose", "Nginx", "Environment variables", "Deployment", "Monitoring", "Logs"],
+          "technologies": ["Linux", "Git", "GitHub", "Docker", "GitHub Actions", "Nginx"],
+          "practicals": [],
+          "projects": ["Dockerized Full Stack Deployment"],
+          "learning_outcomes": ["Understand DevOps culture, practices, and benefits", "Manage Linux systems and shell scripting", "Implement CI/CD pipelines with GitHub Actions", "Work with Docker containers and container orchestration", "Configure Nginx as reverse proxy and load balancer", "Implement monitoring, logging, and alerting systems"]
+        },
+        {
+          "module_code": "CLOUD-AWS",
+          "module_title": "Cloud Computing",
+          "category": "DevOps",
+          "level": "Advanced",
+          "duration_hours": 16,
+          "topics": ["Cloud fundamentals", "AWS architecture", "EC2", "S3", "IAM", "RDS", "VPC fundamentals", "Security groups", "DNS", "Deployment", "Monitoring", "Backup"],
+          "technologies": ["AWS", "Hostinger", "Cloudflare"],
+          "practicals": [],
+          "projects": ["Cloud-Deployed Full Stack Application"],
+          "learning_outcomes": ["Understand cloud computing concepts and service models", "Provision and manage AWS EC2 instances", "Use AWS S3 for object storage and CDN", "Implement AWS IAM for access control and security", "Use AWS RDS for managed relational databases", "Design secure VPC architectures with proper networking"]
+        },
+        {
+          "module_code": "SEC-WEB",
+          "module_title": "Cybersecurity",
+          "category": "Security",
+          "level": "Intermediate",
+          "duration_hours": 12,
+          "topics": ["Cybersecurity fundamentals", "Network security", "Web security", "OWASP", "SQL injection", "XSS", "CSRF", "Authentication security", "API security", "Password security", "Secure coding", "Security headers", "Vulnerability assessment"],
+          "technologies": ["OWASP", "Postman", "Burp Suite"],
+          "practicals": [],
+          "projects": ["Secure Web Application"],
+          "learning_outcomes": ["Understand cybersecurity fundamentals and threat landscape", "Identify and prevent OWASP Top 10 vulnerabilities", "Implement input validation and output encoding", "Secure authentication and session management", "Protect APIs with rate limiting and authentication", "Follow secure coding practices and conduct security testing"]
+        }
+      ]
+    },
+    {
+      "phase_order": 7,
+      "title": "Capstone Project & Portfolio",
+      "description": "Final capstone project demonstrating all skills learned",
+      "modules": [
+        {
+          "module_code": "FINAL",
+          "module_title": "Capstone Project & Portfolio",
+          "category": "Capstone",
+          "level": "Capstone",
+          "duration_hours": 40,
+          "topics": ["Final project planning", "Portfolio development", "Code review", "Deployment"],
+          "technologies": [],
+          "practicals": ["Deploy full stack application", "Build portfolio site"],
+          "projects": ["Capstone project"],
+          "learning_outcomes": ["Deploy production application", "Present portfolio"]
+        }
+      ]
+    }
+  ],
+  "module_sequence": [
+    { "module": "PROG-FUND", "days": 3, "order": 1 },
+    { "module": "WEB-HTML", "days": 2, "order": 2 },
+    { "module": "WEB-CSS", "days": 2, "order": 3 },
+    { "module": "DEV-GIT", "days": 1, "order": 4 },
+    { "module": "JS-CORE", "days": 5, "order": 5 },
+    { "module": "FE-REACT", "days": 7, "order": 6 },
+    { "module": "FE-TS", "days": 3, "order": 7 },
+    { "module": "FE-NEXT", "days": 2, "order": 8 },
+    { "module": "BE-NODE", "days": 2, "order": 9 },
+    { "module": "BE-EXPRESS", "days": 2, "order": 10 },
+    { "module": "BE-REST", "days": 1, "order": 11 },
+    { "module": "DB-MYSQL", "days": 2, "order": 12 },
+    { "module": "DB-MONGO", "days": 2, "order": 13 },
+    { "module": "SEC-AUTH", "days": 1, "order": 14 },
+    { "module": "FS-INTEGRATION", "days": 3, "order": 15 },
+    { "module": "API-PAYMENT", "days": 2, "order": 16 },
+    { "module": "API-COMM", "days": 2, "order": 17 },
+    { "module": "AUTO-N8N", "days": 2, "order": 18 },
+    { "module": "AI-DEV", "days": 2, "order": 19 },
+    { "module": "AI-GENAPP", "days": 2, "order": 20 },
+    { "module": "PY-CORE", "days": 2, "order": 21 },
+    { "module": "DATA-ANALYTICS", "days": 2, "order": 22 },
+    { "module": "ML-CORE", "days": 2, "order": 23 },
+    { "module": "ML-DL", "days": 1, "order": 24 },
+    { "module": "QA-TEST", "days": 1, "order": 25 },
+    { "module": "DEVOPS-CORE", "days": 1, "order": 26 },
+    { "module": "CLOUD-AWS", "days": 1, "order": 27 },
+    { "module": "SEC-WEB", "days": 1, "order": 28 },
+    { "module": "FINAL", "days": 1, "order": 29 }
+  ],
+  "final_project": "AI-Powered Full Stack SaaS Application"
+}

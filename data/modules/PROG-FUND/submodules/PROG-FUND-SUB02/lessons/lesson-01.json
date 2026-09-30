@@ -1,0 +1,22 @@
+{
+  "id": "PROG-FUND-SUB02-L01",
+  "day": 1,
+  "module_code": "PROG-FUND",
+  "lesson_order": 1,
+  "title": "Loops: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Loops",
+    "Apply Loops in practical scenarios",
+    "Build a small project using Loops"
+  ],
+  "theory_markdown": "# Loops\n\n## Overview\nThis lesson covers the fundamentals of Loops and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Loops\n- Concept 2 related to Loops\n- Best practices for Loops\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Loops\n2. Implement basic Loops functionality\n3. Apply Loops to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Loops implementation\nconsole.log('Learning Loops');\n\n// Basic Loops example\nconst example = {\n  topic: 'Loops',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Loops usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Loops concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "BE-EXPRESS-SUB01-L01",
+  "day": 1,
+  "module_code": "BE-EXPRESS",
+  "lesson_order": 1,
+  "title": "Express fundamentals: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Express fundamentals",
+    "Apply Express fundamentals in practical scenarios",
+    "Build a small project using Express fundamentals"
+  ],
+  "theory_markdown": "# Express fundamentals\n\n## Overview\nThis lesson covers the fundamentals of Express fundamentals and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Express fundamentals\n- Concept 2 related to Express fundamentals\n- Best practices for Express fundamentals\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Express fundamentals\n2. Implement basic Express fundamentals functionality\n3. Apply Express fundamentals to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Express fundamentals implementation\nconsole.log('Learning Express fundamentals');\n\n// Basic Express fundamentals example\nconst example = {\n  topic: 'Express fundamentals',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Express fundamentals usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Express fundamentals concepts and generate code examples.\n\n---"
+  }
+}

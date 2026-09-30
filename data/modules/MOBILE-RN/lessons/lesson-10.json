@@ -1,0 +1,18 @@
+{
+  "id": "MOBILE-RN-L10",
+  "module_code": "MOBILE-RN",
+  "lesson_order": 10,
+  "title": "Notifications in Mobile Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Notifications",
+    "Implement real-world code for Notifications according to industry standards",
+    "Debug and optimize Notifications integrations"
+  ],
+  "theory_markdown": "### Notifications\n\nThis lesson covers in-depth technical mechanics of **Notifications** as part of the Mobile Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Notifications Implementation Example\nexport function handleNotifications() {\n  console.log('Executing Notifications workflow...');\n}",
+    "explanation": "Demonstration of how Notifications is structured in production."
+  }
+}

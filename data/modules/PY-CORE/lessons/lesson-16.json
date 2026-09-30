@@ -1,0 +1,18 @@
+{
+  "id": "PY-CORE-L16",
+  "module_code": "PY-CORE",
+  "lesson_order": 16,
+  "title": "Modules in Python Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Modules",
+    "Implement real-world code for Modules according to industry standards",
+    "Debug and optimize Modules integrations"
+  ],
+  "theory_markdown": "### Modules\n\nThis lesson covers in-depth technical mechanics of **Modules** as part of the Python Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Modules Implementation Example\nexport function handleModules() {\n  console.log('Executing Modules workflow...');\n}",
+    "explanation": "Demonstration of how Modules is structured in production."
+  }
+}

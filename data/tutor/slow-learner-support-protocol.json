@@ -1,0 +1,7 @@
+{
+  "thresholds": {
+    "attendance_below_75": "Schedule 1-on-1 counseling and assign recorded makeup session.",
+    "quiz_average_below_60": "Assign foundational remediation exercises and peer-programming partner.",
+    "consecutive_missed_assignments_2": "Alert Academic Director and initiate parent/sponsor notification."
+  }
+}

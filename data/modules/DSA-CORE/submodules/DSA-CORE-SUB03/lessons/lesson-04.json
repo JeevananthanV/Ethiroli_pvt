@@ -1,0 +1,22 @@
+{
+  "id": "DSA-CORE-SUB03-L04",
+  "day": 7,
+  "module_code": "DSA-CORE",
+  "lesson_order": 4,
+  "title": "Two pointers: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Two pointers",
+    "Apply Two pointers in practical scenarios",
+    "Build a small project using Two pointers"
+  ],
+  "theory_markdown": "# Two pointers\n\n## Overview\nThis lesson covers the fundamentals of Two pointers and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Two pointers\n- Concept 2 related to Two pointers\n- Best practices for Two pointers\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Two pointers\n2. Implement basic Two pointers functionality\n3. Apply Two pointers to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Two pointers implementation\nconsole.log('Learning Two pointers');\n\n// Basic Two pointers example\nconst example = {\n  topic: 'Two pointers',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Two pointers usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Two pointers concepts and generate code examples.\n\n---"
+  }
+}

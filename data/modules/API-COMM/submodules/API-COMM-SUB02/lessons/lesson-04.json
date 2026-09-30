@@ -1,0 +1,22 @@
+{
+  "id": "API-COMM-SUB02-L04",
+  "day": 7,
+  "module_code": "API-COMM",
+  "lesson_order": 4,
+  "title": "Webhooks: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Webhooks",
+    "Apply Webhooks in practical scenarios",
+    "Build a small project using Webhooks"
+  ],
+  "theory_markdown": "# Webhooks\n\n## Overview\nThis lesson covers the fundamentals of Webhooks and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Webhooks\n- Concept 2 related to Webhooks\n- Best practices for Webhooks\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Webhooks\n2. Implement basic Webhooks functionality\n3. Apply Webhooks to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Webhooks implementation\nconsole.log('Learning Webhooks');\n\n// Basic Webhooks example\nconst example = {\n  topic: 'Webhooks',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Webhooks usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Webhooks concepts and generate code examples.\n\n---"
+  }
+}

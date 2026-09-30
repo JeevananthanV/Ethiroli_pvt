@@ -1,0 +1,22 @@
+{
+  "id": "CLOUD-AWS-SUB01-L03",
+  "day": 5,
+  "module_code": "CLOUD-AWS",
+  "lesson_order": 3,
+  "title": "EC2: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of EC2",
+    "Apply EC2 in practical scenarios",
+    "Build a small project using EC2"
+  ],
+  "theory_markdown": "# EC2\n\n## Overview\nThis lesson covers the fundamentals of EC2 and its practical applications.\n\n## Key Concepts\n- Concept 1 related to EC2\n- Concept 2 related to EC2\n- Best practices for EC2\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of EC2\n2. Implement basic EC2 functionality\n3. Apply EC2 to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example EC2 implementation\nconsole.log('Learning EC2');\n\n// Basic EC2 example\nconst example = {\n  topic: 'EC2',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic EC2 usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand EC2 concepts and generate code examples.\n\n---"
+  }
+}

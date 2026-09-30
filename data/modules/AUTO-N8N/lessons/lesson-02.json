@@ -1,0 +1,18 @@
+{
+  "id": "AUTO-N8N-L02",
+  "module_code": "AUTO-N8N",
+  "lesson_order": 2,
+  "title": "n8n interface in n8n Business Automation",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of n8n interface",
+    "Implement real-world code for n8n interface according to industry standards",
+    "Debug and optimize n8n interface integrations"
+  ],
+  "theory_markdown": "### n8n interface\n\nThis lesson covers in-depth technical mechanics of **n8n interface** as part of the n8n Business Automation curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// n8n interface Implementation Example\nexport function handlen8ninterface() {\n  console.log('Executing n8n interface workflow...');\n}",
+    "explanation": "Demonstration of how n8n interface is structured in production."
+  }
+}

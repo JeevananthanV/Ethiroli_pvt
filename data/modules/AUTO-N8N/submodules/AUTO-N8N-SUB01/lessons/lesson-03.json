@@ -1,0 +1,22 @@
+{
+  "id": "AUTO-N8N-SUB01-L03",
+  "day": 5,
+  "module_code": "AUTO-N8N",
+  "lesson_order": 3,
+  "title": "Workflows: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Workflows",
+    "Apply Workflows in practical scenarios",
+    "Build a small project using Workflows"
+  ],
+  "theory_markdown": "# Workflows\n\n## Overview\nThis lesson covers the fundamentals of Workflows and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Workflows\n- Concept 2 related to Workflows\n- Best practices for Workflows\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Workflows\n2. Implement basic Workflows functionality\n3. Apply Workflows to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Workflows implementation\nconsole.log('Learning Workflows');\n\n// Basic Workflows example\nconst example = {\n  topic: 'Workflows',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Workflows usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Workflows concepts and generate code examples.\n\n---"
+  }
+}

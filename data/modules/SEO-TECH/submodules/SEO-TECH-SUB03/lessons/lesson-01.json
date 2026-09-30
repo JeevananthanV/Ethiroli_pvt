@@ -1,0 +1,22 @@
+{
+  "id": "SEO-TECH-SUB03-L01",
+  "day": 1,
+  "module_code": "SEO-TECH",
+  "lesson_order": 1,
+  "title": "Page speed: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Page speed",
+    "Apply Page speed in practical scenarios",
+    "Build a small project using Page speed"
+  ],
+  "theory_markdown": "# Page speed\n\n## Overview\nThis lesson covers the fundamentals of Page speed and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Page speed\n- Concept 2 related to Page speed\n- Best practices for Page speed\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Page speed\n2. Implement basic Page speed functionality\n3. Apply Page speed to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Page speed implementation\nconsole.log('Learning Page speed');\n\n// Basic Page speed example\nconst example = {\n  topic: 'Page speed',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Page speed usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Page speed concepts and generate code examples.\n\n---"
+  }
+}

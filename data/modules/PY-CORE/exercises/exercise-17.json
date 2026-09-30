@@ -1,0 +1,10 @@
+{
+  "id": "EX-PY-CORE-L17",
+  "module_code": "PY-CORE",
+  "title": "Lab Exercise: Packages",
+  "difficulty": "Beginner",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Packages.",
+  "starter_code": "// Lab: Packages\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Packages\nexport const solution = true;\n"
+}

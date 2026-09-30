@@ -1,0 +1,22 @@
+{
+  "id": "ML-CORE-SUB01-L03",
+  "day": 5,
+  "module_code": "ML-CORE",
+  "lesson_order": 3,
+  "title": "Unsupervised learning: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Unsupervised learning",
+    "Apply Unsupervised learning in practical scenarios",
+    "Build a small project using Unsupervised learning"
+  ],
+  "theory_markdown": "# Unsupervised learning\n\n## Overview\nThis lesson covers the fundamentals of Unsupervised learning and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Unsupervised learning\n- Concept 2 related to Unsupervised learning\n- Best practices for Unsupervised learning\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Unsupervised learning\n2. Implement basic Unsupervised learning functionality\n3. Apply Unsupervised learning to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Unsupervised learning implementation\nconsole.log('Learning Unsupervised learning');\n\n// Basic Unsupervised learning example\nconst example = {\n  topic: 'Unsupervised learning',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Unsupervised learning usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Unsupervised learning concepts and generate code examples.\n\n---"
+  }
+}

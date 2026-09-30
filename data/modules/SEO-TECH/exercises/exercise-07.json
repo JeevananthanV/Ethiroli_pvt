@@ -1,0 +1,10 @@
+{
+  "id": "EX-SEO-TECH-L07",
+  "module_code": "SEO-TECH",
+  "title": "Lab Exercise: Sitemap",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Sitemap.",
+  "starter_code": "// Lab: Sitemap\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Sitemap\nexport const solution = true;\n"
+}

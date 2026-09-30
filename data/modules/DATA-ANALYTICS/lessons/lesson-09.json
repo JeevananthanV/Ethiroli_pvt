@@ -1,0 +1,18 @@
+{
+  "id": "DATA-ANALYTICS-L09",
+  "module_code": "DATA-ANALYTICS",
+  "lesson_order": 9,
+  "title": "Business KPIs in Data Analytics",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Business KPIs",
+    "Implement real-world code for Business KPIs according to industry standards",
+    "Debug and optimize Business KPIs integrations"
+  ],
+  "theory_markdown": "### Business KPIs\n\nThis lesson covers in-depth technical mechanics of **Business KPIs** as part of the Data Analytics curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Business KPIs Implementation Example\nexport function handleBusinessKPIs() {\n  console.log('Executing Business KPIs workflow...');\n}",
+    "explanation": "Demonstration of how Business KPIs is structured in production."
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "BE-EXPRESS-SUB01-L03",
+  "day": 5,
+  "module_code": "BE-EXPRESS",
+  "lesson_order": 3,
+  "title": "Routes: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Routes",
+    "Apply Routes in practical scenarios",
+    "Build a small project using Routes"
+  ],
+  "theory_markdown": "# Routes\n\n## Overview\nThis lesson covers the fundamentals of Routes and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Routes\n- Concept 2 related to Routes\n- Best practices for Routes\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Routes\n2. Implement basic Routes functionality\n3. Apply Routes to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Routes implementation\nconsole.log('Learning Routes');\n\n// Basic Routes example\nconst example = {\n  topic: 'Routes',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Routes usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Routes concepts and generate code examples.\n\n---"
+  }
+}

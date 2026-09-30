@@ -1,0 +1,22 @@
+{
+  "id": "QA-TEST-SUB01-L04",
+  "day": 7,
+  "module_code": "QA-TEST",
+  "lesson_order": 4,
+  "title": "Test scenarios: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Test scenarios",
+    "Apply Test scenarios in practical scenarios",
+    "Build a small project using Test scenarios"
+  ],
+  "theory_markdown": "# Test scenarios\n\n## Overview\nThis lesson covers the fundamentals of Test scenarios and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Test scenarios\n- Concept 2 related to Test scenarios\n- Best practices for Test scenarios\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Test scenarios\n2. Implement basic Test scenarios functionality\n3. Apply Test scenarios to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Test scenarios implementation\nconsole.log('Learning Test scenarios');\n\n// Basic Test scenarios example\nconst example = {\n  topic: 'Test scenarios',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Test scenarios usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Test scenarios concepts and generate code examples.\n\n---"
+  }
+}

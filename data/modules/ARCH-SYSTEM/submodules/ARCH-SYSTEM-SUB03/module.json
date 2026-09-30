@@ -1,0 +1,28 @@
+{
+  "code": "ARCH-SYSTEM-SUB03",
+  "title": "System Design - Part 3",
+  "category": "Architecture",
+  "level": "Advanced",
+  "duration_hours": 7,
+  "description": "System design covering requirements analysis, architecture patterns, scalability, availability, load balancing, caching, databases, Redis, queues, microservices, and API gateways. This submodule covers: Microservices, API Gateway, Authentication, Logging, Monitoring.",
+  "topics": [
+    "Microservices",
+    "API Gateway",
+    "Authentication",
+    "Logging",
+    "Monitoring"
+  ],
+  "technologies": [],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "FS-INTEGRATION",
+    "DB-MYSQL",
+    "DEVOPS-CORE"
+  ],
+  "learning_outcomes": [
+    "Analyze system requirements and define architecture",
+    "Design scalable and highly available systems",
+    "Implement load balancing and caching strategies"
+  ]
+}

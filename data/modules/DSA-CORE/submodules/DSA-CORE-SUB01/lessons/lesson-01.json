@@ -1,0 +1,22 @@
+{
+  "id": "DSA-CORE-SUB01-L01",
+  "day": 1,
+  "module_code": "DSA-CORE",
+  "lesson_order": 1,
+  "title": "Complexity: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Complexity",
+    "Apply Complexity in practical scenarios",
+    "Build a small project using Complexity"
+  ],
+  "theory_markdown": "# Complexity\n\n## Overview\nThis lesson covers the fundamentals of Complexity and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Complexity\n- Concept 2 related to Complexity\n- Best practices for Complexity\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Complexity\n2. Implement basic Complexity functionality\n3. Apply Complexity to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Complexity implementation\nconsole.log('Learning Complexity');\n\n// Basic Complexity example\nconst example = {\n  topic: 'Complexity',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Complexity usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Complexity concepts and generate code examples.\n\n---"
+  }
+}

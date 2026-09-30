@@ -26,7 +26,7 @@ Lessons are no longer limited to a single static text or video field. Each lesso
 - **Bulk Question Import:** Instructors can import batches of standardized questions with options via `POST /v1/question-bank/bulk-import`.
 
 ### 4. Real-Time Synchronization & Granular Progress Rollups
-- **WebSocket Broadcasts:** Instant socket alerts notify students when curriculum changes (`course_content_updated`), while tutors are notified when students complete lessons or quizzes.
+- **WebSocket Broadcasts:** Instant socket alerts notify students when curriculum changes (`course_curriculum_updated`), while tutors are notified when students complete lessons or quizzes.
 - **Granular Progress Rollups:** When a student marks a lesson completed (`POST /v1/lessons/:id/complete`), the backend atomically recalculates completion percentage across all lessons in the course and updates `enrollments.progress_percentage`.
 
 ---

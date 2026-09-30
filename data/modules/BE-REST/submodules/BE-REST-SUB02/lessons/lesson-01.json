@@ -1,0 +1,22 @@
+{
+  "id": "BE-REST-SUB02-L01",
+  "day": 1,
+  "module_code": "BE-REST",
+  "lesson_order": 1,
+  "title": "Query parameters: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Query parameters",
+    "Apply Query parameters in practical scenarios",
+    "Build a small project using Query parameters"
+  ],
+  "theory_markdown": "# Query parameters\n\n## Overview\nThis lesson covers the fundamentals of Query parameters and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Query parameters\n- Concept 2 related to Query parameters\n- Best practices for Query parameters\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Query parameters\n2. Implement basic Query parameters functionality\n3. Apply Query parameters to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Query parameters implementation\nconsole.log('Learning Query parameters');\n\n// Basic Query parameters example\nconst example = {\n  topic: 'Query parameters',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Query parameters usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Query parameters concepts and generate code examples.\n\n---"
+  }
+}

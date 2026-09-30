@@ -1,0 +1,22 @@
+{
+  "id": "AUTO-N8N-SUB03-L01",
+  "day": 1,
+  "module_code": "AUTO-N8N",
+  "lesson_order": 1,
+  "title": "Email automation: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Email automation",
+    "Apply Email automation in practical scenarios",
+    "Build a small project using Email automation"
+  ],
+  "theory_markdown": "# Email automation\n\n## Overview\nThis lesson covers the fundamentals of Email automation and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Email automation\n- Concept 2 related to Email automation\n- Best practices for Email automation\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Email automation\n2. Implement basic Email automation functionality\n3. Apply Email automation to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Email automation implementation\nconsole.log('Learning Email automation');\n\n// Basic Email automation example\nconst example = {\n  topic: 'Email automation',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Email automation usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Email automation concepts and generate code examples.\n\n---"
+  }
+}

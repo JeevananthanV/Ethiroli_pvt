@@ -1,0 +1,22 @@
+{
+  "id": "QA-TEST-SUB02-L02",
+  "day": 3,
+  "module_code": "QA-TEST",
+  "lesson_order": 2,
+  "title": "Functional testing: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Functional testing",
+    "Apply Functional testing in practical scenarios",
+    "Build a small project using Functional testing"
+  ],
+  "theory_markdown": "# Functional testing\n\n## Overview\nThis lesson covers the fundamentals of Functional testing and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Functional testing\n- Concept 2 related to Functional testing\n- Best practices for Functional testing\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Functional testing\n2. Implement basic Functional testing functionality\n3. Apply Functional testing to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Functional testing implementation\nconsole.log('Learning Functional testing');\n\n// Basic Functional testing example\nconst example = {\n  topic: 'Functional testing',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Functional testing usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Functional testing concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "id": "AUTO-N8N-SUB03-E01",
+  "module_code": "AUTO-N8N",
+  "day": 2,
+  "title": "Hands-on Lab: Email automation Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Email automation:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Email automation in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Email automation basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Email automation exercise\n// TODO: Implement Email automation functionality here\n\nconsole.log('Email automation exercise starter');\n",
+  "solution_code": "// Solution for Email automation exercise\nconsole.log('Completed Email automation exercise');\n\n// Basic implementation\nconst emailautomation = {\n  name: 'Email automation',\n  completed: true\n};\n\nconsole.log(emailautomation);"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "AUTO-N8N-L01",
+  "module_code": "AUTO-N8N",
+  "lesson_order": 1,
+  "title": "Automation fundamentals in n8n Business Automation",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Automation fundamentals",
+    "Implement real-world code for Automation fundamentals according to industry standards",
+    "Debug and optimize Automation fundamentals integrations"
+  ],
+  "theory_markdown": "### Automation fundamentals\n\nThis lesson covers in-depth technical mechanics of **Automation fundamentals** as part of the n8n Business Automation curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Automation fundamentals Implementation Example\nexport function handleAutomationfundamentals() {\n  console.log('Executing Automation fundamentals workflow...');\n}",
+    "explanation": "Demonstration of how Automation fundamentals is structured in production."
+  }
+}

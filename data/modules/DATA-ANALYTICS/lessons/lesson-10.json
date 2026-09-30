@@ -1,0 +1,18 @@
+{
+  "id": "DATA-ANALYTICS-L10",
+  "module_code": "DATA-ANALYTICS",
+  "lesson_order": 10,
+  "title": "Dashboard creation in Data Analytics",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Dashboard creation",
+    "Implement real-world code for Dashboard creation according to industry standards",
+    "Debug and optimize Dashboard creation integrations"
+  ],
+  "theory_markdown": "### Dashboard creation\n\nThis lesson covers in-depth technical mechanics of **Dashboard creation** as part of the Data Analytics curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Dashboard creation Implementation Example\nexport function handleDashboardcreation() {\n  console.log('Executing Dashboard creation workflow...');\n}",
+    "explanation": "Demonstration of how Dashboard creation is structured in production."
+  }
+}

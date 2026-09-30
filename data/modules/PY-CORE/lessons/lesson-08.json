@@ -1,0 +1,18 @@
+{
+  "id": "PY-CORE-L08",
+  "module_code": "PY-CORE",
+  "lesson_order": 8,
+  "title": "Lists in Python Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Lists",
+    "Implement real-world code for Lists according to industry standards",
+    "Debug and optimize Lists integrations"
+  ],
+  "theory_markdown": "### Lists\n\nThis lesson covers in-depth technical mechanics of **Lists** as part of the Python Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Lists Implementation Example\nexport function handleLists() {\n  console.log('Executing Lists workflow...');\n}",
+    "explanation": "Demonstration of how Lists is structured in production."
+  }
+}

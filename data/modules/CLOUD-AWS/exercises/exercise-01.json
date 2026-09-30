@@ -1,0 +1,11 @@
+{
+  "id": "EX-CLOUD-AWS-D55",
+  "module_code": "CLOUD-AWS",
+  "day": 55,
+  "title": "Hands-on Lab: Docker, CI/CD, and Cloud Deployment",
+  "estimated_minutes": 45,
+  "difficulty": "Advanced",
+  "instructions": "Dockerise your API. Create a `Dockerfile` and `docker-compose.yml`. Test locally with `docker compose up`. Set up a GitHub Actions workflow that runs tests on push and deploys to Render on merge to main. Deploy your frontend to Vercel.",
+  "starter_code": "// Starter file for Docker, CI/CD, and Cloud Deployment\n// Task instructions:\n// Dockerise your API. Create a `Dockerfile` and `docker-compose.yml`. Test locally with `docker compose up`. Set up a GitHub Actions workflow that runs ...\n",
+  "solution_code": "# Dockerfile — multi-stage build for Node.js\r\n\r\n# Stage 1: Build\r\nFROM node:22-alpine AS builder\r\n\r\nWORKDIR /app\r\n\r\n# Copy package files first (leverage cache)\r\nCOPY package*.json ./\r\nRUN npm ci --only=production\r\n\r\n# Copy source\r\nCOPY . .\r\n\r\n# Stage 2: Production\r\nFROM node:22-alpine AS production\r\n\r\nWORKDIR /app\r\n\r\n# Create non-root user\r\nRUN addgroup -g 1001 -S nodejs && \\\r\n    adduser -S nodejs -u 1001\r\n\r\n# Copy from builder\r\nCOPY --from=builder --chown=nodejs:nodejs /app/node_modules ./node_modules\r\nCOPY --from=builder --chown=nodejs:nodejs /app .\r\n\r\nUSER nodejs\r\n\r\nEXPOSE 3000\r\n\r\nHEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \\\r\n  CMD node -e \"fetch('http://localhost:3000/api/health').then(r => process.exit(r.ok ? 0 : 1))\"\r\n\r\nCMD [\"node\", \"src/server.js\"]"
+}

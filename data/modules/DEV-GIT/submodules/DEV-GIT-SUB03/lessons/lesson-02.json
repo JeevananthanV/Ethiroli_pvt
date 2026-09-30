@@ -1,0 +1,22 @@
+{
+  "id": "DEV-GIT-SUB03-L02",
+  "day": 3,
+  "module_code": "DEV-GIT",
+  "lesson_order": 2,
+  "title": "Issues: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Issues",
+    "Apply Issues in practical scenarios",
+    "Build a small project using Issues"
+  ],
+  "theory_markdown": "# Issues\n\n## Overview\nThis lesson covers the fundamentals of Issues and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Issues\n- Concept 2 related to Issues\n- Best practices for Issues\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Issues\n2. Implement basic Issues functionality\n3. Apply Issues to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Issues implementation\nconsole.log('Learning Issues');\n\n// Basic Issues example\nconst example = {\n  topic: 'Issues',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Issues usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Issues concepts and generate code examples.\n\n---"
+  }
+}

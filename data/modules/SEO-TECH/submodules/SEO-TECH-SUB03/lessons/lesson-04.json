@@ -1,0 +1,22 @@
+{
+  "id": "SEO-TECH-SUB03-L04",
+  "day": 7,
+  "module_code": "SEO-TECH",
+  "lesson_order": 4,
+  "title": "Local SEO: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Local SEO",
+    "Apply Local SEO in practical scenarios",
+    "Build a small project using Local SEO"
+  ],
+  "theory_markdown": "# Local SEO\n\n## Overview\nThis lesson covers the fundamentals of Local SEO and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Local SEO\n- Concept 2 related to Local SEO\n- Best practices for Local SEO\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Local SEO\n2. Implement basic Local SEO functionality\n3. Apply Local SEO to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Local SEO implementation\nconsole.log('Learning Local SEO');\n\n// Basic Local SEO example\nconst example = {\n  topic: 'Local SEO',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Local SEO usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Local SEO concepts and generate code examples.\n\n---"
+  }
+}

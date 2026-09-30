@@ -1,0 +1,18 @@
+{
+  "id": "SEO-TECH-L04",
+  "module_code": "SEO-TECH",
+  "lesson_order": 4,
+  "title": "Technical SEO in Technical SEO",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Technical SEO",
+    "Implement real-world code for Technical SEO according to industry standards",
+    "Debug and optimize Technical SEO integrations"
+  ],
+  "theory_markdown": "### Technical SEO\n\nThis lesson covers in-depth technical mechanics of **Technical SEO** as part of the Technical SEO curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Technical SEO Implementation Example\nexport function handleTechnicalSEO() {\n  console.log('Executing Technical SEO workflow...');\n}",
+    "explanation": "Demonstration of how Technical SEO is structured in production."
+  }
+}

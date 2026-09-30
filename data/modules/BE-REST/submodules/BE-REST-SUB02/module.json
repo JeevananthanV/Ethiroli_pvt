@@ -1,0 +1,32 @@
+{
+  "code": "BE-REST-SUB02",
+  "title": "REST API Development - Part 2",
+  "category": "Backend",
+  "level": "Intermediate",
+  "duration_hours": 4,
+  "description": "REST API architecture and best practices covering HTTP methods, status codes, CRUD operations, pagination, filtering, versioning, and API documentation with Swagger. This submodule covers: Query parameters, Headers, JSON, Authentication, Authorization, Pagination.",
+  "topics": [
+    "Query parameters",
+    "Headers",
+    "JSON",
+    "Authentication",
+    "Authorization",
+    "Pagination"
+  ],
+  "technologies": [
+    "REST",
+    "Postman",
+    "Swagger/OpenAPI"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "BE-NODE",
+    "BE-EXPRESS"
+  ],
+  "learning_outcomes": [
+    "Design RESTful APIs following architectural constraints",
+    "Implement proper HTTP methods and status codes",
+    "Handle request parameters, headers, and JSON bodies"
+  ]
+}

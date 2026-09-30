@@ -1,0 +1,19 @@
+{
+  "title": "Module Knowledge Assessment",
+  "time_limit_minutes": 20,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Sample multiple choice question?",
+      "options": [
+        "Option A",
+        "Option B",
+        "Option C",
+        "Option D"
+      ],
+      "correct_index": 0,
+      "explanation": "Detailed explanation of why Option A is correct."
+    }
+  ]
+}

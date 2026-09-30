@@ -1,0 +1,18 @@
+{
+  "id": "SEO-TECH-L12",
+  "module_code": "SEO-TECH",
+  "lesson_order": 12,
+  "title": "Search Console in Technical SEO",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Search Console",
+    "Implement real-world code for Search Console according to industry standards",
+    "Debug and optimize Search Console integrations"
+  ],
+  "theory_markdown": "### Search Console\n\nThis lesson covers in-depth technical mechanics of **Search Console** as part of the Technical SEO curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Search Console Implementation Example\nexport function handleSearchConsole() {\n  console.log('Executing Search Console workflow...');\n}",
+    "explanation": "Demonstration of how Search Console is structured in production."
+  }
+}

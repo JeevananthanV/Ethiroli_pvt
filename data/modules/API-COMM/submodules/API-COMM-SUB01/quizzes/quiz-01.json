@@ -1,0 +1,70 @@
+{
+  "id": "API-COMM-SUB01-Q01",
+  "module_code": "API-COMM",
+  "day": 1,
+  "title": "Quiz 1: Email architecture Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Email architecture?",
+      "options": [
+        "Core principle of Email architecture",
+        "Advanced Email architecture technique",
+        "Alternative approach to Email architecture",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Email architecture concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Transactional emails?",
+      "options": [
+        "Core principle of Transactional emails",
+        "Advanced Transactional emails technique",
+        "Alternative approach to Transactional emails",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Transactional emails concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in OTP?",
+      "options": [
+        "Core principle of OTP",
+        "Advanced OTP technique",
+        "Alternative approach to OTP",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental OTP concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Notifications?",
+      "options": [
+        "Core principle of Notifications",
+        "Advanced Notifications technique",
+        "Alternative approach to Notifications",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Notifications concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Email architecture?",
+      "options": [
+        "Core principle of Email architecture",
+        "Advanced Email architecture technique",
+        "Alternative approach to Email architecture",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Email architecture concepts."
+    }
+  ]
+}

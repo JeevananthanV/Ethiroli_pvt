@@ -1,0 +1,70 @@
+{
+  "id": "FE-REACT-SUB02-Q02",
+  "module_code": "FE-REACT",
+  "day": 3,
+  "title": "Quiz 2: Forms Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Forms?",
+      "options": [
+        "Core principle of Forms",
+        "Advanced Forms technique",
+        "Alternative approach to Forms",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Forms concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Controlled components?",
+      "options": [
+        "Core principle of Controlled components",
+        "Advanced Controlled components technique",
+        "Alternative approach to Controlled components",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Controlled components concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Hooks?",
+      "options": [
+        "Core principle of Hooks",
+        "Advanced Hooks technique",
+        "Alternative approach to Hooks",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Hooks concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in useState?",
+      "options": [
+        "Core principle of useState",
+        "Advanced useState technique",
+        "Alternative approach to useState",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental useState concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in useEffect?",
+      "options": [
+        "Core principle of useEffect",
+        "Advanced useEffect technique",
+        "Alternative approach to useEffect",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental useEffect concepts."
+    }
+  ]
+}

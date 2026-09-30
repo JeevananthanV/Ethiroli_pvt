@@ -1,0 +1,70 @@
+{
+  "id": "FE-NEXT-SUB01-Q02",
+  "module_code": "FE-NEXT",
+  "day": 3,
+  "title": "Quiz 2: Next.js fundamentals Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Next.js fundamentals?",
+      "options": [
+        "Core principle of Next.js fundamentals",
+        "Advanced Next.js fundamentals technique",
+        "Alternative approach to Next.js fundamentals",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Next.js fundamentals concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in App Router?",
+      "options": [
+        "Core principle of App Router",
+        "Advanced App Router technique",
+        "Alternative approach to App Router",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental App Router concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Pages?",
+      "options": [
+        "Core principle of Pages",
+        "Advanced Pages technique",
+        "Alternative approach to Pages",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Pages concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Layouts?",
+      "options": [
+        "Core principle of Layouts",
+        "Advanced Layouts technique",
+        "Alternative approach to Layouts",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Layouts concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Server Components?",
+      "options": [
+        "Core principle of Server Components",
+        "Advanced Server Components technique",
+        "Alternative approach to Server Components",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Server Components concepts."
+    }
+  ]
+}

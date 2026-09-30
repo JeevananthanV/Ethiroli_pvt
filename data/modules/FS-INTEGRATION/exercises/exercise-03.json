@@ -1,0 +1,11 @@
+{
+  "id": "EX-FS-INTEGRATION-D60",
+  "module_code": "FS-INTEGRATION",
+  "day": 60,
+  "title": "Hands-on Lab: Capstone Completion, Documentation, and Presentation",
+  "estimated_minutes": 45,
+  "difficulty": "Advanced",
+  "instructions": "Complete and deploy your capstone. Record a 5-minute demo video. Write a blog post about the architecture and lessons learned. Add the project to your portfolio.",
+  "starter_code": "// Starter file for Capstone Completion, Documentation, and Presentation\n// Task instructions:\n// Complete and deploy your capstone. Record a 5-minute demo video. Write a blog post about the architecture and lessons learned. Add the project to your...\n",
+  "solution_code": "## Deployment Checklist\r\n\r\n### Frontend (Vercel/Netlify)\r\n- [ ] Environment variables set (API URL)\r\n- [ ] Build passes locally (`npm run build`)\r\n- [ ] Preview deployment tested\r\n- [ ] Custom domain configured (optional)\r\n\r\n### Backend (Render/Railway/Fly.io)\r\n- [ ] Environment variables set (DB, JWT secrets, API keys)\r\n- [ ] Docker build successful\r\n- [ ] Health check endpoint responding\r\n- [ ] Database migrations run\r\n- [ ] Seed data loaded\r\n\r\n### Database\r\n- [ ] PostgreSQL: managed service (Supabase/PlanetScale)\r\n- [ ] MongoDB: Atlas free tier (M0)\r\n- [ ] Backups configured\r\n- [ ] Connection pooling enabled\r\n\r\n### Monitoring\r\n- [ ] Sentry error tracking\r\n- [ ] UptimeRobot monitoring\r\n- [ ] Log aggregation\r\n\r\n### Security\r\n- [ ] HTTPS enabled\r\n- [ ] CORS restricted to frontend domain\r\n- [ ] Rate limiting active\r\n- [ ] Security headers present\r\n- [ ] npm audit clean"
+}

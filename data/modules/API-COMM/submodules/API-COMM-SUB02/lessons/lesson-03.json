@@ -1,0 +1,22 @@
+{
+  "id": "API-COMM-SUB02-L03",
+  "day": 5,
+  "module_code": "API-COMM",
+  "lesson_order": 3,
+  "title": "Templates: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Templates",
+    "Apply Templates in practical scenarios",
+    "Build a small project using Templates"
+  ],
+  "theory_markdown": "# Templates\n\n## Overview\nThis lesson covers the fundamentals of Templates and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Templates\n- Concept 2 related to Templates\n- Best practices for Templates\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Templates\n2. Implement basic Templates functionality\n3. Apply Templates to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Templates implementation\nconsole.log('Learning Templates');\n\n// Basic Templates example\nconst example = {\n  topic: 'Templates',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Templates usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Templates concepts and generate code examples.\n\n---"
+  }
+}

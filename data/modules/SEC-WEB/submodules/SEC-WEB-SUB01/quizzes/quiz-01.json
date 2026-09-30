@@ -1,0 +1,70 @@
+{
+  "id": "SEC-WEB-SUB01-Q01",
+  "module_code": "SEC-WEB",
+  "day": 1,
+  "title": "Quiz 1: Cybersecurity fundamentals Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Cybersecurity fundamentals?",
+      "options": [
+        "Core principle of Cybersecurity fundamentals",
+        "Advanced Cybersecurity fundamentals technique",
+        "Alternative approach to Cybersecurity fundamentals",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Cybersecurity fundamentals concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Network security?",
+      "options": [
+        "Core principle of Network security",
+        "Advanced Network security technique",
+        "Alternative approach to Network security",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Network security concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Web security?",
+      "options": [
+        "Core principle of Web security",
+        "Advanced Web security technique",
+        "Alternative approach to Web security",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Web security concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in OWASP?",
+      "options": [
+        "Core principle of OWASP",
+        "Advanced OWASP technique",
+        "Alternative approach to OWASP",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental OWASP concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in SQL injection?",
+      "options": [
+        "Core principle of SQL injection",
+        "Advanced SQL injection technique",
+        "Alternative approach to SQL injection",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental SQL injection concepts."
+    }
+  ]
+}

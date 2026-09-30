@@ -1,0 +1,22 @@
+{
+  "id": "AI-DEV-SUB03-L03",
+  "day": 5,
+  "module_code": "AI-DEV",
+  "lesson_order": 3,
+  "title": "AI workflow generation: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of AI workflow generation",
+    "Apply AI workflow generation in practical scenarios",
+    "Build a small project using AI workflow generation"
+  ],
+  "theory_markdown": "# AI workflow generation\n\n## Overview\nThis lesson covers the fundamentals of AI workflow generation and its practical applications.\n\n## Key Concepts\n- Concept 1 related to AI workflow generation\n- Concept 2 related to AI workflow generation\n- Best practices for AI workflow generation\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of AI workflow generation\n2. Implement basic AI workflow generation functionality\n3. Apply AI workflow generation to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example AI workflow generation implementation\nconsole.log('Learning AI workflow generation');\n\n// Basic AI workflow generation example\nconst example = {\n  topic: 'AI workflow generation',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic AI workflow generation usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand AI workflow generation concepts and generate code examples.\n\n---"
+  }
+}

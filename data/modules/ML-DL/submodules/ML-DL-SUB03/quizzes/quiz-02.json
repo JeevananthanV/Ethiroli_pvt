@@ -1,0 +1,70 @@
+{
+  "id": "ML-DL-SUB03-Q02",
+  "module_code": "ML-DL",
+  "day": 3,
+  "title": "Quiz 2: Transfer learning Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Transfer learning?",
+      "options": [
+        "Core principle of Transfer learning",
+        "Advanced Transfer learning technique",
+        "Alternative approach to Transfer learning",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Transfer learning concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Model training?",
+      "options": [
+        "Core principle of Model training",
+        "Advanced Model training technique",
+        "Alternative approach to Model training",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Model training concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Model evaluation?",
+      "options": [
+        "Core principle of Model evaluation",
+        "Advanced Model evaluation technique",
+        "Alternative approach to Model evaluation",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Model evaluation concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Transfer learning?",
+      "options": [
+        "Core principle of Transfer learning",
+        "Advanced Transfer learning technique",
+        "Alternative approach to Transfer learning",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Transfer learning concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Model training?",
+      "options": [
+        "Core principle of Model training",
+        "Advanced Model training technique",
+        "Alternative approach to Model training",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Model training concepts."
+    }
+  ]
+}

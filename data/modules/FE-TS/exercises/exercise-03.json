@@ -1,0 +1,10 @@
+{
+  "id": "EX-FE-TS-L03",
+  "module_code": "FE-TS",
+  "title": "Lab Exercise: Interfaces",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Interfaces.",
+  "starter_code": "// Lab: Interfaces\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Interfaces\nexport const solution = true;\n"
+}

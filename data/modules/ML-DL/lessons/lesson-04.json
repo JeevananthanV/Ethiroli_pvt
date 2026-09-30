@@ -1,0 +1,18 @@
+{
+  "id": "ML-DL-L04",
+  "module_code": "ML-DL",
+  "lesson_order": 4,
+  "title": "Forward propagation in Deep Learning",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Forward propagation",
+    "Implement real-world code for Forward propagation according to industry standards",
+    "Debug and optimize Forward propagation integrations"
+  ],
+  "theory_markdown": "### Forward propagation\n\nThis lesson covers in-depth technical mechanics of **Forward propagation** as part of the Deep Learning curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Forward propagation Implementation Example\nexport function handleForwardpropagation() {\n  console.log('Executing Forward propagation workflow...');\n}",
+    "explanation": "Demonstration of how Forward propagation is structured in production."
+  }
+}

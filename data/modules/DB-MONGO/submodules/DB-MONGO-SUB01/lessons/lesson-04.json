@@ -1,0 +1,22 @@
+{
+  "id": "DB-MONGO-SUB01-L04",
+  "day": 7,
+  "module_code": "DB-MONGO",
+  "lesson_order": 4,
+  "title": "Documents: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Documents",
+    "Apply Documents in practical scenarios",
+    "Build a small project using Documents"
+  ],
+  "theory_markdown": "# Documents\n\n## Overview\nThis lesson covers the fundamentals of Documents and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Documents\n- Concept 2 related to Documents\n- Best practices for Documents\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Documents\n2. Implement basic Documents functionality\n3. Apply Documents to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Documents implementation\nconsole.log('Learning Documents');\n\n// Basic Documents example\nconst example = {\n  topic: 'Documents',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Documents usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Documents concepts and generate code examples.\n\n---"
+  }
+}

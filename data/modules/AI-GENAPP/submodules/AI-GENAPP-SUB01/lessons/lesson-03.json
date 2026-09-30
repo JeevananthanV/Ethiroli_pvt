@@ -1,0 +1,22 @@
+{
+  "id": "AI-GENAPP-SUB01-L03",
+  "day": 5,
+  "module_code": "AI-GENAPP",
+  "lesson_order": 3,
+  "title": "Tokens: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Tokens",
+    "Apply Tokens in practical scenarios",
+    "Build a small project using Tokens"
+  ],
+  "theory_markdown": "# Tokens\n\n## Overview\nThis lesson covers the fundamentals of Tokens and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Tokens\n- Concept 2 related to Tokens\n- Best practices for Tokens\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Tokens\n2. Implement basic Tokens functionality\n3. Apply Tokens to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Tokens implementation\nconsole.log('Learning Tokens');\n\n// Basic Tokens example\nconst example = {\n  topic: 'Tokens',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Tokens usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Tokens concepts and generate code examples.\n\n---"
+  }
+}

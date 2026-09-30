@@ -1,0 +1,22 @@
+{
+  "id": "BE-EXPRESS-SUB02-L04",
+  "day": 7,
+  "module_code": "BE-EXPRESS",
+  "lesson_order": 4,
+  "title": "Authentication middleware: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Authentication middleware",
+    "Apply Authentication middleware in practical scenarios",
+    "Build a small project using Authentication middleware"
+  ],
+  "theory_markdown": "# Authentication middleware\n\n## Overview\nThis lesson covers the fundamentals of Authentication middleware and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Authentication middleware\n- Concept 2 related to Authentication middleware\n- Best practices for Authentication middleware\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Authentication middleware\n2. Implement basic Authentication middleware functionality\n3. Apply Authentication middleware to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Authentication middleware implementation\nconsole.log('Learning Authentication middleware');\n\n// Basic Authentication middleware example\nconst example = {\n  topic: 'Authentication middleware',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Authentication middleware usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Authentication middleware concepts and generate code examples.\n\n---"
+  }
+}

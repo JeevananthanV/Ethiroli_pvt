@@ -1,0 +1,18 @@
+{
+  "id": "ARCH-SYSTEM-L02",
+  "module_code": "ARCH-SYSTEM",
+  "lesson_order": 2,
+  "title": "Requirements in System Design",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Requirements",
+    "Implement real-world code for Requirements according to industry standards",
+    "Debug and optimize Requirements integrations"
+  ],
+  "theory_markdown": "### Requirements\n\nThis lesson covers in-depth technical mechanics of **Requirements** as part of the System Design curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Requirements Implementation Example\nexport function handleRequirements() {\n  console.log('Executing Requirements workflow...');\n}",
+    "explanation": "Demonstration of how Requirements is structured in production."
+  }
+}

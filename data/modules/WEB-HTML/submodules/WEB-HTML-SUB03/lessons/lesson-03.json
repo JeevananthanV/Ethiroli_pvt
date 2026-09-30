@@ -1,0 +1,22 @@
+{
+  "id": "WEB-HTML-SUB03-L03",
+  "day": 5,
+  "module_code": "WEB-HTML",
+  "lesson_order": 3,
+  "title": "Accessibility: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Accessibility",
+    "Apply Accessibility in practical scenarios",
+    "Build a small project using Accessibility"
+  ],
+  "theory_markdown": "# Accessibility\n\n## Overview\nThis lesson covers the fundamentals of Accessibility and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Accessibility\n- Concept 2 related to Accessibility\n- Best practices for Accessibility\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Accessibility\n2. Implement basic Accessibility functionality\n3. Apply Accessibility to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Accessibility implementation\nconsole.log('Learning Accessibility');\n\n// Basic Accessibility example\nconst example = {\n  topic: 'Accessibility',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Accessibility usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Accessibility concepts and generate code examples.\n\n---"
+  }
+}

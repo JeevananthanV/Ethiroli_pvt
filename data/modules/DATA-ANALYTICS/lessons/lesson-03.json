@@ -1,0 +1,18 @@
+{
+  "id": "DATA-ANALYTICS-L03",
+  "module_code": "DATA-ANALYTICS",
+  "lesson_order": 3,
+  "title": "SQL in Data Analytics",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of SQL",
+    "Implement real-world code for SQL according to industry standards",
+    "Debug and optimize SQL integrations"
+  ],
+  "theory_markdown": "### SQL\n\nThis lesson covers in-depth technical mechanics of **SQL** as part of the Data Analytics curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// SQL Implementation Example\nexport function handleSQL() {\n  console.log('Executing SQL workflow...');\n}",
+    "explanation": "Demonstration of how SQL is structured in production."
+  }
+}

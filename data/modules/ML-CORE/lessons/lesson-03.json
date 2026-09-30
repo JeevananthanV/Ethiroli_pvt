@@ -1,0 +1,18 @@
+{
+  "id": "ML-CORE-L03",
+  "module_code": "ML-CORE",
+  "lesson_order": 3,
+  "title": "Unsupervised learning in Machine Learning",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Unsupervised learning",
+    "Implement real-world code for Unsupervised learning according to industry standards",
+    "Debug and optimize Unsupervised learning integrations"
+  ],
+  "theory_markdown": "### Unsupervised learning\n\nThis lesson covers in-depth technical mechanics of **Unsupervised learning** as part of the Machine Learning curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Unsupervised learning Implementation Example\nexport function handleUnsupervisedlearning() {\n  console.log('Executing Unsupervised learning workflow...');\n}",
+    "explanation": "Demonstration of how Unsupervised learning is structured in production."
+  }
+}

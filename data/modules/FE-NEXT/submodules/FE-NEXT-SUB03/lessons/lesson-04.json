@@ -1,0 +1,22 @@
+{
+  "id": "FE-NEXT-SUB03-L04",
+  "day": 7,
+  "module_code": "FE-NEXT",
+  "lesson_order": 4,
+  "title": "Image optimization: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Image optimization",
+    "Apply Image optimization in practical scenarios",
+    "Build a small project using Image optimization"
+  ],
+  "theory_markdown": "# Image optimization\n\n## Overview\nThis lesson covers the fundamentals of Image optimization and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Image optimization\n- Concept 2 related to Image optimization\n- Best practices for Image optimization\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Image optimization\n2. Implement basic Image optimization functionality\n3. Apply Image optimization to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Image optimization implementation\nconsole.log('Learning Image optimization');\n\n// Basic Image optimization example\nconst example = {\n  topic: 'Image optimization',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Image optimization usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Image optimization concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "PY-CORE-L17",
+  "module_code": "PY-CORE",
+  "lesson_order": 17,
+  "title": "Packages in Python Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Packages",
+    "Implement real-world code for Packages according to industry standards",
+    "Debug and optimize Packages integrations"
+  ],
+  "theory_markdown": "### Packages\n\nThis lesson covers in-depth technical mechanics of **Packages** as part of the Python Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Packages Implementation Example\nexport function handlePackages() {\n  console.log('Executing Packages workflow...');\n}",
+    "explanation": "Demonstration of how Packages is structured in production."
+  }
+}

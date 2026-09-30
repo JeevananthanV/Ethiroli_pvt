@@ -1,0 +1,22 @@
+{
+  "id": "FE-REACT-SUB02-L03",
+  "day": 5,
+  "module_code": "FE-REACT",
+  "lesson_order": 3,
+  "title": "Hooks: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Hooks",
+    "Apply Hooks in practical scenarios",
+    "Build a small project using Hooks"
+  ],
+  "theory_markdown": "# Hooks\n\n## Overview\nThis lesson covers the fundamentals of Hooks and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Hooks\n- Concept 2 related to Hooks\n- Best practices for Hooks\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Hooks\n2. Implement basic Hooks functionality\n3. Apply Hooks to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Hooks implementation\nconsole.log('Learning Hooks');\n\n// Basic Hooks example\nconst example = {\n  topic: 'Hooks',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Hooks usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Hooks concepts and generate code examples.\n\n---"
+  }
+}

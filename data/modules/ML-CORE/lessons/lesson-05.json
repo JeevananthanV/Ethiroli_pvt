@@ -1,0 +1,18 @@
+{
+  "id": "ML-CORE-L05",
+  "module_code": "ML-CORE",
+  "lesson_order": 5,
+  "title": "Classification in Machine Learning",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Classification",
+    "Implement real-world code for Classification according to industry standards",
+    "Debug and optimize Classification integrations"
+  ],
+  "theory_markdown": "### Classification\n\nThis lesson covers in-depth technical mechanics of **Classification** as part of the Machine Learning curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Classification Implementation Example\nexport function handleClassification() {\n  console.log('Executing Classification workflow...');\n}",
+    "explanation": "Demonstration of how Classification is structured in production."
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "title": "Course Title",
+  "code": "ETH-COURSE-CODE",
+  "slug": "course-slug",
+  "category": "Full Stack / AI / Frontend / Backend",
+  "level": "Beginner / Intermediate / Advanced",
+  "duration_weeks": 12,
+  "total_hours": 60,
+  "description": "Detailed description of the course objectives and learning outcomes.",
+  "prerequisites": [
+    "Basic computer literacy",
+    "Logical thinking"
+  ],
+  "modules": [
+    "PROG-FUND",
+    "WEB-HTML",
+    "WEB-CSS"
+  ],
+  "learning_outcomes": [
+    "Build responsive, production-ready web applications",
+    "Master industry-standard engineering workflows"
+  ],
+  "certification_criteria": {
+    "minimum_attendance_percent": 75,
+    "minimum_quiz_score": 70,
+    "capstone_project_required": true
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "MOBILE-RN-L13",
+  "module_code": "MOBILE-RN",
+  "lesson_order": 13,
+  "title": "Permissions in Mobile Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Permissions",
+    "Implement real-world code for Permissions according to industry standards",
+    "Debug and optimize Permissions integrations"
+  ],
+  "theory_markdown": "### Permissions\n\nThis lesson covers in-depth technical mechanics of **Permissions** as part of the Mobile Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Permissions Implementation Example\nexport function handlePermissions() {\n  console.log('Executing Permissions workflow...');\n}",
+    "explanation": "Demonstration of how Permissions is structured in production."
+  }
+}

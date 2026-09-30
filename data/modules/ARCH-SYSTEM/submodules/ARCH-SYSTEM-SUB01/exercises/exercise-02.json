@@ -1,0 +1,33 @@
+{
+  "id": "ARCH-SYSTEM-SUB01-E02",
+  "module_code": "ARCH-SYSTEM",
+  "day": 4,
+  "title": "Hands-on Lab: Requirements Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Requirements:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Requirements in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Requirements basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Requirements exercise\n// TODO: Implement Requirements functionality here\n\nconsole.log('Requirements exercise starter');\n",
+  "solution_code": "// Solution for Requirements exercise\nconsole.log('Completed Requirements exercise');\n\n// Basic implementation\nconst requirements = {\n  name: 'Requirements',\n  completed: true\n};\n\nconsole.log(requirements);"
+}

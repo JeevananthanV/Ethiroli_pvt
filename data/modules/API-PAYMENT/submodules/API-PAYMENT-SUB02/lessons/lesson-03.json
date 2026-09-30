@@ -1,0 +1,22 @@
+{
+  "id": "API-PAYMENT-SUB02-L03",
+  "day": 5,
+  "module_code": "API-PAYMENT",
+  "lesson_order": 3,
+  "title": "Refunds: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Refunds",
+    "Apply Refunds in practical scenarios",
+    "Build a small project using Refunds"
+  ],
+  "theory_markdown": "# Refunds\n\n## Overview\nThis lesson covers the fundamentals of Refunds and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Refunds\n- Concept 2 related to Refunds\n- Best practices for Refunds\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Refunds\n2. Implement basic Refunds functionality\n3. Apply Refunds to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Refunds implementation\nconsole.log('Learning Refunds');\n\n// Basic Refunds example\nconst example = {\n  topic: 'Refunds',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Refunds usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Refunds concepts and generate code examples.\n\n---"
+  }
+}

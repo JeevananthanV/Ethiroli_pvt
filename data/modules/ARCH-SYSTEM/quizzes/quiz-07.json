@@ -1,0 +1,21 @@
+{
+  "id": "QZ-ARCH-SYSTEM-L07",
+  "module_code": "ARCH-SYSTEM",
+  "title": "Quiz: Load balancing",
+  "time_limit_minutes": 10,
+  "passing_percentage": 75,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is the primary architectural purpose of Load balancing in System Design?",
+      "options": [
+        "To enforce modularity and maintainable system boundaries",
+        "To bypass browser runtime security sandboxing",
+        "To override database foreign key constraints",
+        "To compile JavaScript into native x86 machine bytecode"
+      ],
+      "correct_index": 0,
+      "explanation": "Load balancing ensures clean separation of concerns and robust maintainability."
+    }
+  ]
+}

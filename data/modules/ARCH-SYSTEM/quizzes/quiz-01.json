@@ -1,0 +1,21 @@
+{
+  "id": "QZ-ARCH-SYSTEM-L01",
+  "module_code": "ARCH-SYSTEM",
+  "title": "Quiz: System design fundamentals",
+  "time_limit_minutes": 10,
+  "passing_percentage": 75,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is the primary architectural purpose of System design fundamentals in System Design?",
+      "options": [
+        "To enforce modularity and maintainable system boundaries",
+        "To bypass browser runtime security sandboxing",
+        "To override database foreign key constraints",
+        "To compile JavaScript into native x86 machine bytecode"
+      ],
+      "correct_index": 0,
+      "explanation": "System design fundamentals ensures clean separation of concerns and robust maintainability."
+    }
+  ]
+}

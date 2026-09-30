@@ -1,0 +1,20 @@
+{
+  "id": "JS-CORE-D17",
+  "day": 17,
+  "module_code": "JS-CORE",
+  "lesson_order": 5,
+  "title": "ES6+ Features & Modules",
+  "duration_minutes": 60,
+  "objectives": [
+    "Master ES modules, classes, iterators, generators, and modern syntax."
+  ],
+  "theory_markdown": "ES modules use `import`/`export`. Named exports export multiple values; default exports export one. Classes are syntactic sugar over prototype-based inheritance. Getters/setters control property access. Static methods belong to the class, not instances. Private fields (`#field`) are truly private.\r\n\r\nIterators implement the `[Symbol.iterator]()` protocol. Generators (`function*`) produce sequences lazily with `yield`.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// math.js — named exports\r\nexport const PI = 3.14159;\r\nexport function add(a, b) { return a + b; }\r\nexport function multiply(a, b) { return a * b; }\r\n\r\n// logger.js — default export\r\nexport default class Logger {\r\n  #prefix;  // Private field\r\n\r\n  constructor(prefix) {\r\n    this.#prefix = prefix;\r\n  }\r\n\r\n  log(message) {\r\n    console.log(`[${this.#prefix}] ${message}`);\r\n  }\r\n\r\n  static create(prefix) {\r\n    return new Logger(prefix);\r\n  }\r\n}\r\n\r\n// main.js — imports\r\nimport Logger from './logger.js';\r\nimport { add, multiply, PI } from './math.js';\r\nimport * as math from './math.js';  // Namespace import\r\n\r\nconst logger = new Logger('APP');\r\nlogger.log(`PI is ${PI}`);",
+    "explanation": "`export` and `import` enable modular code. Classes encapsulate state and behaviour. `#prefix` is a private field — not accessible outside the class. Generators produce values lazily. Custom iterators make objects work with `for...of`."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Continue.dev** with a local model to generate module boilerplate and JSDoc comments."
+  }
+}

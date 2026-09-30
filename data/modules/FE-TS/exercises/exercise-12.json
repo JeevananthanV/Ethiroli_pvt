@@ -1,0 +1,10 @@
+{
+  "id": "EX-FE-TS-L12",
+  "module_code": "FE-TS",
+  "title": "Lab Exercise: Type narrowing",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Type narrowing.",
+  "starter_code": "// Lab: Type narrowing\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Type narrowing\nexport const solution = true;\n"
+}

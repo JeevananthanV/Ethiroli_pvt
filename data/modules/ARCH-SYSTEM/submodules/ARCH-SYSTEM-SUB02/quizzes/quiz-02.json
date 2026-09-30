@@ -1,0 +1,70 @@
+{
+  "id": "ARCH-SYSTEM-SUB02-Q02",
+  "module_code": "ARCH-SYSTEM",
+  "day": 3,
+  "title": "Quiz 2: Load balancing Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Load balancing?",
+      "options": [
+        "Core principle of Load balancing",
+        "Advanced Load balancing technique",
+        "Alternative approach to Load balancing",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Load balancing concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Caching?",
+      "options": [
+        "Core principle of Caching",
+        "Advanced Caching technique",
+        "Alternative approach to Caching",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Caching concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Database scaling?",
+      "options": [
+        "Core principle of Database scaling",
+        "Advanced Database scaling technique",
+        "Alternative approach to Database scaling",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Database scaling concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in SQL vs NoSQL?",
+      "options": [
+        "Core principle of SQL vs NoSQL",
+        "Advanced SQL vs NoSQL technique",
+        "Alternative approach to SQL vs NoSQL",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental SQL vs NoSQL concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Redis?",
+      "options": [
+        "Core principle of Redis",
+        "Advanced Redis technique",
+        "Alternative approach to Redis",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Redis concepts."
+    }
+  ]
+}

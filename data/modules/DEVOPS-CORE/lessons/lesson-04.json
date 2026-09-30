@@ -1,0 +1,18 @@
+{
+  "id": "DEVOPS-CORE-L04",
+  "module_code": "DEVOPS-CORE",
+  "lesson_order": 4,
+  "title": "CI/CD in DevOps",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of CI/CD",
+    "Implement real-world code for CI/CD according to industry standards",
+    "Debug and optimize CI/CD integrations"
+  ],
+  "theory_markdown": "### CI/CD\n\nThis lesson covers in-depth technical mechanics of **CI/CD** as part of the DevOps curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// CI/CD Implementation Example\nexport function handleCICD() {\n  console.log('Executing CI/CD workflow...');\n}",
+    "explanation": "Demonstration of how CI/CD is structured in production."
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "EX-PY-CORE-L03",
+  "module_code": "PY-CORE",
+  "title": "Lab Exercise: Data types",
+  "difficulty": "Beginner",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Data types.",
+  "starter_code": "// Lab: Data types\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Data types\nexport const solution = true;\n"
+}

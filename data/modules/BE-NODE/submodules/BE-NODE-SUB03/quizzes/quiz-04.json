@@ -1,0 +1,70 @@
+{
+  "id": "BE-NODE-SUB03-Q04",
+  "module_code": "BE-NODE",
+  "day": 7,
+  "title": "Quiz 4: REST APIs Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in REST APIs?",
+      "options": [
+        "Core principle of REST APIs",
+        "Advanced REST APIs technique",
+        "Alternative approach to REST APIs",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental REST APIs concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Error handling?",
+      "options": [
+        "Core principle of Error handling",
+        "Advanced Error handling technique",
+        "Alternative approach to Error handling",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Error handling concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Logging?",
+      "options": [
+        "Core principle of Logging",
+        "Advanced Logging technique",
+        "Alternative approach to Logging",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Logging concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Security?",
+      "options": [
+        "Core principle of Security",
+        "Advanced Security technique",
+        "Alternative approach to Security",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Security concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in REST APIs?",
+      "options": [
+        "Core principle of REST APIs",
+        "Advanced REST APIs technique",
+        "Alternative approach to REST APIs",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental REST APIs concepts."
+    }
+  ]
+}

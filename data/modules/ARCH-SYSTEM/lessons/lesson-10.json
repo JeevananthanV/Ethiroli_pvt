@@ -1,0 +1,18 @@
+{
+  "id": "ARCH-SYSTEM-L10",
+  "module_code": "ARCH-SYSTEM",
+  "lesson_order": 10,
+  "title": "SQL vs NoSQL in System Design",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of SQL vs NoSQL",
+    "Implement real-world code for SQL vs NoSQL according to industry standards",
+    "Debug and optimize SQL vs NoSQL integrations"
+  ],
+  "theory_markdown": "### SQL vs NoSQL\n\nThis lesson covers in-depth technical mechanics of **SQL vs NoSQL** as part of the System Design curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// SQL vs NoSQL Implementation Example\nexport function handleSQLvsNoSQL() {\n  console.log('Executing SQL vs NoSQL workflow...');\n}",
+    "explanation": "Demonstration of how SQL vs NoSQL is structured in production."
+  }
+}

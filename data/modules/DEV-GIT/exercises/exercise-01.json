@@ -1,0 +1,11 @@
+{
+  "id": "EX-DEV-GIT-D11",
+  "module_code": "DEV-GIT",
+  "day": 11,
+  "title": "Hands-on Lab: Git Fundamentals: Version Control from Zero",
+  "estimated_minutes": 45,
+  "difficulty": "Beginner",
+  "instructions": "Create a new repository for your portfolio project. Make at least 5 commits with meaningful messages. Use `git log --oneline` to verify history. Practice undoing changes with `git checkout --`, `git reset`, and `git commit --amend`.",
+  "starter_code": "// Starter file for Git Fundamentals: Version Control from Zero\n// Task instructions:\n// Create a new repository for your portfolio project. Make at least 5 commits with meaningful messages. Use `git log --oneline` to verify history. Pract...\n",
+  "solution_code": "# Initialize a new repository\r\nmkdir my-project && cd my-project\r\ngit init\r\n\r\n# Configure identity (one-time)\r\ngit config --global user.name \"Your Name\"\r\ngit config --global user.email \"you@example.com\"\r\n\r\n# Create and stage files\r\necho \"# My Project\" > README.md\r\necho \"node_modules/\" > .gitignore\r\ngit add README.md .gitignore\r\ngit status  # Shows staged files in green\r\n\r\n# Commit\r\ngit commit -m \"Initial commit: README and gitignore\"\r\n\r\n# Make changes and view diff\r\necho \"## Installation\" >> README.md\r\ngit diff  # Shows unstaged changes\r\n\r\n# Stage and commit\r\ngit add README.md\r\ngit commit -m \"Add installation section\"\r\n\r\n# View history\r\ngit log --oneline --graph --all"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "EX-SEO-TECH-L08",
+  "module_code": "SEO-TECH",
+  "title": "Lab Exercise: Robots.txt",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Robots.txt.",
+  "starter_code": "// Lab: Robots.txt\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Robots.txt\nexport const solution = true;\n"
+}

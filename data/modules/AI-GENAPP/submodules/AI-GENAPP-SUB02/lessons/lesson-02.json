@@ -1,0 +1,22 @@
+{
+  "id": "AI-GENAPP-SUB02-L02",
+  "day": 3,
+  "module_code": "AI-GENAPP",
+  "lesson_order": 2,
+  "title": "Embeddings: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Embeddings",
+    "Apply Embeddings in practical scenarios",
+    "Build a small project using Embeddings"
+  ],
+  "theory_markdown": "# Embeddings\n\n## Overview\nThis lesson covers the fundamentals of Embeddings and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Embeddings\n- Concept 2 related to Embeddings\n- Best practices for Embeddings\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Embeddings\n2. Implement basic Embeddings functionality\n3. Apply Embeddings to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Embeddings implementation\nconsole.log('Learning Embeddings');\n\n// Basic Embeddings example\nconst example = {\n  topic: 'Embeddings',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Embeddings usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Embeddings concepts and generate code examples.\n\n---"
+  }
+}

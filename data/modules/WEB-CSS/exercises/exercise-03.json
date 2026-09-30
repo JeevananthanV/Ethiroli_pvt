@@ -1,0 +1,11 @@
+{
+  "id": "EX-WEB-CSS-D07",
+  "module_code": "WEB-CSS",
+  "day": 7,
+  "title": "Hands-on Lab: CSS Grid: Two-Dimensional Layout & Responsive Design",
+  "estimated_minutes": 45,
+  "difficulty": "Beginner",
+  "instructions": "Build a responsive photo gallery with CSS Grid. Use `repeat(auto-fit, minmax(200px, 1fr))` for the grid. Add a featured image that spans 2 columns and 2 rows on larger screens using `grid-column: span 2; grid-row: span 2`.",
+  "starter_code": "// Starter file for CSS Grid: Two-Dimensional Layout & Responsive Design\n// Task instructions:\n// Build a responsive photo gallery with CSS Grid. Use `repeat(auto-fit, minmax(200px, 1fr))` for the grid. Add a featured image that spans 2 columns and...\n",
+  "solution_code": "<div class=\"dashboard\">\r\n  <aside class=\"sidebar\">\r\n    <nav>\r\n      <a href=\"/dashboard\">Dashboard</a>\r\n      <a href=\"/courses\">Courses</a>\r\n      <a href=\"/settings\">Settings</a>\r\n    </nav>\r\n  </aside>\r\n  <header class=\"topbar\">\r\n    <h1>Dashboard</h1>\r\n  </header>\r\n  <main class=\"content\">\r\n    <div class=\"stat-card\">...</div>\r\n    <div class=\"stat-card\">...</div>\r\n    <div class=\"chart\">...</div>\r\n    <div class=\"activity\">...</div>\r\n  </main>\r\n</div>"
+}

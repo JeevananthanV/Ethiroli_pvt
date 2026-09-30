@@ -1,0 +1,18 @@
+{
+  "id": "AUTO-N8N-L11",
+  "module_code": "AUTO-N8N",
+  "lesson_order": 11,
+  "title": "Loops in n8n Business Automation",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Loops",
+    "Implement real-world code for Loops according to industry standards",
+    "Debug and optimize Loops integrations"
+  ],
+  "theory_markdown": "### Loops\n\nThis lesson covers in-depth technical mechanics of **Loops** as part of the n8n Business Automation curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Loops Implementation Example\nexport function handleLoops() {\n  console.log('Executing Loops workflow...');\n}",
+    "explanation": "Demonstration of how Loops is structured in production."
+  }
+}

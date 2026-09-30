@@ -1,0 +1,70 @@
+{
+  "id": "FS-INTEGRATION-SUB03-Q01",
+  "module_code": "FS-INTEGRATION",
+  "day": 1,
+  "title": "Quiz 1: Pagination Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Pagination?",
+      "options": [
+        "Core principle of Pagination",
+        "Advanced Pagination technique",
+        "Alternative approach to Pagination",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Pagination concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Search?",
+      "options": [
+        "Core principle of Search",
+        "Advanced Search technique",
+        "Alternative approach to Search",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Search concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Filtering?",
+      "options": [
+        "Core principle of Filtering",
+        "Advanced Filtering technique",
+        "Alternative approach to Filtering",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Filtering concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Role-based dashboards?",
+      "options": [
+        "Core principle of Role-based dashboards",
+        "Advanced Role-based dashboards technique",
+        "Alternative approach to Role-based dashboards",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Role-based dashboards concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Database integration?",
+      "options": [
+        "Core principle of Database integration",
+        "Advanced Database integration technique",
+        "Alternative approach to Database integration",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Database integration concepts."
+    }
+  ]
+}

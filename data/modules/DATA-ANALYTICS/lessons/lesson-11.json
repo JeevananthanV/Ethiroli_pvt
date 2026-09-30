@@ -1,0 +1,18 @@
+{
+  "id": "DATA-ANALYTICS-L11",
+  "module_code": "DATA-ANALYTICS",
+  "lesson_order": 11,
+  "title": "Data storytelling in Data Analytics",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Data storytelling",
+    "Implement real-world code for Data storytelling according to industry standards",
+    "Debug and optimize Data storytelling integrations"
+  ],
+  "theory_markdown": "### Data storytelling\n\nThis lesson covers in-depth technical mechanics of **Data storytelling** as part of the Data Analytics curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Data storytelling Implementation Example\nexport function handleDatastorytelling() {\n  console.log('Executing Data storytelling workflow...');\n}",
+    "explanation": "Demonstration of how Data storytelling is structured in production."
+  }
+}

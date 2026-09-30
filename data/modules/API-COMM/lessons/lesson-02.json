@@ -1,0 +1,20 @@
+{
+  "id": "API-COMM-D54",
+  "day": 54,
+  "module_code": "API-COMM",
+  "lesson_order": 2,
+  "title": "Payment Integration and External APIs",
+  "duration_minutes": 60,
+  "objectives": [
+    "Integrate Stripe for payments, handle webhooks, and consume third-party APIs."
+  ],
+  "theory_markdown": "Stripe Checkout handles PCI compliance — you never handle card details. Server creates a checkout session, redirects user to Stripe, user pays, Stripe redirects back. Webhooks confirm payment asynchronously.\r\n\r\nThird-party APIs: TMDB (movies), OpenWeather (weather), SendGrid (email), Twilio (SMS). Always validate responses, handle rate limits, and cache where appropriate.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// services/stripeService.js\r\nimport Stripe from 'stripe';\r\nimport { config } from '../config/index.js';\r\n\r\nconst stripe = new Stripe(config.stripeSecretKey);\r\n\r\nexport const stripeService = {\r\n  async createCheckoutSession(userId, items) {\r\n    // items: [{ name, price, quantity, image }]\r\n\r\n    const lineItems = items.map(item => ({\r\n      price_data: {\r\n        currency: 'usd',\r\n        product_data: {\r\n          name: item.name,\r\n          images: item.image ? [item.image] : []\r\n        },\r\n        unit_amount: Math.round(item.price * 100)  // Stripe uses cents\r\n      },\r\n      quantity: item.quantity\r\n    }));\r\n\r\n    const session = await stripe.checkout.sessions.create({\r\n      payment_method_types: ['card'],\r\n      line_items: lineItems,\r\n      mode: 'payment',\r\n      success_url: `${config.clientUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,\r\n      cancel_url: `${config.clientUrl}/checkout/cancel`,\r\n      metadata: { userId: userId.toString() },\r\n      customer_email: undefined  // Let Stripe collect\r\n    });\r\n\r\n    return session;\r\n  },\r\n\r\n  async handleWebhook(rawBody, signature) {\r\n    let event;\r\n    try {\r\n      event = stripe.webhooks.constructEvent(\r\n        rawBody,\r\n        signature,\r\n        config.stripeWebhookSecret\r\n      );\r\n    } catch (err) {\r\n      throw new Error(`Webhook signature verification failed: ${err.message}`);\r\n    }\r\n\r\n    switch (event.type) {\r\n      case 'checkout.session.completed': {\r\n        const session = event.data.object;\r\n        const userId = session.metadata.userId;\r\n        // Fulfill order — update database\r\n        await fulfilOrder(userId, session.id, session.amount_total);\r\n        break;\r\n      }\r\n      case 'payment_intent.payment_failed': {\r\n        const paymentIntent = event.data.object;\r\n        console.error('Payment failed:', paymentIntent.id);\r\n        // Notify user\r\n        break;\r\n      }\r\n      default:\r\n        console.log(`Unhandled event type: ${event.type}`);\r\n    }\r\n\r\n    return { received: true };\r\n  }\r\n};",
+    "explanation": "Stripe Checkout handles the entire payment UI and PCI compliance. `Math.round(price * 100)` converts dollars to cents. Webhooks are the source of truth for payment confirmation — the redirect back to your site can be faked. Raw body parsing is required for signature verification."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Stripe CLI** (free) to test webhooks locally. Use **Stripe Testing Dashboard** for test cards and payment simulation."
+  }
+}

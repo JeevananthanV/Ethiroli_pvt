@@ -1,0 +1,45 @@
+{
+  "code": "DATA-ANALYTICS",
+  "title": "Data Analytics",
+  "category": "Data",
+  "level": "Intermediate",
+  "duration_hours": 20,
+  "description": "Data analytics fundamentals covering data cleaning, transformation, statistics, EDA, visualization, KPIs, dashboards, and storytelling with Pandas and Power BI.",
+  "topics": [
+    "Data fundamentals",
+    "Excel",
+    "SQL",
+    "Data cleaning",
+    "Data transformation",
+    "Statistics",
+    "EDA",
+    "Data visualization",
+    "Business KPIs",
+    "Dashboard creation",
+    "Data storytelling"
+  ],
+  "technologies": [
+    "Excel",
+    "MySQL",
+    "Python",
+    "Pandas",
+    "NumPy",
+    "Power BI"
+  ],
+  "practicals": [],
+  "projects": [
+    "Business Analytics Dashboard"
+  ],
+  "prerequisites": [
+    "PROG-FUND",
+    "DB-MYSQL"
+  ],
+  "learning_outcomes": [
+    "Clean and transform data using Pandas and Python",
+    "Perform exploratory data analysis (EDA) with statistics",
+    "Create data visualizations with Matplotlib/Seaborn",
+    "Build interactive dashboards with Power BI",
+    "Calculate business KPIs and metrics",
+    "Tell data-driven stories with visualizations and narratives"
+  ]
+}

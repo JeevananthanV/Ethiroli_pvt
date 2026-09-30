@@ -1,0 +1,22 @@
+{
+  "id": "PY-CORE-SUB03-L04",
+  "day": 7,
+  "module_code": "PY-CORE",
+  "lesson_order": 4,
+  "title": "Virtual environments: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Virtual environments",
+    "Apply Virtual environments in practical scenarios",
+    "Build a small project using Virtual environments"
+  ],
+  "theory_markdown": "# Virtual environments\n\n## Overview\nThis lesson covers the fundamentals of Virtual environments and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Virtual environments\n- Concept 2 related to Virtual environments\n- Best practices for Virtual environments\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Virtual environments\n2. Implement basic Virtual environments functionality\n3. Apply Virtual environments to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Virtual environments implementation\nconsole.log('Learning Virtual environments');\n\n// Basic Virtual environments example\nconst example = {\n  topic: 'Virtual environments',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Virtual environments usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Virtual environments concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "FE-TS-L11",
+  "module_code": "FE-TS",
+  "lesson_order": 11,
+  "title": "Utility types in TypeScript",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Utility types",
+    "Implement real-world code for Utility types according to industry standards",
+    "Debug and optimize Utility types integrations"
+  ],
+  "theory_markdown": "### Utility types\n\nThis lesson covers in-depth technical mechanics of **Utility types** as part of the TypeScript curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Utility types Implementation Example\nexport function handleUtilitytypes() {\n  console.log('Executing Utility types workflow...');\n}",
+    "explanation": "Demonstration of how Utility types is structured in production."
+  }
+}

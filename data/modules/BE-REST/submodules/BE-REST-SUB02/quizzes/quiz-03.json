@@ -1,0 +1,70 @@
+{
+  "id": "BE-REST-SUB02-Q03",
+  "module_code": "BE-REST",
+  "day": 5,
+  "title": "Quiz 3: Query parameters Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Query parameters?",
+      "options": [
+        "Core principle of Query parameters",
+        "Advanced Query parameters technique",
+        "Alternative approach to Query parameters",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Query parameters concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Headers?",
+      "options": [
+        "Core principle of Headers",
+        "Advanced Headers technique",
+        "Alternative approach to Headers",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Headers concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in JSON?",
+      "options": [
+        "Core principle of JSON",
+        "Advanced JSON technique",
+        "Alternative approach to JSON",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental JSON concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Authentication?",
+      "options": [
+        "Core principle of Authentication",
+        "Advanced Authentication technique",
+        "Alternative approach to Authentication",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Authentication concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Authorization?",
+      "options": [
+        "Core principle of Authorization",
+        "Advanced Authorization technique",
+        "Alternative approach to Authorization",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Authorization concepts."
+    }
+  ]
+}

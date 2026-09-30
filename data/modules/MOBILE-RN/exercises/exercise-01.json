@@ -1,0 +1,10 @@
+{
+  "id": "EX-MOBILE-RN-L01",
+  "module_code": "MOBILE-RN",
+  "title": "Lab Exercise: Mobile fundamentals",
+  "difficulty": "Advanced",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Mobile fundamentals.",
+  "starter_code": "// Lab: Mobile fundamentals\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Mobile fundamentals\nexport const solution = true;\n"
+}

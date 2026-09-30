@@ -1,0 +1,18 @@
+{
+  "id": "PY-CORE-L05",
+  "module_code": "PY-CORE",
+  "lesson_order": 5,
+  "title": "Conditions in Python Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Conditions",
+    "Implement real-world code for Conditions according to industry standards",
+    "Debug and optimize Conditions integrations"
+  ],
+  "theory_markdown": "### Conditions\n\nThis lesson covers in-depth technical mechanics of **Conditions** as part of the Python Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Conditions Implementation Example\nexport function handleConditions() {\n  console.log('Executing Conditions workflow...');\n}",
+    "explanation": "Demonstration of how Conditions is structured in production."
+  }
+}

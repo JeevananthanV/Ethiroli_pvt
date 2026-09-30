@@ -1,0 +1,22 @@
+{
+  "id": "DATA-ANALYTICS-SUB01-L03",
+  "day": 5,
+  "module_code": "DATA-ANALYTICS",
+  "lesson_order": 3,
+  "title": "SQL: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of SQL",
+    "Apply SQL in practical scenarios",
+    "Build a small project using SQL"
+  ],
+  "theory_markdown": "# SQL\n\n## Overview\nThis lesson covers the fundamentals of SQL and its practical applications.\n\n## Key Concepts\n- Concept 1 related to SQL\n- Concept 2 related to SQL\n- Best practices for SQL\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of SQL\n2. Implement basic SQL functionality\n3. Apply SQL to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example SQL implementation\nconsole.log('Learning SQL');\n\n// Basic SQL example\nconst example = {\n  topic: 'SQL',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic SQL usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand SQL concepts and generate code examples.\n\n---"
+  }
+}

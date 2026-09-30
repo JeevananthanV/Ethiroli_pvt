@@ -1,0 +1,18 @@
+{
+  "id": "SEO-TECH-L03",
+  "module_code": "SEO-TECH",
+  "lesson_order": 3,
+  "title": "On-page SEO in Technical SEO",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of On-page SEO",
+    "Implement real-world code for On-page SEO according to industry standards",
+    "Debug and optimize On-page SEO integrations"
+  ],
+  "theory_markdown": "### On-page SEO\n\nThis lesson covers in-depth technical mechanics of **On-page SEO** as part of the Technical SEO curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// On-page SEO Implementation Example\nexport function handleOnpageSEO() {\n  console.log('Executing On-page SEO workflow...');\n}",
+    "explanation": "Demonstration of how On-page SEO is structured in production."
+  }
+}

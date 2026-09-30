@@ -1,0 +1,22 @@
+{
+  "id": "BE-REST-SUB01-L02",
+  "day": 3,
+  "module_code": "BE-REST",
+  "lesson_order": 2,
+  "title": "HTTP methods: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of HTTP methods",
+    "Apply HTTP methods in practical scenarios",
+    "Build a small project using HTTP methods"
+  ],
+  "theory_markdown": "# HTTP methods\n\n## Overview\nThis lesson covers the fundamentals of HTTP methods and its practical applications.\n\n## Key Concepts\n- Concept 1 related to HTTP methods\n- Concept 2 related to HTTP methods\n- Best practices for HTTP methods\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of HTTP methods\n2. Implement basic HTTP methods functionality\n3. Apply HTTP methods to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example HTTP methods implementation\nconsole.log('Learning HTTP methods');\n\n// Basic HTTP methods example\nconst example = {\n  topic: 'HTTP methods',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic HTTP methods usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand HTTP methods concepts and generate code examples.\n\n---"
+  }
+}

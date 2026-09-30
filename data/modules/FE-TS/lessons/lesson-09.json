@@ -1,0 +1,18 @@
+{
+  "id": "FE-TS-L09",
+  "module_code": "FE-TS",
+  "lesson_order": 9,
+  "title": "Generics in TypeScript",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Generics",
+    "Implement real-world code for Generics according to industry standards",
+    "Debug and optimize Generics integrations"
+  ],
+  "theory_markdown": "### Generics\n\nThis lesson covers in-depth technical mechanics of **Generics** as part of the TypeScript curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Generics Implementation Example\nexport function handleGenerics() {\n  console.log('Executing Generics workflow...');\n}",
+    "explanation": "Demonstration of how Generics is structured in production."
+  }
+}

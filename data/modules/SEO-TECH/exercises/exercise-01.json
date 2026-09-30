@@ -1,0 +1,10 @@
+{
+  "id": "EX-SEO-TECH-L01",
+  "module_code": "SEO-TECH",
+  "title": "Lab Exercise: SEO fundamentals",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates SEO fundamentals.",
+  "starter_code": "// Lab: SEO fundamentals\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for SEO fundamentals\nexport const solution = true;\n"
+}

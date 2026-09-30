@@ -1,0 +1,20 @@
+{
+  "id": "PROG-FUND-D02",
+  "day": 2,
+  "module_code": "PROG-FUND",
+  "lesson_order": 2,
+  "title": "Environment Setup, CLI, and Developer Workflow",
+  "duration_minutes": 60,
+  "objectives": [
+    "Set up a professional development environment with VS Code, terminal fundamentals, and Node.js tooling."
+  ],
+  "theory_markdown": "A productive developer environment reduces friction. Install VS Code with extensions: ESLint, Prettier, GitLens, and Thunder Client (API testing). Learn the terminal: `cd`, `ls`, `mkdir`, `touch`, `cat`, `grep`, `pwd`. Learn Node.js tooling: `npm init -y`, `npm install <package>`, `npm run <script>`, `npx <command>`.\r\n\r\nUnderstand `package.json` — the manifest of your project. `dependencies` are packages your app needs in production; `devDependencies` are tools used during development. `scripts` define reusable commands. Node Version Manager (nvm) lets you switch between Node versions per project.",
+  "code_walkthrough": {
+    "language": "bash",
+    "code": "mkdir eth-aifs-demo && cd eth-aifs-demo\r\nnpm init -y\r\nnpm install express cors dotenv\r\nnpm install --save-dev nodemon",
+    "explanation": "`npm init -y` generates a default `package.json`. `npm install` adds production dependencies; `--save-dev` adds development-only dependencies. `nodemon` watches for file changes and restarts the server automatically — a massive productivity boost. `dotenv` loads environment variables from a `.env` file."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **OpenCode** — open-source, provider-agnostic AI coding agent that runs in the terminal or IDE. Install via `curl -fsSL https://opencode.ai/install | bash`. Ask it to generate a `.gitignore` for Node.js projects."
+  }
+}

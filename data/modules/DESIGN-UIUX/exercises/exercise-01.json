@@ -1,0 +1,11 @@
+{
+  "id": "EX-DESIGN-UIUX-D08",
+  "module_code": "DESIGN-UIUX",
+  "day": 8,
+  "title": "Hands-on Lab: Design Principles for Developers",
+  "estimated_minutes": 45,
+  "difficulty": "Beginner",
+  "instructions": "Create a design token file for a fictional brand. Define colours (primary, neutral, semantic), typography scale, spacing, shadows, and radii. Build a simple button component using only these tokens.",
+  "starter_code": "// Starter file for Design Principles for Developers\n// Task instructions:\n// Create a design token file for a fictional brand. Define colours (primary, neutral, semantic), typography scale, spacing, shadows, and radii. Build a ...\n",
+  "solution_code": ":root {\r\n  /* Colour tokens */\r\n  --color-primary-500: oklch(0.55 0.18 250);\r\n  --color-primary-600: oklch(0.48 0.18 250);\r\n  --color-neutral-0:   oklch(1 0 0);\r\n  --color-neutral-100: oklch(0.96 0.005 250);\r\n  --color-neutral-500: oklch(0.55 0.01 250);\r\n  --color-neutral-900: oklch(0.15 0.01 250);\r\n  --color-error:       oklch(0.55 0.2 25);\r\n  --color-success:     oklch(0.6 0.15 145);\r\n\r\n  /* Typography scale (1.25×) */\r\n  --text-xs:   0.64rem;\r\n  --text-sm:   0.8rem;\r\n  --text-base: 1rem;\r\n  --text-lg:   1.25rem;\r\n  --text-xl:   1.563rem;\r\n  --text-2xl:  1.953rem;\r\n  --text-3xl:  2.441rem;\r\n\r\n  /* Spacing (8-point) */\r\n  --space-1: 0.25rem;  /* 4px  */\r\n  --space-2: 0.5rem;   /* 8px  */\r\n  --space-3: 0.75rem;  /* 12px */\r\n  --space-4: 1rem;     /* 16px */\r\n  --space-6: 1.5rem;   /* 24px */\r\n  --space-8: 2rem;     /* 32px */\r\n  --space-12: 3rem;    /* 48px */\r\n  --space-16: 4rem;    /* 64px */\r\n\r\n  /* Shadows */\r\n  --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.05);\r\n  --shadow-md: 0 4px 6px oklch(0 0 0 / 0.07);\r\n  --shadow-lg: 0 10px 25px oklch(0 0 0 / 0.1);\r\n\r\n  /* Border radius */\r\n  --radius-sm: 4px;\r\n  --radius-md: 8px;\r\n  --radius-lg: 16px;\r\n  --radius-full: 9999px;\r\n}"
+}

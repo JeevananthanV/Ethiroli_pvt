@@ -1,0 +1,29 @@
+{
+  "code": "BE-EXPRESS-SUB01",
+  "title": "Express.js - Part 1",
+  "category": "Backend",
+  "level": "Intermediate",
+  "duration_hours": 5,
+  "description": "Express.js framework for building production-ready REST APIs with middleware, routing, validation, error handling, authentication, and API documentation. This submodule covers: Express fundamentals, Server setup, Routes, Controllers, Middleware.",
+  "topics": [
+    "Express fundamentals",
+    "Server setup",
+    "Routes",
+    "Controllers",
+    "Middleware"
+  ],
+  "technologies": [
+    "Express.js",
+    "Node.js"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "BE-NODE"
+  ],
+  "learning_outcomes": [
+    "Build production REST APIs with Express.js",
+    "Implement middleware for authentication and validation",
+    "Structure APIs with controllers and services"
+  ]
+}

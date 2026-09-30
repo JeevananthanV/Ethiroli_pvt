@@ -1,0 +1,22 @@
+{
+  "id": "FE-TS-SUB02-L01",
+  "day": 1,
+  "module_code": "FE-TS",
+  "lesson_order": 1,
+  "title": "Intersection types: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Intersection types",
+    "Apply Intersection types in practical scenarios",
+    "Build a small project using Intersection types"
+  ],
+  "theory_markdown": "# Intersection types\n\n## Overview\nThis lesson covers the fundamentals of Intersection types and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Intersection types\n- Concept 2 related to Intersection types\n- Best practices for Intersection types\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Intersection types\n2. Implement basic Intersection types functionality\n3. Apply Intersection types to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Intersection types implementation\nconsole.log('Learning Intersection types');\n\n// Basic Intersection types example\nconst example = {\n  topic: 'Intersection types',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Intersection types usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Intersection types concepts and generate code examples.\n\n---"
+  }
+}

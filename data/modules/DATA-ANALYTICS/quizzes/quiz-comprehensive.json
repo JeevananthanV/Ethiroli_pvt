@@ -1,0 +1,117 @@
+{
+  "id": "QZ-DATA-ANALYTICS-COMPREHENSIVE",
+  "module_code": "DATA-ANALYTICS",
+  "title": "Comprehensive Quiz: Data Analytics",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes data fundamentals in Data Analytics?",
+      "options": [
+        "Core concept: Data fundamentals is fundamental to Data Analytics",
+        "Alternative approach to Data fundamentals using different methodology",
+        "Advanced implementation of Data fundamentals with optimizations",
+        "Legacy technique for Data fundamentals no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Data fundamentals is a key topic in Data Analytics. Clean and transform data using Pandas and Python"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes excel in Data Analytics?",
+      "options": [
+        "Core concept: Excel is fundamental to Data Analytics",
+        "Alternative approach to Excel using different methodology",
+        "Advanced implementation of Excel with optimizations",
+        "Legacy technique for Excel no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Excel is a key topic in Data Analytics. Clean and transform data using Pandas and Python"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes sql in Data Analytics?",
+      "options": [
+        "Core concept: SQL is fundamental to Data Analytics",
+        "Alternative approach to SQL using different methodology",
+        "Advanced implementation of SQL with optimizations",
+        "Legacy technique for SQL no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "SQL is a key topic in Data Analytics. Clean and transform data using Pandas and Python"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes data cleaning in Data Analytics?",
+      "options": [
+        "Core concept: Data cleaning is fundamental to Data Analytics",
+        "Alternative approach to Data cleaning using different methodology",
+        "Advanced implementation of Data cleaning with optimizations",
+        "Legacy technique for Data cleaning no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Data cleaning is a key topic in Data Analytics. Clean and transform data using Pandas and Python"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes data transformation in Data Analytics?",
+      "options": [
+        "Core concept: Data transformation is fundamental to Data Analytics",
+        "Alternative approach to Data transformation using different methodology",
+        "Advanced implementation of Data transformation with optimizations",
+        "Legacy technique for Data transformation no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Data transformation is a key topic in Data Analytics. Clean and transform data using Pandas and Python"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes statistics in Data Analytics?",
+      "options": [
+        "Core concept: Statistics is fundamental to Data Analytics",
+        "Alternative approach to Statistics using different methodology",
+        "Advanced implementation of Statistics with optimizations",
+        "Legacy technique for Statistics no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Statistics is a key topic in Data Analytics. Clean and transform data using Pandas and Python"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in Data Analytics?",
+      "options": [
+        "Excel",
+        "MySQL",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "Data Analytics uses Excel, MySQL, Python, Pandas, NumPy, Power BI as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of Data Analytics?",
+      "options": [
+        "Clean and transform data using Pandas and Python",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Clean and transform data using Pandas and Python"
+    },
+    {
+      "id": 9,
+      "question": "When applying Data Analytics in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for Data Analytics include following established patterns and using recommended tools."
+    }
+  ]
+}

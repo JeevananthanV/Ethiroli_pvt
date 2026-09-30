@@ -1,0 +1,81 @@
+{
+  "id": "QZ-FINAL-COMPREHENSIVE",
+  "module_code": "FINAL",
+  "title": "Comprehensive Quiz: Capstone Project & Portfolio",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes final project planning in Capstone Project & Portfolio?",
+      "options": [
+        "Core concept: Final project planning is fundamental to Capstone Project & Portfolio",
+        "Alternative approach to Final project planning using different methodology",
+        "Advanced implementation of Final project planning with optimizations",
+        "Legacy technique for Final project planning no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Final project planning is a key topic in Capstone Project & Portfolio. Deploy production application"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes portfolio development in Capstone Project & Portfolio?",
+      "options": [
+        "Core concept: Portfolio development is fundamental to Capstone Project & Portfolio",
+        "Alternative approach to Portfolio development using different methodology",
+        "Advanced implementation of Portfolio development with optimizations",
+        "Legacy technique for Portfolio development no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Portfolio development is a key topic in Capstone Project & Portfolio. Deploy production application"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes code review in Capstone Project & Portfolio?",
+      "options": [
+        "Core concept: Code review is fundamental to Capstone Project & Portfolio",
+        "Alternative approach to Code review using different methodology",
+        "Advanced implementation of Code review with optimizations",
+        "Legacy technique for Code review no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Code review is a key topic in Capstone Project & Portfolio. Deploy production application"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes deployment in Capstone Project & Portfolio?",
+      "options": [
+        "Core concept: Deployment is fundamental to Capstone Project & Portfolio",
+        "Alternative approach to Deployment using different methodology",
+        "Advanced implementation of Deployment with optimizations",
+        "Legacy technique for Deployment no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Deployment is a key topic in Capstone Project & Portfolio. Deploy production application"
+    },
+    {
+      "id": 5,
+      "question": "What is a key learning outcome of Capstone Project & Portfolio?",
+      "options": [
+        "Deploy production application",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Deploy production application"
+    },
+    {
+      "id": 6,
+      "question": "When applying Capstone Project & Portfolio in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for Capstone Project & Portfolio include following established patterns and using recommended tools."
+    }
+  ]
+}

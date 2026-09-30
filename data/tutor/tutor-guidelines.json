@@ -1,0 +1,20 @@
+{
+  "organization": "Ethiroli Academy",
+  "version": "1.0.0",
+  "core_responsibilities": [
+    "Deliver interactive, code-along lecture sessions",
+    "Conduct daily roll-call attendance within first 15 minutes of batch session",
+    "Resolve student doubts in the LMS Doubt forum within 24 hours",
+    "Review and grade student assignment submissions with constructive feedback"
+  ],
+  "session_best_practices": {
+    "icebreaker_minutes": 5,
+    "live_coding_minutes": 35,
+    "student_hands_on_minutes": 15,
+    "qa_wrapup_minutes": 5
+  },
+  "attendance_policy": {
+    "strict_enforcement": "Enforce 75% minimum attendance rule for final certification eligibility",
+    "reporting": "Flag consecutive absences (>2 days) to HR/Academic Coordinator"
+  }
+}

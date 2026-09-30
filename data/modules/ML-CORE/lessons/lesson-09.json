@@ -1,0 +1,18 @@
+{
+  "id": "ML-CORE-L09",
+  "module_code": "ML-CORE",
+  "lesson_order": 9,
+  "title": "Train/test split in Machine Learning",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Train/test split",
+    "Implement real-world code for Train/test split according to industry standards",
+    "Debug and optimize Train/test split integrations"
+  ],
+  "theory_markdown": "### Train/test split\n\nThis lesson covers in-depth technical mechanics of **Train/test split** as part of the Machine Learning curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Train/test split Implementation Example\nexport function handleTraintestsplit() {\n  console.log('Executing Train/test split workflow...');\n}",
+    "explanation": "Demonstration of how Train/test split is structured in production."
+  }
+}

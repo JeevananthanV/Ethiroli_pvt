@@ -1,0 +1,22 @@
+{
+  "id": "AI-DEV-SUB03-L02",
+  "day": 3,
+  "module_code": "AI-DEV",
+  "lesson_order": 2,
+  "title": "AI UI generation: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of AI UI generation",
+    "Apply AI UI generation in practical scenarios",
+    "Build a small project using AI UI generation"
+  ],
+  "theory_markdown": "# AI UI generation\n\n## Overview\nThis lesson covers the fundamentals of AI UI generation and its practical applications.\n\n## Key Concepts\n- Concept 1 related to AI UI generation\n- Concept 2 related to AI UI generation\n- Best practices for AI UI generation\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of AI UI generation\n2. Implement basic AI UI generation functionality\n3. Apply AI UI generation to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example AI UI generation implementation\nconsole.log('Learning AI UI generation');\n\n// Basic AI UI generation example\nconst example = {\n  topic: 'AI UI generation',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic AI UI generation usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand AI UI generation concepts and generate code examples.\n\n---"
+  }
+}

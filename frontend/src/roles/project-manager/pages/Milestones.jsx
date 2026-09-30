@@ -40,7 +40,7 @@ export default function PMMilestones() {
 
   useEffect(() => {
     loadMilestones();
-  }, [statusFilter]);
+  }, [statusFilter, loadMilestones]);
 
   const handleCreate = async (e) => {
     e.preventDefault();

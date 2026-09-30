@@ -1,0 +1,117 @@
+{
+  "id": "QZ-DB-MONGO-COMPREHENSIVE",
+  "module_code": "DB-MONGO",
+  "title": "Comprehensive Quiz: MongoDB",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes nosql fundamentals in MongoDB?",
+      "options": [
+        "Core concept: NoSQL fundamentals is fundamental to MongoDB",
+        "Alternative approach to NoSQL fundamentals using different methodology",
+        "Advanced implementation of NoSQL fundamentals with optimizations",
+        "Legacy technique for NoSQL fundamentals no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "NoSQL fundamentals is a key topic in MongoDB. Understand NoSQL concepts and document-oriented databases"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes mongodb in MongoDB?",
+      "options": [
+        "Core concept: MongoDB is fundamental to MongoDB",
+        "Alternative approach to MongoDB using different methodology",
+        "Advanced implementation of MongoDB with optimizations",
+        "Legacy technique for MongoDB no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "MongoDB is a key topic in MongoDB. Understand NoSQL concepts and document-oriented databases"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes collections in MongoDB?",
+      "options": [
+        "Core concept: Collections is fundamental to MongoDB",
+        "Alternative approach to Collections using different methodology",
+        "Advanced implementation of Collections with optimizations",
+        "Legacy technique for Collections no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Collections is a key topic in MongoDB. Understand NoSQL concepts and document-oriented databases"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes documents in MongoDB?",
+      "options": [
+        "Core concept: Documents is fundamental to MongoDB",
+        "Alternative approach to Documents using different methodology",
+        "Advanced implementation of Documents with optimizations",
+        "Legacy technique for Documents no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Documents is a key topic in MongoDB. Understand NoSQL concepts and document-oriented databases"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes crud in MongoDB?",
+      "options": [
+        "Core concept: CRUD is fundamental to MongoDB",
+        "Alternative approach to CRUD using different methodology",
+        "Advanced implementation of CRUD with optimizations",
+        "Legacy technique for CRUD no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "CRUD is a key topic in MongoDB. Understand NoSQL concepts and document-oriented databases"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes query operators in MongoDB?",
+      "options": [
+        "Core concept: Query operators is fundamental to MongoDB",
+        "Alternative approach to Query operators using different methodology",
+        "Advanced implementation of Query operators with optimizations",
+        "Legacy technique for Query operators no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Query operators is a key topic in MongoDB. Understand NoSQL concepts and document-oriented databases"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in MongoDB?",
+      "options": [
+        "MongoDB",
+        "MongoDB Atlas",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "MongoDB uses MongoDB, MongoDB Atlas, Mongoose as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of MongoDB?",
+      "options": [
+        "Understand NoSQL concepts and document-oriented databases",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Understand NoSQL concepts and document-oriented databases"
+    },
+    {
+      "id": 9,
+      "question": "When applying MongoDB in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for MongoDB include following established patterns and using recommended tools."
+    }
+  ]
+}

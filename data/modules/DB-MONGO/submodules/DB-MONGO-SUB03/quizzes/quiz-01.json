@@ -1,0 +1,70 @@
+{
+  "id": "DB-MONGO-SUB03-Q01",
+  "module_code": "DB-MONGO",
+  "day": 1,
+  "title": "Quiz 1: Relationships Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Relationships?",
+      "options": [
+        "Core principle of Relationships",
+        "Advanced Relationships technique",
+        "Alternative approach to Relationships",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Relationships concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Schema design?",
+      "options": [
+        "Core principle of Schema design",
+        "Advanced Schema design technique",
+        "Alternative approach to Schema design",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Schema design concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in MongoDB Atlas?",
+      "options": [
+        "Core principle of MongoDB Atlas",
+        "Advanced MongoDB Atlas technique",
+        "Alternative approach to MongoDB Atlas",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental MongoDB Atlas concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Mongoose?",
+      "options": [
+        "Core principle of Mongoose",
+        "Advanced Mongoose technique",
+        "Alternative approach to Mongoose",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Mongoose concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Relationships?",
+      "options": [
+        "Core principle of Relationships",
+        "Advanced Relationships technique",
+        "Alternative approach to Relationships",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Relationships concepts."
+    }
+  ]
+}

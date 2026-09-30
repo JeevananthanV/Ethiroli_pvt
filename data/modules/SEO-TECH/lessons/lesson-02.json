@@ -1,0 +1,18 @@
+{
+  "id": "SEO-TECH-L02",
+  "module_code": "SEO-TECH",
+  "lesson_order": 2,
+  "title": "Keyword research in Technical SEO",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Keyword research",
+    "Implement real-world code for Keyword research according to industry standards",
+    "Debug and optimize Keyword research integrations"
+  ],
+  "theory_markdown": "### Keyword research\n\nThis lesson covers in-depth technical mechanics of **Keyword research** as part of the Technical SEO curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Keyword research Implementation Example\nexport function handleKeywordresearch() {\n  console.log('Executing Keyword research workflow...');\n}",
+    "explanation": "Demonstration of how Keyword research is structured in production."
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "id": "DATA-ANALYTICS-SUB01-E04",
+  "module_code": "DATA-ANALYTICS",
+  "day": 8,
+  "title": "Hands-on Lab: Data cleaning Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Data cleaning:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Data cleaning in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Data cleaning basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Data cleaning exercise\n// TODO: Implement Data cleaning functionality here\n\nconsole.log('Data cleaning exercise starter');\n",
+  "solution_code": "// Solution for Data cleaning exercise\nconsole.log('Completed Data cleaning exercise');\n\n// Basic implementation\nconst datacleaning = {\n  name: 'Data cleaning',\n  completed: true\n};\n\nconsole.log(datacleaning);"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "DATA-ANALYTICS-L08",
+  "module_code": "DATA-ANALYTICS",
+  "lesson_order": 8,
+  "title": "Data visualization in Data Analytics",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Data visualization",
+    "Implement real-world code for Data visualization according to industry standards",
+    "Debug and optimize Data visualization integrations"
+  ],
+  "theory_markdown": "### Data visualization\n\nThis lesson covers in-depth technical mechanics of **Data visualization** as part of the Data Analytics curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Data visualization Implementation Example\nexport function handleDatavisualization() {\n  console.log('Executing Data visualization workflow...');\n}",
+    "explanation": "Demonstration of how Data visualization is structured in production."
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "EX-WEB-HTML-D04",
+  "module_code": "WEB-HTML",
+  "day": 4,
+  "title": "Hands-on Lab: Forms, Input Validation, and Interactive Elements",
+  "estimated_minutes": 45,
+  "difficulty": "Beginner",
+  "instructions": "Build a multi-section job application form with fieldset grouping. Include fields for personal info, education, and experience. Add HTML5 validation constraints for each field. Style with CSS to show validation states (`:valid` and `:invalid` pseudo-classes).",
+  "starter_code": "// Starter file for Forms, Input Validation, and Interactive Elements\n// Task instructions:\n// Build a multi-section job application form with fieldset grouping. Include fields for personal info, education, and experience. Add HTML5 validation c...\n",
+  "solution_code": "<form action=\"/api/register\" method=\"POST\" novalidate>\r\n  <fieldset>\r\n    <legend>Account Details</legend>\r\n\r\n    <div class=\"form-group\">\r\n      <label for=\"username\">Username</label>\r\n      <input type=\"text\" id=\"username\" name=\"username\"\r\n             required minlength=\"3\" maxlength=\"20\"\r\n             pattern=\"[a-zA-Z0-9_]+\"\r\n             placeholder=\"Letters, numbers, underscores\">\r\n      <small>3–20 characters, no spaces</small>\r\n    </div>\r\n\r\n    <div class=\"form-group\">\r\n      <label for=\"email\">Email</label>\r\n      <input type=\"email\" id=\"email\" name=\"email\"\r\n             required placeholder=\"you@example.com\">\r\n    </div>\r\n\r\n    <div class=\"form-group\">\r\n      <label for=\"age\">Age</label>\r\n      <input type=\"number\" id=\"age\" name=\"age\"\r\n             min=\"18\" max=\"120\" required>\r\n    </div>\r\n\r\n    <div class=\"form-group\">\r\n      <label for=\"password\">Password</label>\r\n      <input type=\"password\" id=\"password\" name=\"password\"\r\n             required minlength=\"8\">\r\n    </div>\r\n\r\n    <div class=\"form-group\">\r\n      <label for=\"dob\">Date of Birth</label>\r\n      <input type=\"date\" id=\"dob\" name=\"dob\" required>\r\n    </div>\r\n\r\n    <button type=\"submit\">Create Account</button>\r\n  </fieldset>\r\n</form>"
+}

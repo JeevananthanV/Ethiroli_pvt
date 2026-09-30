@@ -1,0 +1,22 @@
+{
+  "id": "BE-REST-SUB01-L04",
+  "day": 7,
+  "module_code": "BE-REST",
+  "lesson_order": 4,
+  "title": "REST architecture: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of REST architecture",
+    "Apply REST architecture in practical scenarios",
+    "Build a small project using REST architecture"
+  ],
+  "theory_markdown": "# REST architecture\n\n## Overview\nThis lesson covers the fundamentals of REST architecture and its practical applications.\n\n## Key Concepts\n- Concept 1 related to REST architecture\n- Concept 2 related to REST architecture\n- Best practices for REST architecture\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of REST architecture\n2. Implement basic REST architecture functionality\n3. Apply REST architecture to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example REST architecture implementation\nconsole.log('Learning REST architecture');\n\n// Basic REST architecture example\nconst example = {\n  topic: 'REST architecture',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic REST architecture usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand REST architecture concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "id": "DB-MONGO-SUB01-Q04",
+  "module_code": "DB-MONGO",
+  "day": 7,
+  "title": "Quiz 4: NoSQL fundamentals Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in NoSQL fundamentals?",
+      "options": [
+        "Core principle of NoSQL fundamentals",
+        "Advanced NoSQL fundamentals technique",
+        "Alternative approach to NoSQL fundamentals",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental NoSQL fundamentals concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in MongoDB?",
+      "options": [
+        "Core principle of MongoDB",
+        "Advanced MongoDB technique",
+        "Alternative approach to MongoDB",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental MongoDB concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Collections?",
+      "options": [
+        "Core principle of Collections",
+        "Advanced Collections technique",
+        "Alternative approach to Collections",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Collections concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Documents?",
+      "options": [
+        "Core principle of Documents",
+        "Advanced Documents technique",
+        "Alternative approach to Documents",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Documents concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in NoSQL fundamentals?",
+      "options": [
+        "Core principle of NoSQL fundamentals",
+        "Advanced NoSQL fundamentals technique",
+        "Alternative approach to NoSQL fundamentals",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental NoSQL fundamentals concepts."
+    }
+  ]
+}

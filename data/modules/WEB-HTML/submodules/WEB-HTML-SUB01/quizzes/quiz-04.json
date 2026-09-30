@@ -1,0 +1,70 @@
+{
+  "id": "WEB-HTML-SUB01-Q04",
+  "module_code": "WEB-HTML",
+  "day": 7,
+  "title": "Quiz 4: HTML fundamentals Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in HTML fundamentals?",
+      "options": [
+        "Core principle of HTML fundamentals",
+        "Advanced HTML fundamentals technique",
+        "Alternative approach to HTML fundamentals",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental HTML fundamentals concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Document structure?",
+      "options": [
+        "Core principle of Document structure",
+        "Advanced Document structure technique",
+        "Alternative approach to Document structure",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Document structure concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Semantic HTML?",
+      "options": [
+        "Core principle of Semantic HTML",
+        "Advanced Semantic HTML technique",
+        "Alternative approach to Semantic HTML",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Semantic HTML concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Headings?",
+      "options": [
+        "Core principle of Headings",
+        "Advanced Headings technique",
+        "Alternative approach to Headings",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Headings concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Paragraphs?",
+      "options": [
+        "Core principle of Paragraphs",
+        "Advanced Paragraphs technique",
+        "Alternative approach to Paragraphs",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Paragraphs concepts."
+    }
+  ]
+}

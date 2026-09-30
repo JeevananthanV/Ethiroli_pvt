@@ -1,0 +1,22 @@
+{
+  "id": "DEVOPS-CORE-SUB01-L04",
+  "day": 7,
+  "module_code": "DEVOPS-CORE",
+  "lesson_order": 4,
+  "title": "CI/CD: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of CI/CD",
+    "Apply CI/CD in practical scenarios",
+    "Build a small project using CI/CD"
+  ],
+  "theory_markdown": "# CI/CD\n\n## Overview\nThis lesson covers the fundamentals of CI/CD and its practical applications.\n\n## Key Concepts\n- Concept 1 related to CI/CD\n- Concept 2 related to CI/CD\n- Best practices for CI/CD\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of CI/CD\n2. Implement basic CI/CD functionality\n3. Apply CI/CD to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example CI/CD implementation\nconsole.log('Learning CI/CD');\n\n// Basic CI/CD example\nconst example = {\n  topic: 'CI/CD',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic CI/CD usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand CI/CD concepts and generate code examples.\n\n---"
+  }
+}

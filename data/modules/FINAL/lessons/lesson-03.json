@@ -1,0 +1,18 @@
+{
+  "id": "FINAL-L03",
+  "module_code": "FINAL",
+  "lesson_order": 3,
+  "title": "Code review in Capstone Project & Portfolio",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Code review",
+    "Implement real-world code for Code review according to industry standards",
+    "Debug and optimize Code review integrations"
+  ],
+  "theory_markdown": "### Code review\n\nThis lesson covers in-depth technical mechanics of **Code review** as part of the Capstone Project & Portfolio curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Code review Implementation Example\nexport function handleCodereview() {\n  console.log('Executing Code review workflow...');\n}",
+    "explanation": "Demonstration of how Code review is structured in production."
+  }
+}

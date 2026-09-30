@@ -1,0 +1,20 @@
+{
+  "id": "JS-CORE-D13",
+  "day": 13,
+  "module_code": "JS-CORE",
+  "lesson_order": 1,
+  "title": "Variables, Data Types, and Operators",
+  "duration_minutes": 60,
+  "objectives": [
+    "Master `let`/`const`/`var`, primitive types, type coercion, and operators."
+  ],
+  "theory_markdown": "JavaScript has three variable declarations: `var` (function-scoped, hoisted, avoid), `let` (block-scoped, reassignable), `const` (block-scoped, immutable binding). Prefer `const` by default, `let` when reassignment is needed.\r\n\r\nPrimitive types: `string`, `number`, `bigint`, `boolean`, `undefined`, `null`, `symbol`. Objects and arrays are reference types. Type coercion: `==` does loose comparison with coercion; `===` does strict comparison. Always use `===`. Falsy values: `false`, `0`, `\"\"`, `null`, `undefined`, `NaN`.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Variable declarations\r\nconst name = \"Alice\";       // Cannot be reassigned\r\nlet age = 25;               // Can be reassigned\r\nage = 26;\r\n\r\n// Primitive types\r\nconst str = \"hello\";                    // string\r\nconst num = 42;                         // number\r\nconst bool = true;                      // boolean\r\nconst undef = undefined;                // undefined\r\nconst nul = null;                       // null\r\nconst sym = Symbol(\"id\");               // symbol\r\n\r\n// Type coercion pitfalls\r\nconsole.log(1 == \"1\");    // true  (coercion)\r\nconsole.log(1 === \"1\");   // false (strict — preferred)\r\nconsole.log(0 == false);  // true\r\nconsole.log(0 === false); // false\r\n\r\n// Template literals\r\nconst greeting = `Hello, ${name}! You are ${age}.`;\r\n\r\n// Nullish coalescing (??) — only falls back for null/undefined\r\nconst displayName = name ?? \"Anonymous\";\r\n\r\n// Optional chaining (?.)\r\nconst user = { profile: { email: \"a@b.com\" } };\r\nconsole.log(user.profile?.email);   // \"a@b.com\"\r\nconsole.log(user.address?.city);    // undefined (no error)\r\n\r\n// Ternary operator\r\nconst status = age >= 18 ? \"adult\" : \"minor\";",
+    "explanation": "`const` prevents reassignment but does not make objects immutable. `===` avoids coercion surprises. Template literals allow multi-line strings and interpolation. `??` only falls back for `null`/`undefined` (unlike `||` which falls back for any falsy value). Optional chaining prevents \"cannot read property of undefined\" errors."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Free.ai Coder** to ask: `free-code ask \"What is the difference between == and === in JavaScript?\"`\r\n\r\n---"
+  }
+}

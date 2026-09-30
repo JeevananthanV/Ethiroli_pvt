@@ -1,0 +1,10 @@
+{
+  "title": "End of Module Student Experience Survey",
+  "rating_scale": "1 (Poor) to 5 (Excellent)",
+  "questions": [
+    "How would you rate the clarity of the concepts explained?",
+    "Did the hands-on coding labs reinforce the theory effectively?",
+    "How responsive was the tutor in the doubt resolution forum?",
+    "Any additional feedback or topics you would like to explore deeper?"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "API-PAYMENT-SUB02-E02",
+  "module_code": "API-PAYMENT",
+  "day": 4,
+  "title": "Hands-on Lab: Payment status Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Payment status:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Payment status in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Payment status basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Payment status exercise\n// TODO: Implement Payment status functionality here\n\nconsole.log('Payment status exercise starter');\n",
+  "solution_code": "// Solution for Payment status exercise\nconsole.log('Completed Payment status exercise');\n\n// Basic implementation\nconst paymentstatus = {\n  name: 'Payment status',\n  completed: true\n};\n\nconsole.log(paymentstatus);"
+}

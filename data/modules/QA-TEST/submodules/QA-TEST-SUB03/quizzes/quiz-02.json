@@ -1,0 +1,70 @@
+{
+  "id": "QA-TEST-SUB03-Q02",
+  "module_code": "QA-TEST",
+  "day": 3,
+  "title": "Quiz 2: API testing Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in API testing?",
+      "options": [
+        "Core principle of API testing",
+        "Advanced API testing technique",
+        "Alternative approach to API testing",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental API testing concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Database testing?",
+      "options": [
+        "Core principle of Database testing",
+        "Advanced Database testing technique",
+        "Alternative approach to Database testing",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Database testing concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Automation testing?",
+      "options": [
+        "Core principle of Automation testing",
+        "Advanced Automation testing technique",
+        "Alternative approach to Automation testing",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Automation testing concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in CI testing?",
+      "options": [
+        "Core principle of CI testing",
+        "Advanced CI testing technique",
+        "Alternative approach to CI testing",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental CI testing concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in API testing?",
+      "options": [
+        "Core principle of API testing",
+        "Advanced API testing technique",
+        "Alternative approach to API testing",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental API testing concepts."
+    }
+  ]
+}

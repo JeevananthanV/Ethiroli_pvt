@@ -1,0 +1,22 @@
+{
+  "id": "AI-DEV-SUB01-L02",
+  "day": 3,
+  "module_code": "AI-DEV",
+  "lesson_order": 2,
+  "title": "Generative AI: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Generative AI",
+    "Apply Generative AI in practical scenarios",
+    "Build a small project using Generative AI"
+  ],
+  "theory_markdown": "# Generative AI\n\n## Overview\nThis lesson covers the fundamentals of Generative AI and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Generative AI\n- Concept 2 related to Generative AI\n- Best practices for Generative AI\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Generative AI\n2. Implement basic Generative AI functionality\n3. Apply Generative AI to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Generative AI implementation\nconsole.log('Learning Generative AI');\n\n// Basic Generative AI example\nconst example = {\n  topic: 'Generative AI',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Generative AI usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Generative AI concepts and generate code examples.\n\n---"
+  }
+}

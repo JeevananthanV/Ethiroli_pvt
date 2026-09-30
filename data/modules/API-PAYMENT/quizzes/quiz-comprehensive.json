@@ -1,0 +1,117 @@
+{
+  "id": "QZ-API-PAYMENT-COMPREHENSIVE",
+  "module_code": "API-PAYMENT",
+  "title": "Comprehensive Quiz: Payment Integration",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes payment architecture in Payment Integration?",
+      "options": [
+        "Core concept: Payment architecture is fundamental to Payment Integration",
+        "Alternative approach to Payment architecture using different methodology",
+        "Advanced implementation of Payment architecture with optimizations",
+        "Legacy technique for Payment architecture no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Payment architecture is a key topic in Payment Integration. Integrate payment gateways (Razorpay, Stripe) into applications"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes payment gateway in Payment Integration?",
+      "options": [
+        "Core concept: Payment gateway is fundamental to Payment Integration",
+        "Alternative approach to Payment gateway using different methodology",
+        "Advanced implementation of Payment gateway with optimizations",
+        "Legacy technique for Payment gateway no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Payment gateway is a key topic in Payment Integration. Integrate payment gateways (Razorpay, Stripe) into applications"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes order creation in Payment Integration?",
+      "options": [
+        "Core concept: Order creation is fundamental to Payment Integration",
+        "Alternative approach to Order creation using different methodology",
+        "Advanced implementation of Order creation with optimizations",
+        "Legacy technique for Order creation no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Order creation is a key topic in Payment Integration. Integrate payment gateways (Razorpay, Stripe) into applications"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes payment verification in Payment Integration?",
+      "options": [
+        "Core concept: Payment verification is fundamental to Payment Integration",
+        "Alternative approach to Payment verification using different methodology",
+        "Advanced implementation of Payment verification with optimizations",
+        "Legacy technique for Payment verification no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Payment verification is a key topic in Payment Integration. Integrate payment gateways (Razorpay, Stripe) into applications"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes webhooks in Payment Integration?",
+      "options": [
+        "Core concept: Webhooks is fundamental to Payment Integration",
+        "Alternative approach to Webhooks using different methodology",
+        "Advanced implementation of Webhooks with optimizations",
+        "Legacy technique for Webhooks no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Webhooks is a key topic in Payment Integration. Integrate payment gateways (Razorpay, Stripe) into applications"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes payment status in Payment Integration?",
+      "options": [
+        "Core concept: Payment status is fundamental to Payment Integration",
+        "Alternative approach to Payment status using different methodology",
+        "Advanced implementation of Payment status with optimizations",
+        "Legacy technique for Payment status no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Payment status is a key topic in Payment Integration. Integrate payment gateways (Razorpay, Stripe) into applications"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in Payment Integration?",
+      "options": [
+        "Razorpay",
+        "Stripe",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "Payment Integration uses Razorpay, Stripe as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of Payment Integration?",
+      "options": [
+        "Integrate payment gateways (Razorpay, Stripe) into applications",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Integrate payment gateways (Razorpay, Stripe) into applications"
+    },
+    {
+      "id": 9,
+      "question": "When applying Payment Integration in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for Payment Integration include following established patterns and using recommended tools."
+    }
+  ]
+}

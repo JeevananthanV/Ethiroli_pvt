@@ -1,0 +1,117 @@
+{
+  "id": "QZ-BE-REST-COMPREHENSIVE",
+  "module_code": "BE-REST",
+  "title": "Comprehensive Quiz: REST API Development",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes http in REST API Development?",
+      "options": [
+        "Core concept: HTTP is fundamental to REST API Development",
+        "Alternative approach to HTTP using different methodology",
+        "Advanced implementation of HTTP with optimizations",
+        "Legacy technique for HTTP no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "HTTP is a key topic in REST API Development. Design RESTful APIs following architectural constraints"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes http methods in REST API Development?",
+      "options": [
+        "Core concept: HTTP methods is fundamental to REST API Development",
+        "Alternative approach to HTTP methods using different methodology",
+        "Advanced implementation of HTTP methods with optimizations",
+        "Legacy technique for HTTP methods no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "HTTP methods is a key topic in REST API Development. Design RESTful APIs following architectural constraints"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes status codes in REST API Development?",
+      "options": [
+        "Core concept: Status codes is fundamental to REST API Development",
+        "Alternative approach to Status codes using different methodology",
+        "Advanced implementation of Status codes with optimizations",
+        "Legacy technique for Status codes no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Status codes is a key topic in REST API Development. Design RESTful APIs following architectural constraints"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes rest architecture in REST API Development?",
+      "options": [
+        "Core concept: REST architecture is fundamental to REST API Development",
+        "Alternative approach to REST architecture using different methodology",
+        "Advanced implementation of REST architecture with optimizations",
+        "Legacy technique for REST architecture no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "REST architecture is a key topic in REST API Development. Design RESTful APIs following architectural constraints"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes crud in REST API Development?",
+      "options": [
+        "Core concept: CRUD is fundamental to REST API Development",
+        "Alternative approach to CRUD using different methodology",
+        "Advanced implementation of CRUD with optimizations",
+        "Legacy technique for CRUD no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "CRUD is a key topic in REST API Development. Design RESTful APIs following architectural constraints"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes request parameters in REST API Development?",
+      "options": [
+        "Core concept: Request parameters is fundamental to REST API Development",
+        "Alternative approach to Request parameters using different methodology",
+        "Advanced implementation of Request parameters with optimizations",
+        "Legacy technique for Request parameters no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Request parameters is a key topic in REST API Development. Design RESTful APIs following architectural constraints"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in REST API Development?",
+      "options": [
+        "REST",
+        "Postman",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "REST API Development uses REST, Postman, Swagger/OpenAPI as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of REST API Development?",
+      "options": [
+        "Design RESTful APIs following architectural constraints",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Design RESTful APIs following architectural constraints"
+    },
+    {
+      "id": 9,
+      "question": "When applying REST API Development in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for REST API Development include following established patterns and using recommended tools."
+    }
+  ]
+}

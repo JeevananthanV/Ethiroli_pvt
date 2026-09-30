@@ -42,7 +42,7 @@ export default function ReceptionReports() {
       }
     >
       {/* High Level Metrics */}
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-12 col-sm-6 col-xl-3">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white">
             <span className="text-secondary small fw-medium">Total Campus Footfall</span>

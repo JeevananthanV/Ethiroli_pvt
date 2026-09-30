@@ -1,0 +1,18 @@
+{
+  "id": "PY-CORE-L01",
+  "module_code": "PY-CORE",
+  "lesson_order": 1,
+  "title": "Python syntax in Python Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Python syntax",
+    "Implement real-world code for Python syntax according to industry standards",
+    "Debug and optimize Python syntax integrations"
+  ],
+  "theory_markdown": "### Python syntax\n\nThis lesson covers in-depth technical mechanics of **Python syntax** as part of the Python Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Python syntax Implementation Example\nexport function handlePythonsyntax() {\n  console.log('Executing Python syntax workflow...');\n}",
+    "explanation": "Demonstration of how Python syntax is structured in production."
+  }
+}

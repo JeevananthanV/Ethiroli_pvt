@@ -1,0 +1,70 @@
+{
+  "id": "DB-MYSQL-SUB02-Q04",
+  "module_code": "DB-MYSQL",
+  "day": 7,
+  "title": "Quiz 4: SELECT Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in SELECT?",
+      "options": [
+        "Core principle of SELECT",
+        "Advanced SELECT technique",
+        "Alternative approach to SELECT",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental SELECT concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in WHERE?",
+      "options": [
+        "Core principle of WHERE",
+        "Advanced WHERE technique",
+        "Alternative approach to WHERE",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental WHERE concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in ORDER BY?",
+      "options": [
+        "Core principle of ORDER BY",
+        "Advanced ORDER BY technique",
+        "Alternative approach to ORDER BY",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental ORDER BY concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in GROUP BY?",
+      "options": [
+        "Core principle of GROUP BY",
+        "Advanced GROUP BY technique",
+        "Alternative approach to GROUP BY",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental GROUP BY concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Joins?",
+      "options": [
+        "Core principle of Joins",
+        "Advanced Joins technique",
+        "Alternative approach to Joins",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Joins concepts."
+    }
+  ]
+}

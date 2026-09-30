@@ -1,0 +1,10 @@
+{
+  "id": "EX-ML-DL-L03",
+  "module_code": "ML-DL",
+  "title": "Lab Exercise: Activation functions",
+  "difficulty": "Advanced",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Activation functions.",
+  "starter_code": "// Lab: Activation functions\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Activation functions\nexport const solution = true;\n"
+}

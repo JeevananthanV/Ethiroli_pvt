@@ -1,0 +1,18 @@
+{
+  "id": "AUTO-N8N-L05",
+  "module_code": "AUTO-N8N",
+  "lesson_order": 5,
+  "title": "Triggers in n8n Business Automation",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Triggers",
+    "Implement real-world code for Triggers according to industry standards",
+    "Debug and optimize Triggers integrations"
+  ],
+  "theory_markdown": "### Triggers\n\nThis lesson covers in-depth technical mechanics of **Triggers** as part of the n8n Business Automation curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Triggers Implementation Example\nexport function handleTriggers() {\n  console.log('Executing Triggers workflow...');\n}",
+    "explanation": "Demonstration of how Triggers is structured in production."
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "ML-CORE-L07",
+  "module_code": "ML-CORE",
+  "lesson_order": 7,
+  "title": "Feature engineering in Machine Learning",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Feature engineering",
+    "Implement real-world code for Feature engineering according to industry standards",
+    "Debug and optimize Feature engineering integrations"
+  ],
+  "theory_markdown": "### Feature engineering\n\nThis lesson covers in-depth technical mechanics of **Feature engineering** as part of the Machine Learning curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Feature engineering Implementation Example\nexport function handleFeatureengineering() {\n  console.log('Executing Feature engineering workflow...');\n}",
+    "explanation": "Demonstration of how Feature engineering is structured in production."
+  }
+}

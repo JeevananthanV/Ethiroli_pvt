@@ -1,0 +1,22 @@
+{
+  "id": "DEVOPS-CORE-SUB02-L02",
+  "day": 3,
+  "module_code": "DEVOPS-CORE",
+  "lesson_order": 2,
+  "title": "Containers: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Containers",
+    "Apply Containers in practical scenarios",
+    "Build a small project using Containers"
+  ],
+  "theory_markdown": "# Containers\n\n## Overview\nThis lesson covers the fundamentals of Containers and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Containers\n- Concept 2 related to Containers\n- Best practices for Containers\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Containers\n2. Implement basic Containers functionality\n3. Apply Containers to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Containers implementation\nconsole.log('Learning Containers');\n\n// Basic Containers example\nconst example = {\n  topic: 'Containers',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Containers usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Containers concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "FE-TS-L14",
+  "module_code": "FE-TS",
+  "lesson_order": 14,
+  "title": "React + TypeScript in TypeScript",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of React + TypeScript",
+    "Implement real-world code for React + TypeScript according to industry standards",
+    "Debug and optimize React + TypeScript integrations"
+  ],
+  "theory_markdown": "### React + TypeScript\n\nThis lesson covers in-depth technical mechanics of **React + TypeScript** as part of the TypeScript curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// React + TypeScript Implementation Example\nexport function handleReactTypeScript() {\n  console.log('Executing React + TypeScript workflow...');\n}",
+    "explanation": "Demonstration of how React + TypeScript is structured in production."
+  }
+}

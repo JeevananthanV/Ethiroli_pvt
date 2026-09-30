@@ -1,0 +1,22 @@
+{
+  "id": "BE-EXPRESS-SUB03-L01",
+  "day": 1,
+  "module_code": "BE-EXPRESS",
+  "lesson_order": 1,
+  "title": "API structure: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of API structure",
+    "Apply API structure in practical scenarios",
+    "Build a small project using API structure"
+  ],
+  "theory_markdown": "# API structure\n\n## Overview\nThis lesson covers the fundamentals of API structure and its practical applications.\n\n## Key Concepts\n- Concept 1 related to API structure\n- Concept 2 related to API structure\n- Best practices for API structure\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of API structure\n2. Implement basic API structure functionality\n3. Apply API structure to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example API structure implementation\nconsole.log('Learning API structure');\n\n// Basic API structure example\nconst example = {\n  topic: 'API structure',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic API structure usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand API structure concepts and generate code examples.\n\n---"
+  }
+}

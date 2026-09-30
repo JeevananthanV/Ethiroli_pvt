@@ -1,0 +1,22 @@
+{
+  "id": "DATA-ANALYTICS-SUB02-L04",
+  "day": 7,
+  "module_code": "DATA-ANALYTICS",
+  "lesson_order": 4,
+  "title": "Data visualization: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Data visualization",
+    "Apply Data visualization in practical scenarios",
+    "Build a small project using Data visualization"
+  ],
+  "theory_markdown": "# Data visualization\n\n## Overview\nThis lesson covers the fundamentals of Data visualization and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Data visualization\n- Concept 2 related to Data visualization\n- Best practices for Data visualization\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Data visualization\n2. Implement basic Data visualization functionality\n3. Apply Data visualization to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Data visualization implementation\nconsole.log('Learning Data visualization');\n\n// Basic Data visualization example\nconst example = {\n  topic: 'Data visualization',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Data visualization usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Data visualization concepts and generate code examples.\n\n---"
+  }
+}

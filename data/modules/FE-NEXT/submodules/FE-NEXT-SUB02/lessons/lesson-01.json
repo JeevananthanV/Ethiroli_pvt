@@ -1,0 +1,22 @@
+{
+  "id": "FE-NEXT-SUB02-L01",
+  "day": 1,
+  "module_code": "FE-NEXT",
+  "lesson_order": 1,
+  "title": "Routing: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Routing",
+    "Apply Routing in practical scenarios",
+    "Build a small project using Routing"
+  ],
+  "theory_markdown": "# Routing\n\n## Overview\nThis lesson covers the fundamentals of Routing and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Routing\n- Concept 2 related to Routing\n- Best practices for Routing\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Routing\n2. Implement basic Routing functionality\n3. Apply Routing to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Routing implementation\nconsole.log('Learning Routing');\n\n// Basic Routing example\nconst example = {\n  topic: 'Routing',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Routing usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Routing concepts and generate code examples.\n\n---"
+  }
+}

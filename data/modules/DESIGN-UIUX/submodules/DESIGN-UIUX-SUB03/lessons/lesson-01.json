@@ -1,0 +1,22 @@
+{
+  "id": "DESIGN-UIUX-SUB03-L01",
+  "day": 1,
+  "module_code": "DESIGN-UIUX",
+  "lesson_order": 1,
+  "title": "Responsive design: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Responsive design",
+    "Apply Responsive design in practical scenarios",
+    "Build a small project using Responsive design"
+  ],
+  "theory_markdown": "# Responsive design\n\n## Overview\nThis lesson covers the fundamentals of Responsive design and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Responsive design\n- Concept 2 related to Responsive design\n- Best practices for Responsive design\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Responsive design\n2. Implement basic Responsive design functionality\n3. Apply Responsive design to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Responsive design implementation\nconsole.log('Learning Responsive design');\n\n// Basic Responsive design example\nconst example = {\n  topic: 'Responsive design',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Responsive design usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Responsive design concepts and generate code examples.\n\n---"
+  }
+}

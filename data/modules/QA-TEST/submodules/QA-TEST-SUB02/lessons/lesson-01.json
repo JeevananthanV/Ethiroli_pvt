@@ -1,0 +1,22 @@
+{
+  "id": "QA-TEST-SUB02-L01",
+  "day": 1,
+  "module_code": "QA-TEST",
+  "lesson_order": 1,
+  "title": "Bug reporting: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Bug reporting",
+    "Apply Bug reporting in practical scenarios",
+    "Build a small project using Bug reporting"
+  ],
+  "theory_markdown": "# Bug reporting\n\n## Overview\nThis lesson covers the fundamentals of Bug reporting and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Bug reporting\n- Concept 2 related to Bug reporting\n- Best practices for Bug reporting\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Bug reporting\n2. Implement basic Bug reporting functionality\n3. Apply Bug reporting to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Bug reporting implementation\nconsole.log('Learning Bug reporting');\n\n// Basic Bug reporting example\nconst example = {\n  topic: 'Bug reporting',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Bug reporting usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Bug reporting concepts and generate code examples.\n\n---"
+  }
+}

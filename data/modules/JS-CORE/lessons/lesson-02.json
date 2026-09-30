@@ -1,0 +1,20 @@
+{
+  "id": "JS-CORE-D14",
+  "day": 14,
+  "module_code": "JS-CORE",
+  "lesson_order": 2,
+  "title": "Functions, Scope, and Closures",
+  "duration_minutes": 60,
+  "objectives": [
+    "Master function declarations, expressions, arrow functions, scope chain, and closures."
+  ],
+  "theory_markdown": "Function declarations are hoisted — callable before definition. Function expressions are not hoisted. Arrow functions inherit `this` from surrounding scope and cannot be used as constructors. Scope: global, function, block. The scope chain determines variable resolution.\r\n\r\nA closure is a function that retains access to its lexical scope even when executed outside that scope. Closures enable data privacy, function factories, and memoisation.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Function declaration — hoisted\r\nfunction add(a, b) { return a + b; }\r\n\r\n// Function expression — not hoisted\r\nconst subtract = function(a, b) { return a - b; };\r\n\r\n// Arrow function\r\nconst multiply = (a, b) => a * b;\r\n\r\n// Arrow with block body\r\nconst divide = (a, b) => {\r\n  if (b === 0) throw new Error(\"Cannot divide by zero\");\r\n  return a / b;\r\n};\r\n\r\n// Default parameters\r\nfunction greet(name = \"World\") {\r\n  return `Hello, ${name}!`;\r\n}\r\n\r\n// Rest parameters\r\nfunction sum(...numbers) {\r\n  return numbers.reduce((total, n) => total + n, 0);\r\n}\r\nsum(1, 2, 3, 4); // 10\r\n\r\n// Closure: counter factory\r\nfunction createCounter() {\r\n  let count = 0;  // Private variable\r\n  return {\r\n    increment() { count++; return count; },\r\n    decrement() { count--; return count; },\r\n    getCount() { return count; }\r\n  };\r\n}\r\n\r\nconst counter = createCounter();\r\ncounter.increment(); // 1\r\ncounter.increment(); // 2\r\nconsole.log(counter.getCount()); // 2\r\n// count is not accessible directly — closure protects it\r\n\r\n// Closure: memoisation\r\nfunction memoize(fn) {\r\n  const cache = new Map();\r\n  return function(...args) {\r\n    const key = JSON.stringify(args);\r\n    if (cache.has(key)) return cache.get(key);\r\n    const result = fn(...args);\r\n    cache.set(key, result);\r\n    return result;\r\n  };\r\n}",
+    "explanation": "Arrow functions do not have their own `this` — they inherit it. `createCounter` returns an object whose methods close over `count`, making it private. `memoize` caches function results, trading memory for speed. Closures are the foundation of React hooks."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Qodo Gen** to generate unit tests for your closure-based modules.\r\n\r\n---"
+  }
+}

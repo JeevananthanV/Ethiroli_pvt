@@ -1,0 +1,21 @@
+{
+  "id": "QZ-DEVOPS-CORE-L12",
+  "module_code": "DEVOPS-CORE",
+  "title": "Quiz: Monitoring",
+  "time_limit_minutes": 10,
+  "passing_percentage": 75,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is the primary architectural purpose of Monitoring in DevOps?",
+      "options": [
+        "To enforce modularity and maintainable system boundaries",
+        "To bypass browser runtime security sandboxing",
+        "To override database foreign key constraints",
+        "To compile JavaScript into native x86 machine bytecode"
+      ],
+      "correct_index": 0,
+      "explanation": "Monitoring ensures clean separation of concerns and robust maintainability."
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "FINAL-L02",
+  "module_code": "FINAL",
+  "lesson_order": 2,
+  "title": "Portfolio development in Capstone Project & Portfolio",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Portfolio development",
+    "Implement real-world code for Portfolio development according to industry standards",
+    "Debug and optimize Portfolio development integrations"
+  ],
+  "theory_markdown": "### Portfolio development\n\nThis lesson covers in-depth technical mechanics of **Portfolio development** as part of the Capstone Project & Portfolio curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Portfolio development Implementation Example\nexport function handlePortfoliodevelopment() {\n  console.log('Executing Portfolio development workflow...');\n}",
+    "explanation": "Demonstration of how Portfolio development is structured in production."
+  }
+}

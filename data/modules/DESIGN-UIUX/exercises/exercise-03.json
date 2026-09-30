@@ -1,0 +1,11 @@
+{
+  "id": "EX-DESIGN-UIUX-D10",
+  "module_code": "DESIGN-UIUX",
+  "day": 10,
+  "title": "Hands-on Lab: Responsive Design, Accessibility, and Mobile-First",
+  "estimated_minutes": 45,
+  "difficulty": "Beginner",
+  "instructions": "Take the component library from Day 9 and make every component fully responsive and accessible. Test keyboard navigation (Tab, Enter, Escape, arrow keys). Run Lighthouse accessibility audit and fix all issues.",
+  "starter_code": "// Starter file for Responsive Design, Accessibility, and Mobile-First\n// Task instructions:\n// Take the component library from Day 9 and make every component fully responsive and accessible. Test keyboard navigation (Tab, Enter, Escape, arrow ke...\n",
+  "solution_code": "/* Mobile first: base styles for small screens */\r\n.card {\r\n  padding: var(--space-4);\r\n  border-radius: var(--radius-md);\r\n  background: white;\r\n  box-shadow: var(--shadow-sm);\r\n}\r\n\r\n.card__image {\r\n  width: 100%;\r\n  aspect-ratio: 16 / 9;\r\n  object-fit: cover;\r\n  border-radius: var(--radius-sm);\r\n}\r\n\r\n/* Tablet: 768px and up */\r\n@media (min-width: 768px) {\r\n  .card {\r\n    display: grid;\r\n    grid-template-columns: 200px 1fr;\r\n    gap: var(--space-4);\r\n    align-items: start;\r\n  }\r\n  .card__image {\r\n    aspect-ratio: 1 / 1;\r\n  }\r\n}\r\n\r\n/* Desktop: 1024px and up */\r\n@media (min-width: 1024px) {\r\n  .card {\r\n    grid-template-columns: 280px 1fr;\r\n  }\r\n}\r\n\r\n/* Reduced motion preference */\r\n@media (prefers-reduced-motion: reduce) {\r\n  *, *::before, *::after {\r\n    animation-duration: 0.01ms !important;\r\n    transition-duration: 0.01ms !important;\r\n  }\r\n}\r\n\r\n/* Dark mode preference */\r\n@media (prefers-color-scheme: dark) {\r\n  :root {\r\n    --color-bg: oklch(0.15 0.01 250);\r\n    --color-text: oklch(0.95 0.005 250);\r\n  }\r\n}"
+}

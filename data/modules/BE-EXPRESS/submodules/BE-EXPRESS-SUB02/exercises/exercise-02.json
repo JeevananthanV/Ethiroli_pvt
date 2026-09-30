@@ -1,0 +1,33 @@
+{
+  "id": "BE-EXPRESS-SUB02-E02",
+  "module_code": "BE-EXPRESS",
+  "day": 4,
+  "title": "Hands-on Lab: Validation Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Validation:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Validation in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Validation basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Validation exercise\n// TODO: Implement Validation functionality here\n\nconsole.log('Validation exercise starter');\n",
+  "solution_code": "// Solution for Validation exercise\nconsole.log('Completed Validation exercise');\n\n// Basic implementation\nconst validation = {\n  name: 'Validation',\n  completed: true\n};\n\nconsole.log(validation);"
+}

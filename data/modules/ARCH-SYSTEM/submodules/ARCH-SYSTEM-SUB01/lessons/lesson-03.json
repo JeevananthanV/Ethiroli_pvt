@@ -1,0 +1,22 @@
+{
+  "id": "ARCH-SYSTEM-SUB01-L03",
+  "day": 5,
+  "module_code": "ARCH-SYSTEM",
+  "lesson_order": 3,
+  "title": "Architecture: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Architecture",
+    "Apply Architecture in practical scenarios",
+    "Build a small project using Architecture"
+  ],
+  "theory_markdown": "# Architecture\n\n## Overview\nThis lesson covers the fundamentals of Architecture and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Architecture\n- Concept 2 related to Architecture\n- Best practices for Architecture\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Architecture\n2. Implement basic Architecture functionality\n3. Apply Architecture to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Architecture implementation\nconsole.log('Learning Architecture');\n\n// Basic Architecture example\nconst example = {\n  topic: 'Architecture',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Architecture usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Architecture concepts and generate code examples.\n\n---"
+  }
+}

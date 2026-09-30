@@ -1,0 +1,20 @@
+{
+  "id": "WEB-CSS-D05",
+  "day": 5,
+  "module_code": "WEB-CSS",
+  "lesson_order": 1,
+  "title": "CSS Fundamentals, Selectors, and the Box Model",
+  "duration_minutes": 60,
+  "objectives": [
+    "Master CSS selectors, specificity, the box model, and modern colour systems."
+  ],
+  "theory_markdown": "CSS (Cascading Style Sheets) controls presentation. The cascade determines which styles win when multiple rules target the same element. Specificity weights: inline styles (1000) > IDs (100) > classes/attributes/pseudo-classes (10) > elements (1). `!important` overrides everything but should be avoided.\r\n\r\nThe box model: every element is a box with `content`, `padding`, `border`, and `margin`. `box-sizing: border-box` makes `width` include padding and border — use it universally.\r\n\r\nModern CSS colour: `hsl()`, `oklch()`, `color-mix()`, CSS custom properties (variables).",
+  "code_walkthrough": {
+    "language": "css",
+    "code": "/* Reset and custom properties */\r\n:root {\r\n  --color-primary: oklch(0.55 0.18 250);\r\n  --color-text: oklch(0.2 0.01 250);\r\n  --color-bg: oklch(0.98 0.005 250);\r\n  --space-sm: 0.5rem;\r\n  --space-md: 1rem;\r\n  --space-lg: 2rem;\r\n  --radius-md: 8px;\r\n  --font-sans: system-ui, -apple-system, sans-serif;\r\n}\r\n\r\n*, *::before, *::after {\r\n  box-sizing: border-box;\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\nbody {\r\n  font-family: var(--font-sans);\r\n  color: var(--color-text);\r\n  background: var(--color-bg);\r\n  line-height: 1.6;\r\n  padding: var(--space-md);\r\n}\r\n\r\n/* Selector specificity examples */\r\n.card {                 /* 0,1,0 */\r\n  background: white;\r\n  border-radius: var(--radius-md);\r\n  padding: var(--space-lg);\r\n  box-shadow: 0 2px 8px oklch(0.2 0.01 250 / 0.1);\r\n}\r\n\r\n#featured-card {        /* 1,0,0 — higher specificity */\r\n  border: 2px solid var(--color-primary);\r\n}\r\n\r\n.card .title {          /* 0,2,0 */\r\n  font-size: 1.5rem;\r\n  color: var(--color-primary);\r\n}",
+    "explanation": "`:root` defines global custom properties. The universal selector with pseudo-elements resets margins and padding. `box-sizing: border-box` prevents width surprises. `oklch()` is a modern perceptually uniform colour space. Specificity determines cascade winner — `.card .title` (0,2,0) beats `.title` (0,1,0)."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Qodo Gen** (free VS Code extension) to generate CSS for components from natural language descriptions.\r\n\r\n---"
+  }
+}

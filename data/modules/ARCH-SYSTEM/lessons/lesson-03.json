@@ -1,0 +1,18 @@
+{
+  "id": "ARCH-SYSTEM-L03",
+  "module_code": "ARCH-SYSTEM",
+  "lesson_order": 3,
+  "title": "Architecture in System Design",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Architecture",
+    "Implement real-world code for Architecture according to industry standards",
+    "Debug and optimize Architecture integrations"
+  ],
+  "theory_markdown": "### Architecture\n\nThis lesson covers in-depth technical mechanics of **Architecture** as part of the System Design curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Architecture Implementation Example\nexport function handleArchitecture() {\n  console.log('Executing Architecture workflow...');\n}",
+    "explanation": "Demonstration of how Architecture is structured in production."
+  }
+}

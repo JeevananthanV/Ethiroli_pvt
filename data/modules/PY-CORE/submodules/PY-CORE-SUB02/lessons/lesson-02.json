@@ -1,0 +1,22 @@
+{
+  "id": "PY-CORE-SUB02-L02",
+  "day": 3,
+  "module_code": "PY-CORE",
+  "lesson_order": 2,
+  "title": "Tuples: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Tuples",
+    "Apply Tuples in practical scenarios",
+    "Build a small project using Tuples"
+  ],
+  "theory_markdown": "# Tuples\n\n## Overview\nThis lesson covers the fundamentals of Tuples and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Tuples\n- Concept 2 related to Tuples\n- Best practices for Tuples\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Tuples\n2. Implement basic Tuples functionality\n3. Apply Tuples to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Tuples implementation\nconsole.log('Learning Tuples');\n\n// Basic Tuples example\nconst example = {\n  topic: 'Tuples',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Tuples usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Tuples concepts and generate code examples.\n\n---"
+  }
+}

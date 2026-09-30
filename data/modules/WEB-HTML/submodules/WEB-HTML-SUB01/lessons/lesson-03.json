@@ -1,0 +1,22 @@
+{
+  "id": "WEB-HTML-SUB01-L03",
+  "day": 5,
+  "module_code": "WEB-HTML",
+  "lesson_order": 3,
+  "title": "Semantic HTML: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Semantic HTML",
+    "Apply Semantic HTML in practical scenarios",
+    "Build a small project using Semantic HTML"
+  ],
+  "theory_markdown": "# Semantic HTML\n\n## Overview\nThis lesson covers the fundamentals of Semantic HTML and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Semantic HTML\n- Concept 2 related to Semantic HTML\n- Best practices for Semantic HTML\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Semantic HTML\n2. Implement basic Semantic HTML functionality\n3. Apply Semantic HTML to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Semantic HTML implementation\nconsole.log('Learning Semantic HTML');\n\n// Basic Semantic HTML example\nconst example = {\n  topic: 'Semantic HTML',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Semantic HTML usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Semantic HTML concepts and generate code examples.\n\n---"
+  }
+}

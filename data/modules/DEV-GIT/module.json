@@ -1,0 +1,47 @@
+{
+  "code": "DEV-GIT",
+  "title": "Git & GitHub",
+  "category": "DevOps",
+  "level": "Beginner",
+  "duration_hours": 8,
+  "description": "Version control with Git and GitHub including repository management, branching, merging, conflict resolution, pull requests, and collaborative development workflows.",
+  "topics": [
+    "Version control",
+    "Git installation",
+    "Repository",
+    "Init",
+    "Clone",
+    "Add",
+    "Commit",
+    "Push",
+    "Pull",
+    "Branches",
+    "Merge",
+    "Rebase",
+    "Conflict resolution",
+    "GitHub",
+    "Pull requests",
+    "Issues",
+    "Code review",
+    "Releases",
+    "Tags",
+    "Git workflow"
+  ],
+  "technologies": [
+    "Git",
+    "GitHub"
+  ],
+  "practicals": [
+    "Team GitHub Project"
+  ],
+  "projects": [],
+  "prerequisites": [],
+  "learning_outcomes": [
+    "Initialize and manage Git repositories",
+    "Use branching and merging strategies",
+    "Resolve merge conflicts",
+    "Collaborate using GitHub pull requests and issues",
+    "Implement Git workflows for team development",
+    "Use GitHub for code review and releases"
+  ]
+}

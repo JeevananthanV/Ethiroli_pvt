@@ -1,0 +1,70 @@
+{
+  "id": "ML-CORE-SUB01-Q02",
+  "module_code": "ML-CORE",
+  "day": 3,
+  "title": "Quiz 2: ML fundamentals Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in ML fundamentals?",
+      "options": [
+        "Core principle of ML fundamentals",
+        "Advanced ML fundamentals technique",
+        "Alternative approach to ML fundamentals",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental ML fundamentals concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Supervised learning?",
+      "options": [
+        "Core principle of Supervised learning",
+        "Advanced Supervised learning technique",
+        "Alternative approach to Supervised learning",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Supervised learning concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Unsupervised learning?",
+      "options": [
+        "Core principle of Unsupervised learning",
+        "Advanced Unsupervised learning technique",
+        "Alternative approach to Unsupervised learning",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Unsupervised learning concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Regression?",
+      "options": [
+        "Core principle of Regression",
+        "Advanced Regression technique",
+        "Alternative approach to Regression",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Regression concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in ML fundamentals?",
+      "options": [
+        "Core principle of ML fundamentals",
+        "Advanced ML fundamentals technique",
+        "Alternative approach to ML fundamentals",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental ML fundamentals concepts."
+    }
+  ]
+}

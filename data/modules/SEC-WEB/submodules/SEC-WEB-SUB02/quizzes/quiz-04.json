@@ -1,0 +1,70 @@
+{
+  "id": "SEC-WEB-SUB02-Q04",
+  "module_code": "SEC-WEB",
+  "day": 7,
+  "title": "Quiz 4: XSS Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in XSS?",
+      "options": [
+        "Core principle of XSS",
+        "Advanced XSS technique",
+        "Alternative approach to XSS",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental XSS concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in CSRF?",
+      "options": [
+        "Core principle of CSRF",
+        "Advanced CSRF technique",
+        "Alternative approach to CSRF",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental CSRF concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Authentication security?",
+      "options": [
+        "Core principle of Authentication security",
+        "Advanced Authentication security technique",
+        "Alternative approach to Authentication security",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Authentication security concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in API security?",
+      "options": [
+        "Core principle of API security",
+        "Advanced API security technique",
+        "Alternative approach to API security",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental API security concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Password security?",
+      "options": [
+        "Core principle of Password security",
+        "Advanced Password security technique",
+        "Alternative approach to Password security",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Password security concepts."
+    }
+  ]
+}

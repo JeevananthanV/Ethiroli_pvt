@@ -1,0 +1,11 @@
+{
+  "id": "EX-FE-REACT-D21",
+  "module_code": "FE-REACT",
+  "day": 21,
+  "title": "Hands-on Lab: React Fundamentals: JSX, Components, Props",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Build a product listing page with `ProductCard`, `ProductList`, and `ProductFilter` components. Pass data via props. Render a grid of products with conditional \"Out of Stock\" badges.",
+  "starter_code": "// Starter file for React Fundamentals: JSX, Components, Props\n// Task instructions:\n// Build a product listing page with `ProductCard`, `ProductList`, and `ProductFilter` components. Pass data via props. Render a grid of products with co...\n",
+  "solution_code": "// App.jsx\r\nfunction Header({ title, subtitle }) {\r\n  return (\r\n    <header className=\"app-header\">\r\n      <h1>{title}</h1>\r\n      {subtitle && <p>{subtitle}</p>}\r\n    </header>\r\n  );\r\n}\r\n\r\nfunction UserCard({ name, email, role = \"user\" }) {\r\n  return (\r\n    <div className=\"user-card\">\r\n      <h3>{name}</h3>\r\n      <p>{email}</p>\r\n      <span className={`badge badge--${role}`}>{role}</span>\r\n    </div>\r\n  );\r\n}\r\n\r\nfunction UserList({ users }) {\r\n  return (\r\n    <ul className=\"user-list\">\r\n      {users.map(user => (\r\n        <li key={user.id}>\r\n          <UserCard {...user} />\r\n        </li>\r\n      ))}\r\n    </ul>\r\n  );\r\n}\r\n\r\nexport default function App() {\r\n  const users = [\r\n    { id: 1, name: \"Alice\", email: \"alice@example.com\", role: \"admin\" },\r\n    { id: 2, name: \"Bob\", email: \"bob@example.com\" },\r\n  ];\r\n\r\n  return (\r\n    <div className=\"app\">\r\n      <Header title=\"User Directory\" subtitle=\"All registered users\" />\r\n      <UserList users={users} />\r\n    </div>\r\n  );\r\n}"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "EX-CLOUD-AWS-D56",
+  "module_code": "CLOUD-AWS",
+  "day": 56,
+  "title": "Hands-on Lab: Production Monitoring, Logging, and Scaling",
+  "estimated_minutes": 45,
+  "difficulty": "Advanced",
+  "instructions": "Add a health check endpoint and metrics endpoint to your API. Set up uptime monitoring with UptimeRobot (free). Configure Sentry alerts for error spikes. Add a `/metrics` dashboard page to your frontend.",
+  "starter_code": "// Starter file for Production Monitoring, Logging, and Scaling\n// Task instructions:\n// Add a health check endpoint and metrics endpoint to your API. Set up uptime monitoring with UptimeRobot (free). Configure Sentry alerts for error spik...\n",
+  "solution_code": "// monitoring/health.js\r\nimport { pool } from '../db/pool.js';\r\nimport mongoose from 'mongoose';\r\n\r\nexport async function healthCheck(req, res) {\r\n  const checks = {\r\n    uptime: process.uptime(),\r\n    timestamp: new Date().toISOString(),\r\n    status: 'ok',\r\n    services: {}\r\n  };\r\n\r\n  // Check PostgreSQL\r\n  try {\r\n    await pool.execute('SELECT 1');\r\n    checks.services.postgres = 'healthy';\r\n  } catch (err) {\r\n    checks.services.postgres = 'unhealthy';\r\n    checks.status = 'degraded';\r\n  }\r\n\r\n  // Check MongoDB\r\n  try {\r\n    await mongoose.connection.db.admin().ping();\r\n    checks.services.mongodb = 'healthy';\r\n  } catch (err) {\r\n    checks.services.mongodb = 'unhealthy';\r\n    checks.status = 'degraded';\r\n  }\r\n\r\n  // Check Redis\r\n  try {\r\n    const redis = (await import('../db/redis.js')).default;\r\n    await redis.ping();\r\n    checks.services.redis = 'healthy';\r\n  } catch (err) {\r\n    checks.services.redis = 'unhealthy';\r\n    checks.status = 'degraded';\r\n  }\r\n\r\n  const statusCode = checks.status === 'ok' ? 200 : 503;\r\n  res.status(statusCode).json(checks);\r\n}"
+}

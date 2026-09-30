@@ -1,0 +1,33 @@
+{
+  "id": "SEO-TECH-SUB03-E01",
+  "module_code": "SEO-TECH",
+  "day": 2,
+  "title": "Hands-on Lab: Page speed Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Page speed:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Page speed in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Page speed basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Page speed exercise\n// TODO: Implement Page speed functionality here\n\nconsole.log('Page speed exercise starter');\n",
+  "solution_code": "// Solution for Page speed exercise\nconsole.log('Completed Page speed exercise');\n\n// Basic implementation\nconst pagespeed = {\n  name: 'Page speed',\n  completed: true\n};\n\nconsole.log(pagespeed);"
+}

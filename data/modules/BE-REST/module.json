@@ -1,0 +1,46 @@
+{
+  "code": "BE-REST",
+  "title": "REST API Development",
+  "category": "Backend",
+  "level": "Intermediate",
+  "duration_hours": 12,
+  "description": "REST API architecture and best practices covering HTTP methods, status codes, CRUD operations, pagination, filtering, versioning, and API documentation with Swagger.",
+  "topics": [
+    "HTTP",
+    "HTTP methods",
+    "Status codes",
+    "REST architecture",
+    "CRUD",
+    "Request parameters",
+    "Query parameters",
+    "Headers",
+    "JSON",
+    "Authentication",
+    "Authorization",
+    "Pagination",
+    "Filtering",
+    "Sorting",
+    "Search",
+    "API versioning",
+    "API documentation"
+  ],
+  "technologies": [
+    "REST",
+    "Postman",
+    "Swagger/OpenAPI"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "BE-NODE",
+    "BE-EXPRESS"
+  ],
+  "learning_outcomes": [
+    "Design RESTful APIs following architectural constraints",
+    "Implement proper HTTP methods and status codes",
+    "Handle request parameters, headers, and JSON bodies",
+    "Implement authentication and authorization mechanisms",
+    "Apply pagination, filtering, and sorting techniques",
+    "Document APIs with Swagger/OpenAPI specifications"
+  ]
+}

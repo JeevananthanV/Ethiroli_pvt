@@ -1,0 +1,33 @@
+{
+  "id": "DESIGN-UIUX-SUB02-E04",
+  "module_code": "DESIGN-UIUX",
+  "day": 8,
+  "title": "Hands-on Lab: Spacing Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Spacing:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Spacing in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Spacing basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Spacing exercise\n// TODO: Implement Spacing functionality here\n\nconsole.log('Spacing exercise starter');\n",
+  "solution_code": "// Solution for Spacing exercise\nconsole.log('Completed Spacing exercise');\n\n// Basic implementation\nconst spacing = {\n  name: 'Spacing',\n  completed: true\n};\n\nconsole.log(spacing);"
+}

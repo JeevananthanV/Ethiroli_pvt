@@ -1,0 +1,22 @@
+{
+  "id": "FE-TS-SUB01-L02",
+  "day": 3,
+  "module_code": "FE-TS",
+  "lesson_order": 2,
+  "title": "Type annotations: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Type annotations",
+    "Apply Type annotations in practical scenarios",
+    "Build a small project using Type annotations"
+  ],
+  "theory_markdown": "# Type annotations\n\n## Overview\nThis lesson covers the fundamentals of Type annotations and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Type annotations\n- Concept 2 related to Type annotations\n- Best practices for Type annotations\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Type annotations\n2. Implement basic Type annotations functionality\n3. Apply Type annotations to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Type annotations implementation\nconsole.log('Learning Type annotations');\n\n// Basic Type annotations example\nconst example = {\n  topic: 'Type annotations',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Type annotations usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Type annotations concepts and generate code examples.\n\n---"
+  }
+}

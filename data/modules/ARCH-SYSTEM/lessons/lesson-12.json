@@ -1,0 +1,18 @@
+{
+  "id": "ARCH-SYSTEM-L12",
+  "module_code": "ARCH-SYSTEM",
+  "lesson_order": 12,
+  "title": "Queues in System Design",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Queues",
+    "Implement real-world code for Queues according to industry standards",
+    "Debug and optimize Queues integrations"
+  ],
+  "theory_markdown": "### Queues\n\nThis lesson covers in-depth technical mechanics of **Queues** as part of the System Design curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Queues Implementation Example\nexport function handleQueues() {\n  console.log('Executing Queues workflow...');\n}",
+    "explanation": "Demonstration of how Queues is structured in production."
+  }
+}

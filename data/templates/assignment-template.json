@@ -1,0 +1,16 @@
+{
+  "title": "Capstone Module Project",
+  "type": "PRACTICAL_PROJECT",
+  "estimated_hours": 10,
+  "rubric": {
+    "code_quality": 30,
+    "functionality": 40,
+    "documentation_and_git": 15,
+    "ui_ux_polish": 15
+  },
+  "submission_requirements": [
+    "GitHub repository URL",
+    "Live deployment URL",
+    "README demo video/screenshots"
+  ]
+}

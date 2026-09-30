@@ -1,0 +1,33 @@
+{
+  "id": "DESIGN-UIUX-SUB02-E03",
+  "module_code": "DESIGN-UIUX",
+  "day": 6,
+  "title": "Hands-on Lab: Colors Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Colors:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Colors in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Colors basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Colors exercise\n// TODO: Implement Colors functionality here\n\nconsole.log('Colors exercise starter');\n",
+  "solution_code": "// Solution for Colors exercise\nconsole.log('Completed Colors exercise');\n\n// Basic implementation\nconst colors = {\n  name: 'Colors',\n  completed: true\n};\n\nconsole.log(colors);"
+}

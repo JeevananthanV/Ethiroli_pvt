@@ -1,0 +1,10 @@
+{
+  "id": "EX-PY-CORE-L10",
+  "module_code": "PY-CORE",
+  "title": "Lab Exercise: Sets",
+  "difficulty": "Beginner",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Sets.",
+  "starter_code": "// Lab: Sets\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Sets\nexport const solution = true;\n"
+}

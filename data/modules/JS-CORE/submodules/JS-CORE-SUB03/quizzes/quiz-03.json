@@ -1,0 +1,70 @@
+{
+  "id": "JS-CORE-SUB03-Q03",
+  "module_code": "JS-CORE",
+  "day": 5,
+  "title": "Quiz 3: ES6+ Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in ES6+?",
+      "options": [
+        "Core principle of ES6+",
+        "Advanced ES6+ technique",
+        "Alternative approach to ES6+",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental ES6+ concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Modules?",
+      "options": [
+        "Core principle of Modules",
+        "Advanced Modules technique",
+        "Alternative approach to Modules",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Modules concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Error handling?",
+      "options": [
+        "Core principle of Error handling",
+        "Advanced Error handling technique",
+        "Alternative approach to Error handling",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Error handling concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Promises?",
+      "options": [
+        "Core principle of Promises",
+        "Advanced Promises technique",
+        "Alternative approach to Promises",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Promises concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Async/Await?",
+      "options": [
+        "Core principle of Async/Await",
+        "Advanced Async/Await technique",
+        "Alternative approach to Async/Await",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Async/Await concepts."
+    }
+  ]
+}

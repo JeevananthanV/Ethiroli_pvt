@@ -1,0 +1,199 @@
+{
+  "course": {
+    "code": "ETH-WEB-30",
+    "name": "30-Day Web Development Internship",
+    "duration_days": 30,
+    "level": "Beginner",
+    "description": "A comprehensive 30-day web development internship program built from reusable technology modules.",
+    "final_project": "Employee Task Management System",
+    "architecture": {
+      "hierarchy": "CAREER PROGRAM → PHASE → MODULE → TOPICS → LESSONS → QUIZ → PRACTICAL TASK → ASSIGNMENT → PROJECT",
+      "modules_are_reusable": true,
+      "programs_are_curriculum_paths": true
+    }
+  },
+  "phases": [
+    {
+      "phase_order": 1,
+      "title": "Web Foundation",
+      "description": "Core web development fundamentals covering HTML, CSS, and version control",
+      "modules": [
+        {
+          "module_code": "PROG-FUND",
+          "module_title": "Programming Fundamentals",
+          "category": "Programming",
+          "level": "Beginner",
+          "duration_hours": 20,
+          "topics": ["Programming concepts", "Variables", "Data types", "Operators", "Conditions", "Loops", "Functions", "Arrays", "Objects", "Error handling", "Debugging", "Problem solving", "Algorithms basics"],
+          "technologies": ["JavaScript", "Python"],
+          "practicals": ["Calculator", "Number checker", "Student grade system", "Expense calculator", "Basic CRUD program"],
+          "projects": [],
+          "learning_outcomes": ["Write programs using variables, data types, and operators", "Implement control structures (conditions and loops)", "Work with arrays and objects for data storage", "Create and use functions with parameters and return values", "Apply error handling and debugging techniques", "Solve basic algorithmic problems"]
+        },
+        {
+          "module_code": "WEB-HTML",
+          "module_title": "HTML5 Development",
+          "category": "Frontend",
+          "level": "Beginner",
+          "duration_hours": 15,
+          "topics": ["HTML fundamentals", "Document structure", "Semantic HTML", "Headings", "Paragraphs", "Links", "Images", "Audio/video", "Lists", "Tables", "Forms", "Form validation", "Accessibility", "SEO-friendly HTML", "HTML5 APIs"],
+          "technologies": ["HTML5"],
+          "practicals": [],
+          "projects": ["Responsive Business Website"],
+          "learning_outcomes": ["Create semantic HTML5 document structure", "Use HTML5 elements for text, links, images, and multimedia", "Build accessible forms with validation", "Implement semantic elements for better SEO and accessibility", "Use HTML5 APIs for enhanced functionality", "Create SEO-friendly web pages"]
+        },
+        {
+          "module_code": "WEB-CSS",
+          "module_title": "CSS3 & Responsive Design",
+          "category": "Frontend",
+          "level": "Beginner",
+          "duration_hours": 20,
+          "topics": ["CSS fundamentals", "Selectors", "Colors", "Typography", "Box model", "Display", "Positioning", "Flexbox", "CSS Grid", "Responsive design", "Media queries", "Animations", "Transitions", "Variables", "Responsive navigation", "Component styling"],
+          "technologies": ["CSS3", "Tailwind CSS"],
+          "practicals": [],
+          "projects": ["Responsive Company Website"],
+          "learning_outcomes": ["Apply CSS selectors and specificity rules", "Style with colors, typography, and box model", "Implement layouts with Flexbox and CSS Grid", "Create responsive designs with media queries", "Add animations and transitions", "Use CSS variables and component-based styling"]
+        },
+        {
+          "module_code": "DEV-GIT",
+          "module_title": "Git & GitHub",
+          "category": "DevOps",
+          "level": "Beginner",
+          "duration_hours": 8,
+          "topics": ["Version control", "Git installation", "Repository", "Init", "Clone", "Add", "Commit", "Push", "Pull", "Branches", "Merge", "Rebase", "Conflict resolution", "GitHub", "Pull requests", "Issues", "Code review", "Releases", "Tags", "Git workflow"],
+          "technologies": ["Git", "GitHub"],
+          "practicals": ["Team GitHub Project"],
+          "projects": [],
+          "learning_outcomes": ["Initialize and manage Git repositories", "Use branching and merging strategies", "Resolve merge conflicts", "Collaborate using GitHub pull requests and issues", "Implement Git workflows for team development", "Use GitHub for code review and releases"]
+        }
+      ]
+    },
+    {
+      "phase_order": 2,
+      "title": "JavaScript & Frontend Framework",
+      "description": "Modern JavaScript and React.js for building interactive user interfaces",
+      "modules": [
+        {
+          "module_code": "JS-CORE",
+          "module_title": "JavaScript Development",
+          "category": "Programming",
+          "level": "Intermediate",
+          "duration_hours": 40,
+          "topics": ["JavaScript fundamentals", "Variables", "Data types", "Operators", "Conditions", "Loops", "Functions", "Scope", "Arrays", "Objects", "Destructuring", "Spread/rest", "Array methods", "DOM manipulation", "Events", "Form handling", "Local storage", "JSON", "ES6+", "Modules", "Error handling", "Promises", "Async/Await", "Fetch API", "API integration", "Event loop", "Closures"],
+          "technologies": ["JavaScript"],
+          "practicals": [],
+          "projects": ["Expense Management Application"],
+          "learning_outcomes": ["Master JavaScript fundamentals and ES6+ features", "Manipulate the DOM and handle events", "Work with arrays, objects, and JSON data", "Implement asynchronous programming with promises and async/await", "Integrate with APIs using Fetch", "Organize code with modules and follow best practices"]
+        },
+        {
+          "module_code": "FE-REACT",
+          "module_title": "React.js Development",
+          "category": "Frontend",
+          "level": "Intermediate",
+          "duration_hours": 40,
+          "topics": ["React fundamentals", "Vite", "Components", "JSX", "Props", "State", "Events", "Conditional rendering", "Lists", "Forms", "Controlled components", "Hooks", "useState", "useEffect", "useContext", "Custom hooks", "Component architecture", "Routing", "API integration", "Error handling", "Loading states", "Redux Toolkit", "React Query", "Performance optimization", "Lazy loading", "Code splitting", "Reusable components"],
+          "technologies": ["React.js", "Vite", "React Router", "Redux Toolkit", "TanStack Query"],
+          "practicals": [],
+          "projects": ["Employee Management Dashboard"],
+          "learning_outcomes": ["Build React applications with functional components and hooks", "Manage state with useState, useEffect, and context", "Implement client-side routing with React Router", "Integrate REST APIs with error handling and loading states", "Optimize performance with React Query and code splitting", "Build scalable component architectures with Redux Toolkit"]
+        }
+      ]
+    },
+    {
+      "phase_order": 3,
+      "title": "Backend, Database & Integration",
+      "description": "Server-side development, database management, and full-stack integration",
+      "modules": [
+        {
+          "module_code": "BE-NODE",
+          "module_title": "Node.js",
+          "category": "Backend",
+          "level": "Intermediate",
+          "duration_hours": 20,
+          "topics": ["Node.js fundamentals", "Runtime architecture", "npm", "Modules", "File system", "Environment variables", "Events", "Streams", "Async programming", "HTTP server", "REST APIs", "Error handling", "Logging", "Security"],
+          "technologies": ["Node.js"],
+          "practicals": [],
+          "projects": ["Node.js REST API"],
+          "learning_outcomes": ["Build server-side applications with Node.js", "Work with file system, streams, and events", "Create REST APIs with Express-like routing", "Implement error handling and logging", "Work with environment variables and configuration", "Follow Node.js security best practices"]
+        },
+        {
+          "module_code": "BE-EXPRESS",
+          "module_title": "Express.js",
+          "category": "Backend",
+          "level": "Intermediate",
+          "duration_hours": 16,
+          "topics": ["Express fundamentals", "Server setup", "Routes", "Controllers", "Middleware", "Request/response", "Validation", "Error handling", "Authentication middleware", "File uploads", "API structure", "Service architecture", "API documentation"],
+          "technologies": ["Express.js", "Node.js"],
+          "practicals": [],
+          "projects": ["Production REST API"],
+          "learning_outcomes": ["Build production REST APIs with Express.js", "Implement middleware for authentication and validation", "Structure APIs with controllers and services", "Handle file uploads and downloads", "Document APIs with OpenAPI/Swagger", "Follow REST API design best practices"]
+        },
+        {
+          "module_code": "DB-MYSQL",
+          "module_title": "MySQL Database",
+          "category": "Database",
+          "level": "Intermediate",
+          "duration_hours": 20,
+          "topics": ["Database fundamentals", "Tables", "Columns", "Data types", "Primary keys", "Foreign keys", "CRUD", "SELECT", "WHERE", "ORDER BY", "GROUP BY", "Joins", "Subqueries", "Constraints", "Relationships", "Normalization", "Indexes", "Views", "Transactions", "Stored procedures", "Query optimization"],
+          "technologies": ["MySQL", "MySQL Workbench"],
+          "practicals": [],
+          "projects": ["Employee Database System"],
+          "learning_outcomes": ["Design normalized database schemas with ER diagrams", "Write complex SQL queries with joins and subqueries", "Implement transactions and concurrency control", "Create indexes for query optimization", "Work with stored procedures and functions", "Design database relationships and constraints"]
+        },
+        {
+          "module_code": "SEC-AUTH",
+          "module_title": "Authentication & Authorization",
+          "category": "Security",
+          "level": "Intermediate",
+          "duration_hours": 12,
+          "topics": ["Authentication", "Authorization", "Password hashing", "JWT", "Sessions", "Cookies", "Refresh tokens", "Role-based access control", "Permissions", "Protected routes", "OAuth", "Google login", "Security best practices"],
+          "technologies": ["JWT", "bcrypt", "OAuth"],
+          "practicals": [],
+          "projects": ["Multi-Role Authentication System"],
+          "learning_outcomes": ["Implement secure password storage with hashing and salting", "Create JWT-based authentication systems", "Manage user sessions and cookies securely", "Implement role-based access control (RBAC)", "Integrate third-party authentication (OAuth, Google Login)", "Apply authentication security best practices"]
+        },
+        {
+          "module_code": "FS-INTEGRATION",
+          "module_title": "Full Stack Integration",
+          "category": "Full Stack",
+          "level": "Advanced",
+          "duration_hours": 24,
+          "topics": ["React + Node", "Frontend/backend architecture", "API integration", "Authentication", "CRUD", "Forms", "Validation", "Error handling", "Loading states", "File upload", "Pagination", "Search", "Filtering", "Role-based dashboards", "Database integration"],
+          "technologies": ["React", "Axios / Fetch", "Node.js", "Express.js", "MySQL / MongoDB"],
+          "practicals": [],
+          "projects": ["Full Stack Employee Management System"],
+          "learning_outcomes": ["Build full-stack applications with React and Node.js", "Implement RESTful API communication between frontend and backend", "Manage application state with React hooks and context", "Implement secure authentication and authorization flows", "Handle file uploads and form validation", "Integrate databases with proper error handling"]
+        }
+      ]
+    },
+    {
+      "phase_order": 4,
+      "title": "Capstone Project & Portfolio",
+      "description": "Final capstone project demonstrating all skills learned",
+      "modules": [
+        {
+          "module_code": "FINAL",
+          "module_title": "Capstone Project & Portfolio",
+          "category": "Capstone",
+          "level": "Capstone",
+          "duration_hours": 40,
+          "topics": ["Final project planning", "Portfolio development", "Code review", "Deployment"],
+          "technologies": [],
+          "practicals": ["Deploy full stack application", "Build portfolio site"],
+          "projects": ["Capstone project"],
+          "learning_outcomes": ["Deploy production application", "Present portfolio"]
+        }
+      ]
+    }
+  ],
+  "module_sequence": [
+    { "module": "PROG-FUND", "days": 3, "order": 1 },
+    { "module": "WEB-HTML", "days": 3, "order": 2 },
+    { "module": "WEB-CSS", "days": 3, "order": 3 },
+    { "module": "DEV-GIT", "days": 1, "order": 4 },
+    { "module": "JS-CORE", "days": 6, "order": 5 },
+    { "module": "FE-REACT", "days": 6, "order": 6 },
+    { "module": "FINAL", "days": 8, "order": 7 }
+  ],
+  "final_project": "Employee Task Management System"
+}

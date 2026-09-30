@@ -1,0 +1,179 @@
+{
+  "ETH-WEB-30": {
+    "code": "ETH-WEB-30",
+    "name": "30-Day Web Development Internship",
+    "duration_days": 30,
+    "track": "web",
+    "phases": [
+      {
+        "phase_order": 1,
+        "title": "Web Foundation",
+        "modules": ["PROG-FUND", "WEB-HTML", "WEB-CSS", "DEV-GIT"]
+      },
+      {
+        "phase_order": 2,
+        "title": "JavaScript & Frontend",
+        "modules": ["JS-CORE", "FE-REACT"]
+      },
+      {
+        "phase_order": 3,
+        "title": "Backend & Integration",
+        "modules": ["BE-NODE", "BE-EXPRESS", "DB-MYSQL", "SEC-AUTH", "FS-INTEGRATION"]
+      },
+      {
+        "phase_order": 4,
+        "title": "Capstone",
+        "modules": ["FINAL"]
+      }
+    ],
+    "module_sequence": [
+      { "module": "PROG-FUND", "order": 1 },
+      { "module": "WEB-HTML", "order": 2 },
+      { "module": "WEB-CSS", "order": 3 },
+      { "module": "DEV-GIT", "order": 4 },
+      { "module": "JS-CORE", "order": 5 },
+      { "module": "FE-REACT", "order": 6 },
+      { "module": "FINAL", "order": 7 }
+    ],
+    "final_project": "Employee Task Management System"
+  },
+  "ETH-FS-45": {
+    "code": "ETH-FS-45",
+    "name": "45-Day Full Stack Development Program",
+    "duration_days": 45,
+    "track": "fullstack",
+    "phases": [
+      {
+        "phase_order": 1,
+        "title": "Web Foundation",
+        "modules": ["PROG-FUND", "WEB-HTML", "WEB-CSS", "DEV-GIT"]
+      },
+      {
+        "phase_order": 2,
+        "title": "JavaScript & Frontend",
+        "modules": ["JS-CORE", "FE-REACT", "FE-TS"]
+      },
+      {
+        "phase_order": 3,
+        "title": "Backend",
+        "modules": ["BE-NODE", "BE-EXPRESS", "BE-REST", "DB-MYSQL", "DB-MONGO"]
+      },
+      {
+        "phase_order": 4,
+        "title": "Security & Integration",
+        "modules": ["SEC-AUTH", "FS-INTEGRATION"]
+      },
+      {
+        "phase_order": 5,
+        "title": "APIs & Automation",
+        "modules": ["API-PAYMENT", "API-COMM", "AUTO-N8N"]
+      },
+      {
+        "phase_order": 6,
+        "title": "Capstone",
+        "modules": ["FINAL"]
+      }
+    ],
+    "module_sequence": [
+      { "module": "PROG-FUND", "order": 1 },
+      { "module": "WEB-HTML", "order": 2 },
+      { "module": "WEB-CSS", "order": 3 },
+      { "module": "DEV-GIT", "order": 4 },
+      { "module": "JS-CORE", "order": 5 },
+      { "module": "FE-REACT", "order": 6 },
+      { "module": "FE-TS", "order": 7 },
+      { "module": "BE-NODE", "order": 8 },
+      { "module": "BE-EXPRESS", "order": 9 },
+      { "module": "BE-REST", "order": 10 },
+      { "module": "DB-MYSQL", "order": 11 },
+      { "module": "DB-MONGO", "order": 12 },
+      { "module": "SEC-AUTH", "order": 13 },
+      { "module": "FS-INTEGRATION", "order": 14 },
+      { "module": "API-PAYMENT", "order": 15 },
+      { "module": "API-COMM", "order": 16 },
+      { "module": "AUTO-N8N", "order": 17 },
+      { "module": "FINAL", "order": 18 }
+    ],
+    "final_project": "Capstone Full Stack Application with Payment & Communication Integration"
+  },
+  "ETH-AIFS-60": {
+    "code": "ETH-AIFS-60",
+    "name": "60-Day AI Full Stack Development Program",
+    "duration_days": 60,
+    "track": "aifs",
+    "phases": [
+      {
+        "phase_order": 1,
+        "title": "Web Foundation",
+        "modules": ["PROG-FUND", "WEB-HTML", "WEB-CSS", "DEV-GIT"]
+      },
+      {
+        "phase_order": 2,
+        "title": "JavaScript & Frontend",
+        "modules": ["JS-CORE", "FE-REACT", "FE-TS", "FE-NEXT"]
+      },
+      {
+        "phase_order": 3,
+        "title": "Backend",
+        "modules": ["BE-NODE", "BE-EXPRESS", "BE-REST", "DB-MYSQL", "DB-MONGO"]
+      },
+      {
+        "phase_order": 4,
+        "title": "Security & Integration",
+        "modules": ["SEC-AUTH", "FS-INTEGRATION"]
+      },
+      {
+        "phase_order": 5,
+        "title": "APIs & Automation",
+        "modules": ["API-PAYMENT", "API-COMM", "AUTO-N8N"]
+      },
+      {
+        "phase_order": 6,
+        "title": "AI & ML",
+        "modules": ["AI-DEV", "AI-GENAPP", "PY-CORE", "DATA-ANALYTICS", "ML-CORE", "ML-DL"]
+      },
+      {
+        "phase_order": 7,
+        "title": "DevOps & Security",
+        "modules": ["QA-TEST", "DEVOPS-CORE", "CLOUD-AWS", "SEC-WEB"]
+      },
+      {
+        "phase_order": 8,
+        "title": "Capstone",
+        "modules": ["FINAL"]
+      }
+    ],
+    "module_sequence": [
+      { "module": "PROG-FUND", "order": 1 },
+      { "module": "WEB-HTML", "order": 2 },
+      { "module": "WEB-CSS", "order": 3 },
+      { "module": "DEV-GIT", "order": 4 },
+      { "module": "JS-CORE", "order": 5 },
+      { "module": "FE-REACT", "order": 6 },
+      { "module": "FE-TS", "order": 7 },
+      { "module": "FE-NEXT", "order": 8 },
+      { "module": "BE-NODE", "order": 9 },
+      { "module": "BE-EXPRESS", "order": 10 },
+      { "module": "BE-REST", "order": 11 },
+      { "module": "DB-MYSQL", "order": 12 },
+      { "module": "DB-MONGO", "order": 13 },
+      { "module": "SEC-AUTH", "order": 14 },
+      { "module": "FS-INTEGRATION", "order": 15 },
+      { "module": "API-PAYMENT", "order": 16 },
+      { "module": "API-COMM", "order": 17 },
+      { "module": "AUTO-N8N", "order": 18 },
+      { "module": "AI-DEV", "order": 19 },
+      { "module": "AI-GENAPP", "order": 20 },
+      { "module": "PY-CORE", "order": 21 },
+      { "module": "DATA-ANALYTICS", "order": 22 },
+      { "module": "ML-CORE", "order": 23 },
+      { "module": "ML-DL", "order": 24 },
+      { "module": "QA-TEST", "order": 25 },
+      { "module": "DEVOPS-CORE", "order": 26 },
+      { "module": "CLOUD-AWS", "order": 27 },
+      { "module": "SEC-WEB", "order": 28 },
+      { "module": "FINAL", "order": 29 }
+    ],
+    "final_project": "AI-Powered Full Stack SaaS Application"
+  }
+}

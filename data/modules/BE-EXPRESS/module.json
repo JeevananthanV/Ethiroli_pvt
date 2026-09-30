@@ -1,0 +1,42 @@
+{
+  "code": "BE-EXPRESS",
+  "title": "Express.js",
+  "category": "Backend",
+  "level": "Intermediate",
+  "duration_hours": 16,
+  "description": "Express.js framework for building production-ready REST APIs with middleware, routing, validation, error handling, authentication, and API documentation.",
+  "topics": [
+    "Express fundamentals",
+    "Server setup",
+    "Routes",
+    "Controllers",
+    "Middleware",
+    "Request/response",
+    "Validation",
+    "Error handling",
+    "Authentication middleware",
+    "File uploads",
+    "API structure",
+    "Service architecture",
+    "API documentation"
+  ],
+  "technologies": [
+    "Express.js",
+    "Node.js"
+  ],
+  "practicals": [],
+  "projects": [
+    "Production REST API"
+  ],
+  "prerequisites": [
+    "BE-NODE"
+  ],
+  "learning_outcomes": [
+    "Build production REST APIs with Express.js",
+    "Implement middleware for authentication and validation",
+    "Structure APIs with controllers and services",
+    "Handle file uploads and downloads",
+    "Document APIs with OpenAPI/Swagger",
+    "Follow REST API design best practices"
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "id": "ML-CORE-SUB02-Q01",
+  "module_code": "ML-CORE",
+  "day": 1,
+  "title": "Quiz 1: Classification Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Classification?",
+      "options": [
+        "Core principle of Classification",
+        "Advanced Classification technique",
+        "Alternative approach to Classification",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Classification concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Clustering?",
+      "options": [
+        "Core principle of Clustering",
+        "Advanced Clustering technique",
+        "Alternative approach to Clustering",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Clustering concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Feature engineering?",
+      "options": [
+        "Core principle of Feature engineering",
+        "Advanced Feature engineering technique",
+        "Alternative approach to Feature engineering",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Feature engineering concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Data preprocessing?",
+      "options": [
+        "Core principle of Data preprocessing",
+        "Advanced Data preprocessing technique",
+        "Alternative approach to Data preprocessing",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Data preprocessing concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Classification?",
+      "options": [
+        "Core principle of Classification",
+        "Advanced Classification technique",
+        "Alternative approach to Classification",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Classification concepts."
+    }
+  ]
+}

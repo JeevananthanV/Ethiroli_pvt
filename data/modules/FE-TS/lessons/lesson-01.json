@@ -1,0 +1,18 @@
+{
+  "id": "FE-TS-L01",
+  "module_code": "FE-TS",
+  "lesson_order": 1,
+  "title": "TypeScript fundamentals in TypeScript",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of TypeScript fundamentals",
+    "Implement real-world code for TypeScript fundamentals according to industry standards",
+    "Debug and optimize TypeScript fundamentals integrations"
+  ],
+  "theory_markdown": "### TypeScript fundamentals\n\nThis lesson covers in-depth technical mechanics of **TypeScript fundamentals** as part of the TypeScript curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// TypeScript fundamentals Implementation Example\nexport function handleTypeScriptfundamentals() {\n  console.log('Executing TypeScript fundamentals workflow...');\n}",
+    "explanation": "Demonstration of how TypeScript fundamentals is structured in production."
+  }
+}

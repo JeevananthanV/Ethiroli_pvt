@@ -1,0 +1,45 @@
+{
+  "code": "AI-DEV",
+  "title": "AI for Developers",
+  "category": "AI/ML",
+  "level": "Beginner",
+  "duration_hours": 12,
+  "description": "AI fundamentals for developers covering generative AI, LLMs, prompt engineering, AI-assisted coding, debugging, documentation, and AI API integration with major platforms.",
+  "topics": [
+    "AI fundamentals",
+    "Generative AI",
+    "LLMs",
+    "Prompt engineering",
+    "AI-assisted coding",
+    "AI debugging",
+    "AI code review",
+    "AI documentation",
+    "AI testing",
+    "AI UI generation",
+    "AI workflow generation",
+    "AI API integration"
+  ],
+  "technologies": [
+    "ChatGPT",
+    "Gemini",
+    "Claude",
+    "Cursor",
+    "GitHub Copilot",
+    "v0"
+  ],
+  "practicals": [],
+  "projects": [
+    "AI-Assisted Full Stack Application"
+  ],
+  "prerequisites": [
+    "PROG-FUND"
+  ],
+  "learning_outcomes": [
+    "Understand AI fundamentals and large language models",
+    "Apply prompt engineering techniques for better AI responses",
+    "Use AI assistants for code generation, debugging, and review",
+    "Automate documentation, testing, and UI generation with AI",
+    "Integrate AI APIs into development workflows",
+    "Follow ethical AI practices and limitations awareness"
+  ]
+}

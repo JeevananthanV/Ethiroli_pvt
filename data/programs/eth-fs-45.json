@@ -1,0 +1,73 @@
+{
+  "program": {
+    "code": "ETH-FS-45",
+    "name": "Ethiroli Full Stack Development Program",
+    "duration_days": 45,
+    "level": "Intermediate",
+    "description": "A comprehensive 45-day full stack development program built from reusable technology modules covering frontend, backend, databases, APIs, automation, and a final capstone project.",
+    "final_project": "Capstone Full Stack Application with Payment & Communication Integration",
+    "architecture": {
+      "hierarchy": "CAREER PROGRAM → PHASE → MODULE → TOPICS → LESSONS → QUIZ → PRACTICAL TASK → ASSIGNMENT → PROJECT",
+      "modules_are_reusable": true,
+      "programs_are_curriculum_paths": true
+    }
+  },
+  "phases": [
+    {
+      "phase_order": 1,
+      "title": "Web Foundation",
+      "description": "Core web development fundamentals covering HTML, CSS, and version control",
+      "modules": ["PROG-FUND", "WEB-HTML", "WEB-CSS", "DEV-GIT"]
+    },
+    {
+      "phase_order": 2,
+      "title": "JavaScript, TypeScript & Frontend Framework",
+      "description": "Modern JavaScript, TypeScript, and React.js for building scalable interactive user interfaces",
+      "modules": ["JS-CORE", "FE-REACT", "FE-TS"]
+    },
+    {
+      "phase_order": 3,
+      "title": "Backend & Databases",
+      "description": "Server-side development with Node.js, Express, REST API design, and database management",
+      "modules": ["BE-NODE", "BE-EXPRESS", "BE-REST", "DB-MYSQL", "DB-MONGO"]
+    },
+    {
+      "phase_order": 4,
+      "title": "Security, Integration & Automation",
+      "description": "Authentication, full-stack integration, payment APIs, communication services, and business automation",
+      "modules": ["SEC-AUTH", "FS-INTEGRATION"]
+    },
+    {
+      "phase_order": 5,
+      "title": "APIs & Automation",
+      "description": "Payment integration, communication automation, and business process automation",
+      "modules": ["API-PAYMENT", "API-COMM", "AUTO-N8N"]
+    },
+    {
+      "phase_order": 99,
+      "title": "Capstone Project & Portfolio",
+      "description": "Final capstone project integrating all learned technologies",
+      "modules": ["FINAL"]
+    }
+  ],
+  "module_sequence": [
+    { "module": "PROG-FUND", "order": 1 },
+    { "module": "WEB-HTML", "order": 2 },
+    { "module": "WEB-CSS", "order": 3 },
+    { "module": "DEV-GIT", "order": 4 },
+    { "module": "JS-CORE", "order": 5 },
+    { "module": "FE-REACT", "order": 6 },
+    { "module": "FE-TS", "order": 7 },
+    { "module": "BE-NODE", "order": 8 },
+    { "module": "BE-EXPRESS", "order": 9 },
+    { "module": "BE-REST", "order": 10 },
+    { "module": "DB-MYSQL", "order": 11 },
+    { "module": "DB-MONGO", "order": 12 },
+    { "module": "SEC-AUTH", "order": 13 },
+    { "module": "FS-INTEGRATION", "order": 14 },
+    { "module": "API-PAYMENT", "order": 15 },
+    { "module": "API-COMM", "order": 16 },
+    { "module": "AUTO-N8N", "order": 17 },
+    { "module": "FINAL", "order": 18 }
+  ]
+}

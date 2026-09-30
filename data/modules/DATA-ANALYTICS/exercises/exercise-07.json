@@ -1,0 +1,10 @@
+{
+  "id": "EX-DATA-ANALYTICS-L07",
+  "module_code": "DATA-ANALYTICS",
+  "title": "Lab Exercise: EDA",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates EDA.",
+  "starter_code": "// Lab: EDA\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for EDA\nexport const solution = true;\n"
+}

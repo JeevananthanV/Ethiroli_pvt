@@ -1,0 +1,35 @@
+{
+  "code": "FS-INTEGRATION-SUB03",
+  "title": "Full Stack Integration - Part 3",
+  "category": "Full Stack",
+  "level": "Advanced",
+  "duration_hours": 8,
+  "description": "Full-stack integration of React frontend with Node.js/Express backend, covering authentication, CRUD operations, forms, validation, file uploads, and database integration. This submodule covers: Pagination, Search, Filtering, Role-based dashboards, Database integration.",
+  "topics": [
+    "Pagination",
+    "Search",
+    "Filtering",
+    "Role-based dashboards",
+    "Database integration"
+  ],
+  "technologies": [
+    "React",
+    "Axios / Fetch",
+    "Node.js",
+    "Express.js",
+    "MySQL / MongoDB"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "FE-REACT",
+    "BE-NODE",
+    "BE-EXPRESS",
+    "DB-MYSQL"
+  ],
+  "learning_outcomes": [
+    "Build full-stack applications with React and Node.js",
+    "Implement RESTful API communication between frontend and backend",
+    "Manage application state with React hooks and context"
+  ]
+}

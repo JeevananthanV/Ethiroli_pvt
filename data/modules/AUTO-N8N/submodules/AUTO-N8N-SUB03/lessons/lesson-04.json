@@ -1,0 +1,22 @@
+{
+  "id": "AUTO-N8N-SUB03-L04",
+  "day": 7,
+  "module_code": "AUTO-N8N",
+  "lesson_order": 4,
+  "title": "AI automation: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of AI automation",
+    "Apply AI automation in practical scenarios",
+    "Build a small project using AI automation"
+  ],
+  "theory_markdown": "# AI automation\n\n## Overview\nThis lesson covers the fundamentals of AI automation and its practical applications.\n\n## Key Concepts\n- Concept 1 related to AI automation\n- Concept 2 related to AI automation\n- Best practices for AI automation\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of AI automation\n2. Implement basic AI automation functionality\n3. Apply AI automation to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example AI automation implementation\nconsole.log('Learning AI automation');\n\n// Basic AI automation example\nconst example = {\n  topic: 'AI automation',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic AI automation usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand AI automation concepts and generate code examples.\n\n---"
+  }
+}

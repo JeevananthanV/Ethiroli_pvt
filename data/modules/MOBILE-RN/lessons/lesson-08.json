@@ -1,0 +1,18 @@
+{
+  "id": "MOBILE-RN-L08",
+  "module_code": "MOBILE-RN",
+  "lesson_order": 8,
+  "title": "Authentication in Mobile Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Authentication",
+    "Implement real-world code for Authentication according to industry standards",
+    "Debug and optimize Authentication integrations"
+  ],
+  "theory_markdown": "### Authentication\n\nThis lesson covers in-depth technical mechanics of **Authentication** as part of the Mobile Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Authentication Implementation Example\nexport function handleAuthentication() {\n  console.log('Executing Authentication workflow...');\n}",
+    "explanation": "Demonstration of how Authentication is structured in production."
+  }
+}

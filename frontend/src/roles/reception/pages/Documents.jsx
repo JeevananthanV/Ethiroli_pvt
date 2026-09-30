@@ -51,7 +51,7 @@ export default function ReceptionDocuments() {
       }
     >
       {/* Category Pills & Search */}
-      <div className="card border-0 shadow-sm rounded-3 p-3 mb-4 bg-white">
+      <div className="card border-0 shadow-sm rounded-3 p-3 mb-2 bg-white">
         <div className="row g-2 align-items-center">
           <div className="col-12 col-md-7">
             <div className="input-group">

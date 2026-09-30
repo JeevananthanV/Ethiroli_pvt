@@ -1,0 +1,57 @@
+{
+  "code": "JS-CORE",
+  "title": "JavaScript Development",
+  "category": "Programming",
+  "level": "Intermediate",
+  "duration_hours": 40,
+  "description": "Core JavaScript programming covering ES6+, DOM manipulation, events, async/await, fetch API, modules, and modern development practices for dynamic web applications.",
+  "topics": [
+    "JavaScript fundamentals",
+    "Variables",
+    "Data types",
+    "Operators",
+    "Conditions",
+    "Loops",
+    "Functions",
+    "Scope",
+    "Arrays",
+    "Objects",
+    "Destructuring",
+    "Spread/rest",
+    "Array methods",
+    "DOM manipulation",
+    "Events",
+    "Form handling",
+    "Local storage",
+    "JSON",
+    "ES6+",
+    "Modules",
+    "Error handling",
+    "Promises",
+    "Async/Await",
+    "Fetch API",
+    "API integration",
+    "Event loop",
+    "Closures"
+  ],
+  "technologies": [
+    "JavaScript"
+  ],
+  "practicals": [],
+  "projects": [
+    "Expense Management Application"
+  ],
+  "prerequisites": [
+    "PROG-FUND",
+    "WEB-HTML",
+    "WEB-CSS"
+  ],
+  "learning_outcomes": [
+    "Master JavaScript fundamentals and ES6+ features",
+    "Manipulate the DOM and handle events",
+    "Work with arrays, objects, and JSON data",
+    "Implement asynchronous programming with promises and async/await",
+    "Integrate with APIs using Fetch",
+    "Organize code with modules and follow best practices"
+  ]
+}

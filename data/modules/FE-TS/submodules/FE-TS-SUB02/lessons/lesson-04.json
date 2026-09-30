@@ -1,0 +1,22 @@
+{
+  "id": "FE-TS-SUB02-L04",
+  "day": 7,
+  "module_code": "FE-TS",
+  "lesson_order": 4,
+  "title": "Generics: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Generics",
+    "Apply Generics in practical scenarios",
+    "Build a small project using Generics"
+  ],
+  "theory_markdown": "# Generics\n\n## Overview\nThis lesson covers the fundamentals of Generics and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Generics\n- Concept 2 related to Generics\n- Best practices for Generics\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Generics\n2. Implement basic Generics functionality\n3. Apply Generics to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Generics implementation\nconsole.log('Learning Generics');\n\n// Basic Generics example\nconst example = {\n  topic: 'Generics',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Generics usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Generics concepts and generate code examples.\n\n---"
+  }
+}

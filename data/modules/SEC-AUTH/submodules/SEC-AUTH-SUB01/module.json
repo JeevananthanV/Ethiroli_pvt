@@ -1,0 +1,31 @@
+{
+  "code": "SEC-AUTH-SUB01",
+  "title": "Authentication & Authorization - Part 1",
+  "category": "Security",
+  "level": "Intermediate",
+  "duration_hours": 4,
+  "description": "Authentication and authorization covering password hashing, JWT, sessions, cookies, role-based access control, OAuth, and security best practices. This submodule covers: Authentication, Authorization, Password hashing, JWT, Sessions.",
+  "topics": [
+    "Authentication",
+    "Authorization",
+    "Password hashing",
+    "JWT",
+    "Sessions"
+  ],
+  "technologies": [
+    "JWT",
+    "bcrypt",
+    "OAuth"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "BE-NODE",
+    "DB-MYSQL"
+  ],
+  "learning_outcomes": [
+    "Implement secure password storage with hashing and salting",
+    "Create JWT-based authentication systems",
+    "Manage user sessions and cookies securely"
+  ]
+}

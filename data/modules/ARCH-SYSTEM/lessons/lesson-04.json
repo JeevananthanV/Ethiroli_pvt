@@ -1,0 +1,18 @@
+{
+  "id": "ARCH-SYSTEM-L04",
+  "module_code": "ARCH-SYSTEM",
+  "lesson_order": 4,
+  "title": "Scalability in System Design",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Scalability",
+    "Implement real-world code for Scalability according to industry standards",
+    "Debug and optimize Scalability integrations"
+  ],
+  "theory_markdown": "### Scalability\n\nThis lesson covers in-depth technical mechanics of **Scalability** as part of the System Design curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Scalability Implementation Example\nexport function handleScalability() {\n  console.log('Executing Scalability workflow...');\n}",
+    "explanation": "Demonstration of how Scalability is structured in production."
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "ethiroli_lms_curriculum": {
+    "version": "2.0.0",
+    "architecture": {
+      "description": "Modular curriculum where technology modules are reusable building blocks. 30/45/60-day programs are curriculum paths that select and arrange these modules.",
+      "hierarchy": "CAREER PROGRAM → PHASE → MODULE → TOPICS → LESSONS → QUIZ → PRACTICAL TASK → ASSIGNMENT → PROJECT",
+      "principles": [
+        "Modules are the reusable master content",
+        "Programs are curriculum paths that select modules",
+        "One module can be reused across multiple programs",
+        "Modules have explicit prerequisites for ordering",
+        "Each module contains its own topics, lessons, quizzes, practicals, assignments, and projects"
+      ]
+    },
+    "programs": {
+      "ETH-WEB-30": {
+        "file": "courses/eth-web-30.json",
+        "name": "30-Day Web Development Internship",
+        "duration": "30 days",
+        "phases": 4,
+        "modules": ["PROG-FUND", "WEB-HTML", "WEB-CSS", "DEV-GIT", "JS-CORE", "FE-REACT", "FINAL"]
+      },
+      "ETH-FS-45": {
+        "file": "courses/eth-fs-45.json",
+        "name": "45-Day Full Stack Development Program",
+        "duration": "45 days",
+        "phases": 6,
+        "modules": ["PROG-FUND", "WEB-HTML", "WEB-CSS", "DEV-GIT", "JS-CORE", "FE-REACT", "FE-TS", "BE-NODE", "BE-EXPRESS", "BE-REST", "DB-MYSQL", "DB-MONGO", "SEC-AUTH", "FS-INTEGRATION", "API-PAYMENT", "API-COMM", "AUTO-N8N", "FINAL"]
+      },
+      "ETH-AIFS-60": {
+        "file": "courses/eth-aifs-60.json",
+        "name": "60-Day AI Full Stack Development Program",
+        "duration": "60 days",
+        "phases": 7,
+        "modules": ["PROG-FUND", "WEB-HTML", "WEB-CSS", "DEV-GIT", "JS-CORE", "FE-REACT", "FE-TS", "FE-NEXT", "BE-NODE", "BE-EXPRESS", "BE-REST", "DB-MYSQL", "DB-MONGO", "SEC-AUTH", "FS-INTEGRATION", "API-PAYMENT", "API-COMM", "AUTO-N8N", "AI-DEV", "AI-GENAPP", "PY-CORE", "DATA-ANALYTICS", "ML-CORE", "ML-DL", "QA-TEST", "DEVOPS-CORE", "CLOUD-AWS", "SEC-WEB", "FINAL"]
+      }
+    },
+    "modules": {
+      "count": 33,
+      "source": "data/modules/module-registry.json",
+      "available": ["PROG-FUND", "WEB-HTML", "WEB-CSS", "JS-CORE", "DEV-GIT", "DESIGN-UIUX", "FE-REACT", "FE-TS", "FE-NEXT", "BE-NODE", "BE-EXPRESS", "BE-REST", "DB-MYSQL", "DB-MONGO", "SEC-AUTH", "FS-INTEGRATION", "API-PAYMENT", "API-COMM", "AUTO-N8N", "AI-DEV", "AI-GENAPP", "PY-CORE", "DATA-ANALYTICS", "ML-CORE", "ML-DL", "QA-TEST", "DEVOPS-CORE", "CLOUD-AWS", "SEC-WEB", "ARCH-SYSTEM", "DSA-CORE", "MOBILE-RN", "SEO-TECH", "FINAL"]
+    },
+    "data_files": {
+      "module_registry": "data/modules/module-registry.json",
+      "program_registry": "data/curriculum/programs/program-registry.json",
+      "courses": [
+        "data/curriculum/courses/eth-web-30.json",
+        "data/curriculum/courses/eth-fs-45.json",
+        "data/curriculum/courses/eth-aifs-60.json"
+      ],
+      "tech_stack": "data/curriculum/tech-stack.json",
+      "existing_modules": "data/modules/",
+      "existing_programs": "data/programs/"
+    }
+  }
+}

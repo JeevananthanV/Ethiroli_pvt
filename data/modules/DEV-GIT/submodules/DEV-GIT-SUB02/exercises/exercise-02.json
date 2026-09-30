@@ -1,0 +1,33 @@
+{
+  "id": "DEV-GIT-SUB02-E02",
+  "module_code": "DEV-GIT",
+  "day": 4,
+  "title": "Hands-on Lab: Pull Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Pull:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Pull in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Pull basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Pull exercise\n// TODO: Implement Pull functionality here\n\nconsole.log('Pull exercise starter');\n",
+  "solution_code": "// Solution for Pull exercise\nconsole.log('Completed Pull exercise');\n\n// Basic implementation\nconst pull = {\n  name: 'Pull',\n  completed: true\n};\n\nconsole.log(pull);"
+}

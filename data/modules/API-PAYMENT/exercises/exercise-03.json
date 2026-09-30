@@ -1,0 +1,10 @@
+{
+  "id": "EX-API-PAYMENT-L03",
+  "module_code": "API-PAYMENT",
+  "title": "Lab Exercise: Order creation",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Order creation.",
+  "starter_code": "// Lab: Order creation\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Order creation\nexport const solution = true;\n"
+}

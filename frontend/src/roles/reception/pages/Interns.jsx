@@ -61,7 +61,7 @@ export default function ReceptionInterns() {
       }
     >
       {/* Search & Filter */}
-      <div className="card border-0 shadow-sm rounded-3 p-3 mb-4 bg-white">
+      <div className="card border-0 shadow-sm rounded-3 p-3 mb-2 bg-white">
         <div className="row g-2 align-items-center">
           <div className="col-12 col-md-8">
             <div className="input-group">

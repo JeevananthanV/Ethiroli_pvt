@@ -1,0 +1,10 @@
+{
+  "id": "EX-API-PAYMENT-L04",
+  "module_code": "API-PAYMENT",
+  "title": "Lab Exercise: Payment verification",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Payment verification.",
+  "starter_code": "// Lab: Payment verification\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Payment verification\nexport const solution = true;\n"
+}

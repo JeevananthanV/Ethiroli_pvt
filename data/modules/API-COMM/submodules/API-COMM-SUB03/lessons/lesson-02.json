@@ -1,0 +1,22 @@
+{
+  "id": "API-COMM-SUB03-L02",
+  "day": 3,
+  "module_code": "API-COMM",
+  "lesson_order": 2,
+  "title": "Delivery tracking: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Delivery tracking",
+    "Apply Delivery tracking in practical scenarios",
+    "Build a small project using Delivery tracking"
+  ],
+  "theory_markdown": "# Delivery tracking\n\n## Overview\nThis lesson covers the fundamentals of Delivery tracking and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Delivery tracking\n- Concept 2 related to Delivery tracking\n- Best practices for Delivery tracking\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Delivery tracking\n2. Implement basic Delivery tracking functionality\n3. Apply Delivery tracking to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Delivery tracking implementation\nconsole.log('Learning Delivery tracking');\n\n// Basic Delivery tracking example\nconst example = {\n  topic: 'Delivery tracking',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Delivery tracking usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Delivery tracking concepts and generate code examples.\n\n---"
+  }
+}

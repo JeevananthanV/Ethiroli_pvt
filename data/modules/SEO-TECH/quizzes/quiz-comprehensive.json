@@ -1,0 +1,117 @@
+{
+  "id": "QZ-SEO-TECH-COMPREHENSIVE",
+  "module_code": "SEO-TECH",
+  "title": "Comprehensive Quiz: Technical SEO",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes seo fundamentals in Technical SEO?",
+      "options": [
+        "Core concept: SEO fundamentals is fundamental to Technical SEO",
+        "Alternative approach to SEO fundamentals using different methodology",
+        "Advanced implementation of SEO fundamentals with optimizations",
+        "Legacy technique for SEO fundamentals no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "SEO fundamentals is a key topic in Technical SEO. Understand SEO fundamentals and how search engines work"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes keyword research in Technical SEO?",
+      "options": [
+        "Core concept: Keyword research is fundamental to Technical SEO",
+        "Alternative approach to Keyword research using different methodology",
+        "Advanced implementation of Keyword research with optimizations",
+        "Legacy technique for Keyword research no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Keyword research is a key topic in Technical SEO. Understand SEO fundamentals and how search engines work"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes on-page seo in Technical SEO?",
+      "options": [
+        "Core concept: On-page SEO is fundamental to Technical SEO",
+        "Alternative approach to On-page SEO using different methodology",
+        "Advanced implementation of On-page SEO with optimizations",
+        "Legacy technique for On-page SEO no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "On-page SEO is a key topic in Technical SEO. Understand SEO fundamentals and how search engines work"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes technical seo in Technical SEO?",
+      "options": [
+        "Core concept: Technical SEO is fundamental to Technical SEO",
+        "Alternative approach to Technical SEO using different methodology",
+        "Advanced implementation of Technical SEO with optimizations",
+        "Legacy technique for Technical SEO no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Technical SEO is a key topic in Technical SEO. Understand SEO fundamentals and how search engines work"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes meta tags in Technical SEO?",
+      "options": [
+        "Core concept: Meta tags is fundamental to Technical SEO",
+        "Alternative approach to Meta tags using different methodology",
+        "Advanced implementation of Meta tags with optimizations",
+        "Legacy technique for Meta tags no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Meta tags is a key topic in Technical SEO. Understand SEO fundamentals and how search engines work"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes structured data in Technical SEO?",
+      "options": [
+        "Core concept: Structured data is fundamental to Technical SEO",
+        "Alternative approach to Structured data using different methodology",
+        "Advanced implementation of Structured data with optimizations",
+        "Legacy technique for Structured data no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Structured data is a key topic in Technical SEO. Understand SEO fundamentals and how search engines work"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in Technical SEO?",
+      "options": [
+        "Google Search Console",
+        "Google Analytics",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "Technical SEO uses Google Search Console, Google Analytics, Google Business Profile, Schema.org as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of Technical SEO?",
+      "options": [
+        "Understand SEO fundamentals and how search engines work",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Understand SEO fundamentals and how search engines work"
+    },
+    {
+      "id": 9,
+      "question": "When applying Technical SEO in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for Technical SEO include following established patterns and using recommended tools."
+    }
+  ]
+}

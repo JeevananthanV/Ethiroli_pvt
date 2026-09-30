@@ -1,0 +1,18 @@
+{
+  "id": "MOBILE-RN-L11",
+  "module_code": "MOBILE-RN",
+  "lesson_order": 11,
+  "title": "Camera in Mobile Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Camera",
+    "Implement real-world code for Camera according to industry standards",
+    "Debug and optimize Camera integrations"
+  ],
+  "theory_markdown": "### Camera\n\nThis lesson covers in-depth technical mechanics of **Camera** as part of the Mobile Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Camera Implementation Example\nexport function handleCamera() {\n  console.log('Executing Camera workflow...');\n}",
+    "explanation": "Demonstration of how Camera is structured in production."
+  }
+}

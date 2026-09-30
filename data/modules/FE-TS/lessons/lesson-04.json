@@ -1,0 +1,18 @@
+{
+  "id": "FE-TS-L04",
+  "module_code": "FE-TS",
+  "lesson_order": 4,
+  "title": "Type aliases in TypeScript",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Type aliases",
+    "Implement real-world code for Type aliases according to industry standards",
+    "Debug and optimize Type aliases integrations"
+  ],
+  "theory_markdown": "### Type aliases\n\nThis lesson covers in-depth technical mechanics of **Type aliases** as part of the TypeScript curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Type aliases Implementation Example\nexport function handleTypealiases() {\n  console.log('Executing Type aliases workflow...');\n}",
+    "explanation": "Demonstration of how Type aliases is structured in production."
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "id": "WEB-CSS-SUB02-Q02",
+  "module_code": "WEB-CSS",
+  "day": 3,
+  "title": "Quiz 2: Positioning Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Positioning?",
+      "options": [
+        "Core principle of Positioning",
+        "Advanced Positioning technique",
+        "Alternative approach to Positioning",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Positioning concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Flexbox?",
+      "options": [
+        "Core principle of Flexbox",
+        "Advanced Flexbox technique",
+        "Alternative approach to Flexbox",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Flexbox concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in CSS Grid?",
+      "options": [
+        "Core principle of CSS Grid",
+        "Advanced CSS Grid technique",
+        "Alternative approach to CSS Grid",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental CSS Grid concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Responsive design?",
+      "options": [
+        "Core principle of Responsive design",
+        "Advanced Responsive design technique",
+        "Alternative approach to Responsive design",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Responsive design concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Media queries?",
+      "options": [
+        "Core principle of Media queries",
+        "Advanced Media queries technique",
+        "Alternative approach to Media queries",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Media queries concepts."
+    }
+  ]
+}

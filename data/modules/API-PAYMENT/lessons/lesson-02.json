@@ -1,0 +1,18 @@
+{
+  "id": "API-PAYMENT-L02",
+  "module_code": "API-PAYMENT",
+  "lesson_order": 2,
+  "title": "Payment gateway in Payment Integration",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Payment gateway",
+    "Implement real-world code for Payment gateway according to industry standards",
+    "Debug and optimize Payment gateway integrations"
+  ],
+  "theory_markdown": "### Payment gateway\n\nThis lesson covers in-depth technical mechanics of **Payment gateway** as part of the Payment Integration curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Payment gateway Implementation Example\nexport function handlePaymentgateway() {\n  console.log('Executing Payment gateway workflow...');\n}",
+    "explanation": "Demonstration of how Payment gateway is structured in production."
+  }
+}

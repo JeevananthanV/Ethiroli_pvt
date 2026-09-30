@@ -1,0 +1,22 @@
+{
+  "id": "WEB-CSS-SUB03-L01",
+  "day": 1,
+  "module_code": "WEB-CSS",
+  "lesson_order": 1,
+  "title": "Transitions: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Transitions",
+    "Apply Transitions in practical scenarios",
+    "Build a small project using Transitions"
+  ],
+  "theory_markdown": "# Transitions\n\n## Overview\nThis lesson covers the fundamentals of Transitions and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Transitions\n- Concept 2 related to Transitions\n- Best practices for Transitions\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Transitions\n2. Implement basic Transitions functionality\n3. Apply Transitions to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Transitions implementation\nconsole.log('Learning Transitions');\n\n// Basic Transitions example\nconst example = {\n  topic: 'Transitions',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Transitions usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Transitions concepts and generate code examples.\n\n---"
+  }
+}

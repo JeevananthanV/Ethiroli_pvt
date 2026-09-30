@@ -1,0 +1,70 @@
+{
+  "id": "AI-DEV-SUB01-Q03",
+  "module_code": "AI-DEV",
+  "day": 5,
+  "title": "Quiz 3: AI fundamentals Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in AI fundamentals?",
+      "options": [
+        "Core principle of AI fundamentals",
+        "Advanced AI fundamentals technique",
+        "Alternative approach to AI fundamentals",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental AI fundamentals concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Generative AI?",
+      "options": [
+        "Core principle of Generative AI",
+        "Advanced Generative AI technique",
+        "Alternative approach to Generative AI",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Generative AI concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in LLMs?",
+      "options": [
+        "Core principle of LLMs",
+        "Advanced LLMs technique",
+        "Alternative approach to LLMs",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental LLMs concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Prompt engineering?",
+      "options": [
+        "Core principle of Prompt engineering",
+        "Advanced Prompt engineering technique",
+        "Alternative approach to Prompt engineering",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Prompt engineering concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in AI fundamentals?",
+      "options": [
+        "Core principle of AI fundamentals",
+        "Advanced AI fundamentals technique",
+        "Alternative approach to AI fundamentals",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental AI fundamentals concepts."
+    }
+  ]
+}

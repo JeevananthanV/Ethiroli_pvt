@@ -1,0 +1,18 @@
+{
+  "id": "DATA-ANALYTICS-L06",
+  "module_code": "DATA-ANALYTICS",
+  "lesson_order": 6,
+  "title": "Statistics in Data Analytics",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Statistics",
+    "Implement real-world code for Statistics according to industry standards",
+    "Debug and optimize Statistics integrations"
+  ],
+  "theory_markdown": "### Statistics\n\nThis lesson covers in-depth technical mechanics of **Statistics** as part of the Data Analytics curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Statistics Implementation Example\nexport function handleStatistics() {\n  console.log('Executing Statistics workflow...');\n}",
+    "explanation": "Demonstration of how Statistics is structured in production."
+  }
+}

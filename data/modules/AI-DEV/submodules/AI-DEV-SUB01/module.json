@@ -1,0 +1,32 @@
+{
+  "code": "AI-DEV-SUB01",
+  "title": "AI for Developers - Part 1",
+  "category": "AI/ML",
+  "level": "Beginner",
+  "duration_hours": 4,
+  "description": "AI fundamentals for developers covering generative AI, LLMs, prompt engineering, AI-assisted coding, debugging, documentation, and AI API integration with major platforms. This submodule covers: AI fundamentals, Generative AI, LLMs, Prompt engineering.",
+  "topics": [
+    "AI fundamentals",
+    "Generative AI",
+    "LLMs",
+    "Prompt engineering"
+  ],
+  "technologies": [
+    "ChatGPT",
+    "Gemini",
+    "Claude",
+    "Cursor",
+    "GitHub Copilot",
+    "v0"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "PROG-FUND"
+  ],
+  "learning_outcomes": [
+    "Understand AI fundamentals and large language models",
+    "Apply prompt engineering techniques for better AI responses",
+    "Use AI assistants for code generation, debugging, and review"
+  ]
+}

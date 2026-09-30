@@ -1,0 +1,49 @@
+{
+  "code": "FE-NEXT",
+  "title": "Next.js",
+  "category": "Frontend",
+  "level": "Advanced",
+  "duration_hours": 24,
+  "description": "Next.js development with App Router, Server/Client Components, API routes, authentication, SEO, image optimization, and production deployment strategies.",
+  "topics": [
+    "Next.js fundamentals",
+    "App Router",
+    "Pages",
+    "Layouts",
+    "Server Components",
+    "Client Components",
+    "Routing",
+    "Dynamic routes",
+    "Data fetching",
+    "Server actions",
+    "API routes",
+    "Middleware",
+    "Authentication",
+    "SEO",
+    "Metadata",
+    "Image optimization",
+    "Caching",
+    "Deployment"
+  ],
+  "technologies": [
+    "Next.js",
+    "TypeScript"
+  ],
+  "practicals": [],
+  "projects": [
+    "Production SaaS Website"
+  ],
+  "prerequisites": [
+    "FE-REACT",
+    "FE-TS",
+    "BE-NODE"
+  ],
+  "learning_outcomes": [
+    "Build full-stack applications with Next.js App Router",
+    "Implement server-side rendering and static site generation",
+    "Create API routes and server actions",
+    "Implement authentication and authorization",
+    "Optimize for SEO and performance",
+    "Deploy production-ready Next.js applications"
+  ]
+}

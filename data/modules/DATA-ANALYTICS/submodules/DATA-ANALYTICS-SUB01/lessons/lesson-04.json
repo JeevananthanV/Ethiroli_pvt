@@ -1,0 +1,22 @@
+{
+  "id": "DATA-ANALYTICS-SUB01-L04",
+  "day": 7,
+  "module_code": "DATA-ANALYTICS",
+  "lesson_order": 4,
+  "title": "Data cleaning: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Data cleaning",
+    "Apply Data cleaning in practical scenarios",
+    "Build a small project using Data cleaning"
+  ],
+  "theory_markdown": "# Data cleaning\n\n## Overview\nThis lesson covers the fundamentals of Data cleaning and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Data cleaning\n- Concept 2 related to Data cleaning\n- Best practices for Data cleaning\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Data cleaning\n2. Implement basic Data cleaning functionality\n3. Apply Data cleaning to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Data cleaning implementation\nconsole.log('Learning Data cleaning');\n\n// Basic Data cleaning example\nconst example = {\n  topic: 'Data cleaning',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Data cleaning usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Data cleaning concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "id": "SEC-AUTH-D44",
+  "day": 44,
+  "module_code": "SEC-AUTH",
+  "lesson_order": 1,
+  "title": "JWT Authentication: Registration, Login, and Token Management",
+  "duration_minutes": 60,
+  "objectives": [
+    "Implement JWT-based authentication with secure password hashing and token refresh."
+  ],
+  "theory_markdown": "Authentication verifies identity; authorisation determines access. JWT (JSON Web Token) has three parts: header, payload, signature. The payload contains claims (user ID, role, expiry). The signature prevents tampering. Tokens are stateless — the server does not store sessions.\r\n\r\nAccess tokens are short-lived (15 min). Refresh tokens are long-lived (7 days) and stored securely (httpOnly cookie). Password hashing with `bcrypt` (cost factor 12+). Never store plain passwords.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// services/authService.js\r\nimport bcrypt from 'bcryptjs';\r\nimport jwt from 'jsonwebtoken';\r\nimport { userRepository } from '../repositories/userRepository.js';\r\nimport { config } from '../config/index.js';\r\n\r\nconst SALT_ROUNDS = 12;\r\n\r\nexport const authService = {\r\n  async register({ username, email, password }) {\r\n    // Check if user exists\r\n    const existing = await userRepository.findByEmail(email);\r\n    if (existing) {\r\n      const err = new Error('Email already registered');\r\n      err.statusCode = 409;\r\n      throw err;\r\n    }\r\n\r\n    // Hash password\r\n    const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);\r\n\r\n    // Create user\r\n    const user = await userRepository.create({\r\n      username,\r\n      email,\r\n      passwordHash\r\n    });\r\n\r\n    // Generate tokens\r\n    return this.generateTokens(user);\r\n  },\r\n\r\n  async login({ email, password }) {\r\n    const user = await userRepository.findByEmail(email);\r\n    if (!user) {\r\n      const err = new Error('Invalid credentials');\r\n      err.statusCode = 401;\r\n      throw err;\r\n    }\r\n\r\n    const valid = await bcrypt.compare(password, user.password_hash);\r\n    if (!valid) {\r\n      const err = new Error('Invalid credentials');\r\n      err.statusCode = 401;\r\n      throw err;\r\n    }\r\n\r\n    return this.generateTokens(user);\r\n  },\r\n\r\n  generateTokens(user) {\r\n    const accessToken = jwt.sign(\r\n      { userId: user.id, role: user.role },\r\n      config.jwtSecret,\r\n      { expiresIn: '15m' }\r\n    );\r\n\r\n    const refreshToken = jwt.sign(\r\n      { userId: user.id, type: 'refresh' },\r\n      config.jwtRefreshSecret,\r\n      { expiresIn: '7d' }\r\n    );\r\n\r\n    return {\r\n      user: {\r\n        id: user.id,\r\n        username: user.username,\r\n        email: user.email,\r\n        role: user.role\r\n      },\r\n      accessToken,\r\n      refreshToken\r\n    };\r\n  },\r\n\r\n  async refreshToken(token) {\r\n    try {\r\n      const decoded = jwt.verify(token, config.jwtRefreshSecret);\r\n      if (decoded.type !== 'refresh') throw new Error('Invalid token type');\r\n\r\n      const user = await userRepository.findById(decoded.userId);\r\n      if (!user) throw new Error('User not found');\r\n\r\n      const accessToken = jwt.sign(\r\n        { userId: user.id, role: user.role },\r\n        config.jwtSecret,\r\n        { expiresIn: '15m' }\r\n      );\r\n\r\n      return { accessToken };\r\n    } catch (err) {\r\n      const error = new Error('Invalid refresh token');\r\n      error.statusCode = 401;\r\n      throw error;\r\n    }\r\n  }\r\n};",
+    "explanation": "`bcrypt.hash` with 12 rounds is computationally expensive — good for security. Access tokens are short-lived; refresh tokens are stored in httpOnly cookies (not accessible via JavaScript, preventing XSS theft). `authenticate` middleware verifies the access token on protected routes."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **JWT.io** (free) to decode and inspect JWTs. Use **OWASP ZAP** (free) for security testing of auth endpoints.\r\n\r\n---"
+  }
+}

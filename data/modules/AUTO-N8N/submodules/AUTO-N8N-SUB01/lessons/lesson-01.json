@@ -1,0 +1,22 @@
+{
+  "id": "AUTO-N8N-SUB01-L01",
+  "day": 1,
+  "module_code": "AUTO-N8N",
+  "lesson_order": 1,
+  "title": "Automation fundamentals: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Automation fundamentals",
+    "Apply Automation fundamentals in practical scenarios",
+    "Build a small project using Automation fundamentals"
+  ],
+  "theory_markdown": "# Automation fundamentals\n\n## Overview\nThis lesson covers the fundamentals of Automation fundamentals and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Automation fundamentals\n- Concept 2 related to Automation fundamentals\n- Best practices for Automation fundamentals\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Automation fundamentals\n2. Implement basic Automation fundamentals functionality\n3. Apply Automation fundamentals to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Automation fundamentals implementation\nconsole.log('Learning Automation fundamentals');\n\n// Basic Automation fundamentals example\nconst example = {\n  topic: 'Automation fundamentals',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Automation fundamentals usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Automation fundamentals concepts and generate code examples.\n\n---"
+  }
+}

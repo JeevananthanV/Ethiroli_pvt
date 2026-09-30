@@ -1,0 +1,22 @@
+{
+  "id": "WEB-CSS-SUB03-L03",
+  "day": 5,
+  "module_code": "WEB-CSS",
+  "lesson_order": 3,
+  "title": "Responsive navigation: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Responsive navigation",
+    "Apply Responsive navigation in practical scenarios",
+    "Build a small project using Responsive navigation"
+  ],
+  "theory_markdown": "# Responsive navigation\n\n## Overview\nThis lesson covers the fundamentals of Responsive navigation and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Responsive navigation\n- Concept 2 related to Responsive navigation\n- Best practices for Responsive navigation\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Responsive navigation\n2. Implement basic Responsive navigation functionality\n3. Apply Responsive navigation to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Responsive navigation implementation\nconsole.log('Learning Responsive navigation');\n\n// Basic Responsive navigation example\nconst example = {\n  topic: 'Responsive navigation',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Responsive navigation usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Responsive navigation concepts and generate code examples.\n\n---"
+  }
+}

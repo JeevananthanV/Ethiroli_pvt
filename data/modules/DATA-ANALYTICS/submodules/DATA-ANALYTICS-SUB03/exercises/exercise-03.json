@@ -1,0 +1,33 @@
+{
+  "id": "DATA-ANALYTICS-SUB03-E03",
+  "module_code": "DATA-ANALYTICS",
+  "day": 6,
+  "title": "Hands-on Lab: Data storytelling Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Data storytelling:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Data storytelling in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Data storytelling basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Data storytelling exercise\n// TODO: Implement Data storytelling functionality here\n\nconsole.log('Data storytelling exercise starter');\n",
+  "solution_code": "// Solution for Data storytelling exercise\nconsole.log('Completed Data storytelling exercise');\n\n// Basic implementation\nconst datastorytelling = {\n  name: 'Data storytelling',\n  completed: true\n};\n\nconsole.log(datastorytelling);"
+}

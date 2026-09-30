@@ -1,0 +1,43 @@
+{
+  "code": "ML-DL",
+  "title": "Deep Learning",
+  "category": "AI/ML",
+  "level": "Advanced",
+  "duration_hours": 24,
+  "description": "Deep learning covering neural networks, CNN, RNN, LSTM, transfer learning, model training, and evaluation with TensorFlow, Keras, and PyTorch.",
+  "topics": [
+    "Neural networks",
+    "Perceptron",
+    "Activation functions",
+    "Forward propagation",
+    "Backpropagation",
+    "CNN",
+    "RNN",
+    "LSTM",
+    "Transfer learning",
+    "Model training",
+    "Model evaluation"
+  ],
+  "technologies": [
+    "Python",
+    "TensorFlow",
+    "Keras",
+    "PyTorch"
+  ],
+  "practicals": [],
+  "projects": [
+    "Image Classification System"
+  ],
+  "prerequisites": [
+    "ML-CORE",
+    "PY-CORE"
+  ],
+  "learning_outcomes": [
+    "Understand neural network fundamentals and architectures",
+    "Implement convolutional neural networks (CNNs) for image tasks",
+    "Work with recurrent neural networks (RNNs) and LSTMs for sequences",
+    "Apply transfer learning with pre-trained models",
+    "Train and evaluate deep learning models effectively",
+    "Use frameworks like TensorFlow, Keras, and PyTorch"
+  ]
+}

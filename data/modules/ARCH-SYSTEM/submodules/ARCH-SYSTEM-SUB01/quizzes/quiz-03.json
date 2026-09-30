@@ -1,0 +1,70 @@
+{
+  "id": "ARCH-SYSTEM-SUB01-Q03",
+  "module_code": "ARCH-SYSTEM",
+  "day": 5,
+  "title": "Quiz 3: System design fundamentals Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in System design fundamentals?",
+      "options": [
+        "Core principle of System design fundamentals",
+        "Advanced System design fundamentals technique",
+        "Alternative approach to System design fundamentals",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental System design fundamentals concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Requirements?",
+      "options": [
+        "Core principle of Requirements",
+        "Advanced Requirements technique",
+        "Alternative approach to Requirements",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Requirements concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Architecture?",
+      "options": [
+        "Core principle of Architecture",
+        "Advanced Architecture technique",
+        "Alternative approach to Architecture",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Architecture concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Scalability?",
+      "options": [
+        "Core principle of Scalability",
+        "Advanced Scalability technique",
+        "Alternative approach to Scalability",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Scalability concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Availability?",
+      "options": [
+        "Core principle of Availability",
+        "Advanced Availability technique",
+        "Alternative approach to Availability",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Availability concepts."
+    }
+  ]
+}

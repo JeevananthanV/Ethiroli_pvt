@@ -1,0 +1,13 @@
+{
+  "duration_minutes": 10,
+  "format": "Three Question Round Robin",
+  "questions": [
+    "What did you accomplish in yesterday’s lab session?",
+    "What module topic or feature are you working on today?",
+    "Are there any technical blockers or errors impeding your progress?"
+  ],
+  "tutor_action_items": [
+    "Record roll-call attendance immediately after standup",
+    "Flag blockers and assign senior mentor if needed"
+  ]
+}

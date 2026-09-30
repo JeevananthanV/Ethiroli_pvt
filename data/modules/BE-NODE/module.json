@@ -1,0 +1,42 @@
+{
+  "code": "BE-NODE",
+  "title": "Node.js",
+  "category": "Backend",
+  "level": "Intermediate",
+  "duration_hours": 20,
+  "description": "Node.js backend development covering runtime architecture, modules, file system, HTTP server, async programming, REST APIs, error handling, and security best practices.",
+  "topics": [
+    "Node.js fundamentals",
+    "Runtime architecture",
+    "npm",
+    "Modules",
+    "File system",
+    "Environment variables",
+    "Events",
+    "Streams",
+    "Async programming",
+    "HTTP server",
+    "REST APIs",
+    "Error handling",
+    "Logging",
+    "Security"
+  ],
+  "technologies": [
+    "Node.js"
+  ],
+  "practicals": [],
+  "projects": [
+    "Node.js REST API"
+  ],
+  "prerequisites": [
+    "JS-CORE"
+  ],
+  "learning_outcomes": [
+    "Build server-side applications with Node.js",
+    "Work with file system, streams, and events",
+    "Create REST APIs with Express-like routing",
+    "Implement error handling and logging",
+    "Work with environment variables and configuration",
+    "Follow Node.js security best practices"
+  ]
+}

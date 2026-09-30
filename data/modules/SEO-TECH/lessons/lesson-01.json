@@ -1,0 +1,18 @@
+{
+  "id": "SEO-TECH-L01",
+  "module_code": "SEO-TECH",
+  "lesson_order": 1,
+  "title": "SEO fundamentals in Technical SEO",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of SEO fundamentals",
+    "Implement real-world code for SEO fundamentals according to industry standards",
+    "Debug and optimize SEO fundamentals integrations"
+  ],
+  "theory_markdown": "### SEO fundamentals\n\nThis lesson covers in-depth technical mechanics of **SEO fundamentals** as part of the Technical SEO curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// SEO fundamentals Implementation Example\nexport function handleSEOfundamentals() {\n  console.log('Executing SEO fundamentals workflow...');\n}",
+    "explanation": "Demonstration of how SEO fundamentals is structured in production."
+  }
+}

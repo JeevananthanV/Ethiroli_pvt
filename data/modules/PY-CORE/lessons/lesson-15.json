@@ -1,0 +1,18 @@
+{
+  "id": "PY-CORE-L15",
+  "module_code": "PY-CORE",
+  "lesson_order": 15,
+  "title": "OOP in Python Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of OOP",
+    "Implement real-world code for OOP according to industry standards",
+    "Debug and optimize OOP integrations"
+  ],
+  "theory_markdown": "### OOP\n\nThis lesson covers in-depth technical mechanics of **OOP** as part of the Python Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// OOP Implementation Example\nexport function handleOOP() {\n  console.log('Executing OOP workflow...');\n}",
+    "explanation": "Demonstration of how OOP is structured in production."
+  }
+}

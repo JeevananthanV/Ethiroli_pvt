@@ -1,0 +1,11 @@
+{
+  "id": "EX-PROG-FUND-D02",
+  "module_code": "PROG-FUND",
+  "day": 2,
+  "title": "Hands-on Lab: Environment Setup, CLI, and Developer Workflow",
+  "estimated_minutes": 45,
+  "difficulty": "Beginner",
+  "instructions": "Create a new project, install Express and Nodemon, create an `index.js` that starts a server on port 4000, and add `\"dev\": \"nodemon index.js\"` to scripts. Run `npm run dev` and verify the server starts. Change the response message, save, and verify Nodemon restarted automatically.",
+  "starter_code": "// Starter file for Environment Setup, CLI, and Developer Workflow\n// Task instructions:\n// Create a new project, install Express and Nodemon, create an `index.js` that starts a server on port 4000, and add `\"dev\": \"nodemon index.js\"` to scri...\n",
+  "solution_code": "mkdir eth-aifs-demo && cd eth-aifs-demo\r\nnpm init -y\r\nnpm install express cors dotenv\r\nnpm install --save-dev nodemon"
+}

@@ -1,0 +1,117 @@
+{
+  "id": "QZ-FS-INTEGRATION-COMPREHENSIVE",
+  "module_code": "FS-INTEGRATION",
+  "title": "Comprehensive Quiz: Full Stack Integration",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes react + node in Full Stack Integration?",
+      "options": [
+        "Core concept: React + Node is fundamental to Full Stack Integration",
+        "Alternative approach to React + Node using different methodology",
+        "Advanced implementation of React + Node with optimizations",
+        "Legacy technique for React + Node no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "React + Node is a key topic in Full Stack Integration. Build full-stack applications with React and Node.js"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes frontend/backend architecture in Full Stack Integration?",
+      "options": [
+        "Core concept: Frontend/backend architecture is fundamental to Full Stack Integration",
+        "Alternative approach to Frontend/backend architecture using different methodology",
+        "Advanced implementation of Frontend/backend architecture with optimizations",
+        "Legacy technique for Frontend/backend architecture no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Frontend/backend architecture is a key topic in Full Stack Integration. Build full-stack applications with React and Node.js"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes api integration in Full Stack Integration?",
+      "options": [
+        "Core concept: API integration is fundamental to Full Stack Integration",
+        "Alternative approach to API integration using different methodology",
+        "Advanced implementation of API integration with optimizations",
+        "Legacy technique for API integration no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "API integration is a key topic in Full Stack Integration. Build full-stack applications with React and Node.js"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes authentication in Full Stack Integration?",
+      "options": [
+        "Core concept: Authentication is fundamental to Full Stack Integration",
+        "Alternative approach to Authentication using different methodology",
+        "Advanced implementation of Authentication with optimizations",
+        "Legacy technique for Authentication no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Authentication is a key topic in Full Stack Integration. Build full-stack applications with React and Node.js"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes crud in Full Stack Integration?",
+      "options": [
+        "Core concept: CRUD is fundamental to Full Stack Integration",
+        "Alternative approach to CRUD using different methodology",
+        "Advanced implementation of CRUD with optimizations",
+        "Legacy technique for CRUD no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "CRUD is a key topic in Full Stack Integration. Build full-stack applications with React and Node.js"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes forms in Full Stack Integration?",
+      "options": [
+        "Core concept: Forms is fundamental to Full Stack Integration",
+        "Alternative approach to Forms using different methodology",
+        "Advanced implementation of Forms with optimizations",
+        "Legacy technique for Forms no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Forms is a key topic in Full Stack Integration. Build full-stack applications with React and Node.js"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in Full Stack Integration?",
+      "options": [
+        "React",
+        "Axios / Fetch",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "Full Stack Integration uses React, Axios / Fetch, Node.js, Express.js, MySQL / MongoDB as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of Full Stack Integration?",
+      "options": [
+        "Build full-stack applications with React and Node.js",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Build full-stack applications with React and Node.js"
+    },
+    {
+      "id": 9,
+      "question": "When applying Full Stack Integration in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for Full Stack Integration include following established patterns and using recommended tools."
+    }
+  ]
+}

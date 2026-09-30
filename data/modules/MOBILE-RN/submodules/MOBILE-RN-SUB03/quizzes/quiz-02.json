@@ -1,0 +1,70 @@
+{
+  "id": "MOBILE-RN-SUB03-Q02",
+  "module_code": "MOBILE-RN",
+  "day": 3,
+  "title": "Quiz 2: Permissions Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Permissions?",
+      "options": [
+        "Core principle of Permissions",
+        "Advanced Permissions technique",
+        "Alternative approach to Permissions",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Permissions concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Backend integration?",
+      "options": [
+        "Core principle of Backend integration",
+        "Advanced Backend integration technique",
+        "Alternative approach to Backend integration",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Backend integration concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Testing?",
+      "options": [
+        "Core principle of Testing",
+        "Advanced Testing technique",
+        "Alternative approach to Testing",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Testing concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Android build?",
+      "options": [
+        "Core principle of Android build",
+        "Advanced Android build technique",
+        "Alternative approach to Android build",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Android build concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Deployment?",
+      "options": [
+        "Core principle of Deployment",
+        "Advanced Deployment technique",
+        "Alternative approach to Deployment",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Deployment concepts."
+    }
+  ]
+}

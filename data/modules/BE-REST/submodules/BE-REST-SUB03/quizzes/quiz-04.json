@@ -1,0 +1,70 @@
+{
+  "id": "BE-REST-SUB03-Q04",
+  "module_code": "BE-REST",
+  "day": 7,
+  "title": "Quiz 4: Filtering Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Filtering?",
+      "options": [
+        "Core principle of Filtering",
+        "Advanced Filtering technique",
+        "Alternative approach to Filtering",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Filtering concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Sorting?",
+      "options": [
+        "Core principle of Sorting",
+        "Advanced Sorting technique",
+        "Alternative approach to Sorting",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Sorting concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Search?",
+      "options": [
+        "Core principle of Search",
+        "Advanced Search technique",
+        "Alternative approach to Search",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Search concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in API versioning?",
+      "options": [
+        "Core principle of API versioning",
+        "Advanced API versioning technique",
+        "Alternative approach to API versioning",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental API versioning concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in API documentation?",
+      "options": [
+        "Core principle of API documentation",
+        "Advanced API documentation technique",
+        "Alternative approach to API documentation",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental API documentation concepts."
+    }
+  ]
+}

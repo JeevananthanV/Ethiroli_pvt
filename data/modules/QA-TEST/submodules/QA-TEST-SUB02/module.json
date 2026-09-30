@@ -1,0 +1,32 @@
+{
+  "code": "QA-TEST-SUB02",
+  "title": "Software Testing - Part 2",
+  "category": "Testing",
+  "level": "Intermediate",
+  "duration_hours": 5,
+  "description": "Software testing fundamentals covering test cases, bug reporting, functional/regression/integration testing, API testing, and automation with Postman, Jest, and Cypress. This submodule covers: Bug reporting, Functional testing, Regression testing, Integration testing.",
+  "topics": [
+    "Bug reporting",
+    "Functional testing",
+    "Regression testing",
+    "Integration testing"
+  ],
+  "technologies": [
+    "Postman",
+    "Jest",
+    "Playwright",
+    "Cypress"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "FE-REACT",
+    "BE-NODE",
+    "BE-EXPRESS"
+  ],
+  "learning_outcomes": [
+    "Understand software testing fundamentals and methodologies",
+    "Design effective test cases and test scenarios",
+    "Perform functional, regression, and integration testing"
+  ]
+}

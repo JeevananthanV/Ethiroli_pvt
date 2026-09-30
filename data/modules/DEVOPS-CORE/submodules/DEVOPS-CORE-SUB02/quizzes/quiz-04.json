@@ -1,0 +1,70 @@
+{
+  "id": "DEVOPS-CORE-SUB02-Q04",
+  "module_code": "DEVOPS-CORE",
+  "day": 7,
+  "title": "Quiz 4: Docker Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Docker?",
+      "options": [
+        "Core principle of Docker",
+        "Advanced Docker technique",
+        "Alternative approach to Docker",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Docker concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Containers?",
+      "options": [
+        "Core principle of Containers",
+        "Advanced Containers technique",
+        "Alternative approach to Containers",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Containers concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Docker Compose?",
+      "options": [
+        "Core principle of Docker Compose",
+        "Advanced Docker Compose technique",
+        "Alternative approach to Docker Compose",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Docker Compose concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Nginx?",
+      "options": [
+        "Core principle of Nginx",
+        "Advanced Nginx technique",
+        "Alternative approach to Nginx",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Nginx concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Environment variables?",
+      "options": [
+        "Core principle of Environment variables",
+        "Advanced Environment variables technique",
+        "Alternative approach to Environment variables",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Environment variables concepts."
+    }
+  ]
+}

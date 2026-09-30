@@ -1,0 +1,11 @@
+{
+  "id": "EX-PROG-FUND-D01",
+  "module_code": "PROG-FUND",
+  "day": 1,
+  "title": "Hands-on Lab: How the Web Works & the Full Stack Landscape",
+  "estimated_minutes": 45,
+  "difficulty": "Beginner",
+  "instructions": "Install Node.js and create the minimal HTTP server above. Add a third route `/api/health` that returns `{ status: 'ok', timestamp: new Date().toISOString() }`. Test all three routes using your browser and `curl`.",
+  "starter_code": "// Starter file for How the Web Works & the Full Stack Landscape\n// Task instructions:\n// Install Node.js and create the minimal HTTP server above. Add a third route `/api/health` that returns `{ status: 'ok', timestamp: new Date().toISOStr...\n",
+  "solution_code": "const http = require('http');\r\n\r\nconst server = http.createServer((req, res) => {\r\n  // Log the request method and URL\r\n  console.log(`${req.method} ${req.url}`);\r\n\r\n  // Route handling\r\n  if (req.url === '/' && req.method === 'GET') {\r\n    res.writeHead(200, { 'Content-Type': 'application/json' });\r\n    res.end(JSON.stringify({ message: 'Welcome to ETH-AIFS-60' }));\r\n  } else if (req.url === '/api/courses' && req.method === 'GET') {\r\n    const courses = [\r\n      { id: 1, name: 'HTML5' },\r\n      { id: 2, name: 'React.js' },\r\n    ];\r\n    res.writeHead(200, { 'Content-Type': 'application/json' });\r\n    res.end(JSON.stringify(courses));\r\n  } else {\r\n    res.writeHead(404, { 'Content-Type': 'application/json' });\r\n    res.end(JSON.stringify({ error: 'Route not found' }));\r\n  }\r\n});\r\n\r\nserver.listen(3000, () => {\r\n  console.log('Server running on http://localhost:3000');\r\n});"
+}

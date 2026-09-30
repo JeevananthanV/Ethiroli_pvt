@@ -1,0 +1,26 @@
+{
+  "code": "WEB-HTML-SUB01",
+  "title": "HTML5 Development - Part 1",
+  "category": "Frontend",
+  "level": "Beginner",
+  "duration_hours": 5,
+  "description": "Comprehensive HTML5 development covering document structure, semantic elements, forms, multimedia, accessibility, and SEO best practices to build modern, accessible web pages. This submodule covers: HTML fundamentals, Document structure, Semantic HTML, Headings, Paragraphs.",
+  "topics": [
+    "HTML fundamentals",
+    "Document structure",
+    "Semantic HTML",
+    "Headings",
+    "Paragraphs"
+  ],
+  "technologies": [
+    "HTML5"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [],
+  "learning_outcomes": [
+    "Create semantic HTML5 document structure",
+    "Use HTML5 elements for text, links, images, and multimedia",
+    "Build accessible forms with validation"
+  ]
+}

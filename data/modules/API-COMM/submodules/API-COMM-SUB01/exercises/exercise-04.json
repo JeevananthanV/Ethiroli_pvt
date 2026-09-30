@@ -1,0 +1,33 @@
+{
+  "id": "API-COMM-SUB01-E04",
+  "module_code": "API-COMM",
+  "day": 8,
+  "title": "Hands-on Lab: Notifications Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Notifications:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Notifications in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Notifications basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Notifications exercise\n// TODO: Implement Notifications functionality here\n\nconsole.log('Notifications exercise starter');\n",
+  "solution_code": "// Solution for Notifications exercise\nconsole.log('Completed Notifications exercise');\n\n// Basic implementation\nconst notifications = {\n  name: 'Notifications',\n  completed: true\n};\n\nconsole.log(notifications);"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "DB-MONGO-SUB03-L02",
+  "day": 3,
+  "module_code": "DB-MONGO",
+  "lesson_order": 2,
+  "title": "Schema design: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Schema design",
+    "Apply Schema design in practical scenarios",
+    "Build a small project using Schema design"
+  ],
+  "theory_markdown": "# Schema design\n\n## Overview\nThis lesson covers the fundamentals of Schema design and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Schema design\n- Concept 2 related to Schema design\n- Best practices for Schema design\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Schema design\n2. Implement basic Schema design functionality\n3. Apply Schema design to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Schema design implementation\nconsole.log('Learning Schema design');\n\n// Basic Schema design example\nconst example = {\n  topic: 'Schema design',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Schema design usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Schema design concepts and generate code examples.\n\n---"
+  }
+}

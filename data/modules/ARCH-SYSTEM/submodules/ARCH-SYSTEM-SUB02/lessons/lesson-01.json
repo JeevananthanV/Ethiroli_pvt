@@ -1,0 +1,22 @@
+{
+  "id": "ARCH-SYSTEM-SUB02-L01",
+  "day": 1,
+  "module_code": "ARCH-SYSTEM",
+  "lesson_order": 1,
+  "title": "Load balancing: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Load balancing",
+    "Apply Load balancing in practical scenarios",
+    "Build a small project using Load balancing"
+  ],
+  "theory_markdown": "# Load balancing\n\n## Overview\nThis lesson covers the fundamentals of Load balancing and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Load balancing\n- Concept 2 related to Load balancing\n- Best practices for Load balancing\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Load balancing\n2. Implement basic Load balancing functionality\n3. Apply Load balancing to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Load balancing implementation\nconsole.log('Learning Load balancing');\n\n// Basic Load balancing example\nconst example = {\n  topic: 'Load balancing',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Load balancing usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Load balancing concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "EX-BE-NODE-D30",
+  "module_code": "BE-NODE",
+  "day": 30,
+  "title": "Hands-on Lab: Node.js Core: Runtime, Modules, and File System",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Build a CLI tool that reads a directory, lists all `.js` files, counts lines in each, and outputs a summary table. Support `--path` and `--ext` arguments. Handle errors gracefully.",
+  "starter_code": "// Starter file for Node.js Core: Runtime, Modules, and File System\n// Task instructions:\n// Build a CLI tool that reads a directory, lists all `.js` files, counts lines in each, and outputs a summary table. Support `--path` and `--ext` argume...\n",
+  "solution_code": "import fs from 'node:fs/promises';\r\nimport path from 'node:path';\r\nimport { fileURLToPath } from 'node:url';\r\n\r\nconst __dirname = path.dirname(fileURLToPath(import.meta.url));\r\n\r\n// Read file\r\nasync function readConfig() {\r\n  try {\r\n    const data = await fs.readFile(\r\n      path.join(__dirname, 'config.json'), 'utf-8'\r\n    );\r\n    return JSON.parse(data);\r\n  } catch (err) {\r\n    if (err.code === 'ENOENT') {\r\n      console.log('Config not found, using defaults');\r\n      return { port: 3000 };\r\n    }\r\n    throw err;\r\n  }\r\n}\r\n\r\n// Write file\r\nasync function saveLog(message) {\r\n  const logLine = `[${new Date().toISOString()}] ${message}\\n`;\r\n  await fs.appendFile(\r\n    path.join(__dirname, 'app.log'), logLine\r\n  );\r\n}\r\n\r\n// List directory\r\nasync function listFiles(dir) {\r\n  const files = await fs.readdir(dir, { withFileTypes: true });\r\n  return files.map(f => ({\r\n    name: f.name,\r\n    isDirectory: f.isDirectory(),\r\n    path: path.join(dir, f.name)\r\n  }));\r\n}\r\n\r\n// CLI arguments\r\nconst args = process.argv.slice(2);\r\nconsole.log('Arguments:', args);\r\n// node script.js --port 4000\r\n// args: ['--port', '4000']\r\n\r\n// Environment variables\r\nconst PORT = process.env.PORT || 3000;\r\nconsole.log(`Server will run on port ${PORT}`);"
+}

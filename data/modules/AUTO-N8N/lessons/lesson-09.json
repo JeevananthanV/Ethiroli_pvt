@@ -1,0 +1,18 @@
+{
+  "id": "AUTO-N8N-L09",
+  "module_code": "AUTO-N8N",
+  "lesson_order": 9,
+  "title": "Expressions in n8n Business Automation",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Expressions",
+    "Implement real-world code for Expressions according to industry standards",
+    "Debug and optimize Expressions integrations"
+  ],
+  "theory_markdown": "### Expressions\n\nThis lesson covers in-depth technical mechanics of **Expressions** as part of the n8n Business Automation curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Expressions Implementation Example\nexport function handleExpressions() {\n  console.log('Executing Expressions workflow...');\n}",
+    "explanation": "Demonstration of how Expressions is structured in production."
+  }
+}

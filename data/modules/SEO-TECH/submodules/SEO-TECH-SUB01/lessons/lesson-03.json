@@ -1,0 +1,22 @@
+{
+  "id": "SEO-TECH-SUB01-L03",
+  "day": 5,
+  "module_code": "SEO-TECH",
+  "lesson_order": 3,
+  "title": "On-page SEO: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of On-page SEO",
+    "Apply On-page SEO in practical scenarios",
+    "Build a small project using On-page SEO"
+  ],
+  "theory_markdown": "# On-page SEO\n\n## Overview\nThis lesson covers the fundamentals of On-page SEO and its practical applications.\n\n## Key Concepts\n- Concept 1 related to On-page SEO\n- Concept 2 related to On-page SEO\n- Best practices for On-page SEO\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of On-page SEO\n2. Implement basic On-page SEO functionality\n3. Apply On-page SEO to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example On-page SEO implementation\nconsole.log('Learning On-page SEO');\n\n// Basic On-page SEO example\nconst example = {\n  topic: 'On-page SEO',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic On-page SEO usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand On-page SEO concepts and generate code examples.\n\n---"
+  }
+}

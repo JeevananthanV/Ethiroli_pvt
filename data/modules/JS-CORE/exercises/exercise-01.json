@@ -1,0 +1,11 @@
+{
+  "id": "EX-JS-CORE-D13",
+  "module_code": "JS-CORE",
+  "day": 13,
+  "title": "Hands-on Lab: Variables, Data Types, and Operators",
+  "estimated_minutes": 45,
+  "difficulty": "Beginner",
+  "instructions": "Write a script that declares variables of each primitive type, demonstrates type coercion with `==` vs `===`, and uses template literals to build a user profile string. Use optional chaining to safely access nested object properties.",
+  "starter_code": "// Starter file for Variables, Data Types, and Operators\n// Task instructions:\n// Write a script that declares variables of each primitive type, demonstrates type coercion with `==` vs `===`, and uses template literals to build a us...\n",
+  "solution_code": "// Variable declarations\r\nconst name = \"Alice\";       // Cannot be reassigned\r\nlet age = 25;               // Can be reassigned\r\nage = 26;\r\n\r\n// Primitive types\r\nconst str = \"hello\";                    // string\r\nconst num = 42;                         // number\r\nconst bool = true;                      // boolean\r\nconst undef = undefined;                // undefined\r\nconst nul = null;                       // null\r\nconst sym = Symbol(\"id\");               // symbol\r\n\r\n// Type coercion pitfalls\r\nconsole.log(1 == \"1\");    // true  (coercion)\r\nconsole.log(1 === \"1\");   // false (strict — preferred)\r\nconsole.log(0 == false);  // true\r\nconsole.log(0 === false); // false\r\n\r\n// Template literals\r\nconst greeting = `Hello, ${name}! You are ${age}.`;\r\n\r\n// Nullish coalescing (??) — only falls back for null/undefined\r\nconst displayName = name ?? \"Anonymous\";\r\n\r\n// Optional chaining (?.)\r\nconst user = { profile: { email: \"a@b.com\" } };\r\nconsole.log(user.profile?.email);   // \"a@b.com\"\r\nconsole.log(user.address?.city);    // undefined (no error)\r\n\r\n// Ternary operator\r\nconst status = age >= 18 ? \"adult\" : \"minor\";"
+}

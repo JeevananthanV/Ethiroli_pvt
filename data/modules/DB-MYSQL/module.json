@@ -1,0 +1,50 @@
+{
+  "code": "DB-MYSQL",
+  "title": "MySQL Database",
+  "category": "Database",
+  "level": "Intermediate",
+  "duration_hours": 20,
+  "description": "MySQL database management covering tables, relationships, joins, subqueries, indexing, transactions, stored procedures, and query optimization with MySQL Workbench.",
+  "topics": [
+    "Database fundamentals",
+    "Tables",
+    "Columns",
+    "Data types",
+    "Primary keys",
+    "Foreign keys",
+    "CRUD",
+    "SELECT",
+    "WHERE",
+    "ORDER BY",
+    "GROUP BY",
+    "Joins",
+    "Subqueries",
+    "Constraints",
+    "Relationships",
+    "Normalization",
+    "Indexes",
+    "Views",
+    "Transactions",
+    "Stored procedures",
+    "Query optimization"
+  ],
+  "technologies": [
+    "MySQL",
+    "MySQL Workbench"
+  ],
+  "practicals": [],
+  "projects": [
+    "Employee Database System"
+  ],
+  "prerequisites": [
+    "PROG-FUND"
+  ],
+  "learning_outcomes": [
+    "Design normalized database schemas with ER diagrams",
+    "Write complex SQL queries with joins and subqueries",
+    "Implement transactions and concurrency control",
+    "Create indexes for query optimization",
+    "Work with stored procedures and functions",
+    "Design database relationships and constraints"
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "id": "QZ-WEB-CSS-COMPREHENSIVE",
+  "module_code": "WEB-CSS",
+  "title": "Comprehensive Quiz: CSS3 & Responsive Design",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes css fundamentals in CSS3 & Responsive Design?",
+      "options": [
+        "Core concept: CSS fundamentals is fundamental to CSS3 & Responsive Design",
+        "Alternative approach to CSS fundamentals using different methodology",
+        "Advanced implementation of CSS fundamentals with optimizations",
+        "Legacy technique for CSS fundamentals no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "CSS fundamentals is a key topic in CSS3 & Responsive Design. Apply CSS selectors and specificity rules"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes selectors in CSS3 & Responsive Design?",
+      "options": [
+        "Core concept: Selectors is fundamental to CSS3 & Responsive Design",
+        "Alternative approach to Selectors using different methodology",
+        "Advanced implementation of Selectors with optimizations",
+        "Legacy technique for Selectors no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Selectors is a key topic in CSS3 & Responsive Design. Apply CSS selectors and specificity rules"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes colors in CSS3 & Responsive Design?",
+      "options": [
+        "Core concept: Colors is fundamental to CSS3 & Responsive Design",
+        "Alternative approach to Colors using different methodology",
+        "Advanced implementation of Colors with optimizations",
+        "Legacy technique for Colors no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Colors is a key topic in CSS3 & Responsive Design. Apply CSS selectors and specificity rules"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes typography in CSS3 & Responsive Design?",
+      "options": [
+        "Core concept: Typography is fundamental to CSS3 & Responsive Design",
+        "Alternative approach to Typography using different methodology",
+        "Advanced implementation of Typography with optimizations",
+        "Legacy technique for Typography no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Typography is a key topic in CSS3 & Responsive Design. Apply CSS selectors and specificity rules"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes box model in CSS3 & Responsive Design?",
+      "options": [
+        "Core concept: Box model is fundamental to CSS3 & Responsive Design",
+        "Alternative approach to Box model using different methodology",
+        "Advanced implementation of Box model with optimizations",
+        "Legacy technique for Box model no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Box model is a key topic in CSS3 & Responsive Design. Apply CSS selectors and specificity rules"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes display in CSS3 & Responsive Design?",
+      "options": [
+        "Core concept: Display is fundamental to CSS3 & Responsive Design",
+        "Alternative approach to Display using different methodology",
+        "Advanced implementation of Display with optimizations",
+        "Legacy technique for Display no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Display is a key topic in CSS3 & Responsive Design. Apply CSS selectors and specificity rules"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in CSS3 & Responsive Design?",
+      "options": [
+        "CSS3",
+        "Tailwind CSS",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "CSS3 & Responsive Design uses CSS3, Tailwind CSS as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of CSS3 & Responsive Design?",
+      "options": [
+        "Apply CSS selectors and specificity rules",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Apply CSS selectors and specificity rules"
+    },
+    {
+      "id": 9,
+      "question": "When applying CSS3 & Responsive Design in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for CSS3 & Responsive Design include following established patterns and using recommended tools."
+    }
+  ]
+}

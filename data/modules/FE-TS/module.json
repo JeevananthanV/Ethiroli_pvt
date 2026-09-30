@@ -1,0 +1,45 @@
+{
+  "code": "FE-TS",
+  "title": "TypeScript",
+  "category": "Frontend",
+  "level": "Intermediate",
+  "duration_hours": 16,
+  "description": "TypeScript programming covering type annotations, interfaces, generics, classes, and integration with React for type-safe frontend development.",
+  "topics": [
+    "TypeScript fundamentals",
+    "Type annotations",
+    "Interfaces",
+    "Type aliases",
+    "Union types",
+    "Intersection types",
+    "Enums",
+    "Functions",
+    "Generics",
+    "Classes",
+    "Utility types",
+    "Type narrowing",
+    "API types",
+    "React + TypeScript",
+    "Component typing"
+  ],
+  "technologies": [
+    "TypeScript",
+    "React + TypeScript"
+  ],
+  "practicals": [],
+  "projects": [
+    "Type-Safe React Application"
+  ],
+  "prerequisites": [
+    "JS-CORE",
+    "FE-REACT"
+  ],
+  "learning_outcomes": [
+    "Apply TypeScript type annotations and interfaces",
+    "Use generics, union types, and utility types",
+    "Create type-safe React components",
+    "Implement API type definitions",
+    "Apply advanced TypeScript features like mapped types",
+    "Follow TypeScript best practices for large applications"
+  ]
+}

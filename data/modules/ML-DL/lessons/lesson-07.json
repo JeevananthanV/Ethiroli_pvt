@@ -1,0 +1,18 @@
+{
+  "id": "ML-DL-L07",
+  "module_code": "ML-DL",
+  "lesson_order": 7,
+  "title": "RNN in Deep Learning",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of RNN",
+    "Implement real-world code for RNN according to industry standards",
+    "Debug and optimize RNN integrations"
+  ],
+  "theory_markdown": "### RNN\n\nThis lesson covers in-depth technical mechanics of **RNN** as part of the Deep Learning curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// RNN Implementation Example\nexport function handleRNN() {\n  console.log('Executing RNN workflow...');\n}",
+    "explanation": "Demonstration of how RNN is structured in production."
+  }
+}

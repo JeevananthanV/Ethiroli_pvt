@@ -1,0 +1,70 @@
+{
+  "id": "SEO-TECH-SUB03-Q02",
+  "module_code": "SEO-TECH",
+  "day": 3,
+  "title": "Quiz 2: Page speed Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Page speed?",
+      "options": [
+        "Core principle of Page speed",
+        "Advanced Page speed technique",
+        "Alternative approach to Page speed",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Page speed concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Search Console?",
+      "options": [
+        "Core principle of Search Console",
+        "Advanced Search Console technique",
+        "Alternative approach to Search Console",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Search Console concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Analytics?",
+      "options": [
+        "Core principle of Analytics",
+        "Advanced Analytics technique",
+        "Alternative approach to Analytics",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Analytics concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Local SEO?",
+      "options": [
+        "Core principle of Local SEO",
+        "Advanced Local SEO technique",
+        "Alternative approach to Local SEO",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Local SEO concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Page speed?",
+      "options": [
+        "Core principle of Page speed",
+        "Advanced Page speed technique",
+        "Alternative approach to Page speed",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Page speed concepts."
+    }
+  ]
+}

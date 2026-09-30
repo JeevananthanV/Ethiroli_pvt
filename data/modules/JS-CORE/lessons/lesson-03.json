@@ -1,0 +1,20 @@
+{
+  "id": "JS-CORE-D15",
+  "day": 15,
+  "module_code": "JS-CORE",
+  "lesson_order": 3,
+  "title": "Arrays, Objects, and Destructuring",
+  "duration_minutes": 60,
+  "objectives": [
+    "Master array methods, object manipulation, destructuring, and the spread/rest operators."
+  ],
+  "theory_markdown": "Array methods: `map`, `filter`, `reduce`, `find`, `findIndex`, `some`, `every`, `flat`, `flatMap`, `sort`, `includes`. These are non-mutating except `sort` (which mutates). Use `toSorted()` (ES2023) for non-mutating sort.\r\n\r\nObject methods: `Object.keys`, `Object.values`, `Object.entries`, `Object.assign`, `Object.freeze`, `Object.fromEntries`. Destructuring extracts values from arrays and objects. Spread `...` copies arrays/objects. Rest `...` collects remaining elements.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "const users = [\r\n  { id: 1, name: \"Alice\", age: 28, role: \"admin\", active: true },\r\n  { id: 2, name: \"Bob\", age: 22, role: \"user\", active: false },\r\n  { id: 3, name: \"Charlie\", age: 35, role: \"user\", active: true },\r\n  { id: 4, name: \"Diana\", age: 30, role: \"moderator\", active: true },\r\n];\r\n\r\n// Filter active users\r\nconst activeUsers = users.filter(u => u.active);\r\n\r\n// Map to names\r\nconst names = activeUsers.map(u => u.name);\r\n\r\n// Reduce to count by role\r\nconst roleCounts = users.reduce((acc, user) => {\r\n  acc[user.role] = (acc[user.role] || 0) + 1;\r\n  return acc;\r\n}, {});\r\n// { admin: 1, user: 2, moderator: 1 }\r\n\r\n// Chain: average age of active users\r\nconst avgAge = users\r\n  .filter(u => u.active)\r\n  .map(u => u.age)\r\n  .reduce((sum, age) => sum + age, 0) / activeUsers.length;\r\n\r\n// Destructuring\r\nconst { name, age, ...rest } = users[0];\r\n// name: \"Alice\", age: 28, rest: { id: 1, role: \"admin\", active: true }\r\n\r\n// Array destructuring\r\nconst [first, second, ...others] = [10, 20, 30, 40];\r\n// first: 10, second: 20, others: [30, 40]\r\n\r\n// Spread: merge objects\r\nconst defaultSettings = { theme: \"light\", fontSize: 14 };\r\nconst userSettings = { theme: \"dark\" };\r\nconst merged = { ...defaultSettings, ...userSettings };\r\n// { theme: \"dark\", fontSize: 14 }\r\n\r\n// Non-mutating sort (ES2023)\r\nconst sorted = users.toSorted((a, b) => a.age - b.age);",
+    "explanation": "`filter` returns a new array. `map` transforms each element. `reduce` accumulates a single value. Destructuring with rest collects remaining properties. Spread merges objects (later properties override earlier). `toSorted` avoids mutating the original array."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Google AI Studio** to generate test data arrays and expected outputs for your array method exercises.\r\n\r\n---"
+  }
+}

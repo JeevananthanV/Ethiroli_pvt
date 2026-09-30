@@ -1,0 +1,70 @@
+{
+  "id": "DESIGN-UIUX-SUB01-Q01",
+  "module_code": "DESIGN-UIUX",
+  "day": 1,
+  "title": "Quiz 1: UI vs UX Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in UI vs UX?",
+      "options": [
+        "Core principle of UI vs UX",
+        "Advanced UI vs UX technique",
+        "Alternative approach to UI vs UX",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental UI vs UX concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in User research?",
+      "options": [
+        "Core principle of User research",
+        "Advanced User research technique",
+        "Alternative approach to User research",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental User research concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Personas?",
+      "options": [
+        "Core principle of Personas",
+        "Advanced Personas technique",
+        "Alternative approach to Personas",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Personas concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in User journey?",
+      "options": [
+        "Core principle of User journey",
+        "Advanced User journey technique",
+        "Alternative approach to User journey",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental User journey concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Information architecture?",
+      "options": [
+        "Core principle of Information architecture",
+        "Advanced Information architecture technique",
+        "Alternative approach to Information architecture",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Information architecture concepts."
+    }
+  ]
+}

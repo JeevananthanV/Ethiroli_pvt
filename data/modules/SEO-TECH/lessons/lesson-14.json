@@ -1,0 +1,18 @@
+{
+  "id": "SEO-TECH-L14",
+  "module_code": "SEO-TECH",
+  "lesson_order": 14,
+  "title": "Local SEO in Technical SEO",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Local SEO",
+    "Implement real-world code for Local SEO according to industry standards",
+    "Debug and optimize Local SEO integrations"
+  ],
+  "theory_markdown": "### Local SEO\n\nThis lesson covers in-depth technical mechanics of **Local SEO** as part of the Technical SEO curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Local SEO Implementation Example\nexport function handleLocalSEO() {\n  console.log('Executing Local SEO workflow...');\n}",
+    "explanation": "Demonstration of how Local SEO is structured in production."
+  }
+}

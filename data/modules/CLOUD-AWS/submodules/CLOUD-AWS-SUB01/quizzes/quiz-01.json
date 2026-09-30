@@ -1,0 +1,70 @@
+{
+  "id": "CLOUD-AWS-SUB01-Q01",
+  "module_code": "CLOUD-AWS",
+  "day": 1,
+  "title": "Quiz 1: Cloud fundamentals Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Cloud fundamentals?",
+      "options": [
+        "Core principle of Cloud fundamentals",
+        "Advanced Cloud fundamentals technique",
+        "Alternative approach to Cloud fundamentals",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Cloud fundamentals concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in AWS architecture?",
+      "options": [
+        "Core principle of AWS architecture",
+        "Advanced AWS architecture technique",
+        "Alternative approach to AWS architecture",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental AWS architecture concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in EC2?",
+      "options": [
+        "Core principle of EC2",
+        "Advanced EC2 technique",
+        "Alternative approach to EC2",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental EC2 concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in S3?",
+      "options": [
+        "Core principle of S3",
+        "Advanced S3 technique",
+        "Alternative approach to S3",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental S3 concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Cloud fundamentals?",
+      "options": [
+        "Core principle of Cloud fundamentals",
+        "Advanced Cloud fundamentals technique",
+        "Alternative approach to Cloud fundamentals",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Cloud fundamentals concepts."
+    }
+  ]
+}

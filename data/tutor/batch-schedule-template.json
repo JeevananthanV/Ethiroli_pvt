@@ -1,0 +1,30 @@
+{
+  "batch_name": "Ethiroli Full Stack MERN - Cohort 1",
+  "batch_code": "FS-2026-C1",
+  "meeting_days": [
+    "Monday",
+    "Wednesday",
+    "Friday"
+  ],
+  "session_time": "18:30 - 20:00 IST",
+  "platform": "Google Meet / Zoom",
+  "curriculum_pace_weeks": 16,
+  "milestones": [
+    {
+      "week": 4,
+      "milestone": "Frontend Foundations (HTML/CSS/JS)"
+    },
+    {
+      "week": 8,
+      "milestone": "React.js & State Management"
+    },
+    {
+      "week": 12,
+      "milestone": "Node.js, Express & Database REST APIs"
+    },
+    {
+      "week": 16,
+      "milestone": "Capstone Project & Final Evaluation"
+    }
+  ]
+}

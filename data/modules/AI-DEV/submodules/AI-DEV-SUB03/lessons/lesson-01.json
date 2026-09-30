@@ -1,0 +1,22 @@
+{
+  "id": "AI-DEV-SUB03-L01",
+  "day": 1,
+  "module_code": "AI-DEV",
+  "lesson_order": 1,
+  "title": "AI testing: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of AI testing",
+    "Apply AI testing in practical scenarios",
+    "Build a small project using AI testing"
+  ],
+  "theory_markdown": "# AI testing\n\n## Overview\nThis lesson covers the fundamentals of AI testing and its practical applications.\n\n## Key Concepts\n- Concept 1 related to AI testing\n- Concept 2 related to AI testing\n- Best practices for AI testing\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of AI testing\n2. Implement basic AI testing functionality\n3. Apply AI testing to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example AI testing implementation\nconsole.log('Learning AI testing');\n\n// Basic AI testing example\nconst example = {\n  topic: 'AI testing',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic AI testing usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand AI testing concepts and generate code examples.\n\n---"
+  }
+}

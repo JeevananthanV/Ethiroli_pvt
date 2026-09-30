@@ -1,0 +1,22 @@
+{
+  "id": "SEO-TECH-SUB03-L02",
+  "day": 3,
+  "module_code": "SEO-TECH",
+  "lesson_order": 2,
+  "title": "Search Console: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Search Console",
+    "Apply Search Console in practical scenarios",
+    "Build a small project using Search Console"
+  ],
+  "theory_markdown": "# Search Console\n\n## Overview\nThis lesson covers the fundamentals of Search Console and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Search Console\n- Concept 2 related to Search Console\n- Best practices for Search Console\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Search Console\n2. Implement basic Search Console functionality\n3. Apply Search Console to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Search Console implementation\nconsole.log('Learning Search Console');\n\n// Basic Search Console example\nconst example = {\n  topic: 'Search Console',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Search Console usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Search Console concepts and generate code examples.\n\n---"
+  }
+}

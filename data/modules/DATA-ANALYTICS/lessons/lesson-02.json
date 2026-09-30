@@ -1,0 +1,18 @@
+{
+  "id": "DATA-ANALYTICS-L02",
+  "module_code": "DATA-ANALYTICS",
+  "lesson_order": 2,
+  "title": "Excel in Data Analytics",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Excel",
+    "Implement real-world code for Excel according to industry standards",
+    "Debug and optimize Excel integrations"
+  ],
+  "theory_markdown": "### Excel\n\nThis lesson covers in-depth technical mechanics of **Excel** as part of the Data Analytics curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Excel Implementation Example\nexport function handleExcel() {\n  console.log('Executing Excel workflow...');\n}",
+    "explanation": "Demonstration of how Excel is structured in production."
+  }
+}

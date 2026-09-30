@@ -1,0 +1,20 @@
+{
+  "id": "BE-NODE-D30",
+  "day": 30,
+  "module_code": "BE-NODE",
+  "lesson_order": 1,
+  "title": "Node.js Core: Runtime, Modules, and File System",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand Node.js architecture, the module system, and core APIs."
+  ],
+  "theory_markdown": "Node.js is a JavaScript runtime built on Chrome's V8 engine. It uses an event-driven, non-blocking I/O model. The `fs` module reads/writes files. `path` handles file paths. `os` provides system information. `process` gives access to environment variables and CLI arguments.\r\n\r\nCommonJS (`require`/`module.exports`) is the traditional module system. ES modules (`import`/`export`) are now supported with `\"type\": \"module\"` in `package.json` or `.mjs` extension. Prefer ES modules for new projects.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "import fs from 'node:fs/promises';\r\nimport path from 'node:path';\r\nimport { fileURLToPath } from 'node:url';\r\n\r\nconst __dirname = path.dirname(fileURLToPath(import.meta.url));\r\n\r\n// Read file\r\nasync function readConfig() {\r\n  try {\r\n    const data = await fs.readFile(\r\n      path.join(__dirname, 'config.json'), 'utf-8'\r\n    );\r\n    return JSON.parse(data);\r\n  } catch (err) {\r\n    if (err.code === 'ENOENT') {\r\n      console.log('Config not found, using defaults');\r\n      return { port: 3000 };\r\n    }\r\n    throw err;\r\n  }\r\n}\r\n\r\n// Write file\r\nasync function saveLog(message) {\r\n  const logLine = `[${new Date().toISOString()}] ${message}\\n`;\r\n  await fs.appendFile(\r\n    path.join(__dirname, 'app.log'), logLine\r\n  );\r\n}\r\n\r\n// List directory\r\nasync function listFiles(dir) {\r\n  const files = await fs.readdir(dir, { withFileTypes: true });\r\n  return files.map(f => ({\r\n    name: f.name,\r\n    isDirectory: f.isDirectory(),\r\n    path: path.join(dir, f.name)\r\n  }));\r\n}\r\n\r\n// CLI arguments\r\nconst args = process.argv.slice(2);\r\nconsole.log('Arguments:', args);\r\n// node script.js --port 4000\r\n// args: ['--port', '4000']\r\n\r\n// Environment variables\r\nconst PORT = process.env.PORT || 3000;\r\nconsole.log(`Server will run on port ${PORT}`);",
+    "explanation": "`fs/promises` provides async file operations. `path.join` constructs cross-platform paths. `import.meta.url` gives the current module URL. `process.argv` accesses CLI arguments. `process.env` reads environment variables."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Free.ai Coder** to explain Node.js internals: `free-code ask \"How does the Node.js event loop work?\"`\r\n\r\n---"
+  }
+}

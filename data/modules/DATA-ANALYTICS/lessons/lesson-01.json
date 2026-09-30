@@ -1,0 +1,18 @@
+{
+  "id": "DATA-ANALYTICS-L01",
+  "module_code": "DATA-ANALYTICS",
+  "lesson_order": 1,
+  "title": "Data fundamentals in Data Analytics",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Data fundamentals",
+    "Implement real-world code for Data fundamentals according to industry standards",
+    "Debug and optimize Data fundamentals integrations"
+  ],
+  "theory_markdown": "### Data fundamentals\n\nThis lesson covers in-depth technical mechanics of **Data fundamentals** as part of the Data Analytics curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Data fundamentals Implementation Example\nexport function handleDatafundamentals() {\n  console.log('Executing Data fundamentals workflow...');\n}",
+    "explanation": "Demonstration of how Data fundamentals is structured in production."
+  }
+}

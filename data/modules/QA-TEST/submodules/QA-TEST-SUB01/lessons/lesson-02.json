@@ -1,0 +1,22 @@
+{
+  "id": "QA-TEST-SUB01-L02",
+  "day": 3,
+  "module_code": "QA-TEST",
+  "lesson_order": 2,
+  "title": "SDLC/STLC: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of SDLC/STLC",
+    "Apply SDLC/STLC in practical scenarios",
+    "Build a small project using SDLC/STLC"
+  ],
+  "theory_markdown": "# SDLC/STLC\n\n## Overview\nThis lesson covers the fundamentals of SDLC/STLC and its practical applications.\n\n## Key Concepts\n- Concept 1 related to SDLC/STLC\n- Concept 2 related to SDLC/STLC\n- Best practices for SDLC/STLC\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of SDLC/STLC\n2. Implement basic SDLC/STLC functionality\n3. Apply SDLC/STLC to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example SDLC/STLC implementation\nconsole.log('Learning SDLC/STLC');\n\n// Basic SDLC/STLC example\nconst example = {\n  topic: 'SDLC/STLC',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic SDLC/STLC usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand SDLC/STLC concepts and generate code examples.\n\n---"
+  }
+}

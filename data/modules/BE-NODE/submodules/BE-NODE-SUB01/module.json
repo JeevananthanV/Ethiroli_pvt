@@ -1,0 +1,28 @@
+{
+  "code": "BE-NODE-SUB01",
+  "title": "Node.js - Part 1",
+  "category": "Backend",
+  "level": "Intermediate",
+  "duration_hours": 7,
+  "description": "Node.js backend development covering runtime architecture, modules, file system, HTTP server, async programming, REST APIs, error handling, and security best practices. This submodule covers: Node.js fundamentals, Runtime architecture, npm, Modules, File system.",
+  "topics": [
+    "Node.js fundamentals",
+    "Runtime architecture",
+    "npm",
+    "Modules",
+    "File system"
+  ],
+  "technologies": [
+    "Node.js"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "JS-CORE"
+  ],
+  "learning_outcomes": [
+    "Build server-side applications with Node.js",
+    "Work with file system, streams, and events",
+    "Create REST APIs with Express-like routing"
+  ]
+}

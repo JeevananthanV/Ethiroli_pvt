@@ -1,0 +1,22 @@
+{
+  "id": "FE-REACT-SUB03-L03",
+  "day": 5,
+  "module_code": "FE-REACT",
+  "lesson_order": 3,
+  "title": "Loading states: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Loading states",
+    "Apply Loading states in practical scenarios",
+    "Build a small project using Loading states"
+  ],
+  "theory_markdown": "# Loading states\n\n## Overview\nThis lesson covers the fundamentals of Loading states and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Loading states\n- Concept 2 related to Loading states\n- Best practices for Loading states\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Loading states\n2. Implement basic Loading states functionality\n3. Apply Loading states to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Loading states implementation\nconsole.log('Learning Loading states');\n\n// Basic Loading states example\nconst example = {\n  topic: 'Loading states',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Loading states usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Loading states concepts and generate code examples.\n\n---"
+  }
+}

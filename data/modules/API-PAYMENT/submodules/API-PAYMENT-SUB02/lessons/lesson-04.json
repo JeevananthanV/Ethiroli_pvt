@@ -1,0 +1,22 @@
+{
+  "id": "API-PAYMENT-SUB02-L04",
+  "day": 7,
+  "module_code": "API-PAYMENT",
+  "lesson_order": 4,
+  "title": "Receipts: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Receipts",
+    "Apply Receipts in practical scenarios",
+    "Build a small project using Receipts"
+  ],
+  "theory_markdown": "# Receipts\n\n## Overview\nThis lesson covers the fundamentals of Receipts and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Receipts\n- Concept 2 related to Receipts\n- Best practices for Receipts\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Receipts\n2. Implement basic Receipts functionality\n3. Apply Receipts to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Receipts implementation\nconsole.log('Learning Receipts');\n\n// Basic Receipts example\nconst example = {\n  topic: 'Receipts',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Receipts usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Receipts concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "code": "SEO-TECH-SUB03",
+  "title": "Technical SEO - Part 3",
+  "category": "Marketing",
+  "level": "Intermediate",
+  "duration_hours": 4,
+  "description": "Technical SEO covering keyword research, on-page optimization, structured data, sitemaps, robots.txt, canonical URLs, Core Web Vitals, page speed, and analytics with Google tools. This submodule covers: Page speed, Search Console, Analytics, Local SEO.",
+  "topics": [
+    "Page speed",
+    "Search Console",
+    "Analytics",
+    "Local SEO"
+  ],
+  "technologies": [
+    "Google Search Console",
+    "Google Analytics",
+    "Google Business Profile",
+    "Schema.org"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "WEB-HTML",
+    "WEB-CSS",
+    "FE-NEXT"
+  ],
+  "learning_outcomes": [
+    "Understand SEO fundamentals and how search engines work",
+    "Perform keyword research and competitor analysis",
+    "Optimize on-page elements: titles, meta descriptions, headers"
+  ]
+}

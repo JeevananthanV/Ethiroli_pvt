@@ -1,0 +1,11 @@
+{
+  "id": "EX-DB-MYSQL-D38",
+  "module_code": "DB-MYSQL",
+  "day": 38,
+  "title": "Hands-on Lab: Indexing, Transactions, and Performance Tuning",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Analyse slow queries on your e-commerce database using `EXPLAIN`. Create appropriate indexes. Write a transaction that transfers stock between products atomically. Test rollback on failure.",
+  "starter_code": "// Starter file for Indexing, Transactions, and Performance Tuning\n// Task instructions:\n// Analyse slow queries on your e-commerce database using `EXPLAIN`. Create appropriate indexes. Write a transaction that transfers stock between product...\n",
+  "solution_code": "-- Create indexes\r\nCREATE INDEX idx_products_category_price ON products(category_id, price);\r\n-- This index supports:\r\n--   WHERE category_id = 1 AND price > 50\r\n--   WHERE category_id = 1\r\n--   WHERE category_id = 1 ORDER BY price\r\n-- But NOT:\r\n--   WHERE price > 50  (without category_id — leftmost prefix)\r\n\r\n-- Covering index (all columns in query)\r\nCREATE INDEX idx_orders_covering ON orders(user_id, status, total, created_at);\r\n\r\n-- EXPLAIN to analyse query\r\nEXPLAIN SELECT p.name, p.price\r\nFROM products p\r\nWHERE p.category_id = 1 AND p.price > 50\r\nORDER BY p.price;\r\n-- Look for: type=ref (good), key=idx_products_category_price, rows=low\r\n\r\n-- Transaction example\r\nSTART TRANSACTION;\r\n\r\n-- Deduct stock\r\nUPDATE products SET stock = stock - 2 WHERE id = 1 AND stock >= 2;\r\n\r\n-- Check if update succeeded\r\nSELECT ROW_COUNT() AS affected;\r\n-- If affected = 0, insufficient stock → ROLLBACK\r\n\r\nINSERT INTO orders (user_id, status, total) VALUES (1, 'pending', 1999.98);\r\nSET @order_id = LAST_INSERT_ID();\r\n\r\nINSERT INTO order_items (order_id, product_id, quantity, unit_price)\r\nVALUES (@order_id, 1, 2, 999.99);\r\n\r\nCOMMIT;\r\n\r\n-- Rollback example\r\nSTART TRANSACTION;\r\nUPDATE products SET stock = 0 WHERE id = 999999;  -- Non-existent\r\nSELECT ROW_COUNT();  -- 0\r\nROLLBACK;\r\n\r\n-- Deadlock avoidance: access tables in consistent order\r\n-- Transaction 1: orders → order_items\r\n-- Transaction 2: orders → order_items (same order prevents deadlock)"
+}

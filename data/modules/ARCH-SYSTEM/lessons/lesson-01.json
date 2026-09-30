@@ -1,0 +1,18 @@
+{
+  "id": "ARCH-SYSTEM-L01",
+  "module_code": "ARCH-SYSTEM",
+  "lesson_order": 1,
+  "title": "System design fundamentals in System Design",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of System design fundamentals",
+    "Implement real-world code for System design fundamentals according to industry standards",
+    "Debug and optimize System design fundamentals integrations"
+  ],
+  "theory_markdown": "### System design fundamentals\n\nThis lesson covers in-depth technical mechanics of **System design fundamentals** as part of the System Design curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// System design fundamentals Implementation Example\nexport function handleSystemdesignfundamentals() {\n  console.log('Executing System design fundamentals workflow...');\n}",
+    "explanation": "Demonstration of how System design fundamentals is structured in production."
+  }
+}

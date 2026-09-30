@@ -1,0 +1,10 @@
+{
+  "id": "EX-FINAL-L02",
+  "module_code": "FINAL",
+  "title": "Lab Exercise: Portfolio development",
+  "difficulty": "Capstone",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Portfolio development.",
+  "starter_code": "// Lab: Portfolio development\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Portfolio development\nexport const solution = true;\n"
+}

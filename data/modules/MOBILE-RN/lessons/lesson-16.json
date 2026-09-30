@@ -1,0 +1,18 @@
+{
+  "id": "MOBILE-RN-L16",
+  "module_code": "MOBILE-RN",
+  "lesson_order": 16,
+  "title": "Android build in Mobile Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Android build",
+    "Implement real-world code for Android build according to industry standards",
+    "Debug and optimize Android build integrations"
+  ],
+  "theory_markdown": "### Android build\n\nThis lesson covers in-depth technical mechanics of **Android build** as part of the Mobile Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Android build Implementation Example\nexport function handleAndroidbuild() {\n  console.log('Executing Android build workflow...');\n}",
+    "explanation": "Demonstration of how Android build is structured in production."
+  }
+}

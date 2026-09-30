@@ -1,0 +1,18 @@
+{
+  "id": "AUTO-N8N-L13",
+  "module_code": "AUTO-N8N",
+  "lesson_order": 13,
+  "title": "Email automation in n8n Business Automation",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Email automation",
+    "Implement real-world code for Email automation according to industry standards",
+    "Debug and optimize Email automation integrations"
+  ],
+  "theory_markdown": "### Email automation\n\nThis lesson covers in-depth technical mechanics of **Email automation** as part of the n8n Business Automation curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Email automation Implementation Example\nexport function handleEmailautomation() {\n  console.log('Executing Email automation workflow...');\n}",
+    "explanation": "Demonstration of how Email automation is structured in production."
+  }
+}

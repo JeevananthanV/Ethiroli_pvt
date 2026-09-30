@@ -1,0 +1,18 @@
+{
+  "id": "DEVOPS-CORE-L12",
+  "module_code": "DEVOPS-CORE",
+  "lesson_order": 12,
+  "title": "Monitoring in DevOps",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Monitoring",
+    "Implement real-world code for Monitoring according to industry standards",
+    "Debug and optimize Monitoring integrations"
+  ],
+  "theory_markdown": "### Monitoring\n\nThis lesson covers in-depth technical mechanics of **Monitoring** as part of the DevOps curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Monitoring Implementation Example\nexport function handleMonitoring() {\n  console.log('Executing Monitoring workflow...');\n}",
+    "explanation": "Demonstration of how Monitoring is structured in production."
+  }
+}

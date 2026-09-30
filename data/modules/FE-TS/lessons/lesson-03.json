@@ -1,0 +1,18 @@
+{
+  "id": "FE-TS-L03",
+  "module_code": "FE-TS",
+  "lesson_order": 3,
+  "title": "Interfaces in TypeScript",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Interfaces",
+    "Implement real-world code for Interfaces according to industry standards",
+    "Debug and optimize Interfaces integrations"
+  ],
+  "theory_markdown": "### Interfaces\n\nThis lesson covers in-depth technical mechanics of **Interfaces** as part of the TypeScript curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Interfaces Implementation Example\nexport function handleInterfaces() {\n  console.log('Executing Interfaces workflow...');\n}",
+    "explanation": "Demonstration of how Interfaces is structured in production."
+  }
+}

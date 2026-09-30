@@ -1,0 +1,70 @@
+{
+  "id": "FE-TS-SUB01-Q03",
+  "module_code": "FE-TS",
+  "day": 5,
+  "title": "Quiz 3: TypeScript fundamentals Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in TypeScript fundamentals?",
+      "options": [
+        "Core principle of TypeScript fundamentals",
+        "Advanced TypeScript fundamentals technique",
+        "Alternative approach to TypeScript fundamentals",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental TypeScript fundamentals concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Type annotations?",
+      "options": [
+        "Core principle of Type annotations",
+        "Advanced Type annotations technique",
+        "Alternative approach to Type annotations",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Type annotations concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Interfaces?",
+      "options": [
+        "Core principle of Interfaces",
+        "Advanced Interfaces technique",
+        "Alternative approach to Interfaces",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Interfaces concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Type aliases?",
+      "options": [
+        "Core principle of Type aliases",
+        "Advanced Type aliases technique",
+        "Alternative approach to Type aliases",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Type aliases concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Union types?",
+      "options": [
+        "Core principle of Union types",
+        "Advanced Union types technique",
+        "Alternative approach to Union types",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Union types concepts."
+    }
+  ]
+}

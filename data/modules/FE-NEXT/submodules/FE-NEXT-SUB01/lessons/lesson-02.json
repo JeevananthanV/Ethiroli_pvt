@@ -1,0 +1,22 @@
+{
+  "id": "FE-NEXT-SUB01-L02",
+  "day": 3,
+  "module_code": "FE-NEXT",
+  "lesson_order": 2,
+  "title": "App Router: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of App Router",
+    "Apply App Router in practical scenarios",
+    "Build a small project using App Router"
+  ],
+  "theory_markdown": "# App Router\n\n## Overview\nThis lesson covers the fundamentals of App Router and its practical applications.\n\n## Key Concepts\n- Concept 1 related to App Router\n- Concept 2 related to App Router\n- Best practices for App Router\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of App Router\n2. Implement basic App Router functionality\n3. Apply App Router to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example App Router implementation\nconsole.log('Learning App Router');\n\n// Basic App Router example\nconst example = {\n  topic: 'App Router',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic App Router usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand App Router concepts and generate code examples.\n\n---"
+  }
+}

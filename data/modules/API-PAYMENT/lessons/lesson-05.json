@@ -1,0 +1,18 @@
+{
+  "id": "API-PAYMENT-L05",
+  "module_code": "API-PAYMENT",
+  "lesson_order": 5,
+  "title": "Webhooks in Payment Integration",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Webhooks",
+    "Implement real-world code for Webhooks according to industry standards",
+    "Debug and optimize Webhooks integrations"
+  ],
+  "theory_markdown": "### Webhooks\n\nThis lesson covers in-depth technical mechanics of **Webhooks** as part of the Payment Integration curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Webhooks Implementation Example\nexport function handleWebhooks() {\n  console.log('Executing Webhooks workflow...');\n}",
+    "explanation": "Demonstration of how Webhooks is structured in production."
+  }
+}

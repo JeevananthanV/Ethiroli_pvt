@@ -1,0 +1,70 @@
+{
+  "id": "API-PAYMENT-SUB01-Q02",
+  "module_code": "API-PAYMENT",
+  "day": 3,
+  "title": "Quiz 2: Payment architecture Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Payment architecture?",
+      "options": [
+        "Core principle of Payment architecture",
+        "Advanced Payment architecture technique",
+        "Alternative approach to Payment architecture",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Payment architecture concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Payment gateway?",
+      "options": [
+        "Core principle of Payment gateway",
+        "Advanced Payment gateway technique",
+        "Alternative approach to Payment gateway",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Payment gateway concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Order creation?",
+      "options": [
+        "Core principle of Order creation",
+        "Advanced Order creation technique",
+        "Alternative approach to Order creation",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Order creation concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Payment verification?",
+      "options": [
+        "Core principle of Payment verification",
+        "Advanced Payment verification technique",
+        "Alternative approach to Payment verification",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Payment verification concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Payment architecture?",
+      "options": [
+        "Core principle of Payment architecture",
+        "Advanced Payment architecture technique",
+        "Alternative approach to Payment architecture",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Payment architecture concepts."
+    }
+  ]
+}

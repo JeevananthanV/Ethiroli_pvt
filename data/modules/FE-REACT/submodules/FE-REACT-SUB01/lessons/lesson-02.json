@@ -1,0 +1,22 @@
+{
+  "id": "FE-REACT-SUB01-L02",
+  "day": 3,
+  "module_code": "FE-REACT",
+  "lesson_order": 2,
+  "title": "Vite: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Vite",
+    "Apply Vite in practical scenarios",
+    "Build a small project using Vite"
+  ],
+  "theory_markdown": "# Vite\n\n## Overview\nThis lesson covers the fundamentals of Vite and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Vite\n- Concept 2 related to Vite\n- Best practices for Vite\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Vite\n2. Implement basic Vite functionality\n3. Apply Vite to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Vite implementation\nconsole.log('Learning Vite');\n\n// Basic Vite example\nconst example = {\n  topic: 'Vite',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Vite usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Vite concepts and generate code examples.\n\n---"
+  }
+}

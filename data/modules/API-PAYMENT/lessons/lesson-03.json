@@ -1,0 +1,18 @@
+{
+  "id": "API-PAYMENT-L03",
+  "module_code": "API-PAYMENT",
+  "lesson_order": 3,
+  "title": "Order creation in Payment Integration",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Order creation",
+    "Implement real-world code for Order creation according to industry standards",
+    "Debug and optimize Order creation integrations"
+  ],
+  "theory_markdown": "### Order creation\n\nThis lesson covers in-depth technical mechanics of **Order creation** as part of the Payment Integration curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Order creation Implementation Example\nexport function handleOrdercreation() {\n  console.log('Executing Order creation workflow...');\n}",
+    "explanation": "Demonstration of how Order creation is structured in production."
+  }
+}

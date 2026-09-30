@@ -1,0 +1,22 @@
+{
+  "id": "DEV-GIT-SUB01-L01",
+  "day": 1,
+  "module_code": "DEV-GIT",
+  "lesson_order": 1,
+  "title": "Version control: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Version control",
+    "Apply Version control in practical scenarios",
+    "Build a small project using Version control"
+  ],
+  "theory_markdown": "# Version control\n\n## Overview\nThis lesson covers the fundamentals of Version control and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Version control\n- Concept 2 related to Version control\n- Best practices for Version control\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Version control\n2. Implement basic Version control functionality\n3. Apply Version control to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Version control implementation\nconsole.log('Learning Version control');\n\n// Basic Version control example\nconst example = {\n  topic: 'Version control',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Version control usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Version control concepts and generate code examples.\n\n---"
+  }
+}

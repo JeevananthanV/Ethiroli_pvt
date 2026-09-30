@@ -1,0 +1,70 @@
+{
+  "id": "API-PAYMENT-SUB02-Q03",
+  "module_code": "API-PAYMENT",
+  "day": 5,
+  "title": "Quiz 3: Webhooks Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Webhooks?",
+      "options": [
+        "Core principle of Webhooks",
+        "Advanced Webhooks technique",
+        "Alternative approach to Webhooks",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Webhooks concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Payment status?",
+      "options": [
+        "Core principle of Payment status",
+        "Advanced Payment status technique",
+        "Alternative approach to Payment status",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Payment status concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Refunds?",
+      "options": [
+        "Core principle of Refunds",
+        "Advanced Refunds technique",
+        "Alternative approach to Refunds",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Refunds concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Receipts?",
+      "options": [
+        "Core principle of Receipts",
+        "Advanced Receipts technique",
+        "Alternative approach to Receipts",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Receipts concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Webhooks?",
+      "options": [
+        "Core principle of Webhooks",
+        "Advanced Webhooks technique",
+        "Alternative approach to Webhooks",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Webhooks concepts."
+    }
+  ]
+}

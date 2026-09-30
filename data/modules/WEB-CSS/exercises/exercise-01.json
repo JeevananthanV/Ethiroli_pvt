@@ -1,0 +1,11 @@
+{
+  "id": "EX-WEB-CSS-D05",
+  "module_code": "WEB-CSS",
+  "day": 5,
+  "title": "Hands-on Lab: CSS Fundamentals, Selectors, and the Box Model",
+  "estimated_minutes": 45,
+  "difficulty": "Beginner",
+  "instructions": "Create a card component with CSS custom properties for colours and spacing. Implement `:hover`, `:focus-visible`, and `:active` states. Use `oklch()` for colours and `clamp()` for fluid typography.",
+  "starter_code": "// Starter file for CSS Fundamentals, Selectors, and the Box Model\n// Task instructions:\n// Create a card component with CSS custom properties for colours and spacing. Implement `:hover`, `:focus-visible`, and `:active` states. Use `oklch()` ...\n",
+  "solution_code": "/* Reset and custom properties */\r\n:root {\r\n  --color-primary: oklch(0.55 0.18 250);\r\n  --color-text: oklch(0.2 0.01 250);\r\n  --color-bg: oklch(0.98 0.005 250);\r\n  --space-sm: 0.5rem;\r\n  --space-md: 1rem;\r\n  --space-lg: 2rem;\r\n  --radius-md: 8px;\r\n  --font-sans: system-ui, -apple-system, sans-serif;\r\n}\r\n\r\n*, *::before, *::after {\r\n  box-sizing: border-box;\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\nbody {\r\n  font-family: var(--font-sans);\r\n  color: var(--color-text);\r\n  background: var(--color-bg);\r\n  line-height: 1.6;\r\n  padding: var(--space-md);\r\n}\r\n\r\n/* Selector specificity examples */\r\n.card {                 /* 0,1,0 */\r\n  background: white;\r\n  border-radius: var(--radius-md);\r\n  padding: var(--space-lg);\r\n  box-shadow: 0 2px 8px oklch(0.2 0.01 250 / 0.1);\r\n}\r\n\r\n#featured-card {        /* 1,0,0 — higher specificity */\r\n  border: 2px solid var(--color-primary);\r\n}\r\n\r\n.card .title {          /* 0,2,0 */\r\n  font-size: 1.5rem;\r\n  color: var(--color-primary);\r\n}"
+}

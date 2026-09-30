@@ -1,0 +1,22 @@
+{
+  "id": "AUTO-N8N-SUB03-L03",
+  "day": 5,
+  "module_code": "AUTO-N8N",
+  "lesson_order": 3,
+  "title": "WhatsApp automation: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of WhatsApp automation",
+    "Apply WhatsApp automation in practical scenarios",
+    "Build a small project using WhatsApp automation"
+  ],
+  "theory_markdown": "# WhatsApp automation\n\n## Overview\nThis lesson covers the fundamentals of WhatsApp automation and its practical applications.\n\n## Key Concepts\n- Concept 1 related to WhatsApp automation\n- Concept 2 related to WhatsApp automation\n- Best practices for WhatsApp automation\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of WhatsApp automation\n2. Implement basic WhatsApp automation functionality\n3. Apply WhatsApp automation to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example WhatsApp automation implementation\nconsole.log('Learning WhatsApp automation');\n\n// Basic WhatsApp automation example\nconst example = {\n  topic: 'WhatsApp automation',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic WhatsApp automation usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand WhatsApp automation concepts and generate code examples.\n\n---"
+  }
+}

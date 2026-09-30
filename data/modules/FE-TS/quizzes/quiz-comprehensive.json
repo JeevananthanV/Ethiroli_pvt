@@ -1,0 +1,117 @@
+{
+  "id": "QZ-FE-TS-COMPREHENSIVE",
+  "module_code": "FE-TS",
+  "title": "Comprehensive Quiz: TypeScript",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes typescript fundamentals in TypeScript?",
+      "options": [
+        "Core concept: TypeScript fundamentals is fundamental to TypeScript",
+        "Alternative approach to TypeScript fundamentals using different methodology",
+        "Advanced implementation of TypeScript fundamentals with optimizations",
+        "Legacy technique for TypeScript fundamentals no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "TypeScript fundamentals is a key topic in TypeScript. Apply TypeScript type annotations and interfaces"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes type annotations in TypeScript?",
+      "options": [
+        "Core concept: Type annotations is fundamental to TypeScript",
+        "Alternative approach to Type annotations using different methodology",
+        "Advanced implementation of Type annotations with optimizations",
+        "Legacy technique for Type annotations no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Type annotations is a key topic in TypeScript. Apply TypeScript type annotations and interfaces"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes interfaces in TypeScript?",
+      "options": [
+        "Core concept: Interfaces is fundamental to TypeScript",
+        "Alternative approach to Interfaces using different methodology",
+        "Advanced implementation of Interfaces with optimizations",
+        "Legacy technique for Interfaces no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Interfaces is a key topic in TypeScript. Apply TypeScript type annotations and interfaces"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes type aliases in TypeScript?",
+      "options": [
+        "Core concept: Type aliases is fundamental to TypeScript",
+        "Alternative approach to Type aliases using different methodology",
+        "Advanced implementation of Type aliases with optimizations",
+        "Legacy technique for Type aliases no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Type aliases is a key topic in TypeScript. Apply TypeScript type annotations and interfaces"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes union types in TypeScript?",
+      "options": [
+        "Core concept: Union types is fundamental to TypeScript",
+        "Alternative approach to Union types using different methodology",
+        "Advanced implementation of Union types with optimizations",
+        "Legacy technique for Union types no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Union types is a key topic in TypeScript. Apply TypeScript type annotations and interfaces"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes intersection types in TypeScript?",
+      "options": [
+        "Core concept: Intersection types is fundamental to TypeScript",
+        "Alternative approach to Intersection types using different methodology",
+        "Advanced implementation of Intersection types with optimizations",
+        "Legacy technique for Intersection types no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Intersection types is a key topic in TypeScript. Apply TypeScript type annotations and interfaces"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in TypeScript?",
+      "options": [
+        "TypeScript",
+        "React + TypeScript",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "TypeScript uses TypeScript, React + TypeScript as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of TypeScript?",
+      "options": [
+        "Apply TypeScript type annotations and interfaces",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Apply TypeScript type annotations and interfaces"
+    },
+    {
+      "id": 9,
+      "question": "When applying TypeScript in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for TypeScript include following established patterns and using recommended tools."
+    }
+  ]
+}

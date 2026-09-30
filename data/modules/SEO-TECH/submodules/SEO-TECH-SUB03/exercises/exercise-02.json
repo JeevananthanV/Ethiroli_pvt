@@ -1,0 +1,33 @@
+{
+  "id": "SEO-TECH-SUB03-E02",
+  "module_code": "SEO-TECH",
+  "day": 4,
+  "title": "Hands-on Lab: Search Console Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Search Console:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Search Console in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Search Console basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Search Console exercise\n// TODO: Implement Search Console functionality here\n\nconsole.log('Search Console exercise starter');\n",
+  "solution_code": "// Solution for Search Console exercise\nconsole.log('Completed Search Console exercise');\n\n// Basic implementation\nconst searchconsole = {\n  name: 'Search Console',\n  completed: true\n};\n\nconsole.log(searchconsole);"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "DEVOPS-CORE-L01",
+  "module_code": "DEVOPS-CORE",
+  "lesson_order": 1,
+  "title": "DevOps fundamentals in DevOps",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of DevOps fundamentals",
+    "Implement real-world code for DevOps fundamentals according to industry standards",
+    "Debug and optimize DevOps fundamentals integrations"
+  ],
+  "theory_markdown": "### DevOps fundamentals\n\nThis lesson covers in-depth technical mechanics of **DevOps fundamentals** as part of the DevOps curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// DevOps fundamentals Implementation Example\nexport function handleDevOpsfundamentals() {\n  console.log('Executing DevOps fundamentals workflow...');\n}",
+    "explanation": "Demonstration of how DevOps fundamentals is structured in production."
+  }
+}

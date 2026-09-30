@@ -1,0 +1,22 @@
+{
+  "id": "PY-CORE-SUB02-L04",
+  "day": 7,
+  "module_code": "PY-CORE",
+  "lesson_order": 4,
+  "title": "Dictionaries: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Dictionaries",
+    "Apply Dictionaries in practical scenarios",
+    "Build a small project using Dictionaries"
+  ],
+  "theory_markdown": "# Dictionaries\n\n## Overview\nThis lesson covers the fundamentals of Dictionaries and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Dictionaries\n- Concept 2 related to Dictionaries\n- Best practices for Dictionaries\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Dictionaries\n2. Implement basic Dictionaries functionality\n3. Apply Dictionaries to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Dictionaries implementation\nconsole.log('Learning Dictionaries');\n\n// Basic Dictionaries example\nconst example = {\n  topic: 'Dictionaries',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Dictionaries usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Dictionaries concepts and generate code examples.\n\n---"
+  }
+}

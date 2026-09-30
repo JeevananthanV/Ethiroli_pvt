@@ -1,0 +1,22 @@
+{
+  "id": "QA-TEST-SUB03-L02",
+  "day": 3,
+  "module_code": "QA-TEST",
+  "lesson_order": 2,
+  "title": "Database testing: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Database testing",
+    "Apply Database testing in practical scenarios",
+    "Build a small project using Database testing"
+  ],
+  "theory_markdown": "# Database testing\n\n## Overview\nThis lesson covers the fundamentals of Database testing and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Database testing\n- Concept 2 related to Database testing\n- Best practices for Database testing\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Database testing\n2. Implement basic Database testing functionality\n3. Apply Database testing to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Database testing implementation\nconsole.log('Learning Database testing');\n\n// Basic Database testing example\nconst example = {\n  topic: 'Database testing',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Database testing usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Database testing concepts and generate code examples.\n\n---"
+  }
+}

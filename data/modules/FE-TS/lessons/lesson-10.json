@@ -1,0 +1,18 @@
+{
+  "id": "FE-TS-L10",
+  "module_code": "FE-TS",
+  "lesson_order": 10,
+  "title": "Classes in TypeScript",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Classes",
+    "Implement real-world code for Classes according to industry standards",
+    "Debug and optimize Classes integrations"
+  ],
+  "theory_markdown": "### Classes\n\nThis lesson covers in-depth technical mechanics of **Classes** as part of the TypeScript curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Classes Implementation Example\nexport function handleClasses() {\n  console.log('Executing Classes workflow...');\n}",
+    "explanation": "Demonstration of how Classes is structured in production."
+  }
+}

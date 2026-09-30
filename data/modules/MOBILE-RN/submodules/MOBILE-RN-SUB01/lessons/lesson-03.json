@@ -1,0 +1,22 @@
+{
+  "id": "MOBILE-RN-SUB01-L03",
+  "day": 5,
+  "module_code": "MOBILE-RN",
+  "lesson_order": 3,
+  "title": "Components: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Components",
+    "Apply Components in practical scenarios",
+    "Build a small project using Components"
+  ],
+  "theory_markdown": "# Components\n\n## Overview\nThis lesson covers the fundamentals of Components and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Components\n- Concept 2 related to Components\n- Best practices for Components\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Components\n2. Implement basic Components functionality\n3. Apply Components to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Components implementation\nconsole.log('Learning Components');\n\n// Basic Components example\nconst example = {\n  topic: 'Components',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Components usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Components concepts and generate code examples.\n\n---"
+  }
+}

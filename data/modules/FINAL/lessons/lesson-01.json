@@ -1,0 +1,18 @@
+{
+  "id": "FINAL-L01",
+  "module_code": "FINAL",
+  "lesson_order": 1,
+  "title": "Final project planning in Capstone Project & Portfolio",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Final project planning",
+    "Implement real-world code for Final project planning according to industry standards",
+    "Debug and optimize Final project planning integrations"
+  ],
+  "theory_markdown": "### Final project planning\n\nThis lesson covers in-depth technical mechanics of **Final project planning** as part of the Capstone Project & Portfolio curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Final project planning Implementation Example\nexport function handleFinalprojectplanning() {\n  console.log('Executing Final project planning workflow...');\n}",
+    "explanation": "Demonstration of how Final project planning is structured in production."
+  }
+}

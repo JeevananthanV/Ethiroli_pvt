@@ -1,0 +1,22 @@
+{
+  "id": "WEB-HTML-SUB01-L04",
+  "day": 7,
+  "module_code": "WEB-HTML",
+  "lesson_order": 4,
+  "title": "Headings: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Headings",
+    "Apply Headings in practical scenarios",
+    "Build a small project using Headings"
+  ],
+  "theory_markdown": "# Headings\n\n## Overview\nThis lesson covers the fundamentals of Headings and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Headings\n- Concept 2 related to Headings\n- Best practices for Headings\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Headings\n2. Implement basic Headings functionality\n3. Apply Headings to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Headings implementation\nconsole.log('Learning Headings');\n\n// Basic Headings example\nconst example = {\n  topic: 'Headings',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Headings usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Headings concepts and generate code examples.\n\n---"
+  }
+}

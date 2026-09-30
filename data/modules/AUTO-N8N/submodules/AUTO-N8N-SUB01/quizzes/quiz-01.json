@@ -1,0 +1,70 @@
+{
+  "id": "AUTO-N8N-SUB01-Q01",
+  "module_code": "AUTO-N8N",
+  "day": 1,
+  "title": "Quiz 1: Automation fundamentals Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Automation fundamentals?",
+      "options": [
+        "Core principle of Automation fundamentals",
+        "Advanced Automation fundamentals technique",
+        "Alternative approach to Automation fundamentals",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Automation fundamentals concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in n8n interface?",
+      "options": [
+        "Core principle of n8n interface",
+        "Advanced n8n interface technique",
+        "Alternative approach to n8n interface",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental n8n interface concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Workflows?",
+      "options": [
+        "Core principle of Workflows",
+        "Advanced Workflows technique",
+        "Alternative approach to Workflows",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Workflows concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Nodes?",
+      "options": [
+        "Core principle of Nodes",
+        "Advanced Nodes technique",
+        "Alternative approach to Nodes",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Nodes concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Triggers?",
+      "options": [
+        "Core principle of Triggers",
+        "Advanced Triggers technique",
+        "Alternative approach to Triggers",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Triggers concepts."
+    }
+  ]
+}

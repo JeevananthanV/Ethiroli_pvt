@@ -1,0 +1,29 @@
+{
+  "code": "API-PAYMENT-SUB02",
+  "title": "Payment Integration - Part 2",
+  "category": "API Integration",
+  "level": "Intermediate",
+  "duration_hours": 4,
+  "description": "Payment gateway integration covering order creation, verification, webhooks, refunds, receipts, transaction records, and payment security with Razorpay and Stripe. This submodule covers: Webhooks, Payment status, Refunds, Receipts.",
+  "topics": [
+    "Webhooks",
+    "Payment status",
+    "Refunds",
+    "Receipts"
+  ],
+  "technologies": [
+    "Razorpay",
+    "Stripe"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "BE-NODE",
+    "BE-EXPRESS"
+  ],
+  "learning_outcomes": [
+    "Integrate payment gateways (Razorpay, Stripe) into applications",
+    "Create secure payment processing flows",
+    "Handle webhooks for payment events and status updates"
+  ]
+}

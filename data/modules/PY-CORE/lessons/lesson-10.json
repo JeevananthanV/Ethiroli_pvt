@@ -1,0 +1,18 @@
+{
+  "id": "PY-CORE-L10",
+  "module_code": "PY-CORE",
+  "lesson_order": 10,
+  "title": "Sets in Python Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Sets",
+    "Implement real-world code for Sets according to industry standards",
+    "Debug and optimize Sets integrations"
+  ],
+  "theory_markdown": "### Sets\n\nThis lesson covers in-depth technical mechanics of **Sets** as part of the Python Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Sets Implementation Example\nexport function handleSets() {\n  console.log('Executing Sets workflow...');\n}",
+    "explanation": "Demonstration of how Sets is structured in production."
+  }
+}

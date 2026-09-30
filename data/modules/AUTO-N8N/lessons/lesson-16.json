@@ -1,0 +1,18 @@
+{
+  "id": "AUTO-N8N-L16",
+  "module_code": "AUTO-N8N",
+  "lesson_order": 16,
+  "title": "AI automation in n8n Business Automation",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of AI automation",
+    "Implement real-world code for AI automation according to industry standards",
+    "Debug and optimize AI automation integrations"
+  ],
+  "theory_markdown": "### AI automation\n\nThis lesson covers in-depth technical mechanics of **AI automation** as part of the n8n Business Automation curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// AI automation Implementation Example\nexport function handleAIautomation() {\n  console.log('Executing AI automation workflow...');\n}",
+    "explanation": "Demonstration of how AI automation is structured in production."
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "EX-AI-DEV-D48",
+  "module_code": "AI-DEV",
+  "day": 48,
+  "title": "Hands-on Lab: AI Coding Assistants: Setup and Effective Prompting",
+  "estimated_minutes": 45,
+  "difficulty": "Advanced",
+  "instructions": "Install Free.ai Coder and Cline. Use them to: (1) explain an unfamiliar codebase, (2) generate CRUD endpoints for a new resource, (3) write tests for existing code, (4) refactor a messy function. Compare outputs from different tools.",
+  "starter_code": "// Starter file for AI Coding Assistants: Setup and Effective Prompting\n// Task instructions:\n// Install Free.ai Coder and Cline. Use them to: (1) explain an unfamiliar codebase, (2) generate CRUD endpoints for a new resource, (3) write tests for ...\n",
+  "solution_code": "# Free.ai Coder — terminal AI assistant\r\n# Install\r\npip install freeai-code\r\n\r\n# Initialize in project\r\ncd my-project\r\nfree-code init\r\n\r\n# Ask about codebase\r\nfree-code ask \"How does the authentication middleware work?\"\r\n\r\n# Execute a coding task\r\nfree-code run \"Add input validation to the registration endpoint using zod\"\r\n\r\n# Generate tests\r\nfree-code run \"Write Jest tests for the authService including error cases\"\r\n\r\n# Refactor\r\nfree-code run \"Refactor the user controller to use async/await consistently\""
+}

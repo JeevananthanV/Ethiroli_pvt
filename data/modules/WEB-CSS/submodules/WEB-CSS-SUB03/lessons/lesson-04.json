@@ -1,0 +1,22 @@
+{
+  "id": "WEB-CSS-SUB03-L04",
+  "day": 7,
+  "module_code": "WEB-CSS",
+  "lesson_order": 4,
+  "title": "Component styling: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Component styling",
+    "Apply Component styling in practical scenarios",
+    "Build a small project using Component styling"
+  ],
+  "theory_markdown": "# Component styling\n\n## Overview\nThis lesson covers the fundamentals of Component styling and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Component styling\n- Concept 2 related to Component styling\n- Best practices for Component styling\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Component styling\n2. Implement basic Component styling functionality\n3. Apply Component styling to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Component styling implementation\nconsole.log('Learning Component styling');\n\n// Basic Component styling example\nconst example = {\n  topic: 'Component styling',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Component styling usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Component styling concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "DEVOPS-CORE-L03",
+  "module_code": "DEVOPS-CORE",
+  "lesson_order": 3,
+  "title": "Git in DevOps",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Git",
+    "Implement real-world code for Git according to industry standards",
+    "Debug and optimize Git integrations"
+  ],
+  "theory_markdown": "### Git\n\nThis lesson covers in-depth technical mechanics of **Git** as part of the DevOps curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Git Implementation Example\nexport function handleGit() {\n  console.log('Executing Git workflow...');\n}",
+    "explanation": "Demonstration of how Git is structured in production."
+  }
+}

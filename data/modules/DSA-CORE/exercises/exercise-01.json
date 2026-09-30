@@ -1,0 +1,11 @@
+{
+  "id": "EX-DSA-CORE-D18",
+  "module_code": "DSA-CORE",
+  "day": 18,
+  "title": "Hands-on Lab: Execution Context, Hoisting, and the `this` Keyword",
+  "estimated_minutes": 45,
+  "difficulty": "Beginner",
+  "instructions": "Create an object with methods that demonstrate all four `this` binding rules. Show the lost `this` problem and fix it with `bind`, `call`, and `apply`. Write a comparison of `var`, `let`, and `const` hoisting behaviour.",
+  "starter_code": "// Starter file for Execution Context, Hoisting, and the `this` Keyword\n// Task instructions:\n// Create an object with methods that demonstrate all four `this` binding rules. Show the lost `this` problem and fix it with `bind`, `call`, and `apply`...\n",
+  "solution_code": "const person = {\r\n  name: \"Alice\",\r\n  greet() {\r\n    console.log(`Hello, ${this.name}`);  // \"this\" = person\r\n  }\r\n};\r\nperson.greet(); // \"Hello, Alice\"\r\n\r\n// Losing this\r\nconst greetFn = person.greet;\r\ngreetFn(); // \"Hello, undefined\" (or error in strict mode)\r\n\r\n// Fix with bind\r\nconst boundGreet = person.greet.bind(person);\r\nboundGreet(); // \"Hello, Alice\"\r\n\r\n// Arrow function inherits this\r\nconst team = {\r\n  name: \"Dev\",\r\n  members: [\"Alice\", \"Bob\"],\r\n  listMembers() {\r\n    this.members.forEach(member => {\r\n      console.log(`${member} is on ${this.name}`);  // \"this\" = team\r\n    });\r\n  }\r\n};\r\n\r\n// Hoisting demonstration\r\nconsole.log(x);  // undefined (var hoisted)\r\nvar x = 5;\r\nconsole.log(x);  // 5\r\n\r\n// console.log(y); // ReferenceError: Cannot access 'y' before initialization\r\nlet y = 10;\r\n\r\nhoistedFn(); // Works — function declaration hoisted\r\nfunction hoistedFn() { console.log(\"Hoisted!\"); }\r\n\r\n// notHoisted(); // TypeError: notHoisted is not a function\r\nconst notHoisted = () => console.log(\"Not hoisted\");"
+}

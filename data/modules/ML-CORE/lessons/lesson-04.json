@@ -1,0 +1,18 @@
+{
+  "id": "ML-CORE-L04",
+  "module_code": "ML-CORE",
+  "lesson_order": 4,
+  "title": "Regression in Machine Learning",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Regression",
+    "Implement real-world code for Regression according to industry standards",
+    "Debug and optimize Regression integrations"
+  ],
+  "theory_markdown": "### Regression\n\nThis lesson covers in-depth technical mechanics of **Regression** as part of the Machine Learning curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Regression Implementation Example\nexport function handleRegression() {\n  console.log('Executing Regression workflow...');\n}",
+    "explanation": "Demonstration of how Regression is structured in production."
+  }
+}

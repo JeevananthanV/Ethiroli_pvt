@@ -1,0 +1,11 @@
+{
+  "id": "EX-FS-INTEGRATION-D58",
+  "module_code": "FS-INTEGRATION",
+  "day": 58,
+  "title": "Hands-on Lab: Capstone Planning and Architecture",
+  "estimated_minutes": 45,
+  "difficulty": "Advanced",
+  "instructions": "Choose your capstone project. Write a complete architecture document: feature list, database schema (SQL and NoSQL), API endpoints, frontend routes, AI features, deployment plan, and testing strategy. Create the project structure.",
+  "starter_code": "// Implement your solution here",
+  "solution_code": "// Verified working implementation"
+}

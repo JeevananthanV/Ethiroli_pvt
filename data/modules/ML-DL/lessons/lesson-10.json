@@ -1,0 +1,18 @@
+{
+  "id": "ML-DL-L10",
+  "module_code": "ML-DL",
+  "lesson_order": 10,
+  "title": "Model training in Deep Learning",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Model training",
+    "Implement real-world code for Model training according to industry standards",
+    "Debug and optimize Model training integrations"
+  ],
+  "theory_markdown": "### Model training\n\nThis lesson covers in-depth technical mechanics of **Model training** as part of the Deep Learning curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Model training Implementation Example\nexport function handleModeltraining() {\n  console.log('Executing Model training workflow...');\n}",
+    "explanation": "Demonstration of how Model training is structured in production."
+  }
+}

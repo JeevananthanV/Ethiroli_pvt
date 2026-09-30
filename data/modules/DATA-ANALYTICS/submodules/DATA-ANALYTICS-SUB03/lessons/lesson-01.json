@@ -1,0 +1,22 @@
+{
+  "id": "DATA-ANALYTICS-SUB03-L01",
+  "day": 1,
+  "module_code": "DATA-ANALYTICS",
+  "lesson_order": 1,
+  "title": "Business KPIs: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Business KPIs",
+    "Apply Business KPIs in practical scenarios",
+    "Build a small project using Business KPIs"
+  ],
+  "theory_markdown": "# Business KPIs\n\n## Overview\nThis lesson covers the fundamentals of Business KPIs and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Business KPIs\n- Concept 2 related to Business KPIs\n- Best practices for Business KPIs\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Business KPIs\n2. Implement basic Business KPIs functionality\n3. Apply Business KPIs to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Business KPIs implementation\nconsole.log('Learning Business KPIs');\n\n// Basic Business KPIs example\nconst example = {\n  topic: 'Business KPIs',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Business KPIs usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Business KPIs concepts and generate code examples.\n\n---"
+  }
+}

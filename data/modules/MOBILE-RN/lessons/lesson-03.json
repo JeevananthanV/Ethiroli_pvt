@@ -1,0 +1,18 @@
+{
+  "id": "MOBILE-RN-L03",
+  "module_code": "MOBILE-RN",
+  "lesson_order": 3,
+  "title": "Components in Mobile Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Components",
+    "Implement real-world code for Components according to industry standards",
+    "Debug and optimize Components integrations"
+  ],
+  "theory_markdown": "### Components\n\nThis lesson covers in-depth technical mechanics of **Components** as part of the Mobile Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Components Implementation Example\nexport function handleComponents() {\n  console.log('Executing Components workflow...');\n}",
+    "explanation": "Demonstration of how Components is structured in production."
+  }
+}

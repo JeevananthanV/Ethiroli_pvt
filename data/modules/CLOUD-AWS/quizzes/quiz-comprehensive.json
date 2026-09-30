@@ -1,0 +1,117 @@
+{
+  "id": "QZ-CLOUD-AWS-COMPREHENSIVE",
+  "module_code": "CLOUD-AWS",
+  "title": "Comprehensive Quiz: Cloud Computing",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes cloud fundamentals in Cloud Computing?",
+      "options": [
+        "Core concept: Cloud fundamentals is fundamental to Cloud Computing",
+        "Alternative approach to Cloud fundamentals using different methodology",
+        "Advanced implementation of Cloud fundamentals with optimizations",
+        "Legacy technique for Cloud fundamentals no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Cloud fundamentals is a key topic in Cloud Computing. Understand cloud computing concepts and service models"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes aws architecture in Cloud Computing?",
+      "options": [
+        "Core concept: AWS architecture is fundamental to Cloud Computing",
+        "Alternative approach to AWS architecture using different methodology",
+        "Advanced implementation of AWS architecture with optimizations",
+        "Legacy technique for AWS architecture no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "AWS architecture is a key topic in Cloud Computing. Understand cloud computing concepts and service models"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes ec2 in Cloud Computing?",
+      "options": [
+        "Core concept: EC2 is fundamental to Cloud Computing",
+        "Alternative approach to EC2 using different methodology",
+        "Advanced implementation of EC2 with optimizations",
+        "Legacy technique for EC2 no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "EC2 is a key topic in Cloud Computing. Understand cloud computing concepts and service models"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes s3 in Cloud Computing?",
+      "options": [
+        "Core concept: S3 is fundamental to Cloud Computing",
+        "Alternative approach to S3 using different methodology",
+        "Advanced implementation of S3 with optimizations",
+        "Legacy technique for S3 no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "S3 is a key topic in Cloud Computing. Understand cloud computing concepts and service models"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes iam in Cloud Computing?",
+      "options": [
+        "Core concept: IAM is fundamental to Cloud Computing",
+        "Alternative approach to IAM using different methodology",
+        "Advanced implementation of IAM with optimizations",
+        "Legacy technique for IAM no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "IAM is a key topic in Cloud Computing. Understand cloud computing concepts and service models"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes rds in Cloud Computing?",
+      "options": [
+        "Core concept: RDS is fundamental to Cloud Computing",
+        "Alternative approach to RDS using different methodology",
+        "Advanced implementation of RDS with optimizations",
+        "Legacy technique for RDS no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "RDS is a key topic in Cloud Computing. Understand cloud computing concepts and service models"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in Cloud Computing?",
+      "options": [
+        "AWS",
+        "Hostinger",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "Cloud Computing uses AWS, Hostinger, Cloudflare as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of Cloud Computing?",
+      "options": [
+        "Understand cloud computing concepts and service models",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Understand cloud computing concepts and service models"
+    },
+    {
+      "id": 9,
+      "question": "When applying Cloud Computing in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for Cloud Computing include following established patterns and using recommended tools."
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "id": "PY-CORE-SUB02-Q01",
+  "module_code": "PY-CORE",
+  "day": 1,
+  "title": "Quiz 1: Lists Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Lists?",
+      "options": [
+        "Core principle of Lists",
+        "Advanced Lists technique",
+        "Alternative approach to Lists",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Lists concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Tuples?",
+      "options": [
+        "Core principle of Tuples",
+        "Advanced Tuples technique",
+        "Alternative approach to Tuples",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Tuples concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Sets?",
+      "options": [
+        "Core principle of Sets",
+        "Advanced Sets technique",
+        "Alternative approach to Sets",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Sets concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Dictionaries?",
+      "options": [
+        "Core principle of Dictionaries",
+        "Advanced Dictionaries technique",
+        "Alternative approach to Dictionaries",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Dictionaries concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Strings?",
+      "options": [
+        "Core principle of Strings",
+        "Advanced Strings technique",
+        "Alternative approach to Strings",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Strings concepts."
+    }
+  ]
+}

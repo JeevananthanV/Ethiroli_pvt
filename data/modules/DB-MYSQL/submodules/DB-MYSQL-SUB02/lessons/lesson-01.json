@@ -1,0 +1,22 @@
+{
+  "id": "DB-MYSQL-SUB02-L01",
+  "day": 1,
+  "module_code": "DB-MYSQL",
+  "lesson_order": 1,
+  "title": "SELECT: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of SELECT",
+    "Apply SELECT in practical scenarios",
+    "Build a small project using SELECT"
+  ],
+  "theory_markdown": "# SELECT\n\n## Overview\nThis lesson covers the fundamentals of SELECT and its practical applications.\n\n## Key Concepts\n- Concept 1 related to SELECT\n- Concept 2 related to SELECT\n- Best practices for SELECT\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of SELECT\n2. Implement basic SELECT functionality\n3. Apply SELECT to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example SELECT implementation\nconsole.log('Learning SELECT');\n\n// Basic SELECT example\nconst example = {\n  topic: 'SELECT',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic SELECT usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand SELECT concepts and generate code examples.\n\n---"
+  }
+}

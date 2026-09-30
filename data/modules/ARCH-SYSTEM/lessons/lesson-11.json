@@ -1,0 +1,18 @@
+{
+  "id": "ARCH-SYSTEM-L11",
+  "module_code": "ARCH-SYSTEM",
+  "lesson_order": 11,
+  "title": "Redis in System Design",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Redis",
+    "Implement real-world code for Redis according to industry standards",
+    "Debug and optimize Redis integrations"
+  ],
+  "theory_markdown": "### Redis\n\nThis lesson covers in-depth technical mechanics of **Redis** as part of the System Design curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Redis Implementation Example\nexport function handleRedis() {\n  console.log('Executing Redis workflow...');\n}",
+    "explanation": "Demonstration of how Redis is structured in production."
+  }
+}

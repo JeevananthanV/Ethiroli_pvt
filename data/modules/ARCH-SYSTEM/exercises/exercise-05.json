@@ -1,0 +1,10 @@
+{
+  "id": "EX-ARCH-SYSTEM-L05",
+  "module_code": "ARCH-SYSTEM",
+  "title": "Lab Exercise: Availability",
+  "difficulty": "Advanced",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Availability.",
+  "starter_code": "// Lab: Availability\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Availability\nexport const solution = true;\n"
+}

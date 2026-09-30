@@ -1,0 +1,18 @@
+{
+  "id": "DEVOPS-CORE-L07",
+  "module_code": "DEVOPS-CORE",
+  "lesson_order": 7,
+  "title": "Containers in DevOps",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Containers",
+    "Implement real-world code for Containers according to industry standards",
+    "Debug and optimize Containers integrations"
+  ],
+  "theory_markdown": "### Containers\n\nThis lesson covers in-depth technical mechanics of **Containers** as part of the DevOps curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Containers Implementation Example\nexport function handleContainers() {\n  console.log('Executing Containers workflow...');\n}",
+    "explanation": "Demonstration of how Containers is structured in production."
+  }
+}

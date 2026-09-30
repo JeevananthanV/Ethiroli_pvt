@@ -1,0 +1,18 @@
+{
+  "id": "MOBILE-RN-L07",
+  "module_code": "MOBILE-RN",
+  "lesson_order": 7,
+  "title": "API integration in Mobile Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of API integration",
+    "Implement real-world code for API integration according to industry standards",
+    "Debug and optimize API integration integrations"
+  ],
+  "theory_markdown": "### API integration\n\nThis lesson covers in-depth technical mechanics of **API integration** as part of the Mobile Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// API integration Implementation Example\nexport function handleAPIintegration() {\n  console.log('Executing API integration workflow...');\n}",
+    "explanation": "Demonstration of how API integration is structured in production."
+  }
+}

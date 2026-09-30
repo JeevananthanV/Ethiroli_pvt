@@ -1,0 +1,305 @@
+﻿{
+  "ETH-WEB-30": {
+    "code": "ETH-WEB-30",
+    "name": "30-Day Web Development Internship",
+    "duration_days": 30,
+    "tracks": [
+      "web"
+    ],
+    "module_sequence": [
+      {
+        "module": "PROG-FUND",
+        "days": 3,
+        "order": 1
+      },
+      {
+        "module": "WEB-HTML",
+        "days": 3,
+        "order": 2
+      },
+      {
+        "module": "WEB-CSS",
+        "days": 3,
+        "order": 3
+      },
+      {
+        "module": "DEV-GIT",
+        "days": 1,
+        "order": 4
+      },
+      {
+        "module": "JS-CORE",
+        "days": 6,
+        "order": 5
+      },
+      {
+        "module": "FE-REACT",
+        "days": 6,
+        "order": 6
+      },
+      {
+        "module": "FINAL",
+        "days": 8,
+        "order": 7
+      }
+    ],
+    "final_project": "Employee Task Management System"
+  },
+  "ETH-FS-45": {
+    "code": "ETH-FS-45",
+    "name": "45-Day Full Stack Development Program",
+    "duration_days": 45,
+    "tracks": [
+      "fullstack"
+    ],
+    "module_sequence": [
+      {
+        "module": "PROG-FUND",
+        "days": 3,
+        "order": 1
+      },
+      {
+        "module": "WEB-HTML",
+        "days": 2,
+        "order": 2
+      },
+      {
+        "module": "WEB-CSS",
+        "days": 2,
+        "order": 3
+      },
+      {
+        "module": "DEV-GIT",
+        "days": 1,
+        "order": 4
+      },
+      {
+        "module": "JS-CORE",
+        "days": 5,
+        "order": 5
+      },
+      {
+        "module": "FE-REACT",
+        "days": 7,
+        "order": 6
+      },
+      {
+        "module": "FE-TS",
+        "days": 3,
+        "order": 7
+      },
+      {
+        "module": "BE-NODE",
+        "days": 2,
+        "order": 8
+      },
+      {
+        "module": "BE-EXPRESS",
+        "days": 2,
+        "order": 9
+      },
+      {
+        "module": "BE-REST",
+        "days": 1,
+        "order": 10
+      },
+      {
+        "module": "DB-MYSQL",
+        "days": 2,
+        "order": 11
+      },
+      {
+        "module": "DB-MONGO",
+        "days": 2,
+        "order": 12
+      },
+      {
+        "module": "SEC-AUTH",
+        "days": 1,
+        "order": 13
+      },
+      {
+        "module": "FS-INTEGRATION",
+        "days": 3,
+        "order": 14
+      },
+      {
+        "module": "API-PAYMENT",
+        "days": 2,
+        "order": 15
+      },
+      {
+        "module": "API-COMM",
+        "days": 2,
+        "order": 16
+      },
+      {
+        "module": "AUTO-N8N",
+        "days": 3,
+        "order": 17
+      },
+      {
+        "module": "FINAL",
+        "days": 2,
+        "order": 18
+      }
+    ],
+    "final_project": "Capstone Full Stack Application with Payment & Communication Integration"
+  },
+  "ETH-AIFS-60": {
+    "code": "ETH-AIFS-60",
+    "name": "60-Day AI Full Stack Development Program",
+    "duration_days": 60,
+    "tracks": [
+      "aifs"
+    ],
+    "module_sequence": [
+      {
+        "module": "PROG-FUND",
+        "days": 3,
+        "order": 1
+      },
+      {
+        "module": "WEB-HTML",
+        "days": 2,
+        "order": 2
+      },
+      {
+        "module": "WEB-CSS",
+        "days": 2,
+        "order": 3
+      },
+      {
+        "module": "DEV-GIT",
+        "days": 1,
+        "order": 4
+      },
+      {
+        "module": "JS-CORE",
+        "days": 5,
+        "order": 5
+      },
+      {
+        "module": "FE-REACT",
+        "days": 7,
+        "order": 6
+      },
+      {
+        "module": "FE-TS",
+        "days": 3,
+        "order": 7
+      },
+      {
+        "module": "FE-NEXT",
+        "days": 2,
+        "order": 8
+      },
+      {
+        "module": "BE-NODE",
+        "days": 2,
+        "order": 9
+      },
+      {
+        "module": "BE-EXPRESS",
+        "days": 2,
+        "order": 10
+      },
+      {
+        "module": "BE-REST",
+        "days": 1,
+        "order": 11
+      },
+      {
+        "module": "DB-MYSQL",
+        "days": 2,
+        "order": 12
+      },
+      {
+        "module": "DB-MONGO",
+        "days": 2,
+        "order": 13
+      },
+      {
+        "module": "SEC-AUTH",
+        "days": 1,
+        "order": 14
+      },
+      {
+        "module": "FS-INTEGRATION",
+        "days": 3,
+        "order": 15
+      },
+      {
+        "module": "API-PAYMENT",
+        "days": 2,
+        "order": 16
+      },
+      {
+        "module": "API-COMM",
+        "days": 2,
+        "order": 17
+      },
+      {
+        "module": "AUTO-N8N",
+        "days": 2,
+        "order": 18
+      },
+      {
+        "module": "AI-DEV",
+        "days": 2,
+        "order": 19
+      },
+      {
+        "module": "AI-GENAPP",
+        "days": 2,
+        "order": 20
+      },
+      {
+        "module": "PY-CORE",
+        "days": 2,
+        "order": 21
+      },
+      {
+        "module": "DATA-ANALYTICS",
+        "days": 2,
+        "order": 22
+      },
+      {
+        "module": "ML-CORE",
+        "days": 2,
+        "order": 23
+      },
+      {
+        "module": "ML-DL",
+        "days": 1,
+        "order": 24
+      },
+      {
+        "module": "QA-TEST",
+        "days": 1,
+        "order": 25
+      },
+      {
+        "module": "DEVOPS-CORE",
+        "days": 1,
+        "order": 26
+      },
+      {
+        "module": "CLOUD-AWS",
+        "days": 1,
+        "order": 27
+      },
+      {
+        "module": "SEC-WEB",
+        "days": 1,
+        "order": 28
+      },
+      {
+        "module": "FINAL",
+        "days": 1,
+        "order": 29
+      }
+    ],
+    "final_project": "AI-Powered Full Stack SaaS Application"
+  }
+}

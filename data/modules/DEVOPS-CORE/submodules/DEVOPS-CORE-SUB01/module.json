@@ -1,0 +1,35 @@
+{
+  "code": "DEVOPS-CORE-SUB01",
+  "title": "DevOps - Part 1",
+  "category": "DevOps",
+  "level": "Intermediate",
+  "duration_hours": 5,
+  "description": "DevOps practices covering Linux, Git, CI/CD pipelines, Docker, containers, Docker Compose, Nginx, deployment, monitoring, and logging. This submodule covers: DevOps fundamentals, Linux, Git, CI/CD, Build pipelines.",
+  "topics": [
+    "DevOps fundamentals",
+    "Linux",
+    "Git",
+    "CI/CD",
+    "Build pipelines"
+  ],
+  "technologies": [
+    "Linux",
+    "Git",
+    "GitHub",
+    "Docker",
+    "GitHub Actions",
+    "Nginx"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "BE-NODE",
+    "FE-REACT",
+    "DEV-GIT"
+  ],
+  "learning_outcomes": [
+    "Understand DevOps culture, practices, and benefits",
+    "Manage Linux systems and shell scripting",
+    "Implement CI/CD pipelines with GitHub Actions"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "ARCH-SYSTEM-L07",
+  "module_code": "ARCH-SYSTEM",
+  "lesson_order": 7,
+  "title": "Load balancing in System Design",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Load balancing",
+    "Implement real-world code for Load balancing according to industry standards",
+    "Debug and optimize Load balancing integrations"
+  ],
+  "theory_markdown": "### Load balancing\n\nThis lesson covers in-depth technical mechanics of **Load balancing** as part of the System Design curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Load balancing Implementation Example\nexport function handleLoadbalancing() {\n  console.log('Executing Load balancing workflow...');\n}",
+    "explanation": "Demonstration of how Load balancing is structured in production."
+  }
+}

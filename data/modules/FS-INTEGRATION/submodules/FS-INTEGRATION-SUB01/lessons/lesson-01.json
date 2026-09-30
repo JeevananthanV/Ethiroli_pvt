@@ -1,0 +1,22 @@
+{
+  "id": "FS-INTEGRATION-SUB01-L01",
+  "day": 1,
+  "module_code": "FS-INTEGRATION",
+  "lesson_order": 1,
+  "title": "React + Node: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of React + Node",
+    "Apply React + Node in practical scenarios",
+    "Build a small project using React + Node"
+  ],
+  "theory_markdown": "# React + Node\n\n## Overview\nThis lesson covers the fundamentals of React + Node and its practical applications.\n\n## Key Concepts\n- Concept 1 related to React + Node\n- Concept 2 related to React + Node\n- Best practices for React + Node\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of React + Node\n2. Implement basic React + Node functionality\n3. Apply React + Node to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example React + Node implementation\nconsole.log('Learning React + Node');\n\n// Basic React + Node example\nconst example = {\n  topic: 'React + Node',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic React + Node usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand React + Node concepts and generate code examples.\n\n---"
+  }
+}

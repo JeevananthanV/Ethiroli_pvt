@@ -1,0 +1,33 @@
+{
+  "id": "QA-TEST-SUB02-E02",
+  "module_code": "QA-TEST",
+  "day": 4,
+  "title": "Hands-on Lab: Functional testing Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Functional testing:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Functional testing in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Functional testing basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Functional testing exercise\n// TODO: Implement Functional testing functionality here\n\nconsole.log('Functional testing exercise starter');\n",
+  "solution_code": "// Solution for Functional testing exercise\nconsole.log('Completed Functional testing exercise');\n\n// Basic implementation\nconst functionaltesting = {\n  name: 'Functional testing',\n  completed: true\n};\n\nconsole.log(functionaltesting);"
+}

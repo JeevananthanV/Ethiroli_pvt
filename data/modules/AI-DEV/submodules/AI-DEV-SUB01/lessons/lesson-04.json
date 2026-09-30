@@ -1,0 +1,22 @@
+{
+  "id": "AI-DEV-SUB01-L04",
+  "day": 7,
+  "module_code": "AI-DEV",
+  "lesson_order": 4,
+  "title": "Prompt engineering: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Prompt engineering",
+    "Apply Prompt engineering in practical scenarios",
+    "Build a small project using Prompt engineering"
+  ],
+  "theory_markdown": "# Prompt engineering\n\n## Overview\nThis lesson covers the fundamentals of Prompt engineering and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Prompt engineering\n- Concept 2 related to Prompt engineering\n- Best practices for Prompt engineering\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Prompt engineering\n2. Implement basic Prompt engineering functionality\n3. Apply Prompt engineering to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Prompt engineering implementation\nconsole.log('Learning Prompt engineering');\n\n// Basic Prompt engineering example\nconst example = {\n  topic: 'Prompt engineering',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Prompt engineering usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Prompt engineering concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "id": "BE-NODE-SUB03-E01",
+  "module_code": "BE-NODE",
+  "day": 2,
+  "title": "Hands-on Lab: REST APIs Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice REST APIs:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of REST APIs in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating REST APIs basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for REST APIs exercise\n// TODO: Implement REST APIs functionality here\n\nconsole.log('REST APIs exercise starter');\n",
+  "solution_code": "// Solution for REST APIs exercise\nconsole.log('Completed REST APIs exercise');\n\n// Basic implementation\nconst restapis = {\n  name: 'REST APIs',\n  completed: true\n};\n\nconsole.log(restapis);"
+}

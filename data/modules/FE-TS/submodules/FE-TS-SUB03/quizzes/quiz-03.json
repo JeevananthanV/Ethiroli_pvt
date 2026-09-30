@@ -1,0 +1,70 @@
+{
+  "id": "FE-TS-SUB03-Q03",
+  "module_code": "FE-TS",
+  "day": 5,
+  "title": "Quiz 3: Utility types Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Utility types?",
+      "options": [
+        "Core principle of Utility types",
+        "Advanced Utility types technique",
+        "Alternative approach to Utility types",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Utility types concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Type narrowing?",
+      "options": [
+        "Core principle of Type narrowing",
+        "Advanced Type narrowing technique",
+        "Alternative approach to Type narrowing",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Type narrowing concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in API types?",
+      "options": [
+        "Core principle of API types",
+        "Advanced API types technique",
+        "Alternative approach to API types",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental API types concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in React + TypeScript?",
+      "options": [
+        "Core principle of React + TypeScript",
+        "Advanced React + TypeScript technique",
+        "Alternative approach to React + TypeScript",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental React + TypeScript concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Component typing?",
+      "options": [
+        "Core principle of Component typing",
+        "Advanced Component typing technique",
+        "Alternative approach to Component typing",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Component typing concepts."
+    }
+  ]
+}

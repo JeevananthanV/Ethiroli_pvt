@@ -1,0 +1,21 @@
+{
+  "id": "QZ-ML-CORE-L03",
+  "module_code": "ML-CORE",
+  "title": "Quiz: Unsupervised learning",
+  "time_limit_minutes": 10,
+  "passing_percentage": 75,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is the primary architectural purpose of Unsupervised learning in Machine Learning?",
+      "options": [
+        "To enforce modularity and maintainable system boundaries",
+        "To bypass browser runtime security sandboxing",
+        "To override database foreign key constraints",
+        "To compile JavaScript into native x86 machine bytecode"
+      ],
+      "correct_index": 0,
+      "explanation": "Unsupervised learning ensures clean separation of concerns and robust maintainability."
+    }
+  ]
+}

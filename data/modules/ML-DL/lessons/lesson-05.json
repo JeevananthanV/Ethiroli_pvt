@@ -1,0 +1,18 @@
+{
+  "id": "ML-DL-L05",
+  "module_code": "ML-DL",
+  "lesson_order": 5,
+  "title": "Backpropagation in Deep Learning",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Backpropagation",
+    "Implement real-world code for Backpropagation according to industry standards",
+    "Debug and optimize Backpropagation integrations"
+  ],
+  "theory_markdown": "### Backpropagation\n\nThis lesson covers in-depth technical mechanics of **Backpropagation** as part of the Deep Learning curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Backpropagation Implementation Example\nexport function handleBackpropagation() {\n  console.log('Executing Backpropagation workflow...');\n}",
+    "explanation": "Demonstration of how Backpropagation is structured in production."
+  }
+}

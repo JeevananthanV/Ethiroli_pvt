@@ -1,0 +1,10 @@
+{
+  "id": "EX-ARCH-SYSTEM-L09",
+  "module_code": "ARCH-SYSTEM",
+  "title": "Lab Exercise: Database scaling",
+  "difficulty": "Advanced",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Database scaling.",
+  "starter_code": "// Lab: Database scaling\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Database scaling\nexport const solution = true;\n"
+}

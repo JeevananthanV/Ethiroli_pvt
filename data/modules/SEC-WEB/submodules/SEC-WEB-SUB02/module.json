@@ -1,0 +1,31 @@
+{
+  "code": "SEC-WEB-SUB02",
+  "title": "Cybersecurity - Part 2",
+  "category": "Security",
+  "level": "Intermediate",
+  "duration_hours": 4,
+  "description": "Web cybersecurity covering OWASP Top 10, SQL injection prevention, XSS/CSRF mitigation, authentication security, API security, and secure coding practices. This submodule covers: XSS, CSRF, Authentication security, API security, Password security.",
+  "topics": [
+    "XSS",
+    "CSRF",
+    "Authentication security",
+    "API security",
+    "Password security"
+  ],
+  "technologies": [
+    "OWASP",
+    "Postman",
+    "Burp Suite"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "SEC-AUTH",
+    "BE-NODE"
+  ],
+  "learning_outcomes": [
+    "Understand cybersecurity fundamentals and threat landscape",
+    "Identify and prevent OWASP Top 10 vulnerabilities",
+    "Implement input validation and output encoding"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "DEVOPS-CORE-SUB02-L03",
+  "day": 5,
+  "module_code": "DEVOPS-CORE",
+  "lesson_order": 3,
+  "title": "Docker Compose: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Docker Compose",
+    "Apply Docker Compose in practical scenarios",
+    "Build a small project using Docker Compose"
+  ],
+  "theory_markdown": "# Docker Compose\n\n## Overview\nThis lesson covers the fundamentals of Docker Compose and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Docker Compose\n- Concept 2 related to Docker Compose\n- Best practices for Docker Compose\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Docker Compose\n2. Implement basic Docker Compose functionality\n3. Apply Docker Compose to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Docker Compose implementation\nconsole.log('Learning Docker Compose');\n\n// Basic Docker Compose example\nconst example = {\n  topic: 'Docker Compose',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Docker Compose usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Docker Compose concepts and generate code examples.\n\n---"
+  }
+}

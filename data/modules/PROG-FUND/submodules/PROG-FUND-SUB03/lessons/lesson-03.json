@@ -1,0 +1,22 @@
+{
+  "id": "PROG-FUND-SUB03-L03",
+  "day": 5,
+  "module_code": "PROG-FUND",
+  "lesson_order": 3,
+  "title": "Algorithms basics: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Algorithms basics",
+    "Apply Algorithms basics in practical scenarios",
+    "Build a small project using Algorithms basics"
+  ],
+  "theory_markdown": "# Algorithms basics\n\n## Overview\nThis lesson covers the fundamentals of Algorithms basics and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Algorithms basics\n- Concept 2 related to Algorithms basics\n- Best practices for Algorithms basics\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Algorithms basics\n2. Implement basic Algorithms basics functionality\n3. Apply Algorithms basics to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Algorithms basics implementation\nconsole.log('Learning Algorithms basics');\n\n// Basic Algorithms basics example\nconst example = {\n  topic: 'Algorithms basics',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Algorithms basics usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Algorithms basics concepts and generate code examples.\n\n---"
+  }
+}

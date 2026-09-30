@@ -1,0 +1,32 @@
+{
+  "code": "AI-GENAPP-SUB02",
+  "title": "Generative AI Application Development - Part 2",
+  "category": "AI/ML",
+  "level": "Advanced",
+  "duration_hours": 8,
+  "description": "Generative AI application development covering LLM APIs, embeddings, vector databases, RAG, AI agents, chatbots, and document processing with LangChain/LangGraph. This submodule covers: Function calling, Embeddings, Vector databases, RAG, AI agents.",
+  "topics": [
+    "Function calling",
+    "Embeddings",
+    "Vector databases",
+    "RAG",
+    "AI agents"
+  ],
+  "technologies": [
+    "OpenAI API",
+    "Gemini API",
+    "Vector DB",
+    "LangChain/LangGraph"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "AI-DEV",
+    "BE-NODE"
+  ],
+  "learning_outcomes": [
+    "Work with LLM APIs (OpenAI, Gemini) and manage tokens/context",
+    "Implement prompt engineering for structured outputs",
+    "Use function calling and tools with AI models"
+  ]
+}

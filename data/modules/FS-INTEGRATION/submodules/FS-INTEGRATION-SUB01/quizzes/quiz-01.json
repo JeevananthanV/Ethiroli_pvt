@@ -1,0 +1,70 @@
+{
+  "id": "FS-INTEGRATION-SUB01-Q01",
+  "module_code": "FS-INTEGRATION",
+  "day": 1,
+  "title": "Quiz 1: React + Node Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in React + Node?",
+      "options": [
+        "Core principle of React + Node",
+        "Advanced React + Node technique",
+        "Alternative approach to React + Node",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental React + Node concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Frontend/backend architecture?",
+      "options": [
+        "Core principle of Frontend/backend architecture",
+        "Advanced Frontend/backend architecture technique",
+        "Alternative approach to Frontend/backend architecture",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Frontend/backend architecture concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in API integration?",
+      "options": [
+        "Core principle of API integration",
+        "Advanced API integration technique",
+        "Alternative approach to API integration",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental API integration concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Authentication?",
+      "options": [
+        "Core principle of Authentication",
+        "Advanced Authentication technique",
+        "Alternative approach to Authentication",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Authentication concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in CRUD?",
+      "options": [
+        "Core principle of CRUD",
+        "Advanced CRUD technique",
+        "Alternative approach to CRUD",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental CRUD concepts."
+    }
+  ]
+}

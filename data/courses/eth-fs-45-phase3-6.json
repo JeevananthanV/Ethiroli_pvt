@@ -1,0 +1,4602 @@
+[
+  {
+    "title": "Day 21 — Node.js",
+    "content": "Today we dive into Node.js fundamentals. You will learn about Node.js modules (CommonJS and ES6 modules), npm package manager basics, HTTP server creation using the built-in http module, and process management. Hands-on exercises include creating a simple HTTP server, working with the file system module, and understanding Node event-driven, non-blocking I/O architecture. Students will explore module.exports, require(), package.json configuration, and the Node.js event loop.",
+    "video_url": null,
+    "lesson_order": 21,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 21: Node.js\\n\\nToday we dive into Node.js fundamentals. You will learn about Node.js modules (CommonJS and ES6 modules), npm package manager basics, HTTP server creation using the built-in http module, and process management. Hands-on exercises include creating a simple HTTP server, working with the file system module, and understanding Node event-driven, non-blocking I/O architecture. Students will explore module.exports, require(), package.json configuration, and the Node.js event loop.\\n\\nThis session covers the fundamentals and advanced concepts of Node.js in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 21: Node.js",
+          "questions": [
+            {
+              "q": "Which method is commonly used to handle errors in Node.js?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does HTTP status code 404 indicate when working with Node.js?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in Node.js?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the default port number typically used for Node.js applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which SQL command is fundamental to creating tables in Node.js?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does JWT stand for in the context of Node.js and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which middleware is essential for parsing JSON requests in Node.js?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the primary purpose of indexes in Node.js databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which testing framework is most commonly used with React components in Node.js?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What is the primary purpose of Node.js in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - Node.js",
+          "description": "Implement a working node.js feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating Node.js concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - Node.js",
+          "description": "Build a complete node.js feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of Node.js",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 22 — Express.js",
+    "content": "Focus on Express.js framework for Node.js. Covers routing concepts, middleware implementation, controller patterns, and the request-response lifecycle. Students will build a complete RESTful API with Express, implement custom middleware functions, and understand the MVC (Model-View-Controller) pattern in Express applications. Topics include route parameters, query strings, request body parsing, and error handling middleware.",
+    "video_url": null,
+    "lesson_order": 22,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 22: Express.js\\n\\nFocus on Express.js framework for Node.js. Covers routing concepts, middleware implementation, controller patterns, and the request-response lifecycle. Students will build a complete RESTful API with Express, implement custom middleware functions, and understand the MVC (Model-View-Controller) pattern in Express applications. Topics include route parameters, query strings, request body parsing, and error handling middleware.\\n\\nThis session covers the fundamentals and advanced concepts of Express.js in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 22: Express.js",
+          "questions": [
+            {
+              "q": "What does HTTP status code 404 indicate when working with Express.js?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in Express.js?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the default port number typically used for Express.js applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which SQL command is fundamental to creating tables in Express.js?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does JWT stand for in the context of Express.js and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which middleware is essential for parsing JSON requests in Express.js?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the primary purpose of indexes in Express.js databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which testing framework is most commonly used with React components in Express.js?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What is the primary purpose of Express.js in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which method is commonly used to handle errors in Express.js?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - Express.js",
+          "description": "Implement a working express.js feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating Express.js concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - Express.js",
+          "description": "Build a complete express.js feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of Express.js",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 23 — REST API",
+    "content": "Deep dive into REST API design principles and best practices. Learn about HTTP status codes (200, 201, 400, 401, 403, 404, 500), request/response structures, API versioning strategies, and input validation techniques. Workshop includes designing proper API endpoints following REST conventions, implementing appropriate status codes, and creating comprehensive API documentation using OpenAPI/Swagger specifications.",
+    "video_url": null,
+    "lesson_order": 23,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 23: REST API\\n\\nDeep dive into REST API design principles and best practices. Learn about HTTP status codes (200, 201, 400, 401, 403, 404, 500), request/response structures, API versioning strategies, and input validation techniques. Workshop includes designing proper API endpoints following REST conventions, implementing appropriate status codes, and creating comprehensive API documentation using OpenAPI/Swagger specifications.\\n\\nThis session covers the fundamentals and advanced concepts of REST API in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 23: REST API",
+          "questions": [
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in REST API?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the default port number typically used for REST API applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which SQL command is fundamental to creating tables in REST API?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does JWT stand for in the context of REST API and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which middleware is essential for parsing JSON requests in REST API?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the primary purpose of indexes in REST API databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which testing framework is most commonly used with React components in REST API?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What is the primary purpose of REST API in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which method is commonly used to handle errors in REST API?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does HTTP status code 404 indicate when working with REST API?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - REST API",
+          "description": "Implement a working rest api feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating REST API concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - REST API",
+          "description": "Build a complete rest api feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of REST API",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 24 — MySQL",
+    "content": "Introduction to MySQL database operations and fundamentals. Covers creating tables, defining primary and foreign keys, implementing CRUD (Create, Read, Update, Delete) operations, and basic database schema design. Practical sessions include setting up MySQL server, creating databases, writing SQL DDL and DML statements, and understanding data types, constraints, and table relationships.",
+    "video_url": null,
+    "lesson_order": 24,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 24: MySQL\\n\\nIntroduction to MySQL database operations and fundamentals. Covers creating tables, defining primary and foreign keys, implementing CRUD (Create, Read, Update, Delete) operations, and basic database schema design. Practical sessions include setting up MySQL server, creating databases, writing SQL DDL and DML statements, and understanding data types, constraints, and table relationships.\\n\\nThis session covers the fundamentals and advanced concepts of MySQL in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 24: MySQL",
+          "questions": [
+            {
+              "q": "What is the default port number typically used for MySQL applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which SQL command is fundamental to creating tables in MySQL?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does JWT stand for in the context of MySQL and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which middleware is essential for parsing JSON requests in MySQL?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the primary purpose of indexes in MySQL databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which testing framework is most commonly used with React components in MySQL?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What is the primary purpose of MySQL in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which method is commonly used to handle errors in MySQL?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does HTTP status code 404 indicate when working with MySQL?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in MySQL?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - MySQL",
+          "description": "Implement a working mysql feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating MySQL concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - MySQL",
+          "description": "Build a complete mysql feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of MySQL",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 25 — MySQL Joins",
+    "content": "Advanced MySQL operations focusing on various join types (INNER JOIN, LEFT JOIN, RIGHT JOIN, SELF JOIN), subqueries, and database normalization. Learn to write complex queries combining multiple tables, use correlated and non-correlated subqueries, and implement normalization to 1NF, 2NF, and 3NF. Students will optimize queries for performance and understand denormalization trade-offs.",
+    "video_url": null,
+    "lesson_order": 25,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 25: MySQL Joins\\n\\nAdvanced MySQL operations focusing on various join types (INNER JOIN, LEFT JOIN, RIGHT JOIN, SELF JOIN), subqueries, and database normalization. Learn to write complex queries combining multiple tables, use correlated and non-correlated subqueries, and implement normalization to 1NF, 2NF, and 3NF. Students will optimize queries for performance and understand denormalization trade-offs.\\n\\nThis session covers the fundamentals and advanced concepts of MySQL Joins in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 25: MySQL Joins",
+          "questions": [
+            {
+              "q": "Which SQL command is fundamental to creating tables in MySQL Joins?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does JWT stand for in the context of MySQL Joins and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which middleware is essential for parsing JSON requests in MySQL Joins?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the primary purpose of indexes in MySQL Joins databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which testing framework is most commonly used with React components in MySQL Joins?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What is the primary purpose of MySQL Joins in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which method is commonly used to handle errors in MySQL Joins?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does HTTP status code 404 indicate when working with MySQL Joins?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in MySQL Joins?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the default port number typically used for MySQL Joins applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - MySQL Joins",
+          "description": "Implement a working mysql joins feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating MySQL Joins concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - MySQL Joins",
+          "description": "Build a complete mysql joins feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of MySQL Joins",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 26 — MySQL Transactions",
+    "content": "MySQL database optimization and advanced features. Covers transactions with ACID properties, indexing strategies (B-tree, hash indexes), view creation for data abstraction, and performance tuning techniques. Students will implement complex transactions with commit/rollback, create composite and covering indexes, build views and stored procedures, and use EXPLAIN for query analysis.",
+    "video_url": null,
+    "lesson_order": 26,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 26: MySQL Transactions\\n\\nMySQL database optimization and advanced features. Covers transactions with ACID properties, indexing strategies (B-tree, hash indexes), view creation for data abstraction, and performance tuning techniques. Students will implement complex transactions with commit/rollback, create composite and covering indexes, build views and stored procedures, and use EXPLAIN for query analysis.\\n\\nThis session covers the fundamentals and advanced concepts of MySQL Transactions in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 26: MySQL Transactions",
+          "questions": [
+            {
+              "q": "What does JWT stand for in the context of MySQL Transactions and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which middleware is essential for parsing JSON requests in MySQL Transactions?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the primary purpose of indexes in MySQL Transactions databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which testing framework is most commonly used with React components in MySQL Transactions?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What is the primary purpose of MySQL Transactions in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which method is commonly used to handle errors in MySQL Transactions?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does HTTP status code 404 indicate when working with MySQL Transactions?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in MySQL Transactions?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the default port number typically used for MySQL Transactions applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which SQL command is fundamental to creating tables in MySQL Transactions?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - MySQL Transactions",
+          "description": "Implement a working mysql transactions feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating MySQL Transactions concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - MySQL Transactions",
+          "description": "Build a complete mysql transactions feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of MySQL Transactions",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 27 — MySQL + Node.js",
+    "content": "Connecting MySQL databases with Node.js applications. Learn database connectivity patterns using mysql2 or promise libraries, ORM integration with Sequelize or TypeORM, and prepared statement usage. Hands-on projects include setting up connection pools, implementing data access layers (Repository pattern), building ORM models, and executing parameterized queries to prevent SQL injection.",
+    "video_url": null,
+    "lesson_order": 27,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 27: MySQL + Node.js\\n\\nConnecting MySQL databases with Node.js applications. Learn database connectivity patterns using mysql2 or promise libraries, ORM integration with Sequelize or TypeORM, and prepared statement usage. Hands-on projects include setting up connection pools, implementing data access layers (Repository pattern), building ORM models, and executing parameterized queries to prevent SQL injection.\\n\\nThis session covers the fundamentals and advanced concepts of MySQL + Node.js in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 27: MySQL + Node.js",
+          "questions": [
+            {
+              "q": "Which middleware is essential for parsing JSON requests in MySQL + Node.js?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the primary purpose of indexes in MySQL + Node.js databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which testing framework is most commonly used with React components in MySQL + Node.js?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What is the primary purpose of MySQL + Node.js in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which method is commonly used to handle errors in MySQL + Node.js?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does HTTP status code 404 indicate when working with MySQL + Node.js?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in MySQL + Node.js?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the default port number typically used for MySQL + Node.js applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which SQL command is fundamental to creating tables in MySQL + Node.js?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does JWT stand for in the context of MySQL + Node.js and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - MySQL + Node.js",
+          "description": "Implement a working mysql + node.js feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating MySQL + Node.js concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - MySQL + Node.js",
+          "description": "Build a complete mysql + node.js feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of MySQL + Node.js",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 28 — Database Design",
+    "content": "Database design principles and entity-relationship (ER) diagram creation. Learn entity identification, attribute modeling, relationship types (one-to-one, one-to-many, many-to-many), and schema optimization techniques. Students will create comprehensive ER diagrams using tools like MySQL Workbench, translate them to SQL DDL statements, and normalize schemas for optimal performance and data integrity.",
+    "video_url": null,
+    "lesson_order": 28,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 28: Database Design\\n\\nDatabase design principles and entity-relationship (ER) diagram creation. Learn entity identification, attribute modeling, relationship types (one-to-one, one-to-many, many-to-many), and schema optimization techniques. Students will create comprehensive ER diagrams using tools like MySQL Workbench, translate them to SQL DDL statements, and normalize schemas for optimal performance and data integrity.\\n\\nThis session covers the fundamentals and advanced concepts of Database Design in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 28: Database Design",
+          "questions": [
+            {
+              "q": "What is the primary purpose of indexes in Database Design databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which testing framework is most commonly used with React components in Database Design?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What is the primary purpose of Database Design in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which method is commonly used to handle errors in Database Design?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does HTTP status code 404 indicate when working with Database Design?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in Database Design?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the default port number typically used for Database Design applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which SQL command is fundamental to creating tables in Database Design?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does JWT stand for in the context of Database Design and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which middleware is essential for parsing JSON requests in Database Design?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - Database Design",
+          "description": "Implement a working database design feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating Database Design concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - Database Design",
+          "description": "Build a complete database design feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of Database Design",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 29 — Authentication",
+    "content": "Authentication mechanisms in full-stack web applications. Covers JSON Web Tokens (JWT), session-based authentication, password hashing using bcrypt or argon2, and secure token storage strategies. Implementation includes token generation and validation, refresh token mechanisms, password salting and hashing, and implementing secure authentication flows with proper middleware.",
+    "video_url": null,
+    "lesson_order": 29,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 29: Authentication\\n\\nAuthentication mechanisms in full-stack web applications. Covers JSON Web Tokens (JWT), session-based authentication, password hashing using bcrypt or argon2, and secure token storage strategies. Implementation includes token generation and validation, refresh token mechanisms, password salting and hashing, and implementing secure authentication flows with proper middleware.\\n\\nThis session covers the fundamentals and advanced concepts of Authentication in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 29: Authentication",
+          "questions": [
+            {
+              "q": "Which testing framework is most commonly used with React components in Authentication?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What is the primary purpose of Authentication in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which method is commonly used to handle errors in Authentication?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does HTTP status code 404 indicate when working with Authentication?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in Authentication?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the default port number typically used for Authentication applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which SQL command is fundamental to creating tables in Authentication?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does JWT stand for in the context of Authentication and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which middleware is essential for parsing JSON requests in Authentication?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the primary purpose of indexes in Authentication databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - Authentication",
+          "description": "Implement a working authentication feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating Authentication concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - Authentication",
+          "description": "Build a complete authentication feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of Authentication",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 30 — Authorization",
+    "content": "Authorization and access control implementation in web applications. Learn Role-Based Access Control (RBAC), middleware-based permission checking, and implementing secure route restrictions. Students will build authorization middleware chains, implement role and permission hierarchies, create protected routes with dynamic access levels, and handle unauthorized access gracefully.",
+    "video_url": null,
+    "lesson_order": 30,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 30: Authorization\\n\\nAuthorization and access control implementation in web applications. Learn Role-Based Access Control (RBAC), middleware-based permission checking, and implementing secure route restrictions. Students will build authorization middleware chains, implement role and permission hierarchies, create protected routes with dynamic access levels, and handle unauthorized access gracefully.\\n\\nThis session covers the fundamentals and advanced concepts of Authorization in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 30: Authorization",
+          "questions": [
+            {
+              "q": "What is the primary purpose of Authorization in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which method is commonly used to handle errors in Authorization?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does HTTP status code 404 indicate when working with Authorization?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in Authorization?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the default port number typically used for Authorization applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which SQL command is fundamental to creating tables in Authorization?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does JWT stand for in the context of Authorization and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which middleware is essential for parsing JSON requests in Authorization?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the primary purpose of indexes in Authorization databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which testing framework is most commonly used with React components in Authorization?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - Authorization",
+          "description": "Implement a working authorization feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating Authorization concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - Authorization",
+          "description": "Build a complete authorization feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of Authorization",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 31 — Frontend + Backend Integration",
+    "content": "Integration patterns between frontend and backend applications. Learn making API calls using the Fetch API, handling loading states with skeleton screens and spinners, implementing robust error handling with try-catch blocks, and managing asynchronous data flow. Students will build a complete full-stack application with proper integration patterns, including request cancellation, optimistic updates, and pagination.",
+    "video_url": null,
+    "lesson_order": 31,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 31: Frontend + Backend Integration\\n\\nIntegration patterns between frontend and backend applications. Learn making API calls using the Fetch API, handling loading states with skeleton screens and spinners, implementing robust error handling with try-catch blocks, and managing asynchronous data flow. Students will build a complete full-stack application with proper integration patterns, including request cancellation, optimistic updates, and pagination.\\n\\nThis session covers the fundamentals and advanced concepts of Frontend + Backend Integration in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 31: Frontend + Backend Integration",
+          "questions": [
+            {
+              "q": "Which method is commonly used to handle errors in Frontend + Backend Integration?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does HTTP status code 404 indicate when working with Frontend + Backend Integration?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in Frontend + Backend Integration?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the default port number typically used for Frontend + Backend Integration applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which SQL command is fundamental to creating tables in Frontend + Backend Integration?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does JWT stand for in the context of Frontend + Backend Integration and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which middleware is essential for parsing JSON requests in Frontend + Backend Integration?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the primary purpose of indexes in Frontend + Backend Integration databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which testing framework is most commonly used with React components in Frontend + Backend Integration?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What is the primary purpose of Frontend + Backend Integration in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - Frontend + Backend Integration",
+          "description": "Implement a working frontend + backend integration feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating Frontend + Backend Integration concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - Frontend + Backend Integration",
+          "description": "Build a complete frontend + backend integration feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of Frontend + Backend Integration",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 32 — API Integration",
+    "content": "Advanced API integration techniques in React applications. Covers axios library usage, intelligent data fetching strategies (React Query, SWR), client-side caching mechanisms, and automatic retry logic. Hands-on projects include implementing exponential backoff retries, cache invalidation strategies, optimistic and pessimistic updates, and efficient data prefetching for better user experience.",
+    "video_url": null,
+    "lesson_order": 32,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 32: API Integration\\n\\nAdvanced API integration techniques in React applications. Covers axios library usage, intelligent data fetching strategies (React Query, SWR), client-side caching mechanisms, and automatic retry logic. Hands-on projects include implementing exponential backoff retries, cache invalidation strategies, optimistic and pessimistic updates, and efficient data prefetching for better user experience.\\n\\nThis session covers the fundamentals and advanced concepts of API Integration in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 32: API Integration",
+          "questions": [
+            {
+              "q": "What does HTTP status code 404 indicate when working with API Integration?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in API Integration?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the default port number typically used for API Integration applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which SQL command is fundamental to creating tables in API Integration?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does JWT stand for in the context of API Integration and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which middleware is essential for parsing JSON requests in API Integration?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the primary purpose of indexes in API Integration databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which testing framework is most commonly used with React components in API Integration?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What is the primary purpose of API Integration in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which method is commonly used to handle errors in API Integration?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - API Integration",
+          "description": "Implement a working api integration feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating API Integration concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - API Integration",
+          "description": "Build a complete api integration feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of API Integration",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 33 — RBAC",
+    "content": "Role-Based Access Control (RBAC) implementation in frontend applications. Learn role-based UI rendering and conditional components, protected route implementation with React Router, and real-time permission checking. Students will build dynamic interface components that adapt based on user roles, implement route guards, create permission-aware navigation menus, and handle unauthorized access gracefully.",
+    "video_url": null,
+    "lesson_order": 33,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 33: RBAC\\n\\nRole-Based Access Control (RBAC) implementation in frontend applications. Learn role-based UI rendering and conditional components, protected route implementation with React Router, and real-time permission checking. Students will build dynamic interface components that adapt based on user roles, implement route guards, create permission-aware navigation menus, and handle unauthorized access gracefully.\\n\\nThis session covers the fundamentals and advanced concepts of RBAC in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 33: RBAC",
+          "questions": [
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in RBAC?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the default port number typically used for RBAC applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which SQL command is fundamental to creating tables in RBAC?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does JWT stand for in the context of RBAC and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which middleware is essential for parsing JSON requests in RBAC?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the primary purpose of indexes in RBAC databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which testing framework is most commonly used with React components in RBAC?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What is the primary purpose of RBAC in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which method is commonly used to handle errors in RBAC?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does HTTP status code 404 indicate when working with RBAC?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - RBAC",
+          "description": "Implement a working rbac feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating RBAC concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - RBAC",
+          "description": "Build a complete rbac feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of RBAC",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 34 — Validation",
+    "content": "Comprehensive form and data validation strategies. Covers client-side validation using libraries like Yup and Zod, server-side validation with express-validator or Joi, and real-time form validation patterns. Implementation includes schema-based validation, cross-field validation, async validation for uniqueness checks, and creating accessible error messages for inclusive design.",
+    "video_url": null,
+    "lesson_order": 34,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 34: Validation\\n\\nComprehensive form and data validation strategies. Covers client-side validation using libraries like Yup and Zod, server-side validation with express-validator or Joi, and real-time form validation patterns. Implementation includes schema-based validation, cross-field validation, async validation for uniqueness checks, and creating accessible error messages for inclusive design.\\n\\nThis session covers the fundamentals and advanced concepts of Validation in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 34: Validation",
+          "questions": [
+            {
+              "q": "What is the default port number typically used for Validation applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which SQL command is fundamental to creating tables in Validation?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does JWT stand for in the context of Validation and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which middleware is essential for parsing JSON requests in Validation?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the primary purpose of indexes in Validation databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which testing framework is most commonly used with React components in Validation?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What is the primary purpose of Validation in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which method is commonly used to handle errors in Validation?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does HTTP status code 404 indicate when working with Validation?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in Validation?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - Validation",
+          "description": "Implement a working validation feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating Validation concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - Validation",
+          "description": "Build a complete validation feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of Validation",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 35 — Error Handling",
+    "content": "Comprehensive error handling strategies in full-stack applications. Learn global error boundaries in React, try-catch patterns for async operations, centralized error logging, and user-friendly error display. Students will implement Error Boundaries with fallback UI, create custom error classes, set up global error handlers, and design intuitive error messaging systems.",
+    "video_url": null,
+    "lesson_order": 35,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 35: Error Handling\\n\\nComprehensive error handling strategies in full-stack applications. Learn global error boundaries in React, try-catch patterns for async operations, centralized error logging, and user-friendly error display. Students will implement Error Boundaries with fallback UI, create custom error classes, set up global error handlers, and design intuitive error messaging systems.\\n\\nThis session covers the fundamentals and advanced concepts of Error Handling in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 35: Error Handling",
+          "questions": [
+            {
+              "q": "Which SQL command is fundamental to creating tables in Error Handling?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does JWT stand for in the context of Error Handling and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which middleware is essential for parsing JSON requests in Error Handling?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the primary purpose of indexes in Error Handling databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which testing framework is most commonly used with React components in Error Handling?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What is the primary purpose of Error Handling in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which method is commonly used to handle errors in Error Handling?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does HTTP status code 404 indicate when working with Error Handling?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in Error Handling?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the default port number typically used for Error Handling applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - Error Handling",
+          "description": "Implement a working error handling feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating Error Handling concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - Error Handling",
+          "description": "Build a complete error handling feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of Error Handling",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 36 — Testing",
+    "content": "Unit testing and component testing with Jest framework. Learn writing test suites, mocking modules and functions, assertion patterns, and test-driven development (TDD). Students will write comprehensive unit tests for utility functions, test React components with Testing Library, mock API calls, and achieve high code coverage with proper test organization.",
+    "video_url": null,
+    "lesson_order": 36,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 36: Testing\\n\\nUnit testing and component testing with Jest framework. Learn writing test suites, mocking modules and functions, assertion patterns, and test-driven development (TDD). Students will write comprehensive unit tests for utility functions, test React components with Testing Library, mock API calls, and achieve high code coverage with proper test organization.\\n\\nThis session covers the fundamentals and advanced concepts of Testing in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 36: Testing",
+          "questions": [
+            {
+              "q": "What does JWT stand for in the context of Testing and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which middleware is essential for parsing JSON requests in Testing?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the primary purpose of indexes in Testing databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which testing framework is most commonly used with React components in Testing?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What is the primary purpose of Testing in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which method is commonly used to handle errors in Testing?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does HTTP status code 404 indicate when working with Testing?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in Testing?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the default port number typically used for Testing applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which SQL command is fundamental to creating tables in Testing?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - Testing",
+          "description": "Implement a working testing feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating Testing concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - Testing",
+          "description": "Build a complete testing feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of Testing",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 37 — Testing Integration",
+    "content": "Integration testing and end-to-end (E2E) testing strategies. Learn API testing with Supertest, integration testing with Jest and React Testing Library, and E2E testing with Cypress or Playwright. Hands-on projects include mocking services for integration tests, testing complete user flows, setting up test environments, and implementing automated regression testing pipelines.",
+    "video_url": null,
+    "lesson_order": 37,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 37: Testing Integration\\n\\nIntegration testing and end-to-end (E2E) testing strategies. Learn API testing with Supertest, integration testing with Jest and React Testing Library, and E2E testing with Cypress or Playwright. Hands-on projects include mocking services for integration tests, testing complete user flows, setting up test environments, and implementing automated regression testing pipelines.\\n\\nThis session covers the fundamentals and advanced concepts of Testing Integration in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 37: Testing Integration",
+          "questions": [
+            {
+              "q": "Which middleware is essential for parsing JSON requests in Testing Integration?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the primary purpose of indexes in Testing Integration databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which testing framework is most commonly used with React components in Testing Integration?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What is the primary purpose of Testing Integration in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which method is commonly used to handle errors in Testing Integration?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does HTTP status code 404 indicate when working with Testing Integration?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in Testing Integration?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the default port number typically used for Testing Integration applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which SQL command is fundamental to creating tables in Testing Integration?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does JWT stand for in the context of Testing Integration and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - Testing Integration",
+          "description": "Implement a working testing integration feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating Testing Integration concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - Testing Integration",
+          "description": "Build a complete testing integration feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of Testing Integration",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 38 — Deployment",
+    "content": "Application deployment and Continuous Integration/Continuous Deployment (CI/CD) fundamentals. Learn Docker containerization, multi-stage builds, hosting strategies on platforms like Vercel, Netlify, or AWS, and CI/CD pipeline configuration with GitHub Actions or GitLab CI. Students will create Dockerfiles, set up Docker Compose for local development, configure CI/CD workflows, and deploy applications.",
+    "video_url": null,
+    "lesson_order": 38,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 38: Deployment\\n\\nApplication deployment and Continuous Integration/Continuous Deployment (CI/CD) fundamentals. Learn Docker containerization, multi-stage builds, hosting strategies on platforms like Vercel, Netlify, or AWS, and CI/CD pipeline configuration with GitHub Actions or GitLab CI. Students will create Dockerfiles, set up Docker Compose for local development, configure CI/CD workflows, and deploy applications.\\n\\nThis session covers the fundamentals and advanced concepts of Deployment in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 38: Deployment",
+          "questions": [
+            {
+              "q": "What is the primary purpose of indexes in Deployment databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which testing framework is most commonly used with React components in Deployment?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What is the primary purpose of Deployment in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which method is commonly used to handle errors in Deployment?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does HTTP status code 404 indicate when working with Deployment?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in Deployment?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the default port number typically used for Deployment applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which SQL command is fundamental to creating tables in Deployment?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does JWT stand for in the context of Deployment and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which middleware is essential for parsing JSON requests in Deployment?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - Deployment",
+          "description": "Implement a working deployment feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating Deployment concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - Deployment",
+          "description": "Build a complete deployment feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of Deployment",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 39 — Project Requirements",
+    "content": "Project planning and requirements gathering methodologies. Learn user story creation (As a role, I want feature, so that benefit), technical project setup with Vite or Create React App, and writing comprehensive technical specifications. Students will create detailed requirement documents, define acceptance criteria, set up version control repositories, configure development environments, and plan sprint deliverables.",
+    "video_url": null,
+    "lesson_order": 39,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 39: Project Requirements\\n\\nProject planning and requirements gathering methodologies. Learn user story creation (As a role, I want feature, so that benefit), technical project setup with Vite or Create React App, and writing comprehensive technical specifications. Students will create detailed requirement documents, define acceptance criteria, set up version control repositories, configure development environments, and plan sprint deliverables.\\n\\nThis session covers the fundamentals and advanced concepts of Project Requirements in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 39: Project Requirements",
+          "questions": [
+            {
+              "q": "Which testing framework is most commonly used with React components in Project Requirements?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What is the primary purpose of Project Requirements in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which method is commonly used to handle errors in Project Requirements?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does HTTP status code 404 indicate when working with Project Requirements?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in Project Requirements?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the default port number typically used for Project Requirements applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which SQL command is fundamental to creating tables in Project Requirements?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does JWT stand for in the context of Project Requirements and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which middleware is essential for parsing JSON requests in Project Requirements?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the primary purpose of indexes in Project Requirements databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - Project Requirements",
+          "description": "Implement a working project requirements feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating Project Requirements concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - Project Requirements",
+          "description": "Build a complete project requirements feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of Project Requirements",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 40 — Database and Backend",
+    "content": "Project database and backend implementation phase. Learn database schema design and migration scripts, REST API endpoint creation with Express, authentication integration with JWT, and database seeding. Students will implement complete backend APIs with proper middleware, create database migrations, seed initial data, and establish secure authentication flows for the full project.",
+    "video_url": null,
+    "lesson_order": 40,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 40: Database and Backend\\n\\nProject database and backend implementation phase. Learn database schema design and migration scripts, REST API endpoint creation with Express, authentication integration with JWT, and database seeding. Students will implement complete backend APIs with proper middleware, create database migrations, seed initial data, and establish secure authentication flows for the full project.\\n\\nThis session covers the fundamentals and advanced concepts of Database and Backend in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 40: Database and Backend",
+          "questions": [
+            {
+              "q": "What is the primary purpose of Database and Backend in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which method is commonly used to handle errors in Database and Backend?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does HTTP status code 404 indicate when working with Database and Backend?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in Database and Backend?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the default port number typically used for Database and Backend applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which SQL command is fundamental to creating tables in Database and Backend?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does JWT stand for in the context of Database and Backend and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which middleware is essential for parsing JSON requests in Database and Backend?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the primary purpose of indexes in Database and Backend databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which testing framework is most commonly used with React components in Database and Backend?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - Database and Backend",
+          "description": "Implement a working database and backend feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating Database and Backend concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - Database and Backend",
+          "description": "Build a complete database and backend feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of Database and Backend",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 41 — Frontend Development",
+    "content": "Frontend component architecture and page development. Learn creating reusable component libraries, implementing client-side routing with React Router, state management with Context API or Redux, and responsive design patterns. Students will build modern React page components, implement nested routes, create context providers for global state, and ensure mobile-first responsive layouts.",
+    "video_url": null,
+    "lesson_order": 41,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 41: Frontend Development\\n\\nFrontend component architecture and page development. Learn creating reusable component libraries, implementing client-side routing with React Router, state management with Context API or Redux, and responsive design patterns. Students will build modern React page components, implement nested routes, create context providers for global state, and ensure mobile-first responsive layouts.\\n\\nThis session covers the fundamentals and advanced concepts of Frontend Development in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 41: Frontend Development",
+          "questions": [
+            {
+              "q": "Which method is commonly used to handle errors in Frontend Development?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does HTTP status code 404 indicate when working with Frontend Development?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in Frontend Development?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the default port number typically used for Frontend Development applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which SQL command is fundamental to creating tables in Frontend Development?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does JWT stand for in the context of Frontend Development and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which middleware is essential for parsing JSON requests in Frontend Development?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the primary purpose of indexes in Frontend Development databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which testing framework is most commonly used with React components in Frontend Development?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What is the primary purpose of Frontend Development in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - Frontend Development",
+          "description": "Implement a working frontend development feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating Frontend Development concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - Frontend Development",
+          "description": "Build a complete frontend development feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of Frontend Development",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 42 — Code Review",
+    "content": "Peer code review practices and code quality improvement techniques. Learn systematic code review methodologies, identifying code smells, refactoring techniques like extracting methods and reducing coupling, and maintaining consistent coding standards. Students will perform constructive peer reviews, implement linting rules, refactor complex functions, and establish project-wide code quality guidelines.",
+    "video_url": null,
+    "lesson_order": 42,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 42: Code Review\\n\\nPeer code review practices and code quality improvement techniques. Learn systematic code review methodologies, identifying code smells, refactoring techniques like extracting methods and reducing coupling, and maintaining consistent coding standards. Students will perform constructive peer reviews, implement linting rules, refactor complex functions, and establish project-wide code quality guidelines.\\n\\nThis session covers the fundamentals and advanced concepts of Code Review in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 42: Code Review",
+          "questions": [
+            {
+              "q": "What does HTTP status code 404 indicate when working with Code Review?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in Code Review?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the default port number typically used for Code Review applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which SQL command is fundamental to creating tables in Code Review?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does JWT stand for in the context of Code Review and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which middleware is essential for parsing JSON requests in Code Review?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the primary purpose of indexes in Code Review databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which testing framework is most commonly used with React components in Code Review?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What is the primary purpose of Code Review in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which method is commonly used to handle errors in Code Review?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - Code Review",
+          "description": "Implement a working code review feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating Code Review concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - Code Review",
+          "description": "Build a complete code review feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of Code Review",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 43 — Bug Fixing",
+    "content": "Systematic debugging and bug fixing methodologies. Learn using browser DevTools and Node.js debugger, writing tests to reproduce bugs, implementing fixes with proper regression testing, and debugging production issues with source maps and logging. Students will debug complex issues, write reproduction tests, implement fixes, and establish bug tracking processes.",
+    "video_url": null,
+    "lesson_order": 43,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 43: Bug Fixing\\n\\nSystematic debugging and bug fixing methodologies. Learn using browser DevTools and Node.js debugger, writing tests to reproduce bugs, implementing fixes with proper regression testing, and debugging production issues with source maps and logging. Students will debug complex issues, write reproduction tests, implement fixes, and establish bug tracking processes.\\n\\nThis session covers the fundamentals and advanced concepts of Bug Fixing in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 43: Bug Fixing",
+          "questions": [
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in Bug Fixing?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the default port number typically used for Bug Fixing applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which SQL command is fundamental to creating tables in Bug Fixing?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does JWT stand for in the context of Bug Fixing and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which middleware is essential for parsing JSON requests in Bug Fixing?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the primary purpose of indexes in Bug Fixing databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which testing framework is most commonly used with React components in Bug Fixing?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What is the primary purpose of Bug Fixing in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which method is commonly used to handle errors in Bug Fixing?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does HTTP status code 404 indicate when working with Bug Fixing?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - Bug Fixing",
+          "description": "Implement a working bug fixing feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating Bug Fixing concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - Bug Fixing",
+          "description": "Build a complete bug fixing feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of Bug Fixing",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 44 — Final Presentation",
+    "content": "Final project presentation and demonstration skills. Learn creating compelling project demos, structuring technical presentations, handling Q&A sessions effectively, and showcasing project features. Students will prepare comprehensive project demonstrations, create presentation slides, rehearse technical explanations, and develop strategies for answering stakeholder questions confidently.",
+    "video_url": null,
+    "lesson_order": 44,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 44: Final Presentation\\n\\nFinal project presentation and demonstration skills. Learn creating compelling project demos, structuring technical presentations, handling Q&A sessions effectively, and showcasing project features. Students will prepare comprehensive project demonstrations, create presentation slides, rehearse technical explanations, and develop strategies for answering stakeholder questions confidently.\\n\\nThis session covers the fundamentals and advanced concepts of Final Presentation in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 44: Final Presentation",
+          "questions": [
+            {
+              "q": "What is the default port number typically used for Final Presentation applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which SQL command is fundamental to creating tables in Final Presentation?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does JWT stand for in the context of Final Presentation and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which middleware is essential for parsing JSON requests in Final Presentation?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the primary purpose of indexes in Final Presentation databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which testing framework is most commonly used with React components in Final Presentation?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What is the primary purpose of Final Presentation in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which method is commonly used to handle errors in Final Presentation?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does HTTP status code 404 indicate when working with Final Presentation?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in Final Presentation?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - Final Presentation",
+          "description": "Implement a working final presentation feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating Final Presentation concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - Final Presentation",
+          "description": "Build a complete final presentation feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of Final Presentation",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 45 — Technical Evaluation",
+    "content": "Technical assessment and certification process. Learn code evaluation criteria including performance, readability, and maintainability, technical interview preparation strategies, and professional certification requirements. Students will undergo comprehensive code review evaluations, participate in technical interviews, receive detailed feedback reports, and earn completion certificates for the full-stack internship program.",
+    "video_url": null,
+    "lesson_order": 45,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "## Day 45: Technical Evaluation\\n\\nTechnical assessment and certification process. Learn code evaluation criteria including performance, readability, and maintainability, technical interview preparation strategies, and professional certification requirements. Students will undergo comprehensive code review evaluations, participate in technical interviews, receive detailed feedback reports, and earn completion certificates for the full-stack internship program.\\n\\nThis session covers the fundamentals and advanced concepts of Technical Evaluation in the context of full-stack development. Students will gain hands-on experience with practical implementations and real-world use cases, building skills that are essential for modern web development."
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Quiz - Day 45: Technical Evaluation",
+          "questions": [
+            {
+              "q": "Which SQL command is fundamental to creating tables in Technical Evaluation?",
+              "type": "MCQ",
+              "options": [
+                "CREATE TABLE",
+                "INSERT INTO",
+                "SELECT FROM",
+                "UPDATE SET"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does JWT stand for in the context of Technical Evaluation and authentication?",
+              "type": "MCQ",
+              "options": [
+                "JavaScript Object Token",
+                "JSON Web Token",
+                "JavaScript Only Token",
+                "JSON Online Token"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which middleware is essential for parsing JSON requests in Technical Evaluation?",
+              "type": "MCQ",
+              "options": [
+                "body-parser",
+                "express.json()",
+                "cors",
+                "morgan"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the primary purpose of indexes in Technical Evaluation databases?",
+              "type": "MCQ",
+              "options": [
+                "Faster data lookups",
+                "Slower data lookups",
+                "More storage space",
+                "No storage benefit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which testing framework is most commonly used with React components in Technical Evaluation?",
+              "type": "MCQ",
+              "options": [
+                "Jest",
+                "Mocha",
+                "Jasmine",
+                "QUnit"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What is the primary purpose of Technical Evaluation in full-stack development?",
+              "type": "MCQ",
+              "options": [
+                "Backend development",
+                "Frontend development",
+                "Database design",
+                "Mobile development"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "Which method is commonly used to handle errors in Technical Evaluation?",
+              "type": "MCQ",
+              "options": [
+                "try-catch blocks",
+                "if-else statements",
+                "for loops",
+                "while loops"
+              ],
+              "answer": 1
+            },
+            {
+              "q": "What does HTTP status code 404 indicate when working with Technical Evaluation?",
+              "type": "MCQ",
+              "options": [
+                "Success",
+                "Not Found",
+                "Server Error",
+                "Bad Request"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "Which npm package is commonly used for authentication mechanisms in Technical Evaluation?",
+              "type": "MCQ",
+              "options": [
+                "bcrypt",
+                "jsonwebtoken",
+                "express-session",
+                "passport"
+              ],
+              "answer": 2
+            },
+            {
+              "q": "What is the default port number typically used for Technical Evaluation applications?",
+              "type": "MCQ",
+              "options": [
+                "3000",
+                "8080",
+                "5000",
+                "8000"
+              ],
+              "answer": 1
+            }
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task - Technical Evaluation",
+          "description": "Implement a working technical evaluation feature as part of your full-stack application. Focus on writing clean, well-documented code with proper testing and adherence to project standards.",
+          "requirements": [
+            "Create a working implementation demonstrating Technical Evaluation concepts",
+            "Write comprehensive unit tests for all functions",
+            "Document your code with clear comments and README",
+            "Commit all changes to version control with meaningful commit messages"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment - Technical Evaluation",
+          "description": "Build a complete technical evaluation feature with proper error handling, comprehensive documentation, and production-ready code. Submit your implementation to GitHub for peer review and instructor evaluation.",
+          "requirements": [
+            "Complete and functional implementation of Technical Evaluation",
+            "Write comprehensive technical documentation",
+            "Include test coverage with at least 80% pass rate",
+            "Create a demo video walkthrough"
+          ],
+          "submission_type": [
+            "github"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": [
+            "What did you learn today?",
+            "What did you implement?",
+            "What problem did you face?",
+            "How did you solve it?",
+            "Hours Worked?"
+          ]
+        },
+        "is_interactive": true
+      }
+    ]
+  }
+]

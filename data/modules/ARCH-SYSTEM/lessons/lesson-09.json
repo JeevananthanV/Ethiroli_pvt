@@ -1,0 +1,18 @@
+{
+  "id": "ARCH-SYSTEM-L09",
+  "module_code": "ARCH-SYSTEM",
+  "lesson_order": 9,
+  "title": "Database scaling in System Design",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Database scaling",
+    "Implement real-world code for Database scaling according to industry standards",
+    "Debug and optimize Database scaling integrations"
+  ],
+  "theory_markdown": "### Database scaling\n\nThis lesson covers in-depth technical mechanics of **Database scaling** as part of the System Design curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Database scaling Implementation Example\nexport function handleDatabasescaling() {\n  console.log('Executing Database scaling workflow...');\n}",
+    "explanation": "Demonstration of how Database scaling is structured in production."
+  }
+}

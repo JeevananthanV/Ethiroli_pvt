@@ -1,0 +1,117 @@
+{
+  "id": "QZ-ML-DL-COMPREHENSIVE",
+  "module_code": "ML-DL",
+  "title": "Comprehensive Quiz: Deep Learning",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes neural networks in Deep Learning?",
+      "options": [
+        "Core concept: Neural networks is fundamental to Deep Learning",
+        "Alternative approach to Neural networks using different methodology",
+        "Advanced implementation of Neural networks with optimizations",
+        "Legacy technique for Neural networks no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Neural networks is a key topic in Deep Learning. Understand neural network fundamentals and architectures"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes perceptron in Deep Learning?",
+      "options": [
+        "Core concept: Perceptron is fundamental to Deep Learning",
+        "Alternative approach to Perceptron using different methodology",
+        "Advanced implementation of Perceptron with optimizations",
+        "Legacy technique for Perceptron no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Perceptron is a key topic in Deep Learning. Understand neural network fundamentals and architectures"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes activation functions in Deep Learning?",
+      "options": [
+        "Core concept: Activation functions is fundamental to Deep Learning",
+        "Alternative approach to Activation functions using different methodology",
+        "Advanced implementation of Activation functions with optimizations",
+        "Legacy technique for Activation functions no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Activation functions is a key topic in Deep Learning. Understand neural network fundamentals and architectures"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes forward propagation in Deep Learning?",
+      "options": [
+        "Core concept: Forward propagation is fundamental to Deep Learning",
+        "Alternative approach to Forward propagation using different methodology",
+        "Advanced implementation of Forward propagation with optimizations",
+        "Legacy technique for Forward propagation no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Forward propagation is a key topic in Deep Learning. Understand neural network fundamentals and architectures"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes backpropagation in Deep Learning?",
+      "options": [
+        "Core concept: Backpropagation is fundamental to Deep Learning",
+        "Alternative approach to Backpropagation using different methodology",
+        "Advanced implementation of Backpropagation with optimizations",
+        "Legacy technique for Backpropagation no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Backpropagation is a key topic in Deep Learning. Understand neural network fundamentals and architectures"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes cnn in Deep Learning?",
+      "options": [
+        "Core concept: CNN is fundamental to Deep Learning",
+        "Alternative approach to CNN using different methodology",
+        "Advanced implementation of CNN with optimizations",
+        "Legacy technique for CNN no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "CNN is a key topic in Deep Learning. Understand neural network fundamentals and architectures"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in Deep Learning?",
+      "options": [
+        "Python",
+        "TensorFlow",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "Deep Learning uses Python, TensorFlow, Keras, PyTorch as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of Deep Learning?",
+      "options": [
+        "Understand neural network fundamentals and architectures",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Understand neural network fundamentals and architectures"
+    },
+    {
+      "id": 9,
+      "question": "When applying Deep Learning in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for Deep Learning include following established patterns and using recommended tools."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "EX-ARCH-SYSTEM-L12",
+  "module_code": "ARCH-SYSTEM",
+  "title": "Lab Exercise: Queues",
+  "difficulty": "Advanced",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Queues.",
+  "starter_code": "// Lab: Queues\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Queues\nexport const solution = true;\n"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "FE-TS-SUB02-L03",
+  "day": 5,
+  "module_code": "FE-TS",
+  "lesson_order": 3,
+  "title": "Functions: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Functions",
+    "Apply Functions in practical scenarios",
+    "Build a small project using Functions"
+  ],
+  "theory_markdown": "# Functions\n\n## Overview\nThis lesson covers the fundamentals of Functions and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Functions\n- Concept 2 related to Functions\n- Best practices for Functions\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Functions\n2. Implement basic Functions functionality\n3. Apply Functions to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Functions implementation\nconsole.log('Learning Functions');\n\n// Basic Functions example\nconst example = {\n  topic: 'Functions',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Functions usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Functions concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "DB-MONGO-SUB01-L02",
+  "day": 3,
+  "module_code": "DB-MONGO",
+  "lesson_order": 2,
+  "title": "MongoDB: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of MongoDB",
+    "Apply MongoDB in practical scenarios",
+    "Build a small project using MongoDB"
+  ],
+  "theory_markdown": "# MongoDB\n\n## Overview\nThis lesson covers the fundamentals of MongoDB and its practical applications.\n\n## Key Concepts\n- Concept 1 related to MongoDB\n- Concept 2 related to MongoDB\n- Best practices for MongoDB\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of MongoDB\n2. Implement basic MongoDB functionality\n3. Apply MongoDB to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example MongoDB implementation\nconsole.log('Learning MongoDB');\n\n// Basic MongoDB example\nconst example = {\n  topic: 'MongoDB',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic MongoDB usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand MongoDB concepts and generate code examples.\n\n---"
+  }
+}

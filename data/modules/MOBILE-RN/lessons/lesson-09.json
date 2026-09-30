@@ -1,0 +1,18 @@
+{
+  "id": "MOBILE-RN-L09",
+  "module_code": "MOBILE-RN",
+  "lesson_order": 9,
+  "title": "Local storage in Mobile Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Local storage",
+    "Implement real-world code for Local storage according to industry standards",
+    "Debug and optimize Local storage integrations"
+  ],
+  "theory_markdown": "### Local storage\n\nThis lesson covers in-depth technical mechanics of **Local storage** as part of the Mobile Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Local storage Implementation Example\nexport function handleLocalstorage() {\n  console.log('Executing Local storage workflow...');\n}",
+    "explanation": "Demonstration of how Local storage is structured in production."
+  }
+}

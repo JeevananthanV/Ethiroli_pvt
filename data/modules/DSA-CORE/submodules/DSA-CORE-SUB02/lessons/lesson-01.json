@@ -1,0 +1,22 @@
+{
+  "id": "DSA-CORE-SUB02-L01",
+  "day": 1,
+  "module_code": "DSA-CORE",
+  "lesson_order": 1,
+  "title": "Linked lists: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Linked lists",
+    "Apply Linked lists in practical scenarios",
+    "Build a small project using Linked lists"
+  ],
+  "theory_markdown": "# Linked lists\n\n## Overview\nThis lesson covers the fundamentals of Linked lists and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Linked lists\n- Concept 2 related to Linked lists\n- Best practices for Linked lists\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Linked lists\n2. Implement basic Linked lists functionality\n3. Apply Linked lists to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Linked lists implementation\nconsole.log('Learning Linked lists');\n\n// Basic Linked lists example\nconst example = {\n  topic: 'Linked lists',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Linked lists usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Linked lists concepts and generate code examples.\n\n---"
+  }
+}

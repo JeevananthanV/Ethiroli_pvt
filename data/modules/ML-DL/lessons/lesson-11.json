@@ -1,0 +1,18 @@
+{
+  "id": "ML-DL-L11",
+  "module_code": "ML-DL",
+  "lesson_order": 11,
+  "title": "Model evaluation in Deep Learning",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Model evaluation",
+    "Implement real-world code for Model evaluation according to industry standards",
+    "Debug and optimize Model evaluation integrations"
+  ],
+  "theory_markdown": "### Model evaluation\n\nThis lesson covers in-depth technical mechanics of **Model evaluation** as part of the Deep Learning curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Model evaluation Implementation Example\nexport function handleModelevaluation() {\n  console.log('Executing Model evaluation workflow...');\n}",
+    "explanation": "Demonstration of how Model evaluation is structured in production."
+  }
+}

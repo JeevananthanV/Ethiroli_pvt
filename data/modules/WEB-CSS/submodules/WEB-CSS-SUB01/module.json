@@ -1,0 +1,30 @@
+{
+  "code": "WEB-CSS-SUB01",
+  "title": "CSS3 & Responsive Design - Part 1",
+  "category": "Frontend",
+  "level": "Beginner",
+  "duration_hours": 7,
+  "description": "CSS3 and responsive design fundamentals including selectors, box model, Flexbox, Grid, animations, media queries, and Tailwind CSS for building visually appealing, mobile-ready layouts. This submodule covers: CSS fundamentals, Selectors, Colors, Typography, Box model, Display.",
+  "topics": [
+    "CSS fundamentals",
+    "Selectors",
+    "Colors",
+    "Typography",
+    "Box model",
+    "Display"
+  ],
+  "technologies": [
+    "CSS3",
+    "Tailwind CSS"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "WEB-HTML"
+  ],
+  "learning_outcomes": [
+    "Apply CSS selectors and specificity rules",
+    "Style with colors, typography, and box model",
+    "Implement layouts with Flexbox and CSS Grid"
+  ]
+}

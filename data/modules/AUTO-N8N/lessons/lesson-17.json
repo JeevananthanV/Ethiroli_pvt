@@ -1,0 +1,18 @@
+{
+  "id": "AUTO-N8N-L17",
+  "module_code": "AUTO-N8N",
+  "lesson_order": 17,
+  "title": "Error handling in n8n Business Automation",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Error handling",
+    "Implement real-world code for Error handling according to industry standards",
+    "Debug and optimize Error handling integrations"
+  ],
+  "theory_markdown": "### Error handling\n\nThis lesson covers in-depth technical mechanics of **Error handling** as part of the n8n Business Automation curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Error handling Implementation Example\nexport function handleErrorhandling() {\n  console.log('Executing Error handling workflow...');\n}",
+    "explanation": "Demonstration of how Error handling is structured in production."
+  }
+}

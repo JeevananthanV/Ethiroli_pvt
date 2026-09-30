@@ -1,0 +1,117 @@
+{
+  "id": "QZ-QA-TEST-COMPREHENSIVE",
+  "module_code": "QA-TEST",
+  "title": "Comprehensive Quiz: Software Testing",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes testing fundamentals in Software Testing?",
+      "options": [
+        "Core concept: Testing fundamentals is fundamental to Software Testing",
+        "Alternative approach to Testing fundamentals using different methodology",
+        "Advanced implementation of Testing fundamentals with optimizations",
+        "Legacy technique for Testing fundamentals no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Testing fundamentals is a key topic in Software Testing. Understand software testing fundamentals and methodologies"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes sdlc/stlc in Software Testing?",
+      "options": [
+        "Core concept: SDLC/STLC is fundamental to Software Testing",
+        "Alternative approach to SDLC/STLC using different methodology",
+        "Advanced implementation of SDLC/STLC with optimizations",
+        "Legacy technique for SDLC/STLC no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "SDLC/STLC is a key topic in Software Testing. Understand software testing fundamentals and methodologies"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes test cases in Software Testing?",
+      "options": [
+        "Core concept: Test cases is fundamental to Software Testing",
+        "Alternative approach to Test cases using different methodology",
+        "Advanced implementation of Test cases with optimizations",
+        "Legacy technique for Test cases no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Test cases is a key topic in Software Testing. Understand software testing fundamentals and methodologies"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes test scenarios in Software Testing?",
+      "options": [
+        "Core concept: Test scenarios is fundamental to Software Testing",
+        "Alternative approach to Test scenarios using different methodology",
+        "Advanced implementation of Test scenarios with optimizations",
+        "Legacy technique for Test scenarios no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Test scenarios is a key topic in Software Testing. Understand software testing fundamentals and methodologies"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes bug reporting in Software Testing?",
+      "options": [
+        "Core concept: Bug reporting is fundamental to Software Testing",
+        "Alternative approach to Bug reporting using different methodology",
+        "Advanced implementation of Bug reporting with optimizations",
+        "Legacy technique for Bug reporting no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Bug reporting is a key topic in Software Testing. Understand software testing fundamentals and methodologies"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes functional testing in Software Testing?",
+      "options": [
+        "Core concept: Functional testing is fundamental to Software Testing",
+        "Alternative approach to Functional testing using different methodology",
+        "Advanced implementation of Functional testing with optimizations",
+        "Legacy technique for Functional testing no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Functional testing is a key topic in Software Testing. Understand software testing fundamentals and methodologies"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in Software Testing?",
+      "options": [
+        "Postman",
+        "Jest",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "Software Testing uses Postman, Jest, Playwright, Cypress as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of Software Testing?",
+      "options": [
+        "Understand software testing fundamentals and methodologies",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Understand software testing fundamentals and methodologies"
+    },
+    {
+      "id": 9,
+      "question": "When applying Software Testing in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for Software Testing include following established patterns and using recommended tools."
+    }
+  ]
+}

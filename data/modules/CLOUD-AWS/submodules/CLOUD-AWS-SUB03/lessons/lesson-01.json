@@ -1,0 +1,22 @@
+{
+  "id": "CLOUD-AWS-SUB03-L01",
+  "day": 1,
+  "module_code": "CLOUD-AWS",
+  "lesson_order": 1,
+  "title": "DNS: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of DNS",
+    "Apply DNS in practical scenarios",
+    "Build a small project using DNS"
+  ],
+  "theory_markdown": "# DNS\n\n## Overview\nThis lesson covers the fundamentals of DNS and its practical applications.\n\n## Key Concepts\n- Concept 1 related to DNS\n- Concept 2 related to DNS\n- Best practices for DNS\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of DNS\n2. Implement basic DNS functionality\n3. Apply DNS to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example DNS implementation\nconsole.log('Learning DNS');\n\n// Basic DNS example\nconst example = {\n  topic: 'DNS',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic DNS usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand DNS concepts and generate code examples.\n\n---"
+  }
+}

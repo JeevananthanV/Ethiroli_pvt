@@ -1,0 +1,29 @@
+{
+  "code": "API-COMM-SUB03",
+  "title": "Email, SMS & WhatsApp Automation - Part 3",
+  "category": "API Integration",
+  "level": "Intermediate",
+  "duration_hours": 4,
+  "description": "Email, SMS, and WhatsApp automation covering transactional emails, OTP delivery, notifications, templates, webhooks, and delivery tracking with Twilio and Meta APIs. This submodule covers: Automation, Delivery tracking.",
+  "topics": [
+    "Automation",
+    "Delivery tracking"
+  ],
+  "technologies": [
+    "Nodemailer",
+    "Resend",
+    "Twilio",
+    "Meta WhatsApp Cloud API"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "BE-NODE",
+    "BE-EXPRESS"
+  ],
+  "learning_outcomes": [
+    "Send transactional emails with Nodemailer and Resend",
+    "Implement SMS notifications with Twilio",
+    "Send WhatsApp messages using Meta Cloud API"
+  ]
+}

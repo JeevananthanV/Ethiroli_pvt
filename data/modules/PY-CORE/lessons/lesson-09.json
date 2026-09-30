@@ -1,0 +1,18 @@
+{
+  "id": "PY-CORE-L09",
+  "module_code": "PY-CORE",
+  "lesson_order": 9,
+  "title": "Tuples in Python Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Tuples",
+    "Implement real-world code for Tuples according to industry standards",
+    "Debug and optimize Tuples integrations"
+  ],
+  "theory_markdown": "### Tuples\n\nThis lesson covers in-depth technical mechanics of **Tuples** as part of the Python Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Tuples Implementation Example\nexport function handleTuples() {\n  console.log('Executing Tuples workflow...');\n}",
+    "explanation": "Demonstration of how Tuples is structured in production."
+  }
+}

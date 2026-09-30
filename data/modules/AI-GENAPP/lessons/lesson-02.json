@@ -1,0 +1,20 @@
+{
+  "id": "AI-GENAPP-D52",
+  "day": 52,
+  "module_code": "AI-GENAPP",
+  "lesson_order": 2,
+  "title": "AI for Codebase Understanding and Documentation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Use AI to navigate large codebases and generate comprehensive documentation."
+  ],
+  "theory_markdown": "AI can analyse codebases and answer questions about architecture, data flow, and dependencies. It can generate README files, API documentation, architecture diagrams (Mermaid), and onboarding guides.",
+  "code_walkthrough": {
+    "language": "markdown",
+    "code": "# Generated README.md structure\r\n\r\n## Project Name\r\nBrief description\r\n\r\n## Architecture",
+    "explanation": "AI-generated Mermaid diagrams visualise architecture. Endpoint tables provide quick API reference. Onboarding guides reduce time-to-productivity for new developers."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Mermaid Live Editor** (free) to render diagrams. Use **OpenCode** to analyse codebase architecture: `opencode ask \"Explain the data flow from HTTP request to database\"`"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "id": "DB-MONGO-SUB03-E03",
+  "module_code": "DB-MONGO",
+  "day": 6,
+  "title": "Hands-on Lab: MongoDB Atlas Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice MongoDB Atlas:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of MongoDB Atlas in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating MongoDB Atlas basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for MongoDB Atlas exercise\n// TODO: Implement MongoDB Atlas functionality here\n\nconsole.log('MongoDB Atlas exercise starter');\n",
+  "solution_code": "// Solution for MongoDB Atlas exercise\nconsole.log('Completed MongoDB Atlas exercise');\n\n// Basic implementation\nconst mongodbatlas = {\n  name: 'MongoDB Atlas',\n  completed: true\n};\n\nconsole.log(mongodbatlas);"
+}

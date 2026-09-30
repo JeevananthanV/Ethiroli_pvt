@@ -1,0 +1,20 @@
+{
+  "id": "QA-TEST-D46",
+  "day": 46,
+  "module_code": "QA-TEST",
+  "lesson_order": 1,
+  "title": "Unit and Integration Testing with Jest",
+  "duration_minutes": 60,
+  "objectives": [
+    "Master Jest testing: unit tests, integration tests, mocking, and coverage."
+  ],
+  "theory_markdown": "Unit tests test individual functions in isolation. Integration tests test multiple units together (e.g., API endpoint + database). Jest provides `describe`, `test`/`it`, `expect`, `beforeEach`/`afterEach`, `beforeAll`/`afterAll`, and mocking utilities.\r\n\r\nTest pyramid: many unit tests, fewer integration tests, fewest E2E tests. Aim for high coverage on critical paths, not 100% coverage everywhere.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// tests/setup.js\r\nimport { MongoMemoryServer } from 'mongodb-memory-server';\r\nimport mongoose from 'mongoose';\r\n\r\nlet mongoServer;\r\n\r\nbeforeAll(async () => {\r\n  mongoServer = await MongoMemoryServer.create();\r\n  const uri = mongoServer.getUri();\r\n  await mongoose.connect(uri);\r\n});\r\n\r\nafterAll(async () => {\r\n  await mongoose.disconnect();\r\n  await mongoServer.stop();\r\n});\r\n\r\nafterEach(async () => {\r\n  const collections = mongoose.connection.collections;\r\n  for (const key in collections) {\r\n    await collections[key].deleteMany({});\r\n  }\r\n});",
+    "explanation": "`MongoMemoryServer` provides an in-memory MongoDB for tests. `supertest` makes HTTP requests to the Express app without starting a server. `jest.mock()` replaces modules with mocks. `jest.clearAllMocks()` resets mock state between tests."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Qodo Gen** to generate test scaffolds. Use **Jest** coverage reports (`--coverage`) to identify untested code.\r\n\r\n---"
+  }
+}

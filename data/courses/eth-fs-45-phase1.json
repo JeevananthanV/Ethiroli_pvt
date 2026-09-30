@@ -1,0 +1,814 @@
+﻿[
+  {
+    "title": "Day 1 — HTML Basics",
+    "content": "Introduction to HTML (HyperText Markup Language), the backbone of all web pages. Learn the basic structure of an HTML document, essential tags, and attributes. Understand how browsers interpret HTML and how elements are organized in a document hierarchy.",
+    "video_url": null,
+    "lesson_order": 1,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "# Day 1 — HTML Basics\n\n## Learning Objectives\nBy the end of this day, you will be able to:\n- Write a complete HTML document structure\n- Use essential HTML tags (headings, paragraphs, links, images)\n- Understand HTML attributes and their purpose\n- Create a well-organized HTML document\n\n## What is HTML?\nHTML (HyperText Markup Language) is the standard markup language for creating web pages. It describes the structure of a web document to the browser. HTML uses tags to define elements.\n\n## Document Structure\n```html\n<!DOCTYPE html>\n<html>\n<head>\n  <title>Page Title</title>\n</head>\n<body>\n  <h1>Main Heading</h1>\n  <p>This is a paragraph.</p>\n</body>\n</html>\n```\n\n## Essential Tags\n- **Headings:** h1 through h6 (h1 is the most important)\n- **Paragraphs:** `<p>` for text blocks\n- **Links:** `<a href=\"url\">text</a>` for navigation\n- **Images:** `<img src=\"image.jpg\" alt=\"description\">`\n- **Lists:** `<ul>` (unordered), `<ol>` (ordered), `<li>` (list items)\n- **Formatting:** `<strong>`, `<em>`, `<br>`, `<hr>`\n\n## Attributes\nAttributes provide additional information about elements. They are always in lowercase and typically written as name=\"value\".\n\nCommon attributes:\n- `id` — unique identifier for an element\n- `class` — for styling and JavaScript targeting\n- `href` — URL for links\n- `src` — source for images and scripts\n- `alt` — alternative text for images\n- `style` — inline CSS styling"
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Day 1 Quiz — HTML Basics",
+          "questions": [
+            {"q": "What does HTML stand for?", "type": "MCQ", "options": ["HyperText Markup Language", "HighText Machine Language", "HyperText Marking Language", "Home Tool Markup Language"], "answer": 0},
+            {"q": "Which tag is used to create the largest heading in HTML?", "type": "MCQ", "options": ["<heading>", "<h6>", "<h1>", "<head>"], "answer": 2},
+            {"q": "True or False: HTML is a programming language.", "type": "True/False", "answer": false},
+            {"q": "What is the output of: <strong>Hello</strong>?", "type": "Code output", "options": ["Hello (bold)", "Hello (italic)", "Hello (underlined)", "Hello (strikethrough)"], "answer": 0},
+            {"q": "Which attribute is used to specify the URL of a link?", "type": "MCQ", "options": ["src", "link", "href", "url"], "answer": 2},
+            {"q": "What is the correct way to insert an image in HTML?", "type": "MCQ", "options": ["<img src=\"image.jpg\">", "<image src=\"image.jpg\">", "<img href=\"image.jpg\">", "<picture>image.jpg</picture>"], "answer": 0},
+            {"q": "Which HTML element is used to define the title of a document?", "type": "MCQ", "options": ["<title>", "<head>", "<header>", "<meta>"], "answer": 0},
+            {"q": "What is the output of: <br> followed by text 'World'?", "type": "Code output", "options": ["World appears on a new line", "World is bold", "World is italic", "World is underlined"], "answer": 0},
+            {"q": "Which tag creates a bulleted list in HTML?", "type": "MCQ", "options": ["<ol>", "<ul>", "<list>", "<bl>"], "answer": 1},
+            {"q": "True or False: HTML attributes are case-sensitive.", "type": "True/False", "answer": false}
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task",
+          "description": "Create a personal introduction page using HTML. Include your name, a brief bio, a list of your hobbies, and a link to a favorite website.",
+          "requirements": [
+            "Use at least 3 different heading tags (h1, h2, h3)",
+            "Include at least 2 paragraphs of text",
+            "Create a bulleted list of at least 5 items",
+            "Add at least 1 hyperlink using the <a> tag",
+            "Save the file as index.html"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment",
+          "description": "Build a complete personal profile page that demonstrates all HTML elements learned today. The page should be well-structured and organized.",
+          "requirements": [
+            "Include a proper document structure with <!DOCTYPE html>, <html>, <head>, and <body> tags",
+            "Use all 6 heading levels (h1 through h6) appropriately",
+            "Include at least 2 images with descriptive alt text",
+            "Create both a bulleted and numbered list",
+            "Add multiple hyperlinks with meaningful anchor text",
+            "Submit the code on GitHub"
+          ],
+          "submission_type": ["github"]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": ["What did you learn today?", "What did you implement?", "What problem did you face?", "How did you solve it?", "Hours Worked?"]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 2 — HTML Forms + Tables",
+    "content": "Learn to create interactive HTML forms and structured tables. Forms are essential for user input collection, while tables organize data in rows and columns. Understand form controls, validation attributes, and table structure.",
+    "video_url": null,
+    "lesson_order": 2,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "# Day 2 — HTML Forms + Tables\n\n## Learning Objectives\nBy the end of this day, you will be able to:\n- Create HTML forms with various input types\n- Understand form attributes (action, method)\n- Build structured HTML tables\n- Use semantic HTML elements\n\n## HTML Forms\nForms allow users to enter and submit data. Key elements include:\n\n```html\n<form action=\"/submit\" method=\"post\">\n  <label for=\"name\">Name:</label>\n  <input type=\"text\" id=\"name\" name=\"name\" required>\n  <br>\n  <label for=\"email\">Email:</label>\n  <input type=\"email\" id=\"email\" name=\"email\">\n  <br>\n  <button type=\"submit\">Submit</button>\n</form>\n```\n\n### Common Input Types\n- **text** — single-line text input\n- **password** — masked text input\n- **email** — validates email format\n- **number** — numeric input\n- **checkbox** — multiple selections\n- **radio** — single selection from options\n- **textarea** — multi-line text\n- **select** — dropdown menu\n- **date** — date picker\n\n### Form Attributes\n- **action** — where data is sent when submitted\n- **method** — GET or POST (how data is sent)\n- **required** — field must be filled\n- **placeholder** — hint text shown in field\n\n## HTML Tables\nTables organize data in rows and columns:\n\n```html\n<table>\n  <thead>\n    <tr>\n      <th>Name</th>\n      <th>Age</th>\n      <th>City</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>Alice</td>\n      <td>25</td>\n      <td>London</td>\n    </tr>\n  </tbody>\n</table>\n```\n\n### Table Elements\n- **<table>** — container for the table\n- **<tr>** — table row\n- **<th>** — header cell (bold, centered)\n- **<td>** — data cell\n- **<thead>** — table header section\n- **<tbody>** — table body section\n\n## Semantic HTML\nSemantic elements clearly describe their meaning:\n- `<header>` — introductory content\n- `<nav>` — navigation links\n- `<main>` — main content\n- `<section>` — thematic grouping\n- `<article>` — self-contained content\n- `<aside>` — complementary content\n- `<footer>` — ending content"
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Day 2 Quiz — HTML Forms + Tables",
+          "questions": [
+            {"q": "Which attribute specifies where to send form data when submitted?", "type": "MCQ", "options": ["method", "action", "send", "url"], "answer": 1},
+            {"q": "Which method sends form data in the URL (visible in address bar)?", "type": "MCQ", "options": ["POST", "GET", "PUT", "DELETE"], "answer": 1},
+            {"q": "Which input type is used to create a password field?", "type": "MCQ", "options": ["password", "hidden", "text", "secret"], "answer": 0},
+            {"q": "What is the output of: <th>Header</th> in a table?", "type": "Code output", "options": ["Header displayed as bold, centered cell", "Header displayed as regular cell", "Header displayed as italic", "Header displayed as underlined"], "answer": 0},
+            {"q": "Which tag defines a table row?", "type": "MCQ", "options": ["<td>", "<tr>", "<th>", "<table-row>"], "answer": 1},
+            {"q": "Which attribute makes a form field mandatory?", "type": "MCQ", "options": ["required", "mandatory", "needed", "must"], "answer": 0},
+            {"q": "Which element is used for a multi-line text input?", "type": "MCQ", "options": ["<input type=\"text\">", "<textarea>", "<multiline>", "<input type=\"multi\">"], "answer": 1},
+            {"q": "What is the output of: <table><tr><td>A</td><td>B</td></tr></table>?", "type": "Code output", "options": ["A and B displayed in the same row", "A and B displayed in separate rows", "A and B displayed side by side as headers", "A and B displayed as a list"], "answer": 0},
+            {"q": "Which semantic element represents a standalone piece of content?", "type": "MCQ", "options": ["<section>", "<article>", "<aside>", "<nav>"], "answer": 1},
+            {"q": "True or False: The <thead> tag is used to define the header section of a table.", "type": "True/False", "answer": true}
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task",
+          "description": "Create a contact form and a student information table. The form should collect user details, and the table should display sample student records.",
+          "requirements": [
+            "Create a form with at least 5 different input types",
+            "Include at least one checkbox and one radio button group",
+            "Add placeholder text to all text inputs",
+            "Create a table with 3 columns and 4 data rows",
+            "Use <thead> and <tbody> tags in the table",
+            "Include a submit button"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment",
+          "description": "Build a complete registration page with a functional form layout and a data table. Demonstrate your understanding of forms, tables, and semantic HTML.",
+          "requirements": [
+            "Create a registration form with name, email, phone, password, gender, and interests fields",
+            "Use appropriate input types for each field (email, password, radio, checkboxes, select)",
+            "Add validation attributes (required, min, max, pattern)",
+            "Create a table displaying sample registered users",
+            "Use semantic HTML elements (header, main, footer)",
+            "Submit the code on GitHub"
+          ],
+          "submission_type": ["github"]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": ["What did you learn today?", "What did you implement?", "What problem did you face?", "How did you solve it?", "Hours Worked?"]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 3 — CSS Fundamentals",
+    "content": "Introduction to CSS (Cascading Style Sheets), the language used to describe the presentation of HTML documents. Learn selectors, the box model basics, and typography styling to make web pages visually appealing.",
+    "video_url": null,
+    "lesson_order": 3,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "# Day 3 — CSS Fundamentals\n\n## Learning Objectives\nBy the end of this day, you will be able to:\n- Write CSS rules and understand selector types\n- Apply basic styling to HTML elements\n- Control typography and colors\n- Understand the cascade and specificity\n\n## What is CSS?\nCSS (Cascading Style Sheets) describes how HTML elements are displayed on screen. It controls layout, colors, fonts, and spacing.\n\n## CSS Syntax\n```css\nselector {\n  property: value;\n  property: value;\n}\n```\n\nExample:\n```css\np {\n  color: blue;\n  font-size: 16px;\n}\n```\n\n## Types of CSS\n1. **Inline CSS** — applied directly to an element using the style attribute\n2. **Internal CSS** — defined within the <style> tag in the head of a document\n3. **External CSS** — defined in a separate .css file linked with the <link> tag\n\n## Selectors\n### Element Selector\n```css\np { color: red; }\n```\nTargets all <p> elements\n\n### Class Selector\n```css\n.note { color: blue; }\n```\nTargets elements with class=\"note\"\n\n### ID Selector\n```css\n#header { color: green; }\n```\nTargets element with id=\"header\"\n\n### Universal Selector\n```css\n* { margin: 0; padding: 0; }\n```\nTargets all elements\n\n### Grouping Selector\n```css\nh1, h2, h3 { color: red; }\n```\nApplies styles to multiple elements\n\n## Typography\n### Font Properties\n- **font-family** — typeface (Arial, Times New Roman, etc.)\n- **font-size** — size of text\n- **font-weight** — boldness (normal, bold, 300-900)\n- **font-style** — normal, italic, oblique\n- **line-height** — spacing between lines\n\n### Common Font Families\n- **Sans-serif** — Arial, Helvetica, sans-serif (modern look)\n- **Serif** — Georgia, Times New Roman (traditional look)\n- **Monospace** — Courier New, Consolas (code-like)\n\n## Colors\nColors can be specified in multiple ways:\n- **Named colors** — red, blue, green\n- **Hex codes** — #ff0000 (red), #0000ff (blue)\n- **RGB** — rgb(255, 0, 0)\n- **HSL** — hsl(0, 100%, 50%)\n\n## Text Properties\n- **text-align** — left, right, center, justify\n- **text-decoration** — underline, line-through, none\n- **text-transform** — uppercase, lowercase, capitalize\n- **letter-spacing** — spacing between characters\n- **word-spacing** — spacing between words\n\n## Cascade and Specificity\nWhen multiple rules apply to the same element, specificity determines which wins:\n1. Inline styles (highest)\n2. ID selectors\n3. Class selectors, attribute selectors, pseudo-classes\n4. Element selectors (lowest)\n\n```css\np { color: red; }        /* specificity: 0 */\n.class { color: blue; }  /* specificity: 1 */\n#id { color: green; }    /* specificity: 10 */"
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Day 3 Quiz — CSS Fundamentals",
+          "questions": [
+            {"q": "What does CSS stand for?", "type": "MCQ", "options": ["Cascading Style Sheets", "Computer Style Sheets", "Creative Style Sheets", "Colorful Style Sheets"], "answer": 0},
+            {"q": "Which selector has the highest specificity?", "type": "MCQ", "options": ["Element selector", "Class selector", "ID selector", "Universal selector"], "answer": 2},
+            {"q": "What is the output of: p { color: red; font-size: 16px; }?", "type": "Code output", "options": ["All paragraphs are red with 16px font", "All elements are red", "Only the first paragraph is red", "All headings are red"], "answer": 0},
+            {"q": "Which property controls the thickness of text?", "type": "MCQ", "options": ["font-style", "font-weight", "font-family", "text-weight"], "answer": 1},
+            {"q": "How do you select an element with class=\"container\"?", "type": "MCQ", "options": ["container", "#container", ".container", "*container"], "answer": 2},
+            {"q": "What is the output of: h1, h2, h3 { color: blue; }?", "type": "Code output", "options": ["All headings are blue", "All h1 elements are blue only", "All elements are blue", "Only h3 elements are blue"], "answer": 0},
+            {"q": "Which color format uses values like #ff0000?", "type": "MCQ", "options": ["RGB", "HSL", "Hex", "Named"], "answer": 2},
+            {"q": "Which property sets the spacing between lines of text?", "type": "MCQ", "options": ["line-height", "line-spacing", "text-spacing", "paragraph-height"], "answer": 0},
+            {"q": "What is the output of: * { margin: 0; padding: 0; }?", "type": "Code output", "options": ["Removes margin and padding from all elements", "Adds margin and padding to all elements", "Removes margin only", "Adds padding only"], "answer": 0},
+            {"q": "True or False: CSS is a programming language.", "type": "True/False", "answer": false}
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task",
+          "description": "Style an existing HTML page using CSS. Apply different font styles, colors, and text properties to make the page visually appealing.",
+          "requirements": [
+            "Create a style.css file linked to your HTML",
+            "Use at least 3 different types of selectors (element, class, ID)",
+            "Apply at least 4 different font properties",
+            "Use at least 2 different color formats (hex and named)",
+            "Set text alignment and letter spacing on elements",
+            "Apply the universal selector to reset margins"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment",
+          "description": "Create a styled personal blog page with proper CSS organization. Demonstrate your understanding of selectors, typography, and colors.",
+          "requirements": [
+            "Use all 4 types of selectors (element, class, ID, universal)",
+            "Apply at least 6 different font properties across elements",
+            "Use at least 3 different color formats (hex, RGB, HSL)",
+            "Create a header with distinct styling",
+            "Style article content with proper line-height and letter-spacing",
+            "Use text-transform for headings",
+            "Submit the code on GitHub"
+          ],
+          "submission_type": ["github"]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": ["What did you learn today?", "What did you implement?", "What problem did you face?", "How did you solve it?", "Hours Worked?"]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 4 — CSS Box Model + Layout",
+    "content": "Deep dive into the CSS box model and layout techniques. Learn about display, position, and flexbox to control the size, spacing, and arrangement of elements on a webpage.",
+    "video_url": null,
+    "lesson_order": 4,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "# Day 4 — CSS Box Model + Layout\n\n## Learning Objectives\nBy the end of this day, you will be able to:\n- Understand the CSS box model completely\n- Control element display and positioning\n- Use flexbox for modern layouts\n- Apply box model properties effectively\n\n## The CSS Box Model\nEvery element in HTML is a box. The box model consists of:\n\n```css\ndiv {\n  content;    /* The actual content */\n  padding;    /* Space inside the border */\n  border;     /* Border around the padding */\n  margin;     /* Space outside the border */\n}\n```\n\n### Box Model Components\n1. **Content** — the actual content (text, images)\n2. **Padding** — space between content and border\n3. **Border** — border around padding\n4. **Margin** — space outside the border\n\n```css\n.box {\n  width: 200px;\n  padding: 20px;\n  border: 2px solid black;\n  margin: 20px;\n}\n```\n\n### Box-Sizing Property\n```css\n* {\n  box-sizing: border-box;\n}\n```\n- **content-box** (default) — width/height only apply to content\n- **border-box** — width/height include padding and border\n\n## Display Property\nControls how an element is displayed:\n- **block** — starts on a new line (div, p, h1)\n- **inline** — flows with text (span, a)\n- **inline-block** — like inline but has width/height\n- **none** — hides the element\n- **flex** — enables flexbox layout\n- **grid** — enables grid layout\n\n```css\n.inline-block {\n  display: inline-block;\n  width: 100px;\n  height: 100px;\n}\n```\n\n## Position Property\nControls how an element is positioned:\n- **static** — default, in document flow\n- **relative** — offset from normal position\n- **absolute** — positioned relative to nearest positioned ancestor\n- **fixed** — positioned relative to viewport\n- **sticky** — behaves like relative until scrolled into view\n\n```css\n.absolute {\n  position: absolute;\n  top: 50px;\n  left: 50px;\n}\n```\n\n## Flexbox\nFlexbox is a one-dimensional layout model for arranging items.\n\n### Flex Container\n```css\n.container {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n```\n\n### Flex Properties\n- **display: flex** — makes container a flex container\n- **flex-direction** — row, row-reverse, column, column-reverse\n- **justify-content** — horizontal alignment of items\n- **align-items** — vertical alignment of items\n- **flex-wrap** — wrap items to next line or keep on one line\n- **gap** — space between items\n\n### Flex Item Properties\n- **flex-grow** — grow to fill available space\n- **flex-shrink** — shrink to fit available space\n- **flex-basis** — initial size before growing/shrinking\n- **order** — controls the order of items\n\n```css\n.item {\n  flex: 1;\n  background-color: lightblue;\n}\n```\n\n## Common Flexbox Patterns\n### Centering Content\n```css\n.container {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 100vh;\n}\n```\n\n### Navigation Bar\n```css\n.nav {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n```\n\n### Card Layout\n```css\n.cards {\n  display: flex;\n  gap: 20px;\n}\n.card {\n  flex: 1;\n}\n```\n\n## Practical Applications\n- Navigation bars\n- Card grids\n- Centering content\n- Flexible layouts\n- Responsive design foundations"
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Day 4 Quiz — CSS Box Model + Layout",
+          "questions": [
+            {"q": "Which part of the box model is the space between content and border?", "type": "MCQ", "options": ["margin", "padding", "border", "content"], "answer": 1},
+            {"q": "What is the output of: .box { width: 200px; padding: 20px; border: 2px solid black; margin: 20px; }?", "type": "Code output", "options": ["Box with 200px content, 20px padding, 2px border, 20px margin", "Box with 200px total width", "Box with 20px content, 200px padding", "Box with no border"], "answer": 0},
+            {"q": "Which box-sizing value includes padding and border in width/height?", "type": "MCQ", "options": ["content-box", "border-box", "padding-box", "margin-box"], "answer": 1},
+            {"q": "Which display value makes an element flow with text but allow width/height?", "type": "MCQ", "options": ["block", "inline", "inline-block", "none"], "answer": 2},
+            {"q": "What is the output of: position: absolute; top: 50px; left: 50px;?", "type": "Code output", "options": ["Element positioned 50px from top and left of nearest positioned ancestor", "Element positioned at center of page", "Element positioned 50px from viewport", "Element hidden from view"], "answer": 0},
+            {"q": "Which position value stays in normal flow but can be offset?", "type": "MCQ", "options": ["absolute", "fixed", "relative", "sticky"], "answer": 2},
+            {"q": "Which flex property controls horizontal alignment of items?", "type": "MCQ", "options": ["align-items", "justify-content", "flex-direction", "flex-wrap"], "answer": 1},
+            {"q": "What is the output of: .container { display: flex; justify-content: center; align-items: center; height: 100vh; }?", "type": "Code output", "options": ["Items centered both horizontally and vertically in full viewport", "Items stacked vertically", "Items spaced evenly apart", "Items hidden"], "answer": 0},
+            {"q": "Which flex property makes an item grow to fill available space?", "type": "MCQ", "options": ["flex-shrink", "flex-grow", "flex-basis", "flex-order"], "answer": 1},
+            {"q": "True or False: The margin is the space outside the border of an element.", "type": "True/False", "answer": true}
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task",
+          "description": "Create a layout demonstration page showing the box model, different display types, and a flexbox navigation bar.",
+          "requirements": [
+            "Create elements demonstrating content, padding, border, and margin",
+            "Show at least 3 different display types (block, inline, inline-block)",
+            "Create a flexbox navigation bar with space-between alignment",
+            "Apply border-box box-sizing to all elements",
+            "Use relative and absolute positioning on demo elements",
+            "Add labels explaining each box model component"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment",
+          "description": "Build a complete webpage layout using the box model and flexbox. Create a modern landing page with a navigation bar, hero section, and feature cards.",
+          "requirements": [
+            "Apply border-box box-sizing to all elements",
+            "Demonstrate all 5 position values in a demo section",
+            "Create a flexbox navigation bar with logo and links",
+            "Build a hero section centered using flexbox",
+            "Create a feature card layout using flexbox with gap",
+            "Use flex-grow, flex-shrink, and flex-basis properties",
+            "Submit the code on GitHub"
+          ],
+          "submission_type": ["github"]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": ["What did you learn today?", "What did you implement?", "What problem did you face?", "How did you solve it?", "Hours Worked?"]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 5 — CSS Grid + Responsive Design",
+    "content": "Master CSS Grid for complex two-dimensional layouts and learn responsive design principles. Create layouts that adapt to different screen sizes using media queries and flexible units.",
+    "video_url": null,
+    "lesson_order": 5,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "# Day 5 — CSS Grid + Responsive Design\n\n## Learning Objectives\nBy the end of this day, you will be able to:\n- Create CSS Grid layouts with rows and columns\n- Use grid placement properties\n- Build responsive designs with media queries\n- Use fluid units for scalable layouts\n\n## CSS Grid Overview\nGrid is a two-dimensional layout system for arranging items in rows and columns. It is more powerful than flexbox for complex layouts.\n\n```css\n.grid {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n  gap: 20px;\n}\n```\n\n## Grid Container Properties\n- **display: grid** — makes element a grid container\n- **grid-template-columns** — defines column sizes\n- **grid-template-rows** — defines row sizes\n- **gap** — space between grid items\n- **grid-template-areas** — named areas for complex layouts\n\n## Grid Areas\n```css\n.layout {\n  display: grid;\n  grid-template-areas:\n    \"header header header\"\n    \"sidebar content sidebar\"\n    \"footer footer footer\";\n  grid-template-columns: 200px 1fr 200px;\n  gap: 20px;\n}\n.header { grid-area: header; }\n.sidebar { grid-area: sidebar; }\n.content { grid-area: content; }\n.footer { grid-area: footer; }\n```\n\n## Grid Placement\n- **grid-column** — which column(s) an item spans\n- **grid-row** — which row(s) an item spans\n- **grid-column-start** — starting column\n- **grid-column-end** — ending column\n- **grid-row-start** — starting row\n- **grid-row-end** — ending row\n\n```css\n.item {\n  grid-column: 1 / 3;\n  grid-row: 2;\n}\n```\n\n## Auto-Placement\n- **auto-flow** — controls how items are placed\n- **grid-auto-columns** — size of auto-generated columns\n- **grid-auto-rows** — size of auto-generated rows\n\n## Responsive Design\nResponsive design makes websites work on all devices (desktop, tablet, mobile).\n\n### Media Queries\n```css\n@media (max-width: 600px) {\n  .container {\n    flex-direction: column;\n  }\n}\n```\n\n### Common Media Query Breakpoints\n- **320px** — small phones\n- **480px** — large phones\n- **768px** — tablets\n- **1024px** — small laptops\n- **1200px** — desktops\n\n### Media Query Types\n- **max-width** — applies below a width\n- **min-width** — applies above a width\n- **max-height** — applies below a height\n- **min-height** — applies above a height\n- **orientation** — landscape or portrait\n\n## Fluid Units\n- **%** — percentage of parent\n- **vw** — 1% of viewport width\n- **vh** — 1% of viewport height\n- **em** — relative to font size of element\n- **rem** — relative to root font size\n\n```css\n.container {\n  width: 90%;\n  max-width: 1200px;\n}\n```\n\n## Mobile-First Approach\nDesign for mobile first, then enhance for larger screens:\n```css\n.card {\n  display: block;\n}\n@media (min-width: 768px) {\n  .card {\n    display: grid;\n    grid-template-columns: repeat(2, 1fr);\n  }\n}\n```\n\n## Responsive Images\n```css\nimg {\n  max-width: 100%;\n  height: auto;\n}\n```\n\n## Practical Applications\n- Website layouts\n- Card grids\n- Navigation bars\n- Portfolio galleries\n- Dashboard layouts"
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Day 5 Quiz — CSS Grid + Responsive Design",
+          "questions": [
+            {"q": "What is CSS Grid primarily used for?", "type": "MCQ", "options": ["One-dimensional layouts", "Two-dimensional layouts", "Text formatting only", "Animations only"], "answer": 1},
+            {"q": "What is the output of: grid-template-columns: 1fr 1fr 1fr;?", "type": "Code output", "options": ["Three equal columns", "Two equal columns", "One column and one row", "Three rows"], "answer": 0},
+            {"q": "Which property creates a grid layout?", "type": "MCQ", "options": ["display: grid", "display: flex", "display: block", "display: inline"], "answer": 0},
+            {"q": "What does the fr unit represent in grid-template-columns?", "type": "MCQ", "options": ["Fixed pixels", "Fraction of available space", "Percentage of viewport", "Font size"], "answer": 1},
+            {"q": "What is the output of: @media (max-width: 600px) { .container { flex-direction: column; } }?", "type": "Code output", "options": ["Container becomes vertical on screens under 600px", "Container becomes vertical on screens over 600px", "Container is hidden on all screens", "Container changes color"], "answer": 0},
+            {"q": "Which media query applies styles when the screen is at least 768px wide?", "type": "MCQ", "options": ["@media (max-width: 768px)", "@media (min-width: 768px)", "@media (width: 768px)", "@media (below: 768px)"], "answer": 1},
+            {"q": "Which grid property places an item in columns 1 through 3?", "type": "MCQ", "options": ["grid-column: 1 / 3", "grid-row: 1 / 3", "grid-span: 1 / 3", "grid-position: 1 / 3"], "answer": 0},
+            {"q": "What is the output of: .item { grid-column: 1 / 3; }?", "type": "Code output", "options": ["Item spans from column 1 to column 3", "Item is placed in column 1 only", "Item is placed in row 1", "Item is hidden"], "answer": 0},
+            {"q": "Which unit is relative to the root font size?", "type": "MCQ", "options": ["em", "rem", "px", "pt"], "answer": 1},
+            {"q": "True or False: Mobile-first approach means designing for mobile devices first, then enhancing for larger screens.", "type": "True/False", "answer": true}
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task",
+          "description": "Create a responsive dashboard layout using CSS Grid with named areas. Make it adapt to different screen sizes with media queries.",
+          "requirements": [
+            "Create a grid layout with at least 3 columns",
+            "Use grid-template-areas for named layout regions",
+            "Add a sidebar, main content area, and header",
+            "Create media query for tablet screens (768px)",
+            "Create media query for mobile screens (480px)",
+            "Use fr units for flexible column sizing"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment",
+          "description": "Build a fully responsive portfolio website with a CSS Grid layout. The site should look great on desktop, tablet, and mobile devices.",
+          "requirements": [
+            "Use grid-template-areas for the main layout structure",
+            "Create a multi-column gallery using grid",
+            "Implement at least 3 media queries for different breakpoints",
+            "Use fluid units (%, vw, rem) for scalable sizing",
+            "Make navigation responsive (horizontal on desktop, stacked on mobile)",
+            "Ensure images scale properly with max-width: 100%",
+            "Submit the code on GitHub"
+          ],
+          "submission_type": ["github"]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": ["What did you learn today?", "What did you implement?", "What problem did you face?", "How did you solve it?", "Hours Worked?"]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 6 — UI/UX for Developers",
+    "content": "Introduction to UI/UX design principles for developers. Learn design fundamentals, color theory, typography, and visual hierarchy to create beautiful and user-friendly web interfaces.",
+    "video_url": null,
+    "lesson_order": 6,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "# Day 6 — UI/UX for Developers\n\n## Learning Objectives\nBy the end of this day, you will be able to:\n- Understand the difference between UI and UX\n- Apply core design principles\n- Use color theory effectively\n- Create effective typography hierarchy\n\n## UI vs UX\n### UI (User Interface)\nUI focuses on the visual elements of a product — what users see and interact with. It includes colors, buttons, icons, spacing, and layout.\n\n### UX (User Experience)\nUX focuses on the overall experience of using a product — how it feels, how easy it is to use, and how well it solves user problems.\n\n```text\nUI = What it looks like\nUX = How it works\n```\n\n## Core Design Principles\n\n### 1. Visual Hierarchy\nArrange elements to show importance. Use:\n- Size (larger = more important)\n- Color (bold colors draw attention)\n- Contrast (differences in light/dark)\n- Spacing (more space = more importance)\n\n### 2. Consistency\nUse the same styles for similar elements across your entire design:\n- Same button styles everywhere\n- Consistent color palette\n- Uniform spacing scale\n- Consistent typography\n\n### 3. Alignment\nElements should be placed in relation to each other:\n- Align to a grid\n- Consistent margins and padding\n- Visual connection between related items\n\n### 4. Proximity\nRelated items should be grouped close together:\n- Label and input field close together\n- Related links grouped together\n- Sections separated by whitespace\n\n### 5. Contrast\nUse contrast to make elements stand out:\n- Text vs background\n- Primary vs secondary actions\n- Interactive vs non-interactive elements\n\n### 6. Balance\nDistribute visual weight evenly:\n- Symmetrical balance (formal)\n- Asymmetrical balance (dynamic)\n- Radial balance (centered)\n\n## Color Theory\n\n### Color Wheel\nThe color wheel shows relationships between colors:\n- **Primary colors:** Red, Yellow, Blue\n- **Secondary colors:** Green, Orange, Purple\n- **Tertiary colors:** Combinations of primary and secondary\n\n### Color Harmonies\n- **Monochromatic:** One hue with variations in lightness/saturation\n- **Complementary:** Colors opposite each other on the wheel\n- **Analogous:** Colors next to each other on the wheel\n- **Triadic:** Three colors evenly spaced on the wheel\n\n### Color Roles in UI Design\n- **Primary color:** Brand color, main actions\n- **Secondary color:** Supporting elements\n- **Accent color:** Highlights, calls to action\n- **Neutral colors:** Backgrounds, text (black, white, grays)\n\n### Color Psychology\n- **Blue:** Trust, calm, professionalism\n- **Red:** Energy, urgency, excitement\n- **Green:** Nature, growth, success\n- **Yellow:** Optimism, caution, attention\n- **Purple:** Luxury, creativity, wisdom\n- **Orange:** Enthusiasm, warmth, friendliness\n\n### WCAG Contrast Guidelines\nFor accessibility, text should have sufficient contrast:\n- **Normal text:** 4.5:1 contrast ratio\n- **Large text:** 3:1 contrast ratio\n- **UI components:** 3:1 contrast ratio\n\n## Typography\n\n### Typography Hierarchy\nCreate clear hierarchy with font sizes:\n```text\nH1: 2.5rem (40px) — Page title\nH2: 2rem (32px) — Section title\nH3: 1.5rem (24px) — Subsection title\nBody: 1rem (16px) — Main text\nSmall: 0.875rem (14px) — Secondary text\n```\n\n### Key Typography Properties\n- **font-size** — size of text\n- **font-weight** — thickness (400 regular, 700 bold)\n- **line-height** — spacing between lines (1.5 is common)\n- **letter-spacing** — spacing between characters\n- **font-family** — typeface choice\n\n### Font Pairing\nCombine 2-3 fonts strategically:\n- **Serif + Sans-serif:** Classic, professional\n- **Sans-serif + Sans-serif:** Modern, clean\n- **Display + Body:** Bold headings, readable body\n\n### Best Practices\n- Limit to 2-3 font families\n- Use consistent sizes (use a scale)\n- Ensure readability (16px body minimum)\n- Use line-height of 1.5 for body text\n- Avoid all-caps for long text\n\n## Visual Design Best Practices\n- Use whitespace effectively (don't cram content)\n- Create a clear focal point on each page\n- Use consistent border radii\n- Apply shadows sparingly and consistently\n- Design for accessibility from the start\n- Test with real users"
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Day 6 Quiz — UI/UX for Developers",
+          "questions": [
+            {"q": "What does UI stand for?", "type": "MCQ", "options": ["User Interface", "Unified Integration", "User Internet", "Universal Interface"], "answer": 0},
+            {"q": "What is the primary focus of UX design?", "type": "MCQ", "options": ["Visual appearance only", "Overall user experience and ease of use", "Color selection only", "Font selection only"], "answer": 1},
+            {"q": "Which design principle states that related items should be grouped close together?", "type": "MCQ", "options": ["Contrast", "Proximity", "Alignment", "Balance"], "answer": 1},
+            {"q": "What is the WCAG contrast ratio required for normal text?", "type": "MCQ", "options": ["2:1", "3:1", "4.5:1", "7:1"], "answer": 2},
+            {"q": "Which color harmony uses colors opposite each other on the color wheel?", "type": "MCQ", "options": ["Monochromatic", "Analogous", "Complementary", "Triadic"], "answer": 2},
+            {"q": "What is the typical recommended body text size for readability?", "type": "MCQ", "options": ["12px", "14px", "16px", "20px"], "answer": 2},
+            {"q": "Which color is commonly associated with trust and professionalism?", "type": "MCQ", "options": ["Red", "Blue", "Green", "Yellow"], "answer": 1},
+            {"q": "What is visual hierarchy?", "type": "MCQ", "options": ["The order of importance of visual elements", "The number of colors used", "The size of the screen", "The type of font used"], "answer": 0},
+            {"q": "Which typography property controls the spacing between lines of text?", "type": "MCQ", "options": ["letter-spacing", "line-height", "word-spacing", "text-spacing"], "answer": 1},
+            {"q": "True or False: Good UI design and good UX design are the same thing.", "type": "True/False", "answer": false}
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task",
+          "description": "Redesign a simple webpage applying UI/UX principles. Focus on visual hierarchy, color harmony, and typography.",
+          "requirements": [
+            "Create a clear visual hierarchy using font sizes and weights",
+            "Use a monochromatic or complementary color scheme",
+            "Ensure text has sufficient contrast (4.5:1 for normal text)",
+            "Apply consistent spacing using a scale (e.g., 4px multiples)",
+            "Group related elements using proximity",
+            "Use at most 2 font families"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment",
+          "description": "Design and build a landing page that demonstrates strong UI/UX principles. The page should be visually appealing, accessible, and well-organized.",
+          "requirements": [
+            "Apply at least 4 of the 6 core design principles",
+            "Use a harmonious color scheme (document which one)",
+            "Create a clear typography hierarchy with at least 4 levels",
+            "Ensure all text meets WCAG contrast guidelines",
+            "Use consistent spacing scale throughout the page",
+            "Include a clear call-to-action with visual contrast",
+            "Submit the code on GitHub"
+          ],
+          "submission_type": ["github"]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": ["What did you learn today?", "What did you implement?", "What problem did you face?", "How did you solve it?", "Hours Worked?"]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 7 — UI/UX for Developers",
+    "content": "Advanced UI/UX workflow for developers. Learn user research methodologies, wireframing techniques, prototyping principles, and how to use Figma for design collaboration.",
+    "video_url": null,
+    "lesson_order": 7,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "# Day 7 — UI/UX for Developers\n\n## Learning Objectives\nBy the end of this day, you will be able to:\n- Conduct basic user research\n- Create effective wireframes\n- Build interactive prototypes\n- Use Figma for design collaboration\n\n## User Research\n\n### What is User Research?\nUser research is the process of understanding user behaviors, needs, motivations, and pain points. It helps design products that solve real problems.\n\n### Types of User Research\n\n#### Qualitative Research\nGathers insights about user motivations and attitudes:\n- **Interviews** — one-on-one conversations\n- **Surveys** — structured questionnaires\n- **Observations** — watching users interact\n- **Usability Testing** — watching users complete tasks\n\n#### Quantitative Research\nGathers numerical data:\n- **Analytics** — website/app usage data\n- **A/B Testing** — comparing two versions\n- **Surveys with ratings** — measurable feedback\n- **Conversion data** — user action metrics\n\n### User Interviews\nBest practices:\n1. Ask open-ended questions\n2. Avoid leading questions\n3. Focus on past behavior, not opinions\n4. Take detailed notes\n5. Ask \"why?\" repeatedly\n\nExample questions:\n- \"Tell me about the last time you...\"\n- \"What was the most frustrating part?\"\n- \"How do you currently solve this problem?\"\n\n### Creating User Personas\nA persona is a fictional representation of a target user:\n\n```text\nName: Sarah Johnson\nAge: 28\nOccupation: Marketing Manager\nGoals: Find efficient ways to manage projects\nPain Points: Too many tools, poor communication\nTech Skills: Intermediate\nQuote: \"I just need one place to see everything.\"\n```\n\n### User Journey Mapping\nMaps the user's path through a product:\n```text\nStage 1: Awareness → Stage 2: Consideration → Stage 3: Sign-up → Stage 4: Usage → Stage 5: Loyalty\nEmotions:     Confused → Interested → Overwhelmed → Confident → Satisfied\nTouchpoints:  Ad → Landing Page → Form → App → Support\n```\n\n## Wireframing\n\n### What is a Wireframe?\nA wireframe is a low-fidelity blueprint of a webpage or app screen. It shows layout and structure without visual details.\n\n### Wireframe Characteristics\n- Grayscale or minimal colors\n- Simple shapes and boxes\n- Focuses on layout and content placement\n- Created early in the design process\n- Quick to create and modify\n\n### Wireframe Levels\n1. **Low-fidelity** — rough sketches, paper or digital\n2. **Mid-fidelity** — more detailed layouts, grayscale\n3. **High-fidelity** — detailed with colors, text, images\n\n### Wireframing Best Practices\n- Start with the most important content first\n- Use a grid system\n- Keep it simple and uncluttered\n- Focus on user flow, not aesthetics\n- Get feedback early\n- Don't spend too much time on details\n\n### Information Hierarchy in Wireframes\nShow importance through:\n- Size and position\n- Spacing\n- Density of content\n- Visual weight\n\n## Prototyping\n\n### What is a Prototype?\nA prototype is an interactive model of a product that allows testing of design concepts before development.\n\n### Types of Prototypes\n- **Paper prototype** — physical sketches\n- **Low-fidelity digital** — simple clickable mockups\n- **Mid-fidelity digital** — more detailed with basic interactions\n- **High-fidelity digital** — nearly final with detailed interactions\n\n### Prototyping Best Practices\n1. Start with user flows\n2. Create the most critical paths first\n3. Make it testable with real users\n4. Iterate based on feedback\n5. Don't over-invest in low-priority screens\n\n### Key Metrics to Test\n- Task completion rate\n- Time on task\n- Error rate\n- User satisfaction\n- Click-through rates\n\n## Figma for Designers and Developers\n\n### What is Figma?\nFigma is a cloud-based design tool for interface design, prototyping, and collaboration. It runs in the browser and supports real-time collaboration.\n\n### Key Figma Features\n- **Frames** — canvas containers for designs\n- **Components** — reusable design elements\n- **Variants** — different states of a component\n- **Auto Layout** — flexible responsive layouts\n- **Constraints** — how elements behave on resize\n- **Prototyping** — link frames for interactions\n- **Dev Mode** — inspect designs for developers\n\n### Figma for Developers\nDevelopers use Figma to:\n- Inspect colors, fonts, and spacing\n- Export assets and icons\n- Understand spacing and layout\n- View design specifications\n- Access component documentation\n\n### Figma Workflow for Teams\n1. Designer creates frames and components\n2. Designer builds prototype interactions\n3. Developer inspects specifications in Dev Mode\n4. Team reviews and gives feedback\n5. Design is iterated and finalized\n6. Design is handed off for development\n\n### Figma Shortcuts (Essential)\n- **V** — Move tool\n- **T** — Text tool\n- **R** — Rectangle tool\n- **F** — Frame tool\n- **Shift + A** — Auto Layout\n- **Alt + drag** — Duplicate element\n- **Space + drag** — Pan canvas\n- **Command + .** — Toggle preview (prototype)\n\n## Design Systems\n\n### What is a Design System?\nA design system is a collection of reusable components, styles, and guidelines that ensure consistency across a product.\n\n### Design System Components\n- **Color palette** — defined color values\n- **Typography scale** — font sizes and weights\n- **Component library** — buttons, inputs, cards\n- **Icon library** — consistent icons\n- **Spacing scale** — consistent spacing values\n- **Usage guidelines** — how to use each element\n\n### Benefits of Design Systems\n- Consistency across products\n- Faster development\n- Easier maintenance\n- Better collaboration\n- Improved accessibility"
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Day 7 Quiz — UI/UX for Developers",
+          "questions": [
+            {"q": "What is the primary goal of user research?", "type": "MCQ", "options": ["To make the design look beautiful", "To understand user behaviors, needs, and pain points", "To reduce development time only", "To choose colors"], "answer": 1},
+            {"q": "Which type of research gathers numerical data?", "type": "MCQ", "options": ["Qualitative research", "Quantitative research", "Observation", "Interviews"], "answer": 1},
+            {"q": "What is a wireframe?", "type": "MCQ", "options": ["A high-detail design with colors", "A low-fidelity blueprint showing layout and structure", "A final production-ready design", "A database schema"], "answer": 1},
+            {"q": "Which wireframe level includes colors, images, and detailed text?", "type": "MCQ", "options": ["Low-fidelity", "Mid-fidelity", "High-fidelity", "Sketch"], "answer": 2},
+            {"q": "What is a prototype?", "type": "MCQ", "options": ["A final production product", "An interactive model for testing design concepts", "A database", "A programming language"], "answer": 1},
+            {"q": "Which Figma feature allows creating reusable design elements?", "type": "MCQ", "options": ["Frames", "Components", "Auto Layout", "Constraints"], "answer": 1},
+            {"q": "What does Auto Layout in Figma do?", "type": "MCQ", "options": ["Creates responsive layouts that adjust to content", "Exports files to PDF", "Creates database queries", "Records user sessions"], "answer": 0},
+            {"q": "Which shortcut in Figma activates Auto Layout?", "type": "MCQ", "options": ["Shift + A", "Command + P", "T", "R"], "answer": 0},
+            {"q": "What is a user persona?", "type": "MCQ", "options": ["A real customer's data", "A fictional representation of a target user", "A type of database", "A wireframe tool"], "answer": 1},
+            {"q": "True or False: Wireframes should include detailed colors and images to look realistic.", "type": "True/False", "answer": false}
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task",
+          "description": "Create a complete design workflow artifact set in Figma for a simple landing page. Include research notes, a wireframe, and a basic prototype.",
+          "requirements": [
+            "Write down 3-5 interview questions for potential users",
+            "Create one user persona based on a hypothetical target user",
+            "Sketch a low-fidelity wireframe on paper first",
+            "Recreate the wireframe in Figma using frames",
+            "Create 3 connected screens with basic prototyping links",
+            "Document spacing and color decisions"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment",
+          "description": "Design a complete UI/UX package for a fictional app. Deliver research artifacts, wireframes, a prototype, and a mini design system in Figma.",
+          "requirements": [
+            "Create a user persona with goals and pain points",
+            "Map a user journey with at least 4 stages",
+            "Create wireframes for at least 5 app screens",
+            "Build a clickable prototype connecting at least 4 screens",
+            "Create a basic design system (colors, typography, components)",
+            "Use Auto Layout for at least 3 components",
+            "Submit screenshots and Figma link on GitHub"
+          ],
+          "submission_type": ["github"]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": ["What did you learn today?", "What did you implement?", "What problem did you face?", "How did you solve it?", "Hours Worked?"]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 8 — Git & GitHub",
+    "content": "Introduction to version control with Git and GitHub. Learn repositories, commits, branches, and pull requests to manage and collaborate on code effectively.",
+    "video_url": null,
+    "lesson_order": 8,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "# Day 8 — Git & GitHub\n\n## Learning Objectives\nBy the end of this day, you will be able to:\n- Initialize and manage Git repositories\n- Track changes with commits\n- Understand branches and their purpose\n- Use GitHub for code hosting and collaboration\n\n## What is Git?\nGit is a distributed version control system that tracks changes in files and folders. It allows multiple developers to work on the same project without overwriting each other's work.\n\n## What is GitHub?\nGitHub is a cloud-based platform that hosts Git repositories. It provides collaboration features like pull requests, issues, and code review.\n\n## Core Git Concepts\n\n### Repository (Repo)\nA folder that contains your project files and Git history. Can be local or hosted on GitHub.\n\n### Commit\nA snapshot of your project at a specific point in time. Each commit has a unique ID (hash).\n\n### Branch\nA movable pointer to a specific commit. Branches allow parallel development.\n\n### Working Directory\nThe current state of your files on disk.\n\n### Staging Area\nAn intermediate area where you prepare changes before committing.\n\n### Remote\nA copy of your repository hosted on a platform like GitHub.\n\n## Setting Up Git\n\n### Check Installation\n```bash\ngit --version\n```\n\n### Configure User Identity (once per machine)\n```bash\ngit config --global user.name \"Your Name\"\ngit config --global user.email \"your.email@example.com\"\n```\n\n## Creating a Repository\n\n### Initialize a Local Repository\n```bash\nmkdir my-project\ncd my-project\ngit init\n```\n\n### Clone an Existing Repository\n```bash\ngit clone https://github.com/username/repository.git\n```\n\n## Tracking Changes\n\n### Check Repository Status\n```bash\ngit status\n```\nShows modified, untracked, and staged files.\n\n### Stage Changes\n```bash\ngit add file.txt\n```\nStages a specific file. Or stage all changes:\n```bash\ngit add .\n```\n\n### Check Staged Changes\n```bash\ngit diff --staged\n```\n\n### Commit Changes\n```bash\ngit commit -m \"Add user authentication feature\"\n```\n\n## Viewing History\n```bash\ngit log\n```\nShows commit history with hash, author, date, and message.\n\n## Undoing Changes\n\n### Undo File Changes (keep changes in working directory)\n```bash\ngit checkout -- file.txt\n```\n\n### Undo Staged Changes\n```bash\ngit restore --staged file.txt\n```\n\n### Create a New Commit from Previous State\n```bash\ngit commit --amend\n```\n\n## Branching\n\n### Create a New Branch\n```bash\ngit branch feature-login\n```\n\n### Switch to a Branch\n```bash\ngit checkout feature-login\n```\n\n### Create and Switch to a Branch (combined)\n```bash\ngit checkout -b feature-login\n```\n\n### List Branches\n```bash\ngit branch\n```\n\n### Merge a Branch\n```bash\ngit checkout main\ngit merge feature-login\n```\n\n## GitHub Workflow\n\n### Create a Repository on GitHub\n1. Go to github.com\n2. Click \"New repository\"\n3. Name your repository\n4. Choose public or private\n5. Click \"Create repository\"\n\n### Push Local Repository to GitHub\n```bash\ngit remote add origin https://github.com/username/repo.git\ngit push -u origin main\n```\n\n### Pull Latest Changes\n```bash\ngit pull\n```\n\n### Clone a Repository\n```bash\ngit clone https://github.com/username/repo.git\n```\n\n## Pull Requests\n\nA Pull Request (PR) is a request to merge changes from one branch into another. PRs enable:\n- Code review\n- Discussion and feedback\n- CI/CD checks\n- Controlled merging\n\n### PR Workflow\n1. Create a branch for your feature\n2. Make commits on that branch\n3. Push branch to GitHub\n4. Open a Pull Request\n5. Request code review\n6. Address review comments\n7. Merge into main branch\n\n## Git Best Practices\n- Write clear, concise commit messages\n- Make small, focused commits\n- Branch for every new feature\n- Pull before pushing\n- Use .gitignore for files that should not be tracked\n- Review code before merging\n- Never commit sensitive information (passwords, API keys)"
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Day 8 Quiz — Git & GitHub",
+          "questions": [
+            {"q": "What is Git primarily used for?", "type": "MCQ", "options": ["Web hosting", "Version control", "Database management", "Server configuration"], "answer": 1},
+            {"q": "What is GitHub?", "type": "MCQ", "options": ["A programming language", "A cloud platform for hosting Git repositories", "A database", "An operating system"], "answer": 1},
+            {"q": "Which command initializes a new Git repository?", "type": "MCQ", "options": ["git new", "git init", "git start", "git create"], "answer": 1},
+            {"q": "What is the output of: git status?", "type": "Code output", "options": ["Shows the current state of tracked and untracked files", "Creates a new branch", "Commits all changes", "Shows commit history"], "answer": 0},
+            {"q": "Which command stages all changes in the repository?", "type": "MCQ", "options": ["git add .", "git stage all", "git commit -a", "git push"], "answer": 0},
+            {"q": "What is a branch in Git?", "type": "MCQ", "options": ["A physical line in code", "A movable pointer to a commit", "A type of commit", "A GitHub account"], "answer": 1},
+            {"q": "Which command creates and switches to a new branch named feature-login?", "type": "MCQ", "options": ["git branch feature-login", "git checkout -b feature-login", "git new-branch feature-login", "git switch-create feature-login only"], "answer": 1},
+            {"q": "What is the purpose of a Pull Request?", "type": "MCQ", "options": ["To delete a branch", "To request merging changes after code review", "To create a new repository", "To install dependencies"], "answer": 1},
+            {"q": "What does git log display?", "type": "MCQ", "options": ["Current file contents", "Commit history", "Branch names only", "Repository settings"], "answer": 1},
+            {"q": "True or False: You should commit sensitive information like API keys to a Git repository.", "type": "True/False", "answer": false}
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task",
+          "description": "Set up a complete local Git workflow. Initialize a repository, make commits, create a branch, and practice basic version control operations.",
+          "requirements": [
+            "Initialize a new Git repository from a project folder",
+            "Configure git user.name and user.email if not already set",
+            "Create at least 3 files and commit them",
+            "Make additional changes and create a new commit",
+            "Create a new branch and switch to it",
+            "View commit history with git log",
+            "Practice undoing a file change with git restore"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment",
+          "description": "Create a complete GitHub workflow demonstration. Push your work to GitHub and open a pull request to show professional version control practices.",
+          "requirements": [
+            "Create a GitHub account or use an existing one",
+            "Create a new public repository on GitHub",
+            "Clone the repository locally",
+            "Add your Day 1-7 HTML/CSS/JS practice files",
+            "Make at least 3 meaningful commits with descriptive messages",
+            "Create a feature branch and push it to GitHub",
+            "Open a Pull Request from your feature branch to main",
+            "Submit the repository link and PR link"
+          ],
+          "submission_type": ["github"]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": ["What did you learn today?", "What did you implement?", "What problem did you face?", "How did you solve it?", "Hours Worked?"]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 9 — Git & GitHub",
+    "content": "Advanced Git and GitHub collaboration. Learn pull request workflows, code review best practices, branching strategies, and team-based development.",
+    "video_url": null,
+    "lesson_order": 9,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "# Day 9 — Git & GitHub\n\n## Learning Objectives\nBy the end of this day, you will be able to:\n- Collaborate effectively using Git and GitHub\n- Conduct and respond to code reviews\n- Understand popular branching strategies\n- Resolve merge conflicts\n\n## Pull Request Best Practices\n\n### Writing Good PR Descriptions\nA good PR description includes:\n- **What** was changed and why\n- **How** it was tested\n- **Screenshots** for UI changes\n- **Checklist** of requirements met\n\n### Code Review Guidelines\nReviewers should check for:\n- **Correctness** — does the code work as intended?\n- **Readability** — is the code easy to understand?\n- **Performance** — are there efficiency concerns?\n- **Security** — are there vulnerabilities?\n- **Consistency** — does it follow project style?\n- **Test coverage** — are important paths tested?\n\n### Writing Constructive Review Comments\nGood review comments:\n- Explain the reasoning behind feedback\n- Suggest specific improvements\n- Use a respectful, professional tone\n- Prioritize important issues\n- Avoid personal criticism\n\n## Branching Strategies\n\n### Git Flow\nA branching model with dedicated branches:\n- **main** — production-ready code\n- **develop** — integration branch for features\n- **feature/** — new features\n- **release/** — release preparation\n- **hotfix/** — urgent production fixes\n\n### GitHub Flow\nSimpler model popular with GitHub:\n- **main** — always deployable\n- Feature branches for each change\n- Pull requests for review and merge\n- Direct deployment from main\n\n### Trunk-Based Development\n- Developers commit frequently to a single main branch\n- Features hidden behind feature flags\n- Continuous integration and deployment\n- Minimal branching\n\n## Resolving Merge Conflicts\n\n### What is a Merge Conflict?\nA conflict occurs when two branches make incompatible changes to the same part of a file.\n\n### Resolving Conflicts\n1. **Identify conflicted files**\n```bash\ngit status\n```\n\n2. **Open the conflicted file**\nLook for conflict markers:\n```text\n<<<<<<< HEAD\n// Changes from current branch\n=======\n// Changes from branch being merged\n>>>>>>> feature-branch\n```\n\n3. **Edit the file to resolve conflicts**\n\n4. **Stage the resolved file**\n```bash\ngit add myfile.js\n```\n\n5. **Complete the merge**\n```bash\ngit commit\n```\n\n## Collaborative Workflow\n\n### Step-by-Step Team Workflow\n1. Pull latest main before starting\n2. Create a feature branch\n3. Make commits regularly\n4. Push branch to GitHub\n5. Open a Pull Request\n6. Request reviews from team members\n7. Address review comments\n8. Merge after approval\n9. Delete the feature branch\n\n## Git Commands Reference\n\n### Fetch and Pull\n- **git fetch** — download changes without merging\n- **git pull** — fetch and merge\n\n### Stash\nSave uncommitted changes temporarily:\n```bash\ngit stash\ngit stash pop\n```\n\n### Rebase\nMove commits to the tip of another branch:\n```bash\ngit rebase main\n```\n\n### Cherry-pick\nApply a specific commit to current branch:\n```bash\ngit cherry-pick <commit-hash>\n```\n\n## Pull Request Lifecycle\n1. **Open** — developer creates PR\n2. **Review** — teammates review code\n3. **Changes requested** — reviewer asks for modifications\n4. **Updates** — developer pushes fixes\n5. **Approved** — reviewer approves\n6. **Merge** — changes integrated\n7. **Close** — PR is closed (merged or abandoned)"
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Day 9 Quiz — Git & GitHub",
+          "questions": [
+            {"q": "What is the main difference between Git Flow and GitHub Flow?", "type": "MCQ", "options": ["Git Flow is more complex with more branch types", "GitHub Flow uses no branches", "Git Flow is only for GitHub", "They are identical"], "answer": 0},
+            {"q": "Which branch in Git Flow typically holds production-ready code?", "type": "MCQ", "options": ["develop", "feature", "release", "main"], "answer": 3},
+            {"q": "What should a good Pull Request description include?", "type": "MCQ", "options": ["Only a title", "What changed, why, and how it was tested", "Just a screenshot", "Nothing, it's automatic"], "answer": 1},
+            {"q": "What is the purpose of a CODEOWNERS file?", "type": "MCQ", "options": ["To specify who must review changes to directories", "To define code style rules", "To list project dependencies", "To configure build settings"], "answer": 0},
+            {"q": "What is a merge conflict?", "type": "MCQ", "options": ["When two branches make incompatible changes to the same file area", "When a commit fails to create", "When a branch is deleted", "When code has a syntax error"], "answer": 0},
+            {"q": "What do conflict markers look like in a file?", "type": "MCQ", "options": ["<<<<<<< HEAD, =======, >>>>>>> branch", "[CONFLICT], [END]", "{conflict}, {end}", "<merge>, <finish>"], "answer": 0},
+            {"q": "Which command saves uncommitted changes temporarily and removes them?", "type": "MCQ", "options": ["git stash", "git stash pop", "git save", "git temp"], "answer": 1},
+            {"q": "What is the purpose of git rebase?", "type": "MCQ", "options": ["To delete commits permanently", "To move commits to the tip of another branch", "To create a new repository", "To merge all branches"], "answer": 1},
+            {"q": "In a code review, what should reviewers prioritize?", "type": "MCQ", "options": ["Personal preferences about style", "Correctness, readability, performance, security, and consistency", "The color of the code", "The author's job title"], "answer": 1},
+            {"q": "True or False: After resolving a merge conflict, you must stage the resolved file before committing.", "type": "True/False", "answer": true}
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task",
+          "description": "Practice collaborative Git workflows. Create a branch, make changes, simulate a merge conflict, resolve it, and open a pull request.",
+          "requirements": [
+            "Create a feature branch from main",
+            "Make changes to a shared file",
+            "Simulate a merge conflict with another branch",
+            "Resolve the conflict manually editing the file",
+            "Stage and commit the resolved file",
+            "Push the branch to GitHub",
+            "Open a Pull Request with a detailed description"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment",
+          "description": "Demonstrate professional collaboration skills. Create a pull request, conduct a code review (self or peer), resolve any issues, and merge your code.",
+          "requirements": [
+            "Create a new feature branch for your assignment",
+            "Implement a small feature or improvement",
+            "Write a comprehensive Pull Request description",
+            "Request review from a peer or instructor",
+            "Address all review comments with new commits",
+            "Resolve any merge conflicts if they occur",
+            "Merge your PR into main branch",
+            "Document the collaboration process in your work log"
+          ],
+          "submission_type": ["github"]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": ["What did you learn today?", "What did you implement?", "What problem did you face?", "How did you solve it?", "Hours Worked?"]
+        },
+        "is_interactive": true
+      }
+    ]
+  },
+  {
+    "title": "Day 10 — JavaScript Fundamentals",
+    "content": "Introduction to JavaScript, the programming language of the web. Learn variables, data types, operators, and conditional statements to start writing interactive scripts.",
+    "video_url": null,
+    "lesson_order": 10,
+    "blocks": [
+      {
+        "block_type": "MARKDOWN",
+        "block_order": 1,
+        "content_payload": {
+          "body": "# Day 10 — JavaScript Fundamentals\n\n## Learning Objectives\nBy the end of this day, you will be able to:\n- Declare and use variables\n- Understand JavaScript data types\n- Use operators for calculations and comparisons\n- Write conditional statements\n\n## What is JavaScript?\nJavaScript is a programming language that makes web pages interactive. It runs in the browser and can manipulate HTML, CSS, and respond to user actions.\n\n```html\n<script>\n  console.log(\"Hello, JavaScript!\");\n</script>\n```\n\n## Variables\nVariables store data values that can be used and modified.\n\n### var\nThe original JavaScript keyword. Now largely replaced by let and const.\n```javascript\nvar age = 25;\n```\n\n### let\nUsed for variables that can be reassigned.\n```javascript\nlet score = 10;\nscore = 20; // allowed\n```\n\n### const\nUsed for variables that cannot be reassigned.\n```javascript\nconst pi = 3.14;\n// pi = 3.15; // error!\n```\n\n### Variable Naming Rules\n- Must start with a letter, $, or _\n- Cannot contain spaces\n- Case-sensitive (myVar and myvar are different)\n- Avoid reserved words (class, function, return)\n- Use camelCase for readability\n\n```javascript\nlet userName = \"Alice\";\nconst userAge = 25;\n```\n\n## Data Types\n\n### Primitive Types\n1. **String** — text\n```javascript\nlet name = \"Alice\";\n```\n2. **Number** — integers and decimals\n```javascript\nlet age = 25;\nlet price = 19.99;\n```\n3. **Boolean** — true or false\n```javascript\nlet isStudent = true;\n```\n4. **Undefined** — variable declared but not assigned\n```javascript\nlet x;\n// x is undefined\n```\n5. **Null** — intentional empty value\n```javascript\nlet city = null;\n```\n6. **Symbol** — unique identifier\n```javascript\nconst id = Symbol(\"id\");\n```\n7. **BigInt** — large integers\n```javascript\nlet bigNumber = 12345678901234567890n;\n```\n\n### Checking Data Types\n```javascript\ntypeof name;    // \"string\"\ntypeof age;     // \"number\"\ntypeof isStudent; // \"boolean\"\n```\n\n## Operators\n\n### Arithmetic Operators\n- **+** — Addition\n- **-** — Subtraction\n- **\\*** — Multiplication\n- **/** — Division\n- **%** — Modulus (remainder)\n- **\\*\\*** — Exponentiation\n\n### Assignment Operators\n- **=** — Assign\n- **+=** — Add and assign\n- **-=** — Subtract and assign\n- **\\*=** — Multiply and assign\n- **/=** — Divide and assign\n\n### Comparison Operators\n- **==** — Equal (after type conversion)\n- **===** — Strictly equal (same type and value)\n- **!=** — Not equal\n- **!==** — Strictly not equal\n- **>** — Greater than\n- **<** — Less than\n- **>=** — Greater than or equal\n- **<=** — Less than or equal\n\n### Logical Operators\n- **&&** — Logical AND\n- **||** — Logical OR\n- **!** — Logical NOT\n\n## Conditional Statements\n\n### if Statement\n```javascript\nlet temperature = 30;\nif (temperature > 25) {\n  console.log(\"It's hot outside\");\n}\n```\n\n### if...else Statement\n```javascript\nlet age = 16;\nif (age >= 18) {\n  console.log(\"You can vote\");\n} else {\n  console.log(\"You cannot vote yet\");\n}\n```\n\n### if...else if...else Statement\n```javascript\nlet score = 85;\nif (score >= 90) {\n  console.log(\"Grade: A\");\n} else if (score >= 80) {\n  console.log(\"Grade: B\");\n} else if (score >= 70) {\n  console.log(\"Grade: C\");\n} else {\n  console.log(\"Grade: F\");\n}\n```\n\n### Ternary Operator\nA shorthand for if...else:\n```javascript\nlet age = 20;\nlet status = (age >= 18) ? \"Adult\" : \"Minor\";\n```\n\n### switch Statement\n```javascript\nlet day = \"Monday\";\nswitch (day) {\n  case \"Monday\":\n    console.log(\"Start of the week\");\n    break;\n  case \"Friday\":\n    console.log(\"Almost the weekend\");\n    break;\n  default:\n    console.log(\"Weekday\");\n}\n```\n\n## Common Beginner Mistakes\n- Using = instead of == or ===\n- Forgetting to declare variables with let or const\n- Mixing up data types in comparisons\n- Not using strict equality (===)\n- Forgetting braces in conditional statements\n- Not understanding operator precedence"
+        },
+        "is_interactive": false
+      },
+      {
+        "block_type": "QUIZ",
+        "block_order": 2,
+        "content_payload": {
+          "title": "Day 10 Quiz — JavaScript Fundamentals",
+          "questions": [
+            {"q": "Which keyword is used to declare a variable that can be reassigned?", "type": "MCQ", "options": ["var", "let", "const", "function"], "answer": 1},
+            {"q": "Which keyword is used to declare a variable that cannot be reassigned?", "type": "MCQ", "options": ["var", "let", "const", "static"], "answer": 2},
+            {"q": "What is the output of: typeof \"hello\"?", "type": "Code output", "options": ["string", "number", "undefined", "object"], "answer": 0},
+            {"q": "What is the output of: 5 % 2?", "type": "Code output", "options": ["2.5", "1", "0", "2"], "answer": 1},
+            {"q": "What is the output of: 5 === \"5\"?", "type": "Code output", "options": ["true", "false", "error", "undefined"], "answer": 1},
+            {"q": "What is the output of: true && false?", "type": "Code output", "options": ["true", "false", "undefined", "null"], "answer": 1},
+            {"q": "What is the output of: !false?", "type": "Code output", "options": ["true", "false", "undefined", "null"], "answer": 0},
+            {"q": "What is the output of: let age = 20; age >= 18 ? \"Adult\" : \"Minor\"?", "type": "Code output", "options": ["Adult", "Minor", "20", "Error"], "answer": 0},
+            {"q": "Which comparison operator checks both value and type equality?", "type": "MCQ", "options": ["==", "!=", "===", "!="], "answer": 2},
+            {"q": "True or False: In JavaScript, using a single equals sign (=) in an if statement compares two values.", "type": "True/False", "answer": false}
+          ],
+          "pass_mark": 70
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "TASK",
+        "block_order": 3,
+        "content_payload": {
+          "title": "Practical Task",
+          "description": "Write JavaScript code that uses variables, performs calculations with operators, and makes decisions using conditional statements.",
+          "requirements": [
+            "Declare at least 3 variables using let and const",
+            "Perform arithmetic operations (+, -, *, /, %)",
+            "Use at least 2 logical operators (&&, ||, !)",
+            "Write an if...else statement",
+            "Write an if...else if...else statement",
+            "Use the ternary operator",
+            "Display results using console.log"
+          ]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "ASSIGNMENT",
+        "block_order": 4,
+        "content_payload": {
+          "title": "Assignment",
+          "description": "Build a JavaScript grade calculator application. It should take a student's score as input and display the appropriate grade using conditional statements.",
+          "requirements": [
+            "Create an HTML file with an input field for the score",
+            "Create a JavaScript file that reads the input value",
+            "Use conditional statements (if...else if...else) to determine the grade",
+            "Display the grade on the webpage using DOM manipulation",
+            "Validate that the input is between 0 and 100",
+            "Use at least 2 different data types (number, string)",
+            "Submit the code on GitHub"
+          ],
+          "submission_type": ["github"]
+        },
+        "is_interactive": true
+      },
+      {
+        "block_type": "WORK_LOG",
+        "block_order": 5,
+        "content_payload": {
+          "questions": ["What did you learn today?", "What did you implement?", "What problem did you face?", "How did you solve it?", "Hours Worked?"]
+        },
+        "is_interactive": true
+      }
+    ]
+  }
+]

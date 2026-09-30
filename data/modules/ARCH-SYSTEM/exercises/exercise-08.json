@@ -1,0 +1,10 @@
+{
+  "id": "EX-ARCH-SYSTEM-L08",
+  "module_code": "ARCH-SYSTEM",
+  "title": "Lab Exercise: Caching",
+  "difficulty": "Advanced",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Caching.",
+  "starter_code": "// Lab: Caching\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Caching\nexport const solution = true;\n"
+}

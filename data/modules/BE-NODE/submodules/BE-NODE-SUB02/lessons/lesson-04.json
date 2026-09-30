@@ -1,0 +1,22 @@
+{
+  "id": "BE-NODE-SUB02-L04",
+  "day": 7,
+  "module_code": "BE-NODE",
+  "lesson_order": 4,
+  "title": "Async programming: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Async programming",
+    "Apply Async programming in practical scenarios",
+    "Build a small project using Async programming"
+  ],
+  "theory_markdown": "# Async programming\n\n## Overview\nThis lesson covers the fundamentals of Async programming and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Async programming\n- Concept 2 related to Async programming\n- Best practices for Async programming\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Async programming\n2. Implement basic Async programming functionality\n3. Apply Async programming to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Async programming implementation\nconsole.log('Learning Async programming');\n\n// Basic Async programming example\nconst example = {\n  topic: 'Async programming',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Async programming usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Async programming concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "ML-DL-SUB02-L04",
+  "day": 7,
+  "module_code": "ML-DL",
+  "lesson_order": 4,
+  "title": "LSTM: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of LSTM",
+    "Apply LSTM in practical scenarios",
+    "Build a small project using LSTM"
+  ],
+  "theory_markdown": "# LSTM\n\n## Overview\nThis lesson covers the fundamentals of LSTM and its practical applications.\n\n## Key Concepts\n- Concept 1 related to LSTM\n- Concept 2 related to LSTM\n- Best practices for LSTM\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of LSTM\n2. Implement basic LSTM functionality\n3. Apply LSTM to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example LSTM implementation\nconsole.log('Learning LSTM');\n\n// Basic LSTM example\nconst example = {\n  topic: 'LSTM',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic LSTM usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand LSTM concepts and generate code examples.\n\n---"
+  }
+}

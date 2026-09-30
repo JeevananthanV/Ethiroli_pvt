@@ -1,0 +1,22 @@
+{
+  "id": "DESIGN-UIUX-SUB01-L04",
+  "day": 7,
+  "module_code": "DESIGN-UIUX",
+  "lesson_order": 4,
+  "title": "User journey: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of User journey",
+    "Apply User journey in practical scenarios",
+    "Build a small project using User journey"
+  ],
+  "theory_markdown": "# User journey\n\n## Overview\nThis lesson covers the fundamentals of User journey and its practical applications.\n\n## Key Concepts\n- Concept 1 related to User journey\n- Concept 2 related to User journey\n- Best practices for User journey\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of User journey\n2. Implement basic User journey functionality\n3. Apply User journey to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example User journey implementation\nconsole.log('Learning User journey');\n\n// Basic User journey example\nconst example = {\n  topic: 'User journey',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic User journey usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand User journey concepts and generate code examples.\n\n---"
+  }
+}

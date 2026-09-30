@@ -1,0 +1,22 @@
+{
+  "id": "AI-GENAPP-SUB02-L03",
+  "day": 5,
+  "module_code": "AI-GENAPP",
+  "lesson_order": 3,
+  "title": "Vector databases: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Vector databases",
+    "Apply Vector databases in practical scenarios",
+    "Build a small project using Vector databases"
+  ],
+  "theory_markdown": "# Vector databases\n\n## Overview\nThis lesson covers the fundamentals of Vector databases and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Vector databases\n- Concept 2 related to Vector databases\n- Best practices for Vector databases\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Vector databases\n2. Implement basic Vector databases functionality\n3. Apply Vector databases to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Vector databases implementation\nconsole.log('Learning Vector databases');\n\n// Basic Vector databases example\nconst example = {\n  topic: 'Vector databases',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Vector databases usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Vector databases concepts and generate code examples.\n\n---"
+  }
+}

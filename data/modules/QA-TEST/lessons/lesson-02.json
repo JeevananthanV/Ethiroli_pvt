@@ -1,0 +1,20 @@
+{
+  "id": "QA-TEST-D47",
+  "day": 47,
+  "module_code": "QA-TEST",
+  "lesson_order": 2,
+  "title": "Debugging: Node.js Inspector, Logging, and Error Tracking",
+  "duration_minutes": 60,
+  "objectives": [
+    "Master Node.js debugger, structured logging, and error tracking."
+  ],
+  "theory_markdown": "Debugging techniques: `console.log`, `debugger` statement, Node.js inspector (`node --inspect`), VS Code debugger with breakpoints, watch expressions, call stack, and step-through.\r\n\r\nStructured logging with `pino` or `winston`: JSON logs with levels (`debug`, `info`, `warn`, `error`, `fatal`), request IDs for tracing, and log aggregation. Error tracking with Sentry (free tier) captures stack traces, context, and user info.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// logger.js — structured logging with pino\r\nimport pino from 'pino';\r\n\r\nexport const logger = pino({\r\n  level: process.env.LOG_LEVEL || 'info',\r\n  transport: process.env.NODE_ENV === 'development'\r\n    ? { target: 'pino-pretty', options: { colorize: true } }\r\n    : undefined,\r\n  serializers: {\r\n    req: (req) => ({\r\n      method: req.method,\r\n      url: req.url,\r\n      headers: {\r\n        'user-agent': req.headers['user-agent'],\r\n        'content-type': req.headers['content-type']\r\n      }\r\n    }),\r\n    err: pino.stdSerializers.err\r\n  }\r\n});\r\n\r\n// Request logging middleware\r\nexport function requestLogger(req, res, next) {\r\n  const start = Date.now();\r\n  const requestId = crypto.randomUUID();\r\n\r\n  req.log = logger.child({ requestId });\r\n  req.log.info({ req }, 'Request started');\r\n\r\n  res.on('finish', () => {\r\n    const duration = Date.now() - start;\r\n    req.log.info({\r\n      res: { statusCode: res.statusCode },\r\n      duration\r\n    }, 'Request completed');\r\n  });\r\n\r\n  next();\r\n}",
+    "explanation": "Pino logs structured JSON — easy to parse and query. Request IDs trace a request through logs. Sentry captures exceptions with context. VS Code debugger allows breakpoints, watch expressions, and step-through."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Sentry** (free tier) for error tracking. Use **Pino** with **pino-pretty** for readable development logs. Use **OpenCode** to debug complex issues: `opencode ask \"Why is this function returning undefined?\"`"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "sla_hours": 24,
+  "common_resolutions": {
+    "cors_error": "Ensure backend Express server has cors middleware enabled with proper origin headers.",
+    "jwt_expired": "Verify token expiration settings and guide student to refresh token flow.",
+    "mysql_access_denied": "Check .env connection credentials and user privilege grants in Workbench.",
+    "react_hydration_mismatch": "Ensure SSR components avoid rendering browser-only state before mount."
+  }
+}

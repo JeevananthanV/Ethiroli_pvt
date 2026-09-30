@@ -1,0 +1,70 @@
+{
+  "id": "PROG-FUND-SUB02-Q04",
+  "module_code": "PROG-FUND",
+  "day": 7,
+  "title": "Quiz 4: Loops Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Loops?",
+      "options": [
+        "Core principle of Loops",
+        "Advanced Loops technique",
+        "Alternative approach to Loops",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Loops concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Functions?",
+      "options": [
+        "Core principle of Functions",
+        "Advanced Functions technique",
+        "Alternative approach to Functions",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Functions concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Arrays?",
+      "options": [
+        "Core principle of Arrays",
+        "Advanced Arrays technique",
+        "Alternative approach to Arrays",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Arrays concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Objects?",
+      "options": [
+        "Core principle of Objects",
+        "Advanced Objects technique",
+        "Alternative approach to Objects",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Objects concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Error handling?",
+      "options": [
+        "Core principle of Error handling",
+        "Advanced Error handling technique",
+        "Alternative approach to Error handling",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Error handling concepts."
+    }
+  ]
+}

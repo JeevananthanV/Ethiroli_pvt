@@ -1,0 +1,10 @@
+{
+  "id": "EX-FE-TS-L05",
+  "module_code": "FE-TS",
+  "title": "Lab Exercise: Union types",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Union types.",
+  "starter_code": "// Lab: Union types\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Union types\nexport const solution = true;\n"
+}

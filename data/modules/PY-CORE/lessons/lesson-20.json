@@ -1,0 +1,18 @@
+{
+  "id": "PY-CORE-L20",
+  "module_code": "PY-CORE",
+  "lesson_order": 20,
+  "title": "JSON in Python Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of JSON",
+    "Implement real-world code for JSON according to industry standards",
+    "Debug and optimize JSON integrations"
+  ],
+  "theory_markdown": "### JSON\n\nThis lesson covers in-depth technical mechanics of **JSON** as part of the Python Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// JSON Implementation Example\nexport function handleJSON() {\n  console.log('Executing JSON workflow...');\n}",
+    "explanation": "Demonstration of how JSON is structured in production."
+  }
+}

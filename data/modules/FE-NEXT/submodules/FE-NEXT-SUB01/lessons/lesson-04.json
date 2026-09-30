@@ -1,0 +1,22 @@
+{
+  "id": "FE-NEXT-SUB01-L04",
+  "day": 7,
+  "module_code": "FE-NEXT",
+  "lesson_order": 4,
+  "title": "Layouts: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Layouts",
+    "Apply Layouts in practical scenarios",
+    "Build a small project using Layouts"
+  ],
+  "theory_markdown": "# Layouts\n\n## Overview\nThis lesson covers the fundamentals of Layouts and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Layouts\n- Concept 2 related to Layouts\n- Best practices for Layouts\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Layouts\n2. Implement basic Layouts functionality\n3. Apply Layouts to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Layouts implementation\nconsole.log('Learning Layouts');\n\n// Basic Layouts example\nconst example = {\n  topic: 'Layouts',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Layouts usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Layouts concepts and generate code examples.\n\n---"
+  }
+}

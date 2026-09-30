@@ -1,0 +1,20 @@
+{
+  "id": "FE-REACT-D22",
+  "day": 22,
+  "module_code": "FE-REACT",
+  "lesson_order": 2,
+  "title": "State Management with `useState`",
+  "duration_minutes": 60,
+  "objectives": [
+    "Master `useState`, state updates, and controlled components."
+  ],
+  "theory_markdown": "State is data that changes over time and triggers re-renders. `useState(initialValue)` returns `[state, setState]`. State updates are asynchronous and batched. Never mutate state directly — always create new objects/arrays. Functional updates (`setState(prev => ...)`) are safer when new state depends on old.",
+  "code_walkthrough": {
+    "language": "jsx",
+    "code": "import { useState } from 'react';\r\n\r\nfunction Counter() {\r\n  const [count, setCount] = useState(0);\r\n\r\n  return (\r\n    <div>\r\n      <p>Count: {count}</p>\r\n      <button onClick={() => setCount(count + 1)}>+1</button>\r\n      <button onClick={() => setCount(prev => prev - 1)}>-1</button>\r\n      <button onClick={() => setCount(0)}>Reset</button>\r\n    </div>\r\n  );\r\n}\r\n\r\nfunction TodoApp() {\r\n  const [todos, setTodos] = useState([]);\r\n  const [input, setInput] = useState(\"\");\r\n\r\n  const addTodo = () => {\r\n    if (!input.trim()) return;\r\n    setTodos(prev => [\r\n      ...prev,\r\n      { id: Date.now(), text: input, done: false }\r\n    ]);\r\n    setInput(\"\");\r\n  };\r\n\r\n  const toggleTodo = (id) => {\r\n    setTodos(prev =>\r\n      prev.map(todo =>\r\n        todo.id === id ? { ...todo, done: !todo.done } : todo\r\n      )\r\n    );\r\n  };\r\n\r\n  const deleteTodo = (id) => {\r\n    setTodos(prev => prev.filter(todo => todo.id !== id));\r\n  };\r\n\r\n  return (\r\n    <div>\r\n      <input\r\n        value={input}\r\n        onChange={e => setInput(e.target.value)}\r\n        onKeyDown={e => e.key === \"Enter\" && addTodo()}\r\n        placeholder=\"Add a todo...\"\r\n      />\r\n      <button onClick={addTodo}>Add</button>\r\n      <ul>\r\n        {todos.map(todo => (\r\n          <li key={todo.id}>\r\n            <span\r\n              style={{ textDecoration: todo.done ? \"line-through\" : \"none\" }}\r\n              onClick={() => toggleTodo(todo.id)}\r\n            >\r\n              {todo.text}\r\n            </span>\r\n            <button onClick={() => deleteTodo(todo.id)}>Delete</button>\r\n          </li>\r\n        ))}\r\n      </ul>\r\n    </div>\r\n  );\r\n}",
+    "explanation": "`useState` returns a tuple. Functional updates (`prev => ...`) avoid stale closures. Spread creates new arrays. `.map()` with spread creates new objects. Controlled inputs bind `value` to state and update via `onChange`."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **React DevTools** to inspect state changes in real time. Use **Free.ai Coder** to review your state logic.\r\n\r\n---"
+  }
+}

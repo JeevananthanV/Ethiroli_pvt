@@ -1,0 +1,18 @@
+{
+  "id": "SEO-TECH-L07",
+  "module_code": "SEO-TECH",
+  "lesson_order": 7,
+  "title": "Sitemap in Technical SEO",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Sitemap",
+    "Implement real-world code for Sitemap according to industry standards",
+    "Debug and optimize Sitemap integrations"
+  ],
+  "theory_markdown": "### Sitemap\n\nThis lesson covers in-depth technical mechanics of **Sitemap** as part of the Technical SEO curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Sitemap Implementation Example\nexport function handleSitemap() {\n  console.log('Executing Sitemap workflow...');\n}",
+    "explanation": "Demonstration of how Sitemap is structured in production."
+  }
+}

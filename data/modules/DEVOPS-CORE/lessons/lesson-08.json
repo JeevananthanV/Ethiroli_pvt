@@ -1,0 +1,18 @@
+{
+  "id": "DEVOPS-CORE-L08",
+  "module_code": "DEVOPS-CORE",
+  "lesson_order": 8,
+  "title": "Docker Compose in DevOps",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Docker Compose",
+    "Implement real-world code for Docker Compose according to industry standards",
+    "Debug and optimize Docker Compose integrations"
+  ],
+  "theory_markdown": "### Docker Compose\n\nThis lesson covers in-depth technical mechanics of **Docker Compose** as part of the DevOps curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Docker Compose Implementation Example\nexport function handleDockerCompose() {\n  console.log('Executing Docker Compose workflow...');\n}",
+    "explanation": "Demonstration of how Docker Compose is structured in production."
+  }
+}

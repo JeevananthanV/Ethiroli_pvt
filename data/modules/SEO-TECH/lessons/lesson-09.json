@@ -1,0 +1,18 @@
+{
+  "id": "SEO-TECH-L09",
+  "module_code": "SEO-TECH",
+  "lesson_order": 9,
+  "title": "Canonical URLs in Technical SEO",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Canonical URLs",
+    "Implement real-world code for Canonical URLs according to industry standards",
+    "Debug and optimize Canonical URLs integrations"
+  ],
+  "theory_markdown": "### Canonical URLs\n\nThis lesson covers in-depth technical mechanics of **Canonical URLs** as part of the Technical SEO curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Canonical URLs Implementation Example\nexport function handleCanonicalURLs() {\n  console.log('Executing Canonical URLs workflow...');\n}",
+    "explanation": "Demonstration of how Canonical URLs is structured in production."
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "id": "QZ-JS-CORE-COMPREHENSIVE",
+  "module_code": "JS-CORE",
+  "title": "Comprehensive Quiz: JavaScript Development",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes javascript fundamentals in JavaScript Development?",
+      "options": [
+        "Core concept: JavaScript fundamentals is fundamental to JavaScript Development",
+        "Alternative approach to JavaScript fundamentals using different methodology",
+        "Advanced implementation of JavaScript fundamentals with optimizations",
+        "Legacy technique for JavaScript fundamentals no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "JavaScript fundamentals is a key topic in JavaScript Development. Master JavaScript fundamentals and ES6+ features"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes variables in JavaScript Development?",
+      "options": [
+        "Core concept: Variables is fundamental to JavaScript Development",
+        "Alternative approach to Variables using different methodology",
+        "Advanced implementation of Variables with optimizations",
+        "Legacy technique for Variables no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Variables is a key topic in JavaScript Development. Master JavaScript fundamentals and ES6+ features"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes data types in JavaScript Development?",
+      "options": [
+        "Core concept: Data types is fundamental to JavaScript Development",
+        "Alternative approach to Data types using different methodology",
+        "Advanced implementation of Data types with optimizations",
+        "Legacy technique for Data types no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Data types is a key topic in JavaScript Development. Master JavaScript fundamentals and ES6+ features"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes operators in JavaScript Development?",
+      "options": [
+        "Core concept: Operators is fundamental to JavaScript Development",
+        "Alternative approach to Operators using different methodology",
+        "Advanced implementation of Operators with optimizations",
+        "Legacy technique for Operators no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Operators is a key topic in JavaScript Development. Master JavaScript fundamentals and ES6+ features"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes conditions in JavaScript Development?",
+      "options": [
+        "Core concept: Conditions is fundamental to JavaScript Development",
+        "Alternative approach to Conditions using different methodology",
+        "Advanced implementation of Conditions with optimizations",
+        "Legacy technique for Conditions no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Conditions is a key topic in JavaScript Development. Master JavaScript fundamentals and ES6+ features"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes loops in JavaScript Development?",
+      "options": [
+        "Core concept: Loops is fundamental to JavaScript Development",
+        "Alternative approach to Loops using different methodology",
+        "Advanced implementation of Loops with optimizations",
+        "Legacy technique for Loops no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Loops is a key topic in JavaScript Development. Master JavaScript fundamentals and ES6+ features"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in JavaScript Development?",
+      "options": [
+        "JavaScript",
+        "Java",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "JavaScript Development uses JavaScript as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of JavaScript Development?",
+      "options": [
+        "Master JavaScript fundamentals and ES6+ features",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Master JavaScript fundamentals and ES6+ features"
+    },
+    {
+      "id": 9,
+      "question": "When applying JavaScript Development in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for JavaScript Development include following established patterns and using recommended tools."
+    }
+  ]
+}

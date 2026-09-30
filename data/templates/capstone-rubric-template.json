@@ -1,0 +1,22 @@
+{
+  "title": "Full Stack Capstone Evaluation Rubric",
+  "total_marks": 100,
+  "breakdown": {
+    "architecture_and_design": {
+      "marks": 25,
+      "criteria": "Microservices/Modular pattern, DB normalization, API design"
+    },
+    "implementation_and_features": {
+      "marks": 35,
+      "criteria": "CRUD operations, real-time sockets, authentication & RBAC"
+    },
+    "code_quality_and_testing": {
+      "marks": 20,
+      "criteria": "Unit tests, linting, error handling, documentation"
+    },
+    "ui_ux_polish_and_presentation": {
+      "marks": 20,
+      "criteria": "Responsive layout, accessibility, live demo delivery"
+    }
+  }
+}

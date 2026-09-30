@@ -1,0 +1,299 @@
+﻿{
+  "ETH-HTML5-01": {
+    "code": "ETH-HTML5-01",
+    "name": "HTML5 Fundamentals",
+    "duration_days": 3,
+    "level": "Beginner",
+    "modules": ["WEB-HTML"],
+    "final_project": "Responsive Business Website",
+    "prerequisites": []
+  },
+  "ETH-CSS-01": {
+    "code": "ETH-CSS-01",
+    "name": "CSS3 & Responsive Design",
+    "duration_days": 5,
+    "level": "Beginner",
+    "modules": ["WEB-CSS"],
+    "final_project": "Mobile-First Portfolio Site",
+    "prerequisites": ["ETH-HTML5-01"]
+  },
+  "ETH-JS-01": {
+    "code": "ETH-JS-01",
+    "name": "JavaScript Development",
+    "duration_days": 7,
+    "level": "Intermediate",
+    "modules": ["JS-CORE"],
+    "final_project": "Interactive Todo Application",
+    "prerequisites": ["ETH-HTML5-01", "ETH-CSS-01"]
+  },
+  "ETH-REACT-01": {
+    "code": "ETH-REACT-01",
+    "name": "React.js Development",
+    "duration_days": 10,
+    "level": "Intermediate",
+    "modules": ["FE-REACT"],
+    "final_project": "Employee Management Dashboard",
+    "prerequisites": ["ETH-JS-01"]
+  },
+  "ETH-TS-01": {
+    "code": "ETH-TS-01",
+    "name": "TypeScript",
+    "duration_days": 5,
+    "level": "Intermediate",
+    "modules": ["FE-TS"],
+    "final_project": "Type-Safe React Application",
+    "prerequisites": ["ETH-JS-01"]
+  },
+  "ETH-NEXT-01": {
+    "code": "ETH-NEXT-01",
+    "name": "Next.js",
+    "duration_days": 10,
+    "level": "Advanced",
+    "modules": ["FE-NEXT"],
+    "final_project": "Full-Stack E-Commerce Platform",
+    "prerequisites": ["ETH-REACT-01", "ETH-TS-01"]
+  },
+  "ETH-NODE-01": {
+    "code": "ETH-NODE-01",
+    "name": "Node.js",
+    "duration_days": 7,
+    "level": "Intermediate",
+    "modules": ["BE-NODE"],
+    "final_project": "Server-Side Data Processing API",
+    "prerequisites": ["ETH-JS-01"]
+  },
+  "ETH-EXPRESS-01": {
+    "code": "ETH-EXPRESS-01",
+    "name": "Express.js",
+    "duration_days": 5,
+    "level": "Intermediate",
+    "modules": ["BE-EXPRESS"],
+    "final_project": "REST API Server",
+    "prerequisites": ["ETH-NODE-01"]
+  },
+  "ETH-REST-01": {
+    "code": "ETH-REST-01",
+    "name": "REST API Development",
+    "duration_days": 5,
+    "level": "Intermediate",
+    "modules": ["BE-REST"],
+    "final_project": "Complete REST API Suite",
+    "prerequisites": ["ETH-EXPRESS-01"]
+  },
+  "ETH-MYSQL-01": {
+    "code": "ETH-MYSQL-01",
+    "name": "MySQL Database",
+    "duration_days": 5,
+    "level": "Intermediate",
+    "modules": ["DB-MYSQL"],
+    "final_project": "Database Design for E-Commerce",
+    "prerequisites": []
+  },
+  "ETH-MONGO-01": {
+    "code": "ETH-MONGO-01",
+    "name": "MongoDB",
+    "duration_days": 5,
+    "level": "Intermediate",
+    "modules": ["DB-MONGO"],
+    "final_project": "NoSQL Data Model for Content CMS",
+    "prerequisites": []
+  },
+  "ETH-AUTH-01": {
+    "code": "ETH-AUTH-01",
+    "name": "Authentication & Authorization",
+    "duration_days": 5,
+    "level": "Advanced",
+    "modules": ["SEC-AUTH"],
+    "final_project": "Secure User Management System",
+    "prerequisites": ["ETH-EXPRESS-01", "ETH-REST-01"]
+  },
+  "ETH-FS-01": {
+    "code": "ETH-FS-01",
+    "name": "Full Stack Integration",
+    "duration_days": 10,
+    "level": "Advanced",
+    "modules": ["FS-INTEGRATION"],
+    "final_project": "Full-Stack SaaS Application",
+    "prerequisites": ["ETH-REACT-01", "ETH-NODE-01", "ETH-EXPRESS-01", "ETH-MYSQL-01", "ETH-MONGO-01"]
+  },
+  "ETH-PAY-01": {
+    "code": "ETH-PAY-01",
+    "name": "Payment Integration",
+    "duration_days": 4,
+    "level": "Advanced",
+    "modules": ["API-PAYMENT"],
+    "final_project": "Checkout System with Stripe/PayPal",
+    "prerequisites": ["ETH-FS-01"]
+  },
+  "ETH-COMM-01": {
+    "code": "ETH-COMM-01",
+    "name": "Email/SMS/WhatsApp",
+    "duration_days": 4,
+    "level": "Advanced",
+    "modules": ["API-COMM"],
+    "final_project": "Multi-Channel Notification Service",
+    "prerequisites": ["ETH-FS-01"]
+  },
+  "ETH-N8N-01": {
+    "code": "ETH-N8N-01",
+    "name": "n8n Automation",
+    "duration_days": 5,
+    "level": "Advanced",
+    "modules": ["AUTO-N8N"],
+    "final_project": "Automated Workflow Engine for Business",
+    "prerequisites": ["ETH-NODE-01"]
+  },
+  "ETH-AI-DEV-01": {
+    "code": "ETH-AI-DEV-01",
+    "name": "AI for Developers",
+    "duration_days": 5,
+    "level": "Intermediate",
+    "modules": ["AI-DEV"],
+    "final_project": "AI-Powered API Integration",
+    "prerequisites": ["ETH-JS-01"]
+  },
+  "ETH-AI-GEN-01": {
+    "code": "ETH-AI-GEN-01",
+    "name": "Generative AI",
+    "duration_days": 7,
+    "level": "Advanced",
+    "modules": ["AI-GENAPP"],
+    "final_project": "AI Content Generation Platform",
+    "prerequisites": ["ETH-AI-DEV-01"]
+  },
+  "ETH-PY-01": {
+    "code": "ETH-PY-01",
+    "name": "Python Development",
+    "duration_days": 7,
+    "level": "Beginner",
+    "modules": ["PY-CORE"],
+    "final_project": "Python Data Processing Script",
+    "prerequisites": []
+  },
+  "ETH-DA-01": {
+    "code": "ETH-DA-01",
+    "name": "Data Analytics",
+    "duration_days": 7,
+    "level": "Intermediate",
+    "modules": ["DATA-ANALYTICS"],
+    "final_project": "Interactive Analytics Dashboard",
+    "prerequisites": ["ETH-PY-01"]
+  },
+  "ETH-ML-01": {
+    "code": "ETH-ML-01",
+    "name": "Machine Learning",
+    "duration_days": 10,
+    "level": "Advanced",
+    "modules": ["ML-CORE"],
+    "final_project": "Predictive Models with Scikit-learn",
+    "prerequisites": ["ETH-PY-01", "ETH-DA-01"]
+  },
+  "ETH-DL-01": {
+    "code": "ETH-DL-01",
+    "name": "Deep Learning",
+    "duration_days": 10,
+    "level": "Advanced",
+    "modules": ["ML-DL"],
+    "final_project": "Neural Network Image Classifier",
+    "prerequisites": ["ETH-ML-01"]
+  },
+  "ETH-QA-01": {
+    "code": "ETH-QA-01",
+    "name": "Software Testing",
+    "duration_days": 5,
+    "level": "Intermediate",
+    "modules": ["QA-TEST"],
+    "final_project": "Test Suite for E-Commerce App",
+    "prerequisites": []
+  },
+  "ETH-DEVOPS-01": {
+    "code": "ETH-DEVOPS-01",
+    "name": "DevOps",
+    "duration_days": 8,
+    "level": "Advanced",
+    "modules": ["DEVOPS-CORE"],
+    "final_project": "CI/CD Pipeline with Docker/Kubernetes",
+    "prerequisites": ["ETH-GIT-01", "ETH-FS-01"]
+  },
+  "ETH-CLOUD-01": {
+    "code": "ETH-CLOUD-01",
+    "name": "Cloud Computing",
+    "duration_days": 8,
+    "level": "Advanced",
+    "modules": ["CLOUD-AWS"],
+    "final_project": "AWS Infrastructure for SaaS App",
+    "prerequisites": ["ETH-DEVOPS-01"]
+  },
+  "ETH-SEC-01": {
+    "code": "ETH-SEC-01",
+    "name": "Cybersecurity",
+    "duration_days": 8,
+    "level": "Advanced",
+    "modules": ["SEC-WEB"],
+    "final_project": "Security Audit for Web Application",
+    "prerequisites": []
+  },
+  "ETH-ARCH-01": {
+    "code": "ETH-ARCH-01",
+    "name": "System Design",
+    "duration_days": 8,
+    "level": "Advanced",
+    "modules": ["ARCH-SYSTEM"],
+    "final_project": "Scalable Architecture Blueprint",
+    "prerequisites": ["ETH-FS-01", "ETH-CLOUD-01"]
+  },
+  "ETH-DSA-01": {
+    "code": "ETH-DSA-01",
+    "name": "DSA & Problem Solving",
+    "duration_days": 14,
+    "level": "Intermediate",
+    "modules": ["DSA-CORE"],
+    "final_project": "Algorithm Repository with Solutions",
+    "prerequisites": []
+  },
+  "ETH-MOBILE-01": {
+    "code": "ETH-MOBILE-01",
+    "name": "Mobile Development",
+    "duration_days": 10,
+    "level": "Advanced",
+    "modules": ["MOBILE-RN"],
+    "final_project": "Cross-Platform Mobile App",
+    "prerequisites": ["ETH-REACT-01"]
+  },
+  "ETH-SEO-01": {
+    "code": "ETH-SEO-01",
+    "name": "Technical SEO",
+    "duration_days": 5,
+    "level": "Intermediate",
+    "modules": ["SEO-TECH"],
+    "final_project": "SEO-Optimized Multi-Language Site",
+    "prerequisites": ["ETH-HTML5-01", "ETH-CSS-01"]
+  },
+  "ETH-GIT-01": {
+    "code": "ETH-GIT-01",
+    "name": "Git & GitHub",
+    "duration_days": 3,
+    "level": "Beginner",
+    "modules": ["DEV-GIT"],
+    "final_project": "Git Workflow for Team Collaboration",
+    "prerequisites": []
+  },
+  "ETH-UIUX-01": {
+    "code": "ETH-UIUX-01",
+    "name": "UI/UX Design",
+    "duration_days": 7,
+    "level": "Beginner",
+    "modules": ["DESIGN-UIUX"],
+    "final_project": "Complete Design System for SaaS",
+    "prerequisites": []
+  },
+  "ETH-PROG-01": {
+    "code": "ETH-PROG-01",
+    "name": "Programming Fundamentals",
+    "duration_days": 5,
+    "level": "Beginner",
+    "modules": ["PROG-FUND"],
+    "final_project": "Cross-Concept Algorithm Implementation",
+    "prerequisites": []
+  }
+}

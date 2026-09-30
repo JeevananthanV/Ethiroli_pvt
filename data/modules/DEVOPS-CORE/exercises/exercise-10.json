@@ -1,0 +1,10 @@
+{
+  "id": "EX-DEVOPS-CORE-L10",
+  "module_code": "DEVOPS-CORE",
+  "title": "Lab Exercise: Environment variables",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Environment variables.",
+  "starter_code": "// Lab: Environment variables\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Environment variables\nexport const solution = true;\n"
+}

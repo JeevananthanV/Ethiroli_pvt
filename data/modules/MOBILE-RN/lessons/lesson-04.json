@@ -1,0 +1,18 @@
+{
+  "id": "MOBILE-RN-L04",
+  "module_code": "MOBILE-RN",
+  "lesson_order": 4,
+  "title": "Navigation in Mobile Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Navigation",
+    "Implement real-world code for Navigation according to industry standards",
+    "Debug and optimize Navigation integrations"
+  ],
+  "theory_markdown": "### Navigation\n\nThis lesson covers in-depth technical mechanics of **Navigation** as part of the Mobile Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Navigation Implementation Example\nexport function handleNavigation() {\n  console.log('Executing Navigation workflow...');\n}",
+    "explanation": "Demonstration of how Navigation is structured in production."
+  }
+}

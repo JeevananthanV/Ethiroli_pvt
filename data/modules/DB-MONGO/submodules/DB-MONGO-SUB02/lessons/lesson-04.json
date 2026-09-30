@@ -1,0 +1,22 @@
+{
+  "id": "DB-MONGO-SUB02-L04",
+  "day": 7,
+  "module_code": "DB-MONGO",
+  "lesson_order": 4,
+  "title": "Indexing: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Indexing",
+    "Apply Indexing in practical scenarios",
+    "Build a small project using Indexing"
+  ],
+  "theory_markdown": "# Indexing\n\n## Overview\nThis lesson covers the fundamentals of Indexing and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Indexing\n- Concept 2 related to Indexing\n- Best practices for Indexing\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Indexing\n2. Implement basic Indexing functionality\n3. Apply Indexing to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Indexing implementation\nconsole.log('Learning Indexing');\n\n// Basic Indexing example\nconst example = {\n  topic: 'Indexing',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Indexing usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Indexing concepts and generate code examples.\n\n---"
+  }
+}

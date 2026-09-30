@@ -1,0 +1,70 @@
+{
+  "id": "PY-CORE-SUB03-Q03",
+  "module_code": "PY-CORE",
+  "day": 5,
+  "title": "Quiz 3: OOP Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in OOP?",
+      "options": [
+        "Core principle of OOP",
+        "Advanced OOP technique",
+        "Alternative approach to OOP",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental OOP concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Modules?",
+      "options": [
+        "Core principle of Modules",
+        "Advanced Modules technique",
+        "Alternative approach to Modules",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Modules concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Packages?",
+      "options": [
+        "Core principle of Packages",
+        "Advanced Packages technique",
+        "Alternative approach to Packages",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Packages concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Virtual environments?",
+      "options": [
+        "Core principle of Virtual environments",
+        "Advanced Virtual environments technique",
+        "Alternative approach to Virtual environments",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Virtual environments concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in APIs?",
+      "options": [
+        "Core principle of APIs",
+        "Advanced APIs technique",
+        "Alternative approach to APIs",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental APIs concepts."
+    }
+  ]
+}

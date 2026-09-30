@@ -1,0 +1,20 @@
+{
+  "id": "PROG-FUND-D01",
+  "day": 1,
+  "module_code": "PROG-FUND",
+  "lesson_order": 1,
+  "title": "How the Web Works & the Full Stack Landscape",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand the client-server model, HTTP request/response cycle, DNS, and how frontend, backend, and database layers connect."
+  ],
+  "theory_markdown": "Every web application rests on a simple loop: a client (browser) sends an HTTP request to a server, the server processes it, queries a database if needed, and returns an HTTP response. The frontend is everything the user sees and interacts with — HTML structure, CSS styling, and JavaScript behaviour. The backend is the server-side logic that handles authentication, business rules, and data persistence. The database stores and retrieves data.\r\n\r\nWhen you type a URL, DNS resolves the domain to an IP address. Your browser opens a TCP connection, sends an HTTP request with a method (GET, POST, PUT, DELETE), headers, and optionally a body. The server receives it, routes it to the correct handler, may query a database, and sends back a status code (200 OK, 404 Not Found, 500 Internal Server Error) along with a response body.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "const http = require('http');\r\n\r\nconst server = http.createServer((req, res) => {\r\n  // Log the request method and URL\r\n  console.log(`${req.method} ${req.url}`);\r\n\r\n  // Route handling\r\n  if (req.url === '/' && req.method === 'GET') {\r\n    res.writeHead(200, { 'Content-Type': 'application/json' });\r\n    res.end(JSON.stringify({ message: 'Welcome to ETH-AIFS-60' }));\r\n  } else if (req.url === '/api/courses' && req.method === 'GET') {\r\n    const courses = [\r\n      { id: 1, name: 'HTML5' },\r\n      { id: 2, name: 'React.js' },\r\n    ];\r\n    res.writeHead(200, { 'Content-Type': 'application/json' });\r\n    res.end(JSON.stringify(courses));\r\n  } else {\r\n    res.writeHead(404, { 'Content-Type': 'application/json' });\r\n    res.end(JSON.stringify({ error: 'Route not found' }));\r\n  }\r\n});\r\n\r\nserver.listen(3000, () => {\r\n  console.log('Server running on http://localhost:3000');\r\n});",
+    "explanation": "`http.createServer` creates a server instance. The callback receives `req` (incoming request with method, URL, headers) and `res` (response object used to set status code, headers, and body). `writeHead` sets the HTTP status code and response headers. `res.end()` sends the response body and closes the connection. This is the raw foundation that Express.js abstracts."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Free.ai Coder** (`pip install freeai-code`) to ask: `free-code ask \"Explain what this HTTP server code does line by line\"`. It reads your codebase and explains the flow. Free tier: 50K tokens/day.\r\n\r\n---"
+  }
+}

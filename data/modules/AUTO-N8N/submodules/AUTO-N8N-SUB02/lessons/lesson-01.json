@@ -1,0 +1,22 @@
+{
+  "id": "AUTO-N8N-SUB02-L01",
+  "day": 1,
+  "module_code": "AUTO-N8N",
+  "lesson_order": 1,
+  "title": "HTTP requests: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of HTTP requests",
+    "Apply HTTP requests in practical scenarios",
+    "Build a small project using HTTP requests"
+  ],
+  "theory_markdown": "# HTTP requests\n\n## Overview\nThis lesson covers the fundamentals of HTTP requests and its practical applications.\n\n## Key Concepts\n- Concept 1 related to HTTP requests\n- Concept 2 related to HTTP requests\n- Best practices for HTTP requests\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of HTTP requests\n2. Implement basic HTTP requests functionality\n3. Apply HTTP requests to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example HTTP requests implementation\nconsole.log('Learning HTTP requests');\n\n// Basic HTTP requests example\nconst example = {\n  topic: 'HTTP requests',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic HTTP requests usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand HTTP requests concepts and generate code examples.\n\n---"
+  }
+}

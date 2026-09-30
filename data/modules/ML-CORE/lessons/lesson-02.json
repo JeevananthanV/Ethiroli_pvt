@@ -1,0 +1,18 @@
+{
+  "id": "ML-CORE-L02",
+  "module_code": "ML-CORE",
+  "lesson_order": 2,
+  "title": "Supervised learning in Machine Learning",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Supervised learning",
+    "Implement real-world code for Supervised learning according to industry standards",
+    "Debug and optimize Supervised learning integrations"
+  ],
+  "theory_markdown": "### Supervised learning\n\nThis lesson covers in-depth technical mechanics of **Supervised learning** as part of the Machine Learning curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Supervised learning Implementation Example\nexport function handleSupervisedlearning() {\n  console.log('Executing Supervised learning workflow...');\n}",
+    "explanation": "Demonstration of how Supervised learning is structured in production."
+  }
+}

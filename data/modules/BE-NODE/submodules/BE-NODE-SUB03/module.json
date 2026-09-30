@@ -1,0 +1,27 @@
+{
+  "code": "BE-NODE-SUB03",
+  "title": "Node.js - Part 3",
+  "category": "Backend",
+  "level": "Intermediate",
+  "duration_hours": 7,
+  "description": "Node.js backend development covering runtime architecture, modules, file system, HTTP server, async programming, REST APIs, error handling, and security best practices. This submodule covers: REST APIs, Error handling, Logging, Security.",
+  "topics": [
+    "REST APIs",
+    "Error handling",
+    "Logging",
+    "Security"
+  ],
+  "technologies": [
+    "Node.js"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "JS-CORE"
+  ],
+  "learning_outcomes": [
+    "Build server-side applications with Node.js",
+    "Work with file system, streams, and events",
+    "Create REST APIs with Express-like routing"
+  ]
+}

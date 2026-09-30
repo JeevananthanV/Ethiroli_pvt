@@ -1,0 +1,22 @@
+{
+  "id": "WEB-HTML-SUB02-L01",
+  "day": 1,
+  "module_code": "WEB-HTML",
+  "lesson_order": 1,
+  "title": "Links: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Links",
+    "Apply Links in practical scenarios",
+    "Build a small project using Links"
+  ],
+  "theory_markdown": "# Links\n\n## Overview\nThis lesson covers the fundamentals of Links and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Links\n- Concept 2 related to Links\n- Best practices for Links\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Links\n2. Implement basic Links functionality\n3. Apply Links to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Links implementation\nconsole.log('Learning Links');\n\n// Basic Links example\nconst example = {\n  topic: 'Links',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Links usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Links concepts and generate code examples.\n\n---"
+  }
+}

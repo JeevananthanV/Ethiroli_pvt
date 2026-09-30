@@ -1,0 +1,10 @@
+{
+  "id": "EX-SEO-TECH-L05",
+  "module_code": "SEO-TECH",
+  "title": "Lab Exercise: Meta tags",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Meta tags.",
+  "starter_code": "// Lab: Meta tags\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Meta tags\nexport const solution = true;\n"
+}

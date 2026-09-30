@@ -1,0 +1,70 @@
+{
+  "id": "AI-GENAPP-SUB03-Q02",
+  "module_code": "AI-GENAPP",
+  "day": 3,
+  "title": "Quiz 2: AI chatbots Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in AI chatbots?",
+      "options": [
+        "Core principle of AI chatbots",
+        "Advanced AI chatbots technique",
+        "Alternative approach to AI chatbots",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental AI chatbots concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Document processing?",
+      "options": [
+        "Core principle of Document processing",
+        "Advanced Document processing technique",
+        "Alternative approach to Document processing",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Document processing concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in AI search?",
+      "options": [
+        "Core principle of AI search",
+        "Advanced AI search technique",
+        "Alternative approach to AI search",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental AI search concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in AI chatbots?",
+      "options": [
+        "Core principle of AI chatbots",
+        "Advanced AI chatbots technique",
+        "Alternative approach to AI chatbots",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental AI chatbots concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Document processing?",
+      "options": [
+        "Core principle of Document processing",
+        "Advanced Document processing technique",
+        "Alternative approach to Document processing",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Document processing concepts."
+    }
+  ]
+}

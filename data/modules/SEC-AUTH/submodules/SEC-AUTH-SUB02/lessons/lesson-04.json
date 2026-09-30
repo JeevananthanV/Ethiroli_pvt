@@ -1,0 +1,22 @@
+{
+  "id": "SEC-AUTH-SUB02-L04",
+  "day": 7,
+  "module_code": "SEC-AUTH",
+  "lesson_order": 4,
+  "title": "Permissions: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Permissions",
+    "Apply Permissions in practical scenarios",
+    "Build a small project using Permissions"
+  ],
+  "theory_markdown": "# Permissions\n\n## Overview\nThis lesson covers the fundamentals of Permissions and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Permissions\n- Concept 2 related to Permissions\n- Best practices for Permissions\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Permissions\n2. Implement basic Permissions functionality\n3. Apply Permissions to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Permissions implementation\nconsole.log('Learning Permissions');\n\n// Basic Permissions example\nconst example = {\n  topic: 'Permissions',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Permissions usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Permissions concepts and generate code examples.\n\n---"
+  }
+}

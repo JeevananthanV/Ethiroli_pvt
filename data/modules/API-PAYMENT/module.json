@@ -1,0 +1,40 @@
+{
+  "code": "API-PAYMENT",
+  "title": "Payment Integration",
+  "category": "API Integration",
+  "level": "Intermediate",
+  "duration_hours": 8,
+  "description": "Payment gateway integration covering order creation, verification, webhooks, refunds, receipts, transaction records, and payment security with Razorpay and Stripe.",
+  "topics": [
+    "Payment architecture",
+    "Payment gateway",
+    "Order creation",
+    "Payment verification",
+    "Webhooks",
+    "Payment status",
+    "Refunds",
+    "Receipts",
+    "Transaction records",
+    "Payment security"
+  ],
+  "technologies": [
+    "Razorpay",
+    "Stripe"
+  ],
+  "practicals": [],
+  "projects": [
+    "Online Payment System"
+  ],
+  "prerequisites": [
+    "BE-NODE",
+    "BE-EXPRESS"
+  ],
+  "learning_outcomes": [
+    "Integrate payment gateways (Razorpay, Stripe) into applications",
+    "Create secure payment processing flows",
+    "Handle webhooks for payment events and status updates",
+    "Implement refunds, receipts, and transaction records",
+    "Apply PCI DSS compliance and payment security measures",
+    "Test payment integrations in sandbox environments"
+  ]
+}

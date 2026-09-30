@@ -1,0 +1,18 @@
+{
+  "id": "ARCH-SYSTEM-L16",
+  "module_code": "ARCH-SYSTEM",
+  "lesson_order": 16,
+  "title": "Logging in System Design",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Logging",
+    "Implement real-world code for Logging according to industry standards",
+    "Debug and optimize Logging integrations"
+  ],
+  "theory_markdown": "### Logging\n\nThis lesson covers in-depth technical mechanics of **Logging** as part of the System Design curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Logging Implementation Example\nexport function handleLogging() {\n  console.log('Executing Logging workflow...');\n}",
+    "explanation": "Demonstration of how Logging is structured in production."
+  }
+}

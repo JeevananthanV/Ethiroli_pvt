@@ -1,0 +1,18 @@
+{
+  "id": "PY-CORE-L04",
+  "module_code": "PY-CORE",
+  "lesson_order": 4,
+  "title": "Operators in Python Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Operators",
+    "Implement real-world code for Operators according to industry standards",
+    "Debug and optimize Operators integrations"
+  ],
+  "theory_markdown": "### Operators\n\nThis lesson covers in-depth technical mechanics of **Operators** as part of the Python Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Operators Implementation Example\nexport function handleOperators() {\n  console.log('Executing Operators workflow...');\n}",
+    "explanation": "Demonstration of how Operators is structured in production."
+  }
+}

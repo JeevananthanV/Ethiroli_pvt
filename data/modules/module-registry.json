@@ -1,0 +1,1549 @@
+{
+  "PROG-FUND": {
+    "code": "PROG-FUND",
+    "title": "Programming Fundamentals",
+    "category": "Programming",
+    "level": "Beginner",
+    "duration_hours": 20,
+    "description": "Foundational programming concepts using JavaScript and Python, covering variables, control structures, data structures, and problem-solving techniques essential for beginners entering software development.",
+    "topics": [
+      "Programming concepts",
+      "Variables",
+      "Data types",
+      "Operators",
+      "Conditions",
+      "Loops",
+      "Functions",
+      "Arrays",
+      "Objects",
+      "Error handling",
+      "Debugging",
+      "Problem solving",
+      "Algorithms basics"
+    ],
+    "technologies": [
+      "JavaScript",
+      "Python"
+    ],
+    "practicals": [
+      "Calculator",
+      "Number checker",
+      "Student grade system",
+      "Expense calculator",
+      "Basic CRUD program"
+    ],
+    "projects": [],
+    "prerequisites": [],
+    "learning_outcomes": [
+      "Write programs using variables, data types, and operators",
+      "Implement control structures (conditions and loops)",
+      "Work with arrays and objects for data storage",
+      "Create and use functions with parameters and return values",
+      "Apply error handling and debugging techniques",
+      "Solve basic algorithmic problems"
+    ]
+  },
+  "WEB-HTML": {
+    "code": "WEB-HTML",
+    "title": "HTML5 Development",
+    "category": "Frontend",
+    "level": "Beginner",
+    "duration_hours": 15,
+    "description": "Comprehensive HTML5 development covering document structure, semantic elements, forms, multimedia, accessibility, and SEO best practices to build modern, accessible web pages.",
+    "topics": [
+      "HTML fundamentals",
+      "Document structure",
+      "Semantic HTML",
+      "Headings",
+      "Paragraphs",
+      "Links",
+      "Images",
+      "Audio/video",
+      "Lists",
+      "Tables",
+      "Forms",
+      "Form validation",
+      "Accessibility",
+      "SEO-friendly HTML",
+      "HTML5 APIs"
+    ],
+    "technologies": [
+      "HTML5"
+    ],
+    "practicals": [],
+    "projects": [
+      "Responsive Business Website"
+    ],
+    "prerequisites": [],
+    "learning_outcomes": [
+      "Create semantic HTML5 document structure",
+      "Use HTML5 elements for text, links, images, and multimedia",
+      "Build accessible forms with validation",
+      "Implement semantic elements for better SEO and accessibility",
+      "Use HTML5 APIs for enhanced functionality",
+      "Create SEO-friendly web pages"
+    ]
+  },
+  "WEB-CSS": {
+    "code": "WEB-CSS",
+    "title": "CSS3 & Responsive Design",
+    "category": "Frontend",
+    "level": "Beginner",
+    "duration_hours": 20,
+    "description": "CSS3 and responsive design fundamentals including selectors, box model, Flexbox, Grid, animations, media queries, and Tailwind CSS for building visually appealing, mobile-ready layouts.",
+    "topics": [
+      "CSS fundamentals",
+      "Selectors",
+      "Colors",
+      "Typography",
+      "Box model",
+      "Display",
+      "Positioning",
+      "Flexbox",
+      "CSS Grid",
+      "Responsive design",
+      "Media queries",
+      "Animations",
+      "Transitions",
+      "Variables",
+      "Responsive navigation",
+      "Component styling"
+    ],
+    "technologies": [
+      "CSS3",
+      "Tailwind CSS"
+    ],
+    "practicals": [],
+    "projects": [
+      "Responsive Company Website"
+    ],
+    "prerequisites": [
+      "WEB-HTML"
+    ],
+    "learning_outcomes": [
+      "Apply CSS selectors and specificity rules",
+      "Style with colors, typography, and box model",
+      "Implement layouts with Flexbox and CSS Grid",
+      "Create responsive designs with media queries",
+      "Add animations and transitions",
+      "Use CSS variables and component-based styling"
+    ]
+  },
+  "JS-CORE": {
+    "code": "JS-CORE",
+    "title": "JavaScript Development",
+    "category": "Programming",
+    "level": "Intermediate",
+    "duration_hours": 40,
+    "description": "Core JavaScript programming covering ES6+, DOM manipulation, events, async/await, fetch API, modules, and modern development practices for dynamic web applications.",
+    "topics": [
+      "JavaScript fundamentals",
+      "Variables",
+      "Data types",
+      "Operators",
+      "Conditions",
+      "Loops",
+      "Functions",
+      "Scope",
+      "Arrays",
+      "Objects",
+      "Destructuring",
+      "Spread/rest",
+      "Array methods",
+      "DOM manipulation",
+      "Events",
+      "Form handling",
+      "Local storage",
+      "JSON",
+      "ES6+",
+      "Modules",
+      "Error handling",
+      "Promises",
+      "Async/Await",
+      "Fetch API",
+      "API integration",
+      "Event loop",
+      "Closures"
+    ],
+    "technologies": [
+      "JavaScript"
+    ],
+    "practicals": [],
+    "projects": [
+      "Expense Management Application"
+    ],
+    "prerequisites": [
+      "PROG-FUND",
+      "WEB-HTML",
+      "WEB-CSS"
+    ],
+    "learning_outcomes": [
+      "Master JavaScript fundamentals and ES6+ features",
+      "Manipulate the DOM and handle events",
+      "Work with arrays, objects, and JSON data",
+      "Implement asynchronous programming with promises and async/await",
+      "Integrate with APIs using Fetch",
+      "Organize code with modules and follow best practices"
+    ]
+  },
+  "DEV-GIT": {
+    "code": "DEV-GIT",
+    "title": "Git & GitHub",
+    "category": "DevOps",
+    "level": "Beginner",
+    "duration_hours": 8,
+    "description": "Version control with Git and GitHub including repository management, branching, merging, conflict resolution, pull requests, and collaborative development workflows.",
+    "topics": [
+      "Version control",
+      "Git installation",
+      "Repository",
+      "Init",
+      "Clone",
+      "Add",
+      "Commit",
+      "Push",
+      "Pull",
+      "Branches",
+      "Merge",
+      "Rebase",
+      "Conflict resolution",
+      "GitHub",
+      "Pull requests",
+      "Issues",
+      "Code review",
+      "Releases",
+      "Tags",
+      "Git workflow"
+    ],
+    "technologies": [
+      "Git",
+      "GitHub"
+    ],
+    "practicals": [
+      "Team GitHub Project"
+    ],
+    "projects": [],
+    "prerequisites": [],
+    "learning_outcomes": [
+      "Initialize and manage Git repositories",
+      "Use branching and merging strategies",
+      "Resolve merge conflicts",
+      "Collaborate using GitHub pull requests and issues",
+      "Implement Git workflows for team development",
+      "Use GitHub for code review and releases"
+    ]
+  },
+  "DESIGN-UIUX": {
+    "code": "DESIGN-UIUX",
+    "title": "UI/UX Design",
+    "category": "Design",
+    "level": "Beginner",
+    "duration_hours": 16,
+    "description": "User experience and user interface design principles using Figma, covering user research, wireframing, prototyping, usability testing, and developer handoff.",
+    "topics": [
+      "UI vs UX",
+      "User research",
+      "Personas",
+      "User journey",
+      "Information architecture",
+      "Wireframes",
+      "Design principles",
+      "Typography",
+      "Colors",
+      "Spacing",
+      "Components",
+      "Design systems",
+      "Responsive design",
+      "Prototyping",
+      "Usability testing",
+      "Developer handoff"
+    ],
+    "technologies": [
+      "Figma"
+    ],
+    "practicals": [],
+    "projects": [
+      "SaaS Dashboard Design"
+    ],
+    "prerequisites": [],
+    "learning_outcomes": [
+      "Conduct user research and create personas",
+      "Design user journeys and information architecture",
+      "Apply UI/UX design principles and guidelines",
+      "Create wireframes and interactive prototypes",
+      "Conduct usability testing and iterate designs",
+      "Prepare design specifications for developer handoff"
+    ]
+  },
+  "FE-REACT": {
+    "code": "FE-REACT",
+    "title": "React.js Development",
+    "category": "Frontend",
+    "level": "Intermediate",
+    "duration_hours": 40,
+    "description": "React.js development with Vite, covering components, state management, hooks, routing, API integration, Redux Toolkit, React Query, and performance optimization.",
+    "topics": [
+      "React fundamentals",
+      "Vite",
+      "Components",
+      "JSX",
+      "Props",
+      "State",
+      "Events",
+      "Conditional rendering",
+      "Lists",
+      "Forms",
+      "Controlled components",
+      "Hooks",
+      "useState",
+      "useEffect",
+      "useContext",
+      "Custom hooks",
+      "Component architecture",
+      "Routing",
+      "API integration",
+      "Error handling",
+      "Loading states",
+      "Redux Toolkit",
+      "React Query",
+      "Performance optimization",
+      "Lazy loading",
+      "Code splitting",
+      "Reusable components"
+    ],
+    "technologies": [
+      "React.js",
+      "Vite",
+      "React Router",
+      "Redux Toolkit",
+      "TanStack Query"
+    ],
+    "practicals": [],
+    "projects": [
+      "Employee Management Dashboard"
+    ],
+    "prerequisites": [
+      "JS-CORE",
+      "WEB-HTML",
+      "WEB-CSS"
+    ],
+    "learning_outcomes": [
+      "Build React applications with functional components and hooks",
+      "Manage state with useState, useEffect, and context",
+      "Implement client-side routing with React Router",
+      "Integrate REST APIs with error handling and loading states",
+      "Optimize performance with React Query and code splitting",
+      "Build scalable component architectures with Redux Toolkit"
+    ]
+  },
+  "FE-TS": {
+    "code": "FE-TS",
+    "title": "TypeScript",
+    "category": "Frontend",
+    "level": "Intermediate",
+    "duration_hours": 16,
+    "description": "TypeScript programming covering type annotations, interfaces, generics, classes, and integration with React for type-safe frontend development.",
+    "topics": [
+      "TypeScript fundamentals",
+      "Type annotations",
+      "Interfaces",
+      "Type aliases",
+      "Union types",
+      "Intersection types",
+      "Enums",
+      "Functions",
+      "Generics",
+      "Classes",
+      "Utility types",
+      "Type narrowing",
+      "API types",
+      "React + TypeScript",
+      "Component typing"
+    ],
+    "technologies": [
+      "TypeScript",
+      "React + TypeScript"
+    ],
+    "practicals": [],
+    "projects": [
+      "Type-Safe React Application"
+    ],
+    "prerequisites": [
+      "JS-CORE",
+      "FE-REACT"
+    ],
+    "learning_outcomes": [
+      "Apply TypeScript type annotations and interfaces",
+      "Use generics, union types, and utility types",
+      "Create type-safe React components",
+      "Implement API type definitions",
+      "Apply advanced TypeScript features like mapped types",
+      "Follow TypeScript best practices for large applications"
+    ]
+  },
+  "FE-NEXT": {
+    "code": "FE-NEXT",
+    "title": "Next.js",
+    "category": "Frontend",
+    "level": "Advanced",
+    "duration_hours": 24,
+    "description": "Next.js development with App Router, Server/Client Components, API routes, authentication, SEO, image optimization, and production deployment strategies.",
+    "topics": [
+      "Next.js fundamentals",
+      "App Router",
+      "Pages",
+      "Layouts",
+      "Server Components",
+      "Client Components",
+      "Routing",
+      "Dynamic routes",
+      "Data fetching",
+      "Server actions",
+      "API routes",
+      "Middleware",
+      "Authentication",
+      "SEO",
+      "Metadata",
+      "Image optimization",
+      "Caching",
+      "Deployment"
+    ],
+    "technologies": [
+      "Next.js",
+      "TypeScript"
+    ],
+    "practicals": [],
+    "projects": [
+      "Production SaaS Website"
+    ],
+    "prerequisites": [
+      "FE-REACT",
+      "FE-TS",
+      "BE-NODE"
+    ],
+    "learning_outcomes": [
+      "Build full-stack applications with Next.js App Router",
+      "Implement server-side rendering and static site generation",
+      "Create API routes and server actions",
+      "Implement authentication and authorization",
+      "Optimize for SEO and performance",
+      "Deploy production-ready Next.js applications"
+    ]
+  },
+  "BE-NODE": {
+    "code": "BE-NODE",
+    "title": "Node.js",
+    "category": "Backend",
+    "level": "Intermediate",
+    "duration_hours": 20,
+    "description": "Node.js backend development covering runtime architecture, modules, file system, HTTP server, async programming, REST APIs, error handling, and security best practices.",
+    "topics": [
+      "Node.js fundamentals",
+      "Runtime architecture",
+      "npm",
+      "Modules",
+      "File system",
+      "Environment variables",
+      "Events",
+      "Streams",
+      "Async programming",
+      "HTTP server",
+      "REST APIs",
+      "Error handling",
+      "Logging",
+      "Security"
+    ],
+    "technologies": [
+      "Node.js"
+    ],
+    "practicals": [],
+    "projects": [
+      "Node.js REST API"
+    ],
+    "prerequisites": [
+      "JS-CORE"
+    ],
+    "learning_outcomes": [
+      "Build server-side applications with Node.js",
+      "Work with file system, streams, and events",
+      "Create REST APIs with Express-like routing",
+      "Implement error handling and logging",
+      "Work with environment variables and configuration",
+      "Follow Node.js security best practices"
+    ]
+  },
+  "BE-EXPRESS": {
+    "code": "BE-EXPRESS",
+    "title": "Express.js",
+    "category": "Backend",
+    "level": "Intermediate",
+    "duration_hours": 16,
+    "description": "Express.js framework for building production-ready REST APIs with middleware, routing, validation, error handling, authentication, and API documentation.",
+    "topics": [
+      "Express fundamentals",
+      "Server setup",
+      "Routes",
+      "Controllers",
+      "Middleware",
+      "Request/response",
+      "Validation",
+      "Error handling",
+      "Authentication middleware",
+      "File uploads",
+      "API structure",
+      "Service architecture",
+      "API documentation"
+    ],
+    "technologies": [
+      "Express.js",
+      "Node.js"
+    ],
+    "practicals": [],
+    "projects": [
+      "Production REST API"
+    ],
+    "prerequisites": [
+      "BE-NODE"
+    ],
+    "learning_outcomes": [
+      "Build production REST APIs with Express.js",
+      "Implement middleware for authentication and validation",
+      "Structure APIs with controllers and services",
+      "Handle file uploads and downloads",
+      "Document APIs with OpenAPI/Swagger",
+      "Follow REST API design best practices"
+    ]
+  },
+  "BE-REST": {
+    "code": "BE-REST",
+    "title": "REST API Development",
+    "category": "Backend",
+    "level": "Intermediate",
+    "duration_hours": 12,
+    "description": "REST API architecture and best practices covering HTTP methods, status codes, CRUD operations, pagination, filtering, versioning, and API documentation with Swagger.",
+    "topics": [
+      "HTTP",
+      "HTTP methods",
+      "Status codes",
+      "REST architecture",
+      "CRUD",
+      "Request parameters",
+      "Query parameters",
+      "Headers",
+      "JSON",
+      "Authentication",
+      "Authorization",
+      "Pagination",
+      "Filtering",
+      "Sorting",
+      "Search",
+      "API versioning",
+      "API documentation"
+    ],
+    "technologies": [
+      "REST",
+      "Postman",
+      "Swagger/OpenAPI"
+    ],
+    "practicals": [],
+    "projects": [],
+    "prerequisites": [
+      "BE-NODE",
+      "BE-EXPRESS"
+    ],
+    "learning_outcomes": [
+      "Design RESTful APIs following architectural constraints",
+      "Implement proper HTTP methods and status codes",
+      "Handle request parameters, headers, and JSON bodies",
+      "Implement authentication and authorization mechanisms",
+      "Apply pagination, filtering, and sorting techniques",
+      "Document APIs with Swagger/OpenAPI specifications"
+    ]
+  },
+  "DB-MYSQL": {
+    "code": "DB-MYSQL",
+    "title": "MySQL Database",
+    "category": "Database",
+    "level": "Intermediate",
+    "duration_hours": 20,
+    "description": "MySQL database management covering tables, relationships, joins, subqueries, indexing, transactions, stored procedures, and query optimization with MySQL Workbench.",
+    "topics": [
+      "Database fundamentals",
+      "Tables",
+      "Columns",
+      "Data types",
+      "Primary keys",
+      "Foreign keys",
+      "CRUD",
+      "SELECT",
+      "WHERE",
+      "ORDER BY",
+      "GROUP BY",
+      "Joins",
+      "Subqueries",
+      "Constraints",
+      "Relationships",
+      "Normalization",
+      "Indexes",
+      "Views",
+      "Transactions",
+      "Stored procedures",
+      "Query optimization"
+    ],
+    "technologies": [
+      "MySQL",
+      "MySQL Workbench"
+    ],
+    "practicals": [],
+    "projects": [
+      "Employee Database System"
+    ],
+    "prerequisites": [
+      "PROG-FUND"
+    ],
+    "learning_outcomes": [
+      "Design normalized database schemas with ER diagrams",
+      "Write complex SQL queries with joins and subqueries",
+      "Implement transactions and concurrency control",
+      "Create indexes for query optimization",
+      "Work with stored procedures and functions",
+      "Design database relationships and constraints"
+    ]
+  },
+  "DB-MONGO": {
+    "code": "DB-MONGO",
+    "title": "MongoDB",
+    "category": "Database",
+    "level": "Intermediate",
+    "duration_hours": 16,
+    "description": "MongoDB NoSQL database covering collections, documents, CRUD operations, aggregation, indexing, schema design, and Mongoose ODM with MongoDB Atlas.",
+    "topics": [
+      "NoSQL fundamentals",
+      "MongoDB",
+      "Collections",
+      "Documents",
+      "CRUD",
+      "Query operators",
+      "Aggregation",
+      "Indexing",
+      "Relationships",
+      "Schema design",
+      "MongoDB Atlas",
+      "Mongoose"
+    ],
+    "technologies": [
+      "MongoDB",
+      "MongoDB Atlas",
+      "Mongoose"
+    ],
+    "practicals": [],
+    "projects": [
+      "MongoDB REST Application"
+    ],
+    "prerequisites": [
+      "PROG-FUND"
+    ],
+    "learning_outcomes": [
+      "Understand NoSQL concepts and document-oriented databases",
+      "Design MongoDB schemas and data models",
+      "Perform CRUD operations with MongoDB drivers",
+      "Use aggregation pipelines for data processing",
+      "Implement indexing strategies for performance",
+      "Work with MongoDB Atlas and Mongoose ODM"
+    ]
+  },
+  "SEC-AUTH": {
+    "code": "SEC-AUTH",
+    "title": "Authentication & Authorization",
+    "category": "Security",
+    "level": "Intermediate",
+    "duration_hours": 12,
+    "description": "Authentication and authorization covering password hashing, JWT, sessions, cookies, role-based access control, OAuth, and security best practices.",
+    "topics": [
+      "Authentication",
+      "Authorization",
+      "Password hashing",
+      "JWT",
+      "Sessions",
+      "Cookies",
+      "Refresh tokens",
+      "Role-based access control",
+      "Permissions",
+      "Protected routes",
+      "OAuth",
+      "Google login",
+      "Security best practices"
+    ],
+    "technologies": [
+      "JWT",
+      "bcrypt",
+      "OAuth"
+    ],
+    "practicals": [],
+    "projects": [
+      "Multi-Role Authentication System"
+    ],
+    "prerequisites": [
+      "BE-NODE",
+      "DB-MYSQL"
+    ],
+    "learning_outcomes": [
+      "Implement secure password storage with hashing and salting",
+      "Create JWT-based authentication systems",
+      "Manage user sessions and cookies securely",
+      "Implement role-based access control (RBAC)",
+      "Integrate third-party authentication (OAuth, Google Login)",
+      "Apply authentication security best practices"
+    ]
+  },
+  "FS-INTEGRATION": {
+    "code": "FS-INTEGRATION",
+    "title": "Full Stack Integration",
+    "category": "Full Stack",
+    "level": "Advanced",
+    "duration_hours": 24,
+    "description": "Full-stack integration of React frontend with Node.js/Express backend, covering authentication, CRUD operations, forms, validation, file uploads, and database integration.",
+    "topics": [
+      "React + Node",
+      "Frontend/backend architecture",
+      "API integration",
+      "Authentication",
+      "CRUD",
+      "Forms",
+      "Validation",
+      "Error handling",
+      "Loading states",
+      "File upload",
+      "Pagination",
+      "Search",
+      "Filtering",
+      "Role-based dashboards",
+      "Database integration"
+    ],
+    "technologies": [
+      "React",
+      "Axios / Fetch",
+      "Node.js",
+      "Express.js",
+      "MySQL / MongoDB"
+    ],
+    "practicals": [],
+    "projects": [
+      "Full Stack Employee Management System"
+    ],
+    "prerequisites": [
+      "FE-REACT",
+      "BE-NODE",
+      "BE-EXPRESS",
+      "DB-MYSQL"
+    ],
+    "learning_outcomes": [
+      "Build full-stack applications with React and Node.js",
+      "Implement RESTful API communication between frontend and backend",
+      "Manage application state with React hooks and context",
+      "Implement secure authentication and authorization flows",
+      "Handle file uploads and form validation",
+      "Integrate databases with proper error handling"
+    ]
+  },
+  "API-PAYMENT": {
+    "code": "API-PAYMENT",
+    "title": "Payment Integration",
+    "category": "API Integration",
+    "level": "Intermediate",
+    "duration_hours": 8,
+    "description": "Payment gateway integration covering order creation, verification, webhooks, refunds, receipts, transaction records, and payment security with Razorpay and Stripe.",
+    "topics": [
+      "Payment architecture",
+      "Payment gateway",
+      "Order creation",
+      "Payment verification",
+      "Webhooks",
+      "Payment status",
+      "Refunds",
+      "Receipts",
+      "Transaction records",
+      "Payment security"
+    ],
+    "technologies": [
+      "Razorpay",
+      "Stripe"
+    ],
+    "practicals": [],
+    "projects": [
+      "Online Payment System"
+    ],
+    "prerequisites": [
+      "BE-NODE",
+      "BE-EXPRESS"
+    ],
+    "learning_outcomes": [
+      "Integrate payment gateways (Razorpay, Stripe) into applications",
+      "Create secure payment processing flows",
+      "Handle webhooks for payment events and status updates",
+      "Implement refunds, receipts, and transaction records",
+      "Apply PCI DSS compliance and payment security measures",
+      "Test payment integrations in sandbox environments"
+    ]
+  },
+  "API-COMM": {
+    "code": "API-COMM",
+    "title": "Email, SMS & WhatsApp Automation",
+    "category": "API Integration",
+    "level": "Intermediate",
+    "duration_hours": 8,
+    "description": "Email, SMS, and WhatsApp automation covering transactional emails, OTP delivery, notifications, templates, webhooks, and delivery tracking with Twilio and Meta APIs.",
+    "topics": [
+      "Email architecture",
+      "Transactional emails",
+      "OTP",
+      "Notifications",
+      "SMS",
+      "WhatsApp messaging",
+      "Templates",
+      "Webhooks",
+      "Automation",
+      "Delivery tracking"
+    ],
+    "technologies": [
+      "Nodemailer",
+      "Resend",
+      "Twilio",
+      "Meta WhatsApp Cloud API"
+    ],
+    "practicals": [],
+    "projects": [
+      "Automated Lead Notification System"
+    ],
+    "prerequisites": [
+      "BE-NODE",
+      "BE-EXPRESS"
+    ],
+    "learning_outcomes": [
+      "Send transactional emails with Nodemailer and Resend",
+      "Implement SMS notifications with Twilio",
+      "Send WhatsApp messages using Meta Cloud API",
+      "Create email/SMS/WhatsApp templates with personalization",
+      "Implement webhook-based automation workflows",
+      "Track delivery status and handle bounces/failures"
+    ]
+  },
+  "AUTO-N8N": {
+    "code": "AUTO-N8N",
+    "title": "n8n Business Automation",
+    "category": "Automation",
+    "level": "Intermediate",
+    "duration_hours": 12,
+    "description": "Business automation with n8n covering workflow design, nodes, triggers, webhooks, HTTP requests, expressions, database workflows, and AI automation.",
+    "topics": [
+      "Automation fundamentals",
+      "n8n interface",
+      "Workflows",
+      "Nodes",
+      "Triggers",
+      "Webhooks",
+      "HTTP requests",
+      "JSON",
+      "Expressions",
+      "Conditions",
+      "Loops",
+      "Database workflows",
+      "Email automation",
+      "CRM automation",
+      "WhatsApp automation",
+      "AI automation",
+      "Error handling"
+    ],
+    "technologies": [
+      "n8n",
+      "REST APIs",
+      "Webhooks"
+    ],
+    "practicals": [],
+    "projects": [
+      "Website Lead to CRM",
+      "Lead to WhatsApp",
+      "Lead to Email",
+      "Payment to Receipt",
+      "Attendance to Notification"
+    ],
+    "prerequisites": [
+      "BE-NODE",
+      "BE-EXPRESS"
+    ],
+    "learning_outcomes": [
+      "Design and build automation workflows in n8n",
+      "Use various nodes for data processing and transformation",
+      "Create triggers from webhooks, schedules, and events",
+      "Integrate with APIs, databases, and email services",
+      "Implement conditional logic and looping in workflows",
+      "Build business process automation for CRM, marketing, and operations"
+    ]
+  },
+  "AI-DEV": {
+    "code": "AI-DEV",
+    "title": "AI for Developers",
+    "category": "AI/ML",
+    "level": "Beginner",
+    "duration_hours": 12,
+    "description": "AI fundamentals for developers covering generative AI, LLMs, prompt engineering, AI-assisted coding, debugging, documentation, and AI API integration with major platforms.",
+    "topics": [
+      "AI fundamentals",
+      "Generative AI",
+      "LLMs",
+      "Prompt engineering",
+      "AI-assisted coding",
+      "AI debugging",
+      "AI code review",
+      "AI documentation",
+      "AI testing",
+      "AI UI generation",
+      "AI workflow generation",
+      "AI API integration"
+    ],
+    "technologies": [
+      "ChatGPT",
+      "Gemini",
+      "Claude",
+      "Cursor",
+      "GitHub Copilot",
+      "v0"
+    ],
+    "practicals": [],
+    "projects": [
+      "AI-Assisted Full Stack Application"
+    ],
+    "prerequisites": [
+      "PROG-FUND"
+    ],
+    "learning_outcomes": [
+      "Understand AI fundamentals and large language models",
+      "Apply prompt engineering techniques for better AI responses",
+      "Use AI assistants for code generation, debugging, and review",
+      "Automate documentation, testing, and UI generation with AI",
+      "Integrate AI APIs into development workflows",
+      "Follow ethical AI practices and limitations awareness"
+    ]
+  },
+  "AI-GENAPP": {
+    "code": "AI-GENAPP",
+    "title": "Generative AI Application Development",
+    "category": "AI/ML",
+    "level": "Advanced",
+    "duration_hours": 24,
+    "description": "Generative AI application development covering LLM APIs, embeddings, vector databases, RAG, AI agents, chatbots, and document processing with LangChain/LangGraph.",
+    "topics": [
+      "LLM APIs",
+      "Prompt engineering",
+      "Tokens",
+      "Context",
+      "Structured outputs",
+      "Function calling",
+      "Embeddings",
+      "Vector databases",
+      "RAG",
+      "AI agents",
+      "AI chatbots",
+      "Document processing",
+      "AI search"
+    ],
+    "technologies": [
+      "OpenAI API",
+      "Gemini API",
+      "Vector DB",
+      "LangChain/LangGraph"
+    ],
+    "practicals": [],
+    "projects": [
+      "AI Knowledge Assistant"
+    ],
+    "prerequisites": [
+      "AI-DEV",
+      "BE-NODE"
+    ],
+    "learning_outcomes": [
+      "Work with LLM APIs (OpenAI, Gemini) and manage tokens/context",
+      "Implement prompt engineering for structured outputs",
+      "Use function calling and tools with AI models",
+      "Create embeddings and work with vector databases",
+      "Implement Retrieval-Augmented Generation (RAG) systems",
+      "Build AI agents, chatbots, and document processing applications"
+    ]
+  },
+  "PY-CORE": {
+    "code": "PY-CORE",
+    "title": "Python Development",
+    "category": "Programming",
+    "level": "Beginner",
+    "duration_hours": 16,
+    "description": "Python programming covering syntax, data types, control structures, functions, data structures, OOP, exception handling, file handling, modules, and API development.",
+    "topics": [
+      "Python syntax",
+      "Variables",
+      "Data types",
+      "Operators",
+      "Conditions",
+      "Loops",
+      "Functions",
+      "Lists",
+      "Tuples",
+      "Sets",
+      "Dictionaries",
+      "Strings",
+      "Exception handling",
+      "File handling",
+      "OOP",
+      "Modules",
+      "Packages",
+      "Virtual environments",
+      "APIs",
+      "JSON"
+    ],
+    "technologies": [
+      "Python"
+    ],
+    "practicals": [],
+    "projects": [
+      "Python Automation Application"
+    ],
+    "prerequisites": [
+      "PROG-FUND"
+    ],
+    "learning_outcomes": [
+      "Write Python programs with proper syntax and indentation",
+      "Work with Python data types: strings, numbers, lists, tuples, sets, dicts",
+      "Implement control structures: conditions and loops",
+      "Create and use functions with parameters and return values",
+      "Apply object-oriented programming principles",
+      "Handle exceptions and work with files and modules"
+    ]
+  },
+  "DATA-ANALYTICS": {
+    "code": "DATA-ANALYTICS",
+    "title": "Data Analytics",
+    "category": "Data",
+    "level": "Intermediate",
+    "duration_hours": 20,
+    "description": "Data analytics fundamentals covering data cleaning, transformation, statistics, EDA, visualization, KPIs, dashboards, and storytelling with Pandas and Power BI.",
+    "topics": [
+      "Data fundamentals",
+      "Excel",
+      "SQL",
+      "Data cleaning",
+      "Data transformation",
+      "Statistics",
+      "EDA",
+      "Data visualization",
+      "Business KPIs",
+      "Dashboard creation",
+      "Data storytelling"
+    ],
+    "technologies": [
+      "Excel",
+      "MySQL",
+      "Python",
+      "Pandas",
+      "NumPy",
+      "Power BI"
+    ],
+    "practicals": [],
+    "projects": [
+      "Business Analytics Dashboard"
+    ],
+    "prerequisites": [
+      "PROG-FUND",
+      "DB-MYSQL"
+    ],
+    "learning_outcomes": [
+      "Clean and transform data using Pandas and Python",
+      "Perform exploratory data analysis (EDA) with statistics",
+      "Create data visualizations with Matplotlib/Seaborn",
+      "Build interactive dashboards with Power BI",
+      "Calculate business KPIs and metrics",
+      "Tell data-driven stories with visualizations and narratives"
+    ]
+  },
+  "ML-CORE": {
+    "code": "ML-CORE",
+    "title": "Machine Learning",
+    "category": "AI/ML",
+    "level": "Advanced",
+    "duration_hours": 24,
+    "description": "Machine learning fundamentals covering supervised/unsupervised learning, regression, classification, clustering, feature engineering, evaluation, and hyperparameter tuning with Scikit-learn.",
+    "topics": [
+      "ML fundamentals",
+      "Supervised learning",
+      "Unsupervised learning",
+      "Regression",
+      "Classification",
+      "Clustering",
+      "Feature engineering",
+      "Data preprocessing",
+      "Train/test split",
+      "Model evaluation",
+      "Cross-validation",
+      "Hyperparameter tuning"
+    ],
+    "technologies": [
+      "Python",
+      "NumPy",
+      "Pandas",
+      "Scikit-learn"
+    ],
+    "practicals": [],
+    "projects": [
+      "House Price Prediction",
+      "Customer Churn Prediction",
+      "Customer Segmentation"
+    ],
+    "prerequisites": [
+      "PY-CORE",
+      "DATA-ANALYTICS"
+    ],
+    "learning_outcomes": [
+      "Understand machine learning concepts and workflows",
+      "Implement supervised learning algorithms (regression, classification)",
+      "Apply unsupervised learning techniques (clustering)",
+      "Perform feature engineering and data preprocessing",
+      "Evaluate model performance with appropriate metrics",
+      "Optimize models with cross-validation and hyperparameter tuning"
+    ]
+  },
+  "ML-DL": {
+    "code": "ML-DL",
+    "title": "Deep Learning",
+    "category": "AI/ML",
+    "level": "Advanced",
+    "duration_hours": 24,
+    "description": "Deep learning covering neural networks, CNN, RNN, LSTM, transfer learning, model training, and evaluation with TensorFlow, Keras, and PyTorch.",
+    "topics": [
+      "Neural networks",
+      "Perceptron",
+      "Activation functions",
+      "Forward propagation",
+      "Backpropagation",
+      "CNN",
+      "RNN",
+      "LSTM",
+      "Transfer learning",
+      "Model training",
+      "Model evaluation"
+    ],
+    "technologies": [
+      "Python",
+      "TensorFlow",
+      "Keras",
+      "PyTorch"
+    ],
+    "practicals": [],
+    "projects": [
+      "Image Classification System"
+    ],
+    "prerequisites": [
+      "ML-CORE",
+      "PY-CORE"
+    ],
+    "learning_outcomes": [
+      "Understand neural network fundamentals and architectures",
+      "Implement convolutional neural networks (CNNs) for image tasks",
+      "Work with recurrent neural networks (RNNs) and LSTMs for sequences",
+      "Apply transfer learning with pre-trained models",
+      "Train and evaluate deep learning models effectively",
+      "Use frameworks like TensorFlow, Keras, and PyTorch"
+    ]
+  },
+  "QA-TEST": {
+    "code": "QA-TEST",
+    "title": "Software Testing",
+    "category": "Testing",
+    "level": "Intermediate",
+    "duration_hours": 16,
+    "description": "Software testing fundamentals covering test cases, bug reporting, functional/regression/integration testing, API testing, and automation with Postman, Jest, and Cypress.",
+    "topics": [
+      "Testing fundamentals",
+      "SDLC/STLC",
+      "Test cases",
+      "Test scenarios",
+      "Bug reporting",
+      "Functional testing",
+      "Regression testing",
+      "Integration testing",
+      "API testing",
+      "Database testing",
+      "Automation testing",
+      "CI testing"
+    ],
+    "technologies": [
+      "Postman",
+      "Jest",
+      "Playwright",
+      "Cypress"
+    ],
+    "practicals": [],
+    "projects": [
+      "Automated Web Testing Project"
+    ],
+    "prerequisites": [
+      "FE-REACT",
+      "BE-NODE",
+      "BE-EXPRESS"
+    ],
+    "learning_outcomes": [
+      "Understand software testing fundamentals and methodologies",
+      "Design effective test cases and test scenarios",
+      "Perform functional, regression, and integration testing",
+      "Test APIs and databases for correctness",
+      "Implement test automation with frameworks like Jest and Cypress",
+      "Integrate testing into CI/CD pipelines"
+    ]
+  },
+  "DEVOPS-CORE": {
+    "code": "DEVOPS-CORE",
+    "title": "DevOps",
+    "category": "DevOps",
+    "level": "Intermediate",
+    "duration_hours": 16,
+    "description": "DevOps practices covering Linux, Git, CI/CD pipelines, Docker, containers, Docker Compose, Nginx, deployment, monitoring, and logging.",
+    "topics": [
+      "DevOps fundamentals",
+      "Linux",
+      "Git",
+      "CI/CD",
+      "Build pipelines",
+      "Docker",
+      "Containers",
+      "Docker Compose",
+      "Nginx",
+      "Environment variables",
+      "Deployment",
+      "Monitoring",
+      "Logs"
+    ],
+    "technologies": [
+      "Linux",
+      "Git",
+      "GitHub",
+      "Docker",
+      "GitHub Actions",
+      "Nginx"
+    ],
+    "practicals": [],
+    "projects": [
+      "Dockerized Full Stack Deployment"
+    ],
+    "prerequisites": [
+      "BE-NODE",
+      "FE-REACT",
+      "DEV-GIT"
+    ],
+    "learning_outcomes": [
+      "Understand DevOps culture, practices, and benefits",
+      "Manage Linux systems and shell scripting",
+      "Implement CI/CD pipelines with GitHub Actions",
+      "Work with Docker containers and container orchestration",
+      "Configure Nginx as reverse proxy and load balancer",
+      "Implement monitoring, logging, and alerting systems"
+    ]
+  },
+  "CLOUD-AWS": {
+    "code": "CLOUD-AWS",
+    "title": "Cloud Computing",
+    "category": "DevOps",
+    "level": "Advanced",
+    "duration_hours": 16,
+    "description": "Cloud computing with AWS covering EC2, S3, IAM, RDS, VPC, security, DNS, deployment, monitoring, and backup strategies.",
+    "topics": [
+      "Cloud fundamentals",
+      "AWS architecture",
+      "EC2",
+      "S3",
+      "IAM",
+      "RDS",
+      "VPC fundamentals",
+      "Security groups",
+      "DNS",
+      "Deployment",
+      "Monitoring",
+      "Backup"
+    ],
+    "technologies": [
+      "AWS",
+      "Hostinger",
+      "Cloudflare"
+    ],
+    "practicals": [],
+    "projects": [
+      "Cloud-Deployed Full Stack Application"
+    ],
+    "prerequisites": [
+      "DEVOPS-CORE",
+      "FE-NEXT"
+    ],
+    "learning_outcomes": [
+      "Understand cloud computing concepts and service models",
+      "Provision and manage AWS EC2 instances",
+      "Use AWS S3 for object storage and CDN",
+      "Implement AWS IAM for access control and security",
+      "Use AWS RDS for managed relational databases",
+      "Design secure VPC architectures with proper networking"
+    ]
+  },
+  "SEC-WEB": {
+    "code": "SEC-WEB",
+    "title": "Cybersecurity",
+    "category": "Security",
+    "level": "Intermediate",
+    "duration_hours": 12,
+    "description": "Web cybersecurity covering OWASP Top 10, SQL injection prevention, XSS/CSRF mitigation, authentication security, API security, and secure coding practices.",
+    "topics": [
+      "Cybersecurity fundamentals",
+      "Network security",
+      "Web security",
+      "OWASP",
+      "SQL injection",
+      "XSS",
+      "CSRF",
+      "Authentication security",
+      "API security",
+      "Password security",
+      "Secure coding",
+      "Security headers",
+      "Vulnerability assessment"
+    ],
+    "technologies": [
+      "OWASP",
+      "Postman",
+      "Burp Suite"
+    ],
+    "practicals": [],
+    "projects": [
+      "Secure Web Application"
+    ],
+    "prerequisites": [
+      "SEC-AUTH",
+      "BE-NODE"
+    ],
+    "learning_outcomes": [
+      "Understand cybersecurity fundamentals and threat landscape",
+      "Identify and prevent OWASP Top 10 vulnerabilities",
+      "Implement input validation and output encoding",
+      "Secure authentication and session management",
+      "Protect APIs with rate limiting and authentication",
+      "Follow secure coding practices and conduct security testing"
+    ]
+  },
+  "ARCH-SYSTEM": {
+    "code": "ARCH-SYSTEM",
+    "title": "System Design",
+    "category": "Architecture",
+    "level": "Advanced",
+    "duration_hours": 20,
+    "description": "System design covering requirements analysis, architecture patterns, scalability, availability, load balancing, caching, databases, Redis, queues, microservices, and API gateways.",
+    "topics": [
+      "System design fundamentals",
+      "Requirements",
+      "Architecture",
+      "Scalability",
+      "Availability",
+      "Reliability",
+      "Load balancing",
+      "Caching",
+      "Database scaling",
+      "SQL vs NoSQL",
+      "Redis",
+      "Queues",
+      "Microservices",
+      "API Gateway",
+      "Authentication",
+      "Logging",
+      "Monitoring"
+    ],
+    "technologies": [],
+    "practicals": [],
+    "projects": [
+      "E-commerce Architecture",
+      "LMS Architecture",
+      "SaaS Architecture"
+    ],
+    "prerequisites": [
+      "FS-INTEGRATION",
+      "DB-MYSQL",
+      "DEVOPS-CORE"
+    ],
+    "learning_outcomes": [
+      "Analyze system requirements and define architecture",
+      "Design scalable and highly available systems",
+      "Implement load balancing and caching strategies",
+      "Choose appropriate databases (SQL vs NoSQL) for use cases",
+      "Design microservices architectures with API gateways",
+      "Implement logging, monitoring, and observability"
+    ]
+  },
+  "DSA-CORE": {
+    "code": "DSA-CORE",
+    "title": "DSA & Problem Solving",
+    "category": "Programming",
+    "level": "Intermediate",
+    "duration_hours": 30,
+    "description": "Data structures and algorithms covering arrays, strings, linked lists, stacks, queues, trees, graphs, dynamic programming, and problem-solving with JavaScript, Python, and Java.",
+    "topics": [
+      "Complexity",
+      "Arrays",
+      "Strings",
+      "Searching",
+      "Sorting",
+      "Recursion",
+      "Linked lists",
+      "Stack",
+      "Queue",
+      "Hashing",
+      "Trees",
+      "Graphs",
+      "Dynamic programming",
+      "Greedy algorithms",
+      "Sliding window",
+      "Two pointers"
+    ],
+    "technologies": [
+      "JavaScript",
+      "Python",
+      "Java"
+    ],
+    "practicals": [],
+    "projects": [
+      "100 Coding Problems"
+    ],
+    "prerequisites": [
+      "PROG-FUND"
+    ],
+    "learning_outcomes": [
+      "Analyze algorithm complexity with Big O notation",
+      "Implement and work with arrays and strings efficiently",
+      "Master searching and sorting algorithms",
+      "Implement linked lists, stacks, and queues",
+      "Work with trees, BSTs, and graph traversal algorithms",
+      "Apply dynamic programming and greedy algorithms to solve problems"
+    ]
+  },
+  "MOBILE-RN": {
+    "code": "MOBILE-RN",
+    "title": "Mobile Development",
+    "category": "Mobile",
+    "level": "Advanced",
+    "duration_hours": 30,
+    "description": "React Native mobile development covering components, navigation, state management, API integration, authentication, camera, location, testing, and production deployment with Expo.",
+    "topics": [
+      "Mobile fundamentals",
+      "React Native",
+      "Components",
+      "Navigation",
+      "Forms",
+      "State management",
+      "API integration",
+      "Authentication",
+      "Local storage",
+      "Notifications",
+      "Camera",
+      "Location",
+      "Permissions",
+      "Backend integration",
+      "Testing",
+      "Android build",
+      "Deployment"
+    ],
+    "technologies": [
+      "React Native",
+      "Expo",
+      "TypeScript"
+    ],
+    "practicals": [],
+    "projects": [
+      "Production Mobile Application"
+    ],
+    "prerequisites": [
+      "FE-REACT",
+      "JS-CORE",
+      "BE-NODE"
+    ],
+    "learning_outcomes": [
+      "Build cross-platform mobile apps with React Native",
+      "Implement navigation and screen transitions",
+      "Manage state with React Context and Redux",
+      "Integrate with REST APIs and handle authentication",
+      "Access device features: camera, location, sensors",
+      "Test, build, and deploy production mobile applications"
+    ]
+  },
+  "SEO-TECH": {
+    "code": "SEO-TECH",
+    "title": "Technical SEO",
+    "category": "Marketing",
+    "level": "Intermediate",
+    "duration_hours": 8,
+    "description": "Technical SEO covering keyword research, on-page optimization, structured data, sitemaps, robots.txt, canonical URLs, Core Web Vitals, page speed, and analytics with Google tools.",
+    "topics": [
+      "SEO fundamentals",
+      "Keyword research",
+      "On-page SEO",
+      "Technical SEO",
+      "Meta tags",
+      "Structured data",
+      "Sitemap",
+      "Robots.txt",
+      "Canonical URLs",
+      "Core Web Vitals",
+      "Page speed",
+      "Search Console",
+      "Analytics",
+      "Local SEO"
+    ],
+    "technologies": [
+      "Google Search Console",
+      "Google Analytics",
+      "Google Business Profile",
+      "Schema.org"
+    ],
+    "practicals": [],
+    "projects": [],
+    "prerequisites": [
+      "WEB-HTML",
+      "WEB-CSS",
+      "FE-NEXT"
+    ],
+    "learning_outcomes": [
+      "Understand SEO fundamentals and how search engines work",
+      "Perform keyword research and competitor analysis",
+      "Optimize on-page elements: titles, meta descriptions, headers",
+      "Implement technical SEO: site speed, mobile-friendliness, schema",
+      "Manage sitemaps, robots.txt, and canonical URLs",
+      "Monitor performance with Google Search Console and Analytics"
+    ]
+  },
+  "FINAL": {
+    "code": "FINAL",
+    "title": "Capstone Project & Portfolio",
+    "category": "Capstone",
+    "level": "Capstone",
+    "duration_hours": 40,
+    "description": "Final capstone project demonstrating all skills learned",
+    "topics": [
+      "Final project planning",
+      "Portfolio development",
+      "Code review",
+      "Deployment"
+    ],
+    "technologies": [],
+    "practicals": [
+      "Deploy full stack application",
+      "Build portfolio site"
+    ],
+    "projects": [
+      "Capstone project"
+    ],
+    "prerequisites": [],
+    "learning_outcomes": [
+      "Deploy production application",
+      "Present portfolio"
+    ]
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "id": "BE-NODE-SUB02-Q04",
+  "module_code": "BE-NODE",
+  "day": 7,
+  "title": "Quiz 4: Environment variables Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Environment variables?",
+      "options": [
+        "Core principle of Environment variables",
+        "Advanced Environment variables technique",
+        "Alternative approach to Environment variables",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Environment variables concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Events?",
+      "options": [
+        "Core principle of Events",
+        "Advanced Events technique",
+        "Alternative approach to Events",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Events concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Streams?",
+      "options": [
+        "Core principle of Streams",
+        "Advanced Streams technique",
+        "Alternative approach to Streams",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Streams concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Async programming?",
+      "options": [
+        "Core principle of Async programming",
+        "Advanced Async programming technique",
+        "Alternative approach to Async programming",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Async programming concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in HTTP server?",
+      "options": [
+        "Core principle of HTTP server",
+        "Advanced HTTP server technique",
+        "Alternative approach to HTTP server",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental HTTP server concepts."
+    }
+  ]
+}

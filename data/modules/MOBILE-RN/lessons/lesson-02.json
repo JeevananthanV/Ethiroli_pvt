@@ -1,0 +1,18 @@
+{
+  "id": "MOBILE-RN-L02",
+  "module_code": "MOBILE-RN",
+  "lesson_order": 2,
+  "title": "React Native in Mobile Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of React Native",
+    "Implement real-world code for React Native according to industry standards",
+    "Debug and optimize React Native integrations"
+  ],
+  "theory_markdown": "### React Native\n\nThis lesson covers in-depth technical mechanics of **React Native** as part of the Mobile Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// React Native Implementation Example\nexport function handleReactNative() {\n  console.log('Executing React Native workflow...');\n}",
+    "explanation": "Demonstration of how React Native is structured in production."
+  }
+}

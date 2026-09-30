@@ -1,0 +1,22 @@
+{
+  "id": "PY-CORE-SUB01-L01",
+  "day": 1,
+  "module_code": "PY-CORE",
+  "lesson_order": 1,
+  "title": "Python syntax: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Python syntax",
+    "Apply Python syntax in practical scenarios",
+    "Build a small project using Python syntax"
+  ],
+  "theory_markdown": "# Python syntax\n\n## Overview\nThis lesson covers the fundamentals of Python syntax and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Python syntax\n- Concept 2 related to Python syntax\n- Best practices for Python syntax\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Python syntax\n2. Implement basic Python syntax functionality\n3. Apply Python syntax to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Python syntax implementation\nconsole.log('Learning Python syntax');\n\n// Basic Python syntax example\nconst example = {\n  topic: 'Python syntax',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Python syntax usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Python syntax concepts and generate code examples.\n\n---"
+  }
+}

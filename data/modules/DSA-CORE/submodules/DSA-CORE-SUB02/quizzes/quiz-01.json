@@ -1,0 +1,70 @@
+{
+  "id": "DSA-CORE-SUB02-Q01",
+  "module_code": "DSA-CORE",
+  "day": 1,
+  "title": "Quiz 1: Linked lists Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Linked lists?",
+      "options": [
+        "Core principle of Linked lists",
+        "Advanced Linked lists technique",
+        "Alternative approach to Linked lists",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Linked lists concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Stack?",
+      "options": [
+        "Core principle of Stack",
+        "Advanced Stack technique",
+        "Alternative approach to Stack",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Stack concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Queue?",
+      "options": [
+        "Core principle of Queue",
+        "Advanced Queue technique",
+        "Alternative approach to Queue",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Queue concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Hashing?",
+      "options": [
+        "Core principle of Hashing",
+        "Advanced Hashing technique",
+        "Alternative approach to Hashing",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Hashing concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Trees?",
+      "options": [
+        "Core principle of Trees",
+        "Advanced Trees technique",
+        "Alternative approach to Trees",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Trees concepts."
+    }
+  ]
+}

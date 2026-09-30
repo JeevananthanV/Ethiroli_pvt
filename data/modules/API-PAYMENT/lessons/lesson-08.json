@@ -1,0 +1,18 @@
+{
+  "id": "API-PAYMENT-L08",
+  "module_code": "API-PAYMENT",
+  "lesson_order": 8,
+  "title": "Receipts in Payment Integration",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Receipts",
+    "Implement real-world code for Receipts according to industry standards",
+    "Debug and optimize Receipts integrations"
+  ],
+  "theory_markdown": "### Receipts\n\nThis lesson covers in-depth technical mechanics of **Receipts** as part of the Payment Integration curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Receipts Implementation Example\nexport function handleReceipts() {\n  console.log('Executing Receipts workflow...');\n}",
+    "explanation": "Demonstration of how Receipts is structured in production."
+  }
+}

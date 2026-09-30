@@ -1,0 +1,22 @@
+{
+  "id": "API-PAYMENT-SUB01-L01",
+  "day": 1,
+  "module_code": "API-PAYMENT",
+  "lesson_order": 1,
+  "title": "Payment architecture: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Payment architecture",
+    "Apply Payment architecture in practical scenarios",
+    "Build a small project using Payment architecture"
+  ],
+  "theory_markdown": "# Payment architecture\n\n## Overview\nThis lesson covers the fundamentals of Payment architecture and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Payment architecture\n- Concept 2 related to Payment architecture\n- Best practices for Payment architecture\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Payment architecture\n2. Implement basic Payment architecture functionality\n3. Apply Payment architecture to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Payment architecture implementation\nconsole.log('Learning Payment architecture');\n\n// Basic Payment architecture example\nconst example = {\n  topic: 'Payment architecture',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Payment architecture usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Payment architecture concepts and generate code examples.\n\n---"
+  }
+}

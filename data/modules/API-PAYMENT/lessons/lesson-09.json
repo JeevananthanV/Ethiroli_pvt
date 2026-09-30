@@ -1,0 +1,18 @@
+{
+  "id": "API-PAYMENT-L09",
+  "module_code": "API-PAYMENT",
+  "lesson_order": 9,
+  "title": "Transaction records in Payment Integration",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Transaction records",
+    "Implement real-world code for Transaction records according to industry standards",
+    "Debug and optimize Transaction records integrations"
+  ],
+  "theory_markdown": "### Transaction records\n\nThis lesson covers in-depth technical mechanics of **Transaction records** as part of the Payment Integration curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Transaction records Implementation Example\nexport function handleTransactionrecords() {\n  console.log('Executing Transaction records workflow...');\n}",
+    "explanation": "Demonstration of how Transaction records is structured in production."
+  }
+}

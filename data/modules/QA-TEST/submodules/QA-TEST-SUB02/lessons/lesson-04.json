@@ -1,0 +1,22 @@
+{
+  "id": "QA-TEST-SUB02-L04",
+  "day": 7,
+  "module_code": "QA-TEST",
+  "lesson_order": 4,
+  "title": "Integration testing: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Integration testing",
+    "Apply Integration testing in practical scenarios",
+    "Build a small project using Integration testing"
+  ],
+  "theory_markdown": "# Integration testing\n\n## Overview\nThis lesson covers the fundamentals of Integration testing and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Integration testing\n- Concept 2 related to Integration testing\n- Best practices for Integration testing\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Integration testing\n2. Implement basic Integration testing functionality\n3. Apply Integration testing to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Integration testing implementation\nconsole.log('Learning Integration testing');\n\n// Basic Integration testing example\nconst example = {\n  topic: 'Integration testing',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Integration testing usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Integration testing concepts and generate code examples.\n\n---"
+  }
+}

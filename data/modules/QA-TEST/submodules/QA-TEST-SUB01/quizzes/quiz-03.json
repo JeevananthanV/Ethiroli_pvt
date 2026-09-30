@@ -1,0 +1,70 @@
+{
+  "id": "QA-TEST-SUB01-Q03",
+  "module_code": "QA-TEST",
+  "day": 5,
+  "title": "Quiz 3: Testing fundamentals Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Testing fundamentals?",
+      "options": [
+        "Core principle of Testing fundamentals",
+        "Advanced Testing fundamentals technique",
+        "Alternative approach to Testing fundamentals",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Testing fundamentals concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in SDLC/STLC?",
+      "options": [
+        "Core principle of SDLC/STLC",
+        "Advanced SDLC/STLC technique",
+        "Alternative approach to SDLC/STLC",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental SDLC/STLC concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Test cases?",
+      "options": [
+        "Core principle of Test cases",
+        "Advanced Test cases technique",
+        "Alternative approach to Test cases",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Test cases concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Test scenarios?",
+      "options": [
+        "Core principle of Test scenarios",
+        "Advanced Test scenarios technique",
+        "Alternative approach to Test scenarios",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Test scenarios concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Testing fundamentals?",
+      "options": [
+        "Core principle of Testing fundamentals",
+        "Advanced Testing fundamentals technique",
+        "Alternative approach to Testing fundamentals",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Testing fundamentals concepts."
+    }
+  ]
+}

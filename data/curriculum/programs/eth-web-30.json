@@ -1,0 +1,44 @@
+{
+  "program": {
+    "code": "ETH-WEB-30",
+    "name": "Ethiroli Web Development Program",
+    "duration_days": 30,
+    "level": "Beginner",
+    "description": "A 30-day web development program built from reusable technology modules.",
+    "final_project": "Employee Task Management System",
+    "architecture": {
+      "hierarchy": "CAREER PROGRAM → PHASE → MODULE → TOPICS → LESSONS → QUIZ → PRACTICAL TASK → ASSIGNMENT → PROJECT",
+      "modules_are_reusable": true,
+      "programs_are_curriculum_paths": true
+    }
+  },
+  "phases": [
+    {
+      "phase_order": 1,
+      "title": "Web Foundation",
+      "description": "Core web development fundamentals covering HTML, CSS, and version control",
+      "modules": ["PROG-FUND", "WEB-HTML", "WEB-CSS", "DEV-GIT"]
+    },
+    {
+      "phase_order": 2,
+      "title": "JavaScript & Frontend Framework",
+      "description": "Modern JavaScript and React.js for building interactive user interfaces",
+      "modules": ["JS-CORE", "FE-REACT"]
+    },
+    {
+      "phase_order": 3,
+      "title": "Capstone Project & Portfolio",
+      "description": "Final capstone project demonstrating all skills learned",
+      "modules": ["FINAL"]
+    }
+  ],
+  "module_sequence": [
+    { "module": "PROG-FUND", "order": 1 },
+    { "module": "WEB-HTML", "order": 2 },
+    { "module": "WEB-CSS", "order": 3 },
+    { "module": "DEV-GIT", "order": 4 },
+    { "module": "JS-CORE", "order": 5 },
+    { "module": "FE-REACT", "order": 6 },
+    { "module": "FINAL", "order": 7 }
+  ]
+}

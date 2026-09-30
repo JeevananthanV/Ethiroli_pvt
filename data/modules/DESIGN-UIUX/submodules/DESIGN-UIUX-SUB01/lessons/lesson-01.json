@@ -1,0 +1,22 @@
+{
+  "id": "DESIGN-UIUX-SUB01-L01",
+  "day": 1,
+  "module_code": "DESIGN-UIUX",
+  "lesson_order": 1,
+  "title": "UI vs UX: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of UI vs UX",
+    "Apply UI vs UX in practical scenarios",
+    "Build a small project using UI vs UX"
+  ],
+  "theory_markdown": "# UI vs UX\n\n## Overview\nThis lesson covers the fundamentals of UI vs UX and its practical applications.\n\n## Key Concepts\n- Concept 1 related to UI vs UX\n- Concept 2 related to UI vs UX\n- Best practices for UI vs UX\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of UI vs UX\n2. Implement basic UI vs UX functionality\n3. Apply UI vs UX to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example UI vs UX implementation\nconsole.log('Learning UI vs UX');\n\n// Basic UI vs UX example\nconst example = {\n  topic: 'UI vs UX',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic UI vs UX usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand UI vs UX concepts and generate code examples.\n\n---"
+  }
+}

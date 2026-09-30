@@ -1,0 +1,117 @@
+{
+  "id": "QZ-AI-DEV-COMPREHENSIVE",
+  "module_code": "AI-DEV",
+  "title": "Comprehensive Quiz: AI for Developers",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes ai fundamentals in AI for Developers?",
+      "options": [
+        "Core concept: AI fundamentals is fundamental to AI for Developers",
+        "Alternative approach to AI fundamentals using different methodology",
+        "Advanced implementation of AI fundamentals with optimizations",
+        "Legacy technique for AI fundamentals no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "AI fundamentals is a key topic in AI for Developers. Understand AI fundamentals and large language models"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes generative ai in AI for Developers?",
+      "options": [
+        "Core concept: Generative AI is fundamental to AI for Developers",
+        "Alternative approach to Generative AI using different methodology",
+        "Advanced implementation of Generative AI with optimizations",
+        "Legacy technique for Generative AI no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Generative AI is a key topic in AI for Developers. Understand AI fundamentals and large language models"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes llms in AI for Developers?",
+      "options": [
+        "Core concept: LLMs is fundamental to AI for Developers",
+        "Alternative approach to LLMs using different methodology",
+        "Advanced implementation of LLMs with optimizations",
+        "Legacy technique for LLMs no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "LLMs is a key topic in AI for Developers. Understand AI fundamentals and large language models"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes prompt engineering in AI for Developers?",
+      "options": [
+        "Core concept: Prompt engineering is fundamental to AI for Developers",
+        "Alternative approach to Prompt engineering using different methodology",
+        "Advanced implementation of Prompt engineering with optimizations",
+        "Legacy technique for Prompt engineering no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Prompt engineering is a key topic in AI for Developers. Understand AI fundamentals and large language models"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes ai-assisted coding in AI for Developers?",
+      "options": [
+        "Core concept: AI-assisted coding is fundamental to AI for Developers",
+        "Alternative approach to AI-assisted coding using different methodology",
+        "Advanced implementation of AI-assisted coding with optimizations",
+        "Legacy technique for AI-assisted coding no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "AI-assisted coding is a key topic in AI for Developers. Understand AI fundamentals and large language models"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes ai debugging in AI for Developers?",
+      "options": [
+        "Core concept: AI debugging is fundamental to AI for Developers",
+        "Alternative approach to AI debugging using different methodology",
+        "Advanced implementation of AI debugging with optimizations",
+        "Legacy technique for AI debugging no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "AI debugging is a key topic in AI for Developers. Understand AI fundamentals and large language models"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in AI for Developers?",
+      "options": [
+        "ChatGPT",
+        "Gemini",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "AI for Developers uses ChatGPT, Gemini, Claude, Cursor, GitHub Copilot, v0 as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of AI for Developers?",
+      "options": [
+        "Understand AI fundamentals and large language models",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Understand AI fundamentals and large language models"
+    },
+    {
+      "id": 9,
+      "question": "When applying AI for Developers in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for AI for Developers include following established patterns and using recommended tools."
+    }
+  ]
+}

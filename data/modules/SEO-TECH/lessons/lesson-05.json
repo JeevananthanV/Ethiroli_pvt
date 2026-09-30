@@ -1,0 +1,18 @@
+{
+  "id": "SEO-TECH-L05",
+  "module_code": "SEO-TECH",
+  "lesson_order": 5,
+  "title": "Meta tags in Technical SEO",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Meta tags",
+    "Implement real-world code for Meta tags according to industry standards",
+    "Debug and optimize Meta tags integrations"
+  ],
+  "theory_markdown": "### Meta tags\n\nThis lesson covers in-depth technical mechanics of **Meta tags** as part of the Technical SEO curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Meta tags Implementation Example\nexport function handleMetatags() {\n  console.log('Executing Meta tags workflow...');\n}",
+    "explanation": "Demonstration of how Meta tags is structured in production."
+  }
+}

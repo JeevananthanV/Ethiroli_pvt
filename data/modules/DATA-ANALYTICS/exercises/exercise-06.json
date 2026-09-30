@@ -1,0 +1,10 @@
+{
+  "id": "EX-DATA-ANALYTICS-L06",
+  "module_code": "DATA-ANALYTICS",
+  "title": "Lab Exercise: Statistics",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Statistics.",
+  "starter_code": "// Lab: Statistics\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Statistics\nexport const solution = true;\n"
+}

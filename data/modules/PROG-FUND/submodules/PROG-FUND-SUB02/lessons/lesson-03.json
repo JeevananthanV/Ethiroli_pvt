@@ -1,0 +1,22 @@
+{
+  "id": "PROG-FUND-SUB02-L03",
+  "day": 5,
+  "module_code": "PROG-FUND",
+  "lesson_order": 3,
+  "title": "Arrays: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Arrays",
+    "Apply Arrays in practical scenarios",
+    "Build a small project using Arrays"
+  ],
+  "theory_markdown": "# Arrays\n\n## Overview\nThis lesson covers the fundamentals of Arrays and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Arrays\n- Concept 2 related to Arrays\n- Best practices for Arrays\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Arrays\n2. Implement basic Arrays functionality\n3. Apply Arrays to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Arrays implementation\nconsole.log('Learning Arrays');\n\n// Basic Arrays example\nconst example = {\n  topic: 'Arrays',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Arrays usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Arrays concepts and generate code examples.\n\n---"
+  }
+}

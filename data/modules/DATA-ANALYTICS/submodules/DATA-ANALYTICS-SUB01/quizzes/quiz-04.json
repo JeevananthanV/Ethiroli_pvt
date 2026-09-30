@@ -1,0 +1,70 @@
+{
+  "id": "DATA-ANALYTICS-SUB01-Q04",
+  "module_code": "DATA-ANALYTICS",
+  "day": 7,
+  "title": "Quiz 4: Data fundamentals Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Data fundamentals?",
+      "options": [
+        "Core principle of Data fundamentals",
+        "Advanced Data fundamentals technique",
+        "Alternative approach to Data fundamentals",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Data fundamentals concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Excel?",
+      "options": [
+        "Core principle of Excel",
+        "Advanced Excel technique",
+        "Alternative approach to Excel",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Excel concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in SQL?",
+      "options": [
+        "Core principle of SQL",
+        "Advanced SQL technique",
+        "Alternative approach to SQL",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental SQL concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Data cleaning?",
+      "options": [
+        "Core principle of Data cleaning",
+        "Advanced Data cleaning technique",
+        "Alternative approach to Data cleaning",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Data cleaning concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Data fundamentals?",
+      "options": [
+        "Core principle of Data fundamentals",
+        "Advanced Data fundamentals technique",
+        "Alternative approach to Data fundamentals",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Data fundamentals concepts."
+    }
+  ]
+}

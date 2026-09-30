@@ -1,0 +1,70 @@
+{
+  "id": "WEB-CSS-SUB01-Q04",
+  "module_code": "WEB-CSS",
+  "day": 7,
+  "title": "Quiz 4: CSS fundamentals Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in CSS fundamentals?",
+      "options": [
+        "Core principle of CSS fundamentals",
+        "Advanced CSS fundamentals technique",
+        "Alternative approach to CSS fundamentals",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental CSS fundamentals concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Selectors?",
+      "options": [
+        "Core principle of Selectors",
+        "Advanced Selectors technique",
+        "Alternative approach to Selectors",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Selectors concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Colors?",
+      "options": [
+        "Core principle of Colors",
+        "Advanced Colors technique",
+        "Alternative approach to Colors",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Colors concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Typography?",
+      "options": [
+        "Core principle of Typography",
+        "Advanced Typography technique",
+        "Alternative approach to Typography",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Typography concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Box model?",
+      "options": [
+        "Core principle of Box model",
+        "Advanced Box model technique",
+        "Alternative approach to Box model",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Box model concepts."
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "code": "DESIGN-UIUX",
+  "title": "UI/UX Design",
+  "category": "Design",
+  "level": "Beginner",
+  "duration_hours": 16,
+  "description": "User experience and user interface design principles using Figma, covering user research, wireframing, prototyping, usability testing, and developer handoff.",
+  "topics": [
+    "UI vs UX",
+    "User research",
+    "Personas",
+    "User journey",
+    "Information architecture",
+    "Wireframes",
+    "Design principles",
+    "Typography",
+    "Colors",
+    "Spacing",
+    "Components",
+    "Design systems",
+    "Responsive design",
+    "Prototyping",
+    "Usability testing",
+    "Developer handoff"
+  ],
+  "technologies": [
+    "Figma"
+  ],
+  "practicals": [],
+  "projects": [
+    "SaaS Dashboard Design"
+  ],
+  "prerequisites": [],
+  "learning_outcomes": [
+    "Conduct user research and create personas",
+    "Design user journeys and information architecture",
+    "Apply UI/UX design principles and guidelines",
+    "Create wireframes and interactive prototypes",
+    "Conduct usability testing and iterate designs",
+    "Prepare design specifications for developer handoff"
+  ]
+}

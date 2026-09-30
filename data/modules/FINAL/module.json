@@ -1,0 +1,27 @@
+{
+  "code": "FINAL",
+  "title": "Capstone Project & Portfolio",
+  "category": "Capstone",
+  "level": "Capstone",
+  "duration_hours": 40,
+  "description": "Final capstone project demonstrating all skills learned",
+  "topics": [
+    "Final project planning",
+    "Portfolio development",
+    "Code review",
+    "Deployment"
+  ],
+  "technologies": [],
+  "practicals": [
+    "Deploy full stack application",
+    "Build portfolio site"
+  ],
+  "projects": [
+    "Capstone project"
+  ],
+  "prerequisites": [],
+  "learning_outcomes": [
+    "Deploy production application",
+    "Present portfolio"
+  ]
+}

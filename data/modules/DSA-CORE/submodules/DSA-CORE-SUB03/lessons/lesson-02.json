@@ -1,0 +1,22 @@
+{
+  "id": "DSA-CORE-SUB03-L02",
+  "day": 3,
+  "module_code": "DSA-CORE",
+  "lesson_order": 2,
+  "title": "Greedy algorithms: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Greedy algorithms",
+    "Apply Greedy algorithms in practical scenarios",
+    "Build a small project using Greedy algorithms"
+  ],
+  "theory_markdown": "# Greedy algorithms\n\n## Overview\nThis lesson covers the fundamentals of Greedy algorithms and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Greedy algorithms\n- Concept 2 related to Greedy algorithms\n- Best practices for Greedy algorithms\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Greedy algorithms\n2. Implement basic Greedy algorithms functionality\n3. Apply Greedy algorithms to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Greedy algorithms implementation\nconsole.log('Learning Greedy algorithms');\n\n// Basic Greedy algorithms example\nconst example = {\n  topic: 'Greedy algorithms',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Greedy algorithms usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Greedy algorithms concepts and generate code examples.\n\n---"
+  }
+}

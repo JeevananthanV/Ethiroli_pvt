@@ -1,0 +1,22 @@
+{
+  "id": "QA-TEST-SUB03-L01",
+  "day": 1,
+  "module_code": "QA-TEST",
+  "lesson_order": 1,
+  "title": "API testing: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of API testing",
+    "Apply API testing in practical scenarios",
+    "Build a small project using API testing"
+  ],
+  "theory_markdown": "# API testing\n\n## Overview\nThis lesson covers the fundamentals of API testing and its practical applications.\n\n## Key Concepts\n- Concept 1 related to API testing\n- Concept 2 related to API testing\n- Best practices for API testing\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of API testing\n2. Implement basic API testing functionality\n3. Apply API testing to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example API testing implementation\nconsole.log('Learning API testing');\n\n// Basic API testing example\nconst example = {\n  topic: 'API testing',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic API testing usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand API testing concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "SEO-TECH-L08",
+  "module_code": "SEO-TECH",
+  "lesson_order": 8,
+  "title": "Robots.txt in Technical SEO",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Robots.txt",
+    "Implement real-world code for Robots.txt according to industry standards",
+    "Debug and optimize Robots.txt integrations"
+  ],
+  "theory_markdown": "### Robots.txt\n\nThis lesson covers in-depth technical mechanics of **Robots.txt** as part of the Technical SEO curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Robots.txt Implementation Example\nexport function handleRobotstxt() {\n  console.log('Executing Robots.txt workflow...');\n}",
+    "explanation": "Demonstration of how Robots.txt is structured in production."
+  }
+}

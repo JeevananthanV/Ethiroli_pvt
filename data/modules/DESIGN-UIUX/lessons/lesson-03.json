@@ -1,0 +1,20 @@
+{
+  "id": "DESIGN-UIUX-D10",
+  "day": 10,
+  "module_code": "DESIGN-UIUX",
+  "lesson_order": 3,
+  "title": "Responsive Design, Accessibility, and Mobile-First",
+  "duration_minutes": 60,
+  "objectives": [
+    "Implement mobile-first responsive design, WCAG accessibility, and progressive enhancement."
+  ],
+  "theory_markdown": "Mobile-first means designing for small screens first, then progressively enhancing for larger screens with `min-width` media queries. Breakpoints should be content-driven, not device-driven. Common breakpoints: 640px (sm), 768px (md), 1024px (lg), 1280px (xl).\r\n\r\nAccessibility (a11y): semantic HTML first, ARIA only when needed. Keyboard navigability: all interactive elements must be reachable and usable via keyboard. Focus management: visible focus indicators, logical tab order. Colour contrast: 4.5:1 for text. Screen reader testing with VoiceOver/NVDA.",
+  "code_walkthrough": {
+    "language": "css",
+    "code": "/* Mobile first: base styles for small screens */\r\n.card {\r\n  padding: var(--space-4);\r\n  border-radius: var(--radius-md);\r\n  background: white;\r\n  box-shadow: var(--shadow-sm);\r\n}\r\n\r\n.card__image {\r\n  width: 100%;\r\n  aspect-ratio: 16 / 9;\r\n  object-fit: cover;\r\n  border-radius: var(--radius-sm);\r\n}\r\n\r\n/* Tablet: 768px and up */\r\n@media (min-width: 768px) {\r\n  .card {\r\n    display: grid;\r\n    grid-template-columns: 200px 1fr;\r\n    gap: var(--space-4);\r\n    align-items: start;\r\n  }\r\n  .card__image {\r\n    aspect-ratio: 1 / 1;\r\n  }\r\n}\r\n\r\n/* Desktop: 1024px and up */\r\n@media (min-width: 1024px) {\r\n  .card {\r\n    grid-template-columns: 280px 1fr;\r\n  }\r\n}\r\n\r\n/* Reduced motion preference */\r\n@media (prefers-reduced-motion: reduce) {\r\n  *, *::before, *::after {\r\n    animation-duration: 0.01ms !important;\r\n    transition-duration: 0.01ms !important;\r\n  }\r\n}\r\n\r\n/* Dark mode preference */\r\n@media (prefers-color-scheme: dark) {\r\n  :root {\r\n    --color-bg: oklch(0.15 0.01 250);\r\n    --color-text: oklch(0.95 0.005 250);\r\n  }\r\n}",
+    "explanation": "Base styles target mobile. `min-width` media queries enhance for larger screens. `prefers-reduced-motion` respects user motion preferences. `prefers-color-scheme` automatically adapts to dark mode."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Accessibility Insights** (free Microsoft browser extension) to audit your pages. Use **Pa11y** (free CLI) for automated accessibility testing in CI."
+  }
+}

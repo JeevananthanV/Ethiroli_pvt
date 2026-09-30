@@ -1,0 +1,18 @@
+{
+  "id": "PY-CORE-L12",
+  "module_code": "PY-CORE",
+  "lesson_order": 12,
+  "title": "Strings in Python Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Strings",
+    "Implement real-world code for Strings according to industry standards",
+    "Debug and optimize Strings integrations"
+  ],
+  "theory_markdown": "### Strings\n\nThis lesson covers in-depth technical mechanics of **Strings** as part of the Python Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Strings Implementation Example\nexport function handleStrings() {\n  console.log('Executing Strings workflow...');\n}",
+    "explanation": "Demonstration of how Strings is structured in production."
+  }
+}

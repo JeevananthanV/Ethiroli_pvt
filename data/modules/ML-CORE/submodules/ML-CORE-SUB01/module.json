@@ -1,0 +1,31 @@
+{
+  "code": "ML-CORE-SUB01",
+  "title": "Machine Learning - Part 1",
+  "category": "AI/ML",
+  "level": "Advanced",
+  "duration_hours": 8,
+  "description": "Machine learning fundamentals covering supervised/unsupervised learning, regression, classification, clustering, feature engineering, evaluation, and hyperparameter tuning with Scikit-learn. This submodule covers: ML fundamentals, Supervised learning, Unsupervised learning, Regression.",
+  "topics": [
+    "ML fundamentals",
+    "Supervised learning",
+    "Unsupervised learning",
+    "Regression"
+  ],
+  "technologies": [
+    "Python",
+    "NumPy",
+    "Pandas",
+    "Scikit-learn"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "PY-CORE",
+    "DATA-ANALYTICS"
+  ],
+  "learning_outcomes": [
+    "Understand machine learning concepts and workflows",
+    "Implement supervised learning algorithms (regression, classification)",
+    "Apply unsupervised learning techniques (clustering)"
+  ]
+}

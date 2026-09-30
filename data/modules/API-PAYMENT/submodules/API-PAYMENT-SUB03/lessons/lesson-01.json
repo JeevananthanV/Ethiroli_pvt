@@ -1,0 +1,22 @@
+{
+  "id": "API-PAYMENT-SUB03-L01",
+  "day": 1,
+  "module_code": "API-PAYMENT",
+  "lesson_order": 1,
+  "title": "Transaction records: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Transaction records",
+    "Apply Transaction records in practical scenarios",
+    "Build a small project using Transaction records"
+  ],
+  "theory_markdown": "# Transaction records\n\n## Overview\nThis lesson covers the fundamentals of Transaction records and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Transaction records\n- Concept 2 related to Transaction records\n- Best practices for Transaction records\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Transaction records\n2. Implement basic Transaction records functionality\n3. Apply Transaction records to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Transaction records implementation\nconsole.log('Learning Transaction records');\n\n// Basic Transaction records example\nconst example = {\n  topic: 'Transaction records',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Transaction records usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Transaction records concepts and generate code examples.\n\n---"
+  }
+}

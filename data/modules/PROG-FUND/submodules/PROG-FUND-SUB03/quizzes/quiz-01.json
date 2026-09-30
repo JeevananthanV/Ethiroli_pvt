@@ -1,0 +1,70 @@
+{
+  "id": "PROG-FUND-SUB03-Q01",
+  "module_code": "PROG-FUND",
+  "day": 1,
+  "title": "Quiz 1: Debugging Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Debugging?",
+      "options": [
+        "Core principle of Debugging",
+        "Advanced Debugging technique",
+        "Alternative approach to Debugging",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Debugging concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Problem solving?",
+      "options": [
+        "Core principle of Problem solving",
+        "Advanced Problem solving technique",
+        "Alternative approach to Problem solving",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Problem solving concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Algorithms basics?",
+      "options": [
+        "Core principle of Algorithms basics",
+        "Advanced Algorithms basics technique",
+        "Alternative approach to Algorithms basics",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Algorithms basics concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Debugging?",
+      "options": [
+        "Core principle of Debugging",
+        "Advanced Debugging technique",
+        "Alternative approach to Debugging",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Debugging concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Problem solving?",
+      "options": [
+        "Core principle of Problem solving",
+        "Advanced Problem solving technique",
+        "Alternative approach to Problem solving",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Problem solving concepts."
+    }
+  ]
+}

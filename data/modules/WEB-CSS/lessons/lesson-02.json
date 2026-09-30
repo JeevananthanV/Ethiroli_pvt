@@ -1,0 +1,20 @@
+{
+  "id": "WEB-CSS-D06",
+  "day": 6,
+  "module_code": "WEB-CSS",
+  "lesson_order": 2,
+  "title": "Flexbox: One-Dimensional Layout",
+  "duration_minutes": 60,
+  "objectives": [
+    "Master Flexbox for row and column layouts, alignment, and responsive components."
+  ],
+  "theory_markdown": "Flexbox is a one-dimensional layout model. `display: flex` on a container makes its children flex items. Main axis is controlled by `flex-direction` (row/column). `justify-content` aligns along the main axis. `align-items` aligns along the cross axis. `flex-wrap` allows items to wrap. `gap` creates spacing between items.\r\n\r\n`flex-grow` determines how much extra space an item takes. `flex-shrink` determines how much an item shrinks when space is tight. `flex-basis` sets the initial size. The shorthand `flex: 1` means `flex-grow: 1; flex-shrink: 1; flex-basis: 0%`.",
+  "code_walkthrough": {
+    "language": "html",
+    "code": "<nav class=\"navbar\">\r\n  <a href=\"/\" class=\"logo\">DevBlog</a>\r\n  <ul class=\"nav-links\">\r\n    <li><a href=\"/articles\">Articles</a></li>\r\n    <li><a href=\"/tutorials\">Tutorials</a></li>\r\n    <li><a href=\"/about\">About</a></li>\r\n  </ul>\r\n  <div class=\"nav-actions\">\r\n    <button class=\"btn-outline\">Log in</button>\r\n    <button class=\"btn-primary\">Sign up</button>\r\n  </div>\r\n</nav>",
+    "explanation": "`justify-content: space-between` pushes logo and actions to opposite ends. `align-items: center` vertically centres them. `gap` replaces margin hacks. On mobile, `flex-direction: column` stacks elements. `flex: 1 1 300px` lets cards grow, shrink, but start at 300px wide."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Continue.dev** (free, open-source VS Code extension) with a local model via Ollama to generate Flexbox layouts.\r\n\r\n---"
+  }
+}

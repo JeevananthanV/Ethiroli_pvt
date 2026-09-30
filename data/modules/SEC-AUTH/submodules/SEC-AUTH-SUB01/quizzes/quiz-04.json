@@ -1,0 +1,70 @@
+{
+  "id": "SEC-AUTH-SUB01-Q04",
+  "module_code": "SEC-AUTH",
+  "day": 7,
+  "title": "Quiz 4: Authentication Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Authentication?",
+      "options": [
+        "Core principle of Authentication",
+        "Advanced Authentication technique",
+        "Alternative approach to Authentication",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Authentication concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Authorization?",
+      "options": [
+        "Core principle of Authorization",
+        "Advanced Authorization technique",
+        "Alternative approach to Authorization",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Authorization concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Password hashing?",
+      "options": [
+        "Core principle of Password hashing",
+        "Advanced Password hashing technique",
+        "Alternative approach to Password hashing",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Password hashing concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in JWT?",
+      "options": [
+        "Core principle of JWT",
+        "Advanced JWT technique",
+        "Alternative approach to JWT",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental JWT concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Sessions?",
+      "options": [
+        "Core principle of Sessions",
+        "Advanced Sessions technique",
+        "Alternative approach to Sessions",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Sessions concepts."
+    }
+  ]
+}

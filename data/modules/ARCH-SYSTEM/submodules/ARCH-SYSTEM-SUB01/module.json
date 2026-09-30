@@ -1,0 +1,29 @@
+{
+  "code": "ARCH-SYSTEM-SUB01",
+  "title": "System Design - Part 1",
+  "category": "Architecture",
+  "level": "Advanced",
+  "duration_hours": 7,
+  "description": "System design covering requirements analysis, architecture patterns, scalability, availability, load balancing, caching, databases, Redis, queues, microservices, and API gateways. This submodule covers: System design fundamentals, Requirements, Architecture, Scalability, Availability, Reliability.",
+  "topics": [
+    "System design fundamentals",
+    "Requirements",
+    "Architecture",
+    "Scalability",
+    "Availability",
+    "Reliability"
+  ],
+  "technologies": [],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "FS-INTEGRATION",
+    "DB-MYSQL",
+    "DEVOPS-CORE"
+  ],
+  "learning_outcomes": [
+    "Analyze system requirements and define architecture",
+    "Design scalable and highly available systems",
+    "Implement load balancing and caching strategies"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "BE-NODE-SUB01-L02",
+  "day": 3,
+  "module_code": "BE-NODE",
+  "lesson_order": 2,
+  "title": "Runtime architecture: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Runtime architecture",
+    "Apply Runtime architecture in practical scenarios",
+    "Build a small project using Runtime architecture"
+  ],
+  "theory_markdown": "# Runtime architecture\n\n## Overview\nThis lesson covers the fundamentals of Runtime architecture and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Runtime architecture\n- Concept 2 related to Runtime architecture\n- Best practices for Runtime architecture\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Runtime architecture\n2. Implement basic Runtime architecture functionality\n3. Apply Runtime architecture to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Runtime architecture implementation\nconsole.log('Learning Runtime architecture');\n\n// Basic Runtime architecture example\nconst example = {\n  topic: 'Runtime architecture',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Runtime architecture usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Runtime architecture concepts and generate code examples.\n\n---"
+  }
+}

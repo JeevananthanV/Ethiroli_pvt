@@ -1,0 +1,21 @@
+{
+  "id": "QZ-API-PAYMENT-L08",
+  "module_code": "API-PAYMENT",
+  "title": "Quiz: Receipts",
+  "time_limit_minutes": 10,
+  "passing_percentage": 75,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is the primary architectural purpose of Receipts in Payment Integration?",
+      "options": [
+        "To enforce modularity and maintainable system boundaries",
+        "To bypass browser runtime security sandboxing",
+        "To override database foreign key constraints",
+        "To compile JavaScript into native x86 machine bytecode"
+      ],
+      "correct_index": 0,
+      "explanation": "Receipts ensures clean separation of concerns and robust maintainability."
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "DEVOPS-CORE-L09",
+  "module_code": "DEVOPS-CORE",
+  "lesson_order": 9,
+  "title": "Nginx in DevOps",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Nginx",
+    "Implement real-world code for Nginx according to industry standards",
+    "Debug and optimize Nginx integrations"
+  ],
+  "theory_markdown": "### Nginx\n\nThis lesson covers in-depth technical mechanics of **Nginx** as part of the DevOps curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Nginx Implementation Example\nexport function handleNginx() {\n  console.log('Executing Nginx workflow...');\n}",
+    "explanation": "Demonstration of how Nginx is structured in production."
+  }
+}

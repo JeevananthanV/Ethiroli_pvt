@@ -1,0 +1,18 @@
+{
+  "id": "ARCH-SYSTEM-L14",
+  "module_code": "ARCH-SYSTEM",
+  "lesson_order": 14,
+  "title": "API Gateway in System Design",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of API Gateway",
+    "Implement real-world code for API Gateway according to industry standards",
+    "Debug and optimize API Gateway integrations"
+  ],
+  "theory_markdown": "### API Gateway\n\nThis lesson covers in-depth technical mechanics of **API Gateway** as part of the System Design curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// API Gateway Implementation Example\nexport function handleAPIGateway() {\n  console.log('Executing API Gateway workflow...');\n}",
+    "explanation": "Demonstration of how API Gateway is structured in production."
+  }
+}

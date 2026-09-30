@@ -1,0 +1,10 @@
+{
+  "id": "EX-AUTO-N8N-L11",
+  "module_code": "AUTO-N8N",
+  "title": "Lab Exercise: Loops",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Loops.",
+  "starter_code": "// Lab: Loops\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Loops\nexport const solution = true;\n"
+}

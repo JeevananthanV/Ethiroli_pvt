@@ -1,0 +1,22 @@
+{
+  "id": "JS-CORE-SUB01-L02",
+  "day": 3,
+  "module_code": "JS-CORE",
+  "lesson_order": 2,
+  "title": "Variables: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Variables",
+    "Apply Variables in practical scenarios",
+    "Build a small project using Variables"
+  ],
+  "theory_markdown": "# Variables\n\n## Overview\nThis lesson covers the fundamentals of Variables and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Variables\n- Concept 2 related to Variables\n- Best practices for Variables\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Variables\n2. Implement basic Variables functionality\n3. Apply Variables to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Variables implementation\nconsole.log('Learning Variables');\n\n// Basic Variables example\nconst example = {\n  topic: 'Variables',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Variables usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Variables concepts and generate code examples.\n\n---"
+  }
+}

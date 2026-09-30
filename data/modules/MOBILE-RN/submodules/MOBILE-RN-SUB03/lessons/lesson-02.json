@@ -1,0 +1,22 @@
+{
+  "id": "MOBILE-RN-SUB03-L02",
+  "day": 3,
+  "module_code": "MOBILE-RN",
+  "lesson_order": 2,
+  "title": "Backend integration: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Backend integration",
+    "Apply Backend integration in practical scenarios",
+    "Build a small project using Backend integration"
+  ],
+  "theory_markdown": "# Backend integration\n\n## Overview\nThis lesson covers the fundamentals of Backend integration and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Backend integration\n- Concept 2 related to Backend integration\n- Best practices for Backend integration\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Backend integration\n2. Implement basic Backend integration functionality\n3. Apply Backend integration to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Backend integration implementation\nconsole.log('Learning Backend integration');\n\n// Basic Backend integration example\nconst example = {\n  topic: 'Backend integration',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Backend integration usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Backend integration concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "DSA-CORE-SUB03-L03",
+  "day": 5,
+  "module_code": "DSA-CORE",
+  "lesson_order": 3,
+  "title": "Sliding window: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Sliding window",
+    "Apply Sliding window in practical scenarios",
+    "Build a small project using Sliding window"
+  ],
+  "theory_markdown": "# Sliding window\n\n## Overview\nThis lesson covers the fundamentals of Sliding window and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Sliding window\n- Concept 2 related to Sliding window\n- Best practices for Sliding window\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Sliding window\n2. Implement basic Sliding window functionality\n3. Apply Sliding window to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Sliding window implementation\nconsole.log('Learning Sliding window');\n\n// Basic Sliding window example\nconst example = {\n  topic: 'Sliding window',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Sliding window usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Sliding window concepts and generate code examples.\n\n---"
+  }
+}

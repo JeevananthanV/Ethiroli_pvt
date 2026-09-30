@@ -1,0 +1,117 @@
+{
+  "id": "QZ-BE-NODE-COMPREHENSIVE",
+  "module_code": "BE-NODE",
+  "title": "Comprehensive Quiz: Node.js",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes node.js fundamentals in Node.js?",
+      "options": [
+        "Core concept: Node.js fundamentals is fundamental to Node.js",
+        "Alternative approach to Node.js fundamentals using different methodology",
+        "Advanced implementation of Node.js fundamentals with optimizations",
+        "Legacy technique for Node.js fundamentals no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Node.js fundamentals is a key topic in Node.js. Build server-side applications with Node.js"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes runtime architecture in Node.js?",
+      "options": [
+        "Core concept: Runtime architecture is fundamental to Node.js",
+        "Alternative approach to Runtime architecture using different methodology",
+        "Advanced implementation of Runtime architecture with optimizations",
+        "Legacy technique for Runtime architecture no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Runtime architecture is a key topic in Node.js. Build server-side applications with Node.js"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes npm in Node.js?",
+      "options": [
+        "Core concept: npm is fundamental to Node.js",
+        "Alternative approach to npm using different methodology",
+        "Advanced implementation of npm with optimizations",
+        "Legacy technique for npm no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "npm is a key topic in Node.js. Build server-side applications with Node.js"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes modules in Node.js?",
+      "options": [
+        "Core concept: Modules is fundamental to Node.js",
+        "Alternative approach to Modules using different methodology",
+        "Advanced implementation of Modules with optimizations",
+        "Legacy technique for Modules no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Modules is a key topic in Node.js. Build server-side applications with Node.js"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes file system in Node.js?",
+      "options": [
+        "Core concept: File system is fundamental to Node.js",
+        "Alternative approach to File system using different methodology",
+        "Advanced implementation of File system with optimizations",
+        "Legacy technique for File system no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "File system is a key topic in Node.js. Build server-side applications with Node.js"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes environment variables in Node.js?",
+      "options": [
+        "Core concept: Environment variables is fundamental to Node.js",
+        "Alternative approach to Environment variables using different methodology",
+        "Advanced implementation of Environment variables with optimizations",
+        "Legacy technique for Environment variables no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Environment variables is a key topic in Node.js. Build server-side applications with Node.js"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in Node.js?",
+      "options": [
+        "Node.js",
+        "Java",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "Node.js uses Node.js as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of Node.js?",
+      "options": [
+        "Build server-side applications with Node.js",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Build server-side applications with Node.js"
+    },
+    {
+      "id": 9,
+      "question": "When applying Node.js in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for Node.js include following established patterns and using recommended tools."
+    }
+  ]
+}

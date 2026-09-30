@@ -1,0 +1,22 @@
+{
+  "id": "CLOUD-AWS-SUB02-L03",
+  "day": 5,
+  "module_code": "CLOUD-AWS",
+  "lesson_order": 3,
+  "title": "VPC fundamentals: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of VPC fundamentals",
+    "Apply VPC fundamentals in practical scenarios",
+    "Build a small project using VPC fundamentals"
+  ],
+  "theory_markdown": "# VPC fundamentals\n\n## Overview\nThis lesson covers the fundamentals of VPC fundamentals and its practical applications.\n\n## Key Concepts\n- Concept 1 related to VPC fundamentals\n- Concept 2 related to VPC fundamentals\n- Best practices for VPC fundamentals\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of VPC fundamentals\n2. Implement basic VPC fundamentals functionality\n3. Apply VPC fundamentals to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example VPC fundamentals implementation\nconsole.log('Learning VPC fundamentals');\n\n// Basic VPC fundamentals example\nconst example = {\n  topic: 'VPC fundamentals',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic VPC fundamentals usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand VPC fundamentals concepts and generate code examples.\n\n---"
+  }
+}

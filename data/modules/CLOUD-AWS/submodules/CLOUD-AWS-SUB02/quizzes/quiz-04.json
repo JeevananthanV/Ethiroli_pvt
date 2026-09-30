@@ -1,0 +1,70 @@
+{
+  "id": "CLOUD-AWS-SUB02-Q04",
+  "module_code": "CLOUD-AWS",
+  "day": 7,
+  "title": "Quiz 4: IAM Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in IAM?",
+      "options": [
+        "Core principle of IAM",
+        "Advanced IAM technique",
+        "Alternative approach to IAM",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental IAM concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in RDS?",
+      "options": [
+        "Core principle of RDS",
+        "Advanced RDS technique",
+        "Alternative approach to RDS",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental RDS concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in VPC fundamentals?",
+      "options": [
+        "Core principle of VPC fundamentals",
+        "Advanced VPC fundamentals technique",
+        "Alternative approach to VPC fundamentals",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental VPC fundamentals concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Security groups?",
+      "options": [
+        "Core principle of Security groups",
+        "Advanced Security groups technique",
+        "Alternative approach to Security groups",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Security groups concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in IAM?",
+      "options": [
+        "Core principle of IAM",
+        "Advanced IAM technique",
+        "Alternative approach to IAM",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental IAM concepts."
+    }
+  ]
+}

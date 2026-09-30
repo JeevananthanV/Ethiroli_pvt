@@ -1,0 +1,22 @@
+{
+  "id": "FS-INTEGRATION-SUB02-L02",
+  "day": 3,
+  "module_code": "FS-INTEGRATION",
+  "lesson_order": 2,
+  "title": "Validation: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Validation",
+    "Apply Validation in practical scenarios",
+    "Build a small project using Validation"
+  ],
+  "theory_markdown": "# Validation\n\n## Overview\nThis lesson covers the fundamentals of Validation and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Validation\n- Concept 2 related to Validation\n- Best practices for Validation\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Validation\n2. Implement basic Validation functionality\n3. Apply Validation to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Validation implementation\nconsole.log('Learning Validation');\n\n// Basic Validation example\nconst example = {\n  topic: 'Validation',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Validation usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Validation concepts and generate code examples.\n\n---"
+  }
+}

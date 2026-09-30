@@ -1,0 +1,42 @@
+{
+  "code": "DB-MONGO",
+  "title": "MongoDB",
+  "category": "Database",
+  "level": "Intermediate",
+  "duration_hours": 16,
+  "description": "MongoDB NoSQL database covering collections, documents, CRUD operations, aggregation, indexing, schema design, and Mongoose ODM with MongoDB Atlas.",
+  "topics": [
+    "NoSQL fundamentals",
+    "MongoDB",
+    "Collections",
+    "Documents",
+    "CRUD",
+    "Query operators",
+    "Aggregation",
+    "Indexing",
+    "Relationships",
+    "Schema design",
+    "MongoDB Atlas",
+    "Mongoose"
+  ],
+  "technologies": [
+    "MongoDB",
+    "MongoDB Atlas",
+    "Mongoose"
+  ],
+  "practicals": [],
+  "projects": [
+    "MongoDB REST Application"
+  ],
+  "prerequisites": [
+    "PROG-FUND"
+  ],
+  "learning_outcomes": [
+    "Understand NoSQL concepts and document-oriented databases",
+    "Design MongoDB schemas and data models",
+    "Perform CRUD operations with MongoDB drivers",
+    "Use aggregation pipelines for data processing",
+    "Implement indexing strategies for performance",
+    "Work with MongoDB Atlas and Mongoose ODM"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "SEO-TECH-SUB01-L02",
+  "day": 3,
+  "module_code": "SEO-TECH",
+  "lesson_order": 2,
+  "title": "Keyword research: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Keyword research",
+    "Apply Keyword research in practical scenarios",
+    "Build a small project using Keyword research"
+  ],
+  "theory_markdown": "# Keyword research\n\n## Overview\nThis lesson covers the fundamentals of Keyword research and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Keyword research\n- Concept 2 related to Keyword research\n- Best practices for Keyword research\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Keyword research\n2. Implement basic Keyword research functionality\n3. Apply Keyword research to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Keyword research implementation\nconsole.log('Learning Keyword research');\n\n// Basic Keyword research example\nconst example = {\n  topic: 'Keyword research',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Keyword research usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Keyword research concepts and generate code examples.\n\n---"
+  }
+}

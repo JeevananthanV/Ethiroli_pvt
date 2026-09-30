@@ -1,0 +1,52 @@
+{
+  "code": "AUTO-N8N",
+  "title": "n8n Business Automation",
+  "category": "Automation",
+  "level": "Intermediate",
+  "duration_hours": 12,
+  "description": "Business automation with n8n covering workflow design, nodes, triggers, webhooks, HTTP requests, expressions, database workflows, and AI automation.",
+  "topics": [
+    "Automation fundamentals",
+    "n8n interface",
+    "Workflows",
+    "Nodes",
+    "Triggers",
+    "Webhooks",
+    "HTTP requests",
+    "JSON",
+    "Expressions",
+    "Conditions",
+    "Loops",
+    "Database workflows",
+    "Email automation",
+    "CRM automation",
+    "WhatsApp automation",
+    "AI automation",
+    "Error handling"
+  ],
+  "technologies": [
+    "n8n",
+    "REST APIs",
+    "Webhooks"
+  ],
+  "practicals": [],
+  "projects": [
+    "Website Lead to CRM",
+    "Lead to WhatsApp",
+    "Lead to Email",
+    "Payment to Receipt",
+    "Attendance to Notification"
+  ],
+  "prerequisites": [
+    "BE-NODE",
+    "BE-EXPRESS"
+  ],
+  "learning_outcomes": [
+    "Design and build automation workflows in n8n",
+    "Use various nodes for data processing and transformation",
+    "Create triggers from webhooks, schedules, and events",
+    "Integrate with APIs, databases, and email services",
+    "Implement conditional logic and looping in workflows",
+    "Build business process automation for CRM, marketing, and operations"
+  ]
+}

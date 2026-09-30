@@ -1,0 +1,18 @@
+{
+  "id": "AUTO-N8N-L04",
+  "module_code": "AUTO-N8N",
+  "lesson_order": 4,
+  "title": "Nodes in n8n Business Automation",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Nodes",
+    "Implement real-world code for Nodes according to industry standards",
+    "Debug and optimize Nodes integrations"
+  ],
+  "theory_markdown": "### Nodes\n\nThis lesson covers in-depth technical mechanics of **Nodes** as part of the n8n Business Automation curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Nodes Implementation Example\nexport function handleNodes() {\n  console.log('Executing Nodes workflow...');\n}",
+    "explanation": "Demonstration of how Nodes is structured in production."
+  }
+}

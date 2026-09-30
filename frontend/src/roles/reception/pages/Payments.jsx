@@ -64,7 +64,7 @@ export default function ReceptionPayments() {
       }
     >
       {/* Financial Summary Cards */}
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-12 col-md-4">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white">
             <span className="text-secondary small fw-medium">Total Counter Collection</span>
@@ -86,7 +86,7 @@ export default function ReceptionPayments() {
       </div>
 
       {/* Filter Bar */}
-      <div className="card border-0 shadow-sm rounded-3 p-3 mb-4 bg-white">
+      <div className="card border-0 shadow-sm rounded-3 p-3 mb-2 bg-white">
         <div className="row g-2 align-items-center">
           <div className="col-12 col-md-8">
             <div className="input-group">

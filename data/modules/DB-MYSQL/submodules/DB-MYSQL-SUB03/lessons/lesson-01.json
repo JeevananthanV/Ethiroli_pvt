@@ -1,0 +1,22 @@
+{
+  "id": "DB-MYSQL-SUB03-L01",
+  "day": 1,
+  "module_code": "DB-MYSQL",
+  "lesson_order": 1,
+  "title": "Relationships: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Relationships",
+    "Apply Relationships in practical scenarios",
+    "Build a small project using Relationships"
+  ],
+  "theory_markdown": "# Relationships\n\n## Overview\nThis lesson covers the fundamentals of Relationships and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Relationships\n- Concept 2 related to Relationships\n- Best practices for Relationships\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Relationships\n2. Implement basic Relationships functionality\n3. Apply Relationships to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Relationships implementation\nconsole.log('Learning Relationships');\n\n// Basic Relationships example\nconst example = {\n  topic: 'Relationships',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Relationships usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Relationships concepts and generate code examples.\n\n---"
+  }
+}

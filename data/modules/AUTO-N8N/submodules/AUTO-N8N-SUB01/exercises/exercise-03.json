@@ -1,0 +1,33 @@
+{
+  "id": "AUTO-N8N-SUB01-E03",
+  "module_code": "AUTO-N8N",
+  "day": 6,
+  "title": "Hands-on Lab: Workflows Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Workflows:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Workflows in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Workflows basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Workflows exercise\n// TODO: Implement Workflows functionality here\n\nconsole.log('Workflows exercise starter');\n",
+  "solution_code": "// Solution for Workflows exercise\nconsole.log('Completed Workflows exercise');\n\n// Basic implementation\nconst workflows = {\n  name: 'Workflows',\n  completed: true\n};\n\nconsole.log(workflows);"
+}

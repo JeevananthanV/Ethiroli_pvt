@@ -1,0 +1,22 @@
+{
+  "id": "AI-DEV-SUB01-L01",
+  "day": 1,
+  "module_code": "AI-DEV",
+  "lesson_order": 1,
+  "title": "AI fundamentals: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of AI fundamentals",
+    "Apply AI fundamentals in practical scenarios",
+    "Build a small project using AI fundamentals"
+  ],
+  "theory_markdown": "# AI fundamentals\n\n## Overview\nThis lesson covers the fundamentals of AI fundamentals and its practical applications.\n\n## Key Concepts\n- Concept 1 related to AI fundamentals\n- Concept 2 related to AI fundamentals\n- Best practices for AI fundamentals\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of AI fundamentals\n2. Implement basic AI fundamentals functionality\n3. Apply AI fundamentals to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example AI fundamentals implementation\nconsole.log('Learning AI fundamentals');\n\n// Basic AI fundamentals example\nconst example = {\n  topic: 'AI fundamentals',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic AI fundamentals usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand AI fundamentals concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "code": "CLOUD-AWS-SUB01",
+  "title": "Cloud Computing - Part 1",
+  "category": "DevOps",
+  "level": "Advanced",
+  "duration_hours": 5,
+  "description": "Cloud computing with AWS covering EC2, S3, IAM, RDS, VPC, security, DNS, deployment, monitoring, and backup strategies. This submodule covers: Cloud fundamentals, AWS architecture, EC2, S3.",
+  "topics": [
+    "Cloud fundamentals",
+    "AWS architecture",
+    "EC2",
+    "S3"
+  ],
+  "technologies": [
+    "AWS",
+    "Hostinger",
+    "Cloudflare"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "DEVOPS-CORE",
+    "FE-NEXT"
+  ],
+  "learning_outcomes": [
+    "Understand cloud computing concepts and service models",
+    "Provision and manage AWS EC2 instances",
+    "Use AWS S3 for object storage and CDN"
+  ]
+}

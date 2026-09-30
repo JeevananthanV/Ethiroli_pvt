@@ -1,0 +1,45 @@
+{
+  "code": "QA-TEST",
+  "title": "Software Testing",
+  "category": "Testing",
+  "level": "Intermediate",
+  "duration_hours": 16,
+  "description": "Software testing fundamentals covering test cases, bug reporting, functional/regression/integration testing, API testing, and automation with Postman, Jest, and Cypress.",
+  "topics": [
+    "Testing fundamentals",
+    "SDLC/STLC",
+    "Test cases",
+    "Test scenarios",
+    "Bug reporting",
+    "Functional testing",
+    "Regression testing",
+    "Integration testing",
+    "API testing",
+    "Database testing",
+    "Automation testing",
+    "CI testing"
+  ],
+  "technologies": [
+    "Postman",
+    "Jest",
+    "Playwright",
+    "Cypress"
+  ],
+  "practicals": [],
+  "projects": [
+    "Automated Web Testing Project"
+  ],
+  "prerequisites": [
+    "FE-REACT",
+    "BE-NODE",
+    "BE-EXPRESS"
+  ],
+  "learning_outcomes": [
+    "Understand software testing fundamentals and methodologies",
+    "Design effective test cases and test scenarios",
+    "Perform functional, regression, and integration testing",
+    "Test APIs and databases for correctness",
+    "Implement test automation with frameworks like Jest and Cypress",
+    "Integrate testing into CI/CD pipelines"
+  ]
+}

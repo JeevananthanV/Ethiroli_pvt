@@ -1,0 +1,22 @@
+{
+  "id": "SEC-AUTH-SUB03-L03",
+  "day": 5,
+  "module_code": "SEC-AUTH",
+  "lesson_order": 3,
+  "title": "Security best practices: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Security best practices",
+    "Apply Security best practices in practical scenarios",
+    "Build a small project using Security best practices"
+  ],
+  "theory_markdown": "# Security best practices\n\n## Overview\nThis lesson covers the fundamentals of Security best practices and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Security best practices\n- Concept 2 related to Security best practices\n- Best practices for Security best practices\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Security best practices\n2. Implement basic Security best practices functionality\n3. Apply Security best practices to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Security best practices implementation\nconsole.log('Learning Security best practices');\n\n// Basic Security best practices example\nconst example = {\n  topic: 'Security best practices',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Security best practices usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Security best practices concepts and generate code examples.\n\n---"
+  }
+}

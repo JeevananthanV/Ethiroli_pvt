@@ -1,0 +1,28 @@
+{
+  "code": "BE-NODE-SUB02",
+  "title": "Node.js - Part 2",
+  "category": "Backend",
+  "level": "Intermediate",
+  "duration_hours": 7,
+  "description": "Node.js backend development covering runtime architecture, modules, file system, HTTP server, async programming, REST APIs, error handling, and security best practices. This submodule covers: Environment variables, Events, Streams, Async programming, HTTP server.",
+  "topics": [
+    "Environment variables",
+    "Events",
+    "Streams",
+    "Async programming",
+    "HTTP server"
+  ],
+  "technologies": [
+    "Node.js"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "JS-CORE"
+  ],
+  "learning_outcomes": [
+    "Build server-side applications with Node.js",
+    "Work with file system, streams, and events",
+    "Create REST APIs with Express-like routing"
+  ]
+}

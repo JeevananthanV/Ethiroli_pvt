@@ -1,0 +1,33 @@
+{
+  "id": "WEB-CSS-SUB02-E03",
+  "module_code": "WEB-CSS",
+  "day": 6,
+  "title": "Hands-on Lab: CSS Grid Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice CSS Grid:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of CSS Grid in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating CSS Grid basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for CSS Grid exercise\n// TODO: Implement CSS Grid functionality here\n\nconsole.log('CSS Grid exercise starter');\n",
+  "solution_code": "// Solution for CSS Grid exercise\nconsole.log('Completed CSS Grid exercise');\n\n// Basic implementation\nconst cssgrid = {\n  name: 'CSS Grid',\n  completed: true\n};\n\nconsole.log(cssgrid);"
+}

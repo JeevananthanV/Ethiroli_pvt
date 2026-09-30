@@ -1,0 +1,22 @@
+{
+  "id": "SEO-TECH-SUB02-L04",
+  "day": 7,
+  "module_code": "SEO-TECH",
+  "lesson_order": 4,
+  "title": "Canonical URLs: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Canonical URLs",
+    "Apply Canonical URLs in practical scenarios",
+    "Build a small project using Canonical URLs"
+  ],
+  "theory_markdown": "# Canonical URLs\n\n## Overview\nThis lesson covers the fundamentals of Canonical URLs and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Canonical URLs\n- Concept 2 related to Canonical URLs\n- Best practices for Canonical URLs\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Canonical URLs\n2. Implement basic Canonical URLs functionality\n3. Apply Canonical URLs to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Canonical URLs implementation\nconsole.log('Learning Canonical URLs');\n\n// Basic Canonical URLs example\nconst example = {\n  topic: 'Canonical URLs',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Canonical URLs usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Canonical URLs concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "ML-DL-L03",
+  "module_code": "ML-DL",
+  "lesson_order": 3,
+  "title": "Activation functions in Deep Learning",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Activation functions",
+    "Implement real-world code for Activation functions according to industry standards",
+    "Debug and optimize Activation functions integrations"
+  ],
+  "theory_markdown": "### Activation functions\n\nThis lesson covers in-depth technical mechanics of **Activation functions** as part of the Deep Learning curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Activation functions Implementation Example\nexport function handleActivationfunctions() {\n  console.log('Executing Activation functions workflow...');\n}",
+    "explanation": "Demonstration of how Activation functions is structured in production."
+  }
+}

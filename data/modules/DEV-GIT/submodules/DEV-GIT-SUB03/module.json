@@ -1,0 +1,28 @@
+{
+  "code": "DEV-GIT-SUB03",
+  "title": "Git & GitHub - Part 3",
+  "category": "DevOps",
+  "level": "Beginner",
+  "duration_hours": 4,
+  "description": "Version control with Git and GitHub including repository management, branching, merging, conflict resolution, pull requests, and collaborative development workflows. This submodule covers: Pull requests, Issues, Code review, Releases, Tags, Git workflow.",
+  "topics": [
+    "Pull requests",
+    "Issues",
+    "Code review",
+    "Releases",
+    "Tags",
+    "Git workflow"
+  ],
+  "technologies": [
+    "Git",
+    "GitHub"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [],
+  "learning_outcomes": [
+    "Initialize and manage Git repositories",
+    "Use branching and merging strategies",
+    "Resolve merge conflicts"
+  ]
+}

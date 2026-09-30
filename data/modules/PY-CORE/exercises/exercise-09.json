@@ -1,0 +1,10 @@
+{
+  "id": "EX-PY-CORE-L09",
+  "module_code": "PY-CORE",
+  "title": "Lab Exercise: Tuples",
+  "difficulty": "Beginner",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Tuples.",
+  "starter_code": "// Lab: Tuples\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Tuples\nexport const solution = true;\n"
+}

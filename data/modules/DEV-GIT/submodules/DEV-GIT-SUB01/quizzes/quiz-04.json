@@ -1,0 +1,70 @@
+{
+  "id": "DEV-GIT-SUB01-Q04",
+  "module_code": "DEV-GIT",
+  "day": 7,
+  "title": "Quiz 4: Version control Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Version control?",
+      "options": [
+        "Core principle of Version control",
+        "Advanced Version control technique",
+        "Alternative approach to Version control",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Version control concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Git installation?",
+      "options": [
+        "Core principle of Git installation",
+        "Advanced Git installation technique",
+        "Alternative approach to Git installation",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Git installation concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Repository?",
+      "options": [
+        "Core principle of Repository",
+        "Advanced Repository technique",
+        "Alternative approach to Repository",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Repository concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Init?",
+      "options": [
+        "Core principle of Init",
+        "Advanced Init technique",
+        "Alternative approach to Init",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Init concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Clone?",
+      "options": [
+        "Core principle of Clone",
+        "Advanced Clone technique",
+        "Alternative approach to Clone",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Clone concepts."
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "ML-DL-SUB02-L02",
+  "day": 3,
+  "module_code": "ML-DL",
+  "lesson_order": 2,
+  "title": "CNN: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of CNN",
+    "Apply CNN in practical scenarios",
+    "Build a small project using CNN"
+  ],
+  "theory_markdown": "# CNN\n\n## Overview\nThis lesson covers the fundamentals of CNN and its practical applications.\n\n## Key Concepts\n- Concept 1 related to CNN\n- Concept 2 related to CNN\n- Best practices for CNN\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of CNN\n2. Implement basic CNN functionality\n3. Apply CNN to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example CNN implementation\nconsole.log('Learning CNN');\n\n// Basic CNN example\nconst example = {\n  topic: 'CNN',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic CNN usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand CNN concepts and generate code examples.\n\n---"
+  }
+}

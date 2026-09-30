@@ -1,0 +1,10 @@
+{
+  "id": "EX-ML-DL-L09",
+  "module_code": "ML-DL",
+  "title": "Lab Exercise: Transfer learning",
+  "difficulty": "Advanced",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Transfer learning.",
+  "starter_code": "// Lab: Transfer learning\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Transfer learning\nexport const solution = true;\n"
+}

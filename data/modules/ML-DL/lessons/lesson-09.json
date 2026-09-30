@@ -1,0 +1,18 @@
+{
+  "id": "ML-DL-L09",
+  "module_code": "ML-DL",
+  "lesson_order": 9,
+  "title": "Transfer learning in Deep Learning",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Transfer learning",
+    "Implement real-world code for Transfer learning according to industry standards",
+    "Debug and optimize Transfer learning integrations"
+  ],
+  "theory_markdown": "### Transfer learning\n\nThis lesson covers in-depth technical mechanics of **Transfer learning** as part of the Deep Learning curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Transfer learning Implementation Example\nexport function handleTransferlearning() {\n  console.log('Executing Transfer learning workflow...');\n}",
+    "explanation": "Demonstration of how Transfer learning is structured in production."
+  }
+}

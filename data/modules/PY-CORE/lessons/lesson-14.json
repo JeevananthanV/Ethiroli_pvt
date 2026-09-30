@@ -1,0 +1,18 @@
+{
+  "id": "PY-CORE-L14",
+  "module_code": "PY-CORE",
+  "lesson_order": 14,
+  "title": "File handling in Python Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of File handling",
+    "Implement real-world code for File handling according to industry standards",
+    "Debug and optimize File handling integrations"
+  ],
+  "theory_markdown": "### File handling\n\nThis lesson covers in-depth technical mechanics of **File handling** as part of the Python Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// File handling Implementation Example\nexport function handleFilehandling() {\n  console.log('Executing File handling workflow...');\n}",
+    "explanation": "Demonstration of how File handling is structured in production."
+  }
+}

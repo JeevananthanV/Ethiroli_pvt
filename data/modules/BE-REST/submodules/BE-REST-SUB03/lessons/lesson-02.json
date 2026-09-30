@@ -1,0 +1,22 @@
+{
+  "id": "BE-REST-SUB03-L02",
+  "day": 3,
+  "module_code": "BE-REST",
+  "lesson_order": 2,
+  "title": "Sorting: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Sorting",
+    "Apply Sorting in practical scenarios",
+    "Build a small project using Sorting"
+  ],
+  "theory_markdown": "# Sorting\n\n## Overview\nThis lesson covers the fundamentals of Sorting and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Sorting\n- Concept 2 related to Sorting\n- Best practices for Sorting\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Sorting\n2. Implement basic Sorting functionality\n3. Apply Sorting to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Sorting implementation\nconsole.log('Learning Sorting');\n\n// Basic Sorting example\nconst example = {\n  topic: 'Sorting',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Sorting usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Sorting concepts and generate code examples.\n\n---"
+  }
+}

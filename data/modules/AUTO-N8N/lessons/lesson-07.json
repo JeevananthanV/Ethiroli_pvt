@@ -1,0 +1,18 @@
+{
+  "id": "AUTO-N8N-L07",
+  "module_code": "AUTO-N8N",
+  "lesson_order": 7,
+  "title": "HTTP requests in n8n Business Automation",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of HTTP requests",
+    "Implement real-world code for HTTP requests according to industry standards",
+    "Debug and optimize HTTP requests integrations"
+  ],
+  "theory_markdown": "### HTTP requests\n\nThis lesson covers in-depth technical mechanics of **HTTP requests** as part of the n8n Business Automation curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// HTTP requests Implementation Example\nexport function handleHTTPrequests() {\n  console.log('Executing HTTP requests workflow...');\n}",
+    "explanation": "Demonstration of how HTTP requests is structured in production."
+  }
+}

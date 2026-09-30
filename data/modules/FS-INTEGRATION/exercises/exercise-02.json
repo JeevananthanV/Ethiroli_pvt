@@ -1,0 +1,11 @@
+{
+  "id": "EX-FS-INTEGRATION-D59",
+  "module_code": "FS-INTEGRATION",
+  "day": 59,
+  "title": "Hands-on Lab: Capstone Implementation: Core Features",
+  "estimated_minutes": 45,
+  "difficulty": "Advanced",
+  "instructions": "Implement the backend fully. Start with database models, then auth, then core APIs, then AI features. Write tests as you go — don't leave testing for the end.",
+  "starter_code": "// Starter file for Capstone Implementation: Core Features\n// Task instructions:\n// Implement the backend fully. Start with database models, then auth, then core APIs, then AI features. Write tests as you go — don't leave testing for ...\n",
+  "solution_code": "## Backend Implementation Checklist\r\n\r\n### Database Layer\r\n- [ ] MySQL: user accounts, transactions, structured data\r\n- [ ] MongoDB: content, logs, flexible documents\r\n- [ ] Migrations and seed data\r\n- [ ] Indexes for common queries\r\n\r\n### Authentication\r\n- [ ] Register with email/password (bcrypt)\r\n- [ ] Login with JWT (access + refresh)\r\n- [ ] Logout (clear refresh cookie)\r\n- [ ] Password reset (email token)\r\n- [ ] OAuth (Google/GitHub)\r\n\r\n### RBAC\r\n- [ ] Roles: admin, moderator, user\r\n- [ ] Permissions: resource:action\r\n- [ ] Middleware: requireRole, requirePermission, requireOwnership\r\n\r\n### Core APIs\r\n- [ ] CRUD for primary resource\r\n- [ ] Pagination, filtering, sorting\r\n- [ ] Input validation (express-validator/zod)\r\n- [ ] Error handling with proper status codes\r\n\r\n### AI Features\r\n- [ ] Summarisation endpoint\r\n- [ ] Recommendation engine\r\n- [ ] Chatbot/tutor\r\n- [ ] Rate limiting for AI calls\r\n\r\n### Testing\r\n- [ ] Unit tests for services\r\n- [ ] Integration tests for API endpoints\r\n- [ ] Auth flow tests\r\n- [ ] RBAC tests\r\n- [ ] AI service mocking\r\n\r\n### Security\r\n- [ ] Helmet headers\r\n- [ ] Rate limiting\r\n- [ ] CORS restrictions\r\n- [ ] Input sanitisation\r\n- [ ] Dependency audit"
+}

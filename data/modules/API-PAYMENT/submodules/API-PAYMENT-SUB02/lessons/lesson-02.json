@@ -1,0 +1,22 @@
+{
+  "id": "API-PAYMENT-SUB02-L02",
+  "day": 3,
+  "module_code": "API-PAYMENT",
+  "lesson_order": 2,
+  "title": "Payment status: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Payment status",
+    "Apply Payment status in practical scenarios",
+    "Build a small project using Payment status"
+  ],
+  "theory_markdown": "# Payment status\n\n## Overview\nThis lesson covers the fundamentals of Payment status and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Payment status\n- Concept 2 related to Payment status\n- Best practices for Payment status\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Payment status\n2. Implement basic Payment status functionality\n3. Apply Payment status to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Payment status implementation\nconsole.log('Learning Payment status');\n\n// Basic Payment status example\nconst example = {\n  topic: 'Payment status',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Payment status usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Payment status concepts and generate code examples.\n\n---"
+  }
+}

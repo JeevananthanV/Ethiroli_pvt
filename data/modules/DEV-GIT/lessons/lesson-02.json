@@ -1,0 +1,20 @@
+{
+  "id": "DEV-GIT-D12",
+  "day": 12,
+  "module_code": "DEV-GIT",
+  "lesson_order": 2,
+  "title": "GitHub Collaboration: Branches, PRs, and Workflows",
+  "duration_minutes": 60,
+  "objectives": [
+    "Master branching, merging, pull requests, and team collaboration workflows."
+  ],
+  "theory_markdown": "A branch is an independent line of development. `git branch <name>` creates a branch. `git checkout <name>` switches to it. `git checkout -b <name>` creates and switches. `git merge <branch>` merges into current branch.\r\n\r\nPull requests (PRs) are GitHub's mechanism for code review before merging. A PR shows the diff, allows comments, and runs CI checks. Feature branch workflow: create branch from main → commit changes → push → open PR → review → merge.",
+  "code_walkthrough": {
+    "language": "bash",
+    "code": "# Create and switch to a feature branch\r\ngit checkout -b feature/user-auth\r\n\r\n# Make changes\r\ntouch auth.js\r\n# ... write code ...\r\ngit add auth.js\r\ngit commit -m \"Add JWT authentication module\"\r\n\r\n# Push branch to GitHub\r\ngit push -u origin feature/user-auth\r\n\r\n# On GitHub: open Pull Request → review → merge\r\n# After merge, update local main\r\ngit checkout main\r\ngit pull origin main\r\ngit branch -d feature/user-auth  # Delete local branch",
+    "explanation": "Feature branches isolate work. `-u origin` sets upstream tracking. After PR merge, `git pull` on main syncs local. Merge conflicts occur when the same lines are changed in both branches — resolve by editing files and committing."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **GitHub Copilot** free tier for commit message generation and PR description drafting."
+  }
+}

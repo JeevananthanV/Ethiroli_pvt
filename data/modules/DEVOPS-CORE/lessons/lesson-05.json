@@ -1,0 +1,18 @@
+{
+  "id": "DEVOPS-CORE-L05",
+  "module_code": "DEVOPS-CORE",
+  "lesson_order": 5,
+  "title": "Build pipelines in DevOps",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Build pipelines",
+    "Implement real-world code for Build pipelines according to industry standards",
+    "Debug and optimize Build pipelines integrations"
+  ],
+  "theory_markdown": "### Build pipelines\n\nThis lesson covers in-depth technical mechanics of **Build pipelines** as part of the DevOps curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Build pipelines Implementation Example\nexport function handleBuildpipelines() {\n  console.log('Executing Build pipelines workflow...');\n}",
+    "explanation": "Demonstration of how Build pipelines is structured in production."
+  }
+}

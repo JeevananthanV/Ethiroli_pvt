@@ -1,0 +1,70 @@
+{
+  "id": "AI-DEV-SUB03-Q01",
+  "module_code": "AI-DEV",
+  "day": 1,
+  "title": "Quiz 1: AI testing Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in AI testing?",
+      "options": [
+        "Core principle of AI testing",
+        "Advanced AI testing technique",
+        "Alternative approach to AI testing",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental AI testing concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in AI UI generation?",
+      "options": [
+        "Core principle of AI UI generation",
+        "Advanced AI UI generation technique",
+        "Alternative approach to AI UI generation",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental AI UI generation concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in AI workflow generation?",
+      "options": [
+        "Core principle of AI workflow generation",
+        "Advanced AI workflow generation technique",
+        "Alternative approach to AI workflow generation",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental AI workflow generation concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in AI API integration?",
+      "options": [
+        "Core principle of AI API integration",
+        "Advanced AI API integration technique",
+        "Alternative approach to AI API integration",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental AI API integration concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in AI testing?",
+      "options": [
+        "Core principle of AI testing",
+        "Advanced AI testing technique",
+        "Alternative approach to AI testing",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental AI testing concepts."
+    }
+  ]
+}

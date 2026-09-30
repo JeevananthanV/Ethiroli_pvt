@@ -1,0 +1,38 @@
+{
+  "code": "FE-REACT-SUB03",
+  "title": "React.js Development - Part 3",
+  "category": "Frontend",
+  "level": "Intermediate",
+  "duration_hours": 13,
+  "description": "React.js development with Vite, covering components, state management, hooks, routing, API integration, Redux Toolkit, React Query, and performance optimization. This submodule covers: API integration, Error handling, Loading states, Redux Toolkit, React Query, Performance optimization, Lazy loading, Code splitting, Reusable components.",
+  "topics": [
+    "API integration",
+    "Error handling",
+    "Loading states",
+    "Redux Toolkit",
+    "React Query",
+    "Performance optimization",
+    "Lazy loading",
+    "Code splitting",
+    "Reusable components"
+  ],
+  "technologies": [
+    "React.js",
+    "Vite",
+    "React Router",
+    "Redux Toolkit",
+    "TanStack Query"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "JS-CORE",
+    "WEB-HTML",
+    "WEB-CSS"
+  ],
+  "learning_outcomes": [
+    "Build React applications with functional components and hooks",
+    "Manage state with useState, useEffect, and context",
+    "Implement client-side routing with React Router"
+  ]
+}

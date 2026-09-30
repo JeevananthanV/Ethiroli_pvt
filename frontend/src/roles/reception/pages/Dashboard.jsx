@@ -135,7 +135,7 @@ export default function ReceptionDashboard() {
       }
     >
       {/* Live Gate Metrics */}
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-12 col-sm-6 col-xl-3">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100 border-start border-4 border-primary">
             <div className="d-flex align-items-center justify-content-between">
@@ -195,7 +195,7 @@ export default function ReceptionDashboard() {
       </div>
 
       {/* Quick Action Navigation Strip */}
-      <div className="card border-0 shadow-sm rounded-3 p-3 mb-4 bg-white">
+      <div className="card border-0 shadow-sm rounded-3 p-3 mb-2 bg-white">
         <span className="text-secondary small fw-semibold d-block mb-2 text-uppercase" style={{ letterSpacing: '0.04em' }}>
           Front Desk Instant Workflows
         </span>
@@ -323,7 +323,7 @@ export default function ReceptionDashboard() {
                 <button type="button" className="btn-close" onClick={() => setShowDirModal(false)}></button>
               </div>
               <div className="modal-body p-4">
-                <form onSubmit={handleDirectorySearch} className="mb-4">
+                <form onSubmit={handleDirectorySearch} className="mb-2">
                   <div className="input-group input-group-lg shadow-sm">
                     <span className="input-group-text bg-white border-end-0"><i className="bi bi-search text-muted"></i></span>
                     <input

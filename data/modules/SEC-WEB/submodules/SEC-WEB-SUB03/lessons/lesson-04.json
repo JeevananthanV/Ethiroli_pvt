@@ -1,0 +1,22 @@
+{
+  "id": "SEC-WEB-SUB03-L04",
+  "day": 7,
+  "module_code": "SEC-WEB",
+  "lesson_order": 4,
+  "title": "Secure coding: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Secure coding",
+    "Apply Secure coding in practical scenarios",
+    "Build a small project using Secure coding"
+  ],
+  "theory_markdown": "# Secure coding\n\n## Overview\nThis lesson covers the fundamentals of Secure coding and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Secure coding\n- Concept 2 related to Secure coding\n- Best practices for Secure coding\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Secure coding\n2. Implement basic Secure coding functionality\n3. Apply Secure coding to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Secure coding implementation\nconsole.log('Learning Secure coding');\n\n// Basic Secure coding example\nconst example = {\n  topic: 'Secure coding',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Secure coding usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Secure coding concepts and generate code examples.\n\n---"
+  }
+}

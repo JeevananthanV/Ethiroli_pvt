@@ -1,0 +1,117 @@
+{
+  "id": "QZ-FE-NEXT-COMPREHENSIVE",
+  "module_code": "FE-NEXT",
+  "title": "Comprehensive Quiz: Next.js",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes next.js fundamentals in Next.js?",
+      "options": [
+        "Core concept: Next.js fundamentals is fundamental to Next.js",
+        "Alternative approach to Next.js fundamentals using different methodology",
+        "Advanced implementation of Next.js fundamentals with optimizations",
+        "Legacy technique for Next.js fundamentals no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Next.js fundamentals is a key topic in Next.js. Build full-stack applications with Next.js App Router"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes app router in Next.js?",
+      "options": [
+        "Core concept: App Router is fundamental to Next.js",
+        "Alternative approach to App Router using different methodology",
+        "Advanced implementation of App Router with optimizations",
+        "Legacy technique for App Router no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "App Router is a key topic in Next.js. Build full-stack applications with Next.js App Router"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes pages in Next.js?",
+      "options": [
+        "Core concept: Pages is fundamental to Next.js",
+        "Alternative approach to Pages using different methodology",
+        "Advanced implementation of Pages with optimizations",
+        "Legacy technique for Pages no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Pages is a key topic in Next.js. Build full-stack applications with Next.js App Router"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes layouts in Next.js?",
+      "options": [
+        "Core concept: Layouts is fundamental to Next.js",
+        "Alternative approach to Layouts using different methodology",
+        "Advanced implementation of Layouts with optimizations",
+        "Legacy technique for Layouts no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Layouts is a key topic in Next.js. Build full-stack applications with Next.js App Router"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes server components in Next.js?",
+      "options": [
+        "Core concept: Server Components is fundamental to Next.js",
+        "Alternative approach to Server Components using different methodology",
+        "Advanced implementation of Server Components with optimizations",
+        "Legacy technique for Server Components no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Server Components is a key topic in Next.js. Build full-stack applications with Next.js App Router"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes client components in Next.js?",
+      "options": [
+        "Core concept: Client Components is fundamental to Next.js",
+        "Alternative approach to Client Components using different methodology",
+        "Advanced implementation of Client Components with optimizations",
+        "Legacy technique for Client Components no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Client Components is a key topic in Next.js. Build full-stack applications with Next.js App Router"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in Next.js?",
+      "options": [
+        "Next.js",
+        "TypeScript",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "Next.js uses Next.js, TypeScript as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of Next.js?",
+      "options": [
+        "Build full-stack applications with Next.js App Router",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Build full-stack applications with Next.js App Router"
+    },
+    {
+      "id": 9,
+      "question": "When applying Next.js in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for Next.js include following established patterns and using recommended tools."
+    }
+  ]
+}

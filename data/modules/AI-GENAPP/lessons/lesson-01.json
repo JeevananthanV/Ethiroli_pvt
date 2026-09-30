@@ -1,0 +1,20 @@
+{
+  "id": "AI-GENAPP-D51",
+  "day": 51,
+  "module_code": "AI-GENAPP",
+  "lesson_order": 1,
+  "title": "AI Pair Programming: Workflows and Patterns",
+  "duration_minutes": 60,
+  "objectives": [
+    "Master AI pair programming workflows for planning, coding, reviewing, and refactoring."
+  ],
+  "theory_markdown": "AI pair programming patterns: driver-navigator (you drive, AI navigates), ping-pong (alternate writing), and rubber duck (AI explains). Use AI for: generating boilerplate, exploring APIs, debugging, writing tests, and refactoring.",
+  "code_walkthrough": {
+    "language": "markdown",
+    "code": "# Workflow: Adding a New Feature with AI Assistance\r\n\r\n## Step 1: Planning\r\nPrompt: \"I need to add a notification system to my Express API.\r\nUsers should receive notifications when:\r\n- Someone comments on their post\r\n- Their order status changes\r\n- They're mentioned in a comment\r\n\r\nDesign the database schema, API endpoints, and service layer.\r\nReturn a plan with file structure.\"\r\n\r\n## Step 2: Schema Design\r\nPrompt: \"Generate a Mongoose schema for notifications with:\r\n- recipient (User ref)\r\n- type (enum: comment, order_update, mention)\r\n- message (string)\r\n- read (boolean, default false)\r\n- link (string, optional)\r\n- createdAt (timestamp)\r\nAdd indexes for efficient querying.\"\r\n\r\n## Step 3: Service Layer\r\nPrompt: \"Create a notificationService with methods:\r\n- createNotification(data)\r\n- getUserNotifications(userId, { page, limit, unreadOnly })\r\n- markAsRead(notificationId, userId)\r\n- markAllAsRead(userId)\r\n- getUnreadCount(userId)\r\nInclude error handling and validation.\"\r\n\r\n## Step 4: Routes\r\nPrompt: \"Create Express routes for the notification service.\r\nAll routes require authentication.\r\nInclude pagination for the list endpoint.\"\r\n\r\n## Step 5: Tests\r\nPrompt: \"Write Jest tests for notificationService covering:\r\n- Creating notifications\r\n- Pagination\r\n- Marking as read (own notifications only)\r\n- Unread count\r\n- Error cases\"",
+    "explanation": "Breaking features into discrete prompts produces better results than one massive prompt. Each step builds on the previous. The AI maintains context across the conversation."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Goose** (free, agentic AI workspace) for task-driven development. Use **OpenDevin** (free, open-source) for autonomous software engineering tasks.\r\n\r\n---"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "SEO-TECH-L10",
+  "module_code": "SEO-TECH",
+  "lesson_order": 10,
+  "title": "Core Web Vitals in Technical SEO",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Core Web Vitals",
+    "Implement real-world code for Core Web Vitals according to industry standards",
+    "Debug and optimize Core Web Vitals integrations"
+  ],
+  "theory_markdown": "### Core Web Vitals\n\nThis lesson covers in-depth technical mechanics of **Core Web Vitals** as part of the Technical SEO curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Core Web Vitals Implementation Example\nexport function handleCoreWebVitals() {\n  console.log('Executing Core Web Vitals workflow...');\n}",
+    "explanation": "Demonstration of how Core Web Vitals is structured in production."
+  }
+}

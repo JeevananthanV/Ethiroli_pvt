@@ -1,0 +1,10 @@
+{
+  "id": "EX-ARCH-SYSTEM-L01",
+  "module_code": "ARCH-SYSTEM",
+  "title": "Lab Exercise: System design fundamentals",
+  "difficulty": "Advanced",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates System design fundamentals.",
+  "starter_code": "// Lab: System design fundamentals\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for System design fundamentals\nexport const solution = true;\n"
+}

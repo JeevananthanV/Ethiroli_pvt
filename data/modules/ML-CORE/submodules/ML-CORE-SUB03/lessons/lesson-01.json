@@ -1,0 +1,22 @@
+{
+  "id": "ML-CORE-SUB03-L01",
+  "day": 1,
+  "module_code": "ML-CORE",
+  "lesson_order": 1,
+  "title": "Train/test split: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Train/test split",
+    "Apply Train/test split in practical scenarios",
+    "Build a small project using Train/test split"
+  ],
+  "theory_markdown": "# Train/test split\n\n## Overview\nThis lesson covers the fundamentals of Train/test split and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Train/test split\n- Concept 2 related to Train/test split\n- Best practices for Train/test split\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Train/test split\n2. Implement basic Train/test split functionality\n3. Apply Train/test split to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Train/test split implementation\nconsole.log('Learning Train/test split');\n\n// Basic Train/test split example\nconst example = {\n  topic: 'Train/test split',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Train/test split usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Train/test split concepts and generate code examples.\n\n---"
+  }
+}

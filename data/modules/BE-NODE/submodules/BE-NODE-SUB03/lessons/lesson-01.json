@@ -1,0 +1,22 @@
+{
+  "id": "BE-NODE-SUB03-L01",
+  "day": 1,
+  "module_code": "BE-NODE",
+  "lesson_order": 1,
+  "title": "REST APIs: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of REST APIs",
+    "Apply REST APIs in practical scenarios",
+    "Build a small project using REST APIs"
+  ],
+  "theory_markdown": "# REST APIs\n\n## Overview\nThis lesson covers the fundamentals of REST APIs and its practical applications.\n\n## Key Concepts\n- Concept 1 related to REST APIs\n- Concept 2 related to REST APIs\n- Best practices for REST APIs\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of REST APIs\n2. Implement basic REST APIs functionality\n3. Apply REST APIs to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example REST APIs implementation\nconsole.log('Learning REST APIs');\n\n// Basic REST APIs example\nconst example = {\n  topic: 'REST APIs',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic REST APIs usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand REST APIs concepts and generate code examples.\n\n---"
+  }
+}

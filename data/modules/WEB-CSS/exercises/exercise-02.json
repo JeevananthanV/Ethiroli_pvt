@@ -1,0 +1,11 @@
+{
+  "id": "EX-WEB-CSS-D06",
+  "module_code": "WEB-CSS",
+  "day": 6,
+  "title": "Hands-on Lab: Flexbox: One-Dimensional Layout",
+  "estimated_minutes": 45,
+  "difficulty": "Beginner",
+  "instructions": "Build a responsive card grid for a product listing. Each card has an image, title, description, and price. Use Flexbox with `flex: 1 1 280px` and `flex-wrap: wrap`. Cards should grow evenly on wider screens.",
+  "starter_code": "// Starter file for Flexbox: One-Dimensional Layout\n// Task instructions:\n// Build a responsive card grid for a product listing. Each card has an image, title, description, and price. Use Flexbox with `flex: 1 1 280px` and `fle...\n",
+  "solution_code": "<nav class=\"navbar\">\r\n  <a href=\"/\" class=\"logo\">DevBlog</a>\r\n  <ul class=\"nav-links\">\r\n    <li><a href=\"/articles\">Articles</a></li>\r\n    <li><a href=\"/tutorials\">Tutorials</a></li>\r\n    <li><a href=\"/about\">About</a></li>\r\n  </ul>\r\n  <div class=\"nav-actions\">\r\n    <button class=\"btn-outline\">Log in</button>\r\n    <button class=\"btn-primary\">Sign up</button>\r\n  </div>\r\n</nav>"
+}

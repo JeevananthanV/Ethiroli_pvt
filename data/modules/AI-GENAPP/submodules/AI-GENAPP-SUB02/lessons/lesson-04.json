@@ -1,0 +1,22 @@
+{
+  "id": "AI-GENAPP-SUB02-L04",
+  "day": 7,
+  "module_code": "AI-GENAPP",
+  "lesson_order": 4,
+  "title": "RAG: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of RAG",
+    "Apply RAG in practical scenarios",
+    "Build a small project using RAG"
+  ],
+  "theory_markdown": "# RAG\n\n## Overview\nThis lesson covers the fundamentals of RAG and its practical applications.\n\n## Key Concepts\n- Concept 1 related to RAG\n- Concept 2 related to RAG\n- Best practices for RAG\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of RAG\n2. Implement basic RAG functionality\n3. Apply RAG to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example RAG implementation\nconsole.log('Learning RAG');\n\n// Basic RAG example\nconst example = {\n  topic: 'RAG',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic RAG usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand RAG concepts and generate code examples.\n\n---"
+  }
+}

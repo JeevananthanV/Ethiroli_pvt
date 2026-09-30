@@ -1,0 +1,117 @@
+{
+  "id": "QZ-ML-CORE-COMPREHENSIVE",
+  "module_code": "ML-CORE",
+  "title": "Comprehensive Quiz: Machine Learning",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes ml fundamentals in Machine Learning?",
+      "options": [
+        "Core concept: ML fundamentals is fundamental to Machine Learning",
+        "Alternative approach to ML fundamentals using different methodology",
+        "Advanced implementation of ML fundamentals with optimizations",
+        "Legacy technique for ML fundamentals no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "ML fundamentals is a key topic in Machine Learning. Understand machine learning concepts and workflows"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes supervised learning in Machine Learning?",
+      "options": [
+        "Core concept: Supervised learning is fundamental to Machine Learning",
+        "Alternative approach to Supervised learning using different methodology",
+        "Advanced implementation of Supervised learning with optimizations",
+        "Legacy technique for Supervised learning no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Supervised learning is a key topic in Machine Learning. Understand machine learning concepts and workflows"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes unsupervised learning in Machine Learning?",
+      "options": [
+        "Core concept: Unsupervised learning is fundamental to Machine Learning",
+        "Alternative approach to Unsupervised learning using different methodology",
+        "Advanced implementation of Unsupervised learning with optimizations",
+        "Legacy technique for Unsupervised learning no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Unsupervised learning is a key topic in Machine Learning. Understand machine learning concepts and workflows"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes regression in Machine Learning?",
+      "options": [
+        "Core concept: Regression is fundamental to Machine Learning",
+        "Alternative approach to Regression using different methodology",
+        "Advanced implementation of Regression with optimizations",
+        "Legacy technique for Regression no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Regression is a key topic in Machine Learning. Understand machine learning concepts and workflows"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes classification in Machine Learning?",
+      "options": [
+        "Core concept: Classification is fundamental to Machine Learning",
+        "Alternative approach to Classification using different methodology",
+        "Advanced implementation of Classification with optimizations",
+        "Legacy technique for Classification no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Classification is a key topic in Machine Learning. Understand machine learning concepts and workflows"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes clustering in Machine Learning?",
+      "options": [
+        "Core concept: Clustering is fundamental to Machine Learning",
+        "Alternative approach to Clustering using different methodology",
+        "Advanced implementation of Clustering with optimizations",
+        "Legacy technique for Clustering no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Clustering is a key topic in Machine Learning. Understand machine learning concepts and workflows"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in Machine Learning?",
+      "options": [
+        "Python",
+        "NumPy",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "Machine Learning uses Python, NumPy, Pandas, Scikit-learn as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of Machine Learning?",
+      "options": [
+        "Understand machine learning concepts and workflows",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Understand machine learning concepts and workflows"
+    },
+    {
+      "id": 9,
+      "question": "When applying Machine Learning in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for Machine Learning include following established patterns and using recommended tools."
+    }
+  ]
+}

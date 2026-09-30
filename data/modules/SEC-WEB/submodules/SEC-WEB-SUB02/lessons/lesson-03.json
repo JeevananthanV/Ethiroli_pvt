@@ -1,0 +1,22 @@
+{
+  "id": "SEC-WEB-SUB02-L03",
+  "day": 5,
+  "module_code": "SEC-WEB",
+  "lesson_order": 3,
+  "title": "Authentication security: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Authentication security",
+    "Apply Authentication security in practical scenarios",
+    "Build a small project using Authentication security"
+  ],
+  "theory_markdown": "# Authentication security\n\n## Overview\nThis lesson covers the fundamentals of Authentication security and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Authentication security\n- Concept 2 related to Authentication security\n- Best practices for Authentication security\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Authentication security\n2. Implement basic Authentication security functionality\n3. Apply Authentication security to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Authentication security implementation\nconsole.log('Learning Authentication security');\n\n// Basic Authentication security example\nconst example = {\n  topic: 'Authentication security',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Authentication security usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Authentication security concepts and generate code examples.\n\n---"
+  }
+}

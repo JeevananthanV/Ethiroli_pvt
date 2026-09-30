@@ -1,0 +1,70 @@
+{
+  "id": "DEV-GIT-SUB02-Q01",
+  "module_code": "DEV-GIT",
+  "day": 1,
+  "title": "Quiz 1: Push Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Push?",
+      "options": [
+        "Core principle of Push",
+        "Advanced Push technique",
+        "Alternative approach to Push",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Push concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Pull?",
+      "options": [
+        "Core principle of Pull",
+        "Advanced Pull technique",
+        "Alternative approach to Pull",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Pull concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Branches?",
+      "options": [
+        "Core principle of Branches",
+        "Advanced Branches technique",
+        "Alternative approach to Branches",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Branches concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Merge?",
+      "options": [
+        "Core principle of Merge",
+        "Advanced Merge technique",
+        "Alternative approach to Merge",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Merge concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Rebase?",
+      "options": [
+        "Core principle of Rebase",
+        "Advanced Rebase technique",
+        "Alternative approach to Rebase",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Rebase concepts."
+    }
+  ]
+}

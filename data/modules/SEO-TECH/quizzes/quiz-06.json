@@ -1,0 +1,21 @@
+{
+  "id": "QZ-SEO-TECH-L06",
+  "module_code": "SEO-TECH",
+  "title": "Quiz: Structured data",
+  "time_limit_minutes": 10,
+  "passing_percentage": 75,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is the primary architectural purpose of Structured data in Technical SEO?",
+      "options": [
+        "To enforce modularity and maintainable system boundaries",
+        "To bypass browser runtime security sandboxing",
+        "To override database foreign key constraints",
+        "To compile JavaScript into native x86 machine bytecode"
+      ],
+      "correct_index": 0,
+      "explanation": "Structured data ensures clean separation of concerns and robust maintainability."
+    }
+  ]
+}

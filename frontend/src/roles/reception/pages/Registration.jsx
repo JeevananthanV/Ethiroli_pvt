@@ -43,7 +43,7 @@ export default function ReceptionRegistration() {
         <div className="col-lg-8">
           <div className="card border-0 shadow-sm rounded-3 p-4 bg-white">
             {successMsg && (
-              <div className="alert alert-success d-flex align-items-center gap-2 mb-4">
+              <div className="alert alert-success d-flex align-items-center gap-2 mb-2">
                 <i className="bi bi-check-circle-fill fs-5"></i>
                 <div>
                   <strong>Registration Successful!</strong> Temporary badge and orientation welcome kit generated.
@@ -52,7 +52,7 @@ export default function ReceptionRegistration() {
             )}
 
             <form onSubmit={handleSubmit}>
-              <div className="mb-4">
+              <div className="mb-2">
                 <label className="form-label fw-bold">Candidate Type</label>
                 <div className="d-flex gap-3">
                   <div className="form-check">
@@ -156,7 +156,7 @@ export default function ReceptionRegistration() {
                 </div>
               </div>
 
-              <div className="mb-4">
+              <div className="mb-2">
                 <label className="form-label">Emergency Contact Phone</label>
                 <input
                   type="tel"

@@ -1,0 +1,105 @@
+{
+  "id": "QZ-ARCH-SYSTEM-COMPREHENSIVE",
+  "module_code": "ARCH-SYSTEM",
+  "title": "Comprehensive Quiz: System Design",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes system design fundamentals in System Design?",
+      "options": [
+        "Core concept: System design fundamentals is fundamental to System Design",
+        "Alternative approach to System design fundamentals using different methodology",
+        "Advanced implementation of System design fundamentals with optimizations",
+        "Legacy technique for System design fundamentals no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "System design fundamentals is a key topic in System Design. Analyze system requirements and define architecture"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes requirements in System Design?",
+      "options": [
+        "Core concept: Requirements is fundamental to System Design",
+        "Alternative approach to Requirements using different methodology",
+        "Advanced implementation of Requirements with optimizations",
+        "Legacy technique for Requirements no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Requirements is a key topic in System Design. Analyze system requirements and define architecture"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes architecture in System Design?",
+      "options": [
+        "Core concept: Architecture is fundamental to System Design",
+        "Alternative approach to Architecture using different methodology",
+        "Advanced implementation of Architecture with optimizations",
+        "Legacy technique for Architecture no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Architecture is a key topic in System Design. Analyze system requirements and define architecture"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes scalability in System Design?",
+      "options": [
+        "Core concept: Scalability is fundamental to System Design",
+        "Alternative approach to Scalability using different methodology",
+        "Advanced implementation of Scalability with optimizations",
+        "Legacy technique for Scalability no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Scalability is a key topic in System Design. Analyze system requirements and define architecture"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes availability in System Design?",
+      "options": [
+        "Core concept: Availability is fundamental to System Design",
+        "Alternative approach to Availability using different methodology",
+        "Advanced implementation of Availability with optimizations",
+        "Legacy technique for Availability no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Availability is a key topic in System Design. Analyze system requirements and define architecture"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes reliability in System Design?",
+      "options": [
+        "Core concept: Reliability is fundamental to System Design",
+        "Alternative approach to Reliability using different methodology",
+        "Advanced implementation of Reliability with optimizations",
+        "Legacy technique for Reliability no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Reliability is a key topic in System Design. Analyze system requirements and define architecture"
+    },
+    {
+      "id": 7,
+      "question": "What is a key learning outcome of System Design?",
+      "options": [
+        "Analyze system requirements and define architecture",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Analyze system requirements and define architecture"
+    },
+    {
+      "id": 8,
+      "question": "When applying System Design in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for System Design include following established patterns and using recommended tools."
+    }
+  ]
+}

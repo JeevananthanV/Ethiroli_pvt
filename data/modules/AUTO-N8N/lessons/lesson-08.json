@@ -1,0 +1,18 @@
+{
+  "id": "AUTO-N8N-L08",
+  "module_code": "AUTO-N8N",
+  "lesson_order": 8,
+  "title": "JSON in n8n Business Automation",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of JSON",
+    "Implement real-world code for JSON according to industry standards",
+    "Debug and optimize JSON integrations"
+  ],
+  "theory_markdown": "### JSON\n\nThis lesson covers in-depth technical mechanics of **JSON** as part of the n8n Business Automation curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// JSON Implementation Example\nexport function handleJSON() {\n  console.log('Executing JSON workflow...');\n}",
+    "explanation": "Demonstration of how JSON is structured in production."
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "MOBILE-RN-SUB02-L03",
+  "day": 5,
+  "module_code": "MOBILE-RN",
+  "lesson_order": 3,
+  "title": "Local storage: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Local storage",
+    "Apply Local storage in practical scenarios",
+    "Build a small project using Local storage"
+  ],
+  "theory_markdown": "# Local storage\n\n## Overview\nThis lesson covers the fundamentals of Local storage and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Local storage\n- Concept 2 related to Local storage\n- Best practices for Local storage\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Local storage\n2. Implement basic Local storage functionality\n3. Apply Local storage to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Local storage implementation\nconsole.log('Learning Local storage');\n\n// Basic Local storage example\nconst example = {\n  topic: 'Local storage',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Local storage usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Local storage concepts and generate code examples.\n\n---"
+  }
+}

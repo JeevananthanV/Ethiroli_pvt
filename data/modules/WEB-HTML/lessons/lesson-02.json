@@ -1,0 +1,20 @@
+{
+  "id": "WEB-HTML-D04",
+  "day": 4,
+  "module_code": "WEB-HTML",
+  "lesson_order": 2,
+  "title": "Forms, Input Validation, and Interactive Elements",
+  "duration_minutes": 60,
+  "objectives": [
+    "Build accessible, validated forms using HTML5 input types and constraint validation."
+  ],
+  "theory_markdown": "HTML5 introduced input types that provide built-in validation and mobile-optimised keyboards: `email`, `tel`, `url`, `number`, `date`, `range`, `color`, `search`. Constraint validation attributes: `required`, `minlength`, `maxlength`, `min`, `max`, `pattern`, `type=\"email\"`.\r\n\r\nForms should always pair `<label>` with `<input>` using `for` and `id`. Use `<fieldset>` and `<legend>` to group related inputs. `<datalist>` provides autocomplete suggestions. `<output>` displays calculated results.",
+  "code_walkthrough": {
+    "language": "html",
+    "code": "<form action=\"/api/register\" method=\"POST\" novalidate>\r\n  <fieldset>\r\n    <legend>Account Details</legend>\r\n\r\n    <div class=\"form-group\">\r\n      <label for=\"username\">Username</label>\r\n      <input type=\"text\" id=\"username\" name=\"username\"\r\n             required minlength=\"3\" maxlength=\"20\"\r\n             pattern=\"[a-zA-Z0-9_]+\"\r\n             placeholder=\"Letters, numbers, underscores\">\r\n      <small>3–20 characters, no spaces</small>\r\n    </div>\r\n\r\n    <div class=\"form-group\">\r\n      <label for=\"email\">Email</label>\r\n      <input type=\"email\" id=\"email\" name=\"email\"\r\n             required placeholder=\"you@example.com\">\r\n    </div>\r\n\r\n    <div class=\"form-group\">\r\n      <label for=\"age\">Age</label>\r\n      <input type=\"number\" id=\"age\" name=\"age\"\r\n             min=\"18\" max=\"120\" required>\r\n    </div>\r\n\r\n    <div class=\"form-group\">\r\n      <label for=\"password\">Password</label>\r\n      <input type=\"password\" id=\"password\" name=\"password\"\r\n             required minlength=\"8\">\r\n    </div>\r\n\r\n    <div class=\"form-group\">\r\n      <label for=\"dob\">Date of Birth</label>\r\n      <input type=\"date\" id=\"dob\" name=\"dob\" required>\r\n    </div>\r\n\r\n    <button type=\"submit\">Create Account</button>\r\n  </fieldset>\r\n</form>",
+    "explanation": "`novalidate` disables browser default validation so you can implement custom logic. `pattern=\"[a-zA-Z0-9_]+\"` enforces alphanumeric usernames. `minlength` and `maxlength` constrain input. `checkValidity()` returns true if all constraints pass. `reportValidity()` shows browser validation messages."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Google AI Studio** (free) to generate form validation regex patterns. Paste your requirement and ask for the pattern attribute value."
+  }
+}

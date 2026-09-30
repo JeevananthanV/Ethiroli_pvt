@@ -1,0 +1,18 @@
+{
+  "id": "FE-TS-L06",
+  "module_code": "FE-TS",
+  "lesson_order": 6,
+  "title": "Intersection types in TypeScript",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Intersection types",
+    "Implement real-world code for Intersection types according to industry standards",
+    "Debug and optimize Intersection types integrations"
+  ],
+  "theory_markdown": "### Intersection types\n\nThis lesson covers in-depth technical mechanics of **Intersection types** as part of the TypeScript curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Intersection types Implementation Example\nexport function handleIntersectiontypes() {\n  console.log('Executing Intersection types workflow...');\n}",
+    "explanation": "Demonstration of how Intersection types is structured in production."
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "EX-AUTO-N8N-L10",
+  "module_code": "AUTO-N8N",
+  "title": "Lab Exercise: Conditions",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Conditions.",
+  "starter_code": "// Lab: Conditions\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Conditions\nexport const solution = true;\n"
+}

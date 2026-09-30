@@ -1,0 +1,70 @@
+{
+  "id": "SEO-TECH-SUB02-Q01",
+  "module_code": "SEO-TECH",
+  "day": 1,
+  "title": "Quiz 1: Structured data Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Structured data?",
+      "options": [
+        "Core principle of Structured data",
+        "Advanced Structured data technique",
+        "Alternative approach to Structured data",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Structured data concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Sitemap?",
+      "options": [
+        "Core principle of Sitemap",
+        "Advanced Sitemap technique",
+        "Alternative approach to Sitemap",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Sitemap concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Robots.txt?",
+      "options": [
+        "Core principle of Robots.txt",
+        "Advanced Robots.txt technique",
+        "Alternative approach to Robots.txt",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Robots.txt concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Canonical URLs?",
+      "options": [
+        "Core principle of Canonical URLs",
+        "Advanced Canonical URLs technique",
+        "Alternative approach to Canonical URLs",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Canonical URLs concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Core Web Vitals?",
+      "options": [
+        "Core principle of Core Web Vitals",
+        "Advanced Core Web Vitals technique",
+        "Alternative approach to Core Web Vitals",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Core Web Vitals concepts."
+    }
+  ]
+}

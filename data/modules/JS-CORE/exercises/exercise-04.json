@@ -1,0 +1,11 @@
+{
+  "id": "EX-JS-CORE-D16",
+  "module_code": "JS-CORE",
+  "day": 16,
+  "title": "Hands-on Lab: Asynchronous JavaScript: Callbacks, Promises, Async/Await",
+  "estimated_minutes": 45,
+  "difficulty": "Beginner",
+  "instructions": "Build a function that fetches data from three different \"APIs\" (simulated with `setTimeout` and random success/failure). Use `Promise.allSettled` to get all results, then process successes and log failures. Add a timeout wrapper that rejects after 5 seconds.",
+  "starter_code": "// Starter file for Asynchronous JavaScript: Callbacks, Promises, Async/Await\n// Task instructions:\n// Build a function that fetches data from three different \"APIs\" (simulated with `setTimeout` and random success/failure). Use `Promise.allSettled` to g...\n",
+  "solution_code": "// Callback pattern (avoid — callback hell)\r\nfunction fetchUserCallback(id, callback) {\r\n  setTimeout(() => {\r\n    callback({ id, name: \"Alice\" });\r\n  }, 1000);\r\n}\r\n\r\n// Promise pattern\r\nfunction fetchUser(id) {\r\n  return new Promise((resolve, reject) => {\r\n    setTimeout(() => {\r\n      if (id > 0) {\r\n        resolve({ id, name: \"Alice\" });\r\n      } else {\r\n        reject(new Error(\"Invalid ID\"));\r\n      }\r\n    }, 1000);\r\n  });\r\n}\r\n\r\n// Promise chaining\r\nfetchUser(1)\r\n  .then(user => fetchPosts(user.id))\r\n  .then(posts => console.log(posts))\r\n  .catch(err => console.error(err))\r\n  .finally(() => console.log(\"Done\"));\r\n\r\n// Async/await (preferred)\r\nasync function getUserData(id) {\r\n  try {\r\n    const user = await fetchUser(id);\r\n    const posts = await fetchPosts(user.id);\r\n    return { user, posts };\r\n  } catch (error) {\r\n    console.error(\"Failed:\", error.message);\r\n    throw error;\r\n  }\r\n}\r\n\r\n// Parallel execution\r\nasync function getMultipleUsers(ids) {\r\n  const promises = ids.map(id => fetchUser(id));\r\n  return Promise.all(promises);  // Waits for all\r\n}\r\n\r\n// Promise.allSettled — waits for all, never rejects\r\nconst results = await Promise.allSettled([fetchUser(1), fetchUser(-1)]);\r\n// results[0]: { status: 'fulfilled', value: {...} }\r\n// results[1]: { status: 'rejected', reason: Error }\r\n\r\n// Promise.race — first to settle wins\r\nconst fastest = await Promise.race([fetchUser(1), fetchUser(2)]);"
+}

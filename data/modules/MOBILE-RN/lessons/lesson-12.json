@@ -1,0 +1,18 @@
+{
+  "id": "MOBILE-RN-L12",
+  "module_code": "MOBILE-RN",
+  "lesson_order": 12,
+  "title": "Location in Mobile Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Location",
+    "Implement real-world code for Location according to industry standards",
+    "Debug and optimize Location integrations"
+  ],
+  "theory_markdown": "### Location\n\nThis lesson covers in-depth technical mechanics of **Location** as part of the Mobile Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Location Implementation Example\nexport function handleLocation() {\n  console.log('Executing Location workflow...');\n}",
+    "explanation": "Demonstration of how Location is structured in production."
+  }
+}

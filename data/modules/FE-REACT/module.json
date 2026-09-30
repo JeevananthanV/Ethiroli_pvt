@@ -1,0 +1,61 @@
+{
+  "code": "FE-REACT",
+  "title": "React.js Development",
+  "category": "Frontend",
+  "level": "Intermediate",
+  "duration_hours": 40,
+  "description": "React.js development with Vite, covering components, state management, hooks, routing, API integration, Redux Toolkit, React Query, and performance optimization.",
+  "topics": [
+    "React fundamentals",
+    "Vite",
+    "Components",
+    "JSX",
+    "Props",
+    "State",
+    "Events",
+    "Conditional rendering",
+    "Lists",
+    "Forms",
+    "Controlled components",
+    "Hooks",
+    "useState",
+    "useEffect",
+    "useContext",
+    "Custom hooks",
+    "Component architecture",
+    "Routing",
+    "API integration",
+    "Error handling",
+    "Loading states",
+    "Redux Toolkit",
+    "React Query",
+    "Performance optimization",
+    "Lazy loading",
+    "Code splitting",
+    "Reusable components"
+  ],
+  "technologies": [
+    "React.js",
+    "Vite",
+    "React Router",
+    "Redux Toolkit",
+    "TanStack Query"
+  ],
+  "practicals": [],
+  "projects": [
+    "Employee Management Dashboard"
+  ],
+  "prerequisites": [
+    "JS-CORE",
+    "WEB-HTML",
+    "WEB-CSS"
+  ],
+  "learning_outcomes": [
+    "Build React applications with functional components and hooks",
+    "Manage state with useState, useEffect, and context",
+    "Implement client-side routing with React Router",
+    "Integrate REST APIs with error handling and loading states",
+    "Optimize performance with React Query and code splitting",
+    "Build scalable component architectures with Redux Toolkit"
+  ]
+}

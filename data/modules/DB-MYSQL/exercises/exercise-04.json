@@ -1,0 +1,11 @@
+{
+  "id": "EX-DB-MYSQL-D39",
+  "module_code": "DB-MYSQL",
+  "day": 39,
+  "title": "Hands-on Lab: Node.js + MySQL Integration",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Build a complete user repository with CRUD operations. Add a service layer that uses the repository. Write integration tests that use a test database. Implement transaction support for multi-table operations.",
+  "starter_code": "// Starter file for Node.js + MySQL Integration\n// Task instructions:\n// Build a complete user repository with CRUD operations. Add a service layer that uses the repository. Write integration tests that use a test database....\n",
+  "solution_code": "// db/pool.js\r\nimport mysql from 'mysql2/promise';\r\nimport { config } from '../config/index.js';\r\n\r\nexport const pool = mysql.createPool({\r\n  host: config.db.host,\r\n  user: config.db.user,\r\n  password: config.db.password,\r\n  database: config.db.name,\r\n  waitForConnections: true,\r\n  connectionLimit: 10,\r\n  queueLimit: 0,\r\n  timezone: 'Z',\r\n  dateStrings: false,\r\n});\r\n\r\n// Test connection\r\nexport async function testConnection() {\r\n  try {\r\n    const conn = await pool.getConnection();\r\n    await conn.ping();\r\n    conn.release();\r\n    console.log('Database connected');\r\n  } catch (err) {\r\n    console.error('Database connection failed:', err.message);\r\n    process.exit(1);\r\n  }\r\n}"
+}

@@ -1,0 +1,33 @@
+{
+  "id": "API-PAYMENT-SUB01-E02",
+  "module_code": "API-PAYMENT",
+  "day": 4,
+  "title": "Hands-on Lab: Payment gateway Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Payment gateway:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Payment gateway in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Payment gateway basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Payment gateway exercise\n// TODO: Implement Payment gateway functionality here\n\nconsole.log('Payment gateway exercise starter');\n",
+  "solution_code": "// Solution for Payment gateway exercise\nconsole.log('Completed Payment gateway exercise');\n\n// Basic implementation\nconst paymentgateway = {\n  name: 'Payment gateway',\n  completed: true\n};\n\nconsole.log(paymentgateway);"
+}

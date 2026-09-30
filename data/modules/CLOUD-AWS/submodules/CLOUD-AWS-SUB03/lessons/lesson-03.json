@@ -1,0 +1,22 @@
+{
+  "id": "CLOUD-AWS-SUB03-L03",
+  "day": 5,
+  "module_code": "CLOUD-AWS",
+  "lesson_order": 3,
+  "title": "Monitoring: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Monitoring",
+    "Apply Monitoring in practical scenarios",
+    "Build a small project using Monitoring"
+  ],
+  "theory_markdown": "# Monitoring\n\n## Overview\nThis lesson covers the fundamentals of Monitoring and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Monitoring\n- Concept 2 related to Monitoring\n- Best practices for Monitoring\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Monitoring\n2. Implement basic Monitoring functionality\n3. Apply Monitoring to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Monitoring implementation\nconsole.log('Learning Monitoring');\n\n// Basic Monitoring example\nconst example = {\n  topic: 'Monitoring',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Monitoring usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Monitoring concepts and generate code examples.\n\n---"
+  }
+}

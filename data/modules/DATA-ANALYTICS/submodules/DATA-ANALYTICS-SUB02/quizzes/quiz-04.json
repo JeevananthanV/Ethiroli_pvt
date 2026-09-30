@@ -1,0 +1,70 @@
+{
+  "id": "DATA-ANALYTICS-SUB02-Q04",
+  "module_code": "DATA-ANALYTICS",
+  "day": 7,
+  "title": "Quiz 4: Data transformation Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Data transformation?",
+      "options": [
+        "Core principle of Data transformation",
+        "Advanced Data transformation technique",
+        "Alternative approach to Data transformation",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Data transformation concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Statistics?",
+      "options": [
+        "Core principle of Statistics",
+        "Advanced Statistics technique",
+        "Alternative approach to Statistics",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Statistics concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in EDA?",
+      "options": [
+        "Core principle of EDA",
+        "Advanced EDA technique",
+        "Alternative approach to EDA",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental EDA concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Data visualization?",
+      "options": [
+        "Core principle of Data visualization",
+        "Advanced Data visualization technique",
+        "Alternative approach to Data visualization",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Data visualization concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Data transformation?",
+      "options": [
+        "Core principle of Data transformation",
+        "Advanced Data transformation technique",
+        "Alternative approach to Data transformation",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Data transformation concepts."
+    }
+  ]
+}

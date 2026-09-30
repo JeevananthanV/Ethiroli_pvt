@@ -1,0 +1,18 @@
+{
+  "id": "ML-DL-L08",
+  "module_code": "ML-DL",
+  "lesson_order": 8,
+  "title": "LSTM in Deep Learning",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of LSTM",
+    "Implement real-world code for LSTM according to industry standards",
+    "Debug and optimize LSTM integrations"
+  ],
+  "theory_markdown": "### LSTM\n\nThis lesson covers in-depth technical mechanics of **LSTM** as part of the Deep Learning curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// LSTM Implementation Example\nexport function handleLSTM() {\n  console.log('Executing LSTM workflow...');\n}",
+    "explanation": "Demonstration of how LSTM is structured in production."
+  }
+}

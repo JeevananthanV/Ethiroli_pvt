@@ -1,0 +1,18 @@
+{
+  "id": "API-PAYMENT-L07",
+  "module_code": "API-PAYMENT",
+  "lesson_order": 7,
+  "title": "Refunds in Payment Integration",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Refunds",
+    "Implement real-world code for Refunds according to industry standards",
+    "Debug and optimize Refunds integrations"
+  ],
+  "theory_markdown": "### Refunds\n\nThis lesson covers in-depth technical mechanics of **Refunds** as part of the Payment Integration curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Refunds Implementation Example\nexport function handleRefunds() {\n  console.log('Executing Refunds workflow...');\n}",
+    "explanation": "Demonstration of how Refunds is structured in production."
+  }
+}

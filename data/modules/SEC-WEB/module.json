@@ -1,0 +1,44 @@
+{
+  "code": "SEC-WEB",
+  "title": "Cybersecurity",
+  "category": "Security",
+  "level": "Intermediate",
+  "duration_hours": 12,
+  "description": "Web cybersecurity covering OWASP Top 10, SQL injection prevention, XSS/CSRF mitigation, authentication security, API security, and secure coding practices.",
+  "topics": [
+    "Cybersecurity fundamentals",
+    "Network security",
+    "Web security",
+    "OWASP",
+    "SQL injection",
+    "XSS",
+    "CSRF",
+    "Authentication security",
+    "API security",
+    "Password security",
+    "Secure coding",
+    "Security headers",
+    "Vulnerability assessment"
+  ],
+  "technologies": [
+    "OWASP",
+    "Postman",
+    "Burp Suite"
+  ],
+  "practicals": [],
+  "projects": [
+    "Secure Web Application"
+  ],
+  "prerequisites": [
+    "SEC-AUTH",
+    "BE-NODE"
+  ],
+  "learning_outcomes": [
+    "Understand cybersecurity fundamentals and threat landscape",
+    "Identify and prevent OWASP Top 10 vulnerabilities",
+    "Implement input validation and output encoding",
+    "Secure authentication and session management",
+    "Protect APIs with rate limiting and authentication",
+    "Follow secure coding practices and conduct security testing"
+  ]
+}

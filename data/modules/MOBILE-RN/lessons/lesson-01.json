@@ -1,0 +1,18 @@
+{
+  "id": "MOBILE-RN-L01",
+  "module_code": "MOBILE-RN",
+  "lesson_order": 1,
+  "title": "Mobile fundamentals in Mobile Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Mobile fundamentals",
+    "Implement real-world code for Mobile fundamentals according to industry standards",
+    "Debug and optimize Mobile fundamentals integrations"
+  ],
+  "theory_markdown": "### Mobile fundamentals\n\nThis lesson covers in-depth technical mechanics of **Mobile fundamentals** as part of the Mobile Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Mobile fundamentals Implementation Example\nexport function handleMobilefundamentals() {\n  console.log('Executing Mobile fundamentals workflow...');\n}",
+    "explanation": "Demonstration of how Mobile fundamentals is structured in production."
+  }
+}

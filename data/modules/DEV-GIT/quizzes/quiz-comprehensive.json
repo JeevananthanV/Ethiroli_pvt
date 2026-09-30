@@ -1,0 +1,117 @@
+{
+  "id": "QZ-DEV-GIT-COMPREHENSIVE",
+  "module_code": "DEV-GIT",
+  "title": "Comprehensive Quiz: Git & GitHub",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes version control in Git & GitHub?",
+      "options": [
+        "Core concept: Version control is fundamental to Git & GitHub",
+        "Alternative approach to Version control using different methodology",
+        "Advanced implementation of Version control with optimizations",
+        "Legacy technique for Version control no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Version control is a key topic in Git & GitHub. Initialize and manage Git repositories"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes git installation in Git & GitHub?",
+      "options": [
+        "Core concept: Git installation is fundamental to Git & GitHub",
+        "Alternative approach to Git installation using different methodology",
+        "Advanced implementation of Git installation with optimizations",
+        "Legacy technique for Git installation no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Git installation is a key topic in Git & GitHub. Initialize and manage Git repositories"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes repository in Git & GitHub?",
+      "options": [
+        "Core concept: Repository is fundamental to Git & GitHub",
+        "Alternative approach to Repository using different methodology",
+        "Advanced implementation of Repository with optimizations",
+        "Legacy technique for Repository no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Repository is a key topic in Git & GitHub. Initialize and manage Git repositories"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes init in Git & GitHub?",
+      "options": [
+        "Core concept: Init is fundamental to Git & GitHub",
+        "Alternative approach to Init using different methodology",
+        "Advanced implementation of Init with optimizations",
+        "Legacy technique for Init no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Init is a key topic in Git & GitHub. Initialize and manage Git repositories"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes clone in Git & GitHub?",
+      "options": [
+        "Core concept: Clone is fundamental to Git & GitHub",
+        "Alternative approach to Clone using different methodology",
+        "Advanced implementation of Clone with optimizations",
+        "Legacy technique for Clone no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Clone is a key topic in Git & GitHub. Initialize and manage Git repositories"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes add in Git & GitHub?",
+      "options": [
+        "Core concept: Add is fundamental to Git & GitHub",
+        "Alternative approach to Add using different methodology",
+        "Advanced implementation of Add with optimizations",
+        "Legacy technique for Add no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Add is a key topic in Git & GitHub. Initialize and manage Git repositories"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in Git & GitHub?",
+      "options": [
+        "Git",
+        "GitHub",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "Git & GitHub uses Git, GitHub as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of Git & GitHub?",
+      "options": [
+        "Initialize and manage Git repositories",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Initialize and manage Git repositories"
+    },
+    {
+      "id": 9,
+      "question": "When applying Git & GitHub in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for Git & GitHub include following established patterns and using recommended tools."
+    }
+  ]
+}

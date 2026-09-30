@@ -1,0 +1,18 @@
+{
+  "id": "ML-DL-L01",
+  "module_code": "ML-DL",
+  "lesson_order": 1,
+  "title": "Neural networks in Deep Learning",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Neural networks",
+    "Implement real-world code for Neural networks according to industry standards",
+    "Debug and optimize Neural networks integrations"
+  ],
+  "theory_markdown": "### Neural networks\n\nThis lesson covers in-depth technical mechanics of **Neural networks** as part of the Deep Learning curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Neural networks Implementation Example\nexport function handleNeuralnetworks() {\n  console.log('Executing Neural networks workflow...');\n}",
+    "explanation": "Demonstration of how Neural networks is structured in production."
+  }
+}

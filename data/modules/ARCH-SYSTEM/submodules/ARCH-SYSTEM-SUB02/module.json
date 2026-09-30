@@ -1,0 +1,29 @@
+{
+  "code": "ARCH-SYSTEM-SUB02",
+  "title": "System Design - Part 2",
+  "category": "Architecture",
+  "level": "Advanced",
+  "duration_hours": 7,
+  "description": "System design covering requirements analysis, architecture patterns, scalability, availability, load balancing, caching, databases, Redis, queues, microservices, and API gateways. This submodule covers: Load balancing, Caching, Database scaling, SQL vs NoSQL, Redis, Queues.",
+  "topics": [
+    "Load balancing",
+    "Caching",
+    "Database scaling",
+    "SQL vs NoSQL",
+    "Redis",
+    "Queues"
+  ],
+  "technologies": [],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "FS-INTEGRATION",
+    "DB-MYSQL",
+    "DEVOPS-CORE"
+  ],
+  "learning_outcomes": [
+    "Analyze system requirements and define architecture",
+    "Design scalable and highly available systems",
+    "Implement load balancing and caching strategies"
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "id": "JS-CORE-SUB02-Q04",
+  "module_code": "JS-CORE",
+  "day": 7,
+  "title": "Quiz 4: Objects Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Objects?",
+      "options": [
+        "Core principle of Objects",
+        "Advanced Objects technique",
+        "Alternative approach to Objects",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Objects concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Destructuring?",
+      "options": [
+        "Core principle of Destructuring",
+        "Advanced Destructuring technique",
+        "Alternative approach to Destructuring",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Destructuring concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Spread/rest?",
+      "options": [
+        "Core principle of Spread/rest",
+        "Advanced Spread/rest technique",
+        "Alternative approach to Spread/rest",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Spread/rest concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Array methods?",
+      "options": [
+        "Core principle of Array methods",
+        "Advanced Array methods technique",
+        "Alternative approach to Array methods",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Array methods concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in DOM manipulation?",
+      "options": [
+        "Core principle of DOM manipulation",
+        "Advanced DOM manipulation technique",
+        "Alternative approach to DOM manipulation",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental DOM manipulation concepts."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "code": "FE-TS-SUB02",
+  "title": "TypeScript - Part 2",
+  "category": "Frontend",
+  "level": "Intermediate",
+  "duration_hours": 5,
+  "description": "TypeScript programming covering type annotations, interfaces, generics, classes, and integration with React for type-safe frontend development. This submodule covers: Intersection types, Enums, Functions, Generics, Classes.",
+  "topics": [
+    "Intersection types",
+    "Enums",
+    "Functions",
+    "Generics",
+    "Classes"
+  ],
+  "technologies": [
+    "TypeScript",
+    "React + TypeScript"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "JS-CORE",
+    "FE-REACT"
+  ],
+  "learning_outcomes": [
+    "Apply TypeScript type annotations and interfaces",
+    "Use generics, union types, and utility types",
+    "Create type-safe React components"
+  ]
+}

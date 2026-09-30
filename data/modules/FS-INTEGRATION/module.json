@@ -1,0 +1,50 @@
+{
+  "code": "FS-INTEGRATION",
+  "title": "Full Stack Integration",
+  "category": "Full Stack",
+  "level": "Advanced",
+  "duration_hours": 24,
+  "description": "Full-stack integration of React frontend with Node.js/Express backend, covering authentication, CRUD operations, forms, validation, file uploads, and database integration.",
+  "topics": [
+    "React + Node",
+    "Frontend/backend architecture",
+    "API integration",
+    "Authentication",
+    "CRUD",
+    "Forms",
+    "Validation",
+    "Error handling",
+    "Loading states",
+    "File upload",
+    "Pagination",
+    "Search",
+    "Filtering",
+    "Role-based dashboards",
+    "Database integration"
+  ],
+  "technologies": [
+    "React",
+    "Axios / Fetch",
+    "Node.js",
+    "Express.js",
+    "MySQL / MongoDB"
+  ],
+  "practicals": [],
+  "projects": [
+    "Full Stack Employee Management System"
+  ],
+  "prerequisites": [
+    "FE-REACT",
+    "BE-NODE",
+    "BE-EXPRESS",
+    "DB-MYSQL"
+  ],
+  "learning_outcomes": [
+    "Build full-stack applications with React and Node.js",
+    "Implement RESTful API communication between frontend and backend",
+    "Manage application state with React hooks and context",
+    "Implement secure authentication and authorization flows",
+    "Handle file uploads and form validation",
+    "Integrate databases with proper error handling"
+  ]
+}

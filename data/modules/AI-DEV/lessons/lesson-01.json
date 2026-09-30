@@ -1,0 +1,20 @@
+{
+  "id": "AI-DEV-D48",
+  "day": 48,
+  "module_code": "AI-DEV",
+  "lesson_order": 1,
+  "title": "AI Coding Assistants: Setup and Effective Prompting",
+  "duration_minutes": 60,
+  "objectives": [
+    "Set up AI coding assistants and master prompt engineering for code generation."
+  ],
+  "theory_markdown": "AI coding assistants accelerate development: code completion, generation, refactoring, explanation, and test generation. Tools: GitHub Copilot (free tier), Cursor (free hobby plan), OpenCode (free, open-source), Cline (free, BYO key), Continue.dev (free, open-source), Free.ai Coder (free, 50K tokens/day).\r\n\r\nEffective prompting: be specific about requirements, provide context (language, framework, constraints), ask for explanations, request tests alongside code, iterate on output.",
+  "code_walkthrough": {
+    "language": "bash",
+    "code": "# Free.ai Coder — terminal AI assistant\r\n# Install\r\npip install freeai-code\r\n\r\n# Initialize in project\r\ncd my-project\r\nfree-code init\r\n\r\n# Ask about codebase\r\nfree-code ask \"How does the authentication middleware work?\"\r\n\r\n# Execute a coding task\r\nfree-code run \"Add input validation to the registration endpoint using zod\"\r\n\r\n# Generate tests\r\nfree-code run \"Write Jest tests for the authService including error cases\"\r\n\r\n# Refactor\r\nfree-code run \"Refactor the user controller to use async/await consistently\"",
+    "explanation": "`free-code ask` queries the codebase with context. `free-code run` executes tasks with file read/write capabilities. Specific prompts with constraints produce better output. Always review generated code — AI can hallucinate APIs or miss edge cases."
+  },
+  "ai_tool_spotlight": {
+    "description": "Tools to explore: **OpenCode** (free, open-source, model-agnostic), **Cline** (free, BYO key), **Continue.dev** (free, open-source), **Tabby** (self-hosted), **Supermaven Free** (300K context).\r\n\r\n---"
+  }
+}

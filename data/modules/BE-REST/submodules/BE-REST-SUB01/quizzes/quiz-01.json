@@ -1,0 +1,70 @@
+{
+  "id": "BE-REST-SUB01-Q01",
+  "module_code": "BE-REST",
+  "day": 1,
+  "title": "Quiz 1: HTTP Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in HTTP?",
+      "options": [
+        "Core principle of HTTP",
+        "Advanced HTTP technique",
+        "Alternative approach to HTTP",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental HTTP concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in HTTP methods?",
+      "options": [
+        "Core principle of HTTP methods",
+        "Advanced HTTP methods technique",
+        "Alternative approach to HTTP methods",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental HTTP methods concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Status codes?",
+      "options": [
+        "Core principle of Status codes",
+        "Advanced Status codes technique",
+        "Alternative approach to Status codes",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Status codes concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in REST architecture?",
+      "options": [
+        "Core principle of REST architecture",
+        "Advanced REST architecture technique",
+        "Alternative approach to REST architecture",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental REST architecture concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in CRUD?",
+      "options": [
+        "Core principle of CRUD",
+        "Advanced CRUD technique",
+        "Alternative approach to CRUD",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental CRUD concepts."
+    }
+  ]
+}

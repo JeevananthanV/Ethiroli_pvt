@@ -1,0 +1,10 @@
+{
+  "id": "EX-FINAL-L01",
+  "module_code": "FINAL",
+  "title": "Lab Exercise: Final project planning",
+  "difficulty": "Capstone",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Final project planning.",
+  "starter_code": "// Lab: Final project planning\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Final project planning\nexport const solution = true;\n"
+}

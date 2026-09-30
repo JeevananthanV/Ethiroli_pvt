@@ -1,0 +1,32 @@
+{
+  "code": "FE-NEXT-SUB02",
+  "title": "Next.js - Part 2",
+  "category": "Frontend",
+  "level": "Advanced",
+  "duration_hours": 8,
+  "description": "Next.js development with App Router, Server/Client Components, API routes, authentication, SEO, image optimization, and production deployment strategies. This submodule covers: Routing, Dynamic routes, Data fetching, Server actions, API routes, Middleware.",
+  "topics": [
+    "Routing",
+    "Dynamic routes",
+    "Data fetching",
+    "Server actions",
+    "API routes",
+    "Middleware"
+  ],
+  "technologies": [
+    "Next.js",
+    "TypeScript"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "FE-REACT",
+    "FE-TS",
+    "BE-NODE"
+  ],
+  "learning_outcomes": [
+    "Build full-stack applications with Next.js App Router",
+    "Implement server-side rendering and static site generation",
+    "Create API routes and server actions"
+  ]
+}

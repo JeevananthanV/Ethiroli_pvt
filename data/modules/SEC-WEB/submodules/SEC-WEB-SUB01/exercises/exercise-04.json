@@ -1,0 +1,33 @@
+{
+  "id": "SEC-WEB-SUB01-E04",
+  "module_code": "SEC-WEB",
+  "day": 8,
+  "title": "Hands-on Lab: OWASP Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice OWASP:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of OWASP in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating OWASP basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for OWASP exercise\n// TODO: Implement OWASP functionality here\n\nconsole.log('OWASP exercise starter');\n",
+  "solution_code": "// Solution for OWASP exercise\nconsole.log('Completed OWASP exercise');\n\n// Basic implementation\nconst owasp = {\n  name: 'OWASP',\n  completed: true\n};\n\nconsole.log(owasp);"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "EX-SEO-TECH-L12",
+  "module_code": "SEO-TECH",
+  "title": "Lab Exercise: Search Console",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Search Console.",
+  "starter_code": "// Lab: Search Console\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Search Console\nexport const solution = true;\n"
+}

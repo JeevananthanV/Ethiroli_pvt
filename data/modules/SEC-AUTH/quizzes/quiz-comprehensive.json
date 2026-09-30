@@ -1,0 +1,117 @@
+{
+  "id": "QZ-SEC-AUTH-COMPREHENSIVE",
+  "module_code": "SEC-AUTH",
+  "title": "Comprehensive Quiz: Authentication & Authorization",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes authentication in Authentication & Authorization?",
+      "options": [
+        "Core concept: Authentication is fundamental to Authentication & Authorization",
+        "Alternative approach to Authentication using different methodology",
+        "Advanced implementation of Authentication with optimizations",
+        "Legacy technique for Authentication no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Authentication is a key topic in Authentication & Authorization. Implement secure password storage with hashing and salting"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes authorization in Authentication & Authorization?",
+      "options": [
+        "Core concept: Authorization is fundamental to Authentication & Authorization",
+        "Alternative approach to Authorization using different methodology",
+        "Advanced implementation of Authorization with optimizations",
+        "Legacy technique for Authorization no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Authorization is a key topic in Authentication & Authorization. Implement secure password storage with hashing and salting"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes password hashing in Authentication & Authorization?",
+      "options": [
+        "Core concept: Password hashing is fundamental to Authentication & Authorization",
+        "Alternative approach to Password hashing using different methodology",
+        "Advanced implementation of Password hashing with optimizations",
+        "Legacy technique for Password hashing no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Password hashing is a key topic in Authentication & Authorization. Implement secure password storage with hashing and salting"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes jwt in Authentication & Authorization?",
+      "options": [
+        "Core concept: JWT is fundamental to Authentication & Authorization",
+        "Alternative approach to JWT using different methodology",
+        "Advanced implementation of JWT with optimizations",
+        "Legacy technique for JWT no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "JWT is a key topic in Authentication & Authorization. Implement secure password storage with hashing and salting"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes sessions in Authentication & Authorization?",
+      "options": [
+        "Core concept: Sessions is fundamental to Authentication & Authorization",
+        "Alternative approach to Sessions using different methodology",
+        "Advanced implementation of Sessions with optimizations",
+        "Legacy technique for Sessions no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Sessions is a key topic in Authentication & Authorization. Implement secure password storage with hashing and salting"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes cookies in Authentication & Authorization?",
+      "options": [
+        "Core concept: Cookies is fundamental to Authentication & Authorization",
+        "Alternative approach to Cookies using different methodology",
+        "Advanced implementation of Cookies with optimizations",
+        "Legacy technique for Cookies no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Cookies is a key topic in Authentication & Authorization. Implement secure password storage with hashing and salting"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in Authentication & Authorization?",
+      "options": [
+        "JWT",
+        "bcrypt",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "Authentication & Authorization uses JWT, bcrypt, OAuth as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of Authentication & Authorization?",
+      "options": [
+        "Implement secure password storage with hashing and salting",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Implement secure password storage with hashing and salting"
+    },
+    {
+      "id": 9,
+      "question": "When applying Authentication & Authorization in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for Authentication & Authorization include following established patterns and using recommended tools."
+    }
+  ]
+}

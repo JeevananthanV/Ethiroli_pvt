@@ -1,0 +1,22 @@
+{
+  "id": "WEB-CSS-SUB01-L03",
+  "day": 5,
+  "module_code": "WEB-CSS",
+  "lesson_order": 3,
+  "title": "Colors: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Colors",
+    "Apply Colors in practical scenarios",
+    "Build a small project using Colors"
+  ],
+  "theory_markdown": "# Colors\n\n## Overview\nThis lesson covers the fundamentals of Colors and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Colors\n- Concept 2 related to Colors\n- Best practices for Colors\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Colors\n2. Implement basic Colors functionality\n3. Apply Colors to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Colors implementation\nconsole.log('Learning Colors');\n\n// Basic Colors example\nconst example = {\n  topic: 'Colors',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Colors usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Colors concepts and generate code examples.\n\n---"
+  }
+}

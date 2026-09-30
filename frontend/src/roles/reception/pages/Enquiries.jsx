@@ -124,7 +124,7 @@ export default function ReceptionEnquiries() {
       }
     >
       {/* Metric Cards */}
-      <div className="row g-3 mb-4">
+      <div className="row g-3 mb-2">
         <div className="col-12 col-sm-6 col-xl-3">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white">
             <div className="d-flex align-items-center justify-content-between">
@@ -186,7 +186,7 @@ export default function ReceptionEnquiries() {
       </div>
 
       {/* Filter & Search Bar */}
-      <div className="card border-0 shadow-sm rounded-3 p-3 mb-4 bg-white">
+      <div className="card border-0 shadow-sm rounded-3 p-3 mb-2 bg-white">
         <div className="row g-2 align-items-center">
           <div className="col-12 col-md-6">
             <div className="input-group">

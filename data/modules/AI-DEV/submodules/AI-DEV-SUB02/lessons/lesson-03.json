@@ -1,0 +1,22 @@
+{
+  "id": "AI-DEV-SUB02-L03",
+  "day": 5,
+  "module_code": "AI-DEV",
+  "lesson_order": 3,
+  "title": "AI code review: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of AI code review",
+    "Apply AI code review in practical scenarios",
+    "Build a small project using AI code review"
+  ],
+  "theory_markdown": "# AI code review\n\n## Overview\nThis lesson covers the fundamentals of AI code review and its practical applications.\n\n## Key Concepts\n- Concept 1 related to AI code review\n- Concept 2 related to AI code review\n- Best practices for AI code review\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of AI code review\n2. Implement basic AI code review functionality\n3. Apply AI code review to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example AI code review implementation\nconsole.log('Learning AI code review');\n\n// Basic AI code review example\nconst example = {\n  topic: 'AI code review',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic AI code review usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand AI code review concepts and generate code examples.\n\n---"
+  }
+}

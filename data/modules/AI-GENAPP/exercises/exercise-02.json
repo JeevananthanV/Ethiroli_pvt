@@ -1,0 +1,11 @@
+{
+  "id": "EX-AI-GENAPP-D52",
+  "module_code": "AI-GENAPP",
+  "day": 52,
+  "title": "Hands-on Lab: AI for Codebase Understanding and Documentation",
+  "estimated_minutes": 45,
+  "difficulty": "Advanced",
+  "instructions": "Use AI to generate complete documentation for your project: README, architecture diagram (Mermaid), API reference, database schema, and onboarding guide. Verify accuracy by cross-referencing with the actual code.",
+  "starter_code": "// Starter file for AI for Codebase Understanding and Documentation\n// Task instructions:\n// Use AI to generate complete documentation for your project: README, architecture diagram (Mermaid), API reference, database schema, and onboarding gui...\n",
+  "solution_code": "# Generated README.md structure\r\n\r\n## Project Name\r\nBrief description\r\n\r\n## Architecture"
+}

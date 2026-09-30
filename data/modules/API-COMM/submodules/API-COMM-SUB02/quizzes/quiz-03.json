@@ -1,0 +1,70 @@
+{
+  "id": "API-COMM-SUB02-Q03",
+  "module_code": "API-COMM",
+  "day": 5,
+  "title": "Quiz 3: SMS Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in SMS?",
+      "options": [
+        "Core principle of SMS",
+        "Advanced SMS technique",
+        "Alternative approach to SMS",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental SMS concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in WhatsApp messaging?",
+      "options": [
+        "Core principle of WhatsApp messaging",
+        "Advanced WhatsApp messaging technique",
+        "Alternative approach to WhatsApp messaging",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental WhatsApp messaging concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Templates?",
+      "options": [
+        "Core principle of Templates",
+        "Advanced Templates technique",
+        "Alternative approach to Templates",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Templates concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Webhooks?",
+      "options": [
+        "Core principle of Webhooks",
+        "Advanced Webhooks technique",
+        "Alternative approach to Webhooks",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Webhooks concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in SMS?",
+      "options": [
+        "Core principle of SMS",
+        "Advanced SMS technique",
+        "Alternative approach to SMS",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental SMS concepts."
+    }
+  ]
+}

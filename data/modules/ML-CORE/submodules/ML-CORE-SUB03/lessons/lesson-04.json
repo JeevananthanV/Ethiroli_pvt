@@ -1,0 +1,22 @@
+{
+  "id": "ML-CORE-SUB03-L04",
+  "day": 7,
+  "module_code": "ML-CORE",
+  "lesson_order": 4,
+  "title": "Hyperparameter tuning: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Hyperparameter tuning",
+    "Apply Hyperparameter tuning in practical scenarios",
+    "Build a small project using Hyperparameter tuning"
+  ],
+  "theory_markdown": "# Hyperparameter tuning\n\n## Overview\nThis lesson covers the fundamentals of Hyperparameter tuning and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Hyperparameter tuning\n- Concept 2 related to Hyperparameter tuning\n- Best practices for Hyperparameter tuning\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Hyperparameter tuning\n2. Implement basic Hyperparameter tuning functionality\n3. Apply Hyperparameter tuning to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Hyperparameter tuning implementation\nconsole.log('Learning Hyperparameter tuning');\n\n// Basic Hyperparameter tuning example\nconst example = {\n  topic: 'Hyperparameter tuning',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Hyperparameter tuning usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Hyperparameter tuning concepts and generate code examples.\n\n---"
+  }
+}

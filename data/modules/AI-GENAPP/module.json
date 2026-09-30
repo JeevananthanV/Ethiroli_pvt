@@ -1,0 +1,45 @@
+{
+  "code": "AI-GENAPP",
+  "title": "Generative AI Application Development",
+  "category": "AI/ML",
+  "level": "Advanced",
+  "duration_hours": 24,
+  "description": "Generative AI application development covering LLM APIs, embeddings, vector databases, RAG, AI agents, chatbots, and document processing with LangChain/LangGraph.",
+  "topics": [
+    "LLM APIs",
+    "Prompt engineering",
+    "Tokens",
+    "Context",
+    "Structured outputs",
+    "Function calling",
+    "Embeddings",
+    "Vector databases",
+    "RAG",
+    "AI agents",
+    "AI chatbots",
+    "Document processing",
+    "AI search"
+  ],
+  "technologies": [
+    "OpenAI API",
+    "Gemini API",
+    "Vector DB",
+    "LangChain/LangGraph"
+  ],
+  "practicals": [],
+  "projects": [
+    "AI Knowledge Assistant"
+  ],
+  "prerequisites": [
+    "AI-DEV",
+    "BE-NODE"
+  ],
+  "learning_outcomes": [
+    "Work with LLM APIs (OpenAI, Gemini) and manage tokens/context",
+    "Implement prompt engineering for structured outputs",
+    "Use function calling and tools with AI models",
+    "Create embeddings and work with vector databases",
+    "Implement Retrieval-Augmented Generation (RAG) systems",
+    "Build AI agents, chatbots, and document processing applications"
+  ]
+}

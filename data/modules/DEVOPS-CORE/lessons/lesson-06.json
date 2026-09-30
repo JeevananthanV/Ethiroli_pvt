@@ -1,0 +1,18 @@
+{
+  "id": "DEVOPS-CORE-L06",
+  "module_code": "DEVOPS-CORE",
+  "lesson_order": 6,
+  "title": "Docker in DevOps",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Docker",
+    "Implement real-world code for Docker according to industry standards",
+    "Debug and optimize Docker integrations"
+  ],
+  "theory_markdown": "### Docker\n\nThis lesson covers in-depth technical mechanics of **Docker** as part of the DevOps curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Docker Implementation Example\nexport function handleDocker() {\n  console.log('Executing Docker workflow...');\n}",
+    "explanation": "Demonstration of how Docker is structured in production."
+  }
+}

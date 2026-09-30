@@ -1,0 +1,11 @@
+{
+  "id": "EX-DSA-CORE-D19",
+  "module_code": "DSA-CORE",
+  "day": 19,
+  "title": "Hands-on Lab: Prototypes, Inheritance, and Object-Oriented Patterns",
+  "estimated_minutes": 45,
+  "difficulty": "Beginner",
+  "instructions": "Build a shape system using composition. Create behaviours for `area`, `perimeter`, and `scalable`. Compose them into `Circle`, `Rectangle`, and `Triangle` objects. Compare with a class-based implementation and discuss trade-offs.",
+  "starter_code": "// Starter file for Prototypes, Inheritance, and Object-Oriented Patterns\n// Task instructions:\n// Build a shape system using composition. Create behaviours for `area`, `perimeter`, and `scalable`. Compose them into `Circle`, `Rectangle`, and `Trian...\n",
+  "solution_code": "// Constructor function (pre-class syntax)\r\nfunction Animal(name) {\r\n  this.name = name;\r\n}\r\nAnimal.prototype.speak = function() {\r\n  console.log(`${this.name} makes a sound`);\r\n};\r\n\r\nfunction Dog(name, breed) {\r\n  Animal.call(this, name);  // Super call\r\n  this.breed = breed;\r\n}\r\nDog.prototype = Object.create(Animal.prototype);\r\nDog.prototype.constructor = Dog;\r\nDog.prototype.speak = function() {\r\n  console.log(`${this.name} barks`);\r\n};\r\n\r\nconst dog = new Dog(\"Rex\", \"Labrador\");\r\ndog.speak(); // \"Rex barks\"\r\n\r\n// Class syntax (same behaviour)\r\nclass Animal2 {\r\n  constructor(name) { this.name = name; }\r\n  speak() { console.log(`${this.name} makes a sound`); }\r\n}\r\nclass Dog2 extends Animal2 {\r\n  constructor(name, breed) {\r\n    super(name);\r\n    this.breed = breed;\r\n  }\r\n  speak() { console.log(`${this.name} barks`); }\r\n}\r\n\r\n// Composition\r\nconst canSwim = (state) => ({\r\n  swim: () => console.log(`${state.name} swims`)\r\n});\r\nconst canFly = (state) => ({\r\n  fly: () => console.log(`${state.name} flies`)\r\n});\r\n\r\nfunction createDuck(name) {\r\n  const state = { name };\r\n  return { ...state, ...canSwim(state), ...canFly(state) };\r\n}\r\n\r\nconst duck = createDuck(\"Donald\");\r\nduck.swim(); // \"Donald swims\"\r\nduck.fly();  // \"Donald flies\""
+}

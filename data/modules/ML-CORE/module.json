@@ -1,0 +1,46 @@
+{
+  "code": "ML-CORE",
+  "title": "Machine Learning",
+  "category": "AI/ML",
+  "level": "Advanced",
+  "duration_hours": 24,
+  "description": "Machine learning fundamentals covering supervised/unsupervised learning, regression, classification, clustering, feature engineering, evaluation, and hyperparameter tuning with Scikit-learn.",
+  "topics": [
+    "ML fundamentals",
+    "Supervised learning",
+    "Unsupervised learning",
+    "Regression",
+    "Classification",
+    "Clustering",
+    "Feature engineering",
+    "Data preprocessing",
+    "Train/test split",
+    "Model evaluation",
+    "Cross-validation",
+    "Hyperparameter tuning"
+  ],
+  "technologies": [
+    "Python",
+    "NumPy",
+    "Pandas",
+    "Scikit-learn"
+  ],
+  "practicals": [],
+  "projects": [
+    "House Price Prediction",
+    "Customer Churn Prediction",
+    "Customer Segmentation"
+  ],
+  "prerequisites": [
+    "PY-CORE",
+    "DATA-ANALYTICS"
+  ],
+  "learning_outcomes": [
+    "Understand machine learning concepts and workflows",
+    "Implement supervised learning algorithms (regression, classification)",
+    "Apply unsupervised learning techniques (clustering)",
+    "Perform feature engineering and data preprocessing",
+    "Evaluate model performance with appropriate metrics",
+    "Optimize models with cross-validation and hyperparameter tuning"
+  ]
+}

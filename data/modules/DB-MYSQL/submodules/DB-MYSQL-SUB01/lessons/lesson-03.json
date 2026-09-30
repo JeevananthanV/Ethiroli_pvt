@@ -1,0 +1,22 @@
+{
+  "id": "DB-MYSQL-SUB01-L03",
+  "day": 5,
+  "module_code": "DB-MYSQL",
+  "lesson_order": 3,
+  "title": "Columns: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Columns",
+    "Apply Columns in practical scenarios",
+    "Build a small project using Columns"
+  ],
+  "theory_markdown": "# Columns\n\n## Overview\nThis lesson covers the fundamentals of Columns and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Columns\n- Concept 2 related to Columns\n- Best practices for Columns\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Columns\n2. Implement basic Columns functionality\n3. Apply Columns to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Columns implementation\nconsole.log('Learning Columns');\n\n// Basic Columns example\nconst example = {\n  topic: 'Columns',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Columns usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Columns concepts and generate code examples.\n\n---"
+  }
+}

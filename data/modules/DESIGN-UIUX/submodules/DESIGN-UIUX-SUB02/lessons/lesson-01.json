@@ -1,0 +1,22 @@
+{
+  "id": "DESIGN-UIUX-SUB02-L01",
+  "day": 1,
+  "module_code": "DESIGN-UIUX",
+  "lesson_order": 1,
+  "title": "Design principles: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Design principles",
+    "Apply Design principles in practical scenarios",
+    "Build a small project using Design principles"
+  ],
+  "theory_markdown": "# Design principles\n\n## Overview\nThis lesson covers the fundamentals of Design principles and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Design principles\n- Concept 2 related to Design principles\n- Best practices for Design principles\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Design principles\n2. Implement basic Design principles functionality\n3. Apply Design principles to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Design principles implementation\nconsole.log('Learning Design principles');\n\n// Basic Design principles example\nconst example = {\n  topic: 'Design principles',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Design principles usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Design principles concepts and generate code examples.\n\n---"
+  }
+}

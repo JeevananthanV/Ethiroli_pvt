@@ -1,0 +1,22 @@
+{
+  "id": "FE-REACT-SUB02-L02",
+  "day": 3,
+  "module_code": "FE-REACT",
+  "lesson_order": 2,
+  "title": "Controlled components: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Controlled components",
+    "Apply Controlled components in practical scenarios",
+    "Build a small project using Controlled components"
+  ],
+  "theory_markdown": "# Controlled components\n\n## Overview\nThis lesson covers the fundamentals of Controlled components and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Controlled components\n- Concept 2 related to Controlled components\n- Best practices for Controlled components\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Controlled components\n2. Implement basic Controlled components functionality\n3. Apply Controlled components to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Controlled components implementation\nconsole.log('Learning Controlled components');\n\n// Basic Controlled components example\nconst example = {\n  topic: 'Controlled components',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Controlled components usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Controlled components concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "AI-GENAPP-SUB02-L01",
+  "day": 1,
+  "module_code": "AI-GENAPP",
+  "lesson_order": 1,
+  "title": "Function calling: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Function calling",
+    "Apply Function calling in practical scenarios",
+    "Build a small project using Function calling"
+  ],
+  "theory_markdown": "# Function calling\n\n## Overview\nThis lesson covers the fundamentals of Function calling and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Function calling\n- Concept 2 related to Function calling\n- Best practices for Function calling\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Function calling\n2. Implement basic Function calling functionality\n3. Apply Function calling to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Function calling implementation\nconsole.log('Learning Function calling');\n\n// Basic Function calling example\nconst example = {\n  topic: 'Function calling',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Function calling usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Function calling concepts and generate code examples.\n\n---"
+  }
+}

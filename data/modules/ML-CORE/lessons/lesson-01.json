@@ -1,0 +1,18 @@
+{
+  "id": "ML-CORE-L01",
+  "module_code": "ML-CORE",
+  "lesson_order": 1,
+  "title": "ML fundamentals in Machine Learning",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of ML fundamentals",
+    "Implement real-world code for ML fundamentals according to industry standards",
+    "Debug and optimize ML fundamentals integrations"
+  ],
+  "theory_markdown": "### ML fundamentals\n\nThis lesson covers in-depth technical mechanics of **ML fundamentals** as part of the Machine Learning curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// ML fundamentals Implementation Example\nexport function handleMLfundamentals() {\n  console.log('Executing ML fundamentals workflow...');\n}",
+    "explanation": "Demonstration of how ML fundamentals is structured in production."
+  }
+}

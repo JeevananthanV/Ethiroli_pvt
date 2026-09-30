@@ -1,0 +1,70 @@
+{
+  "id": "FS-INTEGRATION-SUB02-Q01",
+  "module_code": "FS-INTEGRATION",
+  "day": 1,
+  "title": "Quiz 1: Forms Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Forms?",
+      "options": [
+        "Core principle of Forms",
+        "Advanced Forms technique",
+        "Alternative approach to Forms",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Forms concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Validation?",
+      "options": [
+        "Core principle of Validation",
+        "Advanced Validation technique",
+        "Alternative approach to Validation",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Validation concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Error handling?",
+      "options": [
+        "Core principle of Error handling",
+        "Advanced Error handling technique",
+        "Alternative approach to Error handling",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Error handling concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Loading states?",
+      "options": [
+        "Core principle of Loading states",
+        "Advanced Loading states technique",
+        "Alternative approach to Loading states",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Loading states concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in File upload?",
+      "options": [
+        "Core principle of File upload",
+        "Advanced File upload technique",
+        "Alternative approach to File upload",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental File upload concepts."
+    }
+  ]
+}

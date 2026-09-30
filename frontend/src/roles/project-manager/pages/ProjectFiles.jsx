@@ -38,7 +38,7 @@ export default function PMProjectFiles() {
 
   useEffect(() => {
     loadFiles();
-  }, [categoryFilter]);
+  }, [categoryFilter, loadFiles]);
 
   const handleCreate = async (e) => {
     e.preventDefault();

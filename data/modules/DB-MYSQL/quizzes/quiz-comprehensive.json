@@ -1,0 +1,117 @@
+{
+  "id": "QZ-DB-MYSQL-COMPREHENSIVE",
+  "module_code": "DB-MYSQL",
+  "title": "Comprehensive Quiz: MySQL Database",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes database fundamentals in MySQL Database?",
+      "options": [
+        "Core concept: Database fundamentals is fundamental to MySQL Database",
+        "Alternative approach to Database fundamentals using different methodology",
+        "Advanced implementation of Database fundamentals with optimizations",
+        "Legacy technique for Database fundamentals no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Database fundamentals is a key topic in MySQL Database. Design normalized database schemas with ER diagrams"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes tables in MySQL Database?",
+      "options": [
+        "Core concept: Tables is fundamental to MySQL Database",
+        "Alternative approach to Tables using different methodology",
+        "Advanced implementation of Tables with optimizations",
+        "Legacy technique for Tables no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Tables is a key topic in MySQL Database. Design normalized database schemas with ER diagrams"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes columns in MySQL Database?",
+      "options": [
+        "Core concept: Columns is fundamental to MySQL Database",
+        "Alternative approach to Columns using different methodology",
+        "Advanced implementation of Columns with optimizations",
+        "Legacy technique for Columns no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Columns is a key topic in MySQL Database. Design normalized database schemas with ER diagrams"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes data types in MySQL Database?",
+      "options": [
+        "Core concept: Data types is fundamental to MySQL Database",
+        "Alternative approach to Data types using different methodology",
+        "Advanced implementation of Data types with optimizations",
+        "Legacy technique for Data types no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Data types is a key topic in MySQL Database. Design normalized database schemas with ER diagrams"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes primary keys in MySQL Database?",
+      "options": [
+        "Core concept: Primary keys is fundamental to MySQL Database",
+        "Alternative approach to Primary keys using different methodology",
+        "Advanced implementation of Primary keys with optimizations",
+        "Legacy technique for Primary keys no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Primary keys is a key topic in MySQL Database. Design normalized database schemas with ER diagrams"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes foreign keys in MySQL Database?",
+      "options": [
+        "Core concept: Foreign keys is fundamental to MySQL Database",
+        "Alternative approach to Foreign keys using different methodology",
+        "Advanced implementation of Foreign keys with optimizations",
+        "Legacy technique for Foreign keys no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Foreign keys is a key topic in MySQL Database. Design normalized database schemas with ER diagrams"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in MySQL Database?",
+      "options": [
+        "MySQL",
+        "MySQL Workbench",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "MySQL Database uses MySQL, MySQL Workbench as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of MySQL Database?",
+      "options": [
+        "Design normalized database schemas with ER diagrams",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Design normalized database schemas with ER diagrams"
+    },
+    {
+      "id": 9,
+      "question": "When applying MySQL Database in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for MySQL Database include following established patterns and using recommended tools."
+    }
+  ]
+}

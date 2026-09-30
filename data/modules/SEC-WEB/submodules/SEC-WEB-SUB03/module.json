@@ -1,0 +1,29 @@
+{
+  "code": "SEC-WEB-SUB03",
+  "title": "Cybersecurity - Part 3",
+  "category": "Security",
+  "level": "Intermediate",
+  "duration_hours": 4,
+  "description": "Web cybersecurity covering OWASP Top 10, SQL injection prevention, XSS/CSRF mitigation, authentication security, API security, and secure coding practices. This submodule covers: Secure coding, Security headers, Vulnerability assessment.",
+  "topics": [
+    "Secure coding",
+    "Security headers",
+    "Vulnerability assessment"
+  ],
+  "technologies": [
+    "OWASP",
+    "Postman",
+    "Burp Suite"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "SEC-AUTH",
+    "BE-NODE"
+  ],
+  "learning_outcomes": [
+    "Understand cybersecurity fundamentals and threat landscape",
+    "Identify and prevent OWASP Top 10 vulnerabilities",
+    "Implement input validation and output encoding"
+  ]
+}

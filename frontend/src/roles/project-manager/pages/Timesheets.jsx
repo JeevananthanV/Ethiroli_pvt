@@ -37,7 +37,7 @@ export default function PMTimesheets() {
 
   useEffect(() => {
     loadTimesheets();
-  }, [statusFilter]);
+  }, [statusFilter, loadTimesheets]);
 
   const handleApprove = async (id) => {
     setActionLoading(id);

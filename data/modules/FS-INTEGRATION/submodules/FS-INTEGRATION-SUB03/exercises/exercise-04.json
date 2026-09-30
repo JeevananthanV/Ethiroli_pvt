@@ -1,0 +1,33 @@
+{
+  "id": "FS-INTEGRATION-SUB03-E04",
+  "module_code": "FS-INTEGRATION",
+  "day": 8,
+  "title": "Hands-on Lab: Role-based dashboards Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Role-based dashboards:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Role-based dashboards in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Role-based dashboards basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Role-based dashboards exercise\n// TODO: Implement Role-based dashboards functionality here\n\nconsole.log('Role-based dashboards exercise starter');\n",
+  "solution_code": "// Solution for Role-based dashboards exercise\nconsole.log('Completed Role-based dashboards exercise');\n\n// Basic implementation\nconst role-baseddashboards = {\n  name: 'Role-based dashboards',\n  completed: true\n};\n\nconsole.log(role-baseddashboards);"
+}

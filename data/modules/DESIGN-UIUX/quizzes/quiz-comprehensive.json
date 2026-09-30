@@ -1,0 +1,117 @@
+{
+  "id": "QZ-DESIGN-UIUX-COMPREHENSIVE",
+  "module_code": "DESIGN-UIUX",
+  "title": "Comprehensive Quiz: UI/UX Design",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes ui vs ux in UI/UX Design?",
+      "options": [
+        "Core concept: UI vs UX is fundamental to UI/UX Design",
+        "Alternative approach to UI vs UX using different methodology",
+        "Advanced implementation of UI vs UX with optimizations",
+        "Legacy technique for UI vs UX no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "UI vs UX is a key topic in UI/UX Design. Conduct user research and create personas"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes user research in UI/UX Design?",
+      "options": [
+        "Core concept: User research is fundamental to UI/UX Design",
+        "Alternative approach to User research using different methodology",
+        "Advanced implementation of User research with optimizations",
+        "Legacy technique for User research no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "User research is a key topic in UI/UX Design. Conduct user research and create personas"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes personas in UI/UX Design?",
+      "options": [
+        "Core concept: Personas is fundamental to UI/UX Design",
+        "Alternative approach to Personas using different methodology",
+        "Advanced implementation of Personas with optimizations",
+        "Legacy technique for Personas no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Personas is a key topic in UI/UX Design. Conduct user research and create personas"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes user journey in UI/UX Design?",
+      "options": [
+        "Core concept: User journey is fundamental to UI/UX Design",
+        "Alternative approach to User journey using different methodology",
+        "Advanced implementation of User journey with optimizations",
+        "Legacy technique for User journey no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "User journey is a key topic in UI/UX Design. Conduct user research and create personas"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes information architecture in UI/UX Design?",
+      "options": [
+        "Core concept: Information architecture is fundamental to UI/UX Design",
+        "Alternative approach to Information architecture using different methodology",
+        "Advanced implementation of Information architecture with optimizations",
+        "Legacy technique for Information architecture no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Information architecture is a key topic in UI/UX Design. Conduct user research and create personas"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes wireframes in UI/UX Design?",
+      "options": [
+        "Core concept: Wireframes is fundamental to UI/UX Design",
+        "Alternative approach to Wireframes using different methodology",
+        "Advanced implementation of Wireframes with optimizations",
+        "Legacy technique for Wireframes no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Wireframes is a key topic in UI/UX Design. Conduct user research and create personas"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in UI/UX Design?",
+      "options": [
+        "Figma",
+        "Java",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "UI/UX Design uses Figma as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of UI/UX Design?",
+      "options": [
+        "Conduct user research and create personas",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Conduct user research and create personas"
+    },
+    {
+      "id": 9,
+      "question": "When applying UI/UX Design in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for UI/UX Design include following established patterns and using recommended tools."
+    }
+  ]
+}

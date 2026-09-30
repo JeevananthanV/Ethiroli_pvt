@@ -1,0 +1,22 @@
+{
+  "id": "SEC-AUTH-SUB03-L02",
+  "day": 3,
+  "module_code": "SEC-AUTH",
+  "lesson_order": 2,
+  "title": "Google login: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Google login",
+    "Apply Google login in practical scenarios",
+    "Build a small project using Google login"
+  ],
+  "theory_markdown": "# Google login\n\n## Overview\nThis lesson covers the fundamentals of Google login and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Google login\n- Concept 2 related to Google login\n- Best practices for Google login\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Google login\n2. Implement basic Google login functionality\n3. Apply Google login to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Google login implementation\nconsole.log('Learning Google login');\n\n// Basic Google login example\nconst example = {\n  topic: 'Google login',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Google login usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Google login concepts and generate code examples.\n\n---"
+  }
+}

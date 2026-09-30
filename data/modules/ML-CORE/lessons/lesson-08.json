@@ -1,0 +1,18 @@
+{
+  "id": "ML-CORE-L08",
+  "module_code": "ML-CORE",
+  "lesson_order": 8,
+  "title": "Data preprocessing in Machine Learning",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Data preprocessing",
+    "Implement real-world code for Data preprocessing according to industry standards",
+    "Debug and optimize Data preprocessing integrations"
+  ],
+  "theory_markdown": "### Data preprocessing\n\nThis lesson covers in-depth technical mechanics of **Data preprocessing** as part of the Machine Learning curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Data preprocessing Implementation Example\nexport function handleDatapreprocessing() {\n  console.log('Executing Data preprocessing workflow...');\n}",
+    "explanation": "Demonstration of how Data preprocessing is structured in production."
+  }
+}

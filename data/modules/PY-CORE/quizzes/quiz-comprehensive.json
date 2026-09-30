@@ -1,0 +1,117 @@
+{
+  "id": "QZ-PY-CORE-COMPREHENSIVE",
+  "module_code": "PY-CORE",
+  "title": "Comprehensive Quiz: Python Development",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes python syntax in Python Development?",
+      "options": [
+        "Core concept: Python syntax is fundamental to Python Development",
+        "Alternative approach to Python syntax using different methodology",
+        "Advanced implementation of Python syntax with optimizations",
+        "Legacy technique for Python syntax no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Python syntax is a key topic in Python Development. Write Python programs with proper syntax and indentation"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes variables in Python Development?",
+      "options": [
+        "Core concept: Variables is fundamental to Python Development",
+        "Alternative approach to Variables using different methodology",
+        "Advanced implementation of Variables with optimizations",
+        "Legacy technique for Variables no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Variables is a key topic in Python Development. Write Python programs with proper syntax and indentation"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes data types in Python Development?",
+      "options": [
+        "Core concept: Data types is fundamental to Python Development",
+        "Alternative approach to Data types using different methodology",
+        "Advanced implementation of Data types with optimizations",
+        "Legacy technique for Data types no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Data types is a key topic in Python Development. Write Python programs with proper syntax and indentation"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes operators in Python Development?",
+      "options": [
+        "Core concept: Operators is fundamental to Python Development",
+        "Alternative approach to Operators using different methodology",
+        "Advanced implementation of Operators with optimizations",
+        "Legacy technique for Operators no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Operators is a key topic in Python Development. Write Python programs with proper syntax and indentation"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes conditions in Python Development?",
+      "options": [
+        "Core concept: Conditions is fundamental to Python Development",
+        "Alternative approach to Conditions using different methodology",
+        "Advanced implementation of Conditions with optimizations",
+        "Legacy technique for Conditions no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Conditions is a key topic in Python Development. Write Python programs with proper syntax and indentation"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes loops in Python Development?",
+      "options": [
+        "Core concept: Loops is fundamental to Python Development",
+        "Alternative approach to Loops using different methodology",
+        "Advanced implementation of Loops with optimizations",
+        "Legacy technique for Loops no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Loops is a key topic in Python Development. Write Python programs with proper syntax and indentation"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in Python Development?",
+      "options": [
+        "Python",
+        "Java",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "Python Development uses Python as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of Python Development?",
+      "options": [
+        "Write Python programs with proper syntax and indentation",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Write Python programs with proper syntax and indentation"
+    },
+    {
+      "id": 9,
+      "question": "When applying Python Development in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for Python Development include following established patterns and using recommended tools."
+    }
+  ]
+}

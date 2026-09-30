@@ -1,0 +1,33 @@
+{
+  "id": "ARCH-SYSTEM-SUB03-E02",
+  "module_code": "ARCH-SYSTEM",
+  "day": 4,
+  "title": "Hands-on Lab: API Gateway Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice API Gateway:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of API Gateway in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating API Gateway basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for API Gateway exercise\n// TODO: Implement API Gateway functionality here\n\nconsole.log('API Gateway exercise starter');\n",
+  "solution_code": "// Solution for API Gateway exercise\nconsole.log('Completed API Gateway exercise');\n\n// Basic implementation\nconst apigateway = {\n  name: 'API Gateway',\n  completed: true\n};\n\nconsole.log(apigateway);"
+}

@@ -1,0 +1,117 @@
+{
+  "id": "QZ-AI-GENAPP-COMPREHENSIVE",
+  "module_code": "AI-GENAPP",
+  "title": "Comprehensive Quiz: Generative AI Application Development",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes llm apis in Generative AI Application Development?",
+      "options": [
+        "Core concept: LLM APIs is fundamental to Generative AI Application Development",
+        "Alternative approach to LLM APIs using different methodology",
+        "Advanced implementation of LLM APIs with optimizations",
+        "Legacy technique for LLM APIs no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "LLM APIs is a key topic in Generative AI Application Development. Work with LLM APIs (OpenAI, Gemini) and manage tokens/context"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes prompt engineering in Generative AI Application Development?",
+      "options": [
+        "Core concept: Prompt engineering is fundamental to Generative AI Application Development",
+        "Alternative approach to Prompt engineering using different methodology",
+        "Advanced implementation of Prompt engineering with optimizations",
+        "Legacy technique for Prompt engineering no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Prompt engineering is a key topic in Generative AI Application Development. Work with LLM APIs (OpenAI, Gemini) and manage tokens/context"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes tokens in Generative AI Application Development?",
+      "options": [
+        "Core concept: Tokens is fundamental to Generative AI Application Development",
+        "Alternative approach to Tokens using different methodology",
+        "Advanced implementation of Tokens with optimizations",
+        "Legacy technique for Tokens no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Tokens is a key topic in Generative AI Application Development. Work with LLM APIs (OpenAI, Gemini) and manage tokens/context"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes context in Generative AI Application Development?",
+      "options": [
+        "Core concept: Context is fundamental to Generative AI Application Development",
+        "Alternative approach to Context using different methodology",
+        "Advanced implementation of Context with optimizations",
+        "Legacy technique for Context no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Context is a key topic in Generative AI Application Development. Work with LLM APIs (OpenAI, Gemini) and manage tokens/context"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes structured outputs in Generative AI Application Development?",
+      "options": [
+        "Core concept: Structured outputs is fundamental to Generative AI Application Development",
+        "Alternative approach to Structured outputs using different methodology",
+        "Advanced implementation of Structured outputs with optimizations",
+        "Legacy technique for Structured outputs no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Structured outputs is a key topic in Generative AI Application Development. Work with LLM APIs (OpenAI, Gemini) and manage tokens/context"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes function calling in Generative AI Application Development?",
+      "options": [
+        "Core concept: Function calling is fundamental to Generative AI Application Development",
+        "Alternative approach to Function calling using different methodology",
+        "Advanced implementation of Function calling with optimizations",
+        "Legacy technique for Function calling no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Function calling is a key topic in Generative AI Application Development. Work with LLM APIs (OpenAI, Gemini) and manage tokens/context"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in Generative AI Application Development?",
+      "options": [
+        "OpenAI API",
+        "Gemini API",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "Generative AI Application Development uses OpenAI API, Gemini API, Vector DB, LangChain/LangGraph as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of Generative AI Application Development?",
+      "options": [
+        "Work with LLM APIs (OpenAI, Gemini) and manage tokens/context",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Work with LLM APIs (OpenAI, Gemini) and manage tokens/context"
+    },
+    {
+      "id": 9,
+      "question": "When applying Generative AI Application Development in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for Generative AI Application Development include following established patterns and using recommended tools."
+    }
+  ]
+}

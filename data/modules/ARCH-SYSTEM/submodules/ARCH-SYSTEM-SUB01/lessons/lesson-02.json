@@ -1,0 +1,22 @@
+{
+  "id": "ARCH-SYSTEM-SUB01-L02",
+  "day": 3,
+  "module_code": "ARCH-SYSTEM",
+  "lesson_order": 2,
+  "title": "Requirements: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Requirements",
+    "Apply Requirements in practical scenarios",
+    "Build a small project using Requirements"
+  ],
+  "theory_markdown": "# Requirements\n\n## Overview\nThis lesson covers the fundamentals of Requirements and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Requirements\n- Concept 2 related to Requirements\n- Best practices for Requirements\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Requirements\n2. Implement basic Requirements functionality\n3. Apply Requirements to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Requirements implementation\nconsole.log('Learning Requirements');\n\n// Basic Requirements example\nconst example = {\n  topic: 'Requirements',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Requirements usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Requirements concepts and generate code examples.\n\n---"
+  }
+}

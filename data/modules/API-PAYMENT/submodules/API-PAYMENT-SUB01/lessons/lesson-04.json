@@ -1,0 +1,22 @@
+{
+  "id": "API-PAYMENT-SUB01-L04",
+  "day": 7,
+  "module_code": "API-PAYMENT",
+  "lesson_order": 4,
+  "title": "Payment verification: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Payment verification",
+    "Apply Payment verification in practical scenarios",
+    "Build a small project using Payment verification"
+  ],
+  "theory_markdown": "# Payment verification\n\n## Overview\nThis lesson covers the fundamentals of Payment verification and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Payment verification\n- Concept 2 related to Payment verification\n- Best practices for Payment verification\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Payment verification\n2. Implement basic Payment verification functionality\n3. Apply Payment verification to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Payment verification implementation\nconsole.log('Learning Payment verification');\n\n// Basic Payment verification example\nconst example = {\n  topic: 'Payment verification',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Payment verification usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Payment verification concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "id": "FE-REACT-D23",
+  "day": 23,
+  "module_code": "FE-REACT",
+  "lesson_order": 3,
+  "title": "Side Effects with `useEffect`",
+  "duration_minutes": 60,
+  "objectives": [
+    "Master `useEffect`, dependency arrays, cleanup, and data fetching patterns."
+  ],
+  "theory_markdown": "`useEffect` runs side effects after render. The dependency array controls when it runs: `[]` runs once on mount; `[dep]` runs when `dep` changes; no array runs after every render. Cleanup functions prevent memory leaks (clear timers, abort fetches, unsubscribe).",
+  "code_walkthrough": {
+    "language": "jsx",
+    "code": "import { useState, useEffect } from 'react';\r\n\r\nfunction UserProfile({ userId }) {\r\n  const [user, setUser] = useState(null);\r\n  const [loading, setLoading] = useState(true);\r\n  const [error, setError] = useState(null);\r\n\r\n  useEffect(() => {\r\n    const controller = new AbortController();\r\n\r\n    async function fetchUser() {\r\n      try {\r\n        setLoading(true);\r\n        setError(null);\r\n        const res = await fetch(`/api/users/${userId}`, {\r\n          signal: controller.signal\r\n        });\r\n        if (!res.ok) throw new Error(`HTTP ${res.status}`);\r\n        const data = await res.json();\r\n        setUser(data);\r\n      } catch (err) {\r\n        if (err.name !== \"AbortError\") setError(err.message);\r\n      } finally {\r\n        setLoading(false);\r\n      }\r\n    }\r\n\r\n    fetchUser();\r\n    return () => controller.abort();  // Cleanup\r\n  }, [userId]);\r\n\r\n  if (loading) return <p>Loading...</p>;\r\n  if (error) return <p>Error: {error}</p>;\r\n  if (!user) return null;\r\n\r\n  return (\r\n    <div>\r\n      <h2>{user.name}</h2>\r\n      <p>{user.email}</p>\r\n    </div>\r\n  );\r\n}\r\n\r\n// Timer with cleanup\r\nfunction Timer() {\r\n  const [seconds, setSeconds] = useState(0);\r\n\r\n  useEffect(() => {\r\n    const interval = setInterval(() => {\r\n      setSeconds(s => s + 1);\r\n    }, 1000);\r\n\r\n    return () => clearInterval(interval);  // Cleanup\r\n  }, []);\r\n\r\n  return <p>Seconds: {seconds}</p>;\r\n}",
+    "explanation": "`AbortController` cancels fetch on unmount or `userId` change. Cleanup prevents state updates on unmounted components. The dependency array `[userId]` ensures refetch when `userId` changes. `setSeconds(s => s + 1)` uses functional update to avoid stale closures."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **React DevTools Profiler** to measure effect performance. Use **OpenCode** to explain effect dependencies.\r\n\r\n---"
+  }
+}

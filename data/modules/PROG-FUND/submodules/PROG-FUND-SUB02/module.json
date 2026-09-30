@@ -1,0 +1,27 @@
+{
+  "code": "PROG-FUND-SUB02",
+  "title": "Programming Fundamentals - Part 2",
+  "category": "Programming",
+  "level": "Beginner",
+  "duration_hours": 7,
+  "description": "Foundational programming concepts using JavaScript and Python, covering variables, control structures, data structures, and problem-solving techniques essential for beginners entering software development. This submodule covers: Loops, Functions, Arrays, Objects, Error handling.",
+  "topics": [
+    "Loops",
+    "Functions",
+    "Arrays",
+    "Objects",
+    "Error handling"
+  ],
+  "technologies": [
+    "JavaScript",
+    "Python"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [],
+  "learning_outcomes": [
+    "Write programs using variables, data types, and operators",
+    "Implement control structures (conditions and loops)",
+    "Work with arrays and objects for data storage"
+  ]
+}

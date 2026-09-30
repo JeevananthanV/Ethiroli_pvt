@@ -1,0 +1,20 @@
+{
+  "id": "AI-DEV-D50",
+  "day": 50,
+  "module_code": "AI-DEV",
+  "lesson_order": 3,
+  "title": "Building AI-Powered Features in Applications",
+  "duration_minutes": 60,
+  "objectives": [
+    "Integrate AI APIs into applications for intelligent features."
+  ],
+  "theory_markdown": "AI APIs: OpenAI (GPT-4o, free tier limited), Anthropic (Claude), Google Gemini (free tier), Groq (fast inference), Together AI. Use cases: chatbots, content generation, summarisation, sentiment analysis, code generation, semantic search.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// services/aiService.js\r\nimport OpenAI from 'openai';\r\nimport { config } from '../config/index.js';\r\n\r\nconst openai = new OpenAI({ apiKey: config.openaiApiKey });\r\n\r\nexport const aiService = {\r\n  async summarise(text, maxLength = 100) {\r\n    const response = await openai.chat.completions.create({\r\n      model: 'gpt-4o-mini',\r\n      messages: [\r\n        {\r\n          role: 'system',\r\n          content: `Summarise the following text in ${maxLength} words or fewer. Return only the summary.`\r\n        },\r\n        { role: 'user', content: text }\r\n      ],\r\n      max_tokens: maxLength * 2,\r\n      temperature: 0.3\r\n    });\r\n\r\n    return response.choices[0].message.content;\r\n  },\r\n\r\n  async generateTags(content) {\r\n    const response = await openai.chat.completions.create({\r\n      model: 'gpt-4o-mini',\r\n      messages: [\r\n        {\r\n          role: 'system',\r\n          content: 'Extract 3-5 relevant tags from the content. Return as a JSON array of strings.'\r\n        },\r\n        { role: 'user', content }\r\n      ],\r\n      response_format: { type: 'json_object' },\r\n      temperature: 0.2\r\n    });\r\n\r\n    return JSON.parse(response.choices[0].message.content).tags;\r\n  },\r\n\r\n  async chat(messages, context = '') {\r\n    const systemMessage = context\r\n      ? `You are a helpful assistant. Context: ${context}`\r\n      : 'You are a helpful assistant.';\r\n\r\n    const response = await openai.chat.completions.create({\r\n      model: 'gpt-4o-mini',\r\n      messages: [\r\n        { role: 'system', content: systemMessage },\r\n        ...messages\r\n      ],\r\n      temperature: 0.7,\r\n      max_tokens: 1000\r\n    });\r\n\r\n    return response.choices[0].message.content;\r\n  }\r\n};",
+    "explanation": "AI APIs are called server-side to keep API keys secure. Rate limiting prevents abuse and controls costs. `response_format: { type: 'json_object' }` ensures structured output. `temperature` controls randomness (lower = more deterministic)."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Google Gemini API** (free tier) as a cost-effective alternative. Use **Groq** for fast inference. Use **OpenRouter** for access to multiple models with one API."
+  }
+}

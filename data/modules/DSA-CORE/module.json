@@ -1,0 +1,46 @@
+{
+  "code": "DSA-CORE",
+  "title": "DSA & Problem Solving",
+  "category": "Programming",
+  "level": "Intermediate",
+  "duration_hours": 30,
+  "description": "Data structures and algorithms covering arrays, strings, linked lists, stacks, queues, trees, graphs, dynamic programming, and problem-solving with JavaScript, Python, and Java.",
+  "topics": [
+    "Complexity",
+    "Arrays",
+    "Strings",
+    "Searching",
+    "Sorting",
+    "Recursion",
+    "Linked lists",
+    "Stack",
+    "Queue",
+    "Hashing",
+    "Trees",
+    "Graphs",
+    "Dynamic programming",
+    "Greedy algorithms",
+    "Sliding window",
+    "Two pointers"
+  ],
+  "technologies": [
+    "JavaScript",
+    "Python",
+    "Java"
+  ],
+  "practicals": [],
+  "projects": [
+    "100 Coding Problems"
+  ],
+  "prerequisites": [
+    "PROG-FUND"
+  ],
+  "learning_outcomes": [
+    "Analyze algorithm complexity with Big O notation",
+    "Implement and work with arrays and strings efficiently",
+    "Master searching and sorting algorithms",
+    "Implement linked lists, stacks, and queues",
+    "Work with trees, BSTs, and graph traversal algorithms",
+    "Apply dynamic programming and greedy algorithms to solve problems"
+  ]
+}

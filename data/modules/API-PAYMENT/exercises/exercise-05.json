@@ -1,0 +1,10 @@
+{
+  "id": "EX-API-PAYMENT-L05",
+  "module_code": "API-PAYMENT",
+  "title": "Lab Exercise: Webhooks",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Webhooks.",
+  "starter_code": "// Lab: Webhooks\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Webhooks\nexport const solution = true;\n"
+}

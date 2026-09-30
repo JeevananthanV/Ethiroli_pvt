@@ -1,0 +1,49 @@
+{
+  "code": "MOBILE-RN",
+  "title": "Mobile Development",
+  "category": "Mobile",
+  "level": "Advanced",
+  "duration_hours": 30,
+  "description": "React Native mobile development covering components, navigation, state management, API integration, authentication, camera, location, testing, and production deployment with Expo.",
+  "topics": [
+    "Mobile fundamentals",
+    "React Native",
+    "Components",
+    "Navigation",
+    "Forms",
+    "State management",
+    "API integration",
+    "Authentication",
+    "Local storage",
+    "Notifications",
+    "Camera",
+    "Location",
+    "Permissions",
+    "Backend integration",
+    "Testing",
+    "Android build",
+    "Deployment"
+  ],
+  "technologies": [
+    "React Native",
+    "Expo",
+    "TypeScript"
+  ],
+  "practicals": [],
+  "projects": [
+    "Production Mobile Application"
+  ],
+  "prerequisites": [
+    "FE-REACT",
+    "JS-CORE",
+    "BE-NODE"
+  ],
+  "learning_outcomes": [
+    "Build cross-platform mobile apps with React Native",
+    "Implement navigation and screen transitions",
+    "Manage state with React Context and Redux",
+    "Integrate with REST APIs and handle authentication",
+    "Access device features: camera, location, sensors",
+    "Test, build, and deploy production mobile applications"
+  ]
+}

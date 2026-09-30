@@ -1,0 +1,18 @@
+{
+  "id": "FE-TS-L02",
+  "module_code": "FE-TS",
+  "lesson_order": 2,
+  "title": "Type annotations in TypeScript",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Type annotations",
+    "Implement real-world code for Type annotations according to industry standards",
+    "Debug and optimize Type annotations integrations"
+  ],
+  "theory_markdown": "### Type annotations\n\nThis lesson covers in-depth technical mechanics of **Type annotations** as part of the TypeScript curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Type annotations Implementation Example\nexport function handleTypeannotations() {\n  console.log('Executing Type annotations workflow...');\n}",
+    "explanation": "Demonstration of how Type annotations is structured in production."
+  }
+}

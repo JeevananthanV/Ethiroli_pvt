@@ -1,0 +1,18 @@
+{
+  "id": "PY-CORE-L18",
+  "module_code": "PY-CORE",
+  "lesson_order": 18,
+  "title": "Virtual environments in Python Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Virtual environments",
+    "Implement real-world code for Virtual environments according to industry standards",
+    "Debug and optimize Virtual environments integrations"
+  ],
+  "theory_markdown": "### Virtual environments\n\nThis lesson covers in-depth technical mechanics of **Virtual environments** as part of the Python Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Virtual environments Implementation Example\nexport function handleVirtualenvironments() {\n  console.log('Executing Virtual environments workflow...');\n}",
+    "explanation": "Demonstration of how Virtual environments is structured in production."
+  }
+}

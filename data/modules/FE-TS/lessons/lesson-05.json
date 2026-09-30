@@ -1,0 +1,18 @@
+{
+  "id": "FE-TS-L05",
+  "module_code": "FE-TS",
+  "lesson_order": 5,
+  "title": "Union types in TypeScript",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Union types",
+    "Implement real-world code for Union types according to industry standards",
+    "Debug and optimize Union types integrations"
+  ],
+  "theory_markdown": "### Union types\n\nThis lesson covers in-depth technical mechanics of **Union types** as part of the TypeScript curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Union types Implementation Example\nexport function handleUniontypes() {\n  console.log('Executing Union types workflow...');\n}",
+    "explanation": "Demonstration of how Union types is structured in production."
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "ARCH-SYSTEM-L17",
+  "module_code": "ARCH-SYSTEM",
+  "lesson_order": 17,
+  "title": "Monitoring in System Design",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Monitoring",
+    "Implement real-world code for Monitoring according to industry standards",
+    "Debug and optimize Monitoring integrations"
+  ],
+  "theory_markdown": "### Monitoring\n\nThis lesson covers in-depth technical mechanics of **Monitoring** as part of the System Design curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Monitoring Implementation Example\nexport function handleMonitoring() {\n  console.log('Executing Monitoring workflow...');\n}",
+    "explanation": "Demonstration of how Monitoring is structured in production."
+  }
+}

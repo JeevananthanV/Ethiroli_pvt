@@ -1,0 +1,33 @@
+{
+  "id": "DSA-CORE-SUB03-E03",
+  "module_code": "DSA-CORE",
+  "day": 6,
+  "title": "Hands-on Lab: Sliding window Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Sliding window:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Sliding window in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Sliding window basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Sliding window exercise\n// TODO: Implement Sliding window functionality here\n\nconsole.log('Sliding window exercise starter');\n",
+  "solution_code": "// Solution for Sliding window exercise\nconsole.log('Completed Sliding window exercise');\n\n// Basic implementation\nconst slidingwindow = {\n  name: 'Sliding window',\n  completed: true\n};\n\nconsole.log(slidingwindow);"
+}

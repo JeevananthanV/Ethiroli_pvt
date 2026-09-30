@@ -1,0 +1,18 @@
+{
+  "id": "ML-DL-L06",
+  "module_code": "ML-DL",
+  "lesson_order": 6,
+  "title": "CNN in Deep Learning",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of CNN",
+    "Implement real-world code for CNN according to industry standards",
+    "Debug and optimize CNN integrations"
+  ],
+  "theory_markdown": "### CNN\n\nThis lesson covers in-depth technical mechanics of **CNN** as part of the Deep Learning curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// CNN Implementation Example\nexport function handleCNN() {\n  console.log('Executing CNN workflow...');\n}",
+    "explanation": "Demonstration of how CNN is structured in production."
+  }
+}

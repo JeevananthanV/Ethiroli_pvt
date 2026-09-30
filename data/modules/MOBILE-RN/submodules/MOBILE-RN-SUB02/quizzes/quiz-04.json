@@ -1,0 +1,70 @@
+{
+  "id": "MOBILE-RN-SUB02-Q04",
+  "module_code": "MOBILE-RN",
+  "day": 7,
+  "title": "Quiz 4: API integration Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in API integration?",
+      "options": [
+        "Core principle of API integration",
+        "Advanced API integration technique",
+        "Alternative approach to API integration",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental API integration concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Authentication?",
+      "options": [
+        "Core principle of Authentication",
+        "Advanced Authentication technique",
+        "Alternative approach to Authentication",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Authentication concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Local storage?",
+      "options": [
+        "Core principle of Local storage",
+        "Advanced Local storage technique",
+        "Alternative approach to Local storage",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Local storage concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Notifications?",
+      "options": [
+        "Core principle of Notifications",
+        "Advanced Notifications technique",
+        "Alternative approach to Notifications",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Notifications concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Camera?",
+      "options": [
+        "Core principle of Camera",
+        "Advanced Camera technique",
+        "Alternative approach to Camera",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Camera concepts."
+    }
+  ]
+}

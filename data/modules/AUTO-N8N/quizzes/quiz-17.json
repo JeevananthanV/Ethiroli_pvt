@@ -1,0 +1,21 @@
+{
+  "id": "QZ-AUTO-N8N-L17",
+  "module_code": "AUTO-N8N",
+  "title": "Quiz: Error handling",
+  "time_limit_minutes": 10,
+  "passing_percentage": 75,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is the primary architectural purpose of Error handling in n8n Business Automation?",
+      "options": [
+        "To enforce modularity and maintainable system boundaries",
+        "To bypass browser runtime security sandboxing",
+        "To override database foreign key constraints",
+        "To compile JavaScript into native x86 machine bytecode"
+      ],
+      "correct_index": 0,
+      "explanation": "Error handling ensures clean separation of concerns and robust maintainability."
+    }
+  ]
+}

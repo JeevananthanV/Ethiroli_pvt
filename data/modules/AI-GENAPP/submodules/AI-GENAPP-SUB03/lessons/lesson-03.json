@@ -1,0 +1,22 @@
+{
+  "id": "AI-GENAPP-SUB03-L03",
+  "day": 5,
+  "module_code": "AI-GENAPP",
+  "lesson_order": 3,
+  "title": "AI search: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of AI search",
+    "Apply AI search in practical scenarios",
+    "Build a small project using AI search"
+  ],
+  "theory_markdown": "# AI search\n\n## Overview\nThis lesson covers the fundamentals of AI search and its practical applications.\n\n## Key Concepts\n- Concept 1 related to AI search\n- Concept 2 related to AI search\n- Best practices for AI search\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of AI search\n2. Implement basic AI search functionality\n3. Apply AI search to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example AI search implementation\nconsole.log('Learning AI search');\n\n// Basic AI search example\nconst example = {\n  topic: 'AI search',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic AI search usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand AI search concepts and generate code examples.\n\n---"
+  }
+}

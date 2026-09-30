@@ -1,0 +1,70 @@
+{
+  "id": "DSA-CORE-SUB03-Q04",
+  "module_code": "DSA-CORE",
+  "day": 7,
+  "title": "Quiz 4: Dynamic programming Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Dynamic programming?",
+      "options": [
+        "Core principle of Dynamic programming",
+        "Advanced Dynamic programming technique",
+        "Alternative approach to Dynamic programming",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Dynamic programming concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Greedy algorithms?",
+      "options": [
+        "Core principle of Greedy algorithms",
+        "Advanced Greedy algorithms technique",
+        "Alternative approach to Greedy algorithms",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Greedy algorithms concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Sliding window?",
+      "options": [
+        "Core principle of Sliding window",
+        "Advanced Sliding window technique",
+        "Alternative approach to Sliding window",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Sliding window concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Two pointers?",
+      "options": [
+        "Core principle of Two pointers",
+        "Advanced Two pointers technique",
+        "Alternative approach to Two pointers",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Two pointers concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Dynamic programming?",
+      "options": [
+        "Core principle of Dynamic programming",
+        "Advanced Dynamic programming technique",
+        "Alternative approach to Dynamic programming",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Dynamic programming concepts."
+    }
+  ]
+}

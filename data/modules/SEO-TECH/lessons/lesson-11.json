@@ -1,0 +1,18 @@
+{
+  "id": "SEO-TECH-L11",
+  "module_code": "SEO-TECH",
+  "lesson_order": 11,
+  "title": "Page speed in Technical SEO",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Page speed",
+    "Implement real-world code for Page speed according to industry standards",
+    "Debug and optimize Page speed integrations"
+  ],
+  "theory_markdown": "### Page speed\n\nThis lesson covers in-depth technical mechanics of **Page speed** as part of the Technical SEO curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Page speed Implementation Example\nexport function handlePagespeed() {\n  console.log('Executing Page speed workflow...');\n}",
+    "explanation": "Demonstration of how Page speed is structured in production."
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "id": "BE-NODE-D32",
+  "day": 32,
+  "module_code": "BE-NODE",
+  "lesson_order": 3,
+  "title": "npm Ecosystem, Security, and Environment Management",
+  "duration_minutes": 60,
+  "objectives": [
+    "Master npm scripts, package management, security auditing, and environment configuration."
+  ],
+  "theory_markdown": "`npm audit` finds vulnerabilities. `npm outdated` shows outdated packages. `npm update` updates packages. Semantic versioning: `^1.2.3` allows minor updates, `~1.2.3` allows patch updates, `1.2.3` is exact. Lock files (`package-lock.json`) ensure reproducible installs.\r\n\r\nEnvironment variables: `.env` files with `dotenv`. Never commit secrets. Use `dotenv` only in development; production environments inject variables directly. Validate required env vars at startup.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// config.js\r\nimport dotenv from 'dotenv';\r\ndotenv.config();\r\n\r\nconst required = ['DATABASE_URL', 'JWT_SECRET', 'PORT'];\r\nconst missing = required.filter(key => !process.env[key]);\r\n\r\nif (missing.length > 0) {\r\n  console.error(`Missing required env vars: ${missing.join(', ')}`);\r\n  process.exit(1);\r\n}\r\n\r\nexport const config = {\r\n  port: parseInt(process.env.PORT, 10),\r\n  databaseUrl: process.env.DATABASE_URL,\r\n  jwtSecret: process.env.JWT_SECRET,\r\n  nodeEnv: process.env.NODE_ENV || 'development',\r\n  isProduction: process.env.NODE_ENV === 'production',\r\n  isDevelopment: process.env.NODE_ENV !== 'production',\r\n};",
+    "explanation": "`dotenv.config()` loads `.env` into `process.env`. Validating required vars at startup fails fast. `.gitignore` prevents secrets from being committed. `npm audit` identifies known vulnerabilities."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Snyk** (free tier) for continuous dependency vulnerability scanning. Use **Dotenv Vault** for secret management."
+  }
+}

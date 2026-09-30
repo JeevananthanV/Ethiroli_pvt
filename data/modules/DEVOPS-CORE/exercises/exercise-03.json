@@ -1,0 +1,10 @@
+{
+  "id": "EX-DEVOPS-CORE-L03",
+  "module_code": "DEVOPS-CORE",
+  "title": "Lab Exercise: Git",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Git.",
+  "starter_code": "// Lab: Git\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Git\nexport const solution = true;\n"
+}

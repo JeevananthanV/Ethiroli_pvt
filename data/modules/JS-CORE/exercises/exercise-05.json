@@ -1,0 +1,11 @@
+{
+  "id": "EX-JS-CORE-D17",
+  "module_code": "JS-CORE",
+  "day": 17,
+  "title": "Hands-on Lab: ES6+ Features & Modules",
+  "estimated_minutes": 45,
+  "difficulty": "Beginner",
+  "instructions": "Refactor your array methods utilities into separate ES modules. Create a `utils/` folder with `arrays.js`, `objects.js`, and `strings.js`. Each exports named functions. Create an `index.js` that re-exports everything. Import and use in a demo script.",
+  "starter_code": "// Starter file for ES6+ Features & Modules\n// Task instructions:\n// Refactor your array methods utilities into separate ES modules. Create a `utils/` folder with `arrays.js`, `objects.js`, and `strings.js`. Each export...\n",
+  "solution_code": "// math.js — named exports\r\nexport const PI = 3.14159;\r\nexport function add(a, b) { return a + b; }\r\nexport function multiply(a, b) { return a * b; }\r\n\r\n// logger.js — default export\r\nexport default class Logger {\r\n  #prefix;  // Private field\r\n\r\n  constructor(prefix) {\r\n    this.#prefix = prefix;\r\n  }\r\n\r\n  log(message) {\r\n    console.log(`[${this.#prefix}] ${message}`);\r\n  }\r\n\r\n  static create(prefix) {\r\n    return new Logger(prefix);\r\n  }\r\n}\r\n\r\n// main.js — imports\r\nimport Logger from './logger.js';\r\nimport { add, multiply, PI } from './math.js';\r\nimport * as math from './math.js';  // Namespace import\r\n\r\nconst logger = new Logger('APP');\r\nlogger.log(`PI is ${PI}`);"
+}

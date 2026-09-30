@@ -1,0 +1,22 @@
+{
+  "id": "API-COMM-SUB03-L01",
+  "day": 1,
+  "module_code": "API-COMM",
+  "lesson_order": 1,
+  "title": "Automation: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Automation",
+    "Apply Automation in practical scenarios",
+    "Build a small project using Automation"
+  ],
+  "theory_markdown": "# Automation\n\n## Overview\nThis lesson covers the fundamentals of Automation and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Automation\n- Concept 2 related to Automation\n- Best practices for Automation\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Automation\n2. Implement basic Automation functionality\n3. Apply Automation to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Automation implementation\nconsole.log('Learning Automation');\n\n// Basic Automation example\nconst example = {\n  topic: 'Automation',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Automation usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Automation concepts and generate code examples.\n\n---"
+  }
+}

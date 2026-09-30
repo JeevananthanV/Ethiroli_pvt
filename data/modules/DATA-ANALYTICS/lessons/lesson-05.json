@@ -1,0 +1,18 @@
+{
+  "id": "DATA-ANALYTICS-L05",
+  "module_code": "DATA-ANALYTICS",
+  "lesson_order": 5,
+  "title": "Data transformation in Data Analytics",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Data transformation",
+    "Implement real-world code for Data transformation according to industry standards",
+    "Debug and optimize Data transformation integrations"
+  ],
+  "theory_markdown": "### Data transformation\n\nThis lesson covers in-depth technical mechanics of **Data transformation** as part of the Data Analytics curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Data transformation Implementation Example\nexport function handleDatatransformation() {\n  console.log('Executing Data transformation workflow...');\n}",
+    "explanation": "Demonstration of how Data transformation is structured in production."
+  }
+}

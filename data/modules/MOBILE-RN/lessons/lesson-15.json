@@ -1,0 +1,18 @@
+{
+  "id": "MOBILE-RN-L15",
+  "module_code": "MOBILE-RN",
+  "lesson_order": 15,
+  "title": "Testing in Mobile Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Testing",
+    "Implement real-world code for Testing according to industry standards",
+    "Debug and optimize Testing integrations"
+  ],
+  "theory_markdown": "### Testing\n\nThis lesson covers in-depth technical mechanics of **Testing** as part of the Mobile Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Testing Implementation Example\nexport function handleTesting() {\n  console.log('Executing Testing workflow...');\n}",
+    "explanation": "Demonstration of how Testing is structured in production."
+  }
+}

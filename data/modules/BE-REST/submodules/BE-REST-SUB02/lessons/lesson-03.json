@@ -1,0 +1,22 @@
+{
+  "id": "BE-REST-SUB02-L03",
+  "day": 5,
+  "module_code": "BE-REST",
+  "lesson_order": 3,
+  "title": "JSON: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of JSON",
+    "Apply JSON in practical scenarios",
+    "Build a small project using JSON"
+  ],
+  "theory_markdown": "# JSON\n\n## Overview\nThis lesson covers the fundamentals of JSON and its practical applications.\n\n## Key Concepts\n- Concept 1 related to JSON\n- Concept 2 related to JSON\n- Best practices for JSON\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of JSON\n2. Implement basic JSON functionality\n3. Apply JSON to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example JSON implementation\nconsole.log('Learning JSON');\n\n// Basic JSON example\nconst example = {\n  topic: 'JSON',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic JSON usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand JSON concepts and generate code examples.\n\n---"
+  }
+}

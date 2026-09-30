@@ -1,0 +1,70 @@
+{
+  "id": "BE-EXPRESS-SUB02-Q02",
+  "module_code": "BE-EXPRESS",
+  "day": 3,
+  "title": "Quiz 2: Request/response Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Request/response?",
+      "options": [
+        "Core principle of Request/response",
+        "Advanced Request/response technique",
+        "Alternative approach to Request/response",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Request/response concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Validation?",
+      "options": [
+        "Core principle of Validation",
+        "Advanced Validation technique",
+        "Alternative approach to Validation",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Validation concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Error handling?",
+      "options": [
+        "Core principle of Error handling",
+        "Advanced Error handling technique",
+        "Alternative approach to Error handling",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Error handling concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Authentication middleware?",
+      "options": [
+        "Core principle of Authentication middleware",
+        "Advanced Authentication middleware technique",
+        "Alternative approach to Authentication middleware",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Authentication middleware concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in File uploads?",
+      "options": [
+        "Core principle of File uploads",
+        "Advanced File uploads technique",
+        "Alternative approach to File uploads",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental File uploads concepts."
+    }
+  ]
+}

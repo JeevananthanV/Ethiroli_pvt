@@ -1,0 +1,18 @@
+{
+  "id": "ARCH-SYSTEM-L05",
+  "module_code": "ARCH-SYSTEM",
+  "lesson_order": 5,
+  "title": "Availability in System Design",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Availability",
+    "Implement real-world code for Availability according to industry standards",
+    "Debug and optimize Availability integrations"
+  ],
+  "theory_markdown": "### Availability\n\nThis lesson covers in-depth technical mechanics of **Availability** as part of the System Design curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Availability Implementation Example\nexport function handleAvailability() {\n  console.log('Executing Availability workflow...');\n}",
+    "explanation": "Demonstration of how Availability is structured in production."
+  }
+}

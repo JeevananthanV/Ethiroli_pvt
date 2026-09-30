@@ -1,0 +1,29 @@
+{
+  "code": "DB-MONGO-SUB01",
+  "title": "MongoDB - Part 1",
+  "category": "Database",
+  "level": "Intermediate",
+  "duration_hours": 5,
+  "description": "MongoDB NoSQL database covering collections, documents, CRUD operations, aggregation, indexing, schema design, and Mongoose ODM with MongoDB Atlas. This submodule covers: NoSQL fundamentals, MongoDB, Collections, Documents.",
+  "topics": [
+    "NoSQL fundamentals",
+    "MongoDB",
+    "Collections",
+    "Documents"
+  ],
+  "technologies": [
+    "MongoDB",
+    "MongoDB Atlas",
+    "Mongoose"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "PROG-FUND"
+  ],
+  "learning_outcomes": [
+    "Understand NoSQL concepts and document-oriented databases",
+    "Design MongoDB schemas and data models",
+    "Perform CRUD operations with MongoDB drivers"
+  ]
+}

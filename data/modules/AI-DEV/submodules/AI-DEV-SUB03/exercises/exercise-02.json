@@ -1,0 +1,33 @@
+{
+  "id": "AI-DEV-SUB03-E02",
+  "module_code": "AI-DEV",
+  "day": 4,
+  "title": "Hands-on Lab: AI UI generation Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice AI UI generation:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of AI UI generation in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating AI UI generation basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for AI UI generation exercise\n// TODO: Implement AI UI generation functionality here\n\nconsole.log('AI UI generation exercise starter');\n",
+  "solution_code": "// Solution for AI UI generation exercise\nconsole.log('Completed AI UI generation exercise');\n\n// Basic implementation\nconst aiuigeneration = {\n  name: 'AI UI generation',\n  completed: true\n};\n\nconsole.log(aiuigeneration);"
+}

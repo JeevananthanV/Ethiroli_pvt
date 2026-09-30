@@ -1,0 +1,18 @@
+{
+  "id": "ML-CORE-L12",
+  "module_code": "ML-CORE",
+  "lesson_order": 12,
+  "title": "Hyperparameter tuning in Machine Learning",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Hyperparameter tuning",
+    "Implement real-world code for Hyperparameter tuning according to industry standards",
+    "Debug and optimize Hyperparameter tuning integrations"
+  ],
+  "theory_markdown": "### Hyperparameter tuning\n\nThis lesson covers in-depth technical mechanics of **Hyperparameter tuning** as part of the Machine Learning curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Hyperparameter tuning Implementation Example\nexport function handleHyperparametertuning() {\n  console.log('Executing Hyperparameter tuning workflow...');\n}",
+    "explanation": "Demonstration of how Hyperparameter tuning is structured in production."
+  }
+}

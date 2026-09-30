@@ -1,0 +1,22 @@
+{
+  "id": "DATA-ANALYTICS-SUB02-L02",
+  "day": 3,
+  "module_code": "DATA-ANALYTICS",
+  "lesson_order": 2,
+  "title": "Statistics: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Statistics",
+    "Apply Statistics in practical scenarios",
+    "Build a small project using Statistics"
+  ],
+  "theory_markdown": "# Statistics\n\n## Overview\nThis lesson covers the fundamentals of Statistics and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Statistics\n- Concept 2 related to Statistics\n- Best practices for Statistics\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Statistics\n2. Implement basic Statistics functionality\n3. Apply Statistics to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Statistics implementation\nconsole.log('Learning Statistics');\n\n// Basic Statistics example\nconst example = {\n  topic: 'Statistics',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Statistics usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Statistics concepts and generate code examples.\n\n---"
+  }
+}

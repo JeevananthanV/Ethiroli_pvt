@@ -1,0 +1,22 @@
+{
+  "id": "SEC-AUTH-SUB02-L03",
+  "day": 5,
+  "module_code": "SEC-AUTH",
+  "lesson_order": 3,
+  "title": "Role-based access control: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Role-based access control",
+    "Apply Role-based access control in practical scenarios",
+    "Build a small project using Role-based access control"
+  ],
+  "theory_markdown": "# Role-based access control\n\n## Overview\nThis lesson covers the fundamentals of Role-based access control and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Role-based access control\n- Concept 2 related to Role-based access control\n- Best practices for Role-based access control\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Role-based access control\n2. Implement basic Role-based access control functionality\n3. Apply Role-based access control to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Role-based access control implementation\nconsole.log('Learning Role-based access control');\n\n// Basic Role-based access control example\nconst example = {\n  topic: 'Role-based access control',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Role-based access control usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Role-based access control concepts and generate code examples.\n\n---"
+  }
+}

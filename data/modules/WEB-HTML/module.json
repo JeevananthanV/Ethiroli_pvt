@@ -1,0 +1,41 @@
+{
+  "code": "WEB-HTML",
+  "title": "HTML5 Development",
+  "category": "Frontend",
+  "level": "Beginner",
+  "duration_hours": 15,
+  "description": "Comprehensive HTML5 development covering document structure, semantic elements, forms, multimedia, accessibility, and SEO best practices to build modern, accessible web pages.",
+  "topics": [
+    "HTML fundamentals",
+    "Document structure",
+    "Semantic HTML",
+    "Headings",
+    "Paragraphs",
+    "Links",
+    "Images",
+    "Audio/video",
+    "Lists",
+    "Tables",
+    "Forms",
+    "Form validation",
+    "Accessibility",
+    "SEO-friendly HTML",
+    "HTML5 APIs"
+  ],
+  "technologies": [
+    "HTML5"
+  ],
+  "practicals": [],
+  "projects": [
+    "Responsive Business Website"
+  ],
+  "prerequisites": [],
+  "learning_outcomes": [
+    "Create semantic HTML5 document structure",
+    "Use HTML5 elements for text, links, images, and multimedia",
+    "Build accessible forms with validation",
+    "Implement semantic elements for better SEO and accessibility",
+    "Use HTML5 APIs for enhanced functionality",
+    "Create SEO-friendly web pages"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "JS-CORE-SUB02-L02",
+  "day": 3,
+  "module_code": "JS-CORE",
+  "lesson_order": 2,
+  "title": "Destructuring: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Destructuring",
+    "Apply Destructuring in practical scenarios",
+    "Build a small project using Destructuring"
+  ],
+  "theory_markdown": "# Destructuring\n\n## Overview\nThis lesson covers the fundamentals of Destructuring and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Destructuring\n- Concept 2 related to Destructuring\n- Best practices for Destructuring\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Destructuring\n2. Implement basic Destructuring functionality\n3. Apply Destructuring to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Destructuring implementation\nconsole.log('Learning Destructuring');\n\n// Basic Destructuring example\nconst example = {\n  topic: 'Destructuring',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Destructuring usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Destructuring concepts and generate code examples.\n\n---"
+  }
+}

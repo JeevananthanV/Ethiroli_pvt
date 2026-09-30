@@ -1,0 +1,10 @@
+{
+  "id": "EX-API-PAYMENT-L07",
+  "module_code": "API-PAYMENT",
+  "title": "Lab Exercise: Refunds",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Refunds.",
+  "starter_code": "// Lab: Refunds\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Refunds\nexport const solution = true;\n"
+}

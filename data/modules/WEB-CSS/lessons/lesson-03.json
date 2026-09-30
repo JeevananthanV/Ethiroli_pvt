@@ -1,0 +1,20 @@
+{
+  "id": "WEB-CSS-D07",
+  "day": 7,
+  "module_code": "WEB-CSS",
+  "lesson_order": 3,
+  "title": "CSS Grid: Two-Dimensional Layout & Responsive Design",
+  "duration_minutes": 60,
+  "objectives": [
+    "Master CSS Grid for complex layouts, `grid-template-areas`, and container queries."
+  ],
+  "theory_markdown": "CSS Grid is a two-dimensional layout system. `display: grid` on a container creates a grid. `grid-template-columns` and `grid-template-rows` define the explicit grid. `gap` sets spacing. `grid-template-areas` provides named areas for readable layouts.\r\n\r\n`repeat()`, `minmax()`, and `auto-fill`/`auto-fit` enable responsive grids without media queries. `grid-column: span 2` makes an item span multiple columns. Container queries (`@container`) allow component-level responsiveness.",
+  "code_walkthrough": {
+    "language": "html",
+    "code": "<div class=\"dashboard\">\r\n  <aside class=\"sidebar\">\r\n    <nav>\r\n      <a href=\"/dashboard\">Dashboard</a>\r\n      <a href=\"/courses\">Courses</a>\r\n      <a href=\"/settings\">Settings</a>\r\n    </nav>\r\n  </aside>\r\n  <header class=\"topbar\">\r\n    <h1>Dashboard</h1>\r\n  </header>\r\n  <main class=\"content\">\r\n    <div class=\"stat-card\">...</div>\r\n    <div class=\"stat-card\">...</div>\r\n    <div class=\"chart\">...</div>\r\n    <div class=\"activity\">...</div>\r\n  </main>\r\n</div>",
+    "explanation": "`grid-template-areas` creates a readable map of the layout. `1fr` takes remaining space. `repeat(auto-fit, minmax(280px, 1fr))` creates responsive columns that fit as many as possible. Container queries respond to the component's container width, not the viewport — enabling truly reusable components."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **v0.dev** to describe a dashboard layout and generate the Grid CSS. Refine with natural language prompts."
+  }
+}

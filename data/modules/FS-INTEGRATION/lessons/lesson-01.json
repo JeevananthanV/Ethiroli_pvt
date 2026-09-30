@@ -1,0 +1,16 @@
+{
+  "id": "FS-INTEGRATION-D58",
+  "day": 58,
+  "module_code": "FS-INTEGRATION",
+  "lesson_order": 1,
+  "title": "Capstone Planning and Architecture",
+  "duration_minutes": 60,
+  "objectives": [
+    "Plan a production-ready full-stack application with AI features."
+  ],
+  "theory_markdown": "The capstone integrates everything: frontend (React), backend (Node/Express), database (MySQL + MongoDB), authentication (JWT + RBAC), testing, AI features, deployment, and security.\r\n\r\n**Capstone Options:**\r\n- **AI-Powered Learning Platform** — courses, lessons, AI tutor, progress tracking\r\n- **Smart E-Commerce** — products, cart, Stripe payments, AI recommendations\r\n- **DevOps Dashboard** — project monitoring, logs, AI anomaly detection\r\n- **Health Tracking App** — meals, workouts, AI meal suggestions\r\n- **Content Management System** — posts, media, AI summarisation, RBAC\r\n\r\n**Architecture Planning Template:**\r\n\r\n```\r\nproject/\r\n├── frontend/          (React + Vite)\r\n│   ├── src/\r\n│   │   ├── components/    (reusable UI)\r\n│   │   ├── pages/         (route pages)\r\n│   │   ├── hooks/         (custom hooks)\r\n│   │   ├── context/       (state management)\r\n│   │   ├── services/      (API calls)\r\n│   │   └── utils/         (helpers)\r\n│   └── tests/\r\n├── backend/           (Node + Express)\r\n│   ├── src/\r\n│   │   ├── config/        (env, db)\r\n│   │   ├── controllers/   (HTTP handlers)\r\n│   │   ├── middleware/    (auth, validation, errors)\r\n│   │   ├── models/        (Mongoose + MySQL)\r\n│   │   ├── repositories/  (data access)\r\n│   │   ├── routes/        (API routes)\r\n│   │   ├── services/      (business logic)\r\n│   │   ├── validators/    (input validation)\r\n│   │   └── utils/         (helpers)\r\n│   └── tests/\r\n├── docker/            (Dockerfiles)\r\n├── .github/workflows/ (CI/CD)\r\n└── docs/              (API docs, architecture)\r\n```",
+  "code_walkthrough": null,
+  "ai_tool_spotlight": {
+    "description": "Use **AI** to review your architecture: `opencode ask \"Review this system architecture for scalability and security issues\"`\r\n\r\n---"
+  }
+}

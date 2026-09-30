@@ -1,0 +1,22 @@
+{
+  "id": "FE-TS-SUB03-L02",
+  "day": 3,
+  "module_code": "FE-TS",
+  "lesson_order": 2,
+  "title": "Type narrowing: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Type narrowing",
+    "Apply Type narrowing in practical scenarios",
+    "Build a small project using Type narrowing"
+  ],
+  "theory_markdown": "# Type narrowing\n\n## Overview\nThis lesson covers the fundamentals of Type narrowing and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Type narrowing\n- Concept 2 related to Type narrowing\n- Best practices for Type narrowing\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Type narrowing\n2. Implement basic Type narrowing functionality\n3. Apply Type narrowing to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Type narrowing implementation\nconsole.log('Learning Type narrowing');\n\n// Basic Type narrowing example\nconst example = {\n  topic: 'Type narrowing',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Type narrowing usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Type narrowing concepts and generate code examples.\n\n---"
+  }
+}

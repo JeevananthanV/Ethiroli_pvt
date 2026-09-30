@@ -1,0 +1,27 @@
+{
+  "code": "DESIGN-UIUX-SUB01",
+  "title": "UI/UX Design - Part 1",
+  "category": "Design",
+  "level": "Beginner",
+  "duration_hours": 5,
+  "description": "User experience and user interface design principles using Figma, covering user research, wireframing, prototyping, usability testing, and developer handoff. This submodule covers: UI vs UX, User research, Personas, User journey, Information architecture, Wireframes.",
+  "topics": [
+    "UI vs UX",
+    "User research",
+    "Personas",
+    "User journey",
+    "Information architecture",
+    "Wireframes"
+  ],
+  "technologies": [
+    "Figma"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [],
+  "learning_outcomes": [
+    "Conduct user research and create personas",
+    "Design user journeys and information architecture",
+    "Apply UI/UX design principles and guidelines"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "SEC-AUTH-SUB01-L04",
+  "day": 7,
+  "module_code": "SEC-AUTH",
+  "lesson_order": 4,
+  "title": "JWT: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of JWT",
+    "Apply JWT in practical scenarios",
+    "Build a small project using JWT"
+  ],
+  "theory_markdown": "# JWT\n\n## Overview\nThis lesson covers the fundamentals of JWT and its practical applications.\n\n## Key Concepts\n- Concept 1 related to JWT\n- Concept 2 related to JWT\n- Best practices for JWT\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of JWT\n2. Implement basic JWT functionality\n3. Apply JWT to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example JWT implementation\nconsole.log('Learning JWT');\n\n// Basic JWT example\nconst example = {\n  topic: 'JWT',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic JWT usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand JWT concepts and generate code examples.\n\n---"
+  }
+}

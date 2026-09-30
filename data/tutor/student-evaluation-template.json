@@ -1,0 +1,27 @@
+{
+  "evaluation_criteria": {
+    "attendance_compliance": {
+      "weight_percent": 20,
+      "minimum_threshold": 75
+    },
+    "weekly_quizzes": {
+      "weight_percent": 25,
+      "minimum_threshold": 70
+    },
+    "module_assignments": {
+      "weight_percent": 25,
+      "minimum_threshold": 70
+    },
+    "final_capstone": {
+      "weight_percent": 30,
+      "minimum_threshold": 80
+    }
+  },
+  "grading_scale": {
+    "A_plus": ">= 90% (Outstanding)",
+    "A": "80% - 89% (Excellent)",
+    "B": "70% - 79% (Good)",
+    "C": "60% - 69% (Satisfactory)",
+    "F": "< 60% (Needs Improvement)"
+  }
+}

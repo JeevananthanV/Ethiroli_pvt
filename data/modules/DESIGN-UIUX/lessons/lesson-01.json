@@ -1,0 +1,20 @@
+{
+  "id": "DESIGN-UIUX-D08",
+  "day": 8,
+  "module_code": "DESIGN-UIUX",
+  "lesson_order": 1,
+  "title": "Design Principles for Developers",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand colour theory, typography, spacing systems, and visual hierarchy."
+  ],
+  "theory_markdown": "Good design is not decoration — it is communication. Visual hierarchy guides the eye: size, weight, colour, spacing, and position create importance. The 8-point spacing system (`4px, 8px, 16px, 24px, 32px, 48px, 64px`) creates rhythm and consistency. Typography scales: use a modular scale (1.25×, 1.333×, 1.5×) for harmonious sizes.\r\n\r\nColour theory: use a primary colour for actions, neutrals for text and backgrounds, and semantic colours (red for errors, green for success, amber for warnings). Ensure WCAG contrast ratios: 4.5:1 for normal text, 3:1 for large text.",
+  "code_walkthrough": {
+    "language": "css",
+    "code": ":root {\r\n  /* Colour tokens */\r\n  --color-primary-500: oklch(0.55 0.18 250);\r\n  --color-primary-600: oklch(0.48 0.18 250);\r\n  --color-neutral-0:   oklch(1 0 0);\r\n  --color-neutral-100: oklch(0.96 0.005 250);\r\n  --color-neutral-500: oklch(0.55 0.01 250);\r\n  --color-neutral-900: oklch(0.15 0.01 250);\r\n  --color-error:       oklch(0.55 0.2 25);\r\n  --color-success:     oklch(0.6 0.15 145);\r\n\r\n  /* Typography scale (1.25×) */\r\n  --text-xs:   0.64rem;\r\n  --text-sm:   0.8rem;\r\n  --text-base: 1rem;\r\n  --text-lg:   1.25rem;\r\n  --text-xl:   1.563rem;\r\n  --text-2xl:  1.953rem;\r\n  --text-3xl:  2.441rem;\r\n\r\n  /* Spacing (8-point) */\r\n  --space-1: 0.25rem;  /* 4px  */\r\n  --space-2: 0.5rem;   /* 8px  */\r\n  --space-3: 0.75rem;  /* 12px */\r\n  --space-4: 1rem;     /* 16px */\r\n  --space-6: 1.5rem;   /* 24px */\r\n  --space-8: 2rem;     /* 32px */\r\n  --space-12: 3rem;    /* 48px */\r\n  --space-16: 4rem;    /* 64px */\r\n\r\n  /* Shadows */\r\n  --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.05);\r\n  --shadow-md: 0 4px 6px oklch(0 0 0 / 0.07);\r\n  --shadow-lg: 0 10px 25px oklch(0 0 0 / 0.1);\r\n\r\n  /* Border radius */\r\n  --radius-sm: 4px;\r\n  --radius-md: 8px;\r\n  --radius-lg: 16px;\r\n  --radius-full: 9999px;\r\n}",
+    "explanation": "Design tokens are named values for colours, spacing, typography, shadows, and radii. Using tokens ensures consistency and makes theme changes (dark mode) trivial. `oklch()` provides perceptually uniform colour manipulation."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **UXPin** free tier or **Figma** community plugins to generate colour palettes from a brand description.\r\n\r\n---"
+  }
+}

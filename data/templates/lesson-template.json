@@ -1,0 +1,21 @@
+{
+  "title": "Lesson Title",
+  "lesson_order": 1,
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand core concepts",
+    "Write code implementation"
+  ],
+  "theory_content": "Markdown or HTML text explaining concepts with diagrams.",
+  "code_examples": [
+    {
+      "language": "javascript",
+      "code": "// Code snippet demonstrating concept"
+    }
+  ],
+  "exercise": {
+    "prompt": "Implement a hands-on exercise solving a real-world task.",
+    "starter_code": "// Starter code",
+    "solution_code": "// Expected solution"
+  }
+}

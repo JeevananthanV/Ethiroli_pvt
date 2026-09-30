@@ -1,0 +1,70 @@
+{
+  "id": "FE-NEXT-SUB03-Q04",
+  "module_code": "FE-NEXT",
+  "day": 7,
+  "title": "Quiz 4: Authentication Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Authentication?",
+      "options": [
+        "Core principle of Authentication",
+        "Advanced Authentication technique",
+        "Alternative approach to Authentication",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Authentication concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in SEO?",
+      "options": [
+        "Core principle of SEO",
+        "Advanced SEO technique",
+        "Alternative approach to SEO",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental SEO concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Metadata?",
+      "options": [
+        "Core principle of Metadata",
+        "Advanced Metadata technique",
+        "Alternative approach to Metadata",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Metadata concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Image optimization?",
+      "options": [
+        "Core principle of Image optimization",
+        "Advanced Image optimization technique",
+        "Alternative approach to Image optimization",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Image optimization concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Caching?",
+      "options": [
+        "Core principle of Caching",
+        "Advanced Caching technique",
+        "Alternative approach to Caching",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Caching concepts."
+    }
+  ]
+}

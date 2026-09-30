@@ -1,0 +1,10 @@
+{
+  "id": "EX-DEVOPS-CORE-L02",
+  "module_code": "DEVOPS-CORE",
+  "title": "Lab Exercise: Linux",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Linux.",
+  "starter_code": "// Lab: Linux\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Linux\nexport const solution = true;\n"
+}

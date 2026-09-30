@@ -1,0 +1,22 @@
+{
+  "id": "API-COMM-SUB02-L02",
+  "day": 3,
+  "module_code": "API-COMM",
+  "lesson_order": 2,
+  "title": "WhatsApp messaging: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of WhatsApp messaging",
+    "Apply WhatsApp messaging in practical scenarios",
+    "Build a small project using WhatsApp messaging"
+  ],
+  "theory_markdown": "# WhatsApp messaging\n\n## Overview\nThis lesson covers the fundamentals of WhatsApp messaging and its practical applications.\n\n## Key Concepts\n- Concept 1 related to WhatsApp messaging\n- Concept 2 related to WhatsApp messaging\n- Best practices for WhatsApp messaging\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of WhatsApp messaging\n2. Implement basic WhatsApp messaging functionality\n3. Apply WhatsApp messaging to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example WhatsApp messaging implementation\nconsole.log('Learning WhatsApp messaging');\n\n// Basic WhatsApp messaging example\nconst example = {\n  topic: 'WhatsApp messaging',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic WhatsApp messaging usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand WhatsApp messaging concepts and generate code examples.\n\n---"
+  }
+}

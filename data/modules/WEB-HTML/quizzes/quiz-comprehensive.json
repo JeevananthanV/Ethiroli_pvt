@@ -1,0 +1,117 @@
+{
+  "id": "QZ-WEB-HTML-COMPREHENSIVE",
+  "module_code": "WEB-HTML",
+  "title": "Comprehensive Quiz: HTML5 Development",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes html fundamentals in HTML5 Development?",
+      "options": [
+        "Core concept: HTML fundamentals is fundamental to HTML5 Development",
+        "Alternative approach to HTML fundamentals using different methodology",
+        "Advanced implementation of HTML fundamentals with optimizations",
+        "Legacy technique for HTML fundamentals no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "HTML fundamentals is a key topic in HTML5 Development. Create semantic HTML5 document structure"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes document structure in HTML5 Development?",
+      "options": [
+        "Core concept: Document structure is fundamental to HTML5 Development",
+        "Alternative approach to Document structure using different methodology",
+        "Advanced implementation of Document structure with optimizations",
+        "Legacy technique for Document structure no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Document structure is a key topic in HTML5 Development. Create semantic HTML5 document structure"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes semantic html in HTML5 Development?",
+      "options": [
+        "Core concept: Semantic HTML is fundamental to HTML5 Development",
+        "Alternative approach to Semantic HTML using different methodology",
+        "Advanced implementation of Semantic HTML with optimizations",
+        "Legacy technique for Semantic HTML no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Semantic HTML is a key topic in HTML5 Development. Create semantic HTML5 document structure"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes headings in HTML5 Development?",
+      "options": [
+        "Core concept: Headings is fundamental to HTML5 Development",
+        "Alternative approach to Headings using different methodology",
+        "Advanced implementation of Headings with optimizations",
+        "Legacy technique for Headings no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Headings is a key topic in HTML5 Development. Create semantic HTML5 document structure"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes paragraphs in HTML5 Development?",
+      "options": [
+        "Core concept: Paragraphs is fundamental to HTML5 Development",
+        "Alternative approach to Paragraphs using different methodology",
+        "Advanced implementation of Paragraphs with optimizations",
+        "Legacy technique for Paragraphs no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Paragraphs is a key topic in HTML5 Development. Create semantic HTML5 document structure"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes links in HTML5 Development?",
+      "options": [
+        "Core concept: Links is fundamental to HTML5 Development",
+        "Alternative approach to Links using different methodology",
+        "Advanced implementation of Links with optimizations",
+        "Legacy technique for Links no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Links is a key topic in HTML5 Development. Create semantic HTML5 document structure"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in HTML5 Development?",
+      "options": [
+        "HTML5",
+        "Java",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "HTML5 Development uses HTML5 as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of HTML5 Development?",
+      "options": [
+        "Create semantic HTML5 document structure",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Create semantic HTML5 document structure"
+    },
+    {
+      "id": 9,
+      "question": "When applying HTML5 Development in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for HTML5 Development include following established patterns and using recommended tools."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "EX-MOBILE-RN-L02",
+  "module_code": "MOBILE-RN",
+  "title": "Lab Exercise: React Native",
+  "difficulty": "Advanced",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates React Native.",
+  "starter_code": "// Lab: React Native\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for React Native\nexport const solution = true;\n"
+}

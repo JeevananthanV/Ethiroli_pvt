@@ -1,0 +1,70 @@
+{
+  "id": "BE-EXPRESS-SUB01-Q03",
+  "module_code": "BE-EXPRESS",
+  "day": 5,
+  "title": "Quiz 3: Express fundamentals Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Express fundamentals?",
+      "options": [
+        "Core principle of Express fundamentals",
+        "Advanced Express fundamentals technique",
+        "Alternative approach to Express fundamentals",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Express fundamentals concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Server setup?",
+      "options": [
+        "Core principle of Server setup",
+        "Advanced Server setup technique",
+        "Alternative approach to Server setup",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Server setup concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Routes?",
+      "options": [
+        "Core principle of Routes",
+        "Advanced Routes technique",
+        "Alternative approach to Routes",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Routes concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Controllers?",
+      "options": [
+        "Core principle of Controllers",
+        "Advanced Controllers technique",
+        "Alternative approach to Controllers",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Controllers concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Middleware?",
+      "options": [
+        "Core principle of Middleware",
+        "Advanced Middleware technique",
+        "Alternative approach to Middleware",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Middleware concepts."
+    }
+  ]
+}

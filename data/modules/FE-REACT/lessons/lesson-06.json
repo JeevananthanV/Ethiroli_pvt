@@ -1,0 +1,20 @@
+{
+  "id": "FE-REACT-D26",
+  "day": 26,
+  "module_code": "FE-REACT",
+  "lesson_order": 6,
+  "title": "Context API and State Management",
+  "duration_minutes": 60,
+  "objectives": [
+    "Master Context API, `useReducer`, and when to use external state libraries."
+  ],
+  "theory_markdown": "Context provides a way to pass data through the component tree without prop drilling. `createContext` creates context. `useContext` consumes it. `useReducer` manages complex state logic with actions and a reducer function — similar to Redux but built-in.\r\n\r\nFor large apps, Zustand (lightweight) or Redux Toolkit (structured) may be appropriate. But start with Context + `useReducer` — it covers 80% of use cases.",
+  "code_walkthrough": {
+    "language": "jsx",
+    "code": "import { createContext, useContext, useReducer } from 'react';\r\n\r\n// Theme Context\r\nconst ThemeContext = createContext();\r\n\r\nfunction ThemeProvider({ children }) {\r\n  const [theme, setTheme] = useState(\"light\");\r\n\r\n  const toggleTheme = () =>\r\n    setTheme(prev => prev === \"light\" ? \"dark\" : \"light\");\r\n\r\n  return (\r\n    <ThemeContext.Provider value={{ theme, toggleTheme }}>\r\n      {children}\r\n    </ThemeContext.Provider>\r\n  );\r\n}\r\n\r\nfunction useTheme() {\r\n  const context = useContext(ThemeContext);\r\n  if (!context) throw new Error(\"useTheme must be used within ThemeProvider\");\r\n  return context;\r\n}\r\n\r\n// Cart Reducer\r\nconst CartContext = createContext();\r\n\r\nconst cartReducer = (state, action) => {\r\n  switch (action.type) {\r\n    case \"ADD_ITEM\": {\r\n      const existing = state.find(item => item.id === action.payload.id);\r\n      if (existing) {\r\n        return state.map(item =>\r\n          item.id === action.payload.id\r\n            ? { ...item, quantity: item.quantity + 1 }\r\n            : item\r\n        );\r\n      }\r\n      return [...state, { ...action.payload, quantity: 1 }];\r\n    }\r\n    case \"REMOVE_ITEM\":\r\n      return state.filter(item => item.id !== action.payload);\r\n    case \"UPDATE_QUANTITY\":\r\n      return state.map(item =>\r\n        item.id === action.payload.id\r\n          ? { ...item, quantity: action.payload.quantity }\r\n          : item\r\n      );\r\n    case \"CLEAR_CART\":\r\n      return [];\r\n    default:\r\n      return state;\r\n  }\r\n};\r\n\r\nfunction CartProvider({ children }) {\r\n  const [cart, dispatch] = useReducer(cartReducer, []);\r\n\r\n  const addItem = (item) => dispatch({ type: \"ADD_ITEM\", payload: item });\r\n  const removeItem = (id) => dispatch({ type: \"REMOVE_ITEM\", payload: id });\r\n  const updateQuantity = (id, quantity) =>\r\n    dispatch({ type: \"UPDATE_QUANTITY\", payload: { id, quantity } });\r\n  const clearCart = () => dispatch({ type: \"CLEAR_CART\" });\r\n\r\n  const total = cart.reduce(\r\n    (sum, item) => sum + item.price * item.quantity, 0\r\n  );\r\n\r\n  return (\r\n    <CartContext.Provider value={{\r\n      cart, addItem, removeItem, updateQuantity, clearCart, total\r\n    }}>\r\n      {children}\r\n    </CartContext.Provider>\r\n  );\r\n}\r\n\r\nfunction useCart() {\r\n  const context = useContext(CartContext);\r\n  if (!context) throw new Error(\"useCart must be used within CartProvider\");\r\n  return context;\r\n}",
+    "explanation": "Context eliminates prop drilling. `useReducer` centralises state logic in a pure function. Actions are plain objects with `type` and `payload`. Custom hooks (`useCart`, `useTheme`) provide a clean API and guard against missing providers."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Zustand** (free, lightweight state management) if Context becomes unwieldy. Use **Redux DevTools** for time-travel debugging."
+  }
+}

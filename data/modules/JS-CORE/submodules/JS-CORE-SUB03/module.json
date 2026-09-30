@@ -1,0 +1,34 @@
+{
+  "code": "JS-CORE-SUB03",
+  "title": "JavaScript Development - Part 3",
+  "category": "Programming",
+  "level": "Intermediate",
+  "duration_hours": 13,
+  "description": "Core JavaScript programming covering ES6+, DOM manipulation, events, async/await, fetch API, modules, and modern development practices for dynamic web applications. This submodule covers: ES6+, Modules, Error handling, Promises, Async/Await, Fetch API, API integration, Event loop, Closures.",
+  "topics": [
+    "ES6+",
+    "Modules",
+    "Error handling",
+    "Promises",
+    "Async/Await",
+    "Fetch API",
+    "API integration",
+    "Event loop",
+    "Closures"
+  ],
+  "technologies": [
+    "JavaScript"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "PROG-FUND",
+    "WEB-HTML",
+    "WEB-CSS"
+  ],
+  "learning_outcomes": [
+    "Master JavaScript fundamentals and ES6+ features",
+    "Manipulate the DOM and handle events",
+    "Work with arrays, objects, and JSON data"
+  ]
+}

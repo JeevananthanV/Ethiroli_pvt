@@ -1,0 +1,18 @@
+{
+  "id": "DATA-ANALYTICS-L04",
+  "module_code": "DATA-ANALYTICS",
+  "lesson_order": 4,
+  "title": "Data cleaning in Data Analytics",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Data cleaning",
+    "Implement real-world code for Data cleaning according to industry standards",
+    "Debug and optimize Data cleaning integrations"
+  ],
+  "theory_markdown": "### Data cleaning\n\nThis lesson covers in-depth technical mechanics of **Data cleaning** as part of the Data Analytics curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Data cleaning Implementation Example\nexport function handleDatacleaning() {\n  console.log('Executing Data cleaning workflow...');\n}",
+    "explanation": "Demonstration of how Data cleaning is structured in production."
+  }
+}

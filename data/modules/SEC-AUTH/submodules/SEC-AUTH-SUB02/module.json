@@ -1,0 +1,31 @@
+{
+  "code": "SEC-AUTH-SUB02",
+  "title": "Authentication & Authorization - Part 2",
+  "category": "Security",
+  "level": "Intermediate",
+  "duration_hours": 4,
+  "description": "Authentication and authorization covering password hashing, JWT, sessions, cookies, role-based access control, OAuth, and security best practices. This submodule covers: Cookies, Refresh tokens, Role-based access control, Permissions, Protected routes.",
+  "topics": [
+    "Cookies",
+    "Refresh tokens",
+    "Role-based access control",
+    "Permissions",
+    "Protected routes"
+  ],
+  "technologies": [
+    "JWT",
+    "bcrypt",
+    "OAuth"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "BE-NODE",
+    "DB-MYSQL"
+  ],
+  "learning_outcomes": [
+    "Implement secure password storage with hashing and salting",
+    "Create JWT-based authentication systems",
+    "Manage user sessions and cookies securely"
+  ]
+}

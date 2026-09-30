@@ -1,0 +1,18 @@
+{
+  "id": "FE-TS-L07",
+  "module_code": "FE-TS",
+  "lesson_order": 7,
+  "title": "Enums in TypeScript",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Enums",
+    "Implement real-world code for Enums according to industry standards",
+    "Debug and optimize Enums integrations"
+  ],
+  "theory_markdown": "### Enums\n\nThis lesson covers in-depth technical mechanics of **Enums** as part of the TypeScript curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Enums Implementation Example\nexport function handleEnums() {\n  console.log('Executing Enums workflow...');\n}",
+    "explanation": "Demonstration of how Enums is structured in production."
+  }
+}

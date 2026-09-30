@@ -1,0 +1,20 @@
+{
+  "id": "DSA-CORE-D18",
+  "day": 18,
+  "module_code": "DSA-CORE",
+  "lesson_order": 1,
+  "title": "Execution Context, Hoisting, and the `this` Keyword",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand how JavaScript executes code, hoisting rules, and `this` binding rules."
+  ],
+  "theory_markdown": "Every function call creates an execution context with a variable environment, scope chain, and `this` binding. Global execution context is created first. Hoisting moves declarations to the top of their scope: `var` declarations are hoisted and initialised to `undefined`; function declarations are fully hoisted; `let`/`const` are hoisted but in the temporal dead zone (TDZ) until initialisation.\r\n\r\n`this` binding rules: (1) default — global object (or `undefined` in strict mode); (2) implicit — object before the dot; (3) explicit — `call`, `apply`, `bind`; (4) `new` — newly created object; (5) arrow functions — lexically inherited.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "const person = {\r\n  name: \"Alice\",\r\n  greet() {\r\n    console.log(`Hello, ${this.name}`);  // \"this\" = person\r\n  }\r\n};\r\nperson.greet(); // \"Hello, Alice\"\r\n\r\n// Losing this\r\nconst greetFn = person.greet;\r\ngreetFn(); // \"Hello, undefined\" (or error in strict mode)\r\n\r\n// Fix with bind\r\nconst boundGreet = person.greet.bind(person);\r\nboundGreet(); // \"Hello, Alice\"\r\n\r\n// Arrow function inherits this\r\nconst team = {\r\n  name: \"Dev\",\r\n  members: [\"Alice\", \"Bob\"],\r\n  listMembers() {\r\n    this.members.forEach(member => {\r\n      console.log(`${member} is on ${this.name}`);  // \"this\" = team\r\n    });\r\n  }\r\n};\r\n\r\n// Hoisting demonstration\r\nconsole.log(x);  // undefined (var hoisted)\r\nvar x = 5;\r\nconsole.log(x);  // 5\r\n\r\n// console.log(y); // ReferenceError: Cannot access 'y' before initialization\r\nlet y = 10;\r\n\r\nhoistedFn(); // Works — function declaration hoisted\r\nfunction hoistedFn() { console.log(\"Hoisted!\"); }\r\n\r\n// notHoisted(); // TypeError: notHoisted is not a function\r\nconst notHoisted = () => console.log(\"Not hoisted\");",
+    "explanation": "`this` is determined by how a function is called, not where it's defined. Arrow functions capture `this` from their enclosing scope. `var` hoisting initialises to `undefined`; `let`/`const` enter TDZ. Function declarations are fully hoisted."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Free.ai Coder** to quiz yourself: `free-code ask \"Generate 5 interview questions about this binding in JavaScript\"`\r\n\r\n---"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "ML-DL-SUB01-L02",
+  "day": 3,
+  "module_code": "ML-DL",
+  "lesson_order": 2,
+  "title": "Perceptron: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Perceptron",
+    "Apply Perceptron in practical scenarios",
+    "Build a small project using Perceptron"
+  ],
+  "theory_markdown": "# Perceptron\n\n## Overview\nThis lesson covers the fundamentals of Perceptron and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Perceptron\n- Concept 2 related to Perceptron\n- Best practices for Perceptron\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Perceptron\n2. Implement basic Perceptron functionality\n3. Apply Perceptron to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Perceptron implementation\nconsole.log('Learning Perceptron');\n\n// Basic Perceptron example\nconst example = {\n  topic: 'Perceptron',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Perceptron usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Perceptron concepts and generate code examples.\n\n---"
+  }
+}

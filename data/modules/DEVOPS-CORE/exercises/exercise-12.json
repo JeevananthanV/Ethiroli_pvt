@@ -1,0 +1,10 @@
+{
+  "id": "EX-DEVOPS-CORE-L12",
+  "module_code": "DEVOPS-CORE",
+  "title": "Lab Exercise: Monitoring",
+  "difficulty": "Intermediate",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Monitoring.",
+  "starter_code": "// Lab: Monitoring\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Monitoring\nexport const solution = true;\n"
+}

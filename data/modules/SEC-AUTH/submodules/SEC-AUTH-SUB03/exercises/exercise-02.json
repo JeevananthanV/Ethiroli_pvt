@@ -1,0 +1,33 @@
+{
+  "id": "SEC-AUTH-SUB03-E02",
+  "module_code": "SEC-AUTH",
+  "day": 4,
+  "title": "Hands-on Lab: Google login Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Google login:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Google login in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Google login basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Google login exercise\n// TODO: Implement Google login functionality here\n\nconsole.log('Google login exercise starter');\n",
+  "solution_code": "// Solution for Google login exercise\nconsole.log('Completed Google login exercise');\n\n// Basic implementation\nconst googlelogin = {\n  name: 'Google login',\n  completed: true\n};\n\nconsole.log(googlelogin);"
+}

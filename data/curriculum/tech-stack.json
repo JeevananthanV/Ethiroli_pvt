@@ -1,0 +1,105 @@
+{
+  "TECHNOLOGY": {
+    "Frontend": {
+      "HTML5": ["WEB-HTML"],
+      "CSS3": ["WEB-CSS"],
+      "JavaScript": ["JS-CORE"],
+      "TypeScript": ["FE-TS"],
+      "React": ["FE-REACT"],
+      "Next.js": ["FE-NEXT"],
+      "Tailwind CSS": ["WEB-CSS"],
+      "Redux Toolkit": ["FE-REACT"]
+    },
+    "Backend": {
+      "Node.js": ["BE-NODE"],
+      "Express.js": ["BE-EXPRESS"],
+      "Python": ["PY-CORE"],
+      "Java": [],
+      "REST API": ["BE-REST"]
+    },
+    "Database": {
+      "MySQL": ["DB-MYSQL"],
+      "PostgreSQL": [],
+      "MongoDB": ["DB-MONGO"],
+      "Redis": []
+    },
+    "AI_ML": {
+      "Python": ["PY-CORE"],
+      "NumPy": ["DATA-ANALYTICS", "ML-CORE", "ML-DL"],
+      "Pandas": ["DATA-ANALYTICS", "ML-CORE", "ML-DL"],
+      "Scikit-learn": ["ML-CORE"],
+      "TensorFlow": ["ML-DL"],
+      "PyTorch": ["ML-DL"],
+      "OpenAI API": ["AI-GENAPP"],
+      "Gemini API": ["AI-GENAPP"]
+    },
+    "DevOps": {
+      "Linux": ["DEVOPS-CORE"],
+      "Git": ["DEV-GIT", "DEVOPS-CORE"],
+      "GitHub": ["DEV-GIT", "DEVOPS-CORE"],
+      "Docker": ["DEVOPS-CORE"],
+      "GitHub Actions": ["DEVOPS-CORE"],
+      "Nginx": ["DEVOPS-CORE"],
+      "AWS": ["CLOUD-AWS"]
+    },
+    "Automation": {
+      "n8n": ["AUTO-N8N"],
+      "Webhooks": ["AUTO-N8N", "API-PAYMENT", "API-COMM"],
+      "REST APIs": ["BE-REST", "API-PAYMENT", "API-COMM", "AUTO-N8N"],
+      "WhatsApp API": ["API-COMM"],
+      "Twilio": ["API-COMM"],
+      "Email APIs": ["API-COMM"]
+    },
+    "Testing": {
+      "Jest": ["QA-TEST", "FE-REACT"],
+      "Playwright": ["QA-TEST"],
+      "Cypress": ["QA-TEST"],
+      "Postman": ["BE-REST", "QA-TEST", "SEC-WEB"]
+    },
+    "Design": {
+      "Figma": ["DESIGN-UIUX"]
+    },
+    "Security": {
+      "OWASP": ["SEC-WEB"],
+      "JWT": ["SEC-AUTH"],
+      "OAuth": ["SEC-AUTH"],
+      "Burp Suite": ["SEC-WEB"]
+    }
+  },
+  "module_to_technology_map": {
+    "PROG-FUND": ["JavaScript", "Python"],
+    "WEB-HTML": ["HTML5"],
+    "WEB-CSS": ["CSS3", "Tailwind CSS"],
+    "JS-CORE": ["JavaScript"],
+    "DEV-GIT": ["Git", "GitHub"],
+    "DESIGN-UIUX": ["Figma"],
+    "FE-REACT": ["React", "Redux Toolkit", "Jest"],
+    "FE-TS": ["TypeScript"],
+    "FE-NEXT": ["Next.js"],
+    "BE-NODE": ["Node.js"],
+    "BE-EXPRESS": ["Express.js"],
+    "BE-REST": ["REST API", "Postman"],
+    "DB-MYSQL": ["MySQL"],
+    "DB-MONGO": ["MongoDB"],
+    "SEC-AUTH": ["JWT", "OAuth"],
+    "FS-INTEGRATION": ["React", "Node.js", "Express.js", "MySQL", "MongoDB"],
+    "API-PAYMENT": ["Razorpay", "Stripe"],
+    "API-COMM": ["Nodemailer", "Resend", "Twilio", "WhatsApp API"],
+    "AUTO-N8N": ["n8n", "Webhooks"],
+    "AI-DEV": ["ChatGPT", "Gemini", "Claude", "Cursor", "GitHub Copilot", "v0"],
+    "AI-GENAPP": ["OpenAI API", "Gemini API", "Vector DB", "LangChain"],
+    "PY-CORE": ["Python"],
+    "DATA-ANALYTICS": ["Excel", "MySQL", "Python", "Pandas", "NumPy", "Power BI"],
+    "ML-CORE": ["Python", "NumPy", "Pandas", "Scikit-learn"],
+    "ML-DL": ["Python", "TensorFlow", "PyTorch"],
+    "QA-TEST": ["Jest", "Playwright", "Cypress", "Postman"],
+    "DEVOPS-CORE": ["Linux", "Git", "GitHub", "Docker", "GitHub Actions", "Nginx"],
+    "CLOUD-AWS": ["AWS", "Hostinger", "Cloudflare"],
+    "SEC-WEB": ["OWASP", "Postman", "Burp Suite"],
+    "ARCH-SYSTEM": [],
+    "DSA-CORE": ["JavaScript", "Python", "Java"],
+    "MOBILE-RN": ["React Native", "Expo", "TypeScript"],
+    "SEO-TECH": ["Google Search Console", "Google Analytics", "Schema.org"],
+    "FINAL": []
+  }
+}

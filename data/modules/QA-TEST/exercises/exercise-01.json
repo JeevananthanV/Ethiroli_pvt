@@ -1,0 +1,11 @@
+{
+  "id": "EX-QA-TEST-D46",
+  "module_code": "QA-TEST",
+  "day": 46,
+  "title": "Hands-on Lab: Unit and Integration Testing with Jest",
+  "estimated_minutes": 45,
+  "difficulty": "Advanced",
+  "instructions": "Write comprehensive tests for your API: unit tests for services and utilities, integration tests for all endpoints, and error case tests. Achieve 80%+ coverage on critical paths. Set up CI to run tests on every push.",
+  "starter_code": "// Starter file for Unit and Integration Testing with Jest\n// Task instructions:\n// Write comprehensive tests for your API: unit tests for services and utilities, integration tests for all endpoints, and error case tests. Achieve 80%+...\n",
+  "solution_code": "// tests/setup.js\r\nimport { MongoMemoryServer } from 'mongodb-memory-server';\r\nimport mongoose from 'mongoose';\r\n\r\nlet mongoServer;\r\n\r\nbeforeAll(async () => {\r\n  mongoServer = await MongoMemoryServer.create();\r\n  const uri = mongoServer.getUri();\r\n  await mongoose.connect(uri);\r\n});\r\n\r\nafterAll(async () => {\r\n  await mongoose.disconnect();\r\n  await mongoServer.stop();\r\n});\r\n\r\nafterEach(async () => {\r\n  const collections = mongoose.connection.collections;\r\n  for (const key in collections) {\r\n    await collections[key].deleteMany({});\r\n  }\r\n});"
+}

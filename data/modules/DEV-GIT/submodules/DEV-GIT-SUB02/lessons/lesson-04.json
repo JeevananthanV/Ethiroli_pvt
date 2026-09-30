@@ -1,0 +1,22 @@
+{
+  "id": "DEV-GIT-SUB02-L04",
+  "day": 7,
+  "module_code": "DEV-GIT",
+  "lesson_order": 4,
+  "title": "Merge: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Merge",
+    "Apply Merge in practical scenarios",
+    "Build a small project using Merge"
+  ],
+  "theory_markdown": "# Merge\n\n## Overview\nThis lesson covers the fundamentals of Merge and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Merge\n- Concept 2 related to Merge\n- Best practices for Merge\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Merge\n2. Implement basic Merge functionality\n3. Apply Merge to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Merge implementation\nconsole.log('Learning Merge');\n\n// Basic Merge example\nconst example = {\n  topic: 'Merge',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Merge usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Merge concepts and generate code examples.\n\n---"
+  }
+}

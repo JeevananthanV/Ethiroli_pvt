@@ -1,0 +1,70 @@
+{
+  "id": "WEB-HTML-SUB02-Q02",
+  "module_code": "WEB-HTML",
+  "day": 3,
+  "title": "Quiz 2: Links Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Links?",
+      "options": [
+        "Core principle of Links",
+        "Advanced Links technique",
+        "Alternative approach to Links",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Links concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Images?",
+      "options": [
+        "Core principle of Images",
+        "Advanced Images technique",
+        "Alternative approach to Images",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Images concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Audio/video?",
+      "options": [
+        "Core principle of Audio/video",
+        "Advanced Audio/video technique",
+        "Alternative approach to Audio/video",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Audio/video concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Lists?",
+      "options": [
+        "Core principle of Lists",
+        "Advanced Lists technique",
+        "Alternative approach to Lists",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Lists concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Tables?",
+      "options": [
+        "Core principle of Tables",
+        "Advanced Tables technique",
+        "Alternative approach to Tables",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Tables concepts."
+    }
+  ]
+}

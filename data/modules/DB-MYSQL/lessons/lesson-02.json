@@ -1,0 +1,20 @@
+{
+  "id": "DB-MYSQL-D37",
+  "day": 37,
+  "module_code": "DB-MYSQL",
+  "lesson_order": 2,
+  "title": "Advanced Queries: Joins, Subqueries, and Aggregations",
+  "duration_minutes": 60,
+  "objectives": [
+    "Master `JOIN` types, subqueries, CTEs, window functions, and aggregation."
+  ],
+  "theory_markdown": "Join types: `INNER JOIN` (matching rows), `LEFT JOIN` (all left rows), `RIGHT JOIN` (all right rows), `FULL OUTER JOIN` (all rows — MySQL uses `UNION`). Self-joins for hierarchical data. Subqueries in `SELECT`, `FROM`, and `WHERE`. Common Table Expressions (CTEs) with `WITH`. Window functions: `ROW_NUMBER()`, `RANK()`, `LAG()`, `LEAD()`, `SUM() OVER`.",
+  "code_walkthrough": {
+    "language": "sql",
+    "code": "-- INNER JOIN: products with category names\r\nSELECT p.name AS product, p.price, c.name AS category\r\nFROM products p\r\nINNER JOIN categories c ON p.category_id = c.id\r\nWHERE p.price > 20\r\nORDER BY p.price DESC;\r\n\r\n-- LEFT JOIN: all users with their order count (including users with no orders)\r\nSELECT u.username, COUNT(o.id) AS order_count,\r\n       COALESCE(SUM(o.total), 0) AS total_spent\r\nFROM users u\r\nLEFT JOIN orders o ON u.id = o.user_id\r\nGROUP BY u.id, u.username\r\nORDER BY total_spent DESC;\r\n\r\n-- Subquery: products above average price\r\nSELECT name, price\r\nFROM products\r\nWHERE price > (SELECT AVG(price) FROM products);\r\n\r\n-- CTE: monthly revenue report\r\nWITH monthly_revenue AS (\r\n  SELECT\r\n    DATE_FORMAT(created_at, '%Y-%m') AS month,\r\n    COUNT(*) AS order_count,\r\n    SUM(total) AS revenue\r\n  FROM orders\r\n  WHERE status != 'cancelled'\r\n  GROUP BY DATE_FORMAT(created_at, '%Y-%m')\r\n)\r\nSELECT\r\n  month,\r\n  order_count,\r\n  revenue,\r\n  LAG(revenue) OVER (ORDER BY month) AS prev_month_revenue,\r\n  ROUND(\r\n    (revenue - LAG(revenue) OVER (ORDER BY month)) /\r\n    LAG(revenue) OVER (ORDER BY month) * 100, 2\r\n  ) AS growth_pct\r\nFROM monthly_revenue\r\nORDER BY month;\r\n\r\n-- Window function: rank products by price within category\r\nSELECT\r\n  name,\r\n  category_id,\r\n  price,\r\n  ROW_NUMBER() OVER (PARTITION BY category_id ORDER BY price DESC) AS price_rank,\r\n  RANK() OVER (PARTITION BY category_id ORDER BY price DESC) AS price_rank_with_ties\r\nFROM products;\r\n\r\n-- Multi-table join: order details with user and product info\r\nSELECT\r\n  o.id AS order_id,\r\n  u.username,\r\n  o.status,\r\n  o.created_at,\r\n  GROUP_CONCAT(p.name SEPARATOR ', ') AS products,\r\n  COUNT(oi.id) AS item_count,\r\n  SUM(oi.quantity * oi.unit_price) AS order_total\r\nFROM orders o\r\nJOIN users u ON o.user_id = u.id\r\nJOIN order_items oi ON o.id = oi.order_id\r\nJOIN products p ON oi.product_id = p.id\r\nGROUP BY o.id, u.username, o.status, o.created_at\r\nHAVING order_total > 100\r\nORDER BY o.created_at DESC;",
+    "explanation": "`LEFT JOIN` preserves users without orders; `COALESCE` converts NULL to 0. CTEs make complex queries readable. `LAG` accesses the previous row's value for growth calculation. `ROW_NUMBER` assigns sequential ranks; `RANK` handles ties with gaps. `GROUP_CONCAT` aggregates strings."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **MySQL Workbench** query editor with visual explain plans. Use **Chat2DB** (free) for AI-generated SQL from natural language.\r\n\r\n---"
+  }
+}

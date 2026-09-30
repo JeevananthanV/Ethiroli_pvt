@@ -1,0 +1,20 @@
+{
+  "id": "FS-INTEGRATION-D60",
+  "day": 60,
+  "module_code": "FS-INTEGRATION",
+  "lesson_order": 3,
+  "title": "Capstone Completion, Documentation, and Presentation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Complete, document, and present your capstone project."
+  ],
+  "theory_markdown": "Final steps: (1) complete frontend implementation, (2) write comprehensive tests, (3) deploy to production, (4) write documentation (README, API docs, architecture), (5) prepare presentation/demo.",
+  "code_walkthrough": {
+    "language": "markdown",
+    "code": "## Deployment Checklist\r\n\r\n### Frontend (Vercel/Netlify)\r\n- [ ] Environment variables set (API URL)\r\n- [ ] Build passes locally (`npm run build`)\r\n- [ ] Preview deployment tested\r\n- [ ] Custom domain configured (optional)\r\n\r\n### Backend (Render/Railway/Fly.io)\r\n- [ ] Environment variables set (DB, JWT secrets, API keys)\r\n- [ ] Docker build successful\r\n- [ ] Health check endpoint responding\r\n- [ ] Database migrations run\r\n- [ ] Seed data loaded\r\n\r\n### Database\r\n- [ ] PostgreSQL: managed service (Supabase/PlanetScale)\r\n- [ ] MongoDB: Atlas free tier (M0)\r\n- [ ] Backups configured\r\n- [ ] Connection pooling enabled\r\n\r\n### Monitoring\r\n- [ ] Sentry error tracking\r\n- [ ] UptimeRobot monitoring\r\n- [ ] Log aggregation\r\n\r\n### Security\r\n- [ ] HTTPS enabled\r\n- [ ] CORS restricted to frontend domain\r\n- [ ] Rate limiting active\r\n- [ ] Security headers present\r\n- [ ] npm audit clean",
+    "explanation": ""
+  },
+  "ai_tool_spotlight": {
+    "description": "Use **Loom** (free) for demo recording. Use **Carbon** or **Ray.so** for code screenshots. Use AI to polish your README and presentation notes.\r\n\r\n\r\n## Course Completion Summary\r\n\r\nYou have completed the **ETH-AIFS-60** Advanced Full Stack + AI Developer Internship. You now possess:\r\n\r\n- **Frontend mastery:** HTML5, CSS3, responsive design, UI/UX principles, React (hooks, context, router, performance, testing)\r\n- **Backend proficiency:** Node.js, Express, REST APIs, authentication, RBAC, security\r\n- **Database skills:** MySQL (relational design, advanced queries, indexing, transactions) and MongoDB (documents, aggregation, Mongoose)\r\n- **AI integration:** AI coding assistants, AI-powered features, prompt engineering, AI-assisted development workflows\r\n- **Production readiness:** Docker, CI/CD, cloud deployment, monitoring, security hardening\r\n- **Professional practices:** Git/GitHub collaboration, testing (Jest, RTL, Postman), debugging, documentation\r\n\r\n**Free AI Tools Summary:**\r\n\r\n| Tool | Type | Best For |\r\n|---|---|---|\r\n| **OpenCode** | Terminal/IDE | Model-agnostic coding, privacy-first |\r\n| **Cline** | VS Code extension | BYO key, autonomous tasks |\r\n| **Continue.dev** | VS Code/JetBrains | Open-source, customisable |\r\n| **Free.ai Coder** | Terminal | Free tier, 50K tokens/day |\r\n| **Tabby** | Self-hosted | On-premises, privacy |\r\n| **Supermaven Free** | Autocomplete | 300K token context |\r\n| **v0.dev** | Web | React/Next.js generation |\r\n| **Qodo Gen** | VS Code | Test generation, review |\r\n| **Google AI Studio** | Web/API | Gemini models, free tier |\r\n\r\n**Next Steps:**\r\n1. Deploy your capstone and share the live URL\r\n2. Contribute to open-source projects using your full-stack + AI skills\r\n3. Build a portfolio site showcasing your projects\r\n4. Continue learning: GraphQL, WebSockets, microservices, advanced AI/ML\r\n5. Apply for full-stack developer roles with your comprehensive skill set"
+  }
+}

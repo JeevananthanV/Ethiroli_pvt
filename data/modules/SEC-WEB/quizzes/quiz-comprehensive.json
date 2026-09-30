@@ -1,0 +1,117 @@
+{
+  "id": "QZ-SEC-WEB-COMPREHENSIVE",
+  "module_code": "SEC-WEB",
+  "title": "Comprehensive Quiz: Cybersecurity",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes cybersecurity fundamentals in Cybersecurity?",
+      "options": [
+        "Core concept: Cybersecurity fundamentals is fundamental to Cybersecurity",
+        "Alternative approach to Cybersecurity fundamentals using different methodology",
+        "Advanced implementation of Cybersecurity fundamentals with optimizations",
+        "Legacy technique for Cybersecurity fundamentals no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Cybersecurity fundamentals is a key topic in Cybersecurity. Understand cybersecurity fundamentals and threat landscape"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes network security in Cybersecurity?",
+      "options": [
+        "Core concept: Network security is fundamental to Cybersecurity",
+        "Alternative approach to Network security using different methodology",
+        "Advanced implementation of Network security with optimizations",
+        "Legacy technique for Network security no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Network security is a key topic in Cybersecurity. Understand cybersecurity fundamentals and threat landscape"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes web security in Cybersecurity?",
+      "options": [
+        "Core concept: Web security is fundamental to Cybersecurity",
+        "Alternative approach to Web security using different methodology",
+        "Advanced implementation of Web security with optimizations",
+        "Legacy technique for Web security no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Web security is a key topic in Cybersecurity. Understand cybersecurity fundamentals and threat landscape"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes owasp in Cybersecurity?",
+      "options": [
+        "Core concept: OWASP is fundamental to Cybersecurity",
+        "Alternative approach to OWASP using different methodology",
+        "Advanced implementation of OWASP with optimizations",
+        "Legacy technique for OWASP no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "OWASP is a key topic in Cybersecurity. Understand cybersecurity fundamentals and threat landscape"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes sql injection in Cybersecurity?",
+      "options": [
+        "Core concept: SQL injection is fundamental to Cybersecurity",
+        "Alternative approach to SQL injection using different methodology",
+        "Advanced implementation of SQL injection with optimizations",
+        "Legacy technique for SQL injection no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "SQL injection is a key topic in Cybersecurity. Understand cybersecurity fundamentals and threat landscape"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes xss in Cybersecurity?",
+      "options": [
+        "Core concept: XSS is fundamental to Cybersecurity",
+        "Alternative approach to XSS using different methodology",
+        "Advanced implementation of XSS with optimizations",
+        "Legacy technique for XSS no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "XSS is a key topic in Cybersecurity. Understand cybersecurity fundamentals and threat landscape"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in Cybersecurity?",
+      "options": [
+        "OWASP",
+        "Postman",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "Cybersecurity uses OWASP, Postman, Burp Suite as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of Cybersecurity?",
+      "options": [
+        "Understand cybersecurity fundamentals and threat landscape",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Understand cybersecurity fundamentals and threat landscape"
+    },
+    {
+      "id": 9,
+      "question": "When applying Cybersecurity in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for Cybersecurity include following established patterns and using recommended tools."
+    }
+  ]
+}

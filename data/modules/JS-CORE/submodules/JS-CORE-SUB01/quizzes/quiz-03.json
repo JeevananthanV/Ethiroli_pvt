@@ -1,0 +1,70 @@
+{
+  "id": "JS-CORE-SUB01-Q03",
+  "module_code": "JS-CORE",
+  "day": 5,
+  "title": "Quiz 3: JavaScript fundamentals Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in JavaScript fundamentals?",
+      "options": [
+        "Core principle of JavaScript fundamentals",
+        "Advanced JavaScript fundamentals technique",
+        "Alternative approach to JavaScript fundamentals",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental JavaScript fundamentals concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Variables?",
+      "options": [
+        "Core principle of Variables",
+        "Advanced Variables technique",
+        "Alternative approach to Variables",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Variables concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Data types?",
+      "options": [
+        "Core principle of Data types",
+        "Advanced Data types technique",
+        "Alternative approach to Data types",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Data types concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Operators?",
+      "options": [
+        "Core principle of Operators",
+        "Advanced Operators technique",
+        "Alternative approach to Operators",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Operators concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Conditions?",
+      "options": [
+        "Core principle of Conditions",
+        "Advanced Conditions technique",
+        "Alternative approach to Conditions",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Conditions concepts."
+    }
+  ]
+}

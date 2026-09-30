@@ -1,0 +1,18 @@
+{
+  "id": "PY-CORE-L19",
+  "module_code": "PY-CORE",
+  "lesson_order": 19,
+  "title": "APIs in Python Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of APIs",
+    "Implement real-world code for APIs according to industry standards",
+    "Debug and optimize APIs integrations"
+  ],
+  "theory_markdown": "### APIs\n\nThis lesson covers in-depth technical mechanics of **APIs** as part of the Python Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// APIs Implementation Example\nexport function handleAPIs() {\n  console.log('Executing APIs workflow...');\n}",
+    "explanation": "Demonstration of how APIs is structured in production."
+  }
+}

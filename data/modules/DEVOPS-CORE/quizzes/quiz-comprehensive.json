@@ -1,0 +1,117 @@
+{
+  "id": "QZ-DEVOPS-CORE-COMPREHENSIVE",
+  "module_code": "DEVOPS-CORE",
+  "title": "Comprehensive Quiz: DevOps",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes devops fundamentals in DevOps?",
+      "options": [
+        "Core concept: DevOps fundamentals is fundamental to DevOps",
+        "Alternative approach to DevOps fundamentals using different methodology",
+        "Advanced implementation of DevOps fundamentals with optimizations",
+        "Legacy technique for DevOps fundamentals no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "DevOps fundamentals is a key topic in DevOps. Understand DevOps culture, practices, and benefits"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes linux in DevOps?",
+      "options": [
+        "Core concept: Linux is fundamental to DevOps",
+        "Alternative approach to Linux using different methodology",
+        "Advanced implementation of Linux with optimizations",
+        "Legacy technique for Linux no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Linux is a key topic in DevOps. Understand DevOps culture, practices, and benefits"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes git in DevOps?",
+      "options": [
+        "Core concept: Git is fundamental to DevOps",
+        "Alternative approach to Git using different methodology",
+        "Advanced implementation of Git with optimizations",
+        "Legacy technique for Git no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Git is a key topic in DevOps. Understand DevOps culture, practices, and benefits"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes ci/cd in DevOps?",
+      "options": [
+        "Core concept: CI/CD is fundamental to DevOps",
+        "Alternative approach to CI/CD using different methodology",
+        "Advanced implementation of CI/CD with optimizations",
+        "Legacy technique for CI/CD no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "CI/CD is a key topic in DevOps. Understand DevOps culture, practices, and benefits"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes build pipelines in DevOps?",
+      "options": [
+        "Core concept: Build pipelines is fundamental to DevOps",
+        "Alternative approach to Build pipelines using different methodology",
+        "Advanced implementation of Build pipelines with optimizations",
+        "Legacy technique for Build pipelines no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Build pipelines is a key topic in DevOps. Understand DevOps culture, practices, and benefits"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes docker in DevOps?",
+      "options": [
+        "Core concept: Docker is fundamental to DevOps",
+        "Alternative approach to Docker using different methodology",
+        "Advanced implementation of Docker with optimizations",
+        "Legacy technique for Docker no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Docker is a key topic in DevOps. Understand DevOps culture, practices, and benefits"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in DevOps?",
+      "options": [
+        "Linux",
+        "Git",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "DevOps uses Linux, Git, GitHub, Docker, GitHub Actions, Nginx as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of DevOps?",
+      "options": [
+        "Understand DevOps culture, practices, and benefits",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Understand DevOps culture, practices, and benefits"
+    },
+    {
+      "id": 9,
+      "question": "When applying DevOps in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for DevOps include following established patterns and using recommended tools."
+    }
+  ]
+}

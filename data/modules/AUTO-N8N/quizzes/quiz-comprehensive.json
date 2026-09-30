@@ -1,0 +1,117 @@
+{
+  "id": "QZ-AUTO-N8N-COMPREHENSIVE",
+  "module_code": "AUTO-N8N",
+  "title": "Comprehensive Quiz: n8n Business Automation",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes automation fundamentals in n8n Business Automation?",
+      "options": [
+        "Core concept: Automation fundamentals is fundamental to n8n Business Automation",
+        "Alternative approach to Automation fundamentals using different methodology",
+        "Advanced implementation of Automation fundamentals with optimizations",
+        "Legacy technique for Automation fundamentals no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Automation fundamentals is a key topic in n8n Business Automation. Design and build automation workflows in n8n"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes n8n interface in n8n Business Automation?",
+      "options": [
+        "Core concept: n8n interface is fundamental to n8n Business Automation",
+        "Alternative approach to n8n interface using different methodology",
+        "Advanced implementation of n8n interface with optimizations",
+        "Legacy technique for n8n interface no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "n8n interface is a key topic in n8n Business Automation. Design and build automation workflows in n8n"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes workflows in n8n Business Automation?",
+      "options": [
+        "Core concept: Workflows is fundamental to n8n Business Automation",
+        "Alternative approach to Workflows using different methodology",
+        "Advanced implementation of Workflows with optimizations",
+        "Legacy technique for Workflows no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Workflows is a key topic in n8n Business Automation. Design and build automation workflows in n8n"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes nodes in n8n Business Automation?",
+      "options": [
+        "Core concept: Nodes is fundamental to n8n Business Automation",
+        "Alternative approach to Nodes using different methodology",
+        "Advanced implementation of Nodes with optimizations",
+        "Legacy technique for Nodes no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Nodes is a key topic in n8n Business Automation. Design and build automation workflows in n8n"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes triggers in n8n Business Automation?",
+      "options": [
+        "Core concept: Triggers is fundamental to n8n Business Automation",
+        "Alternative approach to Triggers using different methodology",
+        "Advanced implementation of Triggers with optimizations",
+        "Legacy technique for Triggers no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Triggers is a key topic in n8n Business Automation. Design and build automation workflows in n8n"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes webhooks in n8n Business Automation?",
+      "options": [
+        "Core concept: Webhooks is fundamental to n8n Business Automation",
+        "Alternative approach to Webhooks using different methodology",
+        "Advanced implementation of Webhooks with optimizations",
+        "Legacy technique for Webhooks no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Webhooks is a key topic in n8n Business Automation. Design and build automation workflows in n8n"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in n8n Business Automation?",
+      "options": [
+        "n8n",
+        "REST APIs",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "n8n Business Automation uses n8n, REST APIs, Webhooks as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of n8n Business Automation?",
+      "options": [
+        "Design and build automation workflows in n8n",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Design and build automation workflows in n8n"
+    },
+    {
+      "id": 9,
+      "question": "When applying n8n Business Automation in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for n8n Business Automation include following established patterns and using recommended tools."
+    }
+  ]
+}

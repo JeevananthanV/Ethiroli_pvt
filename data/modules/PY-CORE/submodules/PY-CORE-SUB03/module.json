@@ -1,0 +1,29 @@
+{
+  "code": "PY-CORE-SUB03",
+  "title": "Python Development - Part 3",
+  "category": "Programming",
+  "level": "Beginner",
+  "duration_hours": 5,
+  "description": "Python programming covering syntax, data types, control structures, functions, data structures, OOP, exception handling, file handling, modules, and API development. This submodule covers: OOP, Modules, Packages, Virtual environments, APIs, JSON.",
+  "topics": [
+    "OOP",
+    "Modules",
+    "Packages",
+    "Virtual environments",
+    "APIs",
+    "JSON"
+  ],
+  "technologies": [
+    "Python"
+  ],
+  "practicals": [],
+  "projects": [],
+  "prerequisites": [
+    "PROG-FUND"
+  ],
+  "learning_outcomes": [
+    "Write Python programs with proper syntax and indentation",
+    "Work with Python data types: strings, numbers, lists, tuples, sets, dicts",
+    "Implement control structures: conditions and loops"
+  ]
+}

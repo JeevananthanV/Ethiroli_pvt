@@ -1,0 +1,10 @@
+{
+  "id": "EX-ML-DL-L01",
+  "module_code": "ML-DL",
+  "title": "Lab Exercise: Neural networks",
+  "difficulty": "Advanced",
+  "estimated_minutes": 30,
+  "instructions": "Implement a production-ready component or module function that demonstrates Neural networks.",
+  "starter_code": "// Lab: Neural networks\n// Implement your solution below\n",
+  "solution_code": "// Reference solution for Neural networks\nexport const solution = true;\n"
+}

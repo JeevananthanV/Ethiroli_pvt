@@ -1,0 +1,117 @@
+{
+  "id": "QZ-DSA-CORE-COMPREHENSIVE",
+  "module_code": "DSA-CORE",
+  "title": "Comprehensive Quiz: DSA & Problem Solving",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes complexity in DSA & Problem Solving?",
+      "options": [
+        "Core concept: Complexity is fundamental to DSA & Problem Solving",
+        "Alternative approach to Complexity using different methodology",
+        "Advanced implementation of Complexity with optimizations",
+        "Legacy technique for Complexity no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Complexity is a key topic in DSA & Problem Solving. Analyze algorithm complexity with Big O notation"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes arrays in DSA & Problem Solving?",
+      "options": [
+        "Core concept: Arrays is fundamental to DSA & Problem Solving",
+        "Alternative approach to Arrays using different methodology",
+        "Advanced implementation of Arrays with optimizations",
+        "Legacy technique for Arrays no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Arrays is a key topic in DSA & Problem Solving. Analyze algorithm complexity with Big O notation"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes strings in DSA & Problem Solving?",
+      "options": [
+        "Core concept: Strings is fundamental to DSA & Problem Solving",
+        "Alternative approach to Strings using different methodology",
+        "Advanced implementation of Strings with optimizations",
+        "Legacy technique for Strings no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Strings is a key topic in DSA & Problem Solving. Analyze algorithm complexity with Big O notation"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes searching in DSA & Problem Solving?",
+      "options": [
+        "Core concept: Searching is fundamental to DSA & Problem Solving",
+        "Alternative approach to Searching using different methodology",
+        "Advanced implementation of Searching with optimizations",
+        "Legacy technique for Searching no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Searching is a key topic in DSA & Problem Solving. Analyze algorithm complexity with Big O notation"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes sorting in DSA & Problem Solving?",
+      "options": [
+        "Core concept: Sorting is fundamental to DSA & Problem Solving",
+        "Alternative approach to Sorting using different methodology",
+        "Advanced implementation of Sorting with optimizations",
+        "Legacy technique for Sorting no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Sorting is a key topic in DSA & Problem Solving. Analyze algorithm complexity with Big O notation"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes recursion in DSA & Problem Solving?",
+      "options": [
+        "Core concept: Recursion is fundamental to DSA & Problem Solving",
+        "Alternative approach to Recursion using different methodology",
+        "Advanced implementation of Recursion with optimizations",
+        "Legacy technique for Recursion no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Recursion is a key topic in DSA & Problem Solving. Analyze algorithm complexity with Big O notation"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in DSA & Problem Solving?",
+      "options": [
+        "JavaScript",
+        "Python",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "DSA & Problem Solving uses JavaScript, Python, Java as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of DSA & Problem Solving?",
+      "options": [
+        "Analyze algorithm complexity with Big O notation",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Analyze algorithm complexity with Big O notation"
+    },
+    {
+      "id": 9,
+      "question": "When applying DSA & Problem Solving in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for DSA & Problem Solving include following established patterns and using recommended tools."
+    }
+  ]
+}

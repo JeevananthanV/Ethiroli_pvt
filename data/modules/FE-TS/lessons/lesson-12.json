@@ -1,0 +1,18 @@
+{
+  "id": "FE-TS-L12",
+  "module_code": "FE-TS",
+  "lesson_order": 12,
+  "title": "Type narrowing in TypeScript",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Type narrowing",
+    "Implement real-world code for Type narrowing according to industry standards",
+    "Debug and optimize Type narrowing integrations"
+  ],
+  "theory_markdown": "### Type narrowing\n\nThis lesson covers in-depth technical mechanics of **Type narrowing** as part of the TypeScript curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Type narrowing Implementation Example\nexport function handleTypenarrowing() {\n  console.log('Executing Type narrowing workflow...');\n}",
+    "explanation": "Demonstration of how Type narrowing is structured in production."
+  }
+}

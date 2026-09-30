@@ -1,0 +1,22 @@
+{
+  "id": "DB-MONGO-SUB01-L01",
+  "day": 1,
+  "module_code": "DB-MONGO",
+  "lesson_order": 1,
+  "title": "NoSQL fundamentals: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of NoSQL fundamentals",
+    "Apply NoSQL fundamentals in practical scenarios",
+    "Build a small project using NoSQL fundamentals"
+  ],
+  "theory_markdown": "# NoSQL fundamentals\n\n## Overview\nThis lesson covers the fundamentals of NoSQL fundamentals and its practical applications.\n\n## Key Concepts\n- Concept 1 related to NoSQL fundamentals\n- Concept 2 related to NoSQL fundamentals\n- Best practices for NoSQL fundamentals\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of NoSQL fundamentals\n2. Implement basic NoSQL fundamentals functionality\n3. Apply NoSQL fundamentals to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example NoSQL fundamentals implementation\nconsole.log('Learning NoSQL fundamentals');\n\n// Basic NoSQL fundamentals example\nconst example = {\n  topic: 'NoSQL fundamentals',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic NoSQL fundamentals usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand NoSQL fundamentals concepts and generate code examples.\n\n---"
+  }
+}

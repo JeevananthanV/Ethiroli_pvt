@@ -1,0 +1,22 @@
+{
+  "id": "API-COMM-SUB02-L01",
+  "day": 1,
+  "module_code": "API-COMM",
+  "lesson_order": 1,
+  "title": "SMS: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of SMS",
+    "Apply SMS in practical scenarios",
+    "Build a small project using SMS"
+  ],
+  "theory_markdown": "# SMS\n\n## Overview\nThis lesson covers the fundamentals of SMS and its practical applications.\n\n## Key Concepts\n- Concept 1 related to SMS\n- Concept 2 related to SMS\n- Best practices for SMS\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of SMS\n2. Implement basic SMS functionality\n3. Apply SMS to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example SMS implementation\nconsole.log('Learning SMS');\n\n// Basic SMS example\nconst example = {\n  topic: 'SMS',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic SMS usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand SMS concepts and generate code examples.\n\n---"
+  }
+}

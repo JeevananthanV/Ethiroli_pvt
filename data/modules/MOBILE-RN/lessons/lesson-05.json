@@ -1,0 +1,18 @@
+{
+  "id": "MOBILE-RN-L05",
+  "module_code": "MOBILE-RN",
+  "lesson_order": 5,
+  "title": "Forms in Mobile Development",
+  "duration_minutes": 45,
+  "objectives": [
+    "Understand principles of Forms",
+    "Implement real-world code for Forms according to industry standards",
+    "Debug and optimize Forms integrations"
+  ],
+  "theory_markdown": "### Forms\n\nThis lesson covers in-depth technical mechanics of **Forms** as part of the Mobile Development curriculum.",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Forms Implementation Example\nexport function handleForms() {\n  console.log('Executing Forms workflow...');\n}",
+    "explanation": "Demonstration of how Forms is structured in production."
+  }
+}

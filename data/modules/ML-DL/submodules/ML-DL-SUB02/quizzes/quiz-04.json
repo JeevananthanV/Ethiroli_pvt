@@ -1,0 +1,70 @@
+{
+  "id": "ML-DL-SUB02-Q04",
+  "module_code": "ML-DL",
+  "day": 7,
+  "title": "Quiz 4: Backpropagation Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Backpropagation?",
+      "options": [
+        "Core principle of Backpropagation",
+        "Advanced Backpropagation technique",
+        "Alternative approach to Backpropagation",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Backpropagation concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in CNN?",
+      "options": [
+        "Core principle of CNN",
+        "Advanced CNN technique",
+        "Alternative approach to CNN",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental CNN concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in RNN?",
+      "options": [
+        "Core principle of RNN",
+        "Advanced RNN technique",
+        "Alternative approach to RNN",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental RNN concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in LSTM?",
+      "options": [
+        "Core principle of LSTM",
+        "Advanced LSTM technique",
+        "Alternative approach to LSTM",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental LSTM concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Backpropagation?",
+      "options": [
+        "Core principle of Backpropagation",
+        "Advanced Backpropagation technique",
+        "Alternative approach to Backpropagation",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Backpropagation concepts."
+    }
+  ]
+}

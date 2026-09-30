@@ -1,0 +1,33 @@
+{
+  "id": "ML-DL-SUB01-E01",
+  "module_code": "ML-DL",
+  "day": 2,
+  "title": "Hands-on Lab: Neural networks Application",
+  "estimated_minutes": 45,
+  "difficulty": "Intermediate",
+  "instructions": "Complete the following exercises to practice Neural networks:",
+  "subtasks": [
+    {
+      "id": 1,
+      "description": "Explain the core concepts of Neural networks in your own words",
+      "estimated_minutes": 10
+    },
+    {
+      "id": 2,
+      "description": "Create a simple implementation demonstrating Neural networks basics",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 3,
+      "description": "Enhance your implementation with additional features",
+      "estimated_minutes": 15
+    },
+    {
+      "id": 4,
+      "description": "Test your implementation and document any issues",
+      "estimated_minutes": 5
+    }
+  ],
+  "starter_code": "// Starter code for Neural networks exercise\n// TODO: Implement Neural networks functionality here\n\nconsole.log('Neural networks exercise starter');\n",
+  "solution_code": "// Solution for Neural networks exercise\nconsole.log('Completed Neural networks exercise');\n\n// Basic implementation\nconst neuralnetworks = {\n  name: 'Neural networks',\n  completed: true\n};\n\nconsole.log(neuralnetworks);"
+}

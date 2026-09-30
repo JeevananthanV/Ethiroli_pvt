@@ -1,0 +1,70 @@
+{
+  "id": "API-COMM-SUB03-Q01",
+  "module_code": "API-COMM",
+  "day": 1,
+  "title": "Quiz 1: Automation Fundamentals",
+  "time_limit_minutes": 15,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a key concept in Automation?",
+      "options": [
+        "Core principle of Automation",
+        "Advanced Automation technique",
+        "Alternative approach to Automation",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Automation concepts."
+    },
+    {
+      "id": 2,
+      "question": "What is a key concept in Delivery tracking?",
+      "options": [
+        "Core principle of Delivery tracking",
+        "Advanced Delivery tracking technique",
+        "Alternative approach to Delivery tracking",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Delivery tracking concepts."
+    },
+    {
+      "id": 3,
+      "question": "What is a key concept in Automation?",
+      "options": [
+        "Core principle of Automation",
+        "Advanced Automation technique",
+        "Alternative approach to Automation",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Automation concepts."
+    },
+    {
+      "id": 4,
+      "question": "What is a key concept in Delivery tracking?",
+      "options": [
+        "Core principle of Delivery tracking",
+        "Advanced Delivery tracking technique",
+        "Alternative approach to Delivery tracking",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Delivery tracking concepts."
+    },
+    {
+      "id": 5,
+      "question": "What is a key concept in Automation?",
+      "options": [
+        "Core principle of Automation",
+        "Advanced Automation technique",
+        "Alternative approach to Automation",
+        "Unrelated concept"
+      ],
+      "correct_index": 0,
+      "explanation": "This tests understanding of fundamental Automation concepts."
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "id": "QZ-PROG-FUND-COMPREHENSIVE",
+  "module_code": "PROG-FUND",
+  "title": "Comprehensive Quiz: Programming Fundamentals",
+  "time_limit_minutes": 25,
+  "passing_percentage": 70,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Which of the following best describes programming concepts in Programming Fundamentals?",
+      "options": [
+        "Core concept: Programming concepts is fundamental to Programming Fundamentals",
+        "Alternative approach to Programming concepts using different methodology",
+        "Advanced implementation of Programming concepts with optimizations",
+        "Legacy technique for Programming concepts no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Programming concepts is a key topic in Programming Fundamentals. Write programs using variables, data types, and operators"
+    },
+    {
+      "id": 2,
+      "question": "Which of the following best describes variables in Programming Fundamentals?",
+      "options": [
+        "Core concept: Variables is fundamental to Programming Fundamentals",
+        "Alternative approach to Variables using different methodology",
+        "Advanced implementation of Variables with optimizations",
+        "Legacy technique for Variables no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Variables is a key topic in Programming Fundamentals. Write programs using variables, data types, and operators"
+    },
+    {
+      "id": 3,
+      "question": "Which of the following best describes data types in Programming Fundamentals?",
+      "options": [
+        "Core concept: Data types is fundamental to Programming Fundamentals",
+        "Alternative approach to Data types using different methodology",
+        "Advanced implementation of Data types with optimizations",
+        "Legacy technique for Data types no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Data types is a key topic in Programming Fundamentals. Write programs using variables, data types, and operators"
+    },
+    {
+      "id": 4,
+      "question": "Which of the following best describes operators in Programming Fundamentals?",
+      "options": [
+        "Core concept: Operators is fundamental to Programming Fundamentals",
+        "Alternative approach to Operators using different methodology",
+        "Advanced implementation of Operators with optimizations",
+        "Legacy technique for Operators no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Operators is a key topic in Programming Fundamentals. Write programs using variables, data types, and operators"
+    },
+    {
+      "id": 5,
+      "question": "Which of the following best describes conditions in Programming Fundamentals?",
+      "options": [
+        "Core concept: Conditions is fundamental to Programming Fundamentals",
+        "Alternative approach to Conditions using different methodology",
+        "Advanced implementation of Conditions with optimizations",
+        "Legacy technique for Conditions no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Conditions is a key topic in Programming Fundamentals. Write programs using variables, data types, and operators"
+    },
+    {
+      "id": 6,
+      "question": "Which of the following best describes loops in Programming Fundamentals?",
+      "options": [
+        "Core concept: Loops is fundamental to Programming Fundamentals",
+        "Alternative approach to Loops using different methodology",
+        "Advanced implementation of Loops with optimizations",
+        "Legacy technique for Loops no longer recommended"
+      ],
+      "correct_index": 0,
+      "explanation": "Loops is a key topic in Programming Fundamentals. Write programs using variables, data types, and operators"
+    },
+    {
+      "id": 7,
+      "question": "Which technology is primarily used in Programming Fundamentals?",
+      "options": [
+        "JavaScript",
+        "Python",
+        "Python (unrelated)",
+        "C++ (unrelated)"
+      ],
+      "correct_index": 0,
+      "explanation": "Programming Fundamentals uses JavaScript, Python as its primary technology stack."
+    },
+    {
+      "id": 8,
+      "question": "What is a key learning outcome of Programming Fundamentals?",
+      "options": [
+        "Write programs using variables, data types, and operators",
+        "Unrelated outcome about mobile development",
+        "Unrelated outcome about data science",
+        "Unrelated outcome about game development"
+      ],
+      "correct_index": 0,
+      "explanation": "Write programs using variables, data types, and operators"
+    },
+    {
+      "id": 9,
+      "question": "When applying Programming Fundamentals in a real project, what is a best practice?",
+      "options": [
+        "Follow established patterns and use the recommended tools for this module",
+        "Use whatever approach works without considering standards",
+        "Avoid using any of the module's core technologies",
+        "Skip testing and validation to save time"
+      ],
+      "correct_index": 0,
+      "explanation": "Best practices for Programming Fundamentals include following established patterns and using recommended tools."
+    }
+  ]
+}

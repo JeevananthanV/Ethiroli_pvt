@@ -1,0 +1,22 @@
+{
+  "id": "DEVOPS-CORE-SUB03-L03",
+  "day": 5,
+  "module_code": "DEVOPS-CORE",
+  "lesson_order": 3,
+  "title": "Logs: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of Logs",
+    "Apply Logs in practical scenarios",
+    "Build a small project using Logs"
+  ],
+  "theory_markdown": "# Logs\n\n## Overview\nThis lesson covers the fundamentals of Logs and its practical applications.\n\n## Key Concepts\n- Concept 1 related to Logs\n- Concept 2 related to Logs\n- Best practices for Logs\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of Logs\n2. Implement basic Logs functionality\n3. Apply Logs to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example Logs implementation\nconsole.log('Learning Logs');\n\n// Basic Logs example\nconst example = {\n  topic: 'Logs',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic Logs usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand Logs concepts and generate code examples.\n\n---"
+  }
+}

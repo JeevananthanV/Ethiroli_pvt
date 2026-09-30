@@ -1,0 +1,22 @@
+{
+  "id": "ARCH-SYSTEM-SUB01-L01",
+  "day": 1,
+  "module_code": "ARCH-SYSTEM",
+  "lesson_order": 1,
+  "title": "System design fundamentals: Practical Implementation",
+  "duration_minutes": 60,
+  "objectives": [
+    "Understand core concepts of System design fundamentals",
+    "Apply System design fundamentals in practical scenarios",
+    "Build a small project using System design fundamentals"
+  ],
+  "theory_markdown": "# System design fundamentals\n\n## Overview\nThis lesson covers the fundamentals of System design fundamentals and its practical applications.\n\n## Key Concepts\n- Concept 1 related to System design fundamentals\n- Concept 2 related to System design fundamentals\n- Best practices for System design fundamentals\n\n## Learning Objectives\nBy the end of this lesson, you will be able to:\n1. Explain the core principles of System design fundamentals\n2. Implement basic System design fundamentals functionality\n3. Apply System design fundamentals to solve simple problems",
+  "code_walkthrough": {
+    "language": "javascript",
+    "code": "// Example System design fundamentals implementation\nconsole.log('Learning System design fundamentals');\n\n// Basic System design fundamentals example\nconst example = {\n  topic: 'System design fundamentals',\n  learned: true\n};\n\nconsole.log(example);",
+    "explanation": "This example demonstrates basic System design fundamentals usage."
+  },
+  "ai_tool_spotlight": {
+    "description": "Use AI assistants to help understand System design fundamentals concepts and generate code examples.\n\n---"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "EX-JS-CORE-D15",
+  "module_code": "JS-CORE",
+  "day": 15,
+  "title": "Hands-on Lab: Arrays, Objects, and Destructuring",
+  "estimated_minutes": 45,
+  "difficulty": "Beginner",
+  "instructions": "Given an array of products (name, price, category, inStock), write functions to: (1) get all in-stock products under $50, (2) group products by category, (3) find the most expensive product, (4) calculate total inventory value. Use only array methods, no loops.",
+  "starter_code": "// Starter file for Arrays, Objects, and Destructuring\n// Task instructions:\n// Given an array of products (name, price, category, inStock), write functions to: (1) get all in-stock products under $50, (2) group products by catego...\n",
+  "solution_code": "const users = [\r\n  { id: 1, name: \"Alice\", age: 28, role: \"admin\", active: true },\r\n  { id: 2, name: \"Bob\", age: 22, role: \"user\", active: false },\r\n  { id: 3, name: \"Charlie\", age: 35, role: \"user\", active: true },\r\n  { id: 4, name: \"Diana\", age: 30, role: \"moderator\", active: true },\r\n];\r\n\r\n// Filter active users\r\nconst activeUsers = users.filter(u => u.active);\r\n\r\n// Map to names\r\nconst names = activeUsers.map(u => u.name);\r\n\r\n// Reduce to count by role\r\nconst roleCounts = users.reduce((acc, user) => {\r\n  acc[user.role] = (acc[user.role] || 0) + 1;\r\n  return acc;\r\n}, {});\r\n// { admin: 1, user: 2, moderator: 1 }\r\n\r\n// Chain: average age of active users\r\nconst avgAge = users\r\n  .filter(u => u.active)\r\n  .map(u => u.age)\r\n  .reduce((sum, age) => sum + age, 0) / activeUsers.length;\r\n\r\n// Destructuring\r\nconst { name, age, ...rest } = users[0];\r\n// name: \"Alice\", age: 28, rest: { id: 1, role: \"admin\", active: true }\r\n\r\n// Array destructuring\r\nconst [first, second, ...others] = [10, 20, 30, 40];\r\n// first: 10, second: 20, others: [30, 40]\r\n\r\n// Spread: merge objects\r\nconst defaultSettings = { theme: \"light\", fontSize: 14 };\r\nconst userSettings = { theme: \"dark\" };\r\nconst merged = { ...defaultSettings, ...userSettings };\r\n// { theme: \"dark\", fontSize: 14 }\r\n\r\n// Non-mutating sort (ES2023)\r\nconst sorted = users.toSorted((a, b) => a.age - b.age);"
+}

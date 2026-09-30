@@ -26,27 +26,21 @@ const empty = {
 export default function HRDashboard() {
   // --- Data Hook with Proper Flow ---
   const {
-    data: metrics,
+    data: rawMetrics,
     loading,
     error,
     refresh,
-    // No create/update/delete for dashboard metrics, but hook provides structure
   } = useHrData(
     getDashboardMetrics,
     undefined,
-    undefined, // no create
-    undefined, // no update
-    undefined, // no delete
-    // getSummaryFn is used internally by useHrData, but we pass getDashboardMetrics as fetchFn
-    // The hook will call getDashboardMetrics and store result in data
+    undefined,
+    undefined,
+    undefined
   );
 
-  // --- Refresh/Reset ---
-  // refresh is already provided by useHrData and tied to the fetch function
-
-  // --- Cards Data ---
-  // metrics comes directly from the API via useHrData
-  // We compute derived values from the fetched metrics
+  const metrics = rawMetrics && typeof rawMetrics === 'object' && !Array.isArray(rawMetrics)
+    ? { ...empty, ...rawMetrics }
+    : empty;
 
   const attendance = metrics.totalEmployees > 0
     ? Math.min(100, Math.max(0, Math.round((metrics.presentToday / metrics.totalEmployees) * 100)))

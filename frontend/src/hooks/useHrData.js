@@ -1,3 +1,5 @@
+import { useState, useEffect, useCallback } from 'react';
+
 /**
  * useHrData - Unified data hook for HR portal
  * Ensures proper data flow: API → State → UI with consistent patterns
@@ -5,25 +7,8 @@
  * ALL HR pages should import and use this hook for:
  * - Consistent loading/error/empty states
  * - Standardized CRUD flow
- * - Reusable toast/error handling
  * - Proper data shape across the application
  */
-
-/** @typedef {Object} HrDataState */
-/** @property {any[]} data */
-/** @property {boolean} loading */
-/** @property {string | null} error */
-/** @property {string} search */
-/** @property {string} statusFilter */
-/** @property {string} deptFilter */
-/** @property {(value: string) => void} setSearch */
-/** @property {(value: string) => void} setStatusFilter */
-/** @property {(value: string) => void} setDeptFilter */
-/** @property {() => Promise<void>} refresh */
-/** @property {(id: string, data: any) => Promise<void>} create */
-/** @property {(id: string, data: any) => Promise<void>} update */
-/** @property {(id: string) => Promise<void>} delete */
-/** @property {(id: string) => Promise<void>} toggleStatus */
 
 export const useHrData = (
   fetchFn,
@@ -36,25 +21,45 @@ export const useHrData = (
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
   
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [deptFilter, setDeptFilter] = useState('ALL');
+  const [summary, setSummary] = useState(null);
   
   const fetchData = useCallback(async () => {
+    if (!fetchFn || typeof fetchFn !== 'function') {
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
       const result = await fetchFn(fetchArgs);
-      const list = Array.isArray(result) ? result : (result?.data || result?.list || []);
-      setData(list);
-      if (getSummaryFn) {
+      // Result can be an array or an object (like dashboard metrics)
+      if (Array.isArray(result)) {
+        setData(result);
+      } else if (result && typeof result === 'object') {
+        if (Array.isArray(result.data)) {
+          setData(result.data);
+        } else if (Array.isArray(result.list)) {
+          setData(result.list);
+        } else {
+          setData(result);
+        }
+      } else {
+        setData([]);
+      }
+
+      if (getSummaryFn && typeof getSummaryFn === 'function') {
         try {
-          const summary = await getSummaryFn();
-        } catch (e) {}
+          const sum = await getSummaryFn();
+          setSummary(sum);
+        } catch (_) {}
       }
     } catch (err) {
-      setError(err.message || 'Failed to load data');
+      setError(err?.response?.data?.message || err.message || 'Failed to load data');
     } finally {
       setLoading(false);
     }
@@ -73,38 +78,34 @@ export const useHrData = (
       setError('Create operation not configured');
       return;
     }
-    setSubmitting?.(true);
+    setSubmitting(true);
     try {
       await createFn(formData);
       await fetchData();
-      setSubmitting?.(false);
-      showToast?.(`Created successfully!`);
     } catch (err) {
-      setError(err.message || 'Create failed');
-      showToast?.(err.message || 'Create failed');
+      setError(err?.response?.data?.message || err.message || 'Create failed');
+      throw err;
     } finally {
-      setSubmitting?.(false);
+      setSubmitting(false);
     }
-  }, [createFn, fetchData, showToast, setSubmitting]);
+  }, [createFn, fetchData]);
 
   const handleUpdate = useCallback(async (id, formData) => {
     if (!updateFn) {
       setError('Update operation not configured');
       return;
     }
-    setSubmitting?.(true);
+    setSubmitting(true);
     try {
       await updateFn(id, formData);
       await fetchData();
-      setSubmitting?.(false);
-      showToast?.(`Updated successfully!`);
     } catch (err) {
-      setError(err.message || 'Update failed');
-      showToast?.(err.message || 'Update failed');
+      setError(err?.response?.data?.message || err.message || 'Update failed');
+      throw err;
     } finally {
-      setSubmitting?.(false);
+      setSubmitting(false);
     }
-  }, [updateFn, fetchData, showToast, setSubmitting]);
+  }, [updateFn, fetchData]);
 
   const handleDelete = useCallback(async (id) => {
     if (!deleteFn) {
@@ -112,50 +113,45 @@ export const useHrData = (
       return;
     }
     if (!window.confirm('Are you sure you want to delete this item?')) return;
-    setSubmitting?.(true);
+    setSubmitting(true);
     try {
       await deleteFn(id);
       await fetchData();
-      setSubmitting?.(false);
-      showToast?.('Deleted successfully!');
     } catch (err) {
-      setError(err.message || 'Delete failed');
-      showToast?.(err.message || 'Delete failed');
+      setError(err?.response?.data?.message || err.message || 'Delete failed');
+      throw err;
     } finally {
-      setSubmitting?.(false);
+      setSubmitting(false);
     }
-  }, [deleteFn, fetchData, showToast, setSubmitting]);
+  }, [deleteFn, fetchData]);
 
   const handleToggleStatus = useCallback(async (id) => {
     if (!updateFn) {
       setError('Toggle not configured');
       return;
     }
-    const currentItem = data.find((d) => d.id === id);
+    const currentItem = Array.isArray(data) ? data.find((d) => d.id === id) : null;
     const newStatus = currentItem?.is_active === false ? true : false;
-    setSubmitting?.(true);
+    setSubmitting(true);
     try {
       await updateFn(id, { is_active: newStatus });
       await fetchData();
-      setSubmitting?.(false);
-      showToast?.(`Status toggled to ${newStatus ? 'Active' : 'Inactive'}`);
     } catch (err) {
-      setError(err.message || 'Toggle failed');
-      showToast?.(err.message || 'Toggle failed');
+      setError(err?.response?.data?.message || err.message || 'Toggle failed');
+      throw err;
     } finally {
-      setSubmitting?.(false);
+      setSubmitting(false);
     }
-  }, [data, updateFn, fetchData, showToast, setSubmitting]);
+  }, [data, updateFn, fetchData]);
 
-  const [summary, setSummary] = useState(null);
   const loadSummary = useCallback(async () => {
-    if (getSummaryFn) {
+    if (getSummaryFn && typeof getSummaryFn === 'function') {
       setLoading(true);
       try {
         const result = await getSummaryFn();
         setSummary(result);
       } catch (err) {
-        setError(err.message || 'Failed to load summary');
+        setError(err?.response?.data?.message || err.message || 'Failed to load summary');
       } finally {
         setLoading(false);
       }
@@ -166,6 +162,7 @@ export const useHrData = (
     data,
     loading,
     error,
+    submitting,
     search,
     setSearch,
     statusFilter,
@@ -182,3 +179,5 @@ export const useHrData = (
     loadSummary,
   };
 };
+
+export default useHrData;

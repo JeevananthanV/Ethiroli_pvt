@@ -427,3 +427,68 @@ export const getTutorQuizAttempts = asyncHandler(async (req, res) => {
   return success(res, 200, fallbackAttempts, 'Quiz attempts retrieved');
 });
 
+/**
+ * Schedule or Launch Live Classroom Session
+ */
+export const scheduleLiveSession = asyncHandler(async (req, res) => {
+  const tutorId = req.user.id;
+  const { title, course_id, batch_name, time, meet_link } = req.body;
+
+  if (!title) throw new ValidationError('Live session title is required');
+
+  const sessionRecord = {
+    id: `sess-${Date.now()}`,
+    title,
+    course_id: course_id || null,
+    batch_name: batch_name || 'All Batches',
+    time: time || 'Starting Now',
+    meet_link: meet_link || 'https://meet.google.com/new',
+    status: 'ACTIVE',
+    created_by: tutorId,
+    created_at: new Date().toISOString()
+  };
+
+  await AuditLog.create({
+    user_id: tutorId,
+    action: 'TUTOR_SCHEDULE_LIVE_SESSION',
+    entity_type: 'LIVE_SESSION',
+    entity_id: sessionRecord.id,
+    new_value: sessionRecord,
+    ip_address: req.ip || '127.0.0.1'
+  });
+
+  return success(res, 201, sessionRecord, 'Live session scheduled successfully');
+});
+
+/**
+ * Record Tutor Intervention for Student at Risk
+ */
+export const recordInterventionAction = asyncHandler(async (req, res) => {
+  const tutorId = req.user.id;
+  const { student_id, action_type, notes, extended_deadline } = req.body;
+
+  if (!student_id) throw new ValidationError('student_id is required');
+
+  const intervention = {
+    id: `int-${Date.now()}`,
+    student_id,
+    tutor_id: tutorId,
+    action_type: action_type || 'NOTE',
+    notes: notes || 'Tutor reached out to offer support',
+    extended_deadline: extended_deadline || null,
+    created_at: new Date().toISOString()
+  };
+
+  await AuditLog.create({
+    user_id: tutorId,
+    action: 'TUTOR_STUDENT_INTERVENTION',
+    entity_type: 'USER',
+    entity_id: student_id,
+    new_value: intervention,
+    ip_address: req.ip || '127.0.0.1'
+  });
+
+  return success(res, 200, intervention, 'Intervention action logged successfully');
+});
+
+

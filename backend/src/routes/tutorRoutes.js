@@ -5,7 +5,9 @@ import {
   changeTutorPassword,
   getTutorMetrics,
   getTutorDashboardStats,
-  getTutorQuizAttempts
+  getTutorQuizAttempts,
+  scheduleLiveSession,
+  recordInterventionAction
 } from '../controllers/tutorController.js';
 import { authenticate } from '../middleware/auth.js';
 import { requireRole } from '../middleware/rbac.js';
@@ -21,6 +23,9 @@ router.put('/credentials/password', changeTutorPassword);
 router.get('/metrics', getTutorMetrics);
 router.get('/dashboard-stats', getTutorDashboardStats);
 router.get('/quiz-attempts', getTutorQuizAttempts);
+router.post('/live-sessions', scheduleLiveSession);
+router.post('/students-at-risk/action', recordInterventionAction);
 
 export default router;
+
 

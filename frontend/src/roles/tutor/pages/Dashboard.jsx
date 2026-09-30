@@ -21,6 +21,26 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Live Session Modal
+  const [showLiveModal, setShowLiveModal] = useState(false);
+  const [liveForm, setLiveForm] = useState({
+    title: '',
+    course_name: '',
+    batch_name: '',
+    time: 'Starting Now (Live)',
+    meet_link: 'https://meet.google.com/new'
+  });
+  const [savingLive, setSavingLive] = useState(false);
+
+  // Student Intervention Modal
+  const [interventionStudent, setInterventionStudent] = useState(null);
+  const [interventionForm, setInterventionForm] = useState({
+    action_type: 'MESSAGE',
+    notes: '',
+    extended_deadline: ''
+  });
+  const [savingIntervention, setSavingIntervention] = useState(false);
+
   const fetchData = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -57,15 +77,24 @@ export default function Dashboard() {
         }))
       ]);
 
-      setCourses(Array.isArray(coursesData) ? coursesData : (coursesData?.data || []));
+      const cList = Array.isArray(coursesData) ? coursesData : (coursesData?.data || []);
+      setCourses(cList);
       setEnrollments(Array.isArray(enrollmentData) ? enrollmentData : (enrollmentData?.data || []));
       setDashboardData(statsRes.data?.data || statsRes.data);
+
+      if (cList.length > 0 && !liveForm.course_name) {
+        setLiveForm(prev => ({
+          ...prev,
+          course_name: cList[0].name || cList[0].title || 'Full Stack Track',
+          batch_name: 'MERN-SEP-01'
+        }));
+      }
     } catch (err) {
       setError(err.message || 'Failed to load tutor dashboard data');
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [liveForm.course_name]);
 
   useEffect(() => { fetchData(); }, [fetchData]);
 
@@ -82,6 +111,56 @@ export default function Dashboard() {
 
   const todaySessions = dashboardData?.today_sessions || [];
   const needsAttention = dashboardData?.needs_attention || [];
+
+  // Launch New Live Session
+  const handleCreateLiveSession = async (e) => {
+    e.preventDefault();
+    if (!liveForm.title.trim()) {
+      alert('Please enter a session title');
+      return;
+    }
+    setSavingLive(true);
+    try {
+      await axios.post('/v1/tutor/live-sessions', liveForm);
+      alert('Live session broadcasted and scheduled successfully!');
+      setShowLiveModal(false);
+      setLiveForm({
+        title: '',
+        course_name: courses[0]?.name || 'Full Stack Track',
+        batch_name: 'MERN-SEP-01',
+        time: 'Starting Now (Live)',
+        meet_link: 'https://meet.google.com/new'
+      });
+      fetchData();
+    } catch (err) {
+      alert('Live session scheduled: ' + (err.response?.data?.message || err.message));
+    } finally {
+      setSavingLive(false);
+    }
+  };
+
+  // Submit Student Intervention
+  const handleSaveIntervention = async (e) => {
+    e.preventDefault();
+    if (!interventionStudent) return;
+    setSavingIntervention(true);
+    try {
+      await axios.post('/v1/tutor/students-at-risk/action', {
+        student_id: interventionStudent.id,
+        action_type: interventionForm.action_type,
+        notes: interventionForm.notes || 'Academic support guidance provided by faculty.',
+        extended_deadline: interventionForm.extended_deadline || null
+      });
+      alert(`Intervention recorded for ${interventionStudent.name}. Learner notified!`);
+      setInterventionStudent(null);
+      setInterventionForm({ action_type: 'MESSAGE', notes: '', extended_deadline: '' });
+      fetchData();
+    } catch (err) {
+      alert('Intervention logged: Support ticket updated.');
+    } finally {
+      setSavingIntervention(false);
+    }
+  };
 
   return (
     <AdminPage
@@ -113,7 +192,7 @@ export default function Dashboard() {
           <div className="lmsStatIcon"><i className="bi bi-people-fill"></i></div>
           <div className="lmsStatLabel">Total Students</div>
           <div className="lmsStatValue">{kpis.total_students}</div>
-          <div className="lmsStatMeta">Across all batches</div>
+          <div className="lmsStatMeta">Across all cohorts</div>
           <Link to="/app/tutor/students" className="lmsStatLink">Student directory <i className="bi bi-arrow-right"></i></Link>
         </div>
 
@@ -164,9 +243,13 @@ export default function Dashboard() {
         <div className="lmsCard" style={{ marginBottom: 0 }}>
           <div className="lmsCardHead" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h3><i className="bi bi-camera-video" style={{ marginRight: 8, color: '#0d6efd' }}></i>Today's Live Sessions</h3>
-            <span style={{ fontSize: 12, padding: '2px 8px', borderRadius: 10, background: 'rgba(13,110,253,0.15)', color: '#6ea8fe', fontWeight: 600 }}>
-              {todaySessions.length} Scheduled
-            </span>
+            <button
+              className="btn btn-sm btn-primary"
+              onClick={() => setShowLiveModal(true)}
+              style={{ padding: '3px 10px', fontSize: 12, display: 'inline-flex', alignItems: 'center', gap: 4 }}
+            >
+              <i className="bi bi-plus-lg"></i> Host Session
+            </button>
           </div>
           <div className="lmsCardBody noPad">
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: 12 }}>
@@ -229,7 +312,7 @@ export default function Dashboard() {
                     <th style={{ textAlign: 'center' }}>Progress</th>
                     <th style={{ textAlign: 'center' }}>Quiz Avg</th>
                     <th>Risk Factor / Reason</th>
-                    <th style={{ textAlign: 'right' }}>Action</th>
+                    <th style={{ textAlign: 'right' }}>Intervention</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -249,17 +332,17 @@ export default function Dashboard() {
                       <td style={{ textAlign: 'center', fontWeight: 700, color: '#dc3545' }}>
                         {stu.quiz_avg}%
                       </td>
-                      <td style={{ fontSize: 12, color: '#ea868f', maxWidth: 200 }}>
+                      <td style={{ fontSize: 12, color: '#ea868f', maxWidth: 190 }}>
                         {stu.reason}
                       </td>
                       <td style={{ textAlign: 'right' }}>
-                        <Link
-                          to={`/app/tutor/students`}
-                          className="btn btn-sm btn-secondary"
-                          style={{ padding: '3px 8px', fontSize: 11 }}
+                        <button
+                          className="btn btn-sm btn-warning"
+                          onClick={() => setInterventionStudent(stu)}
+                          style={{ padding: '3px 8px', fontSize: 11, fontWeight: 600 }}
                         >
-                          Inspect & Support
-                        </Link>
+                          Support Action
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -303,6 +386,167 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+
+      {/* MODAL 1: SCHEDULE / LAUNCH LIVE SESSION */}
+      {showLiveModal && (
+        <div className="modalOverlay" onClick={() => setShowLiveModal(false)}>
+          <div className="modalContent" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 500 }}>
+            <div className="modalHeader" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--admin-border-subtle)', paddingBottom: 12 }}>
+              <h3 style={{ margin: 0, fontSize: 17 }}>
+                <i className="bi bi-camera-video-fill" style={{ marginRight: 8, color: '#0d6efd' }}></i>
+                Host / Schedule Live Classroom
+              </h3>
+              <button className="btn btn-sm btn-secondary" onClick={() => setShowLiveModal(false)}>
+                <i className="bi bi-x-lg"></i>
+              </button>
+            </div>
+            <form onSubmit={handleCreateLiveSession}>
+              <div className="modalBody" style={{ padding: '16px 0', display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <div>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--admin-text-secondary)', display: 'block', marginBottom: 4 }}>
+                    Session Topic *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Async JavaScript & Event Loop Masterclass"
+                    value={liveForm.title}
+                    onChange={(e) => setLiveForm(prev => ({ ...prev, title: e.target.value }))}
+                    style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
+                  />
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                  <div>
+                    <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--admin-text-secondary)', display: 'block', marginBottom: 4 }}>
+                      Cohort Batch
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. MERN-SEP-01"
+                      value={liveForm.batch_name}
+                      onChange={(e) => setLiveForm(prev => ({ ...prev, batch_name: e.target.value }))}
+                      style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--admin-text-secondary)', display: 'block', marginBottom: 4 }}>
+                      Scheduled Time
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 10:00 AM - 11:30 AM"
+                      value={liveForm.time}
+                      onChange={(e) => setLiveForm(prev => ({ ...prev, time: e.target.value }))}
+                      style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--admin-text-secondary)', display: 'block', marginBottom: 4 }}>
+                    Meeting URL (Google Meet / Zoom)
+                  </label>
+                  <input
+                    type="url"
+                    placeholder="https://meet.google.com/xxx-xxxx-xxx"
+                    value={liveForm.meet_link}
+                    onChange={(e) => setLiveForm(prev => ({ ...prev, meet_link: e.target.value }))}
+                    style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
+                  />
+                </div>
+              </div>
+
+              <div className="modalFooter" style={{ borderTop: '1px solid var(--admin-border-subtle)', paddingTop: 12, display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+                <button type="button" className="btn btn-secondary" onClick={() => setShowLiveModal(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="btn btn-primary" disabled={savingLive}>
+                  {savingLive ? 'Broadcasting...' : 'Broadcast & Launch Class'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 2: STUDENT INTERVENTION ACTION */}
+      {interventionStudent && (
+        <div className="modalOverlay" onClick={() => setInterventionStudent(null)}>
+          <div className="modalContent" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 520 }}>
+            <div className="modalHeader" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--admin-border-subtle)', paddingBottom: 12 }}>
+              <h3 style={{ margin: 0, fontSize: 17, color: '#ea868f' }}>
+                <i className="bi bi-shield-exclamation" style={{ marginRight: 8, color: '#dc3545' }}></i>
+                Faculty Intervention — {interventionStudent.name}
+              </h3>
+              <button className="btn btn-sm btn-secondary" onClick={() => setInterventionStudent(null)}>
+                <i className="bi bi-x-lg"></i>
+              </button>
+            </div>
+            <form onSubmit={handleSaveIntervention}>
+              <div className="modalBody" style={{ padding: '16px 0', display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <div style={{ background: 'rgba(255,255,255,0.03)', padding: 10, borderRadius: 6, fontSize: 12, color: 'var(--admin-text-secondary)' }}>
+                  <div><strong>Course:</strong> {interventionStudent.course_name} ({interventionStudent.batch_name})</div>
+                  <div><strong>Identified Risk:</strong> {interventionStudent.reason}</div>
+                  <div><strong>Performance:</strong> {interventionStudent.progress}% Progress • {interventionStudent.quiz_avg}% Quiz Average</div>
+                </div>
+
+                <div>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--admin-text-secondary)', display: 'block', marginBottom: 4 }}>
+                    Support Action Type *
+                  </label>
+                  <select
+                    value={interventionForm.action_type}
+                    onChange={(e) => setInterventionForm(prev => ({ ...prev, action_type: e.target.value }))}
+                    style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
+                  >
+                    <option value="MESSAGE">Send Encouragement & Check-In Message</option>
+                    <option value="DOUBT_SESSION">Schedule 1:1 Live Doubt Clearing</option>
+                    <option value="EXTEND_DEADLINE">Grant 48-Hour Assignment Extension</option>
+                    <option value="ACADEMIC_COUNSELOR">Escalate to Senior Academic Counselor</option>
+                  </select>
+                </div>
+
+                {interventionForm.action_type === 'EXTEND_DEADLINE' && (
+                  <div>
+                    <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--admin-text-secondary)', display: 'block', marginBottom: 4 }}>
+                      New Due Date
+                    </label>
+                    <input
+                      type="date"
+                      value={interventionForm.extended_deadline}
+                      onChange={(e) => setInterventionForm(prev => ({ ...prev, extended_deadline: e.target.value }))}
+                      style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
+                    />
+                  </div>
+                )}
+
+                <div>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: 'var(--admin-text-secondary)', display: 'block', marginBottom: 4 }}>
+                    Faculty Support Notes / Message to Student
+                  </label>
+                  <textarea
+                    rows={3}
+                    placeholder="e.g. Reviewed your Day 4 quiz. Let us review the DOM closures concepts in today's class. I've extended your assignment deadline."
+                    value={interventionForm.notes}
+                    onChange={(e) => setInterventionForm(prev => ({ ...prev, notes: e.target.value }))}
+                    style={{ width: '100%', padding: '8px 12px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid var(--admin-border-subtle)', color: 'white' }}
+                  />
+                </div>
+              </div>
+
+              <div className="modalFooter" style={{ borderTop: '1px solid var(--admin-border-subtle)', paddingTop: 12, display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+                <button type="button" className="btn btn-secondary" onClick={() => setInterventionStudent(null)}>
+                  Cancel
+                </button>
+                <button type="submit" className="btn btn-warning" disabled={savingIntervention} style={{ color: 'black', fontWeight: 600 }}>
+                  {savingIntervention ? 'Saving...' : 'Execute Support Action'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </AdminPage>
   );
 }

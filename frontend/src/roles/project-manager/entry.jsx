@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Navigate } from 'react-router-dom';
 import './styles/global.css';
 import './styles/admin.css';
-import ErrorBoundary from './components/shared/ErrorBoundary';
+import ErrorBoundary from '../../components/shared/ErrorBoundary';
 import { registerServiceWorker } from './utils/registerServiceWorker';
 
 registerServiceWorker();

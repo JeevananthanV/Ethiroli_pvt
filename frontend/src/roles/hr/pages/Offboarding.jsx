@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
+import Modal from '../../../common/components/Modal/Modal.jsx';
 import Button from '../../../common/components/Button/Button.jsx';
 import { useHrData } from '../../../hooks/useHrData';
 import { listExitRequests, createExitRequest, updateExitRequest } from '../../../../services/api/hrApi.standardized.js';

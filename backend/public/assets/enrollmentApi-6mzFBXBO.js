@@ -1,0 +1,1 @@
+import{a as s}from"./ErrorBoundary-CAejlmfk.js";const e=t=>t?.data?.data??t?.data??null,o=async t=>{const n=await s.get("/v1/enrollments",{params:t});return e(n)},r=async()=>{const t=await s.get("/v1/enrollments/me");return e(t)},l=async t=>{const n=await s.get("/v1/enrollments/tutor/assigned",{params:t});return e(n)};export{l as a,o as b,r as g};

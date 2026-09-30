@@ -275,18 +275,43 @@ export const ROLE_NAVIGATION = Object.freeze({
   ],
 
   [ROLES.TUTOR]: [
-    { label: 'Dashboard', path: '/app/tutor/dashboard', icon: 'dashboard' },
-    { label: 'Courses', path: '/app/tutor/courses', icon: 'menu_book' },
-    { label: 'Batches', path: '/app/tutor/batches', icon: 'groups' },
-    { label: 'Curriculum', path: '/app/tutor/curriculum', icon: 'library_books' },
-    { label: 'Students', path: '/app/tutor/students', icon: 'school' },
-    { label: 'Assignments', path: '/app/tutor/assignments', icon: 'assignment' },
-    { label: 'Question Bank', path: '/app/tutor/question-bank', icon: 'quiz' },
-    { label: 'Quiz Management', path: '/app/tutor/quizzes', icon: 'checklist' },
-    { label: 'Forum', path: '/app/tutor/forum', icon: 'forum' },
-    { label: 'Communications', path: '/app/tutor/communications', icon: 'campaign' },
-    { label: 'Calendar', path: '/app/tutor/calendar', icon: 'calendar_month' },
-    { label: 'Reports', path: '/app/tutor/reports', icon: 'bar_chart' },
+    { label: 'Dashboard', path: '/app/tutor/dashboard', icon: 'bi-speedometer2' },
+    {
+      label: 'Learning & Courses',
+      icon: 'bi-journal-bookmark-fill',
+      children: [
+        { label: 'All Courses', path: '/app/tutor/courses', icon: 'bi-journals' },
+        { label: 'Curriculum Studio', path: '/app/tutor/curriculum', icon: 'bi-diagram-3-fill' },
+        { label: 'Batches & Cohorts', path: '/app/tutor/batches', icon: 'bi-grid-3x3-gap-fill' },
+      ],
+    },
+    {
+      label: 'Assessments',
+      icon: 'bi-patch-question-fill',
+      children: [
+        { label: 'Question Bank', path: '/app/tutor/question-bank', icon: 'bi-collection' },
+        { label: 'Quiz Management', path: '/app/tutor/quizzes', icon: 'bi-ui-checks' },
+        { label: 'Assignment Studio', path: '/app/tutor/assignments', icon: 'bi-code-square' },
+      ],
+    },
+    {
+      label: 'Learners & Tracking',
+      icon: 'bi-people-fill',
+      children: [
+        { label: 'Student 360° Roster', path: '/app/tutor/students', icon: 'bi-person-lines-fill' },
+        { label: 'Academic Reports', path: '/app/tutor/reports', icon: 'bi-bar-chart-line-fill' },
+      ],
+    },
+    {
+      label: 'Engagement',
+      icon: 'bi-chat-dots-fill',
+      children: [
+        { label: 'Live Schedule / Calendar', path: '/app/tutor/calendar', icon: 'bi-calendar3' },
+        { label: 'Discussion Forum', path: '/app/tutor/forum', icon: 'bi-chat-left-quote-fill' },
+        { label: 'Communications', path: '/app/tutor/communications', icon: 'bi-broadcast' },
+      ],
+    },
+    { label: 'Faculty Profile', path: '/app/tutor/profile', icon: 'bi-person-circle' },
   ],
 
   [ROLES.PROJECT_MANAGER]: [

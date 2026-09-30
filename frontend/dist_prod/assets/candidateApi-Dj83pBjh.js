@@ -1,1 +1,0 @@
-import{e as a}from"./ErrorBoundary-DA90U6T8.js";const s=async()=>(await a.get("/candidates")).data,n=async e=>(await a.get(`/candidates/${e}`)).data,d=async e=>(await a.post("/candidates",e)).data,c=async(e,t)=>(await a.put(`/candidates/${e}`,t)).data,o=async e=>(await a.delete(`/candidates/${e}`)).data,p={getAll:s,getById:n,create:d,update:c,delete:o};export{p as c};

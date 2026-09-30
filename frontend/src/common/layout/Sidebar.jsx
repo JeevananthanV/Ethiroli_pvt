@@ -11,7 +11,26 @@ export default function Sidebar({ role, navItems }) {
   const dispatch = useAppDispatch();
   const sidebarOpen = useAppSelector((state) => state.ui.sidebarOpen);
 
-  const effectiveRole = role || activeRole || user?.role;
+  const urlRole = useMemo(() => {
+    const parts = location.pathname.split('/');
+    if (parts[1] === 'app' && parts[2]) {
+      const seg = parts[2].toLowerCase();
+      if (seg === 'tutor') return 'TUTOR';
+      if (seg === 'student') return 'STUDENT';
+      if (seg === 'hr') return 'HR';
+      if (seg === 'pm') return 'PROJECT_MANAGER';
+      if (seg === 'finance') return 'FINANCE';
+      if (seg === 'sales') return 'SALES';
+      if (seg === 'reception') return 'RECEPTION';
+      if (seg === 'intern') return 'INTERN';
+      if (seg === 'employee') return 'EMPLOYEE';
+      if (seg === 'super-admin') return 'SUPER_ADMIN';
+      if (seg === 'admin') return 'ADMIN';
+    }
+    return null;
+  }, [location.pathname]);
+
+  const effectiveRole = role || activeRole || urlRole || user?.role || 'TUTOR';
   const navData = useMemo(() => navItems || getNavigationForRole(effectiveRole), [navItems, effectiveRole]);
 
   const isActive = (path) => {

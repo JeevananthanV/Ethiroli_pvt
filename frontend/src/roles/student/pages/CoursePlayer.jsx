@@ -379,23 +379,42 @@ export default function StudentCoursePlayer() {
                     </span>
                   </div>
 
-                  <div style={{ display: 'flex', gap: 10 }}>
-                    <button
-                      onClick={() => setShowDoubtModal(true)}
-                      className="btn secondary"
-                      style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}
-                    >
-                      <span>💬</span> Ask Doubt
-                    </button>
+                  <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+                    {(() => {
+                      const allLessons = modules.flatMap(m => m.lessons || []);
+                      const currentIdx = allLessons.findIndex(l => l.id === activeLesson?.id);
+                      const prevLsn = currentIdx > 0 ? allLessons[currentIdx - 1] : null;
+                      const nextLsn = currentIdx >= 0 && currentIdx < allLessons.length - 1 ? allLessons[currentIdx + 1] : null;
+                      return (
+                        <>
+                          <button
+                            onClick={() => prevLsn && loadLessonDetails(prevLsn.id)}
+                            disabled={!prevLsn}
+                            className="btn secondary"
+                            style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, opacity: prevLsn ? 1 : 0.5 }}
+                          >
+                            <span>◀</span> Prev Lesson
+                          </button>
 
-                    <button
-                      onClick={handleCompleteAndNext}
-                      disabled={completing}
-                      className="btn primary"
-                      style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}
-                    >
-                      <span>✓</span> {completing ? 'Updating...' : 'Complete & Next'}
-                    </button>
+                          <button
+                            onClick={() => setShowDoubtModal(true)}
+                            className="btn secondary"
+                            style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}
+                          >
+                            <span>💬</span> Ask Doubt
+                          </button>
+
+                          <button
+                            onClick={handleCompleteAndNext}
+                            disabled={completing}
+                            className="btn primary"
+                            style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}
+                          >
+                            <span>✓</span> {completing ? 'Updating...' : nextLsn ? 'Complete & Next ▶' : 'Complete Course 🎉'}
+                          </button>
+                        </>
+                      );
+                    })()}
                   </div>
                 </div>
 
@@ -457,6 +476,39 @@ export default function StudentCoursePlayer() {
                     ))}
                   </div>
                 )}
+
+                {/* Bottom Navigation Bar */}
+                <div style={{ marginTop: 32, paddingTop: 20, borderTop: '1px solid var(--admin-border-subtle)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
+                  {(() => {
+                    const allLessons = modules.flatMap(m => m.lessons || []);
+                    const currentIdx = allLessons.findIndex(l => l.id === activeLesson?.id);
+                    const prevLsn = currentIdx > 0 ? allLessons[currentIdx - 1] : null;
+                    const nextLsn = currentIdx >= 0 && currentIdx < allLessons.length - 1 ? allLessons[currentIdx + 1] : null;
+                    return (
+                      <>
+                        <button
+                          onClick={() => prevLsn && loadLessonDetails(prevLsn.id)}
+                          disabled={!prevLsn}
+                          className="btn secondary"
+                          style={{ display: 'inline-flex', alignItems: 'center', gap: 8, opacity: prevLsn ? 1 : 0.4 }}
+                        >
+                          <i className="bi bi-arrow-left"></i>
+                          <span>Previous Lesson</span>
+                        </button>
+
+                        <button
+                          onClick={handleCompleteAndNext}
+                          disabled={completing}
+                          className="btn primary"
+                          style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}
+                        >
+                          <span>{completing ? 'Saving Progress...' : nextLsn ? 'Complete & Proceed to Next Lesson' : 'Complete Entire Course 🎉'}</span>
+                          <i className="bi bi-arrow-right"></i>
+                        </button>
+                      </>
+                    );
+                  })()}
+                </div>
               </div>
             </div>
           ) : (

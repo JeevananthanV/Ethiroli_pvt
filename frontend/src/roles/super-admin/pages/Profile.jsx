@@ -85,7 +85,7 @@ export default function Profile() {
 
       <div className="row g-4">
         <div className="col-lg-5">
-          <div className="card border-0 shadow-sm rounded-3 bg-white p-4 text-center">
+          <div className="card border-0 shadow-sm rounded-3 bg-white p-3 text-center">
             <div className="mb-3">
               <AvatarUploader
                 value={avatarUrl}
@@ -126,7 +126,7 @@ export default function Profile() {
         </div>
 
         <div className="col-lg-7">
-          <div className="card border-0 shadow-sm rounded-3 bg-white p-4">
+          <div className="card border-0 shadow-sm rounded-3 bg-white p-3">
             <h5 className="fw-bold mb-3 border-bottom pb-2">Profile & Security Settings</h5>
             <form onSubmit={handleUpdate}>
               <div className="mb-3">
@@ -160,7 +160,7 @@ export default function Profile() {
                 <label className="form-check-label fw-semibold">Require Multi-Factor Authentication on every login</label>
               </div>
 
-              <div className="form-check form-switch mb-4">
+              <div className="form-check form-switch mb-2">
                 <input 
                   className="form-check-input" 
                   type="checkbox" 

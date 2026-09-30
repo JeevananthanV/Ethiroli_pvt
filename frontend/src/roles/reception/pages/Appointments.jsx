@@ -267,7 +267,7 @@ export default function ReceptionAppointments() {
                 <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
               </div>
               <form onSubmit={handleSubmit}>
-                <div className="modal-body p-4">
+                <div className="modal-body p-3">
                   <div className="row g-3">
                     <div className="col-12">
                       <label className="form-label small fw-semibold">Visitor Full Name *</label>

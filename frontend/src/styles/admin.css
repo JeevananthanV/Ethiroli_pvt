@@ -307,7 +307,7 @@ body {
   border-bottom: 2px solid rgba(26, 75, 72, 0.14) !important;
 }
 .table tbody td {
-  padding: 12px 16px;
+  padding: 8px 12px;
   vertical-align: middle;
   border-bottom: 1px solid rgba(26, 75, 72, 0.06);
   font-size: 0.88rem;
@@ -324,7 +324,7 @@ body {
 .form-control, .form-select {
   border: 1px solid rgba(26, 75, 72, 0.18) !important;
   border-radius: var(--bs-border-radius-sm) !important;
-  padding: 8px 14px;
+  padding: 6px 10px;
   font-size: 0.9rem;
   color: var(--color-text-main) !important;
   background-color: #ffffff !important;
@@ -423,7 +423,7 @@ body {
 
 .mainContent {
   flex: 1;
-  padding: var(--space-md) var(--space-lg);
+  padding: var(--space-sm) var(--space-md);
   overflow-y: auto;
   min-width: 0;
 }
@@ -952,7 +952,7 @@ body {
 }
 
 .cardHeader {
-  padding: 16px 22px;
+  padding: 12px 16px;
   border-bottom: 1px solid var(--admin-border-light);
   display: flex;
   align-items: center;
@@ -968,7 +968,7 @@ body {
 }
 
 .cardBody {
-  padding: 22px;
+  padding: 16px;
 }
 
 .cardFooter {
@@ -1085,11 +1085,11 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 13px;
-  padding: 8px 18px;
+  padding: 6px 14px;
   border-radius: var(--radius-sm);
   border: 1px solid transparent;
   cursor: pointer;
@@ -1355,12 +1355,12 @@ textarea:focus {
    ============================================================ */
 .grid {
   display: grid;
-  gap: 20px;
+  gap: var(--space-sm);
 }
 
 .gridCols2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-.gridCols3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-.gridCols4 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.gridCols3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.gridCols4 { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
 
 .overflowAuto {
   overflow-x: auto;
@@ -1368,7 +1368,7 @@ textarea:focus {
 
 .emptyState {
   text-align: center;
-  padding: 48px 24px;
+  padding: 32px 16px;
   background: var(--color-surface);
   border-radius: var(--radius-md);
   border: 1px dashed var(--admin-border);
@@ -1389,7 +1389,7 @@ textarea:focus {
 
 /* Global Search Modal Styles */
 .searchResults {
-  margin-top: 16px;
+  margin-top: 12px;
   max-height: 300px;
   overflow-y: auto;
 }
@@ -1398,15 +1398,15 @@ textarea:focus {
   font-size: 12px;
   text-transform: uppercase;
   color: var(--color-text-muted);
-  margin: 12px 0 6px 0;
+  margin: 8px 0 4px 0;
   letter-spacing: 0.05em;
 }
 
 .resultItem {
-  padding: 10px 12px;
+  padding: 8px 10px;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  font-size: 13px;
+  font-size: 12px;
   transition: background-color var(--transition-fast);
 }
 

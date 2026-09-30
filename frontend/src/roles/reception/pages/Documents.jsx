@@ -136,7 +136,7 @@ export default function ReceptionDocuments() {
                 <button type="button" className="btn-close" onClick={() => setShowUploadModal(false)}></button>
               </div>
               <form onSubmit={handleUpload}>
-                <div className="modal-body p-4">
+                <div className="modal-body p-3">
                   <div className="row g-3">
                     <div className="col-12">
                       <label className="form-label small fw-semibold">Document Title *</label>

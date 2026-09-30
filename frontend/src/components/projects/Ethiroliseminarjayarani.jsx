@@ -286,7 +286,7 @@ export default function EthiroliSeminar() {
             <motion.div className="support__img-col" variants={fadeUp} transition={{ duration: 0.7 }}>
               <div className="support__img-wrap">
                 <img
-                  src="../assets/images/founder/WhatsApp Image 2026-03-16 at 2.11.29 PM.jpeg"
+                  src="/assets/images/founder/WhatsApp Image 2026-03-16 at 2.11.29 PM.jpeg"
                   alt="Speaker"
                   className="support__img"
                 />

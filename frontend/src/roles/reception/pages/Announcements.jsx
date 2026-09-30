@@ -52,7 +52,7 @@ export default function ReceptionAnnouncements() {
       <div className="row g-3">
         {announcements.map(a => (
           <div className="col-12" key={a.id}>
-            <div className={`card border-0 shadow-sm rounded-3 p-4 bg-white ${a.is_pinned ? 'border-start border-4 border-primary' : ''}`}>
+            <div className="card border-0 shadow-sm rounded-3 p-3 bg-white">
               <div className="d-flex align-items-start justify-content-between mb-2">
                 <div>
                   <div className="d-flex align-items-center gap-2 mb-1">
@@ -95,7 +95,7 @@ export default function ReceptionAnnouncements() {
                 <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
               </div>
               <form onSubmit={handleCreate}>
-                <div className="modal-body p-4">
+                <div className="modal-body p-3">
                   <div className="row g-3">
                     <div className="col-12">
                       <label className="form-label small fw-semibold">Notice Headline *</label>

@@ -184,7 +184,7 @@ export default function ReceptionStudents() {
                 <h5 className="modal-title fw-bold">Student Record: {selectedStudent.name}</h5>
                 <button type="button" className="btn-close" onClick={() => setSelectedStudent(null)}></button>
               </div>
-              <div className="modal-body p-4">
+              <div className="modal-body p-3">
                 <div className="p-3 border rounded-3 bg-light mb-3 text-center">
                   <div className="rounded-circle bg-primary text-white mx-auto mb-2 d-flex align-items-center justify-content-center fw-bold fs-3" style={{ width: '64px', height: '64px' }}>
                     {selectedStudent.name.charAt(0)}

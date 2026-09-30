@@ -76,7 +76,7 @@ export default function ReceptionReports() {
       <div className="row g-4">
         {/* Footfall Bar Comparison */}
         <div className="col-12 col-lg-7">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white h-100">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100">
             <h6 className="fw-bold text-dark mb-3">
               <i className="bi bi-bar-chart-fill me-2 text-primary"></i>Weekly Footfall & Admissions Conversion
             </h6>
@@ -120,7 +120,7 @@ export default function ReceptionReports() {
 
         {/* Peak Hours Breakdown */}
         <div className="col-12 col-lg-5">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white h-100">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100">
             <h6 className="fw-bold text-dark mb-3">
               <i className="bi bi-clock-history me-2 text-warning"></i>Front Desk Peak Counter Hours
             </h6>

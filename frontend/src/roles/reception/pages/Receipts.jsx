@@ -168,8 +168,8 @@ export default function ReceptionReceipts() {
                 <h5 className="modal-title fw-bold">Official Payment Receipt</h5>
                 <button type="button" className="btn-close" onClick={() => setSelectedReceipt(null)}></button>
               </div>
-              <div className="modal-body p-4" id="printable-receipt-slip">
-                <div className="p-4 border rounded-3 bg-white text-dark shadow-sm">
+              <div className="modal-body p-3" id="printable-receipt-slip">
+                <div className="p-3 border rounded-3 bg-white text-dark shadow-sm">
                   {/* Institutional Header */}
                   <div className="text-center border-bottom pb-3 mb-3">
                     <h4 className="fw-bold mb-1 text-primary">ETHIROLI ACADEMY & RESEARCH</h4>
@@ -257,7 +257,7 @@ export default function ReceptionReceipts() {
                 <button type="button" className="btn-close" onClick={() => setShowCreateModal(false)}></button>
               </div>
               <form onSubmit={handleCreate}>
-                <div className="modal-body p-4">
+                <div className="modal-body p-3">
                   <div className="row g-3">
                     <div className="col-12">
                       <label className="form-label small fw-semibold">Student Name *</label>

@@ -1,0 +1,1 @@
+import{e as o}from"./ErrorBoundary-Ce6cv-HE.js";const s=async()=>(await o.get("/communication")).data,e=async n=>(await o.get(`/communication/${n}`)).data,a=async n=>(await o.post("/communication/send",n)).data,c=async(n={})=>(await o.get("/communication/logs",{params:n})).data,m={getAll:s,getById:e,send:a,getLogs:c};export{m as c,c as g};

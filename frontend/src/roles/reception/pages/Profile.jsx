@@ -71,7 +71,7 @@ export default function ReceptionProfile() {
       <div className="row g-4">
         {/* Left Column: Officer Identity & Station */}
         <div className="col-12 col-lg-4">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white text-center mb-2">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white text-center mb-2">
             <div className="mb-3">
               <AvatarUploader
                 value={profile.avatar_url}
@@ -120,7 +120,7 @@ export default function ReceptionProfile() {
 
         {/* Right Column: Settings & Handover */}
         <div className="col-12 col-lg-8">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white">
             <h5 className="fw-bold text-dark mb-3">Front Desk Workstation Details</h5>
 
             {savedMsg && (

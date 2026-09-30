@@ -66,7 +66,7 @@ export default function PMProfile() {
     >
       <div className="row g-4">
         <div className="col-md-4">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white text-center">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white text-center">
             <div className="mb-3">
               <AvatarUploader
                 value={formData.avatar_url}
@@ -90,7 +90,7 @@ export default function PMProfile() {
         </div>
 
         <div className="col-md-8">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white">
             <h6 className="fw-bold mb-3 border-bottom pb-2">Update Profile Details</h6>
             {saved && (
               <div className="alert alert-success d-flex align-items-center gap-2 mb-3">
@@ -121,7 +121,7 @@ export default function PMProfile() {
                 </div>
               </div>
 
-              <div className="row g-3 mb-4">
+              <div className="row g-3 mb-2">
                 <div className="col-md-6">
                   <label className="form-label small fw-semibold">Phone Number</label>
                   <input

@@ -322,7 +322,7 @@ export default function ReceptionDashboard() {
                 </h5>
                 <button type="button" className="btn-close" onClick={() => setShowDirModal(false)}></button>
               </div>
-              <div className="modal-body p-4">
+              <div className="modal-body p-3">
                 <form onSubmit={handleDirectorySearch} className="mb-2">
                   <div className="input-group input-group-lg shadow-sm">
                     <span className="input-group-text bg-white border-end-0"><i className="bi bi-search text-muted"></i></span>

@@ -94,7 +94,7 @@ export default function Profile() {
       <div className="row g-4">
         {/* Left Column: Summary Card */}
         <div className="col-lg-4">
-          <div className="card shadow-sm border-0 text-center p-4">
+          <div className="card shadow-sm border-0 text-center p-3">
             <div className="mb-3">
               <AvatarUploader
                 value={formData.avatar_url}

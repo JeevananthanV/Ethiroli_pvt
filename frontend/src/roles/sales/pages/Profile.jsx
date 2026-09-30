@@ -77,7 +77,7 @@ export default function Profile() {
       <div className="row g-4">
         {/* Profile Card */}
         <div className="col-lg-4">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white text-center h-100">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white text-center h-100">
             <div className="mb-3">
               <AvatarUploader
                 value={salesUser.avatar_url}

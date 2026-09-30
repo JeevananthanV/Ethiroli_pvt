@@ -63,7 +63,7 @@ export default function ReceptionAdmissions() {
       }
     >
       {/* Search Bar */}
-      <div className="card border-0 shadow-sm rounded-3 p-3 mb-4 bg-white">
+      <div className="card border-0 shadow-sm rounded-3 p-3 mb-2 bg-white">
         <div className="input-group">
           <span className="input-group-text bg-light border-0"><i className="bi bi-search text-muted"></i></span>
           <input
@@ -150,7 +150,7 @@ export default function ReceptionAdmissions() {
                 <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
               </div>
               <form onSubmit={handleCreate}>
-                <div className="modal-body p-4">
+                <div className="modal-body p-3">
                   <div className="row g-3">
                     <div className="col-12">
                       <label className="form-label small fw-semibold">Student Full Name *</label>
@@ -240,7 +240,7 @@ export default function ReceptionAdmissions() {
                 <h5 className="modal-title fw-bold">Admission Welcome Slip</h5>
                 <button type="button" className="btn-close" onClick={() => setPrintSlip(null)}></button>
               </div>
-              <div className="modal-body p-4">
+              <div className="modal-body p-3">
                 <div className="p-3 border rounded-3 bg-white text-center shadow-sm">
                   <div className="d-flex align-items-center justify-content-center gap-2 mb-2">
                     <div className="rounded-2 bg-primary p-2 text-white">

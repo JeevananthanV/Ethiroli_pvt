@@ -183,7 +183,7 @@ export default function ReceptionEmployees() {
                 <button type="button" className="btn-close" onClick={() => setAnnouncingEmployee(null)}></button>
               </div>
               <form onSubmit={handleAnnounce}>
-                <div className="modal-body p-4">
+                <div className="modal-body p-3">
                   <div className="p-3 bg-light rounded-3 mb-3">
                     <div className="fw-semibold">{announcingEmployee.name} ({announcingEmployee.role})</div>
                     <small className="text-muted">Intercom: Ext {announcingEmployee.extension} • {announcingEmployee.cabin}</small>

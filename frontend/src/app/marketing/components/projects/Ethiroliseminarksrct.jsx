@@ -289,7 +289,7 @@ export default function EthiroliSeminar() {
             <motion.div className="support__img-col" variants={fadeUp} transition={{ duration: 0.7 }}>
               <div className="support__img-wrap">
                 <img
-                  src="../assets/images/founder/co-founder.png"
+                  src="/assets/images/founder/co-founder.png"
                   alt="Co-founder Balaji G E"
                   className="support__img"
                 />

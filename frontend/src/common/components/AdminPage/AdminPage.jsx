@@ -7,7 +7,7 @@ import React from 'react';
 const AdminPage = ({ title, subtitle, loading, error, onRetry, actions, children }) => {
   return (
     <section className="adminPageContainer" aria-busy={loading || undefined}>
-      <header className="pageHeader" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
+      <header className="pageHeader" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <h1 className="pageTitle" style={{ margin: '0 0 4px 0', fontSize: '1.75rem', fontWeight: 700, color: 'var(--admin-text-primary, #1e293b)' }}>
             {title}

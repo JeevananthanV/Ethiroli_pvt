@@ -41,7 +41,7 @@ export default function ReceptionRegistration() {
     >
       <div className="row justify-content-center">
         <div className="col-lg-8">
-          <div className="card border-0 shadow-sm rounded-3 p-4 bg-white">
+          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white">
             {successMsg && (
               <div className="alert alert-success d-flex align-items-center gap-2 mb-2">
                 <i className="bi bi-check-circle-fill fs-5"></i>

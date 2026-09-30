@@ -92,7 +92,7 @@ export default function StudentProfile() {
     >
       <div className="row g-4 justify-content-center">
         <div className="col-lg-4">
-          <div className="card shadow-sm border-0 text-center p-4 bg-white rounded-3">
+          <div className="card shadow-sm border-0 text-center p-3 bg-white rounded-3">
             <div className="mb-3">
               <AvatarUploader
                 value={form.avatar_url}
@@ -110,7 +110,7 @@ export default function StudentProfile() {
         </div>
 
         <div className="col-lg-8">
-          <div className="card shadow-sm border-0 p-4 bg-white rounded-3">
+          <div className="card shadow-sm border-0 p-3 bg-white rounded-3">
             <h5 className="fw-bold mb-3 border-bottom pb-2">Edit Student Details</h5>
 
             {saveError && (
@@ -150,7 +150,7 @@ export default function StudentProfile() {
                 </div>
               </div>
 
-              <div className="mb-4">
+              <div className="mb-2">
                 <label className="form-label small fw-semibold">Phone Number</label>
                 <input
                   type="tel"

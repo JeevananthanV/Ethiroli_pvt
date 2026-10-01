@@ -4,56 +4,14 @@ import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 export default function Notifications() {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [filter, setFilter] = useState('ALL');
 
   const loadNotifications = useCallback(async () => {
     setLoading(true);
-    // Initial notifications state with rich realistic employee alerts
-    setTimeout(() => {
-      setNotifications([
-        {
-          id: '1',
-          category: 'LEAVE',
-          title: 'Leave Request Approved',
-          description: 'Your casual leave request for next week has been approved by HR.',
-          created_at: new Date(Date.now() - 3600000).toISOString(),
-          is_read: false,
-          icon: 'bi-calendar-check',
-          color: 'text-success bg-success'
-        },
-        {
-          id: '2',
-          category: 'PAYROLL',
-          title: 'Monthly Payslip Generated',
-          description: 'Your salary payslip for the current period is now ready to download.',
-          created_at: new Date(Date.now() - 86400000).toISOString(),
-          is_read: false,
-          icon: 'bi-receipt',
-          color: 'text-primary bg-primary'
-        },
-        {
-          id: '3',
-          category: 'TASK',
-          title: 'New Task Assignment',
-          description: 'You have been assigned to sprint deliverable "API Gateway Optimization".',
-          created_at: new Date(Date.now() - 172800000).toISOString(),
-          is_read: true,
-          icon: 'bi-check2-circle',
-          color: 'text-info bg-info'
-        },
-        {
-          id: '4',
-          category: 'GOVERNANCE',
-          title: 'Security Compliance Reminder',
-          description: 'Annual compliance and code of conduct certification is due in 5 days.',
-          created_at: new Date(Date.now() - 259200000).toISOString(),
-          is_read: true,
-          icon: 'bi-shield-check',
-          color: 'text-warning bg-warning'
-        }
-      ]);
-      setLoading(false);
-    }, 200);
+    // No notifications API is wired up for the employee portal yet; start empty.
+    setNotifications([]);
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -75,6 +33,7 @@ export default function Notifications() {
       title="Notifications & Alerts"
       subtitle="Live feed of policy alerts, leave updates, task deadlines, and payroll logs"
       loading={loading}
+      error={error}
       onRetry={loadNotifications}
     >
       <div className="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">

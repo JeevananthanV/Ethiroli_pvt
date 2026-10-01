@@ -82,7 +82,7 @@ export default function Training() {
                       <span>Progress</span>
                       <span className="fw-semibold text-dark">{course.progress || 0}%</span>
                     </div>
-                    <div className="progress mb-3" style={{ height: '6px' }}>
+                    <div className="progress" style={{ height: '6px' }}>
                       <div
                         className="progress-bar bg-success"
                         role="progressbar"
@@ -92,11 +92,6 @@ export default function Training() {
                         aria-valuemax="100"
                       ></div>
                     </div>
-
-                    <button className="btn btn-primary btn-sm w-100 d-flex align-items-center justify-content-center gap-2">
-                      <i className="bi bi-play-circle"></i>
-                      <span>Resume Course</span>
-                    </button>
                   </div>
                 </div>
               </div>

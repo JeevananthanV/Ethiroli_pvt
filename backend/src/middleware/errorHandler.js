@@ -31,7 +31,11 @@ export const errorHandler = (err, req, res, next) => {
   }
 
   const statusCode = err.status || err.statusCode || 500;
-  const message = err.message || 'Internal server error';
+  // Never leak raw DB/SQL error messages or stack details to clients in production.
+  const isProd = process.env.NODE_ENV === 'production';
+  const message = isProd
+    ? 'Internal server error'
+    : (err.message || 'Internal server error');
 
   const response = {
     success: false,

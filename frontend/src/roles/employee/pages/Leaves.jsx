@@ -42,6 +42,11 @@ export default function Leaves() {
     setSubmitting(true);
     setError(null);
     setSuccessMsg('');
+    if (formData.end_date && formData.start_date && new Date(formData.end_date) < new Date(formData.start_date)) {
+      setError('End date must be on or after the start date.');
+      setSubmitting(false);
+      return;
+    }
     try {
       await employeePortalApi.applyLeave(formData);
       setSuccessMsg('Leave request submitted successfully for manager approval!');

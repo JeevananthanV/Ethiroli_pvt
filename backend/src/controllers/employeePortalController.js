@@ -14,6 +14,14 @@ import { asyncHandler } from '../middleware/errorHandler.js';
 import { success, error } from '../utils/response.js';
 import { NotFoundError, BadRequestError } from '../utils/errors.js';
 
+// Allowed ENUM values (mirror the database schemas) — validated before insert
+// so invalid input returns 400 instead of a raw DB error / 500.
+const LEAVE_TYPES = ['CASUAL', 'SICK', 'EARNED'];
+const SUPPORT_CATEGORIES = ['IT_SUPPORT', 'HR_QUERY', 'PAYROLL_ISSUE', 'FACILITIES', 'ADMIN'];
+const SUPPORT_PRIORITIES = ['LOW', 'MEDIUM', 'HIGH', 'URGENT'];
+const DOCUMENT_TYPES = ['RESUME', 'OFFER_LETTER', 'APPOINTMENT_LETTER', 'NDA', 'ID_PROOF', 'DEGREE_CERTIFICATE', 'EXPERIENCE_LETTER', 'PAYSLIP', 'OTHER'];
+const TASK_STATUSES = ['PENDING', 'IN_PROGRESS', 'COMPLETED'];
+
 // 1. Dashboard Overview
 export const getDashboardOverview = asyncHandler(async (req, res) => {
   const userId = req.user.id;
@@ -129,6 +137,14 @@ export const applyLeave = asyncHandler(async (req, res) => {
     throw new BadRequestError('leave_type, start_date, end_date, and reason are required');
   }
 
+  if (!LEAVE_TYPES.includes(leave_type)) {
+    throw new BadRequestError(`Invalid leave_type. Must be one of: ${LEAVE_TYPES.join(', ')}`);
+  }
+
+  if (new Date(end_date) < new Date(start_date)) {
+    throw new BadRequestError('end_date must be on or after start_date');
+  }
+
   const id = await Leave.create({
     user_id: userId,
     leave_type,
@@ -163,6 +179,10 @@ export const updateTaskStatus = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const { id } = req.params;
   const { status } = req.body;
+
+  if (!TASK_STATUSES.includes(status)) {
+    throw new BadRequestError(`Invalid status. Must be one of: ${TASK_STATUSES.join(', ')}`);
+  }
 
   const task = await Task.findById(id);
   if (!task) throw new NotFoundError('Task not found');
@@ -228,6 +248,10 @@ export const uploadPersonalDocument = asyncHandler(async (req, res) => {
   const { document_type, title, file_url, file_size_bytes, mime_type } = req.body;
   if (!document_type || !title || !file_url) {
     throw new BadRequestError('document_type, title, and file_url are required');
+  }
+
+  if (!DOCUMENT_TYPES.includes(document_type)) {
+    throw new BadRequestError(`Invalid document_type. Must be one of: ${DOCUMENT_TYPES.join(', ')}`);
   }
 
   const id = await EmployeeDocument.create({
@@ -306,6 +330,14 @@ export const createSupportTicket = asyncHandler(async (req, res) => {
 
   if (!category || !subject || !description) {
     throw new BadRequestError('category, subject, and description are required');
+  }
+
+  if (!SUPPORT_CATEGORIES.includes(category)) {
+    throw new BadRequestError(`Invalid category. Must be one of: ${SUPPORT_CATEGORIES.join(', ')}`);
+  }
+
+  if (!SUPPORT_PRIORITIES.includes(priority)) {
+    throw new BadRequestError(`Invalid priority. Must be one of: ${SUPPORT_PRIORITIES.join(', ')}`);
   }
 
   const result = await SupportTicket.create({

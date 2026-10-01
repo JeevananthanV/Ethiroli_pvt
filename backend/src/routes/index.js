@@ -186,10 +186,14 @@ router.use('/v1', notificationRoutes);
 router.use('/v1', hrDashboardRoutes);
 router.use('/v1', employeeDocumentRoutes);
 router.use('/v1', exitRoutes);
+// Employee portal must be mounted before studentRoutes: studentRoutes applies a
+// blanket requireRole('HR','ADMIN','SUPER_ADMIN','TUTOR','RECEPTION') at the /v1
+// prefix, which would otherwise intercept every /v1/employee/* request and 403
+// EMPLOYEE users before the employee portal router is ever reached.
+router.use('/v1/employee', employeePortalRoutes);
 router.use('/v1', studentRoutes);
 router.use('/v1', hrRequestRoutes);
 router.use('/v1', onboardingPlanRoutes);
-router.use('/v1/employee', employeePortalRoutes);
 router.use('/v1/tutor', tutorRoutes);
 router.use('/v1/lms', lmsRoutes);
 router.use('/v1/operations', operationsRoutes);

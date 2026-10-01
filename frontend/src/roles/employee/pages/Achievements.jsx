@@ -13,37 +13,7 @@ export default function Achievements() {
     try {
       const res = await employeePortalApi.getAchievements();
       const list = res?.data || (Array.isArray(res) ? res : []);
-      // If none yet, provide inspiring default badge lineup
-      if (list.length === 0) {
-        setAchievements([
-          {
-            id: '1',
-            name: 'Punctuality Champion',
-            description: '100% on-time check-ins for the entire quarter.',
-            icon: 'bi-alarm',
-            earned_at: new Date().toISOString(),
-            tier: 'GOLD'
-          },
-          {
-            id: '2',
-            name: 'Sprint Finisher',
-            description: 'Completed all assigned sprint tasks ahead of schedule.',
-            icon: 'bi-lightning-charge',
-            earned_at: new Date(Date.now() - 15 * 86400000).toISOString(),
-            tier: 'SILVER'
-          },
-          {
-            id: '3',
-            name: 'Knowledge Contributor',
-            description: 'Published architectural guidelines and shared technical knowledge.',
-            icon: 'bi-book-half',
-            earned_at: new Date(Date.now() - 30 * 86400000).toISOString(),
-            tier: 'BRONZE'
-          }
-        ]);
-      } else {
-        setAchievements(list);
-      }
+      setAchievements(list);
     } catch (err) {
       setError(err.message || 'Failed to load achievements');
     } finally {
@@ -63,6 +33,15 @@ export default function Achievements() {
       error={error}
       onRetry={loadAchievements}
     >
+      {achievements.length === 0 ? (
+        <div className="col-12 text-center py-5">
+          <div className="rounded-circle bg-light d-inline-flex p-3 mb-3 text-muted">
+            <i className="bi bi-trophy fs-1"></i>
+          </div>
+          <h5>No Achievements Yet</h5>
+          <p className="text-muted">Your badges and honors will appear here once earned.</p>
+        </div>
+      ) : (
       <div className="row g-4">
         {achievements.map((badge) => (
           <div key={badge.id} className="col-md-6 col-lg-4">
@@ -92,6 +71,7 @@ export default function Achievements() {
           </div>
         ))}
       </div>
+      )}
     </AdminPage>
   );
 }

@@ -1,5 +1,6 @@
 import PerformanceReview from '../models/PerformanceReview.js';
 import AuditLog from '../models/AuditLog.js';
+import Employee from '../models/Employee.js';
 import { broadcastToRole } from '../services/socketService.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 import { success } from '../utils/response.js';
@@ -9,9 +10,21 @@ export const listReviews = asyncHandler(async (req, res) => {
   const { employee_id, reviewer_id, page = 1, limit = 50 } = req.query;
   const offset = (parseInt(page) - 1) * parseInt(limit);
 
+  // EMPLOYEE may only view their own reviews — ignore any supplied employee_id.
+  let targetEmployeeId = employee_id;
+  if (req.user.role === 'EMPLOYEE') {
+    const emp = await Employee.findByUserId(req.user.id);
+    if (!emp) {
+      return success(res, 200, [], 'Performance reviews retrieved', {
+        page: parseInt(page), limit: parseInt(limit), total: 0, totalPages: 0
+      });
+    }
+    targetEmployeeId = emp.id;
+  }
+
   const [items, countRow] = await Promise.all([
-    PerformanceReview.list({ employee_id, reviewer_id, limit: parseInt(limit), offset }),
-    PerformanceReview.count({ employee_id, reviewer_id })
+    PerformanceReview.list({ employee_id: targetEmployeeId, reviewer_id, limit: parseInt(limit), offset }),
+    PerformanceReview.count({ employee_id: targetEmployeeId, reviewer_id })
   ]);
 
   return success(res, 200, items, 'Performance reviews retrieved', {
@@ -40,6 +53,16 @@ export const createReview = asyncHandler(async (req, res) => {
 export const getReview = asyncHandler(async (req, res) => {
   const review = await PerformanceReview.findById(req.params.id);
   if (!review) throw new NotFoundError('Performance review not found');
+
+  // EMPLOYEE may only view their own reviews. Return 404 (not 403) to avoid
+  // leaking the existence of other employees' reviews.
+  if (req.user.role === 'EMPLOYEE') {
+    const emp = await Employee.findByUserId(req.user.id);
+    if (!emp || review.employee_id !== emp.id) {
+      throw new NotFoundError('Performance review not found');
+    }
+  }
+
   return success(res, 200, review, 'Performance review retrieved');
 });
 

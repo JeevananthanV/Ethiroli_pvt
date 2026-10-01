@@ -20,8 +20,20 @@ export default function Attendance() {
       const records = res?.data || (Array.isArray(res) ? res : []);
       setHistory(records);
 
-      const todayStr = new Date().toISOString().slice(0, 10);
-      const foundToday = records.find(r => r.date && r.date.startsWith(todayStr));
+      // Compare dates in the LOCAL timezone. The server stores `date` as a
+      // DATE column which the driver returns as midnight server-local time
+      // (e.g. "2026-09-30T18:30:00.000Z" for Oct 1 IST). Matching against the
+      // UTC date string ("2026-10-01") never matches, so today's record was
+      // not found and the Punch Out button stayed disabled after punching in.
+      const toLocalDateStr = (d) => {
+        const dt = new Date(d);
+        const y = dt.getFullYear();
+        const m = String(dt.getMonth() + 1).padStart(2, '0');
+        const day = String(dt.getDate()).padStart(2, '0');
+        return `${y}-${m}-${day}`;
+      };
+      const todayStr = toLocalDateStr(new Date());
+      const foundToday = records.find(r => r.date && toLocalDateStr(r.date) === todayStr);
       setTodayRecord(foundToday || null);
 
       if (foundToday && foundToday.check_in_time && !foundToday.check_out_time) {

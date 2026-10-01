@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useAuth } from '../../common/hooks/useAuth';
-import { ROLES, getRoleDefaultPath } from '../../common/utils/roleRouting';
+import { useAuth } from '../../../common/contexts/AuthContext.jsx';
+import { ROLES, getRoleDefaultPath } from '../../../common/utils/roleRouting.js';
+import StudentLoginPage from '../../../auth/portals/pages/StudentLoginPage.jsx';
+import TutorLoginPage from '../../../auth/portals/pages/TutorLoginPage.jsx';
+import InternLoginPage from '../../../auth/portals/pages/InternLoginPage.jsx';
 
 const ROLE_PORTAL_MAP = {
   SUPER_ADMIN: 'super-admin',
@@ -17,14 +20,18 @@ const ROLE_PORTAL_MAP = {
   INTERN: 'intern'
 };
 
-import StudentLoginPage from '../../../auth/portals/pages/StudentLoginPage.jsx';
-
 function LoginPage() {
   const { role: roleParam } = useParams();
 
-  // Route to the dedicated, dynamic Student Login page for the student role
+  // Route to dedicated role-tailored login portals
   if (roleParam === 'student') {
     return <StudentLoginPage />;
+  }
+  if (roleParam === 'tutor') {
+    return <TutorLoginPage />;
+  }
+  if (roleParam === 'intern' || roleParam === 'ims') {
+    return <InternLoginPage />;
   }
 
   const [email, setEmail] = useState('');
@@ -40,21 +47,25 @@ function LoginPage() {
     ? 'Project Manager'
     : roleParam
     ? roleParam.charAt(0).toUpperCase() + roleParam.slice(1)
-    : 'System';
+    : 'Enterprise';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
     try {
-      const roleKey = roleParam === 'super-admin' ? 'SUPER_ADMIN' : roleParam === 'pm' ? 'PROJECT_MANAGER' : roleParam?.toUpperCase();
-      const portal = ROLE_PORTAL_MAP[roleKey];
+      const roleKey = roleParam === 'super-admin' 
+        ? 'SUPER_ADMIN' 
+        : roleParam === 'pm' 
+        ? 'PROJECT_MANAGER' 
+        : roleParam?.toUpperCase();
+      const portal = roleKey ? ROLE_PORTAL_MAP[roleKey] : null;
       const data = await login(email, password, portal);
-      const actualRole = data?.user?.role;
+      const actualRole = data?.user?.role || data?.data?.user?.role || roleKey;
       const defaultPath = getRoleDefaultPath(actualRole);
       navigate(defaultPath, { replace: true });
     } catch (err) {
-      setError(err.message || 'Login failed. Please check your credentials.');
+      setError(err.response?.data?.message || err.message || 'Login failed. Please check your credentials.');
     } finally {
       setLoading(false);
     }
@@ -68,11 +79,11 @@ function LoginPage() {
             <h2 className="h4 mb-0">{portalLabel} Login</h2>
             <small className="opacity-75">Ethiroli System Portal</small>
           </div>
-          <div className="card-body p-3">
-            {error && <div className="alert alert-danger">{error}</div>}
+          <div className="card-body p-4">
+            {error && <div className="alert alert-danger mb-3">{error}</div>}
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
-                <label className="form-label">Email</label>
+                <label className="form-label fw-semibold">Email Address</label>
                 <input
                   type="email"
                   className="form-control"
@@ -82,8 +93,8 @@ function LoginPage() {
                   required
                 />
               </div>
-              <div className="mb-3">
-                <label className="form-label">Password</label>
+              <div className="mb-4">
+                <label className="form-label fw-semibold">Password</label>
                 <input
                   type="password"
                   className="form-control"
@@ -93,7 +104,7 @@ function LoginPage() {
                   required
                 />
               </div>
-              <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+              <button type="submit" className="btn btn-primary btn-lg w-100 fw-bold shadow-sm" disabled={loading}>
                 {loading ? 'Signing in...' : 'Sign In'}
               </button>
             </form>

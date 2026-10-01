@@ -4,8 +4,9 @@ export const employeePortalApi = {
   // 1. Dashboard
   getDashboardOverview: () => axiosInstance.get('/v1/employee/dashboard'),
 
-  // 2. Attendance & Punch Clock
+  // 2. Attendance & Punch Clock (supports multiple work sessions per day)
   punchAttendance: (action) => axiosInstance.post('/v1/employee/attendance/punch', { action }),
+  getTodayAttendance: () => axiosInstance.get('/v1/employee/attendance/today'),
   getAttendanceHistory: (params) => axiosInstance.get('/v1/employee/attendance', { params }),
 
   // 3. Leaves & Balances

@@ -11,7 +11,9 @@ router.use(authenticate);
 router.get('/dashboard', controller.getDashboardOverview);
 
 // 2. Attendance & Punch
+// Punch supports multiple work sessions per day; punches are server-timestamped.
 router.post('/attendance/punch', controller.punchAttendance);
+router.get('/attendance/today', controller.getTodayAttendance);
 router.get('/attendance', controller.getAttendanceHistory);
 
 // 3. Leaves

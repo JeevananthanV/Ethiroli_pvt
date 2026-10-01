@@ -11,6 +11,7 @@ import Unauthorized from './common/components/Unauthorized/Unauthorized';
 import LoginPage from './roles/public/pages/Login';
 import StudentLoginPage from './auth/portals/pages/StudentLoginPage.jsx';
 import TutorLoginPage from './auth/portals/pages/TutorLoginPage.jsx';
+import InternLoginPage from './auth/portals/pages/InternLoginPage.jsx';
 
 // Modular Multi-Route Role Applications
 const SuperAdminApp = lazy(() => import('./roles/super-admin/SuperAdminApp'));
@@ -108,6 +109,11 @@ function App() {
       <Route path="/auth/tutor/login" element={<TutorLoginPage />} />
       <Route path="/tutor/login" element={<TutorLoginPage />} />
       <Route path="/tutor" element={<Navigate to="/auth/tutor/login" replace />} />
+      <Route path="/auth/intern/login" element={<InternLoginPage />} />
+      <Route path="/intern/login" element={<InternLoginPage />} />
+      <Route path="/intern" element={<Navigate to="/auth/intern/login" replace />} />
+      <Route path="/ims/login" element={<InternLoginPage />} />
+      <Route path="/ims" element={<Navigate to="/auth/intern/login" replace />} />
       <Route path="/auth/:role/login" element={<LoginPage />} />
       <Route path="/auth/login" element={<LoginPage />} />
       <Route

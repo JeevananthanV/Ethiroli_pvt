@@ -1,0 +1,285 @@
+{
+  "platform": {
+    "name": "Ethiroli Enterprise LMS & People Operations",
+    "version": "3.0.0",
+    "lastUpdated": "2026-09-30T19:00:00Z"
+  },
+  "courses": [
+    {
+      "id": "CRS-001",
+      "code": "FS-AI-2026",
+      "name": "Full Stack + AI Web Developer Masterclass",
+      "category": "Full Stack Development",
+      "duration": "6 Months",
+      "totalDays": 32,
+      "totalPhases": 4,
+      "enrolledStudents": 126,
+      "activeTutor": "Jeeva Karthik (Lead Architect)",
+      "rating": 4.9,
+      "description": "Comprehensive enterprise curriculum covering Semantic HTML5/CSS3, JavaScript ES6+, React Hooks, Redux Toolkit, Node.js, Express REST Microservices, MongoDB, PostgreSQL, and Gemini LLM AI Integration.",
+      "phases": [
+        {
+          "phaseNumber": 1,
+          "id": "PHASE-1",
+          "title": "Phase 1: Web Fundamentals & Core JavaScript",
+          "duration": "Days 1 – 8",
+          "status": "completed",
+          "modules": [
+            {
+              "id": "MOD-01",
+              "title": "Semantic HTML5 & Modern Accessibility",
+              "days": [1, 2],
+              "topics": ["Document Structure", "HTML5 Forms", "ARIA Roles", "SEO Best Practices"],
+              "quizId": "QZ-01"
+            },
+            {
+              "id": "MOD-02",
+              "title": "Modern CSS3, Flexbox & Responsive Grid",
+              "days": [3, 4, 5],
+              "topics": ["Box Model", "Flexbox Layouts", "CSS Grid", "Media Queries", "Animations"],
+              "quizId": "QZ-02"
+            },
+            {
+              "id": "MOD-03",
+              "title": "Core JavaScript & ES6+ Mastery",
+              "days": [6, 7, 8],
+              "topics": ["Data Types & Scope", "Closures & Prototypes", "Async/Await & Promises", "DOM Manipulation"],
+              "quizId": "QZ-03"
+            }
+          ]
+        },
+        {
+          "phaseNumber": 2,
+          "id": "PHASE-2",
+          "title": "Phase 2: Advanced Frontend Engineering with React.js",
+          "duration": "Days 9 – 18",
+          "status": "current",
+          "currentDay": 18,
+          "modules": [
+            {
+              "id": "MOD-04",
+              "title": "React Core Architecture & Hooks",
+              "days": [9, 10, 11, 12, 13],
+              "topics": ["Virtual DOM", "useState & useEffect", "Custom Hooks", "useReducer & useContext"],
+              "quizId": "QZ-04"
+            },
+            {
+              "id": "MOD-05",
+              "title": "State Management with Redux Toolkit & Zustand",
+              "days": [14, 15, 16],
+              "topics": ["Global State Store", "Redux Slices", "Async Thunks", "Immer & Selectors"],
+              "quizId": "QZ-05"
+            },
+            {
+              "id": "MOD-06",
+              "title": "React Router v6, Formik & Performance Optimization",
+              "days": [17, 18],
+              "topics": ["Nested Routes", "Form Validation", "React.memo", "useMemo & useCallback", "Lazy Loading"],
+              "quizId": "QZ-06"
+            }
+          ]
+        },
+        {
+          "phaseNumber": 3,
+          "id": "PHASE-3",
+          "title": "Phase 3: Server-Side Architecture, REST APIs & Databases",
+          "duration": "Days 19 – 26",
+          "status": "upcoming",
+          "modules": [
+            {
+              "id": "MOD-07",
+              "title": "Node.js Runtime & Express.js REST APIs",
+              "days": [19, 20, 21, 22],
+              "topics": ["Event Loop & Buffer", "Express Middleware", "JWT Authentication", "Error Handling"],
+              "quizId": "QZ-07"
+            },
+            {
+              "id": "MOD-08",
+              "title": "Database Engineering with MongoDB & PostgreSQL",
+              "days": [23, 24, 25, 26],
+              "topics": ["Mongoose Schemas", "SQL Queries & Joins", "B-Tree Indexing", "Transactions & ACID"],
+              "quizId": "QZ-08"
+            }
+          ]
+        },
+        {
+          "phaseNumber": 4,
+          "id": "PHASE-4",
+          "title": "Phase 4: AI Integration, DevOps & Production Capstone",
+          "duration": "Days 27 – 32",
+          "status": "locked",
+          "modules": [
+            {
+              "id": "MOD-09",
+              "title": "Generative AI APIs & LLM Integration",
+              "days": [27, 28, 29],
+              "topics": ["Prompt Engineering", "Gemini & OpenAI APIs", "Function Calling", "Vector Embeddings"],
+              "quizId": "QZ-09"
+            },
+            {
+              "id": "MOD-10",
+              "title": "Production CI/CD, Docker & Cloud Deployment",
+              "days": [30, 31, 32],
+              "topics": ["Docker Compose", "AWS EC2/S3 Deployment", "Vercel & Render Pipelines", "Certificate Clearance"],
+              "quizId": "QZ-10"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CRS-002",
+      "code": "PY-DS-2026",
+      "name": "Python Data Science & Machine Learning",
+      "category": "Data Science & AI",
+      "duration": "4 Months",
+      "totalDays": 30,
+      "totalPhases": 3,
+      "enrolledStudents": 84,
+      "activeTutor": "Dr. Meenakshi Sundaram",
+      "rating": 4.85,
+      "description": "Exploratory data analysis, Pandas pipelines, NumPy, Data visualization with Seaborn, Scikit-learn classification/regression, and Deep Learning with PyTorch."
+    },
+    {
+      "id": "CRS-003",
+      "code": "AWS-DO-2026",
+      "name": "Cloud DevOps & AWS Infrastructure Architecture",
+      "category": "Cloud Computing",
+      "duration": "3 Months",
+      "totalDays": 24,
+      "totalPhases": 3,
+      "enrolledStudents": 62,
+      "activeTutor": "Vigneshwaran P.",
+      "rating": 4.92,
+      "description": "Container orchestration with Kubernetes, Docker, Infrastructure as Code with Terraform, Jenkins/GitHub Actions CI/CD pipelines, and AWS Certified Solutions Architect mastery."
+    }
+  ],
+  "questionBank": [
+    {
+      "id": "QB-101",
+      "category": "React.js",
+      "difficulty": "Intermediate",
+      "question": "What is the primary difference between useEffect and useLayoutEffect in React?",
+      "options": [
+        "useEffect runs synchronously before browser paint; useLayoutEffect runs asynchronously.",
+        "useLayoutEffect runs synchronously after DOM mutations but before browser paint; useEffect runs asynchronously after paint.",
+        "useEffect is only for server-side rendering; useLayoutEffect is for client-side.",
+        "There is no difference in execution timing."
+      ],
+      "correctAnswer": 1,
+      "explanation": "useLayoutEffect fires synchronously immediately after React performs DOM mutations but before the browser paints the screen, making it ideal for measuring DOM layout and preventing visual flickers.",
+      "tags": ["hooks", "react", "lifecycle"]
+    },
+    {
+      "id": "QB-102",
+      "category": "JavaScript ES6+",
+      "difficulty": "Advanced",
+      "question": "Which of the following will be executed first in the JavaScript Event Loop queue?",
+      "options": [
+        "setTimeout callback (0ms)",
+        "setImmediate callback",
+        "Promise.resolve().then() microtask",
+        "requestAnimationFrame callback"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Microtasks (such as Promise callbacks, queueMicrotask, and MutationObserver) have higher priority and are completely drained before the next macrotask (setTimeout/setInterval) is executed.",
+      "tags": ["event-loop", "promises", "async"]
+    },
+    {
+      "id": "QB-103",
+      "category": "Node.js & Backend",
+      "difficulty": "Intermediate",
+      "question": "How should sensitive JSON Web Tokens (JWT) for authentication ideally be stored in browser clients?",
+      "options": [
+        "In localStorage without expiration",
+        "In sessionStorage as plain text",
+        "In HttpOnly, Secure, SameSite=Strict cookies",
+        "In the Redux global store across page refreshes"
+      ],
+      "correctAnswer": 2,
+      "explanation": "HttpOnly cookies cannot be accessed or read via client-side JavaScript (document.cookie), mitigating Cross-Site Scripting (XSS) token theft vulnerabilities.",
+      "tags": ["security", "jwt", "auth"]
+    },
+    {
+      "id": "QB-104",
+      "category": "Database Engineering",
+      "difficulty": "Intermediate",
+      "question": "Which index structure is standard for high-performance range queries in relational databases like PostgreSQL and MySQL InnoDB?",
+      "options": [
+        "Hash Index",
+        "B-Tree (Balanced Tree) Index",
+        "Bitmap Index",
+        "Inverted Full-Text Index"
+      ],
+      "correctAnswer": 1,
+      "explanation": "B-Tree indices maintain sorted key order, allowing O(log n) performance for exact match lookups as well as efficient interval/range scanning (BETWEEN, >, <, ORDER BY).",
+      "tags": ["databases", "sql", "indexing"]
+    }
+  ],
+  "liveClasses": [
+    {
+      "id": "LIVE-101",
+      "title": "React Custom Hooks & Async Lifecycle Deep Dive",
+      "courseId": "CRS-001",
+      "tutor": "Jeeva Karthik (Lead Architect)",
+      "date": "2026-09-30",
+      "time": "10:00 AM – 11:30 AM IST",
+      "status": "LIVE_NOW",
+      "joinUrl": "https://meet.google.com/eth-live-react",
+      "recordingUrl": "https://cdn.ethiroli.edu/recordings/react-hooks-deepdive.mp4",
+      "notes": "Covering custom hook composition, AbortController cancelation, and race condition prevention."
+    },
+    {
+      "id": "LIVE-102",
+      "title": "Node.js Microservices & Express REST API Design",
+      "courseId": "CRS-001",
+      "tutor": "Senthil Nathan (Senior Backend Engineer)",
+      "date": "2026-10-01",
+      "time": "10:00 AM – 11:30 AM IST",
+      "status": "UPCOMING",
+      "joinUrl": "https://meet.google.com/eth-live-node",
+      "recordingUrl": null,
+      "notes": "Prerequisite: Review Docker Desktop installation and ES6 async/await error handlers."
+    }
+  ],
+  "resources": [
+    {
+      "id": "RES-01",
+      "title": "React 18 & 19 Core Hooks Cheatsheet (useState, useEffect, useMemo, useCallback)",
+      "type": "CHEAT_SHEET",
+      "format": "PDF",
+      "size": "1.4 MB",
+      "url": "https://cdn.ethiroli.edu/resources/react-hooks-cheatsheet.pdf"
+    },
+    {
+      "id": "RES-02",
+      "title": "Full Stack MERN Microservices Starter Boilerplate Template",
+      "type": "TEMPLATE",
+      "format": "ZIP",
+      "size": "2.8 MB",
+      "url": "https://cdn.ethiroli.edu/resources/mern-microservices-starter.zip"
+    }
+  ],
+  "careerOpportunities": [
+    {
+      "id": "JOB-01",
+      "role": "Junior Full Stack Developer",
+      "company": "Ethiroli Digital Solutions Pvt Ltd",
+      "location": "Chennai / Hybrid",
+      "salary": "₹4.5 - 6.0 LPA",
+      "type": "Full-Time",
+      "deadline": "2026-10-15",
+      "requirements": "React.js, Node.js, Express, MongoDB/PostgreSQL, Git, Problem Solving."
+    },
+    {
+      "id": "JOB-02",
+      "role": "Frontend React.js Engineer Intern",
+      "company": "Fintech Neo Technologies",
+      "location": "Bangalore / Remote",
+      "salary": "₹25,000 / month Stipend",
+      "type": "Internship (6 Mos)",
+      "deadline": "2026-10-10",
+      "requirements": "Strong HTML/CSS, React Hooks, Redux Toolkit, Responsive design."
+    }
+  ]
+}

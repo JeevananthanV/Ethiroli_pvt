@@ -26,6 +26,26 @@ export default function Payslips() {
     fetchPayslips();
   }, [fetchPayslips]);
 
+  /**
+   * Format a payroll date for display. The API supplies `month_year_date` as a
+   * plain `YYYY-MM-DD` string (selected with DATE_FORMAT server-side), which we
+   * parse as a calendar date so it is never shifted by a timezone offset.
+   */
+  const formatPayDate = (value) => {
+    if (!value) return '—';
+    const text = String(value);
+    const m = text.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (m) {
+      return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3])).toLocaleDateString(undefined, {
+        day: '2-digit', month: 'short', year: 'numeric',
+      });
+    }
+    const d = new Date(text);
+    return Number.isNaN(d.getTime()) ? '—' : d.toLocaleDateString(undefined, {
+      day: '2-digit', month: 'short', year: 'numeric',
+    });
+  };
+
   const getStatusBadge = (status) => {
     switch (String(status).toUpperCase()) {
       case 'PAID':
@@ -55,6 +75,7 @@ export default function Payslips() {
             <thead className="table-light text-muted small text-uppercase">
               <tr>
                 <th>Period</th>
+                <th>Pay Date</th>
                 <th>Basic Pay</th>
                 <th>Gross Salary</th>
                 <th>Deductions (PF/Tax)</th>
@@ -66,7 +87,7 @@ export default function Payslips() {
             <tbody>
               {payslips.length === 0 ? (
                 <tr>
-                  <td colSpan="7" className="text-center py-5 text-muted">
+                  <td colSpan="8" className="text-center py-5 text-muted">
                     <i className="bi bi-receipt fs-2 d-block mb-2"></i>
                     No payslips available yet. Monthly payroll records will appear once processed by Finance.
                   </td>
@@ -74,7 +95,13 @@ export default function Payslips() {
               ) : (
                 payslips.map((slip) => (
                   <tr key={slip.id}>
-                    <td className="fw-semibold text-dark">{slip.month_year_label || 'Current Period'}</td>
+                    <td>
+                      <div className="fw-semibold text-dark">{slip.month_year_label || 'Current Period'}</div>
+                      {slip.month_year_date && (
+                        <small className="text-muted">{formatPayDate(slip.month_year_date)}</small>
+                      )}
+                    </td>
+                    <td className="text-muted small">{formatPayDate(slip.paid_at || slip.month_year_date)}</td>
                     <td>₹{Number(slip.basic || 0).toLocaleString()}</td>
                     <td>₹{Number(slip.gross_salary || 0).toLocaleString()}</td>
                     <td className="text-danger">-₹{Number(slip.total_deductions || 0).toLocaleString()}</td>
@@ -117,6 +144,19 @@ export default function Payslips() {
                 <div className="d-flex justify-content-between mb-3 border-bottom pb-2">
                   <span className="text-muted">Designation:</span>
                   <span className="fw-semibold text-dark">{selectedSlip.designation || '—'}</span>
+                </div>
+                <div className="d-flex justify-content-between mb-3 border-bottom pb-2">
+                  <span className="text-muted">Pay Period:</span>
+                  <span className="fw-semibold text-dark">
+                    {selectedSlip.month_year_label || '—'}
+                    {selectedSlip.month_year_date && (
+                      <small className="text-muted ms-2">({formatPayDate(selectedSlip.month_year_date)})</small>
+                    )}
+                  </span>
+                </div>
+                <div className="d-flex justify-content-between mb-3 border-bottom pb-2">
+                  <span className="text-muted">Paid On:</span>
+                  <span className="fw-semibold text-dark">{formatPayDate(selectedSlip.paid_at)}</span>
                 </div>
 
                 <div className="row g-3 my-2">

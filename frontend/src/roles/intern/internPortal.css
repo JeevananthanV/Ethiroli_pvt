@@ -1,0 +1,507 @@
+/**
+ * Intern portal (IMS) presentation layer.
+ *
+ * Imported once from InternApp.jsx, which is the intern portal's root, so
+ * every rule here applies to the intern section only and cannot leak into the
+ * other twelve portals.
+ *
+ * Purpose: the pages use Bootstrap's btn-sm almost everywhere, which renders
+ * roughly a 31px control - below a comfortable pointer target and visually
+ * cramped next to the 42px action buttons on Documents. These rules lift the
+ * small variants to a consistent, comfortable size without changing markup.
+ */
+
+.ims-scope {
+  /* Control rhythm */
+  --ims-control-height: 40px;
+  --ims-control-height-sm: 34px;
+  --ims-radius: 9px;
+
+  /* Buttons ------------------------------------------------------------- */
+  .btn-sm {
+    min-height: var(--ims-control-height-sm);
+    padding: 0.35rem 0.8rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border-radius: var(--ims-radius);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    line-height: 1.2;
+  }
+
+  .btn {
+    min-height: var(--ims-control-height);
+    padding: 0.45rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: var(--ims-radius);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    line-height: 1.25;
+  }
+
+  /* Icon-only buttons keep a square target. */
+  .btn i:only-child {
+    margin: 0 !important;
+  }
+
+  /* Pills used as filter / tab toggles */
+  .btn-group > .btn {
+    min-height: var(--ims-control-height-sm);
+  }
+
+  /* Form controls ------------------------------------------------------- */
+  .form-control,
+  .form-select {
+    min-height: var(--ims-control-height);
+    padding: 0.45rem 0.75rem;
+    font-size: 0.875rem;
+    border-radius: var(--ims-radius);
+  }
+
+  textarea.form-control {
+    min-height: auto;
+    line-height: 1.55;
+  }
+
+  /* Compact checkbox / radio, aligned to its label. */
+  .form-check {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 0;
+    margin: 0;
+  }
+
+  /* Bootstrap 5 sizes .form-check-input as 1em with font-size: 1.25em, so the
+     control inflates with whatever font-size it inherits. These are inline
+     choice controls sitting beside a text label, not a tap target, so pin the
+     box to 14px and neutralise the em-derived font-size and padding to stop
+     Bootstrap's scaling from creeping back in. */
+  .form-check-input {
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    padding: 0;
+    font-size: 10px;
+    cursor: pointer;
+  }
+
+  /* Radios draw a larger ring than checkboxes at the same box size, so drop
+     them a further 1px to keep the two visually level. */
+  .form-check-input[type='radio'] {
+    width: 13px;
+    height: 13px;
+  }
+
+  .form-check-label {
+    font-size: 0.85rem;
+    line-height: 1.35;
+    cursor: pointer;
+  }
+
+  /* Radio lists in modals read better stacked. */
+  .form-check-inline {
+    margin-right: 0;
+  }
+
+  /* Cards --------------------------------------------------------------- */
+
+  /* Card-based views (Projects, Courses, Achievements, Certificates,
+     WorkLog, TrainingPlan, Tasks, Documents, Feedback) were using p-3 with
+     `small` text and p-2 list rows, which compressed titles and descriptions
+     until they were unreadable. */
+  .card-body {
+    padding: 1.15rem 1.25rem;
+  }
+
+  .card-header {
+    padding: 0.9rem 1.25rem;
+  }
+
+  .list-group-item {
+    padding: 1rem 1.25rem;
+  }
+
+  /* Grid gutters: Bootstrap's default row spacing is tight once cards grow. */
+  .row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 1.5rem;
+  }
+
+  /* Readability --------------------------------------------------------- */
+
+  /* `small` is used ~270 times across the intern pages for body text that
+     needs to be readable, not 80% scale. Floor every small label at 0.85rem. */
+  .small,
+  small {
+    font-size: 0.85rem !important;
+  }
+
+  /* Badges are labels, not body copy, so the floor above must not apply to
+     them - it was inflating every `.badge.small` to 0.85rem, and a status like
+     "Pending Verification" then overflowed the card it sat in. Cap them, and
+     let the text wrap so a long status can never spill outside the card. */
+  .badge,
+  .badge.small,
+  .badge[class*='small'] {
+    font-size: 0.7rem !important;
+    line-height: 1.45;
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  /* Card titles must show in full - never clipped to one line. */
+  .card-title,
+  .card .h5,
+  .card .h6 {
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+
+  /* Long descriptions wrap instead of being cut off. */
+  .card p,
+  .card-body p {
+    line-height: 1.6;
+  }
+
+  /* Text that was truncated with a pixel cap should wrap rather than hide
+     content. Scoped to card-body on purpose: list rows (Messages conversation
+     list, Notifications) keep their one-line previews, which is the intended
+     behaviour there. */
+  .card-body .text-truncate {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    max-width: 100% !important;
+  }
+
+  /* Badges inside cards need a little more presence. */
+  .card .badge {
+    font-size: 0.78rem;
+    padding: 0.35em 0.65em;
+  }
+
+  /* Modal footers need matching control size. */
+  .modal-footer .btn {
+    min-height: var(--ims-control-height-sm);
+  }
+
+  /* Tables ---------------------------------------------------------------- */
+
+  /* Achievements (5 columns incl. streak) and Projects sit in
+     table-responsive wrappers. Without a floor the browser squeezes columns
+     until the text wraps to two or three lines and the last column falls
+     off-screen. This makes them scroll horizontally instead. */
+  .table-responsive .table {
+    min-width: 720px;
+  }
+
+  .table thead th {
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #64748b;
+    padding: 0.85rem 1rem;
+    white-space: nowrap;
+  }
+
+  .table tbody td {
+    padding: 0.9rem 1rem;
+    vertical-align: middle;
+    line-height: 1.5;
+  }
+
+  /* The attendance punch panel is a dense instrument panel - it opts out of
+     the card padding bump so the clock, counter and controls keep their
+     alignment. */
+  .card.bg-light .card-body {
+    padding: 1rem;
+  }
+}
+
+/* Large touch targets for the kanban-style boards. */
+.ims-scope .card[role='button'] {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ims-scope .card[role='button']:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.12) !important;
+}
+
+/* Narrow screens: let action pairs wrap instead of squeezing. */
+@media (max-width: 480px) {
+  .ims-scope .btn {
+    font-size: 0.82rem;
+    padding: 0.4rem 0.75rem;
+  }
+}
+
+/* Messages -------------------------------------------------------------- */
+
+.ims-conv-list {
+  max-height: 620px;
+  overflow-y: auto;
+}
+
+.ims-thread-pane {
+  height: 620px;
+}
+
+.ims-thread-scroll {
+  background: #f8fafc;
+}
+
+/* A width cap plus wrapping, so a long message wraps instead of stretching the
+   pane. Replaces the old inline maxWidth of 78%. */
+.ims-bubble {
+  max-width: 78%;
+  min-width: 0;
+}
+
+.ims-bubble-text {
+  font-size: 0.9rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Per-message actions stay out of the way until the message is hovered or the
+   keyboard reaches them. */
+.ims-bubble-actions {
+  display: inline-flex;
+  gap: 0.15rem;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.ims-bubble:hover .ims-bubble-actions,
+.ims-bubble:focus-within .ims-bubble-actions {
+  opacity: 1;
+}
+
+.ims-bubble-btn {
+  background: transparent;
+  border: 0;
+  padding: 0 0.15rem;
+  font-size: 0.72rem;
+  line-height: 1;
+  color: inherit;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.ims-bubble-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* Conversation rows became a button + a delete button, so the row itself is no
+   longer a <button> and needs the padding reset. */
+.ims-conv-list .btn-link {
+  color: inherit;
+}
+
+.ims-conv-list .btn-link:focus-visible {
+  outline: 2px solid var(--color-primary, #819e35);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@media (max-width: 767.98px) {
+  .ims-conv-list {
+    max-height: 300px;
+  }
+  .ims-thread-pane {
+    height: 520px;
+  }
+  .ims-bubble {
+    max-width: 88%;
+  }
+}
+
+/* Share bar -------------------------------------------------------------- */
+
+/* Per-network share buttons for documents and certificates. Each keeps its own
+   brand colour so the target is recognisable at a glance. */
+.ims-sharebar {
+  padding: 0.85rem 0;
+}
+
+.ims-sharebar-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-right: 0.15rem;
+}
+
+.ims-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.2;
+  border-radius: 999px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #334155;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+}
+
+.ims-share-btn:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.ims-share-btn i {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.ims-share-native { color: #0f172a; }
+.ims-share-copy { color: #475569; }
+.ims-share-whatsapp { color: #128c7e; border-color: rgba(18, 140, 126, 0.3); }
+.ims-share-whatsapp:hover { background: rgba(18, 140, 126, 0.08); border-color: #128c7e; }
+.ims-share-linkedin { color: #0a66c2; border-color: rgba(10, 102, 194, 0.3); }
+.ims-share-linkedin:hover { background: rgba(10, 102, 194, 0.08); border-color: #0a66c2; }
+.ims-share-x { color: #0f172a; border-color: rgba(15, 23, 42, 0.22); }
+.ims-share-x:hover { background: rgba(15, 23, 42, 0.06); border-color: #0f172a; }
+.ims-share-facebook { color: #1877f2; border-color: rgba(24, 119, 242, 0.3); }
+.ims-share-facebook:hover { background: rgba(24, 119, 242, 0.08); border-color: #1877f2; }
+.ims-share-email { color: #b45309; border-color: rgba(180, 83, 9, 0.3); }
+.ims-share-email:hover { background: rgba(180, 83, 9, 0.08); border-color: #b45309; }
+
+/* Modals ------------------------------------------------------------------ */
+
+/* These dialogs are hand-rolled, and useModalDismiss locks body scroll while
+   one is open. Without a definite, scrollable height on the dialog the content
+   below the fold was unreachable - the page looked frozen. Viewport units are
+   used deliberately: the ancestor chain has no definite height, so a
+   percentage max-height would resolve against nothing and collapse. */
+.ims-scope .modal.show.d-block {
+  overflow-y: auto;
+}
+
+.ims-scope .modal.show.d-block > .modal-dialog {
+  min-height: auto;
+}
+
+.ims-scope .modal.show.d-block .modal-content {
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+@media (max-width: 575.98px) {
+  .ims-scope .modal.show.d-block .modal-content {
+    max-height: calc(100vh - 1rem);
+  }
+}
+
+/* FAQ cards ---------------------------------------------------------------- */
+
+/* Replaces Bootstrap's accordion, whose rows had mismatched backgrounds, a
+   persistent focus ring and text pinned to the far left with the chevron
+   stranded on the far right. Each question is now a self-contained card. */
+.ims-faq-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 0.85rem;
+  background: #fff;
+  overflow: hidden;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.ims-faq-card:hover {
+  border-color: #cbd5e1;
+}
+
+.ims-faq-card.is-open {
+  border-color: #94a3b8;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+}
+
+.ims-faq-q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 1rem 1.15rem;
+  background: transparent;
+  border: 0;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Keyboard focus needs to stay visible, but as a subtle ring rather than the
+   heavy blue box-shadow Bootstrap applied to the whole row. */
+.ims-faq-q:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: -2px;
+}
+
+.ims-faq-q-text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: #0f172a;
+}
+
+.ims-faq-chevron {
+  flex-shrink: 0;
+  font-size: 1rem;
+  color: #64748b;
+  transition: transform 0.22s ease;
+}
+
+.ims-faq-chevron.is-open {
+  transform: rotate(180deg);
+  color: #4f46e5;
+}
+
+.ims-faq-a {
+  display: flex;
+  align-items: flex-start;
+  padding: 0 1.15rem 1.15rem;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: #475569;
+}
+
+.ims-faq-a i {
+  color: #f59e0b;
+  margin-top: 0.2rem;
+}
+
+/* Ticket cards ------------------------------------------------------------ */
+
+.ims-ticket-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.15rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.85rem;
+  background: #fff;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.ims-ticket-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.07);
+}
+
+.ims-ticket-card .badge {
+  font-weight: 500;
+}

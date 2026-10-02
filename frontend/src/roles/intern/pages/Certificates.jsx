@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { useAuth } from '../../../common/hooks/useAuth.js';
+import { useModalDismiss, backdropClick } from '../components/useModalDismiss.js';
+import ShareBar from '../components/ShareBar.jsx';
+import {
+  downloadTextFile,
+  buildCertificateHtml,
+  buildVerifyUrl,
+  safeFilename,
+} from '../components/documentActions.js';
 
 export default function Certificates() {
   const { user } = useAuth();
@@ -8,6 +16,9 @@ export default function Certificates() {
   const [viewState, setViewState] = useState('requirements'); // 'requirements' | 'preview'
   const [showVerifyModal, setShowVerifyModal] = useState(false);
   const [alert, setAlert] = useState({ type: '', text: '' });
+
+  // Escape closes the dialog and stops the page scrolling behind it.
+  useModalDismiss(showVerifyModal, () => setShowVerifyModal(false));
 
   const certData = {
     certificateNumber: 'ETH-INT-2026-00125',
@@ -19,6 +30,8 @@ export default function Certificates() {
     hash: 'e9b84a6c891e3f890b21a8cd34ef19a8bc43d7890123456789abcdef01234567',
     signatory: 'Founder & Engineering Director, Ethiroli Pvt Ltd'
   };
+
+  certData.verifyUrl = buildVerifyUrl(certData.certificateNumber);
 
   const checklist = [
     { title: 'Minimum 85% Overall Attendance', value: '94% Present', eligible: true },
@@ -32,22 +45,44 @@ export default function Certificates() {
   const eligibleCount = checklist.filter((c) => c.eligible).length;
   const eligibilityPercent = 82; // E.g., overall weighted completion
 
+  /**
+   * Writes a real, printable certificate file.
+   *
+   * This previously ran a setTimeout and claimed a PDF had downloaded when
+   * nothing was ever written to disk. A genuine PDF would need a PDF library,
+   * so this produces a standalone HTML credential that opens in any browser
+   * and prints to PDF from there.
+   */
   const handleDownload = () => {
     setDownloading(true);
-    setTimeout(() => {
+    try {
+      const html = buildCertificateHtml({
+        title: certData.title,
+        recipient: certData.issuedTo,
+        track: certData.track,
+        certificateNumber: certData.certificateNumber,
+        grade: certData.grade,
+        issuedTo: certData.issueDate,
+        hash: certData.hash,
+        authorizedSignatory: certData.signatory,
+        authorizedSignatoryTitle: 'Founder & Engineering Director, Ethiroli Pvt Ltd',
+        verifyUrl: certData.verifyUrl,
+      });
+      const filename = `${safeFilename(certData.certificateNumber, 'certificate')}.html`;
+      downloadTextFile(html, filename, 'text/html;charset=utf-8');
+      setAlert({ type: 'success', text: `Downloaded ${filename}. Open it and use your browser's Print → Save as PDF.` });
+    } catch {
+      setAlert({ type: 'danger', text: 'Could not generate the certificate file. Please try again.' });
+    } finally {
       setDownloading(false);
-      setAlert({ type: 'success', text: `Official Certificate PDF (${certData.certificateNumber}.pdf) downloaded successfully!` });
-    }, 800);
+    }
   };
 
+  /** LinkedIn's dedicated "add certification" flow, which ShareBar's generic
+      share link does not cover. */
   const handleShareLinkedIn = () => {
-    const url = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(certData.title)}&organizationName=Ethiroli&issueYear=2026&issueMonth=6&certUrl=${encodeURIComponent('https://ethiroli.net/verify/' + certData.certificateNumber)}`;
-    window.open(url, '_blank');
-  };
-
-  const handleShareWhatsApp = () => {
-    const text = `I just earned my Internship Certificate in ${certData.track} from Ethiroli with Grade ${certData.grade}! Credential ID: ${certData.certificateNumber}`;
-    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+    const url = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${encodeURIComponent(certData.title)}&organizationName=Ethiroli&issueYear=2026&issueMonth=6&certUrl=${encodeURIComponent(certData.verifyUrl)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -99,8 +134,14 @@ export default function Certificates() {
                   </p>
                 </div>
                 <div className="card-body p-3 pt-0">
-                  <div className="d-flex justify-content-between align-items-center mb-2">
-                    <span className="fw-semibold small text-dark">Overall Progress Toward Certificate</span>
+                  <div className="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+                    <span className="fw-semibold small text-dark">
+                      Overall Progress Toward Certificate
+                      {/* eligibleCount was computed but never rendered. */}
+                      <span className="badge bg-light text-dark border ms-2">
+                        {eligibleCount} of {checklist.length} met
+                      </span>
+                    </span>
                     <strong className="text-primary">{eligibilityPercent}% Complete</strong>
                   </div>
                   <div className="progress mb-2" style={{ height: '8px' }}>
@@ -226,8 +267,8 @@ export default function Certificates() {
                     onClick={handleDownload}
                     disabled={downloading}
                   >
-                    <i className="bi bi-file-earmark-pdf me-1"></i>
-                    {downloading ? 'Generating...' : 'Download PDF'}
+                    <i className="bi bi-file-earmark-arrow-down me-1"></i>
+                    {downloading ? 'Generating...' : 'Download Certificate'}
                   </button>
                   <button
                     className="btn btn-outline-secondary btn-sm px-3"
@@ -241,13 +282,15 @@ export default function Certificates() {
                   >
                     <i className="bi bi-linkedin me-1"></i> Add to LinkedIn
                   </button>
-                  <button
-                    className="btn btn-outline-success btn-sm px-3"
-                    onClick={handleShareWhatsApp}
-                  >
-                    <i className="bi bi-whatsapp me-1"></i> Share on WhatsApp
-                  </button>
                 </div>
+
+                <ShareBar
+                  className="mt-2"
+                  title={`${certData.title} — ${certData.issuedTo}`}
+                  text={`I completed my ${certData.track} internship at Ethiroli with ${certData.grade}. Credential ID: ${certData.certificateNumber}`}
+                  url={certData.verifyUrl}
+                  label="Share credential"
+                />
               </div>
             </div>
           </div>
@@ -255,8 +298,16 @@ export default function Certificates() {
 
         {/* Verification Modal */}
         {showVerifyModal && (
-          <div className="modal show d-block" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} tabIndex="-1">
-            <div className="modal-dialog modal-dialog-centered">
+          <div
+            className="modal show d-block"
+            style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+            tabIndex="-1"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Verify Certificate"
+            onClick={backdropClick(() => setShowVerifyModal(false))}
+          >
+            <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
               <div className="modal-content border-0 shadow">
                 <div className="modal-header">
                   <h5 className="modal-title fw-bold">Credential Authenticity Ledger</h5>
@@ -281,9 +332,15 @@ export default function Certificates() {
                     <div className="mb-1">
                       <strong className="text-muted">Track:</strong> {certData.track}
                     </div>
-                    <div className="text-truncate">
+                    {/* A truncated hash is worthless for verification - wrap it instead. */}
+                    <div>
                       <strong className="text-muted">SHA-256 Hash:</strong>
-                      <span className="font-monospace ms-1 text-secondary">{certData.hash}</span>
+                      <span
+                        className="font-monospace ms-1 text-secondary"
+                        style={{ overflowWrap: 'anywhere', wordBreak: 'break-all' }}
+                      >
+                        {certData.hash}
+                      </span>
                     </div>
                   </div>
 

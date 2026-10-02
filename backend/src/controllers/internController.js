@@ -108,11 +108,25 @@ export const getInternPortalConfig = asyncHandler(async (req, res) => {
   return success(res, 200, config, 'Intern portal configuration retrieved');
 });
 
+/**
+ * The signed-in intern's own record.
+ *
+ * /interns (roster) and /interns/:id stay admin-only, so an intern can read
+ * their own profile without gaining access to everyone else's.
+ */
+export const getMyInternProfile = asyncHandler(async (req, res) => {
+  const intern = await Intern.findByUserId(req.user.id);
+  if (!intern) throw new NotFoundError('No intern profile is linked to this account yet.');
+  return success(res, 200, intern, 'Intern profile retrieved');
+});
+
 export const getAvailableMentors = asyncHandler(async (req, res) => {
   const pool = (await import('../config/database.js')).default;
+  // There is no 'MENTOR' role in this schema - mentors are tutors. The old
+  // list therefore never matched and always returned empty.
   const [rows] = await pool.execute(
-    `SELECT id, full_name, email, role FROM users 
-     WHERE role IN ('MENTOR', 'HR', 'ADMIN', 'SUPER_ADMIN') AND is_active = true
+    `SELECT id, full_name, email, role FROM users
+     WHERE role IN ('TUTOR', 'SENIOR_TUTOR', 'HR', 'ADMIN', 'SUPER_ADMIN') AND is_active = true
      ORDER BY full_name`
   );
   return success(res, 200, rows, 'Available mentors retrieved');

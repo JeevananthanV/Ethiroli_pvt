@@ -149,3 +149,572 @@
 .backBtn:hover {
   background: rgba(255, 255, 255, 0.08);
 }
+
+/* ==========================================================================
+   Intern portal sign-in
+
+   Two-panel layout: a dark brand column that explains the product, and a
+   lighter form column that does the work. The aside collapses above the form
+   on narrow screens so the inputs are never pushed off-screen.
+
+   Contrast note: body copy on the dark panel sits at >= 0.66 alpha and all
+   interactive text on the form panel is >= 0.72, so the accent colour is the
+   only thing that carries emphasis.
+   ========================================================================== */
+
+.subtitle {
+  margin: 6px 0 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.imsShell {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  width: 100%;
+  max-width: 1000px;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.55);
+}
+
+/* ---------- Brand panel ---------- */
+
+.imsAside {
+  position: relative;
+  padding: 40px;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(244, 162, 97, 0.20) 0%, transparent 45%),
+    linear-gradient(160deg, #1b2230 0%, #131924 100%);
+}
+
+/* Subtle grid so the panel does not read as a flat block. */
+.imsAside::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+  pointer-events: none;
+}
+
+.imsAsideInner {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.imsBrandRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.imsBrandMark {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #f4a261, #e76f51);
+  color: #1a1005;
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.imsBrandName {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #f8fafc;
+}
+
+.imsAsideCopy {
+  margin-top: 6px;
+}
+
+.imsAsideKicker {
+  display: inline-block;
+  padding: 4px 11px;
+  margin-bottom: 14px;
+  border-radius: 999px;
+  background: rgba(244, 162, 97, 0.14);
+  border: 1px solid rgba(244, 162, 97, 0.3);
+  color: #f4a261;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.imsAsideTitle {
+  margin: 0;
+  font-size: 30px;
+  line-height: 1.22;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #f8fafc;
+}
+
+.imsAsideText {
+  margin: 14px 0 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.66);
+  max-width: 40ch;
+}
+
+.imsHighlights {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.imsHighlight {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.imsHighlightIcon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f4a261;
+  font-size: 15px;
+}
+
+.imsHighlightTitle {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+.imsHighlightCopy {
+  display: block;
+  margin-top: 2px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.imsAsideFoot {
+  margin: auto 0 0;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.imsAsideFoot span {
+  color: #f4a261;
+  font-weight: 600;
+}
+
+/* ---------- Form panel ---------- */
+
+.imsPanel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 44px;
+  background: #121722;
+}
+
+.imsPanelInner {
+  width: 100%;
+  max-width: 380px;
+}
+
+/* Brand lockup only shows once the aside is hidden. */
+.imsMobileBrand {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 26px;
+}
+
+.imsFormHead {
+  margin-bottom: 24px;
+}
+
+.imsTitle {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #f8fafc;
+}
+
+.imsAlert {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 11px 13px;
+  margin-bottom: 18px;
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #fca5a5;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.imsLabel {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.imsField {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.imsFieldIcon {
+  position: absolute;
+  left: 14px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.38);
+  pointer-events: none;
+}
+
+.imsInput {
+  width: 100%;
+  padding: 12px 14px 12px 40px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  color: #f1f5f9;
+  font-size: 14px;
+  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.imsInput::placeholder {
+  color: rgba(255, 255, 255, 0.32);
+}
+
+.imsInput:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.imsInput:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(244, 162, 97, 0.6);
+  box-shadow: 0 0 0 3px rgba(244, 162, 97, 0.16);
+}
+
+.imsInput:disabled {
+  opacity: 0.55;
+}
+
+.imsReveal {
+  padding: 0 4px;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.18s ease;
+}
+
+.imsReveal:hover {
+  color: #f4a261;
+}
+
+.imsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  /* The shared .form class adds an 18px row gap, so this stays tight to keep
+     the sign-in block compact. */
+  margin: 2px 0 14px;
+}
+
+.imsRow .form-check {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  padding-left: 0;
+  min-height: 0;
+}
+
+/* Compact checkbox: 13px box, aligned to the label baseline.
+   Bootstrap 5 sizes .form-check-input as 1em with font-size: 1.25em, so the box
+   grows with any inherited font-size. Pin it in px and zero out the em-derived
+   font-size and padding, otherwise it drifts back up to ~18px. */
+.imsRow .form-check-input {
+  flex-shrink: 0;
+  width: 13px;
+  height: 13px;
+  margin: 0;
+  padding: 0;
+  font-size: 9px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.28);
+  cursor: pointer;
+}
+
+.imsRow .form-check-input:focus {
+  border-color: #f4a261;
+  /* Tighter than Bootstrap's default 3px ring, which swamps a 13px box. */
+  box-shadow: 0 0 0 2px rgba(244, 162, 97, 0.28);
+}
+
+.imsRow .form-check-input:checked {
+  background-color: #f4a261;
+  border-color: #f4a261;
+  /* Bootstrap's tick is an SVG sized in em, so it would shrink and drift with
+     the 9px font-size set above. Replace it with an explicit white tick sized
+     in px, which stays legible against the orange fill on this dark panel. */
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M3.5 8.5l3 3 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 11px 11px;
+}
+
+.imsRow .form-check-label {
+  font-size: 12.5px;
+  line-height: 1.3;
+  /* Was rgba(255,255,255,0.7), which read as grey against the dark panel. */
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.imsLink {
+  flex-shrink: 0;
+  font-size: 12.5px;
+  color: #f4a261;
+  text-decoration: none;
+}
+
+.imsLink:hover {
+  color: #e9c46a;
+  text-decoration: underline;
+}
+
+.imsSubmit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+  min-height: 46px;
+  padding: 13px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f4a261 0%, #e76f51 100%);
+  color: #1a1005;
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, filter 0.16s ease;
+  box-shadow: 0 6px 20px rgba(231, 111, 81, 0.28);
+}
+
+.imsSubmit:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  box-shadow: 0 10px 26px rgba(231, 111, 81, 0.34);
+}
+
+.imsSubmit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.imsDemo {
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.imsDemoHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.imsDemoTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.imsDemoBadge {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(244, 162, 97, 0.13);
+  border: 1px solid rgba(244, 162, 97, 0.28);
+  color: #f4a261;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.imsDemoItem {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  padding: 9px 11px;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.imsDemoItem:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(244, 162, 97, 0.4);
+  transform: translateX(2px);
+}
+
+.imsDemoItem:focus-visible {
+  outline: 2px solid #f4a261;
+  outline-offset: 2px;
+}
+
+.imsDemoItem:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.imsDemoAvatar {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(244, 162, 97, 0.14);
+  color: #f4a261;
+  font-size: 14px;
+}
+
+.imsDemoMeta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.imsDemoName {
+  font-size: 13px;
+  font-weight: 600;
+  color: #f1f5f9;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.imsDemoSub {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.5);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.imsDemoAction {
+  flex-shrink: 0;
+  padding: 4px 11px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.imsDemoEmpty {
+  padding: 14px;
+  text-align: center;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.imsFoot {
+  margin: 22px 0 0;
+  text-align: center;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+  .imsShell {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+  }
+
+  /* Hide the brand panel and surface a compact lockup above the form. */
+  .imsAside {
+    display: none;
+  }
+
+  .imsMobileBrand {
+    display: flex;
+  }
+
+  .imsPanel {
+    padding: 32px 24px;
+  }
+
+  .imsTitle {
+    font-size: 25px;
+  }
+}
+
+@media (max-width: 380px) {
+  .imsPanel {
+    padding: 24px 18px;
+  }
+
+  .imsTitle {
+    font-size: 22px;
+  }
+
+  .imsRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}

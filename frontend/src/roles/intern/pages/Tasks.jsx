@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
+import { useModalDismiss, backdropClick } from '../components/useModalDismiss.js';
 
 export default function Tasks() {
   const [activeTab, setActiveTab] = useState('today'); // 'today' | 'upcoming' | 'completed' | 'all'
@@ -7,6 +8,9 @@ export default function Tasks() {
   const [selectedTask, setSelectedTask] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [alert, setAlert] = useState({ type: '', text: '' });
+
+  // Escape closes the dialog and stops the page scrolling behind it.
+  useModalDismiss(showModal, () => setShowModal(false));
 
   const [tasks, setTasks] = useState([
     {
@@ -266,40 +270,67 @@ export default function Tasks() {
           <div className="row g-3">
             {columns.map((col) => {
               const colTasks = filteredTasks.filter((t) => t.status === col.id);
+              // 3 lanes per row on xl so each card is wide enough to read, and
+              // only drops to 4-across on very wide monitors.
               return (
-                <div key={col.id} className="col-12 col-md-6 col-xl-3">
+                <div key={col.id} className="col-12 col-md-6 col-xl-4 col-xxl-3">
                   <div className="card shadow-sm border-0 h-100 bg-light-subtle">
-                    <div className="card-header bg-white py-2 border-0 d-flex justify-content-between align-items-center">
-                      <span className="fw-bold text-dark small">{col.title}</span>
-                      <span className="badge bg-secondary-subtle text-dark small">{colTasks.length}</span>
+                    <div className="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
+                      <span className="fw-bold text-dark">{col.title}</span>
+                      <span className="badge bg-secondary-subtle text-dark">{colTasks.length}</span>
                     </div>
-                    <div className="card-body p-2 d-flex flex-column gap-2" style={{ minHeight: '420px' }}>
-                      {colTasks.length === 0 ? (
-                        <div className="text-center py-4 text-muted small">No tasks in this lane</div>
-                      ) : (
+                    {/* Was a fixed 420px, which forced roughly 400px of blank space
+                        into short lanes and pushed everything below the board down
+                        the page. Raised from 150px so the larger cards have room to
+                        breathe without dominating the layout again. */}
+                      <div className="card-body p-3 d-flex flex-column gap-3" style={{ minHeight: '220px' }}>
+                        {colTasks.length === 0 ? (
+                          <div className="text-center py-4 text-muted small">
+                            <i className="bi bi-inbox d-block mb-2 opacity-50 fs-5" />
+                            Nothing here yet
+                          </div>
+                        ) : (
                         colTasks.map((t) => (
                           <div
                             key={t.id}
-                            className="card border shadow-sm p-3 bg-white cursor-pointer"
+                            className="card border shadow-sm p-4 bg-white"
                             onClick={() => handleOpenTask(t)}
-                            style={{ cursor: 'pointer', transition: 'transform 0.15s ease' }}
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                handleOpenTask(t);
+                              }
+                            }}
+                            style={{ cursor: 'pointer', transition: 'transform 0.15s ease, box-shadow 0.15s ease' }}
                           >
-                            <div className="d-flex justify-content-between align-items-center mb-2">
-                              <span className="badge bg-light text-muted border small text-truncate" style={{ maxWidth: '140px' }}>
+                            <div className="d-flex justify-content-between align-items-center gap-2 mb-3">
+                              <span className="badge bg-light text-muted border text-truncate" style={{ maxWidth: '60%' }}>
                                 {t.project}
                               </span>
                               {getPriorityBadge(t.priority)}
                             </div>
-                            <h6 className="fw-bold mb-2 text-dark small">{t.title}</h6>
-                            <div className="d-flex align-items-center justify-content-between small text-muted mb-2">
-                              <span><i className="bi bi-calendar-event me-1"></i>{t.dueDate}</span>
-                              <span><i className="bi bi-stopwatch me-1"></i>{t.loggedHours}/{t.estimatedHours}h</span>
+                            <h6 className="fw-bold mb-3 text-dark" style={{ fontSize: '0.95rem', lineHeight: 1.4 }}>
+                              {t.title}
+                            </h6>
+                            <div className="d-flex align-items-center justify-content-between gap-2 text-muted mb-3" style={{ fontSize: '0.82rem' }}>
+                              <span className="text-nowrap">
+                                <i className="bi bi-calendar-event me-1" />
+                                {t.dueDate}
+                              </span>
+                              <span className="text-nowrap">
+                                <i className="bi bi-stopwatch me-1" />
+                                {t.loggedHours}/{t.estimatedHours}h
+                              </span>
                             </div>
-                            <div className="d-flex align-items-center justify-content-between border-top pt-2 mt-auto">
-                              <small className="text-muted text-truncate" style={{ maxWidth: '130px' }}>
+                            <div className="d-flex align-items-center justify-content-between gap-2 border-top pt-3 mt-auto">
+                              <small className="text-muted text-truncate" style={{ maxWidth: '55%', fontSize: '0.8rem' }}>
                                 {t.assignedBy}
                               </small>
-                              <span className="badge bg-light text-primary border small">Details →</span>
+                              <span className="badge bg-light text-primary border" style={{ fontSize: '0.78rem' }}>
+                                Details <i className="bi bi-arrow-right" />
+                              </span>
                             </div>
                           </div>
                         ))
@@ -363,8 +394,16 @@ export default function Tasks() {
 
         {/* Task Detail Modal */}
         {showModal && selectedTask && (
-          <div className="modal show d-block" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} tabIndex="-1">
-            <div className="modal-dialog modal-dialog-centered modal-lg">
+          <div
+            className="modal show d-block"
+            style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+            tabIndex="-1"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Log Work on Task"
+            onClick={backdropClick(() => setShowModal(false))}
+          >
+            <div className="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
               <div className="modal-content border-0 shadow">
                 <div className="modal-header">
                   <div>
@@ -409,17 +448,19 @@ export default function Tasks() {
                       <h6 className="fw-bold small text-dark mb-2">Acceptance Criteria</h6>
                       <div className="list-group list-group-flush border rounded-3 p-2 bg-light">
                         {selectedTask.criteria.map((c, idx) => (
-                          <div key={idx} className="list-group-item bg-transparent border-0 px-2 py-1 d-flex align-items-center">
+                          <div key={idx} className="list-group-item bg-transparent border-0 px-2 py-2 d-flex align-items-center">
                             <input
-                              className="form-check-input me-2"
+                              className="form-check-input me-2 flex-shrink-0"
                               type="checkbox"
                               checked={c.done}
                               onChange={() => handleCriteriaToggle(idx)}
                               id={`crit-${idx}`}
                             />
+                            {/* min-w-0 lets a long criterion wrap instead of
+                                being clipped by the row. */}
                             <label
                               htmlFor={`crit-${idx}`}
-                              className={`form-check-label small ${c.done ? 'text-decoration-line-through text-muted' : 'text-dark'}`}
+                              className={`form-check-label small min-w-0 ${c.done ? 'text-decoration-line-through text-muted' : 'text-dark'}`}
                             >
                               {c.text}
                             </label>
@@ -430,8 +471,8 @@ export default function Tasks() {
 
                     <div className="row g-3 mb-3">
                       <div className="col-sm-6">
-                        <label className="form-label small fw-semibold">GitHub Branch / PR URL</label>
-                        <input
+                        <label htmlFor="github-branch-pr-url" className="form-label small fw-semibold">GitHub Branch / PR URL</label>
+                        <input id="github-branch-pr-url"
                           type="url"
                           className="form-control form-control-sm"
                           placeholder="https://github.com/ethiroli/portal/pull/123"
@@ -440,8 +481,8 @@ export default function Tasks() {
                         />
                       </div>
                       <div className="col-sm-6">
-                        <label className="form-label small fw-semibold">Logged Hours Today</label>
-                        <input
+                        <label htmlFor="logged-hours-today" className="form-label small fw-semibold">Logged Hours Today</label>
+                        <input id="logged-hours-today"
                           type="number"
                           step="0.5"
                           className="form-control form-control-sm"
@@ -452,8 +493,8 @@ export default function Tasks() {
                     </div>
 
                     <div className="mb-3">
-                      <label className="form-label small fw-semibold">Submission Notes for Mentor</label>
-                      <textarea
+                      <label htmlFor="submission-notes-for-mentor" className="form-label small fw-semibold">Submission Notes for Mentor</label>
+                      <textarea id="submission-notes-for-mentor"
                         className="form-control form-control-sm"
                         rows="2"
                         placeholder="Highlight any architectural choices or blockers..."

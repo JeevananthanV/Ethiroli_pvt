@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { fetchInternDashboardData } from '../../../store/slices/internsSlice.js';
+import InlineNotice from '../components/InlineNotice.jsx';
 import './Dashboard.css';
 
 export default function Dashboard() {
@@ -29,6 +30,8 @@ export default function Dashboard() {
   }, [dashboard]);
 
   const [todayFocus, setTodayFocus] = useState(todayFocusList);
+  // Replaces the native alert() the Join Session button used to fire.
+  const [notice, setNotice] = useState('');
 
   useEffect(() => {
     if (dashboard?.todayFocus) {
@@ -238,13 +241,25 @@ export default function Dashboard() {
               </p>
             </div>
             <div className="intern-welcome-action d-flex flex-wrap gap-2">
-              <Link to="/app/intern/attendance" className="btn btn-primary d-inline-flex align-items-center gap-2 shadow-sm">
+              <Link
+                to="/app/intern/attendance"
+                className="btn btn-primary d-inline-flex align-items-center gap-2 shadow-sm"
+                style={{ minHeight: '42px', paddingLeft: '1.1rem', paddingRight: '1.1rem' }}
+              >
                 <i className="bi bi-clock-fill"></i> Today's Attendance
               </Link>
-              <Link to="/app/intern/tasks" className="btn btn-outline-primary d-inline-flex align-items-center gap-2 bg-white">
+              <Link
+                to="/app/intern/tasks"
+                className="btn btn-outline-primary d-inline-flex align-items-center gap-2 bg-white"
+                style={{ minHeight: '42px', paddingLeft: '1.1rem', paddingRight: '1.1rem' }}
+              >
                 <i className="bi bi-list-check"></i> Today's Tasks
               </Link>
-              <Link to="/app/intern/mentor" className="btn btn-outline-secondary d-inline-flex align-items-center gap-2 bg-white">
+              <Link
+                to="/app/intern/mentor"
+                className="btn btn-outline-secondary d-inline-flex align-items-center gap-2 bg-white"
+                style={{ minHeight: '42px', paddingLeft: '1.1rem', paddingRight: '1.1rem' }}
+              >
                 <i className="bi bi-chat-dots-fill"></i> Ask Mentor
               </Link>
             </div>
@@ -254,12 +269,15 @@ export default function Dashboard() {
         {/* 6 Key Performance Metric Cards */}
         <section aria-label="Key Performance Indicators">
           <div className="row g-3">
+            {/* col-xxl-2 rather than col-xl-2 on the cards below: six across at
+                1200px left each one too narrow, so the title wrapped to two
+                lines and ran under the icon pill. Six-across now starts at 1400px. */}
             {kpiCards.map((kpi) => (
-              <div key={kpi.title} className="col-12 col-sm-6 col-lg-4 col-xl-2">
+              <div key={kpi.title} className="col-12 col-sm-6 col-lg-4 col-xxl-2">
                 <div className="intern-kpi-card shadow-sm">
-                  <div className="d-flex justify-content-between align-items-start mb-2">
-                    <span className="kpi-title">{kpi.title}</span>
-                    <div className={`kpi-icon-pill ${kpi.bgClass}`}>
+                  <div className="d-flex justify-content-between align-items-start gap-2 mb-2">
+                    <span className="kpi-title min-w-0">{kpi.title}</span>
+                    <div className={`kpi-icon-pill flex-shrink-0 ${kpi.bgClass}`}>
                       <i className={`bi ${kpi.icon}`}></i>
                     </div>
                   </div>
@@ -317,14 +335,15 @@ export default function Dashboard() {
                         item.done ? 'bg-light-subtle' : ''
                       }`}
                     >
-                      <div className="d-flex align-items-center gap-3">
+                      <div className="d-flex align-items-center gap-3 flex-grow-1 min-w-0">
                         <button
                           type="button"
-                          className={`btn btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center ${
+                          className={`btn rounded-circle p-0 d-flex align-items-center justify-content-center flex-shrink-0 ${
                             item.done ? 'btn-success text-white' : 'btn-outline-secondary'
                           }`}
-                          style={{ width: '26px', height: '26px' }}
+                          style={{ width: '26px', height: '26px', minHeight: '26px' }}
                           onClick={() => toggleFocus(item.id)}
+                          aria-pressed={item.done}
                           aria-label={item.done ? 'Mark pending' : 'Mark done'}
                         >
                           <i className={`bi ${item.done ? 'bi-check' : ''}`}></i>
@@ -333,7 +352,11 @@ export default function Dashboard() {
                           {item.text}
                         </span>
                       </div>
-                      <Link to={item.link} className="btn btn-outline-primary btn-sm px-3 rounded-pill">
+                      <Link
+                        to={item.link}
+                        className="btn btn-outline-primary btn-sm px-3 rounded-pill flex-shrink-0"
+                        style={{ minHeight: '34px' }}
+                      >
                         Open <i className="bi bi-arrow-right ms-1"></i>
                       </Link>
                     </div>
@@ -406,13 +429,26 @@ export default function Dashboard() {
                   </div>
 
                   <div className="d-flex gap-2">
-                    <button className="btn btn-primary btn-sm flex-grow-1" onClick={() => alert('Opening Google Meet session...')}>
+                    <button
+                      className="btn btn-primary btn-sm flex-grow-1"
+                      style={{ minHeight: '36px' }}
+                      onClick={() => setNotice('Opening your mentoring session…')}
+                    >
                       <i className="bi bi-camera-video-fill me-1"></i> Join Session
                     </button>
-                    <Link to="/app/intern/messages" className="btn btn-outline-secondary btn-sm flex-grow-1">
+                    <Link
+                      to="/app/intern/messages"
+                      className="btn btn-outline-secondary btn-sm flex-grow-1"
+                      style={{ minHeight: '36px' }}
+                    >
                       <i className="bi bi-chat-dots me-1"></i> Message
                     </Link>
                   </div>
+                  {notice && (
+                    <div className="mt-3">
+                      <InlineNotice message={notice} onDismiss={() => setNotice('')} />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -436,11 +472,20 @@ export default function Dashboard() {
                 <div className="d-flex flex-column gap-3">
                   {upcomingSchedule.map((item, idx) => (
                     <div key={idx} className="d-flex align-items-start gap-3 p-3 bg-light rounded-3 border">
-                      <div className={`badge bg-${item.color} p-2 text-center rounded-2`} style={{ minWidth: '46px' }}>
-                        <span className="d-block small text-uppercase">{item.badge}</span>
+                      {/* flex-column is required: admin.css sets .badge to
+                          display:inline-flex, so without it the day label and
+                          the time sat side by side, the pill grew to ~110px and
+                          the title ran underneath it. */}
+                      <div
+                        className={`badge bg-${item.color} p-2 text-center rounded-2 flex-column`}
+                        style={{ minWidth: '52px', flexShrink: 0 }}
+                      >
+                        <span className="small text-uppercase">{item.badge}</span>
                         <strong className="fs-6">{item.time}</strong>
                       </div>
-                      <div>
+                      {/* min-w-0 lets a long title wrap instead of forcing the
+                          row wider than the card. */}
+                      <div className="min-w-0 flex-grow-1">
                         <h6 className="fw-bold mb-0 text-dark">{item.title}</h6>
                         <p className="text-muted small mb-0">{item.desc}</p>
                       </div>

@@ -137,8 +137,9 @@ export default function Profile() {
       <div className="container-fluid px-0">
         {alert.text && (
           <div className={`alert alert-${alert.type} alert-dismissible fade show mb-2`} role="alert">
-            <i className="bi bi-check-circle me-2"></i>{alert.text}
-            <button type="button" className="btn-close" onClick={() => setAlert({ type: '', text: '' })}></button>
+            {/* Was a hardcoded check-circle, so failures showed a green tick. */}
+            <i className={`bi ${alert.type === 'danger' ? 'bi-exclamation-triangle' : 'bi-check-circle'} me-2`}></i>{alert.text}
+            <button type="button" className="btn-close" aria-label="Dismiss" onClick={() => setAlert({ type: '', text: '' })}></button>
           </div>
         )}
 
@@ -240,8 +241,8 @@ export default function Profile() {
                   <form onSubmit={handleSaveProfile}>
                     <div className="row g-3 mb-3">
                       <div className="col-sm-6">
-                        <label className="form-label small fw-semibold">First Name</label>
-                        <input
+                        <label htmlFor="first-name" className="form-label small fw-semibold">First Name</label>
+                        <input id="first-name"
                           type="text"
                           className="form-control form-control-sm"
                           value={personalInfo.firstName}
@@ -250,8 +251,8 @@ export default function Profile() {
                         />
                       </div>
                       <div className="col-sm-6">
-                        <label className="form-label small fw-semibold">Last Name</label>
-                        <input
+                        <label htmlFor="last-name" className="form-label small fw-semibold">Last Name</label>
+                        <input id="last-name"
                           type="text"
                           className="form-control form-control-sm"
                           value={personalInfo.lastName}
@@ -263,8 +264,8 @@ export default function Profile() {
 
                     <div className="row g-3 mb-3">
                       <div className="col-sm-6">
-                        <label className="form-label small fw-semibold">Email Address</label>
-                        <input
+                        <label htmlFor="email-address" className="form-label small fw-semibold">Email Address</label>
+                        <input id="email-address"
                           type="email"
                           className="form-control form-control-sm"
                           value={personalInfo.email}
@@ -273,8 +274,8 @@ export default function Profile() {
                         />
                       </div>
                       <div className="col-sm-6">
-                        <label className="form-label small fw-semibold">Phone Number</label>
-                        <input
+                        <label htmlFor="phone-number" className="form-label small fw-semibold">Phone Number</label>
+                        <input id="phone-number"
                           type="tel"
                           className="form-control form-control-sm"
                           value={personalInfo.phone}
@@ -285,8 +286,8 @@ export default function Profile() {
 
                     <div className="row g-3 mb-3">
                       <div className="col-sm-6">
-                        <label className="form-label small fw-semibold">Date of Birth</label>
-                        <input
+                        <label htmlFor="date-of-birth" className="form-label small fw-semibold">Date of Birth</label>
+                        <input id="date-of-birth"
                           type="date"
                           className="form-control form-control-sm"
                           value={personalInfo.dob}
@@ -294,8 +295,8 @@ export default function Profile() {
                         />
                       </div>
                       <div className="col-sm-6">
-                        <label className="form-label small fw-semibold">Gender</label>
-                        <select
+                        <label htmlFor="gender" className="form-label small fw-semibold">Gender</label>
+                        <select id="gender"
                           className="form-select form-select-sm"
                           value={personalInfo.gender}
                           onChange={(e) => setPersonalInfo({ ...personalInfo, gender: e.target.value })}
@@ -308,8 +309,8 @@ export default function Profile() {
                     </div>
 
                     <div className="mb-3">
-                      <label className="form-label small fw-semibold">Residential Address</label>
-                      <textarea
+                      <label htmlFor="residential-address" className="form-label small fw-semibold">Residential Address</label>
+                      <textarea id="residential-address"
                         className="form-control form-control-sm"
                         rows="2"
                         value={personalInfo.address}
@@ -320,8 +321,8 @@ export default function Profile() {
                     <h6 className="fw-bold text-dark small mt-4 mb-2">Emergency Contact Information</h6>
                     <div className="row g-3 mb-3">
                       <div className="col-sm-4">
-                        <label className="form-label small fw-semibold">Contact Name</label>
-                        <input
+                        <label htmlFor="contact-name" className="form-label small fw-semibold">Contact Name</label>
+                        <input id="contact-name"
                           type="text"
                           className="form-control form-control-sm"
                           value={personalInfo.emergencyContactName}
@@ -329,8 +330,8 @@ export default function Profile() {
                         />
                       </div>
                       <div className="col-sm-4">
-                        <label className="form-label small fw-semibold">Contact Phone</label>
-                        <input
+                        <label htmlFor="contact-phone" className="form-label small fw-semibold">Contact Phone</label>
+                        <input id="contact-phone"
                           type="tel"
                           className="form-control form-control-sm"
                           value={personalInfo.emergencyContactPhone}
@@ -338,8 +339,8 @@ export default function Profile() {
                         />
                       </div>
                       <div className="col-sm-4">
-                        <label className="form-label small fw-semibold">Relation</label>
-                        <input
+                        <label htmlFor="relation" className="form-label small fw-semibold">Relation</label>
+                        <input id="relation"
                           type="text"
                           className="form-control form-control-sm"
                           value={personalInfo.emergencyRelation}
@@ -358,8 +359,8 @@ export default function Profile() {
                 {activeTab === 'academic' && (
                   <form onSubmit={handleSaveProfile}>
                     <div className="mb-3">
-                      <label className="form-label small fw-semibold">College / University Name</label>
-                      <input
+                      <label htmlFor="college-university-name" className="form-label small fw-semibold">College / University Name</label>
+                      <input id="college-university-name"
                         type="text"
                         className="form-control form-control-sm"
                         value={academicInfo.college}
@@ -370,8 +371,8 @@ export default function Profile() {
 
                     <div className="row g-3 mb-3">
                       <div className="col-sm-6">
-                        <label className="form-label small fw-semibold">Degree Program</label>
-                        <input
+                        <label htmlFor="degree-program" className="form-label small fw-semibold">Degree Program</label>
+                        <input id="degree-program"
                           type="text"
                           className="form-control form-control-sm"
                           value={academicInfo.degree}
@@ -380,8 +381,8 @@ export default function Profile() {
                         />
                       </div>
                       <div className="col-sm-6">
-                        <label className="form-label small fw-semibold">Department / Branch</label>
-                        <input
+                        <label htmlFor="department-branch" className="form-label small fw-semibold">Department / Branch</label>
+                        <input id="department-branch"
                           type="text"
                           className="form-control form-control-sm"
                           value={academicInfo.department}
@@ -393,8 +394,8 @@ export default function Profile() {
 
                     <div className="row g-3 mb-3">
                       <div className="col-sm-4">
-                        <label className="form-label small fw-semibold">Year of Study</label>
-                        <input
+                        <label htmlFor="year-of-study" className="form-label small fw-semibold">Year of Study</label>
+                        <input id="year-of-study"
                           type="text"
                           className="form-control form-control-sm"
                           value={academicInfo.yearOfStudy}
@@ -402,8 +403,8 @@ export default function Profile() {
                         />
                       </div>
                       <div className="col-sm-4">
-                        <label className="form-label small fw-semibold">Roll Number / Reg No</label>
-                        <input
+                        <label htmlFor="roll-number-reg-no" className="form-label small fw-semibold">Roll Number / Reg No</label>
+                        <input id="roll-number-reg-no"
                           type="text"
                           className="form-control form-control-sm"
                           value={academicInfo.rollNumber}
@@ -411,8 +412,8 @@ export default function Profile() {
                         />
                       </div>
                       <div className="col-sm-4">
-                        <label className="form-label small fw-semibold">Cumulative CGPA</label>
-                        <input
+                        <label htmlFor="cumulative-cgpa" className="form-label small fw-semibold">Cumulative CGPA</label>
+                        <input id="cumulative-cgpa"
                           type="text"
                           className="form-control form-control-sm"
                           value={academicInfo.cgpa}
@@ -501,10 +502,10 @@ export default function Profile() {
                 {activeTab === 'social' && (
                   <form onSubmit={handleSaveProfile}>
                     <div className="mb-3">
-                      <label className="form-label small fw-semibold">
+                      <label htmlFor="github-profile-url" className="form-label small fw-semibold">
                         <i className="bi bi-github me-1"></i>GitHub Profile URL
                       </label>
-                      <input
+                      <input id="github-profile-url"
                         type="url"
                         className="form-control form-control-sm"
                         value={socialLinks.github}
@@ -512,10 +513,10 @@ export default function Profile() {
                       />
                     </div>
                     <div className="mb-3">
-                      <label className="form-label small fw-semibold">
+                      <label htmlFor="linkedin-profile-url" className="form-label small fw-semibold">
                         <i className="bi bi-linkedin me-1 text-primary"></i>LinkedIn Profile URL
                       </label>
-                      <input
+                      <input id="linkedin-profile-url"
                         type="url"
                         className="form-control form-control-sm"
                         value={socialLinks.linkedin}
@@ -523,10 +524,10 @@ export default function Profile() {
                       />
                     </div>
                     <div className="mb-3">
-                      <label className="form-label small fw-semibold">
+                      <label htmlFor="personal-portfolio-url" className="form-label small fw-semibold">
                         <i className="bi bi-globe me-1 text-info"></i>Personal Portfolio URL
                       </label>
-                      <input
+                      <input id="personal-portfolio-url"
                         type="url"
                         className="form-control form-control-sm"
                         value={socialLinks.portfolio}
@@ -534,10 +535,10 @@ export default function Profile() {
                       />
                     </div>
                     <div className="mb-2">
-                      <label className="form-label small fw-semibold">
+                      <label htmlFor="twitter-x-profile-url" className="form-label small fw-semibold">
                         <i className="bi bi-twitter-x me-1"></i>Twitter / X Profile URL
                       </label>
-                      <input
+                      <input id="twitter-x-profile-url"
                         type="url"
                         className="form-control form-control-sm"
                         value={socialLinks.twitter}
@@ -556,8 +557,8 @@ export default function Profile() {
                     <h6 className="fw-bold text-dark small mb-3">Change Password</h6>
                     <form onSubmit={handleChangePassword}>
                       <div className="mb-3">
-                        <label className="form-label small fw-semibold">Current Password</label>
-                        <input
+                        <label htmlFor="current-password" className="form-label small fw-semibold">Current Password</label>
+                        <input id="current-password"
                           type="password"
                           className="form-control form-control-sm"
                           value={passwords.currentPassword}
@@ -567,8 +568,8 @@ export default function Profile() {
                       </div>
                       <div className="row g-3 mb-3">
                         <div className="col-sm-6">
-                          <label className="form-label small fw-semibold">New Password</label>
-                          <input
+                          <label htmlFor="new-password" className="form-label small fw-semibold">New Password</label>
+                          <input id="new-password"
                             type="password"
                             className="form-control form-control-sm"
                             value={passwords.newPassword}
@@ -577,8 +578,8 @@ export default function Profile() {
                           />
                         </div>
                         <div className="col-sm-6">
-                          <label className="form-label small fw-semibold">Confirm New Password</label>
-                          <input
+                          <label htmlFor="confirm-new-password" className="form-label small fw-semibold">Confirm New Password</label>
+                          <input id="confirm-new-password"
                             type="password"
                             className="form-control form-control-sm"
                             value={passwords.confirmPassword}
@@ -599,7 +600,7 @@ export default function Profile() {
                         <strong className="text-dark small d-block">Two-Factor Authentication (2FA)</strong>
                         <span className="text-muted small">Protect your intern account with time-based OTP.</span>
                       </div>
-                      <button className="btn btn-outline-secondary btn-sm" onClick={() => alert('2FA setup initiated via Authenticator app.')}>
+                      <button className="btn btn-outline-secondary btn-sm" onClick={() => setAlert({ type: 'success', text: 'Two-factor setup started in your Authenticator app.' })}>
                         Enable 2FA
                       </button>
                     </div>

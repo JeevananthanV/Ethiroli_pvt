@@ -39,6 +39,12 @@ export const employeePortalApi = {
   getAchievements: () => axiosInstance.get('/v1/employee/achievements'),
   getMessages: (params) => axiosInstance.get('/v1/employee/messages', { params }),
   getMessageContacts: (params) => axiosInstance.get('/v1/employee/messages/contacts', { params }),
+
+  // 9. Notifications — backed by the shared activity feed, scoped to the
+  // signed-in employee on the server (no employee-specific table needed).
+  getNotifications: (params) => axiosInstance.get('/v1/activity-feed', { params }),
+  markNotificationRead: (id) => axiosInstance.patch(`/v1/activity-feed/${id}/read`),
+  markAllNotificationsRead: () => axiosInstance.post('/v1/activity-feed/read-all'),
   sendMessage: (payload) => axiosInstance.post('/v1/employee/messages', payload),
 };
 

@@ -24,8 +24,13 @@ export default function Leaves() {
    */
   const countDays = (start, end) => {
     if (!start || !end) return 0;
-    const a = new Date(`${start}T00:00:00`);
-    const b = new Date(`${end}T00:00:00`);
+    // Accept both a plain yyyy-mm-dd value and an ISO timestamp.
+    const toDay = (v) => {
+      const m = String(v).match(/^(\d{4}-\d{2}-\d{2})/);
+      return m ? new Date(`${m[1]}T00:00:00`) : new Date(v);
+    };
+    const a = toDay(start);
+    const b = toDay(end);
     if (Number.isNaN(a.getTime()) || Number.isNaN(b.getTime())) return 0;
     const diff = Math.round((b.getTime() - a.getTime()) / 86400000) + 1;
     return diff > 0 ? diff : 0;
@@ -119,7 +124,8 @@ export default function Leaves() {
                 <span className="text-muted small">days remaining</span>
               </div>
               <div className="text-muted small mt-2">
-                Credited: {b.total_credited || 0} | Consumed: {b.consumed || 0}
+                Credited: {b.total_credited || 0} day{(b.total_credited || 0) === 1 ? '' : 's'}
+                {' · '}Consumed: {b.consumed || 0} day{(b.consumed || 0) === 1 ? '' : 's'}
               </div>
             </div>
           </div>
@@ -142,6 +148,7 @@ export default function Leaves() {
                 <th>Type</th>
                 <th>From</th>
                 <th>To</th>
+                <th>Days</th>
                 <th>Reason</th>
                 <th>Status</th>
                 <th>Applied On</th>
@@ -150,7 +157,7 @@ export default function Leaves() {
             <tbody>
               {requests.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="text-center py-5 text-muted">
+                  <td colSpan="7" className="text-center py-5 text-muted">
                     <i className="bi bi-calendar-x fs-2 d-block mb-2"></i>
                     No leave requests found. Click "Apply for Leave" to request time off.
                   </td>
@@ -163,6 +170,11 @@ export default function Leaves() {
                     </td>
                     <td className="fw-medium text-dark">{new Date(req.start_date).toLocaleDateString()}</td>
                     <td className="fw-medium text-dark">{new Date(req.end_date).toLocaleDateString()}</td>
+                    <td>
+                      <span className="badge bg-light text-dark border">
+                        {countDays(req.start_date, req.end_date)} day{countDays(req.start_date, req.end_date) === 1 ? '' : 's'}
+                      </span>
+                    </td>
                     <td className="text-muted small" style={{ maxWidth: '250px' }}>{req.reason}</td>
                     <td>{getStatusBadge(req.status)}</td>
                     <td className="text-muted small">

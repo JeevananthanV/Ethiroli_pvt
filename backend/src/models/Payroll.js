@@ -3,6 +3,31 @@ import pool from '../config/database.js';
 import { decrypt } from '../config/encryption.js';
 
 export default class Payroll {
+  /**
+   * `payroll.month_year` is a MySQL DATE column. The driver materialises it as
+   * a JS Date at midnight in the *connection* timezone, which serialises to
+   * e.g. "2026-08-31T18:30:00.000Z" on a UTC+5:30 server - so the real pay
+   * month (September) would render as August. Callers therefore pass the raw
+   * `YYYY-MM-DD` string selected via DATE_FORMAT, which needs no timezone
+   * guesswork at all.
+   * Purely additive: `month_year` is untouched so the Finance / payroll
+   * screens keep their existing behaviour.
+   */
+  static monthYearLabel(value) {
+    if (!value) return null;
+    // Prefer an explicit YYYY-MM-DD string (unambiguous).
+    const asText = value instanceof Date ? null : String(value);
+    if (asText && /^\d{4}-\d{2}-\d{2}/.test(asText)) {
+      const [y, m] = asText.split('-').map(Number);
+      return new Date(Date.UTC(y, m - 1, 1)).toLocaleDateString('en-GB', {
+        month: 'long', year: 'numeric', timeZone: 'UTC',
+      });
+    }
+    const d = value instanceof Date ? value : new Date(value);
+    if (Number.isNaN(d.getTime())) return String(value);
+    return d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+  }
+
   static format(row) {
     if (!row) return null;
     const name = row.full_name ? decrypt(row.full_name) : (row.employee_name || null);
@@ -19,6 +44,7 @@ export default class Payroll {
       full_name: name,
       employee_name: name,
       user_name: name,
+      month_year_label: this.monthYearLabel(row.month_year_date || row.month_year),
       basicSalary: basicVal,
       allowances: allowancesVal,
       deductions: deductionsVal,
@@ -29,10 +55,11 @@ export default class Payroll {
 
   static async findById(id) {
     const [rows] = await pool.execute(
-      `SELECT p.*, u.full_name, u.email, e.employee_code, e.department, e.designation 
-       FROM payroll p 
-       JOIN employees e ON p.employee_id = e.id 
-       JOIN users u ON e.user_id = u.id 
+      `SELECT p.*, DATE_FORMAT(p.month_year, '%Y-%m-%d') AS month_year_date,
+              u.full_name, u.email, e.employee_code, e.department, e.designation
+       FROM payroll p
+       JOIN employees e ON p.employee_id = e.id
+       JOIN users u ON e.user_id = u.id
        WHERE p.id = ?`,
       [id]
     );
@@ -82,7 +109,8 @@ export default class Payroll {
 
   static async list({ employee_id, status, limit = 50, offset = 0 } = {}) {
     let query = `
-      SELECT p.*, u.full_name, u.email, e.employee_code, e.department, e.designation 
+      SELECT p.*, DATE_FORMAT(p.month_year, '%Y-%m-%d') AS month_year_date,
+             u.full_name, u.email, e.employee_code, e.department, e.designation
       FROM payroll p
       JOIN employees e ON p.employee_id = e.id
       JOIN users u ON e.user_id = u.id

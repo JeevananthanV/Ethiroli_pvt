@@ -494,19 +494,77 @@ export const getMessages = asyncHandler(async (req, res) => {
   return success(res, 200, msgs, 'Messages retrieved');
 });
 
+/**
+ * List users the signed-in employee may message directly.
+ *
+ * The employee portal used to expose three hard-coded channels and no way to
+ * address a person, which effectively limited the employee to talking into
+ * voids. `messages` already supports `recipient_id`, so this exposes the
+ * existing directory (active users other than yourself) without inventing a
+ * new permission model or granting any extra role rights.
+ */
+export const getMessageContacts = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const { search, role, limit = 100 } = req.query;
+
+  const values = [userId];
+  let where = 'WHERE u.is_active = 1 AND u.id <> ?';
+  if (role) { where += ' AND u.role = ?'; values.push(role); }
+  if (search) { where += ' AND (u.full_name LIKE ? OR u.email LIKE ?)'; values.push(`%${search}%`, `%${search}%`); }
+
+  values.push(Math.min(200, Math.max(1, parseInt(limit, 10) || 100)));
+
+  const [rows] = await pool.execute(
+    `SELECT u.id, u.email, u.full_name, u.role, u.avatar_url, e.designation, e.department
+     FROM users u
+     LEFT JOIN employees e ON e.user_id = u.id
+     ${where}
+     ORDER BY u.role ASC, u.full_name ASC
+     LIMIT ?`,
+    values
+  );
+
+  const contacts = rows.map((r) => ({
+    id: r.id,
+    email: r.email,
+    full_name: r.full_name,
+    role: r.role,
+    avatar_url: r.avatar_url,
+    designation: r.designation || null,
+    department: r.department || null,
+  }));
+
+  return success(res, 200, contacts, 'Message contacts retrieved');
+});
+
 export const sendMessage = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const { recipient_id, channel_name, message_content, attachment_url } = req.body;
 
-  if (!message_content) {
+  if (!message_content || !String(message_content).trim()) {
     throw new BadRequestError('message_content is required');
+  }
+
+  // Validate the recipient actually exists and is an active user, so messages
+  // cannot be addressed to a bogus/inactive id.
+  if (recipient_id) {
+    const [rows] = await pool.execute(
+      'SELECT id FROM users WHERE id = ? AND is_active = 1 LIMIT 1',
+      [recipient_id]
+    );
+    if (rows.length === 0) {
+      throw new BadRequestError('recipient_id is not a valid active user');
+    }
+    if (recipient_id === userId) {
+      throw new BadRequestError('You cannot send a message to yourself');
+    }
   }
 
   const msg = await Message.create({
     sender_id: userId,
     recipient_id: recipient_id || null,
     channel_name: channel_name || null,
-    message_content,
+    message_content: String(message_content).trim(),
     attachment_url: attachment_url || null
   });
 

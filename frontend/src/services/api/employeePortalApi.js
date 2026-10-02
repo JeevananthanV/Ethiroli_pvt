@@ -38,6 +38,7 @@ export const employeePortalApi = {
   getMyApprovals: () => axiosInstance.get('/v1/employee/approvals'),
   getAchievements: () => axiosInstance.get('/v1/employee/achievements'),
   getMessages: (params) => axiosInstance.get('/v1/employee/messages', { params }),
+  getMessageContacts: (params) => axiosInstance.get('/v1/employee/messages/contacts', { params }),
   sendMessage: (payload) => axiosInstance.post('/v1/employee/messages', payload),
 };
 

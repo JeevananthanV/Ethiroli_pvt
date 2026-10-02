@@ -45,6 +45,7 @@ router.get('/announcements', controller.getAnnouncements);
 router.get('/approvals', controller.getMyApprovals);
 router.get('/achievements', controller.getAchievements);
 router.get('/messages', controller.getMessages);
+router.get('/messages/contacts', controller.getMessageContacts);
 router.post('/messages', controller.sendMessage);
 
 export default router;

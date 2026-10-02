@@ -74,7 +74,7 @@ export default function Payslips() {
               ) : (
                 payslips.map((slip) => (
                   <tr key={slip.id}>
-                    <td className="fw-semibold text-dark">{slip.month_year || 'Current Period'}</td>
+                    <td className="fw-semibold text-dark">{slip.month_year_label || 'Current Period'}</td>
                     <td>₹{Number(slip.basic || 0).toLocaleString()}</td>
                     <td>₹{Number(slip.gross_salary || 0).toLocaleString()}</td>
                     <td className="text-danger">-₹{Number(slip.total_deductions || 0).toLocaleString()}</td>
@@ -104,7 +104,7 @@ export default function Payslips() {
             <div className="modal-content border-0 shadow">
               <div className="modal-header bg-light">
                 <div>
-                  <h5 className="modal-title fw-bold">Payslip - {selectedSlip.month_year}</h5>
+                  <h5 className="modal-title fw-bold">Payslip - {selectedSlip.month_year_label || 'Current Period'}</h5>
                   <small className="text-muted">Ethiroli Technologies Pvt Ltd</small>
                 </div>
                 <button type="button" className="btn-close" onClick={() => setSelectedSlip(null)}></button>
@@ -112,11 +112,11 @@ export default function Payslips() {
               <div className="modal-body p-3">
                 <div className="d-flex justify-content-between mb-3 border-bottom pb-2">
                   <span className="text-muted">Employee Code:</span>
-                  <span className="fw-semibold text-dark">{selectedSlip.employee_code || 'EMP-1002'}</span>
+                  <span className="fw-semibold text-dark">{selectedSlip.employee_code || '—'}</span>
                 </div>
                 <div className="d-flex justify-content-between mb-3 border-bottom pb-2">
                   <span className="text-muted">Designation:</span>
-                  <span className="fw-semibold text-dark">{selectedSlip.designation || 'Engineer'}</span>
+                  <span className="fw-semibold text-dark">{selectedSlip.designation || '—'}</span>
                 </div>
 
                 <div className="row g-3 my-2">

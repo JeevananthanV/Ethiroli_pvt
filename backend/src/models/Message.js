@@ -34,12 +34,17 @@ export default class Message {
     const values = [];
 
     if (channel_name) {
-      query += ` AND m.channel_name = ?`;
-      values.push(channel_name);
+      // A channel is NOT a public feed: only return the messages the requesting
+      // user actually sent or received in that channel. Without this scoping an
+      // employee could read every message of any other channel (e.g. a
+      // confidential HR channel) simply by passing ?channel_name=...
+      query += ` AND m.channel_name = ? AND (m.sender_id = ? OR m.recipient_id = ?)`;
+      values.push(channel_name, userId, userId);
     } else if (other_user_id) {
       query += ` AND ((m.sender_id = ? AND m.recipient_id = ?) OR (m.sender_id = ? AND m.recipient_id = ?))`;
       values.push(userId, other_user_id, other_user_id, userId);
     } else {
+      // Own direct messages plus the company-wide GENERAL broadcast.
       query += ` AND (m.sender_id = ? OR m.recipient_id = ? OR m.channel_name = 'GENERAL')`;
       values.push(userId, userId);
     }

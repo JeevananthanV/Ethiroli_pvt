@@ -6,29 +6,61 @@ import { useAuth } from '../../../common/hooks/useAuth.js';
 export default function Messages() {
   const { user } = useAuth();
   const [messages, setMessages] = useState([]);
+  const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeChannel, setActiveChannel] = useState('GENERAL');
+  const [activeContact, setActiveContact] = useState(null);
   const [newMsg, setNewMsg] = useState('');
   const [sending, setSending] = useState(false);
+
+  // Channels stay as-is; a selected contact switches to a direct thread.
+  const isDirect = Boolean(activeContact);
+  const threadKey = isDirect ? activeContact.id : activeChannel;
 
   const loadMessages = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await employeePortalApi.getMessages({ channel_name: activeChannel });
+      const params = isDirect ? { other_user_id: activeContact.id } : { channel_name: activeChannel };
+      const res = await employeePortalApi.getMessages(params);
       const list = res?.data || (Array.isArray(res) ? res : []);
-      setMessages(list);
+      // Oldest first so the thread reads top-to-bottom like a conversation.
+      setMessages([...list].reverse());
     } catch (err) {
-      setError(err.message || 'Failed to load messages');
+      setError(err.response?.data?.message || err.message || 'Failed to load messages');
     } finally {
       setLoading(false);
     }
-  }, [activeChannel]);
+  }, [activeChannel, activeContact, isDirect]);
 
   useEffect(() => {
     loadMessages();
   }, [loadMessages]);
+
+  // Load the people the employee may contact (HR, Finance, project team, ...).
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await employeePortalApi.getMessageContacts();
+        if (cancelled) return;
+        setContacts(res?.data || (Array.isArray(res) ? res : []));
+      } catch {
+        if (!cancelled) setContacts([]);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  const selectChannel = (key) => {
+    setActiveChannel(key);
+    setActiveContact(null);
+  };
+
+  const selectContact = (c) => {
+    setActiveContact(c);
+  };
 
   const handleSend = async (e) => {
     e.preventDefault();
@@ -36,35 +68,49 @@ export default function Messages() {
     setSending(true);
     try {
       await employeePortalApi.sendMessage({
-        channel_name: activeChannel,
-        message_content: newMsg.trim()
+        // Direct thread is addressed to the chosen person; channels use the name.
+        recipient_id: isDirect ? activeContact.id : null,
+        channel_name: isDirect ? null : activeChannel,
+        message_content: newMsg.trim(),
       });
       setNewMsg('');
       await loadMessages();
     } catch (err) {
-      setError(err.message || 'Failed to send message');
+      setError(err.response?.data?.message || err.message || 'Failed to send message');
     } finally {
       setSending(false);
     }
   };
 
+  const threadTitle = isDirect
+    ? (activeContact.full_name || activeContact.email)
+    : `#${activeChannel.toLowerCase()}`;
+  const threadSubtitle = isDirect
+    ? `${activeContact.role}${activeContact.designation ? ' · ' + activeContact.designation : ''}`
+    : 'Company channel';
+
   return (
     <AdminPage
       title="Team Messages & Collaboration"
-      subtitle="Communicate across project teams, direct messaging, and organizational channels"
+      subtitle="Communicate with HR, Finance, project teams and colleagues"
       loading={loading}
       error={error}
       onRetry={loadMessages}
     >
       <div className="card shadow-sm border-0 overflow-hidden" style={{ height: '700px' }}>
         <div className="row g-0 h-100">
-          {/* Channel / Chat List Column */}
+          {/* Channel / Contact List Column */}
           <div className="col-md-4 border-end bg-light d-flex flex-column h-100">
             <div className="p-3 border-bottom bg-white">
-              <h6 className="mb-0 fw-bold">Channels & Direct</h6>
+              <h6 className="mb-0 fw-bold">Channels & Contacts</h6>
             </div>
 
-            <div className="list-group list-group-flush overflow-auto flex-grow-1">
+            <div className="px-3 pt-2 pb-1 bg-white border-bottom">
+              <small className="text-muted fw-bold text-uppercase" style={{ fontSize: '0.72rem' }}>
+                Channels
+              </small>
+            </div>
+            <div className="list-group list-group-flush">
               {[
                 { key: 'GENERAL', label: '# General Team', desc: 'All-employee discussions' },
                 { key: 'PROJECTS', label: '# Project Alpha', desc: 'Engineering & delivery' },
@@ -73,17 +119,47 @@ export default function Messages() {
                 <button
                   key={c.key}
                   type="button"
-                  onClick={() => setActiveChannel(c.key)}
+                  onClick={() => selectChannel(c.key)}
                   className={`list-group-item list-group-item-action text-start p-3 ${
-                    activeChannel === c.key ? 'active text-white' : ''
+                    !isDirect && activeChannel === c.key ? 'active text-white' : ''
                   }`}
                 >
                   <div className="fw-semibold">{c.label}</div>
-                  <small className={activeChannel === c.key ? 'text-white-50' : 'text-muted'}>
+                  <small className={!isDirect && activeChannel === c.key ? 'text-white-50' : 'text-muted'}>
                     {c.desc}
                   </small>
                 </button>
               ))}
+            </div>
+
+            <div className="px-3 pt-3 pb-1 bg-white border-top border-bottom">
+              <small className="text-muted fw-bold text-uppercase" style={{ fontSize: '0.72rem' }}>
+                People (HR · Finance · Teams)
+              </small>
+            </div>
+            <div className="list-group list-group-flush overflow-auto flex-grow-1">
+              {contacts.length === 0 ? (
+                <div className="p-3 text-muted small">No other active users available.</div>
+              ) : (
+                contacts.map((c) => (
+                  <button
+                    key={c.id}
+                    type="button"
+                    onClick={() => selectContact(c)}
+                    className={`list-group-item list-group-item-action text-start p-3 ${
+                      isDirect && activeContact.id === c.id ? 'active text-white' : ''
+                    }`}
+                  >
+                    <div className="fw-semibold d-flex align-items-center gap-2">
+                      <i className={`bi ${isDirect && activeContact.id === c.id ? 'bi-person-fill' : 'bi-person-circle'}`}></i>
+                      <span>{c.full_name || c.email}</span>
+                    </div>
+                    <small className={isDirect && activeContact.id === c.id ? 'text-white-50' : 'text-muted'}>
+                      {c.role}{c.designation ? ` · ${c.designation}` : ''}
+                    </small>
+                  </button>
+                ))
+              )}
             </div>
           </div>
 
@@ -92,10 +168,10 @@ export default function Messages() {
             {/* Header */}
             <div className="p-3 border-bottom d-flex justify-content-between align-items-center bg-white">
               <div className="d-flex align-items-center gap-2">
-                <i className="bi bi-hash fs-4 text-primary"></i>
+                <i className={`bi ${isDirect ? 'bi-person' : 'bi-hash'} fs-4 text-primary`}></i>
                 <div>
-                  <h6 className="mb-0 fw-bold">{activeChannel} Channel</h6>
-                  <small className="text-muted">Real-time team messaging</small>
+                  <h6 className="mb-0 fw-bold">{threadTitle}</h6>
+                  <small className="text-muted">{threadSubtitle}</small>
                 </div>
               </div>
               <span className="badge bg-light text-dark border">{messages.length} messages</span>
@@ -106,7 +182,7 @@ export default function Messages() {
               {messages.length === 0 ? (
                 <div className="text-center my-auto py-5 text-muted">
                   <i className="bi bi-chat-dots fs-1 d-block mb-2"></i>
-                  <p>No messages yet in this channel. Send the first message!</p>
+                  <p>No messages yet here. Send the first message!</p>
                 </div>
               ) : (
                 messages.map((m) => {
@@ -118,7 +194,7 @@ export default function Messages() {
                     >
                       <div className="d-flex align-items-center gap-2 mb-1">
                         <small className="fw-semibold text-dark">
-                          {isMe ? 'You' : (m.sender_name || 'Colleague')}
+                          {isMe ? 'You' : (m.sender_name || m.recipient_name || 'Colleague')}
                         </small>
                         <small className="text-muted" style={{ fontSize: '0.72rem' }}>
                           {m.created_at ? new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}
@@ -144,7 +220,7 @@ export default function Messages() {
                 <input
                   type="text"
                   className="form-control"
-                  placeholder={`Message #${activeChannel.toLowerCase()}...`}
+                  placeholder={`Message ${isDirect ? activeContact.full_name || activeContact.email : '#' + activeChannel.toLowerCase()}...`}
                   value={newMsg}
                   onChange={(e) => setNewMsg(e.target.value)}
                   disabled={sending}

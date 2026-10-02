@@ -58,6 +58,10 @@ export default function EmployeeRoutes() {
             <Route path="notifications" element={<EmployeeNotifications />} />
             <Route path="achievements" element={<EmployeeAchievements />} />
             <Route path="support" element={<EmployeeSupport />} />
+            {/* Alias: the shared Navbar user-menu "Help & Support" links to
+                /app/employee/help. Point it at the same Support page so the
+                menu item works, without editing the shared Navbar. */}
+            <Route path="help" element={<EmployeeSupport />} />
             <Route path="*" element={<Navigate to="dashboard" replace />} />
           </Routes>
         </div>

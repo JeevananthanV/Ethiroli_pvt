@@ -18,6 +18,22 @@ export default function Leaves() {
     reason: '',
   });
 
+  /**
+   * Inclusive calendar-day count between two `yyyy-mm-dd` values.
+   * A single selected day counts as 1, and an end before the start yields 0.
+   */
+  const countDays = (start, end) => {
+    if (!start || !end) return 0;
+    const a = new Date(`${start}T00:00:00`);
+    const b = new Date(`${end}T00:00:00`);
+    if (Number.isNaN(a.getTime()) || Number.isNaN(b.getTime())) return 0;
+    const diff = Math.round((b.getTime() - a.getTime()) / 86400000) + 1;
+    return diff > 0 ? diff : 0;
+  };
+
+  // Live day count shown in the Apply for Leave modal.
+  const requestedDays = countDays(formData.start_date, formData.end_date);
+
   const loadLeaves = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -205,6 +221,15 @@ export default function Leaves() {
                       />
                     </div>
                   </div>
+                    {requestedDays > 0 && (
+                      <div className="alert alert-info d-flex align-items-center gap-2 py-2 mb-3">
+                        <i className="bi bi-calendar-range" aria-hidden="true"></i>
+                        <span>
+                          Requesting <strong>{requestedDays}</strong> day{requestedDays === 1 ? '' : 's'} of leave
+                          {' '}({formData.start_date} &rarr; {formData.end_date})
+                        </span>
+                      </div>
+                    )}
                   <div className="mb-3">
                     <label className="form-label fw-semibold">Reason for Absence</label>
                     <textarea

@@ -61,6 +61,7 @@ export default function Notifications() {
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState('ALL');
   const [busy, setBusy] = useState(false);
+  const [selectedNotification, setSelectedNotification] = useState(null);
 
   const loadNotifications = useCallback(async () => {
     setLoading(true);
@@ -92,6 +93,12 @@ export default function Notifications() {
     } finally {
       setBusy(false);
     }
+  };
+
+  // Open the detail modal, and mark the item read in the background.
+  const openDetail = async (item) => {
+    setSelectedNotification(item);
+    await markOneRead(item);
   };
 
   const markOneRead = async (item) => {
@@ -204,11 +211,11 @@ export default function Notifications() {
                 }`}
                 role="button"
                 tabIndex={0}
-                onClick={() => markOneRead(item)}
+                onClick={() => openDetail(item)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    markOneRead(item);
+                    openDetail(item);
                   }
                 }}
                 style={{ cursor: item.is_read ? 'default' : 'pointer' }}
@@ -245,6 +252,91 @@ export default function Notifications() {
           )}
         </div>
       </div>
+
+      {/* Notification detail */}
+      {selectedNotification && (
+        <div
+          className="modal show d-block"
+          style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+          tabIndex="-1"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="notificationDetailTitle"
+        >
+          <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div className="modal-content border-0 shadow">
+              <div className="modal-header d-flex align-items-start gap-3">
+                <div
+                  className={`rounded-circle p-2 d-flex align-items-center justify-content-center bg-opacity-10 ${selectedNotification.color}`}
+                  style={{ width: '42px', height: '42px', flexShrink: 0 }}
+                  aria-hidden="true"
+                >
+                  <i className={`bi ${selectedNotification.icon} fs-5`}></i>
+                </div>
+                <div className="flex-grow-1">
+                  <h5 id="notificationDetailTitle" className="modal-title mb-1">
+                    {selectedNotification.title}
+                  </h5>
+                  <small className="text-muted">
+                    {selectedNotification.label}
+                    {selectedNotification.created_at && (
+                      <> &middot; {new Date(selectedNotification.created_at).toLocaleString(undefined, {
+                        day: '2-digit', month: 'short', year: 'numeric',
+                        hour: '2-digit', minute: '2-digit',
+                      })}</>
+                    )}
+                  </small>
+                </div>
+                <button
+                  type="button"
+                  className="btn-close"
+                  aria-label="Close"
+                  onClick={() => setSelectedNotification(null)}
+                ></button>
+              </div>
+
+              <div className="modal-body">
+                <p className="mb-3">{selectedNotification.description}</p>
+
+                <dl className="row mb-0 small">
+                  <dt className="col-sm-4 text-muted fw-semibold">Category</dt>
+                  <dd className="col-sm-8">{selectedNotification.label}</dd>
+
+                  <dt className="col-sm-4 text-muted fw-semibold">Event</dt>
+                  <dd className="col-sm-8 font-monospace">{selectedNotification.event_type || '—'}</dd>
+
+                  <dt className="col-sm-4 text-muted fw-semibold">Entity</dt>
+                  <dd className="col-sm-8 font-monospace">{selectedNotification.entity_type || '—'}</dd>
+
+                  {selectedNotification.entity_id && (
+                    <>
+                      <dt className="col-sm-4 text-muted fw-semibold">Reference</dt>
+                      <dd className="col-sm-8 font-monospace text-break">{selectedNotification.entity_id}</dd>
+                    </>
+                  )}
+
+                  <dt className="col-sm-4 text-muted fw-semibold">Status</dt>
+                  <dd className="col-sm-8">
+                    <span className={`badge ${selectedNotification.is_read ? 'bg-secondary' : 'bg-primary'}`}>
+                      {selectedNotification.is_read ? 'Read' : 'Unread'}
+                    </span>
+                  </dd>
+                </dl>
+              </div>
+
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-light"
+                  onClick={() => setSelectedNotification(null)}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </AdminPage>
   );
 }

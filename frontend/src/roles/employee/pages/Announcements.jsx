@@ -36,7 +36,18 @@ export default function Announcements() {
     >
       <div className="row g-4">
         {announcements.length === 0 ? (
-          <div className="col-12"><EmptyState icon="bi-megaphone" text="No active announcements." /></div>
+          <div className="col-12">
+            <div className="card shadow-sm border-0">
+              <div className="card-body text-center py-5">
+                <i className="bi bi-megaphone fs-1 text-muted d-block mb-3"></i>
+                <h6 className="fw-bold text-dark">No announcements available</h6>
+                <p className="text-muted small mb-0 mx-auto" style={{ maxWidth: '520px' }}>
+                  There is currently no company-announcement feed wired up for the employee
+                  portal. When HR publishes a notice it will appear here.
+                </p>
+              </div>
+            </div>
+          </div>
         ) : (
           announcements.map((item) => (
             <div key={item.id} className="col-12">
@@ -46,15 +57,17 @@ export default function Announcements() {
                     <div className="d-flex align-items-center gap-2">
                       <span className="badge bg-primary bg-opacity-10 text-primary">OFFICIAL NOTICE</span>
                       <small className="text-muted">
-                        From: {item.sender || 'Corporate HR'}
+                        From: {item.sender || <span className="text-muted">Sender not recorded</span>}
                       </small>
                     </div>
                     <small className="text-muted">
-                      {item.created_at ? new Date(item.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recent'}
+                      {item.created_at ? new Date(item.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : <span className="text-muted">Date not recorded</span>}
                     </small>
                   </div>
 
-                  <h5 className="card-title fw-bold text-dark mt-2 mb-2">{item.subject || 'Company Update'}</h5>
+                  <h5 className="card-title fw-bold text-dark mt-2 mb-2">
+                    {item.subject || <span className="text-muted">Untitled notice</span>}
+                  </h5>
                   <p className="card-text text-secondary mb-0" style={{ whiteSpace: 'pre-wrap', lineHeight: '1.6' }}>
                     {item.content}
                   </p>

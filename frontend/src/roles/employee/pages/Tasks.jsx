@@ -122,7 +122,7 @@ export default function Tasks() {
             <tbody>
               {filteredTasks.length === 0 ? (
                 <tr>
-                  <td colSpan="7"><EmptyState icon="bi-check2-all" text="No tasks found matching this criteria." compact /></td>
+                  <td colSpan="5"><EmptyState icon="bi-check2-all" text="No tasks found matching this criteria." compact /></td>
                 </tr>
               ) : (
                 filteredTasks.map((task) => (

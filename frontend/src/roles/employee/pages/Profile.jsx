@@ -202,19 +202,27 @@ export default function Profile() {
                 <div className="col-md-4">
                   <div className="p-3 bg-light rounded-3">
                     <span className="text-muted small d-block">PAN Number</span>
-                    <span className="fw-bold text-dark">{emp?.pan ? '••••••••' + emp.pan.slice(-4) : 'Verified on File'}</span>
+                    {/* Never assert compliance that is not on record: when the
+                        field is NULL the card now says so. */}
+                    <span className={emp?.pan ? 'fw-bold text-dark' : 'text-muted'}>
+                      {emp?.pan ? '••••••••' + emp.pan.slice(-4) : 'Not on record'}
+                    </span>
                   </div>
                 </div>
                 <div className="col-md-4">
                   <div className="p-3 bg-light rounded-3">
                     <span className="text-muted small d-block">PF / UAN Number</span>
-                    <span className="fw-bold text-dark">{emp?.pf_number ? '••••••••' + emp.pf_number.slice(-4) : 'Active'}</span>
+                    <span className={emp?.pf_number ? 'fw-bold text-dark' : 'text-muted'}>
+                      {emp?.pf_number ? '••••••••' + emp.pf_number.slice(-4) : 'Not on record'}
+                    </span>
                   </div>
                 </div>
                 <div className="col-md-4">
                   <div className="p-3 bg-light rounded-3">
                     <span className="text-muted small d-block">Bank Account</span>
-                    <span className="fw-bold text-dark">{emp?.bank_account ? '••••••••' + emp.bank_account.slice(-4) : 'Direct Deposit'}</span>
+                    <span className={emp?.bank_account ? 'fw-bold text-dark' : 'text-muted'}>
+                      {emp?.bank_account ? '••••••••' + emp.bank_account.slice(-4) : 'Not on record'}
+                    </span>
                   </div>
                 </div>
               </div>

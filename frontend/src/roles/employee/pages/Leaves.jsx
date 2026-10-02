@@ -110,7 +110,23 @@ export default function Leaves() {
 
       {/* Balances Row */}
       <div className="row g-3 mb-2">
-        {balances.map((b) => (
+        {balances.length === 0 ? (
+          <div className="col-12">
+            <div className="card shadow-sm border-0">
+              <div className="card-body d-flex align-items-center gap-3 py-4">
+                <i className="bi bi-info-circle text-primary fs-3"></i>
+                <div>
+                  <div className="fw-bold text-dark">No leave balance on record</div>
+                  <div className="text-muted small mb-0">
+                    HR has not published a leave entitlement for you yet, so no balance is
+                    shown. You can still submit a request below and HR will review it.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+        balances.map((b) => (
           <div key={b.leave_type} className="col-md-4">
             <div className="card shadow-sm border-0 h-100 p-3 bg-white">
               <div className="d-flex justify-content-between align-items-center mb-2">
@@ -129,7 +145,8 @@ export default function Leaves() {
               </div>
             </div>
           </div>
-        ))}
+        ))
+        )}
       </div>
 
       {/* Request Table & Action */}

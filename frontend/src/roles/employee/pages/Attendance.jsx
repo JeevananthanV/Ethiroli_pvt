@@ -8,6 +8,7 @@ import {
   formatLiveDuration,
   formatDateLabel,
   openSessionElapsedSeconds,
+  liveWorkedMinutes,
   punchStatusLabel,
   punchStatusClass,
 } from '../utils/attendanceFormat.js';
@@ -15,6 +16,7 @@ import { LiveDot } from '../components/StatCard.jsx';
 
 export default function Attendance() {
   const [history, setHistory] = useState([]);
+  const [fetchedAt, setFetchedAt] = useState(null);
   const [today, setToday] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -36,6 +38,9 @@ export default function Attendance() {
       ]);
       // `axiosInstance` unwraps to response.data, so these are the envelopes.
       setToday(todayRes?.data || null);
+      // Reference point for the live "Total Working Hours" tick: the server
+      // folded the open session's elapsed time into worked_minutes as of now.
+      setFetchedAt(Date.now());
       const list = historyRes?.data || [];
       setHistory(Array.isArray(list) ? list : []);
     } catch (err) {
@@ -110,7 +115,8 @@ export default function Attendance() {
 
   const sessions = today?.sessions || [];
   const currentSession = today?.current_session || null;
-  const totalWorked = today?.worked_minutes ?? 0;
+  // Ticks live while a session is open, instead of freezing at fetch time.
+  const totalWorked = liveWorkedMinutes(today, fetchedAt);
   // While clocked in, show the live elapsed time for the current session.
   const currentSessionMinutes = Math.floor(elapsedSeconds / 60);
 

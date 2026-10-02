@@ -1,11 +1,21 @@
 import express from 'express';
 import { authenticate } from '../middleware/auth.js';
+import { requireRole } from '../middleware/rbac.js';
 import * as controller from '../controllers/employeePortalController.js';
 
 const router = express.Router();
 
 // Enforce authentication across all employee portal routes
 router.use(authenticate);
+
+// Role gate. This router previously had authentication only, so any
+// authenticated principal (STUDENT, INTERN, CLIENT, VENDOR, RECEPTION) could
+// read the whole employee surface - payslips, profile, documents, attendance,
+// messages. EMPLOYEE is the intended role; ADMIN / SUPER_ADMIN are kept so an
+// administrator can still open /app/employee/* from the shared console.
+// No other portal calls /v1/employee/* - hrApi and receptionApi use
+// /v1/employees, which is a separate router - so this is employee-scoped.
+router.use(requireRole('EMPLOYEE', 'ADMIN', 'SUPER_ADMIN'));
 
 // 1. Dashboard
 router.get('/dashboard', controller.getDashboardOverview);

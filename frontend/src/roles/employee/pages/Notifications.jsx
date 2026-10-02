@@ -22,6 +22,7 @@ const CATEGORY_BY_ENTITY = {
   Payroll: { key: 'PAYROLL', label: 'Payroll', icon: 'bi-receipt', color: 'text-warning' },
   Employee: { key: 'EMPLOYEE', label: 'Profile', icon: 'bi-person-badge', color: 'text-info' },
   Task: { key: 'TASK', label: 'Tasks', icon: 'bi-check2-square', color: 'text-secondary' },
+  Support: { key: 'SUPPORT', label: 'Support', icon: 'bi-life-preserver', color: 'text-danger' },
 };
 
 const humanise = (value) =>
@@ -48,8 +49,35 @@ function describe(item) {
   const action = humanise(payload.action || item.event_type || '');
   const subject = payload.title || payload.subject || payload.description || payload.reason || '';
 
+  // Fall back to the fields the real employee-portal producers write, so a
+  // punch, a leave application, a task change and a support ticket each render
+  // a meaningful line rather than "No further details."
+  const derived = (() => {
+    switch (item.event_type) {
+      case 'LEAVE_SUBMITTED':
+        return `${payload.leave_type || 'Leave'} requested for ${payload.start_date || '?'} to ${payload.end_date || '?'}`;
+      case 'ATTENDANCE_PUNCH_IN':
+        return `Punched in on ${payload.work_date || 'today'}`;
+      case 'ATTENDANCE_PUNCH_OUT':
+        return payload.worked_hours != null
+          ? `Punched out on ${payload.work_date || 'today'} · ${payload.worked_hours}h worked`
+          : `Punched out on ${payload.work_date || 'today'}`;
+      case 'TASK_STATUS_CHANGED':
+        return payload.from && payload.to
+          ? `Task moved from ${humanise(payload.from)} to ${humanise(payload.to)}`
+          : 'Task status updated';
+      case 'SUPPORT_TICKET_CREATED':
+        return payload.ticket_number
+          ? `Ticket ${payload.ticket_number} · ${humanise(payload.category || '')}`
+          : 'Support ticket raised';
+      default:
+        return null;
+    }
+  })();
+
   const title = [action, entity.label].filter(Boolean).join(' · ') || `${entity.label} update`;
   const description = subject
+    || derived
     || (item.actor_name ? `${item.actor_name} triggered this update.` : 'No further details.');
 
   return { ...entity, title, description };
@@ -198,7 +226,7 @@ export default function Notifications() {
               title="Nothing here yet"
               text={
                 filter === 'ALL'
-                  ? 'You have no notifications. Updates to your leave, attendance, tasks and payslips will appear here.'
+                  ? 'Nothing yet. Applying for leave, punching in or out, changing a task status and raising a support ticket all post a notification here.'
                   : 'No notifications match this filter.'
               }
             />

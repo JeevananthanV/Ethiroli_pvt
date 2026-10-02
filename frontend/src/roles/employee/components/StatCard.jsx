@@ -1,31 +1,14 @@
 import React from 'react';
 
 /**
- * StatCard - branded KPI tile used across the Employee portal.
+ * Employee portal shared presentational primitives.
  *
- * tone: olive | gold | clay | teal  (maps to the .emp-stat--* accent rail)
+ * NOTE: this file previously also exported a `StatCard` KPI tile and carried a
+ * `export default StatCard`. Nothing imported either - the KPI tiles on the
+ * Dashboard and Attendance pages hand-roll the `.emp-stat` markup directly, so
+ * the component was unreachable dead code. It has been removed rather than
+ * left in place. `EmptyState` and `LiveDot` below are both genuinely used.
  */
-export function StatCard({ label, value, hint, tone = 'olive', icon, delay = 0 }) {
-  return (
-    <div
-      className={`emp-stat emp-stat--${tone} h-100`}
-      style={{ '--emp-delay': `${delay}ms` }}
-    >
-      <div className="emp-reveal" style={{ '--emp-delay': `${delay}ms` }}>
-        <div className="d-flex justify-content-between align-items-start gap-2">
-          <div className="flex-grow-1">
-            <div className="emp-stat__label">{label}</div>
-            <div className="emp-stat__value">{value}</div>
-            {hint && <div className="emp-stat__hint">{hint}</div>}
-          </div>
-          {icon && (
-            <i className={`bi ${icon} fs-4 opacity-25`} aria-hidden="true"></i>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 /**
  * EmptyState - consistent, branded empty/zero-data presentation.
@@ -46,14 +29,19 @@ export function EmptyState({ icon = 'bi-inbox', title, text, action, compact = f
 
 /**
  * LiveDot - small pulsing indicator used for an open work session.
+ *
+ * The pulsing circle is decorative (`aria-hidden`), so a screen reader gets no
+ * information from it unless a `label` is supplied. The Attendance page uses
+ * this next to an adjacent "Current Session" caption; `label` exists so the
+ * indicator can also announce itself for assistive technology.
  */
 export function LiveDot({ label }) {
   return (
     <span className="d-inline-flex align-items-center gap-2">
       <span className="emp-live-dot" aria-hidden="true"></span>
-      {label && <span>{label}</span>}
+      {label ? (
+        <span className="visually-hidden">{label}</span>
+      ) : null}
     </span>
   );
 }
-
-export default StatCard;

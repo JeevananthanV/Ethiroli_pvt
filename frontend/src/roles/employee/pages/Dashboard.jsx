@@ -6,6 +6,7 @@ import {
   formatClock,
   formatDuration,
   openSessionElapsedSeconds,
+  liveWorkedMinutes,
   punchStatusLabel,
   punchStatusClass,
 } from '../utils/attendanceFormat.js';
@@ -21,6 +22,9 @@ export default function Dashboard() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [confirmError, setConfirmError] = useState('');
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  // Reference point for the live working-hours total: the server folded the
+  // open session's elapsed time into worked_minutes as of this instant.
+  const [fetchedAt, setFetchedAt] = useState(null);
 
   const fetchOverview = useCallback(async () => {
     setLoading(true);
@@ -29,6 +33,7 @@ export default function Dashboard() {
       const res = await employeePortalApi.getDashboardOverview();
       const overview = res?.data || res;
       setData(overview);
+      setFetchedAt(Date.now());
     } catch (err) {
       setError(err.message || 'Failed to load dashboard overview');
     } finally {
@@ -116,7 +121,7 @@ export default function Dashboard() {
             </div>
             <div className="d-flex justify-content-between align-items-baseline mb-1">
               <span className="emp-stat__value">
-                {formatDuration(todayAttendance?.worked_minutes ?? 0)}
+                {formatDuration(liveWorkedMinutes(todayAttendance, fetchedAt))}
               </span>
               <small className="text-muted">
                 {(todayAttendance?.session_count ?? 0)} session{(todayAttendance?.session_count ?? 0) === 1 ? '' : 's'}

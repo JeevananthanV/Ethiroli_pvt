@@ -8,13 +8,6 @@
  * Attendance page miss the current day's record in IST.
  */
 
-/** `YYYY-MM-DD` for a Date in the browser's local timezone. */
-export function localDateKey(d = new Date()) {
-  const dt = d instanceof Date ? d : new Date(d);
-  if (Number.isNaN(dt.getTime())) return null;
-  return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`;
-}
-
 /** `09:00 AM` style clock time. */
 export function formatClock(ts) {
   if (!ts) return '--:--';
@@ -40,8 +33,9 @@ export function formatDuration(minutes) {
 
 /** `4h 00m 12s` live ticking clock for the open session. */
 export function formatLiveDuration(minutes, seconds = 0) {
-  const h = Math.floor(minutes / 60);
-  const m = minutes % 60;
+  const safeMinutes = Math.max(0, Math.floor(Number(minutes) || 0));
+  const h = Math.floor(safeMinutes / 60);
+  const m = safeMinutes % 60;
   const s = String(seconds).padStart(2, '0');
   return `${h}h ${String(m).padStart(2, '0')}m ${s}s`;
 }
@@ -58,20 +52,31 @@ export function formatDateLabel(dateStr) {
 }
 
 /**
- * Worked minutes for the day, including the elapsed time of an open session
- * so the total ticks up live while the employee is clocked in.
+ * Worked minutes for the day, ticking live while a session is open.
+ *
+ * The server already folds the open session's elapsed time into
+ * `worked_minutes`, but it does so at the moment the response was produced.
+ * To keep the headline total moving without re-polling, add the minutes that
+ * have passed since the response was received.
+ *
+ * `fetchedAtMs` must be the client clock reading taken immediately after the
+ * request resolved; without it there is no reference point for the delta and
+ * the total would simply repeat the (possibly stale) server value.
+ *
+ * Previously this function computed `elapsed` and then discarded it - both
+ * branches returned `base` - so the total never advanced.
  */
-export function liveWorkedMinutes(summary, nowMs = Date.now()) {
+export function liveWorkedMinutes(summary, fetchedAtMs = null, nowMs = Date.now()) {
   if (!summary) return 0;
   const base = Number(summary.worked_minutes) || 0;
-  const open = summary.current_session;
-  if (open && open.is_active && open.check_in_time) {
-    const elapsed = Math.max(0, Math.floor((nowMs - new Date(open.check_in_time).getTime()) / 60000));
-    // `worked_minutes` from the API already includes the open session's elapsed
-    // time at fetch time, so only add the delta since that fetch.
-    return base;
-  }
-  return base;
+  const open = summary?.current_session;
+  if (!open || !open.is_active || !open.check_in_time) return base;
+  if (!fetchedAtMs) return base;
+  // Guard against a clock jump or a stale tab producing a negative or absurd
+  // delta; the server value is always the floor.
+  const delta = Math.floor((nowMs - fetchedAtMs) / 60000);
+  if (!Number.isFinite(delta) || delta <= 0) return base;
+  return base + Math.min(delta, 24 * 60);
 }
 
 /** Seconds elapsed in the open session, for a live ticking counter. */

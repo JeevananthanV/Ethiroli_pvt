@@ -14,9 +14,9 @@ export default function Messages() {
   const [newMsg, setNewMsg] = useState('');
   const [sending, setSending] = useState(false);
 
-  // Channels stay as-is; a selected contact switches to a direct thread.
+  // A selected contact switches the view to a direct thread; otherwise the
+  // currently selected channel is shown.
   const isDirect = Boolean(activeContact);
-  const threadKey = isDirect ? activeContact.id : activeChannel;
 
   const loadMessages = useCallback(async () => {
     setLoading(true);
@@ -39,6 +39,11 @@ export default function Messages() {
   }, [loadMessages]);
 
   // Load the people the employee may contact (HR, Finance, project team, ...).
+  // Contacts are loaded separately from the thread so a directory failure shows
+  // an accurate message instead of silently becoming an empty list that claimed
+  // "No other active users available."
+  const [contactsError, setContactsError] = useState(null);
+
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -46,8 +51,13 @@ export default function Messages() {
         const res = await employeePortalApi.getMessageContacts();
         if (cancelled) return;
         setContacts(res?.data || (Array.isArray(res) ? res : []));
-      } catch {
-        if (!cancelled) setContacts([]);
+        setContactsError(null);
+      } catch (err) {
+        if (cancelled) return;
+        setContacts([]);
+        setContactsError(
+          err?.response?.data?.message || err?.message || 'Could not load the people directory.'
+        );
       }
     })();
     return () => { cancelled = true; };
@@ -138,7 +148,15 @@ export default function Messages() {
               </small>
             </div>
             <div className="list-group list-group-flush overflow-auto flex-grow-1">
-              {contacts.length === 0 ? (
+              {contactsError ? (
+                <div className="p-3 small">
+                  <div className="text-danger mb-1">
+                    <i className="bi bi-exclamation-triangle me-1"></i>
+                    People directory unavailable
+                  </div>
+                  <div className="text-muted">{contactsError}</div>
+                </div>
+              ) : contacts.length === 0 ? (
                 <div className="p-3 text-muted small">No other active users available.</div>
               ) : (
                 contacts.map((c) => (

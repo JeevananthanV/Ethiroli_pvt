@@ -55,6 +55,15 @@ export default class Attendance {
     const activeSession = sessions.find((s) => s.is_active) || null;
     const hasSessions = sessions.length > 0;
 
+    // The punch guard in employeePortalController uses
+    // AttendanceSession.getActiveSession(), which is deliberately NOT
+    // date-scoped. Resolve the same thing here so is_punched_in can never
+    // disagree with the guard: if a session was left open overnight the
+    // employee really is still clocked in, and the UI must offer Punch Out
+    // rather than a Punch In button the server would reject with 400.
+    // Today's worked-minute maths below still uses today's session only.
+    const openSession = activeSession || (await AttendanceSession.getActiveSession(userId));
+
     // Worked minutes: prefer session rollup. Before sessions existed, derive
     // from the legacy first-in/last-out row so old history still shows hours.
     let workedMinutes;
@@ -82,13 +91,16 @@ export default class Attendance {
       check_out_time: day?.check_out_time || null,
       status: day?.status || null,
       is_late: day ? Boolean(day.is_late) : false,
-      is_punched_in: Boolean(activeSession),
+      is_punched_in: Boolean(openSession),
       has_sessions: hasSessions,
       session_count: hasSessions ? sessions.length : Number(day?.session_count || 0),
       worked_minutes: workedMinutes,
       worked_hours: Number((workedMinutes / 60).toFixed(2)),
-      current_session: activeSession,
+      current_session: openSession,
       sessions,
+      // Surfaced so the UI can explain a session that belongs to a previous
+      // business day instead of silently showing an odd "clocked in" state.
+      open_session_work_date: activeSession ? workDate : (openSession?.work_date || null),
     };
   }
 

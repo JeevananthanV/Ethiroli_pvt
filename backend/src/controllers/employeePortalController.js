@@ -12,9 +12,10 @@ import Payroll from '../models/Payroll.js';
 import User from '../models/User.js';
 import UserBadge from '../models/UserBadge.js';
 import Message from '../models/Message.js';
+import ActivityFeed from '../models/ActivityFeed.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 import { success, error } from '../utils/response.js';
-import { NotFoundError, BadRequestError } from '../utils/errors.js';
+import { NotFoundError, BadRequestError, AuthorizationError } from '../utils/errors.js';
 
 // Allowed ENUM values (mirror the database schemas) — validated before insert
 // so invalid input returns 400 instead of a raw DB error / 500.
@@ -23,6 +24,10 @@ const SUPPORT_CATEGORIES = ['IT_SUPPORT', 'HR_QUERY', 'PAYROLL_ISSUE', 'FACILITI
 const SUPPORT_PRIORITIES = ['LOW', 'MEDIUM', 'HIGH', 'URGENT'];
 const DOCUMENT_TYPES = ['RESUME', 'OFFER_LETTER', 'APPOINTMENT_LETTER', 'NDA', 'ID_PROOF', 'DEGREE_CERTIFICATE', 'EXPERIENCE_LETTER', 'PAYSLIP', 'OTHER'];
 const TASK_STATUSES = ['PENDING', 'IN_PROGRESS', 'COMPLETED'];
+
+// users.avatar_url is MEDIUMTEXT; this caps a base64 data-URL avatar so an
+// oversized payload is rejected with a 400 instead of being stored.
+const MAX_AVATAR_BYTES = 512 * 1024;
 
 // 1. Dashboard Overview
 export const getDashboardOverview = asyncHandler(async (req, res) => {
@@ -57,18 +62,12 @@ export const getDashboardOverview = asyncHandler(async (req, res) => {
     )
   ]);
 
-  const leaveBalances = leaveBalanceRows.length > 0 ? leaveBalanceRows : [
-    { leave_type: 'CASUAL', balance: 12.0, total_credited: 12.0, consumed: 0.0 },
-    { leave_type: 'SICK', balance: 8.0, total_credited: 8.0, consumed: 0.0 },
-    { leave_type: 'EARNED', balance: 15.0, total_credited: 15.0, consumed: 0.0 }
-  ];
-
   return success(res, 200, {
     employee: emp,
     // Session-aware attendance widget (same source as GET /attendance/today).
     todayAttendance: attendanceSummary,
     attendance: attendanceSummary,
-    leaveBalances,
+    leaveBalances: leaveBalanceRows,
     upcomingTasks: taskRows,
     projectsCount: projectRows[0]?.count || 0,
     unreadMessagesCount: unreadMessagesRows[0]?.count || 0,
@@ -95,6 +94,14 @@ export const punchAttendance = asyncHandler(async (req, res) => {
     }
     await AttendanceSession.startSession({ userId, workDate, checkInTime: new Date() });
     const summary = await Attendance.syncDayRow(userId, workDate);
+    await ActivityFeed.create({
+      user_id: userId,
+      actor_id: userId,
+      event_type: 'ATTENDANCE_PUNCH_IN',
+      entity_type: 'Attendance',
+      entity_id: null,
+      payload: { work_date: workDate, at: new Date().toISOString() }
+    });
     return success(res, 200, summary, 'Punched in successfully');
   }
 
@@ -106,6 +113,18 @@ export const punchAttendance = asyncHandler(async (req, res) => {
     }
     await AttendanceSession.endSession({ userId, checkOutTime: new Date() });
     const summary = await Attendance.syncDayRow(userId, workDate);
+    await ActivityFeed.create({
+      user_id: userId,
+      actor_id: userId,
+      event_type: 'ATTENDANCE_PUNCH_OUT',
+      entity_type: 'Attendance',
+      entity_id: null,
+      payload: {
+        work_date: workDate,
+        worked_hours: summary?.worked_hours ?? 0,
+        at: new Date().toISOString()
+      }
+    });
     return success(res, 200, summary, 'Punched out successfully');
   }
 
@@ -207,15 +226,13 @@ export const getLeavesAndBalances = asyncHandler(async (req, res) => {
     Leave.list({ user_id: userId, limit: 100 })
   ]);
 
-  const defaultBalances = [
-    { leave_type: 'CASUAL', balance: 12.0, total_credited: 12.0, consumed: 0.0, financial_year: currentYear },
-    { leave_type: 'SICK', balance: 8.0, total_credited: 8.0, consumed: 0.0, financial_year: currentYear },
-    { leave_type: 'EARNED', balance: 15.0, total_credited: 15.0, consumed: 0.0, financial_year: currentYear }
-  ];
-
+  // Only balances that actually exist are returned. This endpoint previously
+  // substituted invented 12 / 8 / 15-day balances when leave_balances was
+  // empty, presenting a fabricated entitlement as a real one.
   return success(res, 200, {
-    balances: balances.length > 0 ? balances : defaultBalances,
-    requests: leaves
+    balances,
+    requests: leaves,
+    financial_year: currentYear
   }, 'Leaves and balances retrieved');
 });
 
@@ -241,6 +258,18 @@ export const applyLeave = asyncHandler(async (req, res) => {
     start_date,
     end_date,
     reason
+  });
+
+  // Persist a feed row so the Employee Notifications page has a real producer.
+  // Previously nothing wrote activity_feeds for employee events, so the page
+  // was structurally empty while its own copy promised leave updates.
+  await ActivityFeed.create({
+    user_id: userId,
+    actor_id: userId,
+    event_type: 'LEAVE_SUBMITTED',
+    entity_type: 'Leave',
+    entity_id: id,
+    payload: { leave_type, start_date, end_date, reason, status: 'PENDING' }
   });
 
   return success(res, 201, { id }, 'Leave request submitted successfully');
@@ -276,11 +305,23 @@ export const updateTaskStatus = asyncHandler(async (req, res) => {
 
   const task = await Task.findById(id);
   if (!task) throw new NotFoundError('Task not found');
-  if (task.assigned_to && task.assigned_to !== userId) {
-    throw new BadRequestError('Forbidden. You are not assigned to this task');
+  // Exact-match ownership. This used to read
+  // `task.assigned_to && task.assigned_to !== userId`, so a task with
+  // assigned_to IS NULL passed the check and any employee could mark an
+  // unassigned task COMPLETED.
+  if (task.assigned_to !== userId) {
+    throw new AuthorizationError('You are not assigned to this task');
   }
 
   await Task.update(id, { status });
+  await ActivityFeed.create({
+    user_id: userId,
+    actor_id: userId,
+    event_type: 'TASK_STATUS_CHANGED',
+    entity_type: 'Task',
+    entity_id: id,
+    payload: { from: task.status, to: status }
+  });
   return success(res, 200, { id, status }, 'Task status updated');
 });
 
@@ -306,6 +347,10 @@ export const getEnrolledCourses = asyncHandler(async (req, res) => {
 
 export const getAssignments = asyncHandler(async (req, res) => {
   const userId = req.user.id;
+  // Scoped to the caller's own enrolments. The query used to join only
+  // `assignments` + `courses` and use the user id solely for the submission
+  // LEFT JOIN, so every employee saw the assignments of every course in the
+  // system - including courses they were never enrolled in.
   const [rows] = await pool.execute(
     `SELECT a.*, c.name as course_title,
             s.id as submission_id,
@@ -313,9 +358,10 @@ export const getAssignments = asyncHandler(async (req, res) => {
              s.grade, s.feedback, s.submitted_at
      FROM assignments a
      JOIN courses c ON a.course_id = c.id
+     JOIN enrollments e ON e.course_id = c.id AND e.student_id = ?
      LEFT JOIN assignment_submissions s ON a.id = s.assignment_id AND s.student_id = ?
      ORDER BY a.due_date ASC`,
-    [userId]
+    [userId, userId]
   );
   return success(res, 200, rows, 'Assignments retrieved');
 });
@@ -394,11 +440,49 @@ export const updateMyProfile = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const { phone, full_name, preferences, avatar_url, avatar } = req.body;
   const updates = {};
-  if (phone !== undefined) updates.phone = phone;
-  if (full_name !== undefined) updates.full_name = full_name;
+
+  // Validated here rather than left to the database. encrypt() returns null for
+  // a falsy value, so an empty full_name previously wrote NULL into
+  // users.full_name (NOT NULL) and surfaced as a 500 rather than a 400.
+  if (full_name !== undefined) {
+    if (typeof full_name !== 'string' || !full_name.trim()) {
+      throw new BadRequestError('full_name cannot be empty');
+    }
+    if (full_name.trim().length > 255) {
+      throw new BadRequestError('full_name must be 255 characters or fewer');
+    }
+    updates.full_name = full_name.trim();
+  }
+
+  if (phone !== undefined && phone !== null && phone !== '') {
+    if (typeof phone !== 'string' || phone.trim().length > 255) {
+      throw new BadRequestError('phone must be a string of 255 characters or fewer');
+    }
+    updates.phone = phone.trim();
+  }
+
   if (preferences !== undefined) updates.preferences = preferences;
+
   const resolvedAvatar = avatar_url !== undefined ? avatar_url : avatar;
-  if (resolvedAvatar !== undefined) updates.avatar_url = resolvedAvatar;
+  if (resolvedAvatar !== undefined) {
+    if (resolvedAvatar === null || resolvedAvatar === '') {
+      updates.avatar_url = null;
+    } else if (typeof resolvedAvatar !== 'string') {
+      throw new BadRequestError('avatar_url must be a string');
+    } else if (resolvedAvatar.length > MAX_AVATAR_BYTES) {
+      // AvatarUploader posts a base64 data URL; unbounded, a multi-megabyte
+      // payload was accepted and stored.
+      throw new BadRequestError(
+        `avatar_url is too large (${resolvedAvatar.length} characters). Maximum is ${MAX_AVATAR_BYTES}.`
+      );
+    } else {
+      updates.avatar_url = resolvedAvatar;
+    }
+  }
+
+  if (Object.keys(updates).length === 0) {
+    throw new BadRequestError('No supported profile fields were provided');
+  }
 
   await User.update(userId, updates);
   const updatedUser = await User.findById(userId);
@@ -437,6 +521,21 @@ export const createSupportTicket = asyncHandler(async (req, res) => {
     subject,
     description,
     attachment_url
+  });
+
+  // Feed row so the ticket shows up in the employee's Notifications page.
+  await ActivityFeed.create({
+    user_id: userId,
+    actor_id: userId,
+    event_type: 'SUPPORT_TICKET_CREATED',
+    entity_type: 'Support',
+    entity_id: result?.id || null,
+    payload: {
+      ticket_number: result?.ticket_number,
+      category,
+      priority,
+      subject
+    }
   });
 
   return success(res, 201, result, 'Support ticket created successfully');

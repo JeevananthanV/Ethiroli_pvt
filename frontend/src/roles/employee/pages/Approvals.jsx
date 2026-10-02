@@ -89,16 +89,19 @@ export default function Approvals() {
                 currentList.map((item) => (
                   <tr key={item.id}>
                     <td>
-                      <span className="badge bg-light text-dark border me-2">{item.entity_type}</span>
+                      {/* `approval_instances` has no `entity_type` column, so the
+                          previous badge always rendered empty. The chain name and the
+                          entity reference are the fields that actually exist. */}
+                      <span className="badge bg-light text-dark border me-2">REQUEST</span>
                       <code className="small text-muted">{item.entity_id?.slice(0, 8)}</code>
                     </td>
-                    <td className="fw-medium text-dark">{item.chain_name || 'Standard Approval Chain'}</td>
+                    <td className="fw-medium text-dark">{item.chain_name || 'Unnamed workflow'}</td>
                     <td>
                       <span className="badge bg-info text-dark">Step {item.current_step || 1}</span>
                     </td>
                     <td>{getStatusBadge(item.status)}</td>
                     <td className="text-muted small">
-                      {item.created_at ? new Date(item.created_at).toLocaleDateString() : 'Recent'}
+                      {item.created_at ? new Date(item.created_at).toLocaleDateString() : <span className="text-muted">&mdash;</span>}
                     </td>
                   </tr>
                 ))

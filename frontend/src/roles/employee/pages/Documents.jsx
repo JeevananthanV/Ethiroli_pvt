@@ -75,8 +75,14 @@ export default function Documents() {
     >
       <div className="d-flex justify-content-between align-items-center mb-2">
         <div>
-          <h5 className="mb-0 fw-bold">Verified Employee Records</h5>
-          <small className="text-muted">All uploaded documents are encrypted and reviewed by HR</small>
+          <h5 className="mb-0 fw-bold">My Employee Documents</h5>
+          {/* Honest description: this portal records a document reference, it does
+              not perform a binary upload. Nothing in this flow encrypts the file -
+              access control comes from the row being scoped to your employee id. */}
+          <small className="text-muted">
+            Records a document link against your employee profile. Each document is
+            visible only to you, and its verification status is set by HR.
+          </small>
         </div>
         <button className="btn btn-primary d-flex align-items-center gap-2" onClick={() => setShowModal(true)}>
           <i className="bi bi-cloud-arrow-up"></i>

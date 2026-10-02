@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import employeePortalApi from '../../../services/api/employeePortalApi.js';
+import { EmptyState } from '../components/StatCard.jsx';
 
 export default function Achievements() {
   const [achievements, setAchievements] = useState([]);
@@ -34,13 +35,7 @@ export default function Achievements() {
       onRetry={loadAchievements}
     >
       {achievements.length === 0 ? (
-        <div className="col-12 text-center py-5">
-          <div className="rounded-circle bg-light d-inline-flex p-3 mb-3 text-muted">
-            <i className="bi bi-trophy fs-1"></i>
-          </div>
-          <h5>No Achievements Yet</h5>
-          <p className="text-muted">Your badges and honors will appear here once earned.</p>
-        </div>
+        <div className="col-12"><EmptyState icon="bi-trophy" text="No achievements yet. Your badges will appear here once earned." /></div>
       ) : (
       <div className="row g-4">
         {achievements.map((badge) => (

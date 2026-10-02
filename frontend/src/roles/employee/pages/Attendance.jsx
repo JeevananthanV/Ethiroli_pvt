@@ -11,6 +11,7 @@ import {
   punchStatusLabel,
   punchStatusClass,
 } from '../utils/attendanceFormat.js';
+import { LiveDot } from '../components/StatCard.jsx';
 
 export default function Attendance() {
   const [history, setHistory] = useState([]);
@@ -145,31 +146,31 @@ export default function Attendance() {
         {/* Top 4 KPI Metrics */}
         <div className="row g-3 mb-2">
           <div className="col-6 col-md-3">
-            <div className="card shadow-sm border-0 p-3 text-center h-100">
-              <span className="text-muted small fw-semibold">Attendance Rate</span>
-              <h3 className="fw-bold text-success mb-0">{rate}%</h3>
-              <small className="text-muted">Target: 95% minimum</small>
+            <div className="emp-stat emp-stat--olive h-100 text-center">
+              <span className="emp-stat__label d-block">Attendance Rate</span>
+              <div className="emp-stat__value">{rate}%</div>
+              <div className="emp-stat__hint">Target: 95% minimum</div>
             </div>
           </div>
           <div className="col-6 col-md-3">
-            <div className="card shadow-sm border-0 p-3 text-center h-100">
-              <span className="text-muted small fw-semibold">Present Days</span>
-              <h3 className="fw-bold text-primary mb-0">{stats.present}</h3>
-              <small className="text-success">{stats.total} Logged Days</small>
+            <div className="emp-stat emp-stat--teal h-100 text-center">
+              <span className="emp-stat__label d-block">Present Days</span>
+              <div className="emp-stat__value">{stats.present}</div>
+              <div className="emp-stat__hint">{stats.total} Logged Days</div>
             </div>
           </div>
           <div className="col-6 col-md-3">
-            <div className="card shadow-sm border-0 p-3 text-center h-100">
-              <span className="text-muted small fw-semibold">Total Hours Worked</span>
-              <h3 className="fw-bold text-dark mb-0">{totalHours}h</h3>
-              <small className="text-muted">Excludes breaks</small>
+            <div className="emp-stat emp-stat--gold h-100 text-center">
+              <span className="emp-stat__label d-block">Total Hours Worked</span>
+              <div className="emp-stat__value">{totalHours}h</div>
+              <div className="emp-stat__hint">Excludes breaks</div>
             </div>
           </div>
           <div className="col-6 col-md-3">
-            <div className="card shadow-sm border-0 p-3 text-center h-100">
-              <span className="text-muted small fw-semibold">Punctuality</span>
-              <h3 className={`fw-bold mb-0 ${stats.late > 2 ? 'text-warning' : 'text-success'}`}>{stats.late} Late</h3>
-              <small className="text-muted">{stats.late === 0 ? 'Perfect timing' : 'Arrivals after 09:00'}</small>
+            <div className="emp-stat emp-stat--clay h-100 text-center">
+              <span className="emp-stat__label d-block">Punctuality</span>
+              <div className={`emp-stat__value ${stats.late > 2 ? 'text-warning' : ''}`}>{stats.late} Late</div>
+              <div className="emp-stat__hint">{stats.late === 0 ? 'Perfect timing' : 'Arrivals after 09:00'}</div>
             </div>
           </div>
         </div>
@@ -211,7 +212,8 @@ export default function Attendance() {
                   {isPunchedIn && (
                     <div>
                       <span className="text-muted small d-block">Current Session</span>
-                      <span className="fw-bold fs-6 font-monospace text-primary">
+                      <LiveDot />
+                    <span className="fw-bold fs-6 font-monospace text-primary">
                         {formatLiveDuration(currentSessionMinutes, elapsedSeconds % 60)}
                       </span>
                     </div>

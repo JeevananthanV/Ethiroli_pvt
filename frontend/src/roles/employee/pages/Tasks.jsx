@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import employeePortalApi from '../../../services/api/employeePortalApi.js';
+import { EmptyState } from '../components/StatCard.jsx';
 
 export default function Tasks() {
   const [tasks, setTasks] = useState([]);
@@ -121,10 +122,7 @@ export default function Tasks() {
             <tbody>
               {filteredTasks.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="text-center py-5 text-muted">
-                    <i className="bi bi-check2-all fs-2 d-block mb-2"></i>
-                    No tasks found matching this criteria.
-                  </td>
+                  <td colSpan="7"><EmptyState icon="bi-check2-all" text="No tasks found matching this criteria." compact /></td>
                 </tr>
               ) : (
                 filteredTasks.map((task) => (

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import employeePortalApi from '../../../services/api/employeePortalApi.js';
+import { EmptyState } from '../components/StatCard.jsx';
 
 export default function Training() {
   const [courses, setCourses] = useState([]);
@@ -35,13 +36,7 @@ export default function Training() {
     >
       <div className="row g-4">
         {courses.length === 0 ? (
-          <div className="col-12 text-center py-5">
-            <div className="rounded-circle bg-light d-inline-flex p-3 mb-3 text-muted">
-              <i className="bi bi-book fs-1"></i>
-            </div>
-            <h5>No Training Courses Enrolled</h5>
-            <p className="text-muted">You are not currently enrolled in any professional training courses.</p>
-          </div>
+          <div className="col-12"><EmptyState icon="bi-mortarboard" text="No training courses enrolled yet." /></div>
         ) : (
           courses.map((course) => (
             <div key={course.id || course.course_id} className="col-md-6 col-lg-4">

@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import RouteLoader from '../../common/components/RouteLoader/RouteLoader.jsx';
+import './styles/employee-portal.css';
 
 // Lazy-loaded Employee Pages
 const EmployeeDashboard = lazy(() => import('./pages/Dashboard.jsx'));
@@ -25,32 +26,42 @@ const EmployeeSupport = lazy(() => import('./pages/Support.jsx'));
 /**
  * EmployeeRoutes - route tree for the Employee portal.
  * Mounted at `/app/employee/*` by AdminApp (shared console) and by EmployeeApp (employee.html).
+ *
+ * The whole tree is wrapped in `.emp-portal`, which scopes the Employee design
+ * system (employee-portal.css) to this portal only. The inner `key` forces a
+ * remount on navigation so each page replays its entrance animation.
  */
 export default function EmployeeRoutes() {
+  const location = useLocation();
+
   return (
-    <Suspense fallback={<RouteLoader label="Loading employee portal..." />}>
-      <Routes>
-        <Route index element={<Navigate to="dashboard" replace />} />
-        <Route path="dashboard" element={<EmployeeDashboard />} />
-        <Route path="tasks" element={<EmployeeTasks />} />
-        <Route path="projects" element={<EmployeeProjects />} />
-        <Route path="attendance" element={<EmployeeAttendance />} />
-        <Route path="leaves" element={<EmployeeLeaves />} />
-        <Route path="calendar" element={<EmployeeCalendar />} />
-        <Route path="training" element={<EmployeeTraining />} />
-        <Route path="assignments" element={<EmployeeAssignments />} />
-        <Route path="performance" element={<EmployeePerformance />} />
-        <Route path="documents" element={<EmployeeDocuments />} />
-        <Route path="payslips" element={<EmployeePayslips />} />
-        <Route path="profile" element={<EmployeeProfile />} />
-        <Route path="approvals" element={<EmployeeApprovals />} />
-        <Route path="announcements" element={<EmployeeAnnouncements />} />
-        <Route path="messages" element={<EmployeeMessages />} />
-        <Route path="notifications" element={<EmployeeNotifications />} />
-        <Route path="achievements" element={<EmployeeAchievements />} />
-        <Route path="support" element={<EmployeeSupport />} />
-        <Route path="*" element={<Navigate to="dashboard" replace />} />
-      </Routes>
-    </Suspense>
+    <div className="emp-portal">
+      <Suspense fallback={<RouteLoader label="Loading employee portal..." />}>
+        <div key={location.pathname}>
+          <Routes>
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<EmployeeDashboard />} />
+            <Route path="tasks" element={<EmployeeTasks />} />
+            <Route path="projects" element={<EmployeeProjects />} />
+            <Route path="attendance" element={<EmployeeAttendance />} />
+            <Route path="leaves" element={<EmployeeLeaves />} />
+            <Route path="calendar" element={<EmployeeCalendar />} />
+            <Route path="training" element={<EmployeeTraining />} />
+            <Route path="assignments" element={<EmployeeAssignments />} />
+            <Route path="performance" element={<EmployeePerformance />} />
+            <Route path="documents" element={<EmployeeDocuments />} />
+            <Route path="payslips" element={<EmployeePayslips />} />
+            <Route path="profile" element={<EmployeeProfile />} />
+            <Route path="approvals" element={<EmployeeApprovals />} />
+            <Route path="announcements" element={<EmployeeAnnouncements />} />
+            <Route path="messages" element={<EmployeeMessages />} />
+            <Route path="notifications" element={<EmployeeNotifications />} />
+            <Route path="achievements" element={<EmployeeAchievements />} />
+            <Route path="support" element={<EmployeeSupport />} />
+            <Route path="*" element={<Navigate to="dashboard" replace />} />
+          </Routes>
+        </div>
+      </Suspense>
+    </div>
   );
 }

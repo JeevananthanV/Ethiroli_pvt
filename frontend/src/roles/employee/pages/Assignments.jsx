@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import employeePortalApi from '../../../services/api/employeePortalApi.js';
+import { EmptyState } from '../components/StatCard.jsx';
 
 export default function Assignments() {
   const [assignments, setAssignments] = useState([]);
@@ -64,9 +65,7 @@ export default function Assignments() {
             <tbody>
               {assignments.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="text-center py-4 text-muted">
-                    No assignments found at this time.
-                  </td>
+                  <td colSpan="6"><EmptyState icon="bi-journal-text" text="No assignments found at this time." compact /></td>
                 </tr>
               ) : (
                 assignments.map((item) => (

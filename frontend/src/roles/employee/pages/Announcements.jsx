@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import employeePortalApi from '../../../services/api/employeePortalApi.js';
+import { EmptyState } from '../components/StatCard.jsx';
 
 export default function Announcements() {
   const [announcements, setAnnouncements] = useState([]);
@@ -35,13 +36,7 @@ export default function Announcements() {
     >
       <div className="row g-4">
         {announcements.length === 0 ? (
-          <div className="col-12 text-center py-5">
-            <div className="rounded-circle bg-light d-inline-flex p-3 mb-3 text-muted">
-              <i className="bi bi-megaphone fs-1"></i>
-            </div>
-            <h5>No Active Announcements</h5>
-            <p className="text-muted">You are up to date with all company communications.</p>
-          </div>
+          <div className="col-12"><EmptyState icon="bi-megaphone" text="No active announcements." /></div>
         ) : (
           announcements.map((item) => (
             <div key={item.id} className="col-12">

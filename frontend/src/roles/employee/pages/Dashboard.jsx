@@ -10,6 +10,8 @@ import {
   punchStatusClass,
 } from '../utils/attendanceFormat.js';
 
+
+
 export default function Dashboard() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -103,24 +105,24 @@ export default function Dashboard() {
 
       {/* Row 1: KPI Summary Cards */}
       <div className="row g-3 mb-2">
-        {/* Clock In / Out Card */}
+              {/* Clock In / Out Card */}
         <div className="col-md-6 col-lg-3">
-          <div className="card shadow-sm border-0 h-100 p-3 bg-white">
+          <div className="emp-stat emp-stat--olive h-100">
             <div className="d-flex justify-content-between align-items-center mb-2">
-              <span className="text-muted small text-uppercase fw-semibold">Attendance</span>
+              <span className="emp-stat__label">Attendance</span>
               <span className={`badge ${punchStatusClass(todayAttendance)}`}>
                 {punchStatusLabel(todayAttendance)}
               </span>
             </div>
             <div className="d-flex justify-content-between align-items-baseline mb-1">
-              <span className="fw-bold fs-5 text-dark">
+              <span className="emp-stat__value">
                 {formatDuration(todayAttendance?.worked_minutes ?? 0)}
               </span>
               <small className="text-muted">
-                {todayAttendance?.session_count ?? 0} session{(todayAttendance?.session_count ?? 0) === 1 ? '' : 's'}
+                {(todayAttendance?.session_count ?? 0)} session{(todayAttendance?.session_count ?? 0) === 1 ? '' : 's'}
               </small>
             </div>
-            <div className="text-muted small mb-2">
+            <div className="emp-stat__hint mb-2">
               {isCheckedIn
                 ? `Since ${formatClock(todayAttendance?.current_session?.check_in_time)}`
                 : (todayAttendance?.session_count
@@ -216,7 +218,7 @@ export default function Dashboard() {
           <div className="row g-3">
             {/* Employee Management */}
             <div className="col-md-6 col-lg-3">
-              <div className="p-3 border rounded-3 h-100 bg-light">
+              <div className="emp-hub-card p-3 border rounded-3 h-100 bg-light">
                 <div className="fw-bold text-dark mb-2 d-flex align-items-center gap-2">
                   <i className="bi bi-briefcase text-primary"></i>
                   <span>Employee Management</span>
@@ -243,7 +245,7 @@ export default function Dashboard() {
 
             {/* Learning & Development */}
             <div className="col-md-6 col-lg-3">
-              <div className="p-3 border rounded-3 h-100 bg-light">
+              <div className="emp-hub-card p-3 border rounded-3 h-100 bg-light">
                 <div className="fw-bold text-dark mb-2 d-flex align-items-center gap-2">
                   <i className="bi bi-mortarboard text-success"></i>
                   <span>Learning & Growth</span>
@@ -267,7 +269,7 @@ export default function Dashboard() {
 
             {/* Personal Records */}
             <div className="col-md-6 col-lg-3">
-              <div className="p-3 border rounded-3 h-100 bg-light">
+              <div className="emp-hub-card p-3 border rounded-3 h-100 bg-light">
                 <div className="fw-bold text-dark mb-2 d-flex align-items-center gap-2">
                   <i className="bi bi-person-badge text-warning"></i>
                   <span>Personal Records</span>
@@ -288,7 +290,7 @@ export default function Dashboard() {
 
             {/* Communication & Governance */}
             <div className="col-md-6 col-lg-3">
-              <div className="p-3 border rounded-3 h-100 bg-light">
+              <div className="emp-hub-card p-3 border rounded-3 h-100 bg-light">
                 <div className="fw-bold text-dark mb-2 d-flex align-items-center gap-2">
                   <i className="bi bi-chat-square-dots text-danger"></i>
                   <span>Communication</span>

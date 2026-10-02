@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import employeePortalApi from '../../../services/api/employeePortalApi.js';
+import { EmptyState } from '../components/StatCard.jsx';
 
 export default function Payslips() {
   const [payslips, setPayslips] = useState([]);
@@ -87,10 +88,7 @@ export default function Payslips() {
             <tbody>
               {payslips.length === 0 ? (
                 <tr>
-                  <td colSpan="8" className="text-center py-5 text-muted">
-                    <i className="bi bi-receipt fs-2 d-block mb-2"></i>
-                    No payslips available yet. Monthly payroll records will appear once processed by Finance.
-                  </td>
+                  <td colSpan="8"><EmptyState icon="bi-receipt" text="No payslips available yet. Monthly payroll records will appear once processed by Finance." compact /></td>
                 </tr>
               ) : (
                 payslips.map((slip) => (

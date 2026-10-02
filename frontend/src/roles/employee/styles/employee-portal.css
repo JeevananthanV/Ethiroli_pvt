@@ -1,0 +1,678 @@
+/* =============================================================================
+   EMPLOYEE PORTAL — Design System & Motion Layer
+   -----------------------------------------------------------------------------
+   Scoped entirely under `.emp-portal` so it can never leak into the Intern /
+   HR / Finance / Student portals that other teams are working on.
+
+   Brand tokens are inherited from the company design system
+   (--color-primary olive #819E35, --base-gold #E8D657, --base-clay #AF431E,
+   --base-teal #1A4B48, --color-bg-main cream #F1ECE6) so the Employee portal
+   stays on-brand.
+
+   Motion language intentionally mirrors the existing `premium-motion.css`
+   (fade + rise + stagger) for consistency across the product.
+   ========================================================================== */
+
+.emp-portal {
+  /* --- Local tokens (scoped, so no global leakage) --- */
+  --emp-radius-sm: 10px;
+  --emp-radius: 16px;
+  --emp-radius-lg: 22px;
+
+  --emp-shadow-xs: 0 1px 2px rgba(26, 75, 72, 0.05);
+  --emp-shadow-sm: 0 2px 10px rgba(26, 75, 72, 0.06);
+  --emp-shadow: 0 8px 26px rgba(26, 75, 72, 0.08);
+  --emp-shadow-lg: 0 18px 48px rgba(26, 75, 72, 0.14);
+
+  --emp-ring: 0 0 0 3px rgba(129, 158, 53, 0.28);
+
+  /* Tone ramp used by stat cards / accents */
+  --emp-olive: #819e35;
+  --emp-olive-dark: #6e872b;
+  --emp-gold: #e8d657;
+  --emp-clay: #af431e;
+  --emp-teal: #1a4b48;
+
+  --emp-ease: cubic-bezier(0.22, 0.8, 0.22, 1);
+  --emp-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --emp-dur: 0.42s;
+
+  position: relative;
+}
+
+/* ============================ PAGE HEADER ============================ */
+
+.emp-portal .pageTitle {
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  background: linear-gradient(120deg, var(--emp-teal) 0%, var(--emp-olive-dark) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.emp-portal .pageSubtitle {
+  max-width: 68ch;
+}
+
+/* ============================ CARDS ============================ */
+
+.emp-portal .card {
+  border: 1px solid rgba(26, 75, 72, 0.08);
+  border-radius: var(--emp-radius);
+  box-shadow: var(--emp-shadow-sm);
+  transition:
+    transform var(--emp-dur) var(--emp-ease),
+    box-shadow var(--emp-dur) var(--emp-ease),
+    border-color var(--emp-dur) var(--emp-ease);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Soft brand wash that appears on hover */
+.emp-portal .card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(120% 90% at 50% -20%, rgba(129, 158, 53, 0.10), transparent 60%);
+  transition: opacity var(--emp-dur) var(--emp-ease);
+}
+
+.emp-portal .card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--emp-shadow);
+  border-color: rgba(129, 158, 53, 0.28);
+}
+
+.emp-portal .card:hover::after {
+  opacity: 1;
+}
+
+/* Tinted header strip (Attendance / Task cards use .bg-light) */
+.emp-portal .card-header {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(241, 236, 230, 0.45));
+  border-bottom: 1px solid rgba(26, 75, 72, 0.07);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.emp-portal .card-body {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================ STAT / KPI CARDS ============================ */
+
+.emp-portal .emp-stat {
+  position: relative;
+  border-radius: var(--emp-radius);
+  padding: 1.1rem 1.15rem;
+  background: var(--color-surface, #fff);
+  border: 1px solid rgba(26, 75, 72, 0.08);
+  box-shadow: var(--emp-shadow-sm);
+  overflow: hidden;
+  transition:
+    transform var(--emp-dur) var(--emp-ease),
+    box-shadow var(--emp-dur) var(--emp-ease);
+}
+
+/* brand accent rail */
+.emp-portal .emp-stat::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: var(--stat-tone, var(--emp-olive));
+  transform-origin: top;
+  transform: scaleY(0.35);
+  opacity: 0.85;
+  transition: transform var(--emp-dur) var(--emp-ease-out);
+}
+
+.emp-portal .emp-stat:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--emp-shadow);
+}
+
+.emp-portal .emp-stat:hover::before {
+  transform: scaleY(1);
+}
+
+.emp-portal .emp-stat__label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted, #555);
+  margin-bottom: 0.35rem;
+}
+
+.emp-portal .emp-stat__value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--emp-teal);
+  font-variant-numeric: tabular-nums;
+}
+
+.emp-portal .emp-stat__hint {
+  font-size: 0.75rem;
+  color: var(--color-text-muted, #555);
+  margin-top: 0.2rem;
+}
+
+/* Tone variants */
+.emp-portal .emp-stat--olive { --stat-tone: var(--emp-olive); }
+.emp-portal .emp-stat--gold  { --stat-tone: var(--emp-gold); }
+.emp-portal .emp-stat--clay  { --stat-tone: var(--emp-clay); }
+.emp-portal .emp-stat--teal  { --stat-tone: var(--emp-teal); }
+
+/* ============================ BUTTONS ============================ */
+
+.emp-portal .btn {
+  border-radius: 10px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.18s var(--emp-ease-out),
+    box-shadow 0.18s var(--emp-ease-out),
+    background-color 0.18s var(--emp-ease),
+    border-color 0.18s var(--emp-ease),
+    color 0.18s var(--emp-ease);
+}
+
+.emp-portal .btn:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+.emp-portal .btn:not(:disabled):active {
+  transform: translateY(0) scale(0.985);
+}
+
+.emp-portal .btn:focus-visible {
+  outline: none;
+  box-shadow: var(--emp-ring);
+}
+
+/* Shine sweep on primary actions */
+.emp-portal .btn-primary {
+  background: linear-gradient(135deg, var(--emp-olive) 0%, var(--emp-olive-dark) 100%);
+  border: 1px solid transparent;
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(129, 158, 53, 0.28);
+}
+
+.emp-portal .btn-primary:not(:disabled):hover {
+  box-shadow: 0 10px 24px rgba(129, 158, 53, 0.36);
+}
+
+.emp-portal .btn-primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.75s var(--emp-ease-out);
+}
+
+.emp-portal .btn-primary:not(:disabled):hover::before {
+  transform: translateX(120%);
+}
+
+.emp-portal .btn-outline-danger {
+  border-color: rgba(175, 67, 30, 0.45);
+  color: var(--emp-clay);
+}
+
+.emp-portal .btn-outline-danger:not(:disabled):hover {
+  background: var(--emp-clay);
+  border-color: var(--emp-clay);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(175, 67, 30, 0.28);
+}
+
+.emp-portal .btn-outline-primary {
+  border-color: rgba(26, 75, 72, 0.28);
+  color: var(--emp-teal);
+}
+
+.emp-portal .btn-outline-primary:not(:disabled):hover {
+  background: var(--emp-teal);
+  border-color: var(--emp-teal);
+  color: #fff;
+}
+
+.emp-portal .btn:disabled {
+  opacity: 0.55;
+  transform: none !important;
+}
+
+/* ============================ TABLES ============================ */
+
+.emp-portal .table {
+  margin-bottom: 0;
+}
+
+.emp-portal .table > :not(caption) > * > * {
+  padding: 0.85rem 0.9rem;
+  border-bottom-color: rgba(26, 75, 72, 0.07);
+}
+
+.emp-portal .table thead th {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted, #555);
+  background: rgba(241, 236, 230, 0.55);
+  border-bottom: 1px solid rgba(26, 75, 72, 0.1);
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.emp-portal .table-hover > tbody > tr {
+  transition: background-color 0.22s var(--emp-ease);
+}
+
+.emp-portal .table-hover > tbody > tr:hover > * {
+  background-color: rgba(129, 158, 53, 0.06);
+  color: inherit;
+}
+
+.emp-portal .table tbody tr:last-child > * {
+  border-bottom-width: 0;
+}
+
+/* ============================ BADGES ============================ */
+
+.emp-portal .badge {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: 999px;
+  padding-inline: 0.65em;
+}
+
+.emp-portal .badge.bg-success {
+  background: linear-gradient(135deg, var(--emp-olive) 0%, var(--emp-olive-dark) 100%) !important;
+  color: #fff;
+}
+
+.emp-portal .badge.bg-primary {
+  background: linear-gradient(135deg, var(--emp-teal) 0%, #123432 100%) !important;
+  color: #fff;
+}
+
+.emp-portal .badge.bg-danger {
+  background: linear-gradient(135deg, var(--emp-clay) 0%, #8c3214 100%) !important;
+  color: #fff;
+}
+
+.emp-portal .badge.bg-warning,
+.emp-portal .badge.bg-warning.text-dark {
+  background: linear-gradient(135deg, var(--emp-gold) 0%, #d4bf3f 100%) !important;
+  color: #3b3407;
+}
+
+.emp-portal .badge.bg-info {
+  background: linear-gradient(135deg, #2f7d78 0%, var(--emp-teal) 100%) !important;
+  color: #fff;
+}
+
+/* ============================ FORMS ============================ */
+
+.emp-portal .form-control,
+.emp-portal .form-select {
+  border-radius: 10px;
+  border-color: rgba(26, 75, 72, 0.16);
+  padding: 0.6rem 0.85rem;
+  transition:
+    border-color 0.2s var(--emp-ease),
+    box-shadow 0.2s var(--emp-ease),
+    background-color 0.2s var(--emp-ease);
+}
+
+.emp-portal .form-control:focus,
+.emp-portal .form-select:focus {
+  border-color: var(--emp-olive);
+  box-shadow: var(--emp-ring);
+}
+
+.emp-portal .form-control:disabled {
+  background: rgba(241, 236, 230, 0.7);
+  color: var(--color-text-muted, #555);
+}
+
+.emp-portal .form-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--emp-teal);
+  margin-bottom: 0.35rem;
+}
+
+.emp-portal .form-check-input {
+  border-color: rgba(26, 75, 72, 0.3);
+  cursor: pointer;
+}
+
+.emp-portal .form-check-input:checked {
+  background-color: var(--emp-olive);
+  border-color: var(--emp-olive);
+}
+
+/* ============================ MODALS ============================ */
+
+.emp-portal .modal-content {
+  border: none;
+  border-radius: var(--emp-radius-lg);
+  box-shadow: var(--emp-shadow-lg);
+  overflow: hidden;
+}
+
+.emp-portal .modal-header {
+  border-bottom: 1px solid rgba(26, 75, 72, 0.08);
+  background: linear-gradient(135deg, rgba(129, 158, 53, 0.1), rgba(26, 75, 72, 0.06));
+  padding: 1rem 1.25rem;
+}
+
+.emp-portal .modal-title {
+  font-weight: 700;
+  color: var(--emp-teal);
+  letter-spacing: -0.01em;
+}
+
+.emp-portal .modal-body {
+  padding: 1.25rem;
+}
+
+.emp-portal .modal-footer {
+  border-top: 1px solid rgba(26, 75, 72, 0.08);
+  padding: 0.9rem 1.25rem;
+  background: rgba(241, 236, 230, 0.4);
+}
+
+/* ============================ ALERTS ============================ */
+
+.emp-portal .alert {
+  border: none;
+  border-radius: var(--emp-radius-sm);
+  border-left: 4px solid transparent;
+  box-shadow: var(--emp-shadow-xs);
+  font-size: 0.9rem;
+}
+
+.emp-portal .alert-success {
+  background: rgba(129, 158, 53, 0.1);
+  color: #4d5c1e;
+  border-left-color: var(--emp-olive);
+}
+
+.emp-portal .alert-danger {
+  background: rgba(175, 67, 30, 0.1);
+  color: #7c2a12;
+  border-left-color: var(--emp-clay);
+}
+
+.emp-portal .alert-warning {
+  background: rgba(232, 214, 87, 0.18);
+  color: #5f5310;
+  border-left-color: var(--emp-gold);
+}
+
+.emp-portal .alert-info {
+  background: rgba(26, 75, 72, 0.09);
+  color: #143836;
+  border-left-color: var(--emp-teal);
+}
+
+/* ============================ PROGRESS / MISC ============================ */
+
+.emp-portal .progress {
+  background: rgba(26, 75, 72, 0.09);
+  border-radius: 999px;
+}
+
+.emp-portal .progress-bar {
+  background: linear-gradient(90deg, var(--emp-olive), var(--emp-gold));
+  transition: width 0.7s var(--emp-ease-out);
+}
+
+.emp-portal code {
+  color: var(--emp-teal);
+  background: rgba(26, 75, 72, 0.07);
+  border-radius: 5px;
+  padding: 0.1rem 0.35rem;
+}
+
+.emp-portal a {
+  color: var(--emp-olive-dark);
+  transition: color 0.18s var(--emp-ease);
+}
+
+.emp-portal a:hover {
+  color: var(--emp-olive);
+}
+
+/* ============================ EMPTY STATE ============================ */
+
+.emp-portal .emp-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 2.75rem 1.25rem;
+  text-align: center;
+}
+
+.emp-portal .emp-empty__icon {
+  width: 74px;
+  height: 74px;
+  border-radius: 22px;
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  color: var(--emp-olive);
+  background: linear-gradient(135deg, rgba(129, 158, 53, 0.16), rgba(232, 214, 87, 0.16));
+  box-shadow: inset 0 0 0 1px rgba(129, 158, 53, 0.18);
+}
+
+.emp-portal .emp-empty__title {
+  font-weight: 700;
+  color: var(--emp-teal);
+  margin: 0.35rem 0 0;
+}
+
+.emp-portal .emp-empty__text {
+  color: var(--color-text-muted, #555);
+  font-size: 0.88rem;
+  max-width: 46ch;
+  margin: 0;
+}
+
+/* ============================ NAV HUB (Dashboard) ============================ */
+
+.emp-portal .emp-hub-card {
+  height: 100%;
+  border-radius: var(--emp-radius);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.95), rgba(241, 236, 230, 0.5));
+  transition:
+    transform var(--emp-dur) var(--emp-ease),
+    box-shadow var(--emp-dur) var(--emp-ease);
+}
+
+.emp-portal .emp-hub-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--emp-shadow);
+}
+
+.emp-portal .emp-hub-card a {
+  display: block;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  color: var(--color-text-muted, #555);
+  font-size: 0.85rem;
+  transition:
+    background-color 0.2s var(--emp-ease),
+    color 0.2s var(--emp-ease),
+    transform 0.2s var(--emp-ease-out);
+}
+
+.emp-portal .emp-hub-card a:hover {
+  background: rgba(129, 158, 53, 0.1);
+  color: var(--emp-teal);
+  transform: translateX(3px);
+}
+
+/* ============================ MESSAGE / CHAT ============================ */
+
+.emp-portal .list-group-item {
+  transition: background-color 0.2s var(--emp-ease);
+}
+
+.emp-portal .message-bubble {
+  border-radius: 14px;
+  animation: empBubbleIn 0.35s var(--emp-ease-out) both;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+@keyframes empBubbleIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ============================ MOTION ============================ */
+
+@keyframes empRiseIn {
+  from { opacity: 0; transform: translate3d(0, 18px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes empRiseInLeft {
+  from { opacity: 0; transform: translate3d(-14px, 0, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes empPopIn {
+  0%   { opacity: 0; transform: scale(0.94); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes empSheen {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+@keyframes empSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* Applied by <Reveal> */
+.emp-portal .emp-reveal {
+  opacity: 0;
+  animation: empRiseIn 0.62s var(--emp-ease-out) both;
+  animation-delay: var(--emp-delay, 0ms);
+}
+
+.emp-portal .emp-reveal-left {
+  opacity: 0;
+  animation: empRiseInLeft 0.55s var(--emp-ease-out) both;
+  animation-delay: var(--emp-delay, 0ms);
+}
+
+/* Modal entrance */
+.emp-portal .modal.show .modal-dialog {
+  animation: empPopIn 0.28s var(--emp-ease-out) both;
+}
+
+/* Live "running session" pulse */
+.emp-portal .emp-live-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--emp-olive);
+  box-shadow: 0 0 0 0 rgba(129, 158, 53, 0.6);
+  animation: empPulse 1.9s infinite;
+}
+
+@keyframes empPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(129, 158, 53, 0.55); }
+  70%  { box-shadow: 0 0 0 9px rgba(129, 158, 53, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(129, 158, 53, 0); }
+}
+
+.emp-portal .spinner-border {
+  animation: empSpin 0.7s linear infinite;
+}
+
+/* Skeleton shimmer (Employee-scoped) */
+.emp-portal .emp-skeleton {
+  border-radius: var(--emp-radius-sm);
+  background: linear-gradient(
+    90deg,
+    rgba(26, 75, 72, 0.06) 25%,
+    rgba(241, 236, 230, 0.75) 50%,
+    rgba(26, 75, 72, 0.06) 75%
+  );
+  background-size: 200% 100%;
+  animation: empSheen 1.4s infinite linear;
+}
+
+/* Numeric emphasis */
+.emp-portal .font-monospace {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* ============================ RESPONSIVE ============================ */
+
+@media (max-width: 992px) {
+  .emp-portal .emp-stat__value { font-size: 1.4rem; }
+}
+
+@media (max-width: 768px) {
+  .emp-portal .pageTitle { font-size: 1.4rem !important; }
+
+  .emp-portal .card:hover { transform: none; }
+
+  .emp-portal .table > :not(caption) > * > * {
+    padding: 0.7rem 0.65rem;
+  }
+
+  /* Stack the punch-clock actions full width on phones */
+  .emp-portal .btn { width: 100%; }
+
+  .emp-portal .emp-hub-card a:hover { transform: none; }
+}
+
+/* ============================ ACCESSIBILITY ============================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .emp-portal *,
+  .emp-portal *::before,
+  .emp-portal *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .emp-portal .emp-reveal,
+  .emp-portal .emp-reveal-left {
+    opacity: 1;
+    animation: none;
+  }
+}
+
+.emp-portal :focus-visible {
+  outline: 2px solid var(--emp-olive);
+  outline-offset: 2px;
+}

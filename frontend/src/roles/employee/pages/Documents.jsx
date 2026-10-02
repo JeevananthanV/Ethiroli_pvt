@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import employeePortalApi from '../../../services/api/employeePortalApi.js';
+import { EmptyState } from '../components/StatCard.jsx';
 
 export default function Documents() {
   const [documents, setDocuments] = useState([]);
@@ -98,12 +99,7 @@ export default function Documents() {
             <tbody>
               {documents.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="text-center py-5 text-muted">
-                    <div className="rounded-circle bg-light d-inline-flex p-3 mb-2">
-                      <i className="bi bi-folder2-open fs-2"></i>
-                    </div>
-                    <div>No documents uploaded yet. Upload your ID proofs or certifications.</div>
-                  </td>
+                  <td colSpan="5"><EmptyState icon="bi-folder2-open" text="No documents uploaded yet. Upload your ID proofs or certifications." compact /></td>
                 </tr>
               ) : (
                 documents.map((doc) => (

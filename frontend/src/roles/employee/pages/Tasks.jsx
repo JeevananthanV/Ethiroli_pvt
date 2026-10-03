@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import employeePortalApi from '../../../services/api/employeePortalApi.js';
+import { EmptyState } from '../components/StatCard.jsx';
 
 export default function Tasks() {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [updateError, setUpdateError] = useState('');
   const [filter, setFilter] = useState('ALL');
 
   const fetchTasks = useCallback(async () => {
@@ -28,11 +30,12 @@ export default function Tasks() {
 
   const handleToggleStatus = async (task) => {
     const nextStatus = task.status === 'COMPLETED' ? 'IN_PROGRESS' : 'COMPLETED';
+    setUpdateError('');
     try {
       await employeePortalApi.updateTaskStatus(task.id, nextStatus);
       await fetchTasks();
     } catch (err) {
-      alert('Failed to update status: ' + err.message);
+      setUpdateError(err.message || 'Failed to update task status');
     }
   };
 
@@ -59,6 +62,14 @@ export default function Tasks() {
       error={error}
       onRetry={fetchTasks}
     >
+      {updateError && (
+        <div className="alert alert-danger alert-dismissible fade show d-flex align-items-center mb-2" role="alert">
+          <i className="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+          <div>{updateError}</div>
+          <button type="button" className="btn-close" onClick={() => setUpdateError('')}></button>
+        </div>
+      )}
+
       <div className="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
         <div className="btn-group" role="group">
           <button
@@ -111,10 +122,7 @@ export default function Tasks() {
             <tbody>
               {filteredTasks.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="text-center py-5 text-muted">
-                    <i className="bi bi-check2-all fs-2 d-block mb-2"></i>
-                    No tasks found matching this criteria.
-                  </td>
+                  <td colSpan="5"><EmptyState icon="bi-check2-all" text="No tasks found matching this criteria." compact /></td>
                 </tr>
               ) : (
                 filteredTasks.map((task) => (

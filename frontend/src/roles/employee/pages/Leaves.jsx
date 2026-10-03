@@ -18,6 +18,27 @@ export default function Leaves() {
     reason: '',
   });
 
+  /**
+   * Inclusive calendar-day count between two `yyyy-mm-dd` values.
+   * A single selected day counts as 1, and an end before the start yields 0.
+   */
+  const countDays = (start, end) => {
+    if (!start || !end) return 0;
+    // Accept both a plain yyyy-mm-dd value and an ISO timestamp.
+    const toDay = (v) => {
+      const m = String(v).match(/^(\d{4}-\d{2}-\d{2})/);
+      return m ? new Date(`${m[1]}T00:00:00`) : new Date(v);
+    };
+    const a = toDay(start);
+    const b = toDay(end);
+    if (Number.isNaN(a.getTime()) || Number.isNaN(b.getTime())) return 0;
+    const diff = Math.round((b.getTime() - a.getTime()) / 86400000) + 1;
+    return diff > 0 ? diff : 0;
+  };
+
+  // Live day count shown in the Apply for Leave modal.
+  const requestedDays = countDays(formData.start_date, formData.end_date);
+
   const loadLeaves = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -42,6 +63,11 @@ export default function Leaves() {
     setSubmitting(true);
     setError(null);
     setSuccessMsg('');
+    if (formData.end_date && formData.start_date && new Date(formData.end_date) < new Date(formData.start_date)) {
+      setError('End date must be on or after the start date.');
+      setSubmitting(false);
+      return;
+    }
     try {
       await employeePortalApi.applyLeave(formData);
       setSuccessMsg('Leave request submitted successfully for manager approval!');
@@ -84,7 +110,23 @@ export default function Leaves() {
 
       {/* Balances Row */}
       <div className="row g-3 mb-2">
-        {balances.map((b) => (
+        {balances.length === 0 ? (
+          <div className="col-12">
+            <div className="card shadow-sm border-0">
+              <div className="card-body d-flex align-items-center gap-3 py-4">
+                <i className="bi bi-info-circle text-primary fs-3"></i>
+                <div>
+                  <div className="fw-bold text-dark">No leave balance on record</div>
+                  <div className="text-muted small mb-0">
+                    HR has not published a leave entitlement for you yet, so no balance is
+                    shown. You can still submit a request below and HR will review it.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+        balances.map((b) => (
           <div key={b.leave_type} className="col-md-4">
             <div className="card shadow-sm border-0 h-100 p-3 bg-white">
               <div className="d-flex justify-content-between align-items-center mb-2">
@@ -98,11 +140,13 @@ export default function Leaves() {
                 <span className="text-muted small">days remaining</span>
               </div>
               <div className="text-muted small mt-2">
-                Credited: {b.total_credited || 0} | Consumed: {b.consumed || 0}
+                Credited: {b.total_credited || 0} day{(b.total_credited || 0) === 1 ? '' : 's'}
+                {' · '}Consumed: {b.consumed || 0} day{(b.consumed || 0) === 1 ? '' : 's'}
               </div>
             </div>
           </div>
-        ))}
+        ))
+        )}
       </div>
 
       {/* Request Table & Action */}
@@ -121,6 +165,7 @@ export default function Leaves() {
                 <th>Type</th>
                 <th>From</th>
                 <th>To</th>
+                <th>Days</th>
                 <th>Reason</th>
                 <th>Status</th>
                 <th>Applied On</th>
@@ -129,7 +174,7 @@ export default function Leaves() {
             <tbody>
               {requests.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="text-center py-5 text-muted">
+                  <td colSpan="7" className="text-center py-5 text-muted">
                     <i className="bi bi-calendar-x fs-2 d-block mb-2"></i>
                     No leave requests found. Click "Apply for Leave" to request time off.
                   </td>
@@ -142,6 +187,11 @@ export default function Leaves() {
                     </td>
                     <td className="fw-medium text-dark">{new Date(req.start_date).toLocaleDateString()}</td>
                     <td className="fw-medium text-dark">{new Date(req.end_date).toLocaleDateString()}</td>
+                    <td>
+                      <span className="badge bg-light text-dark border">
+                        {countDays(req.start_date, req.end_date)} day{countDays(req.start_date, req.end_date) === 1 ? '' : 's'}
+                      </span>
+                    </td>
                     <td className="text-muted small" style={{ maxWidth: '250px' }}>{req.reason}</td>
                     <td>{getStatusBadge(req.status)}</td>
                     <td className="text-muted small">
@@ -200,6 +250,15 @@ export default function Leaves() {
                       />
                     </div>
                   </div>
+                    {requestedDays > 0 && (
+                      <div className="alert alert-info d-flex align-items-center gap-2 py-2 mb-3">
+                        <i className="bi bi-calendar-range" aria-hidden="true"></i>
+                        <span>
+                          Requesting <strong>{requestedDays}</strong> day{requestedDays === 1 ? '' : 's'} of leave
+                          {' '}({formData.start_date} &rarr; {formData.end_date})
+                        </span>
+                      </div>
+                    )}
                   <div className="mb-3">
                     <label className="form-label fw-semibold">Reason for Absence</label>
                     <textarea

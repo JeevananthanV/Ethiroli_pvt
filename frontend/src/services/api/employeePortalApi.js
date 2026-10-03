@@ -4,8 +4,9 @@ export const employeePortalApi = {
   // 1. Dashboard
   getDashboardOverview: () => axiosInstance.get('/v1/employee/dashboard'),
 
-  // 2. Attendance & Punch Clock
+  // 2. Attendance & Punch Clock (supports multiple work sessions per day)
   punchAttendance: (action) => axiosInstance.post('/v1/employee/attendance/punch', { action }),
+  getTodayAttendance: () => axiosInstance.get('/v1/employee/attendance/today'),
   getAttendanceHistory: (params) => axiosInstance.get('/v1/employee/attendance', { params }),
 
   // 3. Leaves & Balances
@@ -37,6 +38,13 @@ export const employeePortalApi = {
   getMyApprovals: () => axiosInstance.get('/v1/employee/approvals'),
   getAchievements: () => axiosInstance.get('/v1/employee/achievements'),
   getMessages: (params) => axiosInstance.get('/v1/employee/messages', { params }),
+  getMessageContacts: (params) => axiosInstance.get('/v1/employee/messages/contacts', { params }),
+
+  // 9. Notifications — backed by the shared activity feed, scoped to the
+  // signed-in employee on the server (no employee-specific table needed).
+  getNotifications: (params) => axiosInstance.get('/v1/activity-feed', { params }),
+  markNotificationRead: (id) => axiosInstance.patch(`/v1/activity-feed/${id}/read`),
+  markAllNotificationsRead: () => axiosInstance.post('/v1/activity-feed/read-all'),
   sendMessage: (payload) => axiosInstance.post('/v1/employee/messages', payload),
 };
 

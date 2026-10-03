@@ -71,13 +71,22 @@ export const createEvent = asyncHandler(async (req, res) => {
   const canCreate = allowed.includes('ALL') || allowed.includes(userRole) || ['SUPER_ADMIN', 'ADMIN'].includes(userRole);
   if (!canCreate) throw new ForbiddenError(`Your role (${userRole}) is not permitted to create '${typeConfig.label}' events`);
 
+  // `role` controls who the event is visible to, and it was taken verbatim
+  // from the request body. A crafted POST from an EMPLOYEE token carrying
+  // {"role":"ALL"} created an organisation-wide event. Only an admin may pick
+  // an audience; everyone else is pinned to their own role.
+  const requestedRole = rest.role;
+  const audienceRole = ['SUPER_ADMIN', 'ADMIN'].includes(userRole)
+    ? (requestedRole || userRole)
+    : userRole;
+
   const id = await CalendarEvent.create({
     ...rest,
+    role: audienceRole,
     event_type: typeConfig.label.toUpperCase().replace(/\s+/g, '_'),
     event_type_id: typeConfig.id,
     created_by: req.user.id,
     tenant_id: req.user?.tenant_id || null,
-    role: req.body.role || userRole,
     recurrence_rule
   });
 
@@ -155,8 +164,7 @@ export const deleteEvent = asyncHandler(async (req, res) => {
 
 export const createRecurrence = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const event = await CalendarEvent.findById(id);
-  if (!event) throw new NotFoundError('Event not found');
+  await assertCanModifyInstance(req, id);
   const result = await RecurringEngine.createRule(id, req.body);
   return success(res, 201, result, 'Recurrence rule created');
 });
@@ -167,16 +175,49 @@ export const getInstances = asyncHandler(async (req, res) => {
   return success(res, 200, instances, 'Recurring instances retrieved');
 });
 
+/**
+ * Shared ownership test for the instance endpoints below.
+ *
+ * `skipInstance` and `cancelInstance` previously performed no authorisation
+ * at all. RecurringEngine.skipInstance issues
+ *   UPDATE calendar_events SET status='cancelled'
+ *    WHERE index_key = ? OR (parent_event_id = ? AND DATE(start_time) = ?)
+ * on whatever id it is handed, so any authenticated user could cancel an
+ * occurrence of someone else's recurring event.
+ *
+ * The rule applied here is deliberately identical to the one updateEvent
+ * (see above) and deleteEvent already use: the creator, an admin, or a role
+ * the event type lists in allowed_write_roles. Anyone who could legitimately
+ * edit the event keeps the ability to skip or cancel an occurrence.
+ */
+async function assertCanModifyInstance(req, eventId) {
+  const event = await CalendarEvent.findById(eventId);
+  if (!event) throw new NotFoundError('Event not found');
+  const userRole = req.user?.role;
+  const isOwner = event.created_by === req.user.id;
+  const isAdmin = ['SUPER_ADMIN', 'ADMIN'].includes(userRole);
+  if (!isOwner && !isAdmin) {
+    const typeConfig = await EventTypeService.getByType(event.event_type_id || event.event_type);
+    const writeAllowed = typeConfig?.allowed_write_roles || [];
+    if (!writeAllowed.includes('ALL') && !writeAllowed.includes(userRole)) {
+      throw new ForbiddenError('Insufficient permissions to modify this event');
+    }
+  }
+  return event;
+}
+
 export const skipInstance = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { date } = req.body;
   if (!date) throw new ApiError(400, 'date parameter is required');
+  await assertCanModifyInstance(req, id);
   await RecurringEngine.skipInstance(id, date);
   return success(res, 200, null, 'Instance skipped');
 });
 
 export const cancelInstance = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  await assertCanModifyInstance(req, id);
   await RecurringEngine.cancelInstance(id);
   return success(res, 200, null, 'Instance cancelled');
 });

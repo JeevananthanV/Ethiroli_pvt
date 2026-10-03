@@ -262,10 +262,19 @@ export default class CalendarEvent {
     showOthersEvents = true,
     allowedEventTypes = null
   }) {
+    // NOTE: the explicit COLLATE on the event-types join is required.
+    // `calendar_events` was created with the MySQL 8 default
+    // (utf8mb4_0900_ai_ci) while `calendar_event_types` uses
+    // utf8mb4_unicode_ci. Joining `e.event_type_id = t.id` across the two
+    // collations raised ER_CANT_AGGREGATE_2COLLATIONS ("Illegal mix of
+    // collations"), which made /calendar/expand return 500 for every role
+    // (including the Employee calendar). Collating both sides keeps the
+    // comparison valid without changing any rows or other roles' behaviour.
     let query = `
       SELECT e.*, t.label as type_label, t.color as type_color, t.icon as type_icon
       FROM calendar_events e
-      LEFT JOIN calendar_event_types t ON e.event_type_id = t.id
+      LEFT JOIN calendar_event_types t
+        ON e.event_type_id COLLATE utf8mb4_0900_ai_ci = t.id COLLATE utf8mb4_0900_ai_ci
       WHERE e.status != 'cancelled'
     `;
     const values = [];

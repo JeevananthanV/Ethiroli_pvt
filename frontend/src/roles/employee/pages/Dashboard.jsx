@@ -2,6 +2,16 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import employeePortalApi from '../../../services/api/employeePortalApi.js';
+import {
+  formatClock,
+  formatDuration,
+  openSessionElapsedSeconds,
+  liveWorkedMinutes,
+  punchStatusLabel,
+  punchStatusClass,
+} from '../utils/attendanceFormat.js';
+
+
 
 export default function Dashboard() {
   const [data, setData] = useState(null);
@@ -9,6 +19,12 @@ export default function Dashboard() {
   const [error, setError] = useState(null);
   const [punching, setPunching] = useState(false);
   const [punchMsg, setPunchMsg] = useState('');
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [confirmError, setConfirmError] = useState('');
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  // Reference point for the live working-hours total: the server folded the
+  // open session's elapsed time into worked_minutes as of this instant.
+  const [fetchedAt, setFetchedAt] = useState(null);
 
   const fetchOverview = useCallback(async () => {
     setLoading(true);
@@ -17,6 +33,7 @@ export default function Dashboard() {
       const res = await employeePortalApi.getDashboardOverview();
       const overview = res?.data || res;
       setData(overview);
+      setFetchedAt(Date.now());
     } catch (err) {
       setError(err.message || 'Failed to load dashboard overview');
     } finally {
@@ -28,23 +45,49 @@ export default function Dashboard() {
     fetchOverview();
   }, [fetchOverview]);
 
-  const handlePunch = async (action) => {
+  // Same attendance source as the Attendance page, so both always agree.
+  const todayAttendance = data?.todayAttendance || data?.attendance || null;
+  const isCheckedIn = Boolean(todayAttendance?.is_punched_in);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setElapsedSeconds(openSessionElapsedSeconds(todayAttendance));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [todayAttendance]);
+
+  const handlePunchIn = async () => {
     setPunching(true);
     setPunchMsg('');
+    setError(null);
     try {
-      await employeePortalApi.punchAttendance(action);
-      setPunchMsg(`Successfully ${action === 'CHECK_IN' ? 'punched in' : 'punched out'}!`);
+      await employeePortalApi.punchAttendance('CHECK_IN');
+      setPunchMsg('Punched in successfully!');
       await fetchOverview();
     } catch (err) {
-      setError(err.message || `Failed to ${action.toLowerCase()}`);
+      setError(err.response?.data?.message || err.message || 'Failed to punch in');
     } finally {
       setPunching(false);
     }
   };
 
-  const todayAttendance = data?.todayAttendance;
-  const isCheckedIn = Boolean(todayAttendance?.check_in_time);
-  const isCheckedOut = Boolean(todayAttendance?.check_out_time);
+  // Punch Out only fires after the employee confirms in the modal.
+  const handleConfirmPunchOut = async () => {
+    if (punching) return;
+    setPunching(true);
+    setConfirmError('');
+    try {
+      await employeePortalApi.punchAttendance('CHECK_OUT');
+      setShowConfirm(false);
+      setPunchMsg('Punched out successfully!');
+      await fetchOverview();
+    } catch (err) {
+      setConfirmError(err.response?.data?.message || err.message || 'Punch out failed. Please try again.');
+    } finally {
+      setPunching(false);
+    }
+  };
+
   const leaveBalances = data?.leaveBalances || [];
   const upcomingTasks = data?.upcomingTasks || [];
   const announcements = data?.recentAnnouncements || [];
@@ -67,35 +110,48 @@ export default function Dashboard() {
 
       {/* Row 1: KPI Summary Cards */}
       <div className="row g-3 mb-2">
-        {/* Clock In / Out Card */}
+              {/* Clock In / Out Card */}
         <div className="col-md-6 col-lg-3">
-          <div className="card shadow-sm border-0 h-100 p-3 bg-white">
+          <div className="emp-stat emp-stat--olive h-100">
             <div className="d-flex justify-content-between align-items-center mb-2">
-              <span className="text-muted small text-uppercase fw-semibold">Attendance</span>
-              <span className={`badge ${todayAttendance?.status === 'PRESENT' ? 'bg-success' : 'bg-secondary'}`}>
-                {todayAttendance?.status || 'NOT LOGGED'}
+              <span className="emp-stat__label">Attendance</span>
+              <span className={`badge ${punchStatusClass(todayAttendance)}`}>
+                {punchStatusLabel(todayAttendance)}
               </span>
             </div>
-            <div className="fw-bold fs-5 text-dark mb-2">
+            <div className="d-flex justify-content-between align-items-baseline mb-1">
+              <span className="emp-stat__value">
+                {formatDuration(liveWorkedMinutes(todayAttendance, fetchedAt))}
+              </span>
+              <small className="text-muted">
+                {(todayAttendance?.session_count ?? 0)} session{(todayAttendance?.session_count ?? 0) === 1 ? '' : 's'}
+              </small>
+            </div>
+            <div className="emp-stat__hint mb-2">
               {isCheckedIn
-                ? `In: ${new Date(todayAttendance.check_in_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
-                : 'Not Punched Today'}
+                ? `Since ${formatClock(todayAttendance?.current_session?.check_in_time)}`
+                : (todayAttendance?.session_count
+                  ? 'All sessions complete'
+                  : 'Not punched today')}
             </div>
             <div className="mt-auto d-flex gap-2">
-              <button
-                className="btn btn-sm btn-primary w-100"
-                disabled={punching || isCheckedIn}
-                onClick={() => handlePunch('CHECK_IN')}
-              >
-                {isCheckedIn ? 'Punched In' : 'Punch In'}
-              </button>
-              <button
-                className="btn btn-sm btn-outline-danger w-100"
-                disabled={punching || !isCheckedIn || isCheckedOut}
-                onClick={() => handlePunch('CHECK_OUT')}
-              >
-                {isCheckedOut ? 'Punched Out' : 'Punch Out'}
-              </button>
+              {!isCheckedIn ? (
+                <button
+                  className="btn btn-sm btn-primary w-100"
+                  disabled={punching}
+                  onClick={handlePunchIn}
+                >
+                  {punching ? 'Punching In...' : 'Punch In'}
+                </button>
+              ) : (
+                <button
+                  className="btn btn-sm btn-outline-danger w-100"
+                  disabled={punching}
+                  onClick={() => { setConfirmError(''); setShowConfirm(true); }}
+                >
+                  Punch Out
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -167,7 +223,7 @@ export default function Dashboard() {
           <div className="row g-3">
             {/* Employee Management */}
             <div className="col-md-6 col-lg-3">
-              <div className="p-3 border rounded-3 h-100 bg-light">
+              <div className="emp-hub-card p-3 border rounded-3 h-100 bg-light">
                 <div className="fw-bold text-dark mb-2 d-flex align-items-center gap-2">
                   <i className="bi bi-briefcase text-primary"></i>
                   <span>Employee Management</span>
@@ -194,7 +250,7 @@ export default function Dashboard() {
 
             {/* Learning & Development */}
             <div className="col-md-6 col-lg-3">
-              <div className="p-3 border rounded-3 h-100 bg-light">
+              <div className="emp-hub-card p-3 border rounded-3 h-100 bg-light">
                 <div className="fw-bold text-dark mb-2 d-flex align-items-center gap-2">
                   <i className="bi bi-mortarboard text-success"></i>
                   <span>Learning & Growth</span>
@@ -218,7 +274,7 @@ export default function Dashboard() {
 
             {/* Personal Records */}
             <div className="col-md-6 col-lg-3">
-              <div className="p-3 border rounded-3 h-100 bg-light">
+              <div className="emp-hub-card p-3 border rounded-3 h-100 bg-light">
                 <div className="fw-bold text-dark mb-2 d-flex align-items-center gap-2">
                   <i className="bi bi-person-badge text-warning"></i>
                   <span>Personal Records</span>
@@ -239,7 +295,7 @@ export default function Dashboard() {
 
             {/* Communication & Governance */}
             <div className="col-md-6 col-lg-3">
-              <div className="p-3 border rounded-3 h-100 bg-light">
+              <div className="emp-hub-card p-3 border rounded-3 h-100 bg-light">
                 <div className="fw-bold text-dark mb-2 d-flex align-items-center gap-2">
                   <i className="bi bi-chat-square-dots text-danger"></i>
                   <span>Communication</span>
@@ -333,6 +389,92 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+
+      {/* Punch Out Confirmation Modal (same flow as the Attendance page) */}
+      {showConfirm && (
+        <div
+          className="modal show d-block"
+          style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+          tabIndex="-1"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="dashConfirmPunchOutTitle"
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content border-0 shadow">
+              <div className="modal-header">
+                <h5 id="dashConfirmPunchOutTitle" className="modal-title fw-bold">Confirm Punch Out</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setShowConfirm(false)}
+                  disabled={punching}
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className="modal-body">
+                <p className="mb-3">Are you sure you want to punch out?</p>
+                <div className="bg-light rounded-3 p-3 mb-3">
+                  <div className="d-flex justify-content-between mb-2">
+                    <span className="text-muted small">Current session punch in:</span>
+                    <span className="fw-semibold font-monospace text-dark">
+                      {formatClock(todayAttendance?.current_session?.check_in_time)}
+                    </span>
+                  </div>
+                  <div className="d-flex justify-content-between mb-2">
+                    <span className="text-muted small">Current working time:</span>
+                    <span className="fw-bold font-monospace text-success">
+                      {formatDuration(Math.floor(elapsedSeconds / 60))}
+                    </span>
+                  </div>
+                  <div className="d-flex justify-content-between">
+                    <span className="text-muted small">Sessions completed today:</span>
+                    <span className="fw-semibold text-dark">{todayAttendance?.session_count ?? 0}</span>
+                  </div>
+                </div>
+                <p className="text-muted small mb-0">
+                  If you punch out now, your current work session will end. Breaks are not
+                  counted as working time.
+                </p>
+                {confirmError && (
+                  <div className="alert alert-danger mt-3 mb-0 d-flex align-items-center" role="alert">
+                    <i className="bi bi-exclamation-triangle-fill me-2"></i>
+                    <div>{confirmError}</div>
+                  </div>
+                )}
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-light"
+                  onClick={() => setShowConfirm(false)}
+                  disabled={punching}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger d-flex align-items-center gap-2"
+                  onClick={handleConfirmPunchOut}
+                  disabled={punching}
+                >
+                  {punching ? (
+                    <>
+                      <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                      <span>Punching Out...</span>
+                    </>
+                  ) : (
+                    <>
+                      <i className="bi bi-check2-circle"></i>
+                      <span>Confirm Punch Out</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </AdminPage>
   );
 }

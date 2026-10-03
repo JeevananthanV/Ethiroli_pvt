@@ -105,9 +105,9 @@ export default function Profile() {
             </div>
 
             <h5 className="fw-bold mb-1">{user?.full_name || 'Employee'}</h5>
-            <p className="text-muted small mb-2">{emp?.designation || 'Software Engineer'}</p>
+            <p className="text-muted small mb-2">{emp?.designation || '—'}</p>
             <span className="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-3 py-1 mb-3">
-              {emp?.department || 'Engineering & Technology'}
+              {emp?.department || '—'}
             </span>
 
             <hr className="my-3" />
@@ -115,7 +115,7 @@ export default function Profile() {
             <div className="text-start">
               <div className="mb-2">
                 <span className="text-muted small d-block">Employee ID</span>
-                <span className="fw-semibold text-dark">{emp?.employee_code || 'EMP-1002'}</span>
+                <span className="fw-semibold text-dark">{emp?.employee_code || '—'}</span>
               </div>
               <div className="mb-2">
                 <span className="text-muted small d-block">Official Email</span>
@@ -178,7 +178,7 @@ export default function Profile() {
                     <input
                       type="text"
                       className="form-control bg-light"
-                      value={emp?.employee_code || 'EMP-1002'}
+                      value={emp?.employee_code || ''}
                       disabled
                     />
                   </div>
@@ -202,19 +202,27 @@ export default function Profile() {
                 <div className="col-md-4">
                   <div className="p-3 bg-light rounded-3">
                     <span className="text-muted small d-block">PAN Number</span>
-                    <span className="fw-bold text-dark">{emp?.pan ? '••••••••' + emp.pan.slice(-4) : 'Verified on File'}</span>
+                    {/* Never assert compliance that is not on record: when the
+                        field is NULL the card now says so. */}
+                    <span className={emp?.pan ? 'fw-bold text-dark' : 'text-muted'}>
+                      {emp?.pan ? '••••••••' + emp.pan.slice(-4) : 'Not on record'}
+                    </span>
                   </div>
                 </div>
                 <div className="col-md-4">
                   <div className="p-3 bg-light rounded-3">
                     <span className="text-muted small d-block">PF / UAN Number</span>
-                    <span className="fw-bold text-dark">{emp?.pf_number ? '••••••••' + emp.pf_number.slice(-4) : 'Active'}</span>
+                    <span className={emp?.pf_number ? 'fw-bold text-dark' : 'text-muted'}>
+                      {emp?.pf_number ? '••••••••' + emp.pf_number.slice(-4) : 'Not on record'}
+                    </span>
                   </div>
                 </div>
                 <div className="col-md-4">
                   <div className="p-3 bg-light rounded-3">
                     <span className="text-muted small d-block">Bank Account</span>
-                    <span className="fw-bold text-dark">{emp?.bank_account ? '••••••••' + emp.bank_account.slice(-4) : 'Direct Deposit'}</span>
+                    <span className={emp?.bank_account ? 'fw-bold text-dark' : 'text-muted'}>
+                      {emp?.bank_account ? '••••••••' + emp.bank_account.slice(-4) : 'Not on record'}
+                    </span>
                   </div>
                 </div>
               </div>

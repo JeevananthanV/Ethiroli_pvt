@@ -2,13 +2,11 @@ import React, { useState, useEffect, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { listReviews } from '../../../services/api/performanceApi.js';
 
-function getStatusClass(status) {
-  if (!status) return 'inactive';
-  const s = String(status).toLowerCase();
-  if (['approved', 'active', 'paid', 'completed', 'success'].includes(s)) return 'active';
-  if (['pending', 'processing', 'awaiting', 'in_progress'].includes(s)) return 'pending';
-  if (['rejected', 'cancelled', 'failed', 'error', 'declined'].includes(s)) return 'error';
-  return 'inactive';
+function getStatusBadge(status) {
+  const s = String(status || '').toUpperCase();
+  if (['ACKNOWLEDGED', 'ARCHIVED'].includes(s)) return 'bg-success';
+  if (['SUBMITTED', 'DRAFT'].includes(s)) return 'bg-warning text-dark';
+  return 'bg-secondary';
 }
 
 export default function EmployeePerformance() {
@@ -41,46 +39,50 @@ export default function EmployeePerformance() {
       error={error}
       onRetry={fetchReviews}
     >
-      <div className="card">
-        <div className="cardHeader">
-          <h3 className="cardTitle">Performance Reviews</h3>
+      <div className="card shadow-sm border-0">
+        <div className="card-header bg-white py-3">
+          <h6 className="mb-0 fw-bold">Performance Reviews</h6>
         </div>
-        <div className="cardBody">
-          {reviews.length === 0 ? (
-            <div className="emptyState">
-              <h3>No reviews found</h3>
-              <p>Your performance reviews will appear here.</p>
-            </div>
-          ) : (
-            <div className="overflowAuto">
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>Review Period</th>
-                    <th>Reviewer</th>
-                    <th>Score</th>
-                    <th>Status</th>
-                    <th>Comments</th>
+        <div className="table-responsive">
+          <table className="table table-hover align-middle mb-0">
+            <thead className="table-light text-muted small text-uppercase">
+              <tr>
+                <th>Review Period</th>
+                <th>Reviewer</th>
+                <th>Score</th>
+                <th>Status</th>
+                <th>Comments</th>
+              </tr>
+            </thead>
+            <tbody>
+              {reviews.length === 0 ? (
+                <tr>
+                  <td colSpan="5" className="text-center py-5 text-muted">
+                    <i className="bi bi-clipboard2-data fs-2 d-block mb-2"></i>
+                    No reviews found. Your performance reviews will appear here.
+                  </td>
+                </tr>
+              ) : (
+                reviews.map(review => (
+                  <tr key={review.id}>
+                    <td className="fw-medium text-dark">
+                      {review.review_date ? new Date(review.review_date).toLocaleDateString() : 'N/A'}
+                    </td>
+                    <td className="text-muted">{review.reviewer_name || 'N/A'}</td>
+                    <td className="fw-semibold text-dark">{review.rating != null ? `${review.rating} / 5` : 'N/A'}</td>
+                    <td>
+                      <span className={`badge ${getStatusBadge(review.status)}`}>
+                        {review.status || 'N/A'}
+                      </span>
+                    </td>
+                    <td className="text-muted small" style={{ maxWidth: '320px' }}>
+                      {review.overall_comment || '—'}
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {reviews.map(review => (
-                    <tr key={review.id}>
-                      <td>{review.period || review.reviewPeriod || 'N/A'}</td>
-                      <td>{review.reviewer || review.reviewerName || 'N/A'}</td>
-                      <td>{review.score ? `${review.score} / 5.0` : 'N/A'}</td>
-                      <td>
-                        <span className={`statusTag ${getStatusClass(review.status)}`}>
-                          {review.status || 'N/A'}
-                        </span>
-                      </td>
-                      <td>{review.comments || '—'}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
     </AdminPage>

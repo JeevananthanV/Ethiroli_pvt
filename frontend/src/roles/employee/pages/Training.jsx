@@ -1,11 +1,23 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import employeePortalApi from '../../../services/api/employeePortalApi.js';
+import { EmptyState } from '../components/StatCard.jsx';
 
 export default function Training() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  /**
+   * `enrollments.progress_percentage` is returned as a DECIMAL string by
+   * mysql2. Coerce it to a bounded number so the progress bar never renders
+   * "NaN%" or a width the browser cannot lay out.
+   */
+  const progressOf = (course) => {
+    const n = Number(course?.progress_percentage);
+    if (!Number.isFinite(n)) return 0;
+    return Math.min(100, Math.max(0, Math.round(n)));
+  };
 
   const loadCourses = useCallback(async () => {
     setLoading(true);
@@ -35,13 +47,7 @@ export default function Training() {
     >
       <div className="row g-4">
         {courses.length === 0 ? (
-          <div className="col-12 text-center py-5">
-            <div className="rounded-circle bg-light d-inline-flex p-3 mb-3 text-muted">
-              <i className="bi bi-book fs-1"></i>
-            </div>
-            <h5>No Training Courses Enrolled</h5>
-            <p className="text-muted">You are not currently enrolled in any professional training courses.</p>
-          </div>
+          <div className="col-12"><EmptyState icon="bi-mortarboard" text="No training courses enrolled yet." /></div>
         ) : (
           courses.map((course) => (
             <div key={course.id || course.course_id} className="col-md-6 col-lg-4">
@@ -49,7 +55,7 @@ export default function Training() {
                 {course.thumbnail_url ? (
                   <img
                     src={course.thumbnail_url}
-                    alt={course.title}
+                    alt={course.name}
                     className="card-img-top"
                     style={{ height: '160px', objectFit: 'cover' }}
                   />
@@ -68,35 +74,34 @@ export default function Training() {
                       {course.category || 'General'}
                     </span>
                     <span className="badge bg-info text-dark small">
-                      {course.level || 'Intermediate'}
+                      {course.level || 'Level not set'}
                     </span>
                   </div>
 
-                  <h5 className="card-title fw-bold text-dark">{course.title}</h5>
+                  {/* `courses` has a `name` column, not `title`. Reading
+                      `course.title` rendered an empty heading for every card. */}
+                  <h5 className="card-title fw-bold text-dark">{course.name}</h5>
                   <p className="card-text text-muted small flex-grow-1">
-                    {course.description || 'Comprehensive training curriculum to advance domain knowledge and team performance.'}
+                    {course.description || 'No description provided for this course.'}
                   </p>
 
                   <div className="mt-3 pt-3 border-top">
                     <div className="d-flex justify-content-between align-items-center mb-1 small text-muted">
                       <span>Progress</span>
-                      <span className="fw-semibold text-dark">{course.progress || 0}%</span>
+                      {/* progress lives in `enrollments.progress_percentage`; the old
+                          `course.progress` read always produced 0%. */}
+                      <span className="fw-semibold text-dark">{progressOf(course)}%</span>
                     </div>
-                    <div className="progress mb-3" style={{ height: '6px' }}>
+                    <div className="progress" style={{ height: '6px' }}>
                       <div
                         className="progress-bar bg-success"
                         role="progressbar"
-                        style={{ width: `${course.progress || 0}%` }}
-                        aria-valuenow={course.progress || 0}
+                        style={{ width: `${progressOf(course)}%` }}
+                        aria-valuenow={progressOf(course)}
                         aria-valuemin="0"
                         aria-valuemax="100"
                       ></div>
                     </div>
-
-                    <button className="btn btn-primary btn-sm w-100 d-flex align-items-center justify-content-center gap-2">
-                      <i className="bi bi-play-circle"></i>
-                      <span>Resume Course</span>
-                    </button>
                   </div>
                 </div>
               </div>

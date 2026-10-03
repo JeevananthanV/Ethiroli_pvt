@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import employeePortalApi from '../../../services/api/employeePortalApi.js';
+import { EmptyState } from '../components/StatCard.jsx';
 
 export default function Assignments() {
   const [assignments, setAssignments] = useState([]);
@@ -25,15 +26,21 @@ export default function Assignments() {
     loadAssignments();
   }, [loadAssignments]);
 
-  const getStatusBadge = (status) => {
-    switch (status) {
-      case 'GRADED':
-        return <span className="badge bg-success">Graded</span>;
-      case 'SUBMITTED':
-        return <span className="badge bg-primary">Submitted</span>;
-      default:
-        return <span className="badge bg-warning text-dark">Pending Submission</span>;
+  /**
+   * `submission_status` is only ever 'SUBMITTED' or 'NOT_STARTED' - the query
+   * builds it from a CASE on the presence of an assignment_submissions row, so
+   * the old `case 'GRADED'` could never fire and a fully graded submission
+   * still rendered "Pending Submission". The grade column is what actually
+   * distinguishes graded work, so key off that.
+   */
+  const getStatusBadge = (item) => {
+    if (item?.grade !== null && item?.grade !== undefined) {
+      return <span className="badge bg-success">Graded &middot; {item.grade}</span>;
     }
+    if (item?.submission_status === 'SUBMITTED') {
+      return <span className="badge bg-primary">Submitted &middot; awaiting grade</span>;
+    }
+    return <span className="badge bg-warning text-dark">Pending Submission</span>;
   };
 
   return (
@@ -64,9 +71,7 @@ export default function Assignments() {
             <tbody>
               {assignments.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="text-center py-4 text-muted">
-                    No assignments found at this time.
-                  </td>
+                  <td colSpan="6"><EmptyState icon="bi-journal-text" text="No assignments found at this time." compact /></td>
                 </tr>
               ) : (
                 assignments.map((item) => (
@@ -76,7 +81,7 @@ export default function Assignments() {
                     <td>
                       {item.due_date ? new Date(item.due_date).toLocaleDateString() : 'No deadline'}
                     </td>
-                    <td>{getStatusBadge(item.submission_status)}</td>
+                    <td>{getStatusBadge(item)}</td>
                     <td>
                       {item.grade ? (
                         <span className="badge bg-info text-dark fw-bold">{item.grade} / 100</span>

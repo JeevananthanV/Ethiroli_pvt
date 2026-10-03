@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import employeePortalApi from '../../../services/api/employeePortalApi.js';
+import { EmptyState } from '../components/StatCard.jsx';
 
 export default function Support() {
   const [tickets, setTickets] = useState([]);
@@ -111,10 +112,7 @@ export default function Support() {
             <tbody>
               {tickets.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="text-center py-5 text-muted">
-                    <i className="bi bi-life-preserver fs-2 d-block mb-2"></i>
-                    No support tickets logged. If you need any assistance, click Create Ticket.
-                  </td>
+                  <td colSpan="6"><EmptyState icon="bi-life-preserver" text="No support tickets logged. If you need any assistance, click Create Ticket." compact /></td>
                 </tr>
               ) : (
                 tickets.map((t) => (

@@ -406,17 +406,6 @@ export default function DynamicCalendarPage({ defaultRole = null }) {
 
   const canCreateEvents = creatableTypes.length > 0;
 
-  // Role-configured quick add types
-  const quickAddTypes = useMemo(() => {
-    const configuredIds = roleConfig?.quick_create_types || [];
-    if (configuredIds.length > 0) {
-      const mapped = configuredIds
-        .map((id) => creatableTypes.find((t) => t.id === id))
-        .filter(Boolean);
-      if (mapped.length > 0) return mapped;
-    }
-    return creatableTypes.slice(0, 3);
-  }, [roleConfig, creatableTypes]);
 
   // Ownership & role-based event permissions
   const canUserDelete = (event) => {
@@ -646,23 +635,11 @@ export default function DynamicCalendarPage({ defaultRole = null }) {
                 )}
               </div>
 
-              {/* Quick-Add Shortcuts dynamically configured per role */}
-              {quickAddTypes.length > 0 && canCreateEvents && (
-                <div className="quick-add-cluster">
-                  {quickAddTypes.map((t) => (
-                    <button
-                      key={t.id}
-                      type="button"
-                      className="quick-add-btn"
-                      onClick={() => handleOpenCreateModal(null, t.id)}
-                      title={`Quick add ${t.label}`}
-                    >
-                      <i className={`bi ${t.icon || 'bi-plus'}`}></i>
-                      <span>{t.label}</span>
-                    </button>
-                  ))}
-                </div>
-              )}
+              {/* Per-type Quick-Add shortcuts removed: each one opened the same
+                  "Schedule New Event" modal as the single "New Event" button, only
+                  pre-selecting a category. The unified New Event button plus the
+                  in-modal "Event Category" dropdown covers every type, so the
+                  duplicate shortcuts were redundant. */}
             </div>
           </div>
         </div>

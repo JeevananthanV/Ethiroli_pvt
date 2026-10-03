@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import employeePortalApi from '../../../services/api/employeePortalApi.js';
+import { EmptyState } from '../components/StatCard.jsx';
 
 export default function Projects() {
   const [projects, setProjects] = useState([]);
@@ -35,13 +36,7 @@ export default function Projects() {
     >
       <div className="row g-4">
         {projects.length === 0 ? (
-          <div className="col-12 text-center py-5">
-            <div className="rounded-circle bg-light d-inline-flex p-3 mb-3 text-muted">
-              <i className="bi bi-kanban fs-1"></i>
-            </div>
-            <h5>No Projects Assigned Yet</h5>
-            <p className="text-muted">You haven't been assigned to any project workspaces.</p>
-          </div>
+          <div className="col-12"><EmptyState icon="bi-kanban" text="No projects assigned to you yet." /></div>
         ) : (
           projects.map((item) => (
             <div key={item.project_id || item.id} className="col-md-6 col-lg-4">

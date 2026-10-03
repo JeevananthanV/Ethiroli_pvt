@@ -11,6 +11,8 @@ import { AuthenticationError, AuthorizationError, ValidationError } from '../uti
 import { ROLES, PORTAL_CONFIGS, getPortalConfigBySlug, IMPERSONATION_TARGETS } from '../config/constants.js';
 import { isMfaRequiredForRole, validateMfaForLogin } from '../services/mfaService.js';
 import CredentialService from '../services/credentialService.js';
+import Attendance from '../models/Attendance.js';
+import { logger } from '../config/logger.js';
 
 const PORTAL_COOKIE_CONFIG = {
   SUPER_ADMIN: { path: '/app/super-admin', sameSite: 'strict' },
@@ -42,6 +44,42 @@ const resolveExpectedRole = (portal) => {
   if (!portal) return null;
   const normalized = String(portal).trim().toUpperCase();
   return Object.values(ROLES).includes(normalized) ? normalized : null;
+};
+
+/**
+ * Demo-only: clear today's attendance for a demo account at sign-in.
+ *
+ * Lets the intern punch IN -> OUT loop be replayed by simply logging out and
+ * back in, instead of waiting for midnight. Inert unless all three conditions
+ * hold, so it can never fire against real attendance:
+ *
+ *   1. NODE_ENV is not "production"
+ *   2. DEMO_RESET_ATTENDANCE_ON_LOGIN is truthy
+ *   3. the email is in DEMO_RESET_ATTENDANCE_EMAILS (comma separated)
+ *
+ * Never throws - a failure here must not block sign-in.
+ */
+const resetDemoAttendance = async (user) => {
+  try {
+    if (process.env.NODE_ENV === 'production') return;
+    if (!/^(1|true|yes|on)$/i.test(process.env.DEMO_RESET_ATTENDANCE_ON_LOGIN || '')) return;
+
+    const emails = (process.env.DEMO_RESET_ATTENDANCE_EMAILS || '')
+      .split(',')
+      .map((e) => e.trim().toLowerCase())
+      .filter(Boolean);
+    if (!emails.includes(String(user.email || '').toLowerCase())) return;
+
+    const [result] = await pool.execute(
+      'DELETE FROM attendance WHERE user_id = ? AND date = ?',
+      [user.id, Attendance.today()]
+    );
+    if (result.affectedRows > 0) {
+      logger.warn(`Demo reset: cleared ${result.affectedRows} attendance row/rows for ${user.email}`);
+    }
+  } catch (err) {
+    logger.error('Demo attendance reset failed:', err.message);
+  }
 };
 
 export const login = asyncHandler(async (req, res) => {
@@ -162,6 +200,10 @@ export const login = asyncHandler(async (req, res) => {
 
   await User.update(user.id, { last_login_at: new Date() });
 
+  // Demo affordance: re-arm the punch card so a fresh sign-in starts the
+  // IN/OUT flow over. Dev-only, opt-in, and scoped to listed demo accounts.
+  await resetDemoAttendance(user);
+
   const cookiePath = portalConfig ? portalConfig.cookiePath : (PORTAL_COOKIE_CONFIG[user.role]?.path || '/');
   const cookieSameSite = portalConfig ? 'lax' : (PORTAL_COOKIE_CONFIG[user.role]?.sameSite || 'lax');
 
@@ -234,6 +276,10 @@ export const verifyMfa = asyncHandler(async (req, res) => {
   });
 
   await User.update(user.id, { last_login_at: new Date() });
+
+  // Demo affordance: re-arm the punch card so a fresh sign-in starts the
+  // IN/OUT flow over. Dev-only, opt-in, and scoped to listed demo accounts.
+  await resetDemoAttendance(user);
 
   const cookiePath = portalConfig ? portalConfig.cookiePath : (PORTAL_COOKIE_CONFIG[user.role]?.path || '/');
   const cookieSameSite = portalConfig ? 'lax' : (PORTAL_COOKIE_CONFIG[user.role]?.sameSite || 'lax');

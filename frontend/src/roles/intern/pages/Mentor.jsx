@@ -1,22 +1,85 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
+import { useModalDismiss, backdropClick } from '../components/useModalDismiss.js';
+import axiosInstance from '../../../services/api/axiosInstance.js';
+
+/** Display metadata that is not in the database, keyed by the real role the
+ *  mentors endpoint returns. Anything unmatched falls back to the generic copy. */
+const ROLE_DETAIL = {
+  TUTOR: { title: 'Full Stack Mentor', spec: 'React, Node.js, Express, MySQL' },
+  SENIOR_TUTOR: { title: 'Senior Full Stack Mentor', spec: 'Architecture, code review, System Design' },
+  HR: { title: 'HR & Onboarding Specialist', spec: 'Stipends, documents, policy' },
+  ADMIN: { title: 'Programme Administrator', spec: 'Scheduling and approvals' },
+  SUPER_ADMIN: { title: 'Directorate Mentor', spec: 'Final evaluation and capstone review' },
+};
 
 export default function Mentor() {
   const [activeTab, setActiveTab] = useState('doubts'); // 'doubts' | 'sessions' | 'reviews' | 'messages'
   const [showDoubtModal, setShowDoubtModal] = useState(false);
   const [alert, setAlert] = useState({ type: '', text: '' });
 
-  const mentor = {
-    name: 'Arun Kumar',
-    role: 'Senior Full Stack Developer & Lead Mentor',
-    experience: '6+ years',
-    specialization: 'React 19, Node.js, Express, MySQL, System Design',
-    email: 'arun.kumar@ethiroli.net',
-    officeHours: 'Mon – Fri: 04:00 PM – 05:00 PM',
-    status: 'Online',
-    avatar: 'AK'
+  // Real mentor roster. The intern's own record carries mentor_id, so prefer
+  // that person and fall back to the first available mentor.
+  const [assignee, setAssignee] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadMentor = async () => {
+      try {
+        const [meRes, listRes] = await Promise.all([
+          axiosInstance.get('/v1/interns/me'),
+          axiosInstance.get('/v1/interns/mentors'),
+        ]);
+        if (cancelled) return;
+
+        const mentors = listRes.data?.data || [];
+        if (!mentors.length) return;
+
+        const mentorId = meRes.data?.data?.mentor_id;
+        const chosen = mentors.find((m) => m.id === mentorId) || mentors[0];
+        setAssignee(chosen);
+      } catch {
+        // Leave the fixture below in place; the page still works.
+      }
+    };
+
+    loadMentor();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Escape closes the dialog and stops the page scrolling behind it.
+  useModalDismiss(showDoubtModal, () => setShowDoubtModal(false));
+
+  const detail = ROLE_DETAIL[assignee?.role] || {
+    title: 'Assigned Mentor',
+    spec: 'Full Stack Web Development',
   };
+
+  const mentor = assignee
+    ? {
+        name: assignee.full_name || 'Assigned Mentor',
+        role: detail.title,
+        experience: 'Assigned mentor',
+        specialization: detail.spec,
+        email: assignee.email || '',
+        officeHours: 'Mon – Fri: 04:00 PM – 05:00 PM',
+        status: 'Online',
+        avatar: (assignee.full_name || 'M').trim().charAt(0).toUpperCase(),
+      }
+    : {
+        name: 'Arun Kumar',
+        role: 'Senior Full Stack Developer & Lead Mentor',
+        experience: '6+ years',
+        specialization: 'React 19, Node.js, Express, MySQL, System Design',
+        email: 'arun.kumar@ethiroli.net',
+        officeHours: 'Mon – Fri: 04:00 PM – 05:00 PM',
+        status: 'Online',
+        avatar: 'AK',
+      };
 
   const [doubtForm, setDoubtForm] = useState({
     title: '',
@@ -66,7 +129,8 @@ export default function Mentor() {
     }
   ]);
 
-  const [sessions, setSessions] = useState([
+  // setSessions was never called - the session list is read-only fixtures.
+  const [sessions] = useState([
     {
       id: 's1',
       title: 'Weekly 1-on-1 Code Review & Blocker Clearing',
@@ -270,15 +334,33 @@ export default function Mentor() {
                       <h6 className="fw-bold text-dark mb-2">{d.title}</h6>
                       <p className="text-muted small mb-3">{d.description}</p>
 
-                      <div className="p-3 bg-white rounded-3 border">
-                        <div className="d-flex justify-content-between align-items-center mb-1">
-                          <strong className="text-primary small">
-                            <i className="bi bi-chat-quote-fill me-1"></i>Mentor Response:
-                          </strong>
-                          <small className="text-muted">{d.answeredAt}</small>
+                      {/* Only show a response box once there is actually a
+                          response. This used to render unconditionally, so every
+                          unanswered doubt displayed an empty white panel that
+                          read as a broken reply. */}
+                      {d.mentorAnswer ? (
+                        <div className="p-3 bg-white rounded-3 border">
+                          <div className="d-flex justify-content-between align-items-center mb-1">
+                            <strong className="text-primary small">
+                              <i className="bi bi-chat-quote-fill me-1"></i>Mentor Response:
+                            </strong>
+                            {d.answeredAt && <small className="text-muted">{d.answeredAt}</small>}
+                          </div>
+                          <p className="mb-0 text-dark small">{d.mentorAnswer}</p>
                         </div>
-                        <p className="mb-0 text-dark small">{d.mentorAnswer}</p>
-                      </div>
+                      ) : (
+                        <div className="p-3 bg-white rounded-3 border d-flex align-items-center gap-2">
+                          <span
+                            className="spinner-grow spinner-grow-sm text-secondary flex-shrink-0"
+                            style={{ width: '0.85rem', height: '0.85rem' }}
+                            aria-hidden="true"
+                          />
+                          <span className="small text-muted">
+                            Awaiting a reply from your mentor. You will be notified as soon as
+                            {d.visibility === 'PUBLIC' ? ' a response is posted here' : ' your mentor responds'}.
+                          </span>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -363,8 +445,16 @@ export default function Mentor() {
 
         {/* Ask a Doubt Modal */}
         {showDoubtModal && (
-          <div className="modal show d-block" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} tabIndex="-1">
-            <div className="modal-dialog modal-dialog-centered modal-lg">
+          <div
+            className="modal show d-block"
+            style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+            tabIndex="-1"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Ask a Doubt"
+            onClick={backdropClick(() => setShowDoubtModal(false))}
+          >
+            <div className="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
               <div className="modal-content border-0 shadow">
                 <div className="modal-header">
                   <h5 className="modal-title fw-bold">Ask Mentor a Technical Doubt</h5>
@@ -373,10 +463,10 @@ export default function Mentor() {
                 <form onSubmit={handleAskDoubt}>
                   <div className="modal-body">
                     <div className="mb-3">
-                      <label className="form-label small fw-semibold">
+                      <label htmlFor="doubt-title-summary" className="form-label small fw-semibold">
                         Doubt Title / Summary <span className="text-danger">*</span>
                       </label>
-                      <input
+                      <input id="doubt-title-summary"
                         type="text"
                         className="form-control"
                         placeholder="e.g. Redux Toolkit selector causes unnecessary re-renders"
@@ -388,8 +478,8 @@ export default function Mentor() {
 
                     <div className="row g-3 mb-3">
                       <div className="col-sm-4">
-                        <label className="form-label small fw-semibold">Category</label>
-                        <select
+                        <label htmlFor="category" className="form-label small fw-semibold">Category</label>
+                        <select id="category"
                           className="form-select"
                           value={doubtForm.category}
                           onChange={(e) => setDoubtForm({ ...doubtForm, category: e.target.value })}
@@ -402,8 +492,8 @@ export default function Mentor() {
                         </select>
                       </div>
                       <div className="col-sm-4">
-                        <label className="form-label small fw-semibold">Priority</label>
-                        <select
+                        <label htmlFor="priority" className="form-label small fw-semibold">Priority</label>
+                        <select id="priority"
                           className="form-select"
                           value={doubtForm.priority}
                           onChange={(e) => setDoubtForm({ ...doubtForm, priority: e.target.value })}
@@ -414,8 +504,8 @@ export default function Mentor() {
                         </select>
                       </div>
                       <div className="col-sm-4">
-                        <label className="form-label small fw-semibold">Visibility</label>
-                        <select
+                        <label htmlFor="visibility" className="form-label small fw-semibold">Visibility</label>
+                        <select id="visibility"
                           className="form-select"
                           value={doubtForm.visibility}
                           onChange={(e) => setDoubtForm({ ...doubtForm, visibility: e.target.value })}
@@ -427,10 +517,10 @@ export default function Mentor() {
                     </div>
 
                     <div className="mb-3">
-                      <label className="form-label small fw-semibold">
+                      <label htmlFor="description-what-youve-tried" className="form-label small fw-semibold">
                         Description & What You've Tried <span className="text-danger">*</span>
                       </label>
-                      <textarea
+                      <textarea id="description-what-youve-tried"
                         className="form-control"
                         rows="3"
                         placeholder="Explain what happened vs what you expected..."
@@ -441,8 +531,8 @@ export default function Mentor() {
                     </div>
 
                     <div className="mb-3">
-                      <label className="form-label small fw-semibold">Code Snippet / Error Logs (Optional)</label>
-                      <textarea
+                      <label htmlFor="code-snippet-error-logs" className="form-label small fw-semibold">Code Snippet / Error Logs (Optional)</label>
+                      <textarea id="code-snippet-error-logs"
                         className="form-control font-monospace small"
                         rows="3"
                         placeholder="Paste code snippet or terminal error stacktrace..."

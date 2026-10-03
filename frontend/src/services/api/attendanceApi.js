@@ -15,6 +15,10 @@ export const checkOut = async (data = {}) => {
   return response.data;
 };
 
+/** `YYYY-MM-DD` for the local calendar day, not the UTC day. */
+export const localDateKey = (d = new Date()) =>
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
 export const getAttendanceById = async (id) => {
   const response = await axiosInstance.get(`/v1/attendance/${id}`);
   return response.data;

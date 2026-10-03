@@ -612,6 +612,7 @@ export const schemas = {
       clock_out: { type: 'string' },
       check_in_time: { type: 'string' },
       check_out_time: { type: 'string' },
+      work_mode: { type: 'string', enum: ['REMOTE', 'OFFICE'] },
       status: { type: 'string', enum: ['PRESENT', 'ABSENT', 'HALF_DAY'] }
     }
   },
@@ -993,6 +994,7 @@ export const schemas = {
       date: { type: 'string' },
       check_in_time: { type: 'string' },
       check_out_time: { type: 'string' },
+      work_mode: { type: 'string', enum: ['REMOTE', 'OFFICE'] },
       status: { type: 'string', enum: ['PRESENT', 'ABSENT', 'HALF_DAY'] },
       is_late: { type: 'boolean' }
     }

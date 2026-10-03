@@ -143,8 +143,8 @@ export default function WorkLog() {
                 <form onSubmit={handleSubmit}>
                   <div className="row g-3 mb-3">
                     <div className="col-sm-6">
-                      <label className="form-label small fw-semibold">Report Date</label>
-                      <input
+                      <label htmlFor="report-date" className="form-label small fw-semibold">Report Date</label>
+                      <input id="report-date"
                         type="date"
                         className="form-control"
                         value={formData.date}
@@ -153,8 +153,8 @@ export default function WorkLog() {
                       />
                     </div>
                     <div className="col-sm-6">
-                      <label className="form-label small fw-semibold">Hours Worked</label>
-                      <input
+                      <label htmlFor="hours-worked" className="form-label small fw-semibold">Hours Worked</label>
+                      <input id="hours-worked"
                         type="number"
                         step="0.5"
                         min="1"
@@ -168,10 +168,10 @@ export default function WorkLog() {
                   </div>
 
                   <div className="mb-3">
-                    <label className="form-label small fw-semibold">
+                    <label htmlFor="1-what-did-you" className="form-label small fw-semibold">
                       1. What did you work on today? <span className="text-danger">*</span>
                     </label>
-                    <textarea
+                    <textarea id="1-what-did-you"
                       className="form-control"
                       rows="2"
                       placeholder="Bullet points or concise overview of tasks and features built..."
@@ -182,8 +182,8 @@ export default function WorkLog() {
                   </div>
 
                   <div className="mb-3">
-                    <label className="form-label small fw-semibold">2. What did you learn today?</label>
-                    <textarea
+                    <label htmlFor="2-what-did-you" className="form-label small fw-semibold">2. What did you learn today?</label>
+                    <textarea id="2-what-did-you"
                       className="form-control"
                       rows="2"
                       placeholder="Concepts, libraries, debugging insights, or engineering patterns..."
@@ -194,8 +194,8 @@ export default function WorkLog() {
 
                   <div className="row g-3 mb-3">
                     <div className="col-sm-6">
-                      <label className="form-label small fw-semibold">3. What problems did you face?</label>
-                      <textarea
+                      <label htmlFor="3-what-problems-did" className="form-label small fw-semibold">3. What problems did you face?</label>
+                      <textarea id="3-what-problems-did"
                         className="form-control"
                         rows="2"
                         placeholder="Bugs, syntax errors, or unclear requirements..."
@@ -204,8 +204,8 @@ export default function WorkLog() {
                       ></textarea>
                     </div>
                     <div className="col-sm-6">
-                      <label className="form-label small fw-semibold">4. How did you solve them?</label>
-                      <textarea
+                      <label htmlFor="4-how-did-you" className="form-label small fw-semibold">4. How did you solve them?</label>
+                      <textarea id="4-how-did-you"
                         className="form-control"
                         rows="2"
                         placeholder="Documentation lookup, mentor guidance, or refactoring..."
@@ -216,8 +216,8 @@ export default function WorkLog() {
                   </div>
 
                   <div className="mb-3">
-                    <label className="form-label small fw-semibold">5. GitHub Commits / PR Link</label>
-                    <input
+                    <label htmlFor="5-github-commits-pr" className="form-label small fw-semibold">5. GitHub Commits / PR Link</label>
+                    <input id="5-github-commits-pr"
                       type="url"
                       className="form-control"
                       placeholder="https://github.com/ethiroli/portal/pull/123"
@@ -227,10 +227,10 @@ export default function WorkLog() {
                   </div>
 
                   <div className="mb-2">
-                    <label className="form-label small fw-semibold d-block">6. Any blockers for tomorrow?</label>
+                    <label htmlFor="6-any-blockers-for" className="form-label small fw-semibold d-block">6. Any blockers for tomorrow?</label>
                     <div className="d-flex gap-3 align-items-center mb-2">
                       <div className="form-check">
-                        <input
+                        <input id="6-any-blockers-for"
                           className="form-check-input"
                           type="radio"
                           name="blockerRadio"
@@ -292,7 +292,10 @@ export default function WorkLog() {
                 <h5 className="mb-0 fw-bold text-dark">Work Log History & Mentor Reviews</h5>
                 <span className="badge bg-light text-muted border">{logs.length} Submissions</span>
               </div>
-              <div className="card-body p-3 overflow-auto" style={{ maxHeight: '720px' }}>
+              {/* Was capped at 720px with an inner scrollbar, so entries below the fold
+                  were hidden behind a nested scroll region on a page that
+                  already scrolls. Let the card grow instead. */}
+              <div className="card-body p-3">
                 <div className="d-flex flex-column gap-3">
                   {logs.map((item) => (
                     <div key={item.id} className="card border p-3 rounded-3 shadow-none bg-light-subtle">

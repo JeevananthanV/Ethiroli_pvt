@@ -186,10 +186,10 @@ export default function Feedback() {
                   <h6 className="fw-bold text-dark mb-3">Submit Weekly Feedback</h6>
                   <form onSubmit={handleSubmitFeedback}>
                     <div className="mb-3">
-                      <label className="form-label small fw-semibold d-block">
+                      <label htmlFor="how-was-your-week" className="form-label small fw-semibold d-block">
                         How was your week overall? (1–5 Stars)
                       </label>
-                      <select
+                      <select id="how-was-your-week"
                         className="form-select form-select-sm"
                         value={feedbackForm.weekRating}
                         onChange={(e) => setFeedbackForm({ ...feedbackForm, weekRating: Number(e.target.value) })}
@@ -203,10 +203,10 @@ export default function Feedback() {
                     </div>
 
                     <div className="mb-3">
-                      <label className="form-label small fw-semibold d-block">
+                      <label htmlFor="mentor-support-guidance-15" className="form-label small fw-semibold d-block">
                         Mentor Support & Guidance (1–5 Stars)
                       </label>
-                      <select
+                      <select id="mentor-support-guidance-15"
                         className="form-select form-select-sm"
                         value={feedbackForm.mentorRating}
                         onChange={(e) => setFeedbackForm({ ...feedbackForm, mentorRating: Number(e.target.value) })}
@@ -219,10 +219,10 @@ export default function Feedback() {
                     </div>
 
                     <div className="mb-3">
-                      <label className="form-label small fw-semibold d-block">
+                      <label htmlFor="training-curriculum-quality-15" className="form-label small fw-semibold d-block">
                         Training & Curriculum Quality (1–5 Stars)
                       </label>
-                      <select
+                      <select id="training-curriculum-quality-15"
                         className="form-select form-select-sm"
                         value={feedbackForm.trainingRating}
                         onChange={(e) => setFeedbackForm({ ...feedbackForm, trainingRating: Number(e.target.value) })}
@@ -234,10 +234,10 @@ export default function Feedback() {
                     </div>
 
                     <div className="mb-3">
-                      <label className="form-label small fw-semibold d-block">Workload Assessment</label>
+                      <label htmlFor="workload-assessment" className="form-label small fw-semibold d-block">Workload Assessment</label>
                       <div className="d-flex gap-3">
                         <div className="form-check">
-                          <input
+                          <input id="workload-assessment"
                             className="form-check-input"
                             type="radio"
                             name="workloadRadio"
@@ -273,8 +273,8 @@ export default function Feedback() {
                     </div>
 
                     <div className="mb-2">
-                      <label className="form-label small fw-semibold">Any concerns or suggestions?</label>
-                      <textarea
+                      <label htmlFor="any-concerns-or-suggestions" className="form-label small fw-semibold">Any concerns or suggestions?</label>
+                      <textarea id="any-concerns-or-suggestions"
                         className="form-control form-control-sm"
                         rows="3"
                         placeholder="Share any suggestions to improve your learning experience..."

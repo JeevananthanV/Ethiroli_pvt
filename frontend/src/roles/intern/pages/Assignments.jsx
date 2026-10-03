@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
+import { useModalDismiss, backdropClick } from '../components/useModalDismiss.js';
 
 export default function Assignments() {
   const [activeTab, setActiveTab] = useState('ALL'); // 'ALL' | 'PENDING' | 'SUBMITTED' | 'UNDER_REVIEW' | 'GRADED'
@@ -7,6 +8,9 @@ export default function Assignments() {
   const [showModal, setShowModal] = useState(false);
   const [submissionForm, setSubmissionForm] = useState({ repoUrl: '', liveUrl: '', notes: '', zipName: '' });
   const [alert, setAlert] = useState({ type: '', text: '' });
+
+  // Escape closes the dialog and stops the page scrolling behind it.
+  useModalDismiss(showModal, () => setShowModal(false));
 
   const [assignments, setAssignments] = useState([
     {
@@ -246,7 +250,8 @@ export default function Assignments() {
 
                   {asg.repoUrl && (
                     <div className="p-2 mb-3 bg-light rounded-2 border small d-flex align-items-center justify-content-between">
-                      <div className="text-truncate me-2">
+                      {/* Repo URLs were clipped; a half-shown URL can't be read or copied. */}
+                      <div className="me-2" style={{ overflowWrap: 'anywhere' }}>
                         <i className="bi bi-github me-1"></i>
                         <a href={asg.repoUrl} target="_blank" rel="noreferrer" className="text-decoration-none">
                           {asg.repoUrl}
@@ -266,10 +271,12 @@ export default function Assignments() {
                         <small className="text-muted d-block">Score / Grade:</small>
                         <span className="fw-bold text-primary fs-6">{asg.score}</span>
                       </div>
+                      {/* Mentor feedback was truncated to one line, hiding most of the
+                          comment the intern needs to read. Wrap it fully. */}
                       {asg.mentorComments && (
                         <div className="text-end" style={{ maxWidth: '60%' }}>
                           <small className="text-muted d-block">Mentor Feedback:</small>
-                          <span className="small text-dark fst-italic text-truncate d-block">
+                          <span className="small text-dark fst-italic d-block">
                             "{asg.mentorComments}"
                           </span>
                         </div>
@@ -298,8 +305,16 @@ export default function Assignments() {
 
         {/* Assignment Submission Modal */}
         {showModal && selectedAsg && (
-          <div className="modal show d-block" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} tabIndex="-1">
-            <div className="modal-dialog modal-dialog-centered modal-lg">
+          <div
+            className="modal show d-block"
+            style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+            tabIndex="-1"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Submit Assignment"
+            onClick={backdropClick(() => setShowModal(false))}
+          >
+            <div className="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
               <div className="modal-content border-0 shadow">
                 <div className="modal-header">
                   <div>
@@ -316,18 +331,19 @@ export default function Assignments() {
                       <h6 className="fw-bold small text-dark mb-1">Checklist to Complete</h6>
                       <ul className="list-group list-group-flush border rounded-3 p-2 bg-light small">
                         {selectedAsg.checklist.map((item, idx) => (
-                          <li key={idx} className="list-group-item bg-transparent border-0 px-2 py-1">
-                            <i className="bi bi-check2-circle text-primary me-2"></i>{item}
+                          <li key={idx} className="list-group-item bg-transparent border-0 px-2 py-2 d-flex align-items-start">
+                            <i className="bi bi-check2-circle text-primary me-2 flex-shrink-0"></i>
+                            <span className="min-w-0">{item}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
 
                     <div className="mb-3">
-                      <label className="form-label small fw-semibold">
+                      <label htmlFor="github-git-solution-repository" className="form-label small fw-semibold">
                         GitHub / Git Solution Repository URL <span className="text-danger">*</span>
                       </label>
-                      <input
+                      <input id="github-git-solution-repository"
                         type="url"
                         className="form-control"
                         placeholder="https://github.com/username/project"
@@ -338,8 +354,8 @@ export default function Assignments() {
                     </div>
 
                     <div className="mb-3">
-                      <label className="form-label small fw-semibold">Live Deployment / Staging URL (Optional)</label>
-                      <input
+                      <label htmlFor="live-deployment-staging-url" className="form-label small fw-semibold">Live Deployment / Staging URL (Optional)</label>
+                      <input id="live-deployment-staging-url"
                         type="url"
                         className="form-control"
                         placeholder="https://your-demo-app.vercel.app"
@@ -349,8 +365,8 @@ export default function Assignments() {
                     </div>
 
                     <div className="mb-3">
-                      <label className="form-label small fw-semibold">Upload ZIP Archive (Optional)</label>
-                      <input
+                      <label htmlFor="upload-zip-archive-optional" className="form-label small fw-semibold">Upload ZIP Archive (Optional)</label>
+                      <input id="upload-zip-archive-optional"
                         type="file"
                         className="form-control"
                         accept=".zip,.tar.gz"
@@ -364,8 +380,8 @@ export default function Assignments() {
                     </div>
 
                     <div className="mb-3">
-                      <label className="form-label small fw-semibold">Comments / Notes for Mentor</label>
-                      <textarea
+                      <label htmlFor="comments-notes-for-mentor" className="form-label small fw-semibold">Comments / Notes for Mentor</label>
+                      <textarea id="comments-notes-for-mentor"
                         className="form-control"
                         rows="3"
                         placeholder="Highlight any special implementations, challenges solved, or testing instructions..."

@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
+import { useModalDismiss, backdropClick } from '../components/useModalDismiss.js';
 
 export default function InternHelp() {
   const [showModal, setShowModal] = useState(false);
+  // Escape closes the dialog and stops the page scrolling behind it.
+  useModalDismiss(showModal, () => setShowModal(false));
   const [tickets, setTickets] = useState([
     {
       id: 'ETH-1021',
@@ -41,6 +44,50 @@ export default function InternHelp() {
     'Document Issue',
     'Account Issue',
     'Other'
+  ];
+
+  // The FAQ used to be a Bootstrap accordion driven by data-bs-toggle, but
+  // Bootstrap's JavaScript is never imported in this project (only its CSS),
+  // so those data attributes were inert and clicking a question did nothing.
+  // Driving the open/closed state from React fixes it without pulling the
+  // whole Bootstrap JS bundle into a React tree.
+  const [openFaq, setOpenFaq] = useState(null);
+  const toggleFaq = (id) => setOpenFaq((prev) => (prev === id ? null : id));
+
+  const faqs = [
+    {
+      id: 'faq-attendance-correction',
+      q: 'How do I request attendance correction for a missed clock-in?',
+      a: (
+        <>
+          Navigate to the <strong>Attendance</strong> page, click the{' '}
+          <strong>"Attendance Correction"</strong> button, select the date and
+          provide your supervisor&apos;s approval note.
+        </>
+      )
+    },
+    {
+      id: 'faq-stipends',
+      q: 'When and how are monthly stipends disbursed?',
+      a: (
+        <>
+          Stipends are credited on the 5th of each month to your registered bank
+          account once your daily work logs and timesheets are verified by your
+          mentor.
+        </>
+      )
+    },
+    {
+      id: 'faq-certificate',
+      q: 'How do I get my internship completion certificate?',
+      a: (
+        <>
+          Once you complete the 45-day curriculum, pass the final evaluation,
+          and achieve at least 90% attendance, your certificate will
+          automatically be generated in the <strong>Certificates</strong> tab.
+        </>
+      )
+    }
   ];
 
   const handleCreateTicket = (e) => {
@@ -124,37 +171,19 @@ export default function InternHelp() {
           </h6>
           <span className="badge bg-light text-dark border">{tickets.length} Total</span>
         </div>
-        <div className="card-body p-0">
-          <div className="table-responsive">
-            <table className="table table-hover align-middle mb-0">
-              <thead className="table-light">
-                <tr>
-                  <th className="ps-3">Ticket ID</th>
-                  <th>Subject</th>
-                  <th>Category</th>
-                  <th>Priority</th>
-                  <th>Assigned To</th>
-                  <th>Created Date</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tickets.map((t) => (
-                  <tr key={t.id}>
-                    <td className="ps-3 font-monospace fw-bold text-primary">{t.id}</td>
-                    <td>
-                      <div className="fw-semibold text-dark">{t.title}</div>
-                      <small className="text-muted text-truncate d-block" style={{ maxWidth: '300px' }}>{t.description}</small>
-                    </td>
-                    <td><span className="badge bg-light text-dark border">{t.category}</span></td>
-                    <td>
-                      <span className={`badge ${t.priority === 'High' ? 'bg-danger bg-opacity-10 text-danger' : 'bg-info bg-opacity-10 text-info'}`}>
-                        {t.priority}
-                      </span>
-                    </td>
-                    <td className="small text-secondary">{t.assignedTo}</td>
-                    <td className="small text-muted">{t.createdAt}</td>
-                    <td>
+        <div className="card-body">
+          {tickets.length === 0 ? (
+            <div className="text-center py-5">
+              <i className="bi bi-inbox display-6 text-muted"></i>
+              <p className="text-muted mt-3 mb-0">No support tickets yet.</p>
+            </div>
+          ) : (
+            <div className="row g-3">
+              {tickets.map((t) => (
+                <div className="col-12 col-xl-6" key={t.id}>
+                  <div className="ims-ticket-card h-100">
+                    <div className="d-flex justify-content-between align-items-start gap-2 mb-2">
+                      <span className="font-monospace fw-bold text-primary">{t.id}</span>
                       <span className={`badge ${
                         t.status === 'RESOLVED'
                           ? 'bg-success bg-opacity-10 text-success'
@@ -164,62 +193,91 @@ export default function InternHelp() {
                       }`}>
                         {t.status.replace(/_/g, ' ')}
                       </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                    </div>
+
+                    <h6 className="fw-bold text-dark mb-1">{t.title}</h6>
+                    <p className="text-muted small mb-3">{t.description}</p>
+
+                    <div className="d-flex flex-wrap gap-2 mt-auto pt-2 border-top">
+                      <span className="badge bg-light text-dark border">
+                        <i className="bi bi-tag me-1"></i>{t.category}
+                      </span>
+                      <span className={`badge ${t.priority === 'High' ? 'bg-danger bg-opacity-10 text-danger' : 'bg-info bg-opacity-10 text-info'}`}>
+                        <i className="bi bi-flag me-1"></i>{t.priority}
+                      </span>
+                      <span className="badge bg-light text-dark border">
+                        <i className="bi bi-person me-1"></i>{t.assignedTo}
+                      </span>
+                      <span className="badge bg-light text-dark border">
+                        <i className="bi bi-calendar3 me-1"></i>{t.createdAt}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Frequently Asked Questions */}
-      <div className="card border-0 shadow-sm rounded-3 bg-white p-3">
-        <h6 className="fw-bold text-dark mb-3">Frequently Asked Questions</h6>
-        <div className="accordion" id="faqAccordion">
-          <div className="accordion-item border-0 border-bottom">
-            <h2 className="accordion-header" id="faq1">
-              <button className="accordion-button collapsed px-0 fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
-                How do I request attendance correction for a missed clock-in?
-              </button>
-            </h2>
-            <div id="collapse1" className="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-              <div className="accordion-body px-0 text-muted small">
-                Navigate to <strong>Attendance</strong> page, click <strong>"Attendance Correction"</strong> button, select the date and provide your supervisor's approval note.
-              </div>
-            </div>
-          </div>
-          <div className="accordion-item border-0 border-bottom">
-            <h2 className="accordion-header" id="faq2">
-              <button className="accordion-button collapsed px-0 fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
-                When and how are monthly stipends disbursed?
-              </button>
-            </h2>
-            <div id="collapse2" className="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-              <div className="accordion-body px-0 text-muted small">
-                Stipends are credited on the 5th of each month to your registered bank account once your daily work logs and timesheets are verified by your mentor.
-              </div>
-            </div>
-          </div>
-          <div className="accordion-item border-0">
-            <h2 className="accordion-header" id="faq3">
-              <button className="accordion-button collapsed px-0 fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
-                How do I get my internship completion certificate?
-              </button>
-            </h2>
-            <div id="collapse3" className="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-              <div className="accordion-body px-0 text-muted small">
-                Once you complete the 45-day curriculum, pass the final evaluation, and achieve at least 90% attendance, your certificate will automatically be generated in the <strong>Certificates</strong> tab.
-              </div>
-            </div>
+      {/* Frequently Asked Questions - each question is its own card so the
+          rows align to a single grid instead of Bootstrap's accordion chrome,
+          which left uneven backgrounds and a stray focus ring. */}
+      <div className="card border-0 shadow-sm rounded-3 bg-white mb-2">
+        <div className="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+          <h6 className="mb-0 fw-bold text-dark">
+            <i className="bi bi-question-circle me-2 text-primary"></i> Frequently Asked Questions
+          </h6>
+          <span className="badge bg-light text-dark border">{faqs.length} Articles</span>
+        </div>
+        <div className="card-body">
+          <div className="d-flex flex-column gap-3">
+            {faqs.map((item) => {
+              const isOpen = openFaq === item.id;
+              return (
+                <div
+                  key={item.id}
+                  className={`ims-faq-card${isOpen ? ' is-open' : ''}`}
+                >
+                  <button
+                    type="button"
+                    className="ims-faq-q"
+                    onClick={() => toggleFaq(item.id)}
+                    aria-expanded={isOpen}
+                    aria-controls={`${item.id}-answer`}
+                  >
+                    <span className="ims-faq-q-text">{item.q}</span>
+                    <i
+                      className={`bi bi-chevron-down ims-faq-chevron${isOpen ? ' is-open' : ''}`}
+                      aria-hidden="true"
+                    ></i>
+                  </button>
+
+                  {isOpen && (
+                    <div className="ims-faq-a" id={`${item.id}-answer`} role="region">
+                      <i className="bi bi-lightbulb me-2" aria-hidden="true"></i>
+                      <span>{item.a}</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
 
       {/* New Ticket Modal */}
       {showModal && (
-        <div className="modal show d-block" tabIndex="-1" style={{ background: 'rgba(0,0,0,0.5)' }}>
-          <div className="modal-dialog modal-dialog-centered">
+        <div
+          className="modal show d-block"
+          tabIndex="-1"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Create Support Ticket"
+          onClick={backdropClick(() => setShowModal(false))}
+          style={{ background: 'rgba(0,0,0,0.5)' }}
+        >
+          <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div className="modal-content border-0 shadow-lg rounded-3">
               <div className="modal-header border-bottom">
                 <h5 className="modal-title fw-bold">Create Support Ticket</h5>
@@ -228,8 +286,8 @@ export default function InternHelp() {
               <form onSubmit={handleCreateTicket}>
                 <div className="modal-body">
                   <div className="mb-3">
-                    <label className="form-label small fw-semibold">Category</label>
-                    <select
+                    <label htmlFor="category" className="form-label small fw-semibold">Category</label>
+                    <select id="category"
                       className="form-select"
                       value={formData.category}
                       onChange={(e) => setFormData({ ...formData, category: e.target.value })}
@@ -240,8 +298,8 @@ export default function InternHelp() {
                     </select>
                   </div>
                   <div className="mb-3">
-                    <label className="form-label small fw-semibold">Subject / Title</label>
-                    <input
+                    <label htmlFor="subject-title" className="form-label small fw-semibold">Subject / Title</label>
+                    <input id="subject-title"
                       type="text"
                       className="form-control"
                       placeholder="Brief summary of the issue..."
@@ -251,8 +309,8 @@ export default function InternHelp() {
                     />
                   </div>
                   <div className="mb-3">
-                    <label className="form-label small fw-semibold">Priority</label>
-                    <select
+                    <label htmlFor="priority" className="form-label small fw-semibold">Priority</label>
+                    <select id="priority"
                       className="form-select"
                       value={formData.priority}
                       onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
@@ -263,8 +321,8 @@ export default function InternHelp() {
                     </select>
                   </div>
                   <div className="mb-3">
-                    <label className="form-label small fw-semibold">Description</label>
-                    <textarea
+                    <label htmlFor="description" className="form-label small fw-semibold">Description</label>
+                    <textarea id="description"
                       className="form-control"
                       rows="4"
                       placeholder="Explain the problem and include any error messages..."

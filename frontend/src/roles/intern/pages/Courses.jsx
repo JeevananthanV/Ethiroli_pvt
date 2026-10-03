@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
+import InlineNotice from '../components/InlineNotice.jsx';
 
 export default function Courses() {
+  // Replaces the raw window.alert() calls these buttons used to fire.
+  const [notice, setNotice] = useState('');
+
   const [courses, setCourses] = useState([
     {
       id: 'c1',
@@ -129,6 +133,12 @@ export default function Courses() {
       subtitle="Accredited video curriculum, hands-on coding lessons, interactive quizzes, and downloadable resources"
     >
       <div className="container-fluid px-0">
+        {notice && (
+          <div className="mb-3">
+            <InlineNotice message={notice} onDismiss={() => setNotice('')} />
+          </div>
+        )}
+
         {/* Course Selection Cards */}
         <div className="row g-3 mb-2">
           {courses.map((c) => (
@@ -155,7 +165,9 @@ export default function Courses() {
                       {c.progress === 100 ? 'Completed' : c.progress > 0 ? `${c.progress}%` : 'Not Started'}
                     </span>
                   </div>
-                  <h6 className="fw-bold mb-1 text-dark text-truncate" title={c.title}>
+                  {/* Course names were clipped to one line; allow two so the full title is
+                      readable without a tooltip. */}
+                  <h6 className="fw-bold mb-1 text-dark" title={c.title}>
                     {c.title}
                   </h6>
                   <small className="text-muted mb-2">
@@ -227,7 +239,7 @@ export default function Courses() {
                 <div
                   className="bg-primary bg-opacity-75 text-white rounded-circle d-flex align-items-center justify-content-center mb-3 shadow"
                   style={{ width: '64px', height: '64px', cursor: 'pointer' }}
-                  onClick={() => alert('Starting video lecture playback...')}
+                  onClick={() => setNotice('Opening the video lecture�')}
                 >
                   <i className="bi bi-play-fill fs-1 ms-1"></i>
                 </div>
@@ -331,7 +343,7 @@ export function useFetchData(endpoint) {
                           <span className="text-muted" style={{ fontSize: '0.75rem' }}>GitHub starter repository assets • 1.2 MB</span>
                         </div>
                       </div>
-                      <button className="btn btn-outline-primary btn-sm" onClick={() => alert('Downloading starter-template.zip')}>
+                      <button className="btn btn-outline-primary btn-sm" onClick={() => setNotice('Downloading starter-template.zip�')}>
                         <i className="bi bi-download"></i> Download
                       </button>
                     </div>
@@ -344,7 +356,7 @@ export function useFetchData(endpoint) {
                           <span className="text-muted" style={{ fontSize: '0.75rem' }}>Official lecture presentation slides • 4.8 MB</span>
                         </div>
                       </div>
-                      <button className="btn btn-outline-primary btn-sm" onClick={() => alert('Downloading module-lecture-slides.pdf')}>
+                      <button className="btn btn-outline-primary btn-sm" onClick={() => setNotice('Downloading module-lecture-slides.pdf�')}>
                         <i className="bi bi-download"></i> Download
                       </button>
                     </div>
@@ -399,7 +411,7 @@ export function useFetchData(endpoint) {
                         className="form-control"
                         placeholder="Ask a question about this lesson..."
                       />
-                      <button className="btn btn-primary" onClick={() => alert('Doubt submitted to lesson thread!')}>
+                      <button className="btn btn-primary" onClick={() => setNotice('Your doubt was added to the lesson thread.')}>
                         Post Doubt
                       </button>
                     </div>

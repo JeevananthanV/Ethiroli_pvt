@@ -3,7 +3,7 @@ import AuditLog from '../models/AuditLog.js';
 import { broadcastToRole, broadcastToUser } from '../services/socketService.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 import { success } from '../utils/response.js';
-import { NotFoundError } from '../utils/errors.js';
+import { NotFoundError, BadRequestError } from '../utils/errors.js';
 
 export const getAttendanceSummary = asyncHandler(async (req, res) => {
   const isManager = ['HR', 'ADMIN', 'SUPER_ADMIN'].includes(req.user.role);
@@ -60,27 +60,33 @@ export const listAttendance = asyncHandler(async (req, res) => {
 export const checkIn = asyncHandler(async (req, res) => {
   const isPrivileged = ['HR', 'ADMIN', 'SUPER_ADMIN', 'TUTOR', 'RECEPTION'].includes(req.user.role);
   const userId = (isPrivileged && req.body.user_id) ? req.body.user_id : req.user.id;
-  const date = req.body.date || new Date().toISOString().slice(0, 10);
+  const date = req.body.date || Attendance.today();
   const status = req.body.status || 'PRESENT';
+  const workMode = req.body.work_mode || null;
 
-  await Attendance.checkIn(userId, date, status);
+  await Attendance.checkIn(userId, date, status, workMode);
   await AuditLog.create({
     user_id: req.user.id,
     action: 'CHECK_IN',
     entity_type: 'ATTENDANCE',
     entity_id: userId,
-    new_value: { user_id: userId, time: new Date(), date, status },
+    new_value: { user_id: userId, time: new Date(), date, status, work_mode: workMode },
     ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
     user_agent: req.headers['user-agent']
   });
   broadcastToRole('HR', 'attendance_check_in', { userId, time: new Date() });
-  return success(res, 200, { user_id: userId, date, status, check_in_time: new Date() }, 'Checked in successfully');
+  return success(res, 200, { user_id: userId, date, status, work_mode: workMode, check_in_time: new Date() }, 'Checked in successfully');
 });
 
 export const checkOut = asyncHandler(async (req, res) => {
   const isPrivileged = ['HR', 'ADMIN', 'SUPER_ADMIN', 'TUTOR', 'RECEPTION'].includes(req.user.role);
   const userId = (isPrivileged && req.body.user_id) ? req.body.user_id : req.user.id;
-  await Attendance.checkOut(userId);
+  // The UPDATE is a no-op when there is no open punch, which used to be
+  // reported to the client as a successful checkout.
+  const updated = await Attendance.checkOut(userId);
+  if (!updated) {
+    throw new BadRequestError('You have no open check-in for today, so there is nothing to check out of.');
+  }
   await AuditLog.create({
     user_id: req.user.id,
     action: 'CHECK_OUT',

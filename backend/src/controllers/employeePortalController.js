@@ -16,6 +16,7 @@ import ActivityFeed from '../models/ActivityFeed.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 import { success, error } from '../utils/response.js';
 import { NotFoundError, BadRequestError, AuthorizationError } from '../utils/errors.js';
+import { decrypt } from '../config/encryption.js';
 
 // Allowed ENUM values (mirror the database schemas) — validated before insert
 // so invalid input returns 400 instead of a raw DB error / 500.
@@ -28,6 +29,57 @@ const TASK_STATUSES = ['PENDING', 'IN_PROGRESS', 'COMPLETED'];
 // users.avatar_url is MEDIUMTEXT; this caps a base64 data-URL avatar so an
 // oversized payload is rejected with a 400 instead of being stored.
 const MAX_AVATAR_BYTES = 512 * 1024;
+
+// Day names indexed by Date#getUTCDay(), used by the monthly attendance payload.
+const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+/**
+ * Normalises a MySQL DATE column to a `YYYY-MM-DD` string.
+ *
+ * mysql2 hands a DATE back as a JS Date constructed at LOCAL midnight, so
+ * `new Date(value).toISOString().slice(0,10)` silently shifts the calendar day
+ * one day backwards for every timezone east of UTC - and this project runs on
+ * Asia/Kolkata. That made `employees.date_of_joining = 2026-10-01` read back as
+ * "2026-09-30", which in turn mis-marked the joining day and would have
+ * mis-marked every holiday and every approved-leave day. Reading the local
+ * date parts keeps the day the database actually stores.
+ *
+ * Accepts a Date (mysql2 DATE), an ISO string, or a `yyyy-mm-dd` prefix.
+ */
+const toDateKey = (value) => {
+  if (!value) return null;
+  if (value instanceof Date) {
+    if (Number.isNaN(value.getTime())) return null;
+    const y = value.getFullYear();
+    const m = String(value.getMonth() + 1).padStart(2, '0');
+    const d = String(value.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  }
+  const match = String(value).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  return match ? match[0] : null;
+};
+
+// Employment/payroll fields owned by HR, Finance and Admin. The employee profile
+// endpoint only ever writes name, phone, preferences and avatar, so these could
+// never be changed from here - but a crafted request used to be accepted and
+// silently dropped, which hid a privilege-escalation attempt. An explicit
+// attempt is now refused with 403 AuthorizationError.
+const PROTECTED_EMPLOYEE_FIELDS = [
+  'pan',
+  'pf_number',
+  'uan',
+  'bank_account',
+  'bank_ifsc',
+  'employee_code',
+  'department',
+  'designation',
+  'date_of_joining',
+  'employment_type',
+  'work_location',
+  'reporting_manager_id',
+  'salary',
+  'role'
+];
 
 // 1. Dashboard Overview
 export const getDashboardOverview = asyncHandler(async (req, res) => {
@@ -166,9 +218,32 @@ export const getAttendanceHistory = asyncHandler(async (req, res) => {
     const day = rollupByDate.get(workDate);
     const sessions = sessionsByDate.get(workDate) || [];
     const hasSessions = sessions.length > 0;
+
+    // First-in / last-out are taken from the actual sessions whenever there are
+    // any, and only fall back to the legacy daily row for days that predate
+    // sessions.
+    //
+    // Previously both came straight from `attendance.check_in_time` /
+    // `check_out_time`. Those columns are written by syncDayRow and are not
+    // always refreshed, so a day whose sessions had all ended could still report
+    // check_out_time = NULL - the history table then showed "Punched out: open"
+    // for a day that was actually finished. Anyone using that record to show a
+    // manager worked hours would have been reading a stale value.
+    const firstCheckIn = hasSessions
+      ? (sessions.find((s) => s.check_in_time)?.check_in_time ?? null)
+      : (r.check_in_time ?? null);
+
+    const lastCheckOut = hasSessions
+      ? ([...sessions].reverse().find((s) => s.check_out_time)?.check_out_time ?? null)
+      : (r.check_out_time ?? null);
+
     return {
       ...r,
       work_date: workDate,
+      check_in_time: firstCheckIn,
+      check_out_time: lastCheckOut,
+      first_check_in: firstCheckIn,
+      last_check_out: lastCheckOut,
       session_count: hasSessions ? sessions.length : Number(r.session_count || 0),
       sessions,
       has_sessions: hasSessions,
@@ -177,6 +252,8 @@ export const getAttendanceHistory = asyncHandler(async (req, res) => {
       worked_hours: hasSessions
         ? Number(((day?.worked_minutes ?? 0) / 60).toFixed(2))
         : Number(r.total_hours || 0),
+      // Still clocked in only when a session is genuinely open, so a finished
+      // day never renders as "open".
       is_open: Boolean(day?.is_open),
     };
   });
@@ -216,22 +293,275 @@ export const getAttendanceHistory = asyncHandler(async (req, res) => {
   });
 });
 
+/**
+ * GET /v1/employee/attendance/monthly?month=YYYY-MM
+ *
+ * Per-day attendance state plus a monthly summary for the calendar.
+ *
+ * Identity comes from the authenticated token only - there is deliberately no
+ * employee/user parameter, so one employee can never read another's calendar.
+ *
+ * Status derivation (all of it from real records, nothing invented):
+ *   HOLIDAY  - every Sunday (the weekly holiday) plus any date listed in the
+ *              holidays table. Never PRESENT, never ABSENT, and excluded from the
+ *              working-day, present, absent and percentage figures. Saturday is a
+ *              normal working day.
+ *   PRESENT  - the day has an attendance row or at least one attendance session
+ *   LEAVE    - working day covered by an APPROVED leave request
+ *   ABSENT   - working day, no punch, not on approved leave, the business day has
+ *              already ended AND the employee was already onboarded. The current
+ *              business day is IN_PROGRESS and future days are UPCOMING, so a day
+ *              that has not happened yet is never reported as an absence.
+ *   NOT_JOINED - up to and including the employee's date_of_joining, because an
+ *              employee cannot be absent from a job they had not started.
+ * Worked minutes come from the attendance_sessions rollup whenever sessions
+ * exist, matching /v1/employee/attendance.
+ */
+export const getMonthlyAttendance = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const today = businessDate();
+
+  const requestedMonth = req.query.month;
+  const monthMatch = requestedMonth === undefined || requestedMonth === ''
+    ? null
+    : /^(\d{4})-(\d{2})$/.exec(String(requestedMonth));
+  if (requestedMonth !== undefined && requestedMonth !== '' && !monthMatch) {
+    throw new BadRequestError('month must be in YYYY-MM format');
+  }
+  const month = monthMatch ? monthMatch[0] : today.slice(0, 7);
+  const year = Number(month.slice(0, 4));
+  const monthIndex = Number(month.slice(5, 7)) - 1;
+  if (monthIndex < 0 || monthIndex > 11) {
+    throw new BadRequestError('month must be a real calendar month');
+  }
+
+  const firstDay = new Date(Date.UTC(year, monthIndex, 1));
+  const daysInMonth = new Date(Date.UTC(year, monthIndex + 1, 0)).getUTCDate();
+  const from = firstDay.toISOString().slice(0, 10);
+  const to = new Date(Date.UTC(year, monthIndex, daysInMonth)).toISOString().slice(0, 10);
+
+  const emp = await Employee.findByUserId(userId);
+  const joiningDate = toDateKey(emp?.date_of_joining);
+
+  const [legacyRows, rollupRows, leaveRows, holidayRows] = await Promise.all([
+    Attendance.list({ user_id: userId, start_date: from, end_date: to, limit: daysInMonth + 5 }),
+    AttendanceSession.dailyRollup(userId, from, to),
+    pool.execute(
+      `SELECT start_date, end_date, leave_type
+         FROM leaves
+        WHERE user_id = ? AND status = 'APPROVED'
+          AND start_date <= ? AND end_date >= ?`,
+      [userId, to, from]
+    ).then(([rows]) => rows),
+    // The holidays table is currently empty in this environment, so this simply
+    // yields no holidays rather than a fabricated list.
+    pool.execute('SELECT date FROM holidays WHERE date BETWEEN ? AND ?', [from, to])
+      .then(([rows]) => rows)
+  ]);
+
+  const attendanceByDate = new Map(legacyRows.map((r) => [toDateKey(r.work_date), r]));
+  const rollupByDate = new Map(rollupRows.map((r) => [toDateKey(r.work_date), r]));
+  const holidayDates = new Set(
+    holidayRows.map((h) => toDateKey(h.date)).filter(Boolean)
+  );
+
+  const leavesByDate = new Set();
+  for (const l of leaveRows) {
+    const s = toDateKey(l.start_date);
+    const e = toDateKey(l.end_date);
+    if (!s || !e) continue;
+    for (let d = new Date(`${s}T00:00:00Z`); d <= new Date(`${e}T00:00:00Z`); d.setUTCDate(d.getUTCDate() + 1)) {
+      leavesByDate.add(d.toISOString().slice(0, 10));
+    }
+  }
+
+  const summary = {
+    working_days: 0,
+    elapsed_working_days: 0,
+    present_days: 0,
+    absent_days: 0,
+    leave_days: 0,
+    // Sundays in the month (the weekly holiday) - excluded from every count.
+    sunday_holidays: 0,
+    // Additional holidays declared in the `holidays` table, also excluded.
+    holiday_days: 0,
+    total_holidays: 0,
+    not_joined_days: 0,
+    in_progress_days: 0,
+    upcoming_days: 0,
+    // Punches that landed on a Sunday / declared holiday.
+    present_on_holidays: 0,
+    late_days: 0,
+    total_worked_minutes: 0
+  };
+
+  const days = [];
+  for (let i = 1; i <= daysInMonth; i++) {
+    const date = new Date(Date.UTC(year, monthIndex, i)).toISOString().slice(0, 10);
+    const dow = new Date(`${date}T00:00:00Z`).getUTCDay();
+    const dayName = DAY_NAMES[dow];
+
+    // Weekly holiday rule: every Sunday is a holiday. Saturday is a working day.
+    const isSunday = dow === 0;
+    const isDeclaredHoliday = holidayDates.has(date);
+    const isHoliday = isSunday || isDeclaredHoliday;
+    const isWorkingDay = !isHoliday;
+    const notOnboarded = Boolean(joiningDate && date <= joiningDate);
+
+    const row = attendanceByDate.get(date);
+    const rollup = rollupByDate.get(date);
+    const hasAttendance = Boolean(row || rollup);
+    const onLeave = leavesByDate.has(date);
+    const isToday = date === today;
+    const isFuture = date > today;
+
+    const punchIn = rollup?.first_check_in || row?.check_in_time || null;
+    const punchOut = rollup?.last_check_out || row?.check_out_time || null;
+    const workedMinutes = rollup
+      ? Number(rollup.worked_minutes || 0)
+      : Math.round(Number(row?.total_hours || 0) * 60);
+    const sessionCount = rollup ? Number(rollup.session_count || 0) : Number(row?.session_count || 0);
+
+    // A holiday is a holiday even if somebody punched in: it is never PRESENT and
+    // never counted towards attendance.
+    let status;
+    if (isHoliday) status = 'HOLIDAY';
+    else if (hasAttendance) status = 'PRESENT';
+    else if (notOnboarded) status = 'NOT_JOINED';
+    else if (onLeave) status = 'LEAVE';
+    else if (isFuture) status = 'UPCOMING';
+    else if (isToday) status = 'IN_PROGRESS';
+    else status = 'ABSENT';
+
+    const countsAsWorking = isWorkingDay && !notOnboarded;
+    if (countsAsWorking) {
+      summary.working_days += 1;
+      // Days that have actually happened - the honest denominator mid-month.
+      if (!isFuture) summary.elapsed_working_days += 1;
+    }
+
+    if (isHoliday) {
+      summary.total_holidays += 1;
+      if (isSunday) summary.sunday_holidays += 1;
+      else summary.holiday_days += 1;
+      if (hasAttendance) summary.present_on_holidays += 1;
+    } else if (notOnboarded) summary.not_joined_days += 1;
+    else if (status === 'PRESENT') {
+      summary.present_days += 1;
+      summary.total_worked_minutes += workedMinutes;
+      if (row?.is_late) summary.late_days += 1;
+    } else if (status === 'ABSENT') summary.absent_days += 1;
+    else if (status === 'LEAVE') summary.leave_days += 1;
+    else if (status === 'IN_PROGRESS') summary.in_progress_days += 1;
+    else if (status === 'UPCOMING') summary.upcoming_days += 1;
+
+    days.push({
+      date,
+      day: dayName,
+      day_of_week: dow,
+      // WORKING_DAY or HOLIDAY - drives the calendar's day colouring.
+      type: isHoliday ? 'HOLIDAY' : 'WORKING_DAY',
+      status,
+      is_working_day: countsAsWorking,
+      is_sunday: isSunday,
+      is_holiday: isHoliday,
+      is_today: isToday,
+      punchIn,
+      punchOut,
+      worked_minutes: status === 'PRESENT' ? workedMinutes : 0,
+      worked_hours: status === 'PRESENT' ? Number((workedMinutes / 60).toFixed(2)) : 0,
+      session_count: status === 'PRESENT' ? sessionCount : 0,
+      first_check_in: punchIn,
+      last_check_out: punchOut
+    });
+  }
+
+  const label = new Date(Date.UTC(year, monthIndex, 1)).toLocaleDateString('en-US', {
+    month: 'long', year: 'numeric', timeZone: 'UTC'
+  });
+
+  // Present / Working Days x 100. Sundays and declared holidays are not in the
+  // denominator. Mid-month the denominator is the working days that have already
+  // happened, so a part-finished month is not reported as mostly absent; the
+  // full-month figure is returned alongside it.
+  const rate = (denominator) => (denominator > 0
+    ? Number(((summary.present_days / denominator) * 100).toFixed(2))
+    : null);
+
+  return success(res, 200, {
+    month,
+    label,
+    today,
+    timezone: BUSINESS_TIMEZONE,
+    joining_date: joiningDate,
+    weekly_holiday: 'SUNDAY',
+    days,
+    summary: {
+      ...summary,
+      total_worked_hours: Number((summary.total_worked_minutes / 60).toFixed(2)),
+      // null (not 0 or a guess) when there is nothing yet to divide.
+      attendance_rate: rate(summary.elapsed_working_days),
+      attendance_rate_full_month: rate(summary.working_days)
+    }
+  }, 'Monthly attendance retrieved');
+});
+
 // 3. Leaves & Balances
 export const getLeavesAndBalances = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const currentYear = new Date().getFullYear().toString();
 
   const [balances, leaves] = await Promise.all([
-    pool.execute('SELECT * FROM leave_balances WHERE user_id = ?', [userId]).then(([rows]) => rows),
+    // Scoped to the current financial year. Without this a leave_balances table
+    // holding more than one year produced duplicate rows for the same leave_type,
+    // which collided on React's key and showed a stale entitlement.
+    pool.execute(
+      'SELECT * FROM leave_balances WHERE user_id = ? AND financial_year = ?',
+      [userId, currentYear]
+    ).then(([rows]) => rows),
     Leave.list({ user_id: userId, limit: 100 })
   ]);
+
+  // Resolve who reviewed each request and when, so the employee can see not just
+  // that a decision was made but who made it and at what time. `approved_by` is
+  // stored on every status change, but the name was never joined in, so the Leave
+  // Management table could only ever show a bare APPROVED badge.
+  const reviewerIds = [...new Set(leaves.map((l) => l.approved_by).filter(Boolean))];
+  const reviewersById = new Map();
+  if (reviewerIds.length > 0) {
+    const placeholders = reviewerIds.map(() => '?').join(', ');
+    const [reviewerRows] = await pool.execute(
+      `SELECT id, full_name, role FROM users WHERE id IN (${placeholders})`,
+      reviewerIds
+    );
+    for (const r of reviewerRows) {
+      reviewersById.set(r.id, {
+        name: r.full_name ? decrypt(r.full_name) : null,
+        role: r.role
+      });
+    }
+  }
+
+  const requests = leaves.map((l) => {
+    const reviewer = l.approved_by ? reviewersById.get(l.approved_by) : null;
+    return {
+      ...l,
+      // `updated_at` is the moment the status was last written, which for an
+      // approved/rejected request is the review time.
+      reviewed_at: ['APPROVED', 'REJECTED'].includes(String(l.status).toUpperCase())
+        ? l.updated_at || null
+        : null,
+      reviewed_by_name: reviewer?.name || null,
+      reviewed_by_role: reviewer?.role || null
+    };
+  });
 
   // Only balances that actually exist are returned. This endpoint previously
   // substituted invented 12 / 8 / 15-day balances when leave_balances was
   // empty, presenting a fabricated entitlement as a real one.
   return success(res, 200, {
     balances,
-    requests: leaves,
+    requests,
     financial_year: currentYear
   }, 'Leaves and balances retrieved');
 });
@@ -281,12 +611,66 @@ export const getAssignedTasks = asyncHandler(async (req, res) => {
   const { status, limit = 50, page = 1 } = req.query;
   const offset = (parseInt(page) - 1) * parseInt(limit);
 
+  // Resolved separately from Task.list so the task rows themselves stay exactly
+  // what the shared model returns - this only decorates them with human-readable
+  // labels for the detail dialog. Every join is LEFT because project_id,
+  // sprint_id and milestone_id are all nullable, and an inner join would silently
+  // drop tasks that are not attached to a project.
+  const decorateTasks = async (tasks) => {
+    if (!tasks.length) return tasks;
+
+    const collect = (key) => [...new Set(tasks.map((t) => t[key]).filter(Boolean))];
+    const projectIds = collect('project_id');
+    const sprintIds = collect('sprint_id');
+    const milestoneIds = collect('milestone_id');
+
+    const [projectRows, sprintRows, milestoneRows] = await Promise.all([
+      projectIds.length
+        ? pool.execute(
+          `SELECT id, name FROM student_projects WHERE id IN (${projectIds.map(() => '?').join(',')})`,
+          projectIds
+        ).then(([r]) => r)
+        : [],
+      sprintIds.length
+        ? pool.execute(
+          `SELECT id, sprint_name, sprint_number, status FROM project_sprints WHERE id IN (${sprintIds.map(() => '?').join(',')})`,
+          sprintIds
+        ).then(([r]) => r)
+        : [],
+      milestoneIds.length
+        ? pool.execute(
+          `SELECT id, title, status, target_date FROM project_milestones WHERE id IN (${milestoneIds.map(() => '?').join(',')})`,
+          milestoneIds
+        ).then(([r]) => r)
+        : []
+    ]);
+
+    const projectById = new Map(projectRows.map((p) => [p.id, p.name]));
+    const sprintById = new Map(
+      sprintRows.map((s) => [s.id, { name: s.sprint_name, number: s.sprint_number, status: s.status }])
+    );
+    const milestoneById = new Map(
+      milestoneRows.map((m) => [m.id, { title: m.title, status: m.status, target_date: m.target_date }])
+    );
+
+    return tasks.map((t) => ({
+      ...t,
+      project_name: projectById.get(t.project_id) || null,
+      sprint_name: sprintById.get(t.sprint_id)?.name || null,
+      sprint_number: sprintById.get(t.sprint_id)?.number ?? null,
+      sprint_status: sprintById.get(t.sprint_id)?.status || null,
+      milestone_name: milestoneById.get(t.milestone_id)?.title || null,
+      milestone_status: milestoneById.get(t.milestone_id)?.status || null,
+      milestone_target_date: milestoneById.get(t.milestone_id)?.target_date || null
+    }));
+  };
+
   const [tasks, total] = await Promise.all([
     Task.list({ assigned_to: userId, status, limit: parseInt(limit), offset }),
     Task.count({ assigned_to: userId, status })
   ]);
 
-  return success(res, 200, tasks, 'Assigned tasks retrieved', {
+  return success(res, 200, await decorateTasks(tasks), 'Assigned tasks retrieved', {
     page: parseInt(page),
     limit: parseInt(limit),
     total,
@@ -440,6 +824,18 @@ export const updateMyProfile = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const { phone, full_name, preferences, avatar_url, avatar } = req.body;
   const updates = {};
+
+  // PAN / PF / bank / employment fields belong to HR, Finance and Admin. Refuse
+  // the request outright instead of quietly ignoring it, so an employee (or a
+  // script using an employee token) cannot probe for a writable payroll field.
+  const attemptedProtected = PROTECTED_EMPLOYEE_FIELDS.filter((field) =>
+    Object.prototype.hasOwnProperty.call(req.body || {}, field)
+  );
+  if (attemptedProtected.length > 0) {
+    throw new AuthorizationError(
+      `These fields are managed by HR/Finance and cannot be changed from the employee portal: ${attemptedProtected.join(', ')}`
+    );
+  }
 
   // Validated here rather than left to the database. encrypt() returns null for
   // a falsy value, so an empty full_name previously wrote NULL into
@@ -623,10 +1019,13 @@ export const getMessageContacts = asyncHandler(async (req, res) => {
     values
   );
 
+  // users.full_name and users.email are encrypted at rest, so they must
+  // be decrypted here — otherwise the Messages page renders the ciphertext
+  // (a random hex string) as the contact name and thread title.
   const contacts = rows.map((r) => ({
     id: r.id,
-    email: r.email,
-    full_name: r.full_name,
+    email: r.email ? decrypt(r.email) : null,
+    full_name: r.full_name ? decrypt(r.full_name) : null,
     role: r.role,
     avatar_url: r.avatar_url,
     designation: r.designation || null,

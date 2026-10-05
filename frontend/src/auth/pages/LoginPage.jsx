@@ -9,7 +9,14 @@ import OAuthButton from '../components/OAuthButton.jsx';
 import { getPortalConfig } from '../portals/config/index.js';
 import styles from './Auth.module.css';
 
-export default function LoginPage({ portal }) {
+/**
+ * LoginPage - the shared sign-in screen used by every role portal.
+ *
+ * `brandLogo`, `showPasswordToggle` and `footer` are opt-in: when a portal does
+ * not pass them the rendered output is exactly as before, so adding them for the
+ * employee portal does not change any other portal's login screen.
+ */
+export default function LoginPage({ portal, brandLogo, showPasswordToggle, footer }) {
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -19,6 +26,7 @@ export default function LoginPage({ portal }) {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [requiresMfa, setRequiresMfa] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const portalConfig = portal ? getPortalConfig(portal) : null;
   const showOAuth = portalConfig?.oauthProviders?.length > 0;
@@ -72,7 +80,11 @@ export default function LoginPage({ portal }) {
     <div className={styles.authContainer}>
       <div className={styles.authCard}>
         <div className={styles.header}>
-          <h2>ETHIROLI</h2>
+          {brandLogo ? (
+            <img src={brandLogo} className={styles.brandLogo} alt="Ethiroli" />
+          ) : (
+            <h2>ETHIROLI</h2>
+          )}
           <p>{portalConfig?.label ? `${portalConfig.label} Portal` : (portal ? `${String(portal).toUpperCase()} Portal` : 'Login to your account')}</p>
           {portalConfig && (
             <div style={{
@@ -90,28 +102,66 @@ export default function LoginPage({ portal }) {
           )}
         </div>
 
-        {error && <div className={styles.error}>{error}</div>}
+        {error && <div className={styles.error} role="alert">{error}</div>}
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <Input 
             label="Email" 
-            type="email" 
+            type="email"
+            name="email"
+            autoComplete="username"
+            autoFocus
             value={email} 
             onChange={(e) => setEmail(e.target.value)} 
             required 
           />
-          <Input 
-            label="Password" 
-            type="password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            required 
-          />
+          {showPasswordToggle ? (
+            <div className={styles.passwordField}>
+              <Input 
+                label="Password" 
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                autoComplete="current-password"
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
+                required 
+              />
+              <button
+                type="button"
+                className={styles.passwordToggle}
+                onClick={() => setShowPassword((prev) => !prev)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                aria-pressed={showPassword}
+                tabIndex={0}
+              >
+                <i className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'}`} aria-hidden="true"></i>
+              </button>
+            </div>
+          ) : (
+            <Input 
+              label="Password" 
+              type="password"
+              name="password"
+              autoComplete="current-password"
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)} 
+              required 
+            />
+          )}
           
           <Button type="submit" variant="primary" disabled={loading} className={styles.submitBtn}>
-            {loading ? 'Logging in...' : 'Log In'}
+            {loading ? (
+              <>
+                <span className={styles.spinner} aria-hidden="true"></span>
+                Logging in...
+              </>
+            ) : (
+              'Log In'
+            )}
           </Button>
         </form>
+
+        {footer}
 
         {showOAuth && (
           <div className={styles.oauthSection}>

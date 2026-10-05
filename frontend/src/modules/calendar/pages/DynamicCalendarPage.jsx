@@ -15,7 +15,209 @@ import {
 } from '../../../store/slices/calendarSlice.js';
 import '../styles/premiumCalendar.css';
 
-export default function DynamicCalendarPage({ defaultRole = null }) {
+/**
+ * DynamicCalendarPage - the shared calendar for every role portal.
+ *
+ * `attendanceLoader` is opt-in: when a portal passes an async function that
+ * resolves the signed-in user's attendance for a `YYYY-MM` month, the month grid
+ * gains a per-day attendance chip and a monthly summary. Portals that pass
+ * nothing render exactly as before, so this adds attendance without touching any
+ * other role's calendar.
+ */
+/**
+ * STATUS_COPY - plain-English explanation for each day state the API returns.
+ *
+ * The month grid only has room for a one-letter chip, so this dialog carries the
+ * reasoning: why a day counts as absent, why a holiday is excluded, and what the
+ * month's totals mean.
+ */
+const STATUS_COPY = {
+  PRESENT: 'You punched in on this working day, so it counts as present.',
+  ABSENT: 'This working day has passed with no punch recorded and no approved leave, so it counts as absent.',
+  LEAVE: 'This working day is covered by an approved leave request, so it is counted as leave rather than absent.',
+  HOLIDAY: 'A non-working day, so it is excluded from working days, present and absent. Sundays are the weekly holiday; other holidays are declared public holidays.',
+  IN_PROGRESS: 'This is today and the working day has not ended yet, so it is not counted as present or absent.',
+  UPCOMING: 'This working day has not happened yet.',
+  NOT_JOINED: 'You had not joined the company on this date, so you cannot be absent from it.',
+};
+
+const formatStamp = (value) => {
+  if (!value) return null;
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return String(value);
+  return d.toLocaleString([], {
+    day: '2-digit', month: 'short', year: 'numeric',
+    hour: '2-digit', minute: '2-digit'
+  });
+};
+
+const formatHours = (minutes) => {
+  const mins = Number(minutes || 0);
+  if (!mins) return null;
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  return m ? `${h}h ${m}m` : `${h}h`;
+};
+
+const STATUS_TONE = {
+  PRESENT: 'success',
+  ABSENT: 'danger',
+  LEAVE: 'info',
+  HOLIDAY: 'danger',
+  IN_PROGRESS: 'warning',
+  UPCOMING: 'secondary',
+  NOT_JOINED: 'secondary',
+};
+
+/**
+ * DayDetailModal - the full attendance record for one day.
+ *
+ * Defined here rather than in the Employee portal because this file is the shared
+ * calendar used by every role; it only ever renders when `attendanceLoader` is
+ * supplied. It is a self-contained overlay (no bootstrap.js dependency, which the
+ * portal does not load) and closes on Escape, a backdrop click, or the close
+ * button.
+ */
+function DayDetailModal({ day, onClose, summary }) {
+  useEffect(() => {
+    if (!day) return undefined;
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [day, onClose]);
+
+  if (!day) return null;
+
+  const worked = formatHours(day.worked_minutes);
+  // Sundays are the only red non-working day, so the badge tone follows the same
+  // rule: red for Sunday, neutral for a declared public holiday.
+  const tone = day.is_sunday
+    ? 'danger'
+    : day.status === 'HOLIDAY'
+      ? 'secondary'
+      : STATUS_TONE[day.status] || 'secondary';
+
+  const title = day.is_sunday
+    ? 'Sunday - weekly holiday'
+    : day.is_holiday
+      ? 'Public holiday'
+      : day.day;
+
+  return (
+    <div
+      className="att-modal-backdrop"
+      onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
+      <div
+        className="att-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="attDayTitle"
+        tabIndex={-1}
+      >
+        <div className="att-modal-head">
+          <div>
+            <h4 className="att-modal-title" id="attDayTitle">
+              {day.date} &middot; {title}
+            </h4>
+            <span className="att-modal-sub">{day.is_working_day ? 'Working day' : 'Non-working day'}</span>
+          </div>
+          <span className={`badge bg-${tone} bg-opacity-10 text-${tone} border border-${tone} border-opacity-25`}>
+            {String(day.status || '').replace(/_/g, ' ')}
+          </span>
+          <button type="button" className="btn-close" aria-label="Close" onClick={onClose}></button>
+        </div>
+
+        <div className="att-modal-body">
+          <p className="att-modal-explain">{STATUS_COPY[day.status] || 'No attendance information for this day.'}</p>
+
+          <dl className="att-detail-list">
+            <div className="att-detail-row">
+              <dt>Date</dt>
+              <dd>{day.date} ({day.day})</dd>
+            </div>
+            <div className="att-detail-row">
+              <dt>Day type</dt>
+              <dd>
+                {day.is_sunday
+                  ? 'Sunday (weekly holiday)'
+                  : day.is_holiday
+                    ? 'Public holiday'
+                    : 'Working day'}
+              </dd>
+            </div>
+            <div className="att-detail-row">
+              <dt>First punch in</dt>
+              <dd>{formatStamp(day.punchIn) || 'No punch recorded'}</dd>
+            </div>
+            <div className="att-detail-row">
+              <dt>Last punch out</dt>
+              <dd>{formatStamp(day.punchOut) || (day.punchIn ? 'Still punched in' : 'No punch recorded')}</dd>
+            </div>
+            <div className="att-detail-row">
+              <dt>Hours worked</dt>
+              <dd>{worked || '—'}</dd>
+            </div>
+            <div className="att-detail-row">
+              <dt>Sessions</dt>
+              <dd>{day.session_count ? day.session_count : '—'}</dd>
+            </div>
+          </dl>
+
+          {summary && (
+            <>
+              <h5 className="att-modal-section">Month to date</h5>
+              <dl className="att-detail-list">
+                <div className="att-detail-row">
+                  <dt>Working days</dt>
+                  <dd>
+                    {summary.elapsed_working_days} elapsed of {summary.working_days} in the month
+                  </dd>
+                </div>
+                <div className="att-detail-row">
+                  <dt>Present / Absent</dt>
+                  <dd>{summary.present_days} present &middot; {summary.absent_days} absent &middot; {summary.leave_days} on leave</dd>
+                </div>
+                <div className="att-detail-row">
+                  <dt>Attendance rate</dt>
+                  <dd>
+                    {summary.attendance_rate === null ? 'Not enough elapsed days yet' : `${summary.attendance_rate}%`}
+                  </dd>
+                </div>
+                {summary.present_on_holidays > 0 && (
+                  <div className="att-detail-row">
+                    <dt>Note</dt>
+                    <dd>
+                      You have punch records on {summary.present_on_holidays} holiday
+                      {summary.present_on_holidays === 1 ? '' : 's'} this month; those are not counted
+                      as attendance.
+                    </dd>
+                  </div>
+                )}
+              </dl>
+            </>
+          )}
+
+          <p className="att-modal-foot">
+            Sundays are weekly holidays and are excluded from every count. Attendance rate is
+            present days divided by the working days that have already passed this month.
+          </p>
+        </div>
+
+        <div className="att-modal-foot-actions">
+          <button type="button" className="btn btn-light" onClick={onClose}>Close</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function DynamicCalendarPage({ defaultRole = null, attendanceLoader = null }) {
   const dispatch = useDispatch();
   const {
     expandedEvents,
@@ -362,6 +564,136 @@ export default function DynamicCalendarPage({ defaultRole = null }) {
     return cells;
   }, [activeDate]);
 
+  // ===================== Attendance overlay (opt-in) =====================
+  const [attendanceMonth, setAttendanceMonth] = useState(null);
+  const [attendanceLoading, setAttendanceLoading] = useState(false);
+  const [attendanceError, setAttendanceError] = useState(null);
+
+  const activeMonthKey = useMemo(
+    () => formatDateKey(new Date(activeDate.getFullYear(), activeDate.getMonth(), 1)).slice(0, 7),
+    [activeDate]
+  );
+
+  useEffect(() => {
+    if (!attendanceLoader) return undefined;
+    let cancelled = false;
+    setAttendanceLoading(true);
+    setAttendanceError(null);
+    (async () => {
+      try {
+        const res = await attendanceLoader(activeMonthKey);
+        if (cancelled) return;
+        setAttendanceMonth(res?.data || res || null);
+      } catch (err) {
+        if (cancelled) return;
+        setAttendanceMonth(null);
+        setAttendanceError(
+          err?.response?.data?.message || err?.message || 'Could not load your attendance.'
+        );
+      } finally {
+        if (!cancelled) setAttendanceLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [attendanceLoader, activeMonthKey]);
+
+  const attendanceByDate = useMemo(() => {
+    const map = {};
+    for (const day of attendanceMonth?.days || []) map[day.date] = day;
+    return map;
+  }, [attendanceMonth]);
+
+  // The day whose full attendance record is open in the detail dialog. Null when
+  // closed. Set by clicking a day's attendance chip.
+  const [selectedDay, setSelectedDay] = useState(null);
+
+  const formatWorkedHours = (minutes) => {
+    const mins = Number(minutes || 0);
+    if (!mins) return null;
+    const h = Math.floor(mins / 60);
+    const m = mins % 60;
+    return m ? `${h}h ${m}m` : `${h}h`;
+  };
+
+  /**
+   * Renders a punch timestamp in the reader's own timezone.
+   *
+   * The API returns a raw ISO UTC string (`2026-10-01T20:15:46.000Z`), which is
+   * what the chip used to print verbatim - so a 01:45 local punch was displayed
+   * as "20:15" the previous evening, making a present day look like it started
+   * at night. Formatting it as a Date fixes that.
+   */
+  const formatPunchTime = (value) => {
+    if (!value) return null;
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return String(value);
+    return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
+  const attendanceChip = (day) => {
+    if (!day) return null;
+
+    const hours = formatWorkedHours(day.worked_minutes);
+    const inTime = formatPunchTime(day.punchIn);
+    const outTime = formatPunchTime(day.punchOut);
+
+    /**
+     * A punch IS the definition of being present, so it is checked FIRST and
+     * takes precedence over the holiday colouring.
+     *
+     * Previously a day that fell on a Sunday or a declared public holiday stayed
+     * "HOLIDAY" no matter what the punch record said. Someone who worked three
+     * days in a month containing a Sunday and a festival therefore saw only one
+     * green day - the real work was hidden behind the holiday colour and the
+     * month looked like the record had been lost.
+     *
+     * So the order is:
+     *   worked            -> PRESENT (green), even on a Sunday or public holiday
+     *   Sunday, no punch  -> weekly holiday (red)
+     *   public holiday    -> non-working day (neutral)
+     *   approved leave    -> leave
+     *   past, no punch    -> absent (plain, no colour)
+     *   today / future    -> in progress / upcoming
+     */
+    const hasPunch = Boolean(day.punchIn || day.worked_minutes > 0);
+
+    if (hasPunch && day.status !== 'LEAVE') {
+      const times = inTime ? ` · ${inTime}–${outTime || 'still open'}` : '';
+      const onHoliday = day.is_holiday ? ' · fell on a holiday' : '';
+      return {
+        key: 'present',
+        short: 'P',
+        label: `Present${hours ? ` · ${hours} worked` : ''}${times}${onHoliday}`,
+      };
+    }
+
+    if (day.type === 'HOLIDAY' || day.status === 'HOLIDAY') {
+      if (day.is_sunday) {
+        return { key: 'sunday', short: 'H', label: 'Sunday · weekly holiday' };
+      }
+      return { key: 'publicholiday', short: 'PH', label: 'Public holiday · non-working day' };
+    }
+
+    switch (day.status) {
+      case 'PRESENT': {
+        const times = inTime ? ` · ${inTime}–${outTime || 'still open'}` : '';
+        return { key: 'present', short: 'P', label: `Present${hours ? ` · ${hours} worked` : ''}${times}` };
+      }
+      case 'ABSENT':
+        return { key: 'absent', short: 'A', label: 'Absent · no punch recorded' };
+      case 'LEAVE':
+        return { key: 'leave', short: 'L', label: 'On approved leave' };
+      case 'IN_PROGRESS':
+        return { key: 'inprogress', short: '•', label: 'Today · day still in progress' };
+      case 'UPCOMING':
+        return { key: 'upcoming', short: '·', label: 'Upcoming working day' };
+      default:
+        return null;
+    }
+  };
+
+  const attendanceSummary = attendanceMonth?.summary || null;
+
   // Map events to date strings for quick grid lookup
   const eventsByDate = useMemo(() => {
     const map = {};
@@ -661,16 +993,55 @@ export default function DynamicCalendarPage({ defaultRole = null }) {
               {monthData.map((cell, idx) => {
                 const dayEvents = eventsByDate[cell.dateStr] || [];
                 const isToday = formatDateKey(new Date()) === cell.dateStr;
+                const chip = attendanceLoader && cell.isCurrentMonth
+                  ? attendanceChip(attendanceByDate[cell.dateStr])
+                  : null;
+                const dayRecord = attendanceLoader && cell.isCurrentMonth
+                  ? attendanceByDate[cell.dateStr] || null
+                  : null;
 
                 return (
                   <div
                     key={idx}
-                    className={`grid-cell ${!cell.isCurrentMonth ? 'out-of-month' : ''}`}
+                    className={`grid-cell ${!cell.isCurrentMonth ? 'out-of-month' : ''}${
+                      // Worked = green. Takes precedence over the holiday colour,
+                      // so a day punched on a Sunday or public holiday still shows
+                      // as present.
+                      chip?.key === 'present' ? ' is-present-day' : ''
+                    }${
+                      // Only the weekly holiday is red.
+                      chip?.key === 'sunday' ? ' is-sunday-day' : ''
+                    }${
+                      chip?.key === 'publicholiday' ? ' is-public-holiday-day' : ''
+                    }${
+                      // Absent is deliberately left plain - no colour at all.
+                      chip?.key === 'absent' ? ' is-absent-day' : ''
+                    }`}
                   >
                     <div className="cell-top-bar">
-                      <span className={`cell-day-num ${isToday ? 'is-today' : ''}`}>
+                      <span
+                        className={`cell-day-num ${isToday ? 'is-today' : ''} ${
+                          // Red day number is reserved for Sundays; a declared
+                          // public holiday keeps the normal number colour.
+                          chip?.key === 'sunday' ? 'is-sunday' : ''
+                        }`}
+                      >
                         {cell.dayNumber}
                       </span>
+                      {chip && (
+                        <button
+                          type="button"
+                          className={`att-chip att-chip-${chip.key}`}
+                          title={chip.label}
+                          aria-label={`${cell.dateStr}: ${chip.label}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedDay(dayRecord);
+                          }}
+                        >
+                          {chip.short}
+                        </button>
+                      )}
                       {cell.isCurrentMonth && canCreateEvents && (
                         <button
                           type="button"
@@ -722,6 +1093,114 @@ export default function DynamicCalendarPage({ defaultRole = null }) {
                 );
               })}
             </div>
+          </div>
+        )}
+
+        {/* Per-day detail dialog - opt-in, driven by the attendanceLoader. Opened by
+            clicking a day's attendance chip. Shows the full punch record for that day
+            so the month grid does not have to carry every field. */}
+        {attendanceLoader && viewMode === 'month' && (
+          <DayDetailModal
+            day={selectedDay}
+            onClose={() => setSelectedDay(null)}
+            summary={attendanceSummary}
+          />
+        )}
+
+        {/* Monthly attendance summary - opt-in, shown under the month grid */}
+        {attendanceLoader && viewMode === 'month' && (
+          <div className="att-summary" aria-live="polite">
+            <div className="att-summary-head">
+              <h4 className="att-summary-title">
+                <i className="bi bi-clipboard-check me-2" aria-hidden="true"></i>
+                {attendanceMonth?.label || 'Attendance'}
+              </h4>
+              <span className="att-summary-sub">
+                {attendanceLoading ? 'Loading…' : 'Based on your punch records'}
+              </span>
+            </div>
+
+            {attendanceError ? (
+              <div className="att-summary-error">
+                <i className="bi bi-exclamation-triangle me-2" aria-hidden="true"></i>
+                {attendanceError}
+              </div>
+            ) : !attendanceMonth ? (
+              <div className="att-summary-empty">
+                {attendanceLoading ? 'Loading your attendance…' : 'No attendance data for this month yet.'}
+              </div>
+            ) : (
+              <>
+                <div className="att-tiles">
+                  <div className="att-tile">
+                    <span className="att-tile-value">{attendanceSummary.working_days}</span>
+                    <span className="att-tile-label">Working days</span>
+                  </div>
+                  <div className="att-tile att-tile-present">
+                    <span className="att-tile-value">{attendanceSummary.present_days}</span>
+                    <span className="att-tile-label">Present</span>
+                  </div>
+                  <div className="att-tile att-tile-absent">
+                    <span className="att-tile-value">{attendanceSummary.absent_days}</span>
+                    <span className="att-tile-label">Absent</span>
+                  </div>
+                  <div className="att-tile att-tile-leave">
+                    <span className="att-tile-value">{attendanceSummary.leave_days}</span>
+                    <span className="att-tile-label">Leave</span>
+                  </div>
+                  {/* Sundays and declared public holidays are reported
+                      separately, matching how the grid colours them: red is
+                      reserved for the weekly holiday. Both are excluded from
+                      every attendance count either way. */}
+                  <div className="att-tile att-tile-holiday">
+                    <span className="att-tile-value">{attendanceSummary.sunday_holidays}</span>
+                    <span className="att-tile-label">Sundays</span>
+                  </div>
+                  <div className="att-tile">
+                    <span className="att-tile-value">{attendanceSummary.holiday_days}</span>
+                    <span className="att-tile-label">Public holidays</span>
+                  </div>
+                  {/*
+                    Days that were punched in despite falling on a holiday. They
+                    are excluded from present/absent, so without their own tile
+                    the month looks like it is missing those days of work.
+                  */}
+                  {attendanceSummary.present_on_holidays > 0 && (
+                    <div className="att-tile att-tile-holidayworked">
+                      <span className="att-tile-value">{attendanceSummary.present_on_holidays}</span>
+                      <span className="att-tile-label">Worked on holidays</span>
+                    </div>
+                  )}
+                  <div className="att-tile">
+                    <span className="att-tile-value">
+                      {attendanceSummary.attendance_rate === null
+                        ? '—'
+                        : `${attendanceSummary.attendance_rate}%`}
+                    </span>
+                    <span className="att-tile-label">Attendance %</span>
+                  </div>
+                </div>
+
+                <p className="att-summary-note">
+                  Sundays are the weekly holiday (marked red) and public holidays are the
+                  declared non-working days. Both are excluded from working days, present and
+                  absent. Attendance % = Present / working days elapsed
+                  {attendanceSummary.working_days !== attendanceSummary.elapsed_working_days && (
+                    <> ({attendanceSummary.elapsed_working_days} of {attendanceSummary.working_days} working days have happened so far this month)</>
+                  )}
+                  .
+                </p>
+
+                {attendanceSummary.present_on_holidays > 0 && (
+                  <p className="att-summary-note">
+                    You worked on {attendanceSummary.present_on_holidays} holiday
+                    {attendanceSummary.present_on_holidays === 1 ? '' : 's'} this month. Those days
+                    keep their holiday colour and are excluded from the present and absent counts,
+                    but the punch record is still shown on the grid and in the day detail.
+                  </p>
+                )}
+              </>
+            )}
           </div>
         )}
 

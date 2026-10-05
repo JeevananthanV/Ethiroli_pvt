@@ -42,9 +42,15 @@ export default class ProjectMember {
   }
 
   static async listUserProjects(userId, { limit = 50, offset = 0 } = {}) {
+    // repo_owner / repo_name / last_commit_hash / repo_structure were selected as
+    // `sp.*` before, but the explicit column list below is what the employee's
+    // project detail dialog actually renders. The extra fields are included so
+    // the dialog can show the real repository metadata instead of a bare name.
     const [rows] = await pool.execute(
-      `SELECT pm.id as membership_id, pm.project_role, pm.joined_at,
-              sp.id as project_id, sp.name, sp.description, sp.github_repo_url, sp.branch, sp.is_active, sp.created_at
+      `SELECT pm.id AS membership_id, pm.project_role, pm.joined_at,
+              sp.id AS project_id, sp.name, sp.description, sp.github_repo_url,
+              sp.repo_owner, sp.repo_name, sp.branch, sp.last_commit_hash,
+              sp.repo_structure, sp.is_active, sp.created_at, sp.updated_at
        FROM project_members pm
        JOIN student_projects sp ON pm.project_id = sp.id
        WHERE pm.user_id = ?

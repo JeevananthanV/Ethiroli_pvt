@@ -34,7 +34,15 @@ export default function Attendance() {
     try {
       const [todayRes, historyRes] = await Promise.all([
         employeePortalApi.getTodayAttendance(),
-        employeePortalApi.getAttendanceHistory({ limit: 60 }),
+        /**
+         * The KPI tiles are computed client-side from these rows, so the page
+         * needs the full set. It previously asked for a hardcoded `limit: 60` and
+         * discarded the pagination metadata the API returns, so once an employee
+         * had more than 60 days on record the "Present Days" and "Total Hours"
+         * figures silently under-reported with nothing indicating data was
+         * missing. 365 rows covers a full year in one round trip.
+         */
+        employeePortalApi.getAttendanceHistory({ limit: 365 }),
       ]);
       // `axiosInstance` unwraps to response.data, so these are the envelopes.
       setToday(todayRes?.data || null);
@@ -127,9 +135,22 @@ export default function Attendance() {
     halfDay: history.filter(r => r.status === 'HALF_DAY').length,
     absent: history.filter(r => r.status === 'ABSENT').length,
   };
+
+  /**
+   * Attendance rate, or null when there is nothing to divide.
+   *
+   * This used to fall back to 100, so an employee with zero recorded days was
+   * shown a perfect 100% attendance rate - a fabricated result presented as a
+   * real one. null renders as "—" and the tile explains that no days have been
+   * recorded yet.
+   *
+   * Denominator is the days actually on record, and the numerator counts a
+   * half day as 0.5, matching how HR reads the figure.
+   */
   const rate = stats.total > 0
     ? Math.round(((stats.present + stats.halfDay * 0.5) / stats.total) * 100)
-    : 100;
+    : null;
+
   const totalHours = (history.reduce((s, r) => s + (Number(r.worked_hours) || 0), 0)).toFixed(1);
 
   return (
@@ -154,8 +175,14 @@ export default function Attendance() {
           <div className="col-6 col-md-3">
             <div className="emp-stat emp-stat--olive h-100 text-center">
               <span className="emp-stat__label d-block">Attendance Rate</span>
-              <div className="emp-stat__value">{rate}%</div>
-              <div className="emp-stat__hint">Target: 95% minimum</div>
+              <div className="emp-stat__value">{rate === null ? '—' : `${rate}%`}</div>
+              <div className="emp-stat__hint">
+                {rate === null
+                  ? 'No days recorded yet'
+                  : rate >= 95
+                    ? 'Meets the 95% target'
+                    : 'Target: 95% minimum'}
+              </div>
             </div>
           </div>
           <div className="col-6 col-md-3">

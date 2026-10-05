@@ -40,6 +40,9 @@ export default class Leave {
     if (updates.status !== undefined) { queryParts.push('status = ?'); values.push(updates.status); }
     if (updates.approved_by !== undefined) { queryParts.push('approved_by = ?'); values.push(updates.approved_by); }
     if (updates.approval_chain_step !== undefined) { queryParts.push('approval_chain_step = ?'); values.push(updates.approval_chain_step); }
+    // The reviewer's comment. Recorded so the employee sees WHY a request was
+    // declined, rather than only that it was.
+    if (updates.review_note !== undefined) { queryParts.push('review_note = ?'); values.push(updates.review_note); }
 
     if (queryParts.length === 0) return;
     values.push(id);

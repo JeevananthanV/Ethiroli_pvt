@@ -84,6 +84,420 @@
   box-shadow: 0 6px 20px rgba(232, 214, 87, 0.4);
 }
 
+/* --- Opt-in enhancements (employee portal passes brandLogo / showPasswordToggle) --- */
+
+/* The asset is a square 800x800 lockup with a white wordmark, so it is sized
+   square and letterboxed with contain to avoid stretching or cropping. */
+.brandLogo {
+  display: block;
+  width: 132px;
+  height: 132px;
+  object-fit: contain;
+  margin: 0 auto 14px;
+}
+
+.passwordField {
+  position: relative;
+}
+
+.passwordField input {
+  padding-right: 44px;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 8px;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm, 8px);
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 16px;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.passwordToggle:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.passwordToggle:focus-visible {
+  outline: 2px solid var(--base-gold, #E8D657);
+  outline-offset: 2px;
+}
+
+.spinner {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  margin-right: 8px;
+  vertical-align: -2px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: authSpin 0.7s linear infinite;
+}
+
+@keyframes authSpin {
+  to { transform: rotate(360deg); }
+}
+
+.loginFooter {
+  margin: 18px 0 0;
+  text-align: center;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* --- Password recovery on the employee sign-in screen ---
+   Opt-in: only EmployeeLoginPage renders this, so no other portal's login
+   screen is affected.
+
+   Rendered as a centred dialog rather than a panel expanded under the form. The
+   three-stage flow is tall, and inlining it stretched the login card to several
+   times its normal height and pushed the sign-in fields out of view. */
+
+/* Trigger button in the login card footer. */
+.recoveryTrigger {
+  margin-top: 16px;
+  width: 100%;
+  padding: 9px 14px;
+  background: transparent;
+  border: 1px dashed rgba(255, 255, 255, 0.28);
+  border-radius: var(--radius-sm, 8px);
+  color: rgba(255, 255, 255, 0.78);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.recoveryTrigger:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.45);
+  color: #ffffff;
+}
+
+.recoveryTrigger:focus-visible {
+  outline: 2px solid var(--base-gold, #E8D657);
+  outline-offset: 2px;
+}
+
+/* ---- Dialog shell ---- */
+
+.recoveryBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1080;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  overflow-y: auto;
+  background: rgba(6, 16, 15, 0.72);
+  backdrop-filter: blur(4px);
+  animation: recoveryFade 0.18s ease-out;
+}
+
+.recoveryDialog {
+  width: 100%;
+  max-width: 460px;
+  max-height: calc(100vh - 48px);
+  display: flex;
+  flex-direction: column;
+  background: #10201f;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-xl, 20px);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+  animation: recoveryRise 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.recoveryDialog:focus { outline: none; }
+
+.recoveryDialogHead {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 18px 20px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.recoveryDialogIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  font-size: 18px;
+  background: rgba(129, 158, 53, 0.18);
+  color: var(--base-gold, #E8D657);
+}
+
+.recoveryDialogHeadText {
+  flex: 1;
+  min-width: 0;
+}
+
+.recoveryDialogTitle {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.recoveryDialogSub {
+  display: block;
+  margin-top: 2px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.recoveryDialogClose {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.recoveryDialogClose:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.recoveryDialogClose:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.recoveryDialogClose:focus-visible {
+  outline: 2px solid var(--base-gold, #E8D657);
+  outline-offset: 2px;
+}
+
+.recoveryDialogBody {
+  padding: 18px 20px 20px;
+  overflow-y: auto;
+}
+
+/* Email + employee code sit side by side; they collapse on narrow screens. */
+.recoveryFieldRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 460px) {
+  .recoveryFieldRow { grid-template-columns: 1fr; }
+}
+
+/* ---- Progress rail ---- */
+
+.recoverySteps {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.recoveryStep {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 11px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.recoveryStep[data-state='done'] {
+  border-color: rgba(129, 158, 53, 0.5);
+  background: rgba(129, 158, 53, 0.12);
+}
+
+.recoveryStep[data-state='active'] {
+  border-color: rgba(232, 214, 87, 0.55);
+  background: rgba(232, 214, 87, 0.1);
+}
+
+.recoveryStepNum {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.recoveryStep[data-state='done'] .recoveryStepNum {
+  background: var(--base-gold, #E8D657);
+  color: #14312f;
+}
+
+.recoveryStep[data-state='active'] .recoveryStepNum {
+  background: #ffffff;
+  color: #14312f;
+}
+
+/* Label and hint are block-level; as inline spans they ran together on one
+   line ("Request submittedYour request has been sent to HR"). */
+.recoveryStepText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.recoveryStepLabel {
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.94);
+}
+
+.recoveryStepHint {
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.48);
+}
+
+/* ---- Alerts ---- */
+
+.recoveryAlert {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.recoveryAlert i { flex-shrink: 0; margin-top: 1px; }
+
+.recoveryAlertInfo {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.recoveryAlertSuccess {
+  background: rgba(129, 158, 53, 0.16);
+  border: 1px solid rgba(129, 158, 53, 0.45);
+  color: #eaf3d0;
+}
+
+.recoveryAlertError {
+  background: rgba(196, 62, 46, 0.18);
+  border: 1px solid rgba(196, 62, 46, 0.5);
+  color: #ffd9d3;
+}
+
+/* ---- Actions ---- */
+
+.recoveryActions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.recoveryBtn {
+  padding: 10px 16px;
+  border-radius: var(--radius-sm, 8px);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.recoveryBtnPrimary {
+  background: var(--base-gold, #E8D657);
+  color: #14312f;
+}
+
+.recoveryBtnPrimary:hover:not(:disabled) { filter: brightness(1.08); }
+
+.recoveryBtnGhost {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.recoveryBtnGhost:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.recoveryBtn:focus-visible {
+  outline: 2px solid var(--base-gold, #E8D657);
+  outline-offset: 2px;
+}
+
+.recoveryBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.recoveryHint {
+  margin: 14px 0 0;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Session-expired toast, pinned to the top of the login card. */
+.sessionNotice {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1090;
+  width: calc(100% - 32px);
+  max-width: 420px;
+  margin: 0;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+@keyframes recoveryFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes recoveryRise {
+  from { opacity: 0; transform: translateY(14px) scale(0.985); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recoveryBackdrop,
+  .recoveryDialog { animation: none; }
+}
 .oauthSection {
   margin-top: 24px;
 }

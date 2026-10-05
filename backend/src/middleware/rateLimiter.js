@@ -157,6 +157,21 @@ export const readLimiter = createLimiter({
 });
 
 /**
+ * Password recovery rate limiter.
+ *
+ * The recovery endpoints are unauthenticated and gated on email + employee code,
+ * so they get their own tight budget rather than sharing the login budget - a
+ * flood of recovery attempts must not be able to exhaust a legitimate employee's
+ * login allowance, and vice versa.
+ */
+export const passwordRecoveryLimiter = createLimiter({
+  windowMs: Number(process.env.PASSWORD_RECOVERY_RATE_LIMIT_WINDOW_MS || 60 * 60 * 1000),
+  max: Number(process.env.PASSWORD_RECOVERY_RATE_LIMIT_MAX || 20),
+  message: 'Too many password recovery attempts. Please try again later or contact HR.',
+  suffix: 'auth:password-recovery'
+});
+
+/**
  * Upload rate limiter.
  */
 export const uploadLimiter = createLimiter({

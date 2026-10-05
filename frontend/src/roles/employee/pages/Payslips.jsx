@@ -127,14 +127,18 @@ export default function Payslips() {
         <div className="modal show d-block" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} tabIndex="-1">
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content border-0 shadow">
+              {/* `emp-printable` marks the payslip itself. The print rules in
+                  employee-portal.css hide everything else on the page, so
+                  "Print Payslip" produces the payslip rather than the whole
+                  portal shell. */}
               <div className="modal-header bg-light">
-                <div>
+                <div className="emp-printable">
                   <h5 className="modal-title fw-bold">Payslip - {selectedSlip.month_year_label || 'Current Period'}</h5>
                   <small className="text-muted">Ethiroli Technologies Pvt Ltd</small>
                 </div>
-                <button type="button" className="btn-close" onClick={() => setSelectedSlip(null)}></button>
+                <button type="button" className="btn-close emp-print-hide" onClick={() => setSelectedSlip(null)}></button>
               </div>
-              <div className="modal-body p-3">
+              <div className="modal-body p-3 emp-printable">
                 <div className="d-flex justify-content-between mb-3 border-bottom pb-2">
                   <span className="text-muted">Employee Code:</span>
                   <span className="fw-semibold text-dark">{selectedSlip.employee_code || '—'}</span>
@@ -189,7 +193,7 @@ export default function Payslips() {
                   <span className="fw-bold fs-4 text-primary">₹{Number(selectedSlip.net_salary || 0).toLocaleString()}</span>
                 </div>
               </div>
-              <div className="modal-footer">
+              <div className="modal-footer emp-print-hide">
                 <button type="button" className="btn btn-secondary" onClick={() => setSelectedSlip(null)}>
                   Close
                 </button>

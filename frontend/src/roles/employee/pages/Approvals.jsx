@@ -57,12 +57,20 @@ export default function Approvals() {
         >
           My Submitted Requests ({data.myRequests.length})
         </button>
-        <button
-          className={`btn btn-sm ${activeTab === 'PENDING_FOR_ME' ? 'btn-primary' : 'btn-light'}`}
-          onClick={() => setActiveTab('PENDING_FOR_ME')}
-        >
-          Approvals Awaiting My Action ({data.pendingForMe.length})
-        </button>
+        {/* Only offered when there is genuinely something to act on.
+            The backend returns `pendingForMe: []` for an EMPLOYEE (approval
+            decisions belong to HR / ADMIN / SUPER_ADMIN), so this tab used to
+            promise "Approvals Awaiting My Action" over an always-empty list with
+            no approve or reject control anywhere on the page. Employees do not
+            approve requests, so the tab is hidden rather than shown inert. */}
+        {data.pendingForMe.length > 0 && (
+          <button
+            className={`btn btn-sm ${activeTab === 'PENDING_FOR_ME' ? 'btn-primary' : 'btn-light'}`}
+            onClick={() => setActiveTab('PENDING_FOR_ME')}
+          >
+            Approvals Awaiting My Action ({data.pendingForMe.length})
+          </button>
+        )}
       </div>
 
       <div className="card shadow-sm border-0">
@@ -89,11 +97,23 @@ export default function Approvals() {
                 currentList.map((item) => (
                   <tr key={item.id}>
                     <td>
-                      {/* `approval_instances` has no `entity_type` column, so the
-                          previous badge always rendered empty. The chain name and the
-                          entity reference are the fields that actually exist. */}
-                      <span className="badge bg-light text-dark border me-2">REQUEST</span>
-                      <code className="small text-muted">{item.entity_id?.slice(0, 8)}</code>
+                      {/*
+                        `approval_instances` has no `entity_type` column, so a type
+                        badge cannot be rendered from real data. Rather than print a
+                        hardcoded "REQUEST" - which reads as a real classification
+                        but is only a constant - the row shows the reference itself,
+                        or says plainly that none was recorded.
+                      */}
+                      {item.entity_id ? (
+                        <>
+                          <span className="badge bg-light text-dark border me-2">REQUEST</span>
+                          <code className="small text-muted text-break">{item.entity_id}</code>
+                        </>
+                      ) : (
+                        <span className="text-muted small">
+                          No entity reference was recorded for this request.
+                        </span>
+                      )}
                     </td>
                     <td className="fw-medium text-dark">{item.chain_name || 'Unnamed workflow'}</td>
                     <td>

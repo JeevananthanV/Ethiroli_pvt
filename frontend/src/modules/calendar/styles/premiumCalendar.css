@@ -1096,3 +1096,325 @@
     justify-content: center;
   }
 }
+
+/* ===================== Attendance overlay (opt-in) ===================== */
+/* Opt-in per-day attendance chip. Renders only when a portal passes an
+   attendanceLoader, so no other role's calendar is affected. */
+.att-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  margin-left: 4px;
+  /* Button chrome reset: this is rendered as a <button> so it is focusable and
+     clickable, but it must still read as a small inline marker. */
+  border: 0;
+  font-family: inherit;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.att-chip:hover {
+  transform: scale(1.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+}
+
+.att-chip:focus-visible {
+  outline: 2px solid var(--color-primary, #819E35);
+  outline-offset: 1px;
+}
+
+.att-chip-present    { background: rgba(34, 139, 94, 0.18);  color: #1f7a52; }
+.att-chip-absent     { background: rgba(120, 130, 130, 0.16); color: #6b7a78; }
+.att-chip-leave      { background: rgba(58, 106, 196, 0.18);  color: #2f5da8; }
+.att-chip-inprogress { background: rgba(129, 158, 53, 0.22);  color: #5c6f26; }
+.att-chip-upcoming   { background: rgba(120, 130, 130, 0.18); color: #6b7a78; }
+
+/* ---- Non-working days ----
+
+   Two different things are marked here, and only one of them is red:
+
+   - SUNDAY is the recurring weekly holiday. Every Sunday gets the full red
+     treatment - chip, day number and the entire cell - so the weekly off day is
+     unmistakable at a glance.
+
+   - A PUBLIC HOLIDAY declared in the `holidays` table (a festival or national
+     day) is also a non-working day and is still excluded from working days,
+     present and absent, but it renders in a neutral grey. Tinting those red as
+     well made a month look like it was full of holidays when only the Sundays
+     are the company's weekly holiday. */
+
+.att-chip-sunday {
+  background: rgba(196, 62, 46, 0.20);
+  color: #b23b2c;
+}
+
+/* Red date number is reserved for Sundays. */
+.cell-day-num.is-sunday { color: #b23b2c; }
+
+.att-chip-publicholiday {
+  background: rgba(120, 130, 130, 0.18);
+  color: #5f6d6b;
+  font-size: 9px;
+  letter-spacing: 0.02em;
+}
+
+/* A day that was actually punched. Light green wash so three worked days in a
+   month are immediately visible. */
+.grid-cell.is-present-day {
+  background: rgba(34, 139, 94, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(34, 139, 94, 0.24);
+}
+
+.grid-cell.is-present-day:hover {
+  background: rgba(34, 139, 94, 0.13);
+}
+/* Whole-cell tints. Sunday is the only red one. */
+.grid-cell.is-sunday-day {
+  background: rgba(196, 62, 46, 0.07);
+  box-shadow: inset 0 0 0 1px rgba(196, 62, 46, 0.22);
+}
+
+.grid-cell.is-sunday-day:hover {
+  background: rgba(196, 62, 46, 0.11);
+}
+
+/* Declared public holiday: neutral, deliberately not red. */
+.grid-cell.is-public-holiday-day {
+  background: rgba(120, 130, 130, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(120, 130, 130, 0.18);
+}
+
+.grid-cell.is-public-holiday-day:hover {
+  background: rgba(120, 130, 130, 0.09);
+}
+
+/* A finished working day with no punch is an absence.
+   Deliberately left plain: absence is a normal outcome, not an error state, so
+   it gets no colour. Only presence (green) and the Sunday holiday (red) are
+   coloured, which keeps the month readable at a glance. */
+.grid-cell.is-absent-day {
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Leading/trailing days from the neighbouring months stay visually subordinate. */
+.grid-cell.out-of-month.is-sunday-day,
+.grid-cell.out-of-month.is-public-holiday-day,
+.grid-cell.out-of-month.is-absent-day {
+  background: transparent;
+  box-shadow: none;
+}
+/* ===================== Day detail dialog =====================
+   Rendered only when a portal supplies an attendanceLoader, so no other role's
+   calendar is affected. Self-contained overlay because the portal does not load
+   bootstrap.js and therefore cannot rely on data-bs-* modal behaviour. */
+
+.att-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1060;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(12, 26, 25, 0.55);
+  backdrop-filter: blur(3px);
+}
+
+.att-modal {
+  width: 100%;
+  max-width: 520px;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface, #ffffff);
+  border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.att-modal-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid var(--border-color, rgba(12, 26, 25, 0.08));
+}
+
+.att-modal-head > div:first-child { flex: 1; min-width: 0; }
+
+.att-modal-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text, #0c1a19);
+}
+
+.att-modal-sub {
+  font-size: 12px;
+  color: var(--color-text-muted, #6b7a78);
+}
+
+.att-modal-body {
+  padding: 18px 20px;
+  overflow-y: auto;
+}
+
+.att-modal-explain {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--surface-alt, rgba(129, 158, 53, 0.08));
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--color-text, #0c1a19);
+}
+
+.att-modal-section {
+  margin: 18px 0 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted, #6b7a78);
+}
+
+.att-detail-list { margin: 0; }
+
+.att-detail-row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 8px 14px;
+  padding: 7px 0;
+  border-bottom: 1px dashed var(--border-color, rgba(12, 26, 25, 0.07));
+}
+
+.att-detail-row:last-child { border-bottom: 0; }
+
+.att-detail-row dt {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text-muted, #6b7a78);
+  margin: 0;
+}
+
+.att-detail-row dd {
+  font-size: 13px;
+  color: var(--color-text, #0c1a19);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.att-modal-foot {
+  margin: 16px 0 0;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: var(--color-text-muted, #6b7a78);
+}
+
+.att-modal-foot-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 20px;
+  border-top: 1px solid var(--border-color, rgba(12, 26, 25, 0.08));
+}
+
+@media (max-width: 576px) {
+  .att-detail-row { grid-template-columns: 1fr; gap: 2px; }
+}
+.att-summary {
+  margin-top: 16px;
+  padding: 16px 18px;
+  border: 1px solid var(--border-color, rgba(12, 26, 25, 0.08));
+  border-radius: 14px;
+  background: var(--surface, #ffffff);
+}
+
+.att-summary-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.att-summary-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text, #0c1a19);
+}
+
+.att-summary-sub {
+  font-size: 12px;
+  color: var(--color-text-muted, #6b7a78);
+}
+
+.att-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.att-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(12, 26, 25, 0.04);
+}
+
+.att-tile-value {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-text, #0c1a19);
+  line-height: 1.1;
+}
+
+.att-tile-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--color-text-muted, #6b7a78);
+}
+
+.att-tile-present { background: rgba(34, 139, 94, 0.12); }
+.att-tile-absent  { background: rgba(196, 62, 46, 0.12); }
+.att-tile-leave   { background: rgba(58, 106, 196, 0.12); }
+/* "Worked on holidays" summary tile. */
+.att-tile-holidayworked {
+  background: rgba(129, 158, 53, 0.10);
+  border-color: rgba(129, 158, 53, 0.35);
+}
+
+.att-tile-holidayworked .att-tile-value { color: var(--emp-olive-dark, #6e872b); }
+.att-tile-holiday { background: rgba(196, 62, 46, 0.14); }
+.att-tile-holiday .att-tile-value { color: #b23b2c; }
+
+.att-summary-note,
+.att-summary-empty {
+  margin: 12px 0 0;
+  font-size: 12.5px;
+  color: var(--color-text-muted, #6b7a78);
+}
+
+.att-summary-error {
+  margin: 0;
+  font-size: 13px;
+  color: #b23b2c;
+}
+
+@media (max-width: 640px) {
+  .att-tiles { grid-template-columns: repeat(2, 1fr); }
+}

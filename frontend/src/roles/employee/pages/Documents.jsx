@@ -10,6 +10,12 @@ export default function Documents() {
   const [showModal, setShowModal] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
+  // Form-level error. Deliberately separate from `error`: AdminPage replaces the
+  // whole page body with its "Unable to Load Data" panel when `error` is set,
+  // which destroyed the open modal and everything the user had typed. A failure
+  // to submit belongs next to the form, not in place of the page.
+  const [formError, setFormError] = useState('');
+
   const [formData, setFormData] = useState({
     title: '',
     document_type: 'ID_PROOF',
@@ -37,14 +43,17 @@ export default function Documents() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
-    setError(null);
+    setFormError('');
     try {
       await employeePortalApi.uploadPersonalDocument(formData);
       setShowModal(false);
       setFormData({ title: '', document_type: 'ID_PROOF', file_url: '' });
       await loadDocuments();
     } catch (err) {
-      setError(err.message || 'Failed to submit document');
+      // Kept in the modal so the typed values survive and can be corrected.
+      setFormError(
+        err.response?.data?.message || err.message || 'Could not submit the document.'
+      );
     } finally {
       setSubmitting(false);
     }
@@ -84,9 +93,12 @@ export default function Documents() {
             visible only to you, and its verification status is set by HR.
           </small>
         </div>
+        {/* Labelled "Add Document" rather than "Upload Document": there is no file
+            input on this page, so calling it an upload claimed a transfer of bytes
+            that never happened. */}
         <button className="btn btn-primary d-flex align-items-center gap-2" onClick={() => setShowModal(true)}>
-          <i className="bi bi-cloud-arrow-up"></i>
-          <span>Upload Document</span>
+          <i className="bi bi-link-45deg"></i>
+          <span>Add Document Link</span>
         </button>
       </div>
 
@@ -190,15 +202,26 @@ export default function Documents() {
                       value={formData.file_url}
                       onChange={(e) => setFormData({ ...formData, file_url: e.target.value })}
                     />
-                    <small className="text-muted">Direct secured cloud link to the file</small>
+                    <small className="text-muted">
+                      Link to the file in your own secure storage (Google Drive, OneDrive,
+                      S3). This portal records the link for HR to verify - it does not upload
+                      the file itself.
+                    </small>
                   </div>
+
+                  {formError && (
+                    <div className="alert alert-danger d-flex align-items-start gap-2 mb-0" role="alert">
+                      <i className="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+                      <span>{formError}</span>
+                    </div>
+                  )}
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-light" onClick={() => setShowModal(false)}>
                     Cancel
                   </button>
                   <button type="submit" className="btn btn-primary" disabled={submitting}>
-                    {submitting ? 'Uploading...' : 'Upload & Submit'}
+                    {submitting ? 'Submitting...' : 'Submit for Verification'}
                   </button>
                 </div>
               </form>

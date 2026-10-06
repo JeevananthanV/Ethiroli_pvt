@@ -166,20 +166,38 @@ export class CredentialService {
   }
 
   /**
+   * Normalises the stored password_history column into an array of hashes.
+   *
+   * The column is meant to hold a JSON array, but rows written by older tooling
+   * contain a bare bcrypt hash string. JSON.parse then throws and the previous
+   * `catch { history = [] }` silently disabled password-reuse protection. A bare
+   * hash is therefore treated as a single-entry history so the check fails
+   * closed instead of quietly passing.
+   */
+  static parsePasswordHistory(stored) {
+    if (!stored) return [];
+    if (Array.isArray(stored)) return stored.filter((h) => typeof h === 'string' && h);
+    if (typeof stored === 'string') {
+      const trimmed = stored.trim();
+      try {
+        const parsed = JSON.parse(trimmed);
+        return Array.isArray(parsed) ? parsed.filter((h) => typeof h === 'string' && h) : [];
+      } catch (_) {
+        // Not JSON - a bare hash string is a one-entry history.
+        return /^\$2[aby]\$/.test(trimmed) ? [trimmed] : [];
+      }
+    }
+    return [];
+  }
+
+  /**
    * Validates whether candidate password matches any of the user's previous 5 passwords.
    */
   static async verifyPasswordHistory(userId, candidatePassword) {
     const creds = await this.getCredentials(userId);
     if (!creds || !creds.password_history) return false;
 
-    let history = [];
-    try {
-      history = typeof creds.password_history === 'string' 
-        ? JSON.parse(creds.password_history) 
-        : creds.password_history;
-    } catch (_) {
-      history = [];
-    }
+    const history = this.parsePasswordHistory(creds.password_history);
 
     for (const oldHash of history) {
       if (oldHash && typeof oldHash === 'string') {
@@ -217,14 +235,7 @@ export class CredentialService {
     }
 
     const creds = await this.getCredentials(userId);
-    let history = [];
-    try {
-      history = typeof creds?.password_history === 'string'
-        ? JSON.parse(creds.password_history)
-        : (creds?.password_history || []);
-    } catch (_) {
-      history = [];
-    }
+    const history = this.parsePasswordHistory(creds?.password_history);
 
     const newHash = await bcrypt.hash(newPassword, BCRYPT_ROUNDS);
     const updatedHistory = [newHash, ...history].slice(0, PASSWORD_HISTORY_LIMIT);

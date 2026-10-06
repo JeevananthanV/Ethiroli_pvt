@@ -1,7 +1,26 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import employeePortalApi from '../../../services/api/employeePortalApi.js';
 import { useAuth } from '../../../common/hooks/useAuth.js';
+import DetailModal, { DetailRow, DetailSection } from '../components/DetailModal.jsx';
+
+const humanise = (value) =>
+  String(value || '')
+    .replace(/[_-]+/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+
+/** HH:MM for the stream, full date + time for the detail dialog. */
+const formatStamp = (value) => {
+  const d = value ? new Date(value) : null;
+  if (!d || Number.isNaN(d.getTime())) return '';
+  return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+};
+
+const formatFullStamp = (value) => {
+  if (!value) return null;
+  const d = new Date(value);
+  return Number.isNaN(d.getTime()) ? String(value) : d.toLocaleString();
+};
 
 export default function Messages() {
   const { user } = useAuth();
@@ -13,6 +32,8 @@ export default function Messages() {
   const [activeContact, setActiveContact] = useState(null);
   const [newMsg, setNewMsg] = useState('');
   const [sending, setSending] = useState(false);
+  const [selectedMessage, setSelectedMessage] = useState(null);
+  const streamRef = useRef(null);
 
   // A selected contact switches the view to a direct thread; otherwise the
   // currently selected channel is shown.
@@ -63,9 +84,16 @@ export default function Messages() {
     return () => { cancelled = true; };
   }, []);
 
+  // Keep the newest message in view as the thread grows.
+  useEffect(() => {
+    const el = streamRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [messages]);
+
   const selectChannel = (key) => {
     setActiveChannel(key);
     setActiveContact(null);
+    setSelectedMessage(null);
   };
 
   const selectContact = (c) => {
@@ -196,7 +224,7 @@ export default function Messages() {
             </div>
 
             {/* Message Stream */}
-            <div className="p-3 overflow-auto flex-grow-1 d-flex flex-column gap-3 bg-light">
+            <div ref={streamRef} className="p-3 overflow-auto flex-grow-1 d-flex flex-column gap-3 bg-light">
               {messages.length === 0 ? (
                 <div className="text-center my-auto py-5 text-muted">
                   <i className="bi bi-chat-dots fs-1 d-block mb-2"></i>
@@ -210,21 +238,35 @@ export default function Messages() {
                       key={m.id}
                       className={`d-flex flex-column ${isMe ? 'align-items-end' : 'align-items-start'}`}
                     >
-                      <div className="d-flex align-items-center gap-2 mb-1">
-                        <small className="fw-semibold text-dark">
+                      <div className={`emp-msg__meta ${isMe ? 'flex-row-reverse' : ''}`}>
+                        <span className="emp-msg__author">
                           {isMe ? 'You' : (m.sender_name || m.recipient_name || 'Colleague')}
-                        </small>
-                        <small className="text-muted" style={{ fontSize: '0.72rem' }}>
-                          {m.created_at ? new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}
-                        </small>
+                        </span>
+                        <span className="emp-msg__time">
+                          {m.created_at ? formatStamp(m.created_at) : ''}
+                        </span>
                       </div>
+                      {/* Clicking a bubble opens the full message, including the
+                          sender, role and full timestamp that the stream
+                          compresses to a bare HH:MM. */}
                       <div
-                        className={`p-3 rounded-3 shadow-sm ${
-                          isMe ? 'bg-primary text-white' : 'bg-white text-dark'
-                        }`}
-                        style={{ maxWidth: '75%', lineHeight: '1.5' }}
+                        className={`emp-msg ${isMe ? 'emp-msg--mine' : 'emp-msg--theirs'}`}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`Open the full message from ${isMe ? 'you' : (m.sender_name || 'a colleague')}`}
+                        onClick={() => setSelectedMessage(m)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            setSelectedMessage(m);
+                          }
+                        }}
                       >
                         {m.message_content}
+                        <span className="emp-msg__hint">
+                          <i className="bi bi-arrows-angle-expand" aria-hidden="true"></i>
+                          Click for details
+                        </span>
                       </div>
                     </div>
                   );
@@ -252,6 +294,71 @@ export default function Messages() {
           </div>
         </div>
       </div>
+
+      {/* Full message detail. The stream compresses each message to a bubble with
+          a bare HH:MM, so this shows the complete text plus sender, channel and
+          the full timestamp. */}
+      <DetailModal
+        open={Boolean(selectedMessage)}
+        onClose={() => setSelectedMessage(null)}
+        icon="bi-chat-left-text"
+        accent="teal"
+        size="modal-md"
+        title={
+          selectedMessage
+            ? selectedMessage.sender_id === user?.id
+              ? 'Message you sent'
+              : `Message from ${selectedMessage.sender_name || selectedMessage.recipient_name || 'a colleague'}`
+            : 'Message'
+        }
+        subtitle={
+          selectedMessage
+            ? isDirect
+              ? `Direct thread with ${activeContact?.full_name || activeContact?.email || 'a colleague'}`
+              : `#${activeChannel.toLowerCase()}`
+            : ''
+        }
+        footer={
+          <button type="button" className="btn btn-light" onClick={() => setSelectedMessage(null)}>
+            Close
+          </button>
+        }
+      >
+        {selectedMessage && (
+          <>
+            <DetailSection title="Message">
+              <p className="emp-detail__prose mb-0">{selectedMessage.message_content}</p>
+            </DetailSection>
+
+            <DetailSection title="Details" icon="bi-info-circle">
+              <dl className="emp-detail__row-list mb-0">
+                <DetailRow
+                  label="From"
+                  value={
+                    selectedMessage.sender_id === user?.id
+                      ? 'You'
+                      : selectedMessage.sender_name || 'Unknown sender'
+                  }
+                />
+                <DetailRow label="Sender role" value={humanise(selectedMessage.sender_role)} />
+                <DetailRow
+                  label="To"
+                  value={
+                    isDirect
+                      ? (activeContact?.full_name || activeContact?.email)
+                      : `#${activeChannel.toLowerCase()}`
+                  }
+                />
+                <DetailRow label="Sent on" value={formatFullStamp(selectedMessage.created_at)} />
+                {selectedMessage.read_at && (
+                  <DetailRow label="Read on" value={formatFullStamp(selectedMessage.read_at)} />
+                )}
+                <DetailRow label="Message ID" value={selectedMessage.id} mono />
+              </dl>
+            </DetailSection>
+          </>
+        )}
+      </DetailModal>
     </AdminPage>
   );
 }

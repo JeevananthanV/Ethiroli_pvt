@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { globalSearch } from '../../services/api/searchApi.js';
 import { useAppSelector, useAppDispatch } from '../../store/hooks.js';
@@ -6,6 +6,7 @@ import { getFeed, markRead } from '../../services/api/feedApi.js';
 import { fetchFeedSuccess, markFeedItemRead } from '../../store/slices/feedSlice.js';
 import Sidebar from './Sidebar.jsx';
 import Navbar from './Navbar.jsx';
+import FeedItemDetail from './FeedItemDetail.jsx';
 
 export default function MainLayout() {
   const navigate = useNavigate();
@@ -68,6 +69,37 @@ export default function MainLayout() {
   const [feedOpen, setFeedOpen] = useState(false);
   const unreadFeedCount = feedItems.filter((item) => !item.is_read).length;
 
+  /**
+   * The feed row whose full record is open, or null.
+   *
+   * Scoped to the EMPLOYEE role on purpose. The Activity Feed tray is shared by
+   * every portal, and the request was to make clicking a notification open the
+   * message - for the employee portal only. Gating on the active role keeps every
+   * other portal's tray byte-for-byte identical in behaviour: their rows stay
+   * plain text with no click handler and no dialog.
+   */
+  const [selectedFeedItem, setSelectedFeedItem] = useState(null);
+
+  const isEmployeePortal = (() => {
+    try {
+      const storedRole = localStorage.getItem('active_role');
+      if (storedRole) return String(storedRole).toUpperCase() === 'EMPLOYEE';
+      const storedUser = localStorage.getItem('user');
+      if (!storedUser) return false;
+      return String(JSON.parse(storedUser)?.role || '').toUpperCase() === 'EMPLOYEE';
+    } catch {
+      return false;
+    }
+  })();
+
+  const openFeedItem = useCallback(
+    (item) => {
+      if (!isEmployeePortal) return;
+      setSelectedFeedItem(item);
+    },
+    [isEmployeePortal]
+  );
+
   return (
     <div className="layoutContainer">
       <Sidebar />
@@ -123,12 +155,39 @@ export default function MainLayout() {
             </div>
           ) : (
             feedItems.map((item) => (
-              <div key={item.id} className={`feedItem ${!item.is_read ? 'unreadItem' : ''}`}>
+              // For the employee portal the whole row opens the full record; for
+              // every other role this renders exactly as it did before.
+              <div
+                key={item.id}
+                className={`feedItem ${!item.is_read ? 'unreadItem' : ''}${isEmployeePortal ? ' feedItem--clickable' : ''}`}
+                {...(isEmployeePortal
+                  ? {
+                    role: 'button',
+                    tabIndex: 0,
+                    'aria-label': `Open notification: ${item.payload?.message || item.event_type}`,
+                    onClick: () => openFeedItem(item),
+                    onKeyDown: (e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        openFeedItem(item);
+                      }
+                    },
+                  }
+                  : {})}
+              >
                 <p className="feedText">{item.payload?.message || `Event: ${item.event_type}`}</p>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '6px' }}>
                   <span className="feedTime">{new Date(item.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                   {!item.is_read && (
-                    <button className="readBtn" onClick={() => handleMarkAsRead(item.id)}>
+                    <button
+                      className="readBtn"
+                      onClick={(e) => {
+                        // Otherwise the row's own click handler also fires and the
+                        // detail dialog opens behind the "mark as read" intent.
+                        e.stopPropagation();
+                        handleMarkAsRead(item.id);
+                      }}
+                    >
                       Mark as read
                     </button>
                   )}
@@ -138,6 +197,14 @@ export default function MainLayout() {
           )}
         </div>
       </aside>
+
+      {isEmployeePortal && (
+        <FeedItemDetail
+          item={selectedFeedItem}
+          onClose={() => setSelectedFeedItem(null)}
+          onMarkRead={handleMarkAsRead}
+        />
+      )}
 
       {searchOpen && (
         <div className="overlay" onClick={() => setSearchOpen(false)}>

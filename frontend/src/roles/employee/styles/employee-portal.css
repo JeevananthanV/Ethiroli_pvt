@@ -1,3 +1,535 @@
+/* ============================ PROFILE PAGE ============================ */
+
+.emp-prof__cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: #fff;
+  border-bottom: 1px solid rgba(26, 75, 72, 0.09);
+  padding: 0.9rem 1.1rem;
+}
+
+/* Completion + tip cards sit in the page header beside the title, matching the
+   approved design. Widths are capped so the title keeps room to breathe, and they
+   wrap under it on narrow screens instead of squeezing it. */
+.emp-prof__completionWrap { width: 260px; }
+.emp-prof__tipWrap { width: 300px; }
+
+@media (max-width: 1399px) {
+  .emp-prof__completionWrap,
+  .emp-prof__tipWrap { width: 100%; max-width: none; }
+}
+
+.emp-prof__completionCard .emp-prof__cardTitle { font-size: 0.86rem; }
+.emp-prof__cardTitle {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--emp-teal);
+}
+
+.emp-prof__completionPct {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--emp-teal);
+}
+
+.emp-prof__headIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+.emp-prof__headIcon--green { background: rgba(129, 158, 53, 0.16); color: var(--emp-olive-dark); }
+.emp-prof__headIcon--blue  { background: rgba(58, 106, 196, 0.14); color: #2f5da8; }
+.emp-prof__headIcon--amber { background: rgba(201, 148, 26, 0.18); color: #a4740f; }
+
+/* Hint card next to the completion bar. */
+.emp-prof__tipCard {
+  background: rgba(129, 158, 53, 0.10);
+  border: 1px solid rgba(129, 158, 53, 0.30) !important;
+}
+
+.emp-prof__tipIcon {
+  font-size: 1.75rem;
+  color: #5f7a1e;
+  flex-shrink: 0;
+}
+
+.emp-prof__name { color: var(--emp-teal); }
+
+/* Department reads as a full-width band under the name. */
+.emp-prof__deptBadge {
+  display: block;
+  width: 100%;
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  background: var(--emp-teal);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Left-hand fact list. */
+.emp-prof__factList li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  padding: 0.55rem 0;
+}
+
+.emp-prof__factList li + li { border-top: 1px dashed rgba(26, 75, 72, 0.09); }
+
+.emp-prof__factList li > i {
+  font-size: 1.05rem;
+  color: #7b8a88;
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+}
+
+.emp-prof__factLabel {
+  display: block;
+  font-size: 0.76rem;
+  color: #6b7a78;
+}
+
+.emp-prof__factValue {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1f2d2c;
+}
+
+/* Generic value + honest empty state. */
+.emp-prof__value { font-weight: 600; color: #1f2d2c; }
+.emp-prof__value--empty { font-weight: 500; color: #8a9795; }
+.emp-prof__value--muted { font-weight: 400; color: #6b7a78; }
+.emp-prof__value--masked { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 0.04em; }
+
+/* Read-only display that matches the height of a form control. */
+.emp-prof__readField {
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid rgba(26, 75, 72, 0.14);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 0.9rem;
+  color: #1f2d2c;
+}
+
+.emp-prof__ro {
+  font-weight: 500;
+  font-size: 0.78rem;
+  color: #8a9795;
+}
+
+/* Employment details panel. */
+.emp-prof__empCard { overflow: hidden; }
+
+.emp-prof__empHead {
+  background: rgba(58, 106, 196, 0.08);
+  border-bottom-color: rgba(58, 106, 196, 0.18);
+}
+
+.emp-prof__empList { padding: 0.4rem 0; }
+
+.emp-prof__empList li {
+  display: grid;
+  grid-template-columns: 26px minmax(110px, 40%) 1fr;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 1.1rem;
+}
+
+.emp-prof__empList li + li { border-top: 1px dashed rgba(26, 75, 72, 0.09); }
+
+.emp-prof__empList li > i {
+  font-size: 1rem;
+  color: #7b8a88;
+  text-align: center;
+}
+
+.emp-prof__empLabel { font-size: 0.82rem; color: #55625f; }
+
+.emp-prof__empValue {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #1f2d2c;
+  overflow-wrap: anywhere;
+}
+
+/* Tax & banking panel. */
+.emp-prof__payHead {
+  background: rgba(201, 148, 26, 0.10);
+  border-bottom-color: rgba(201, 148, 26, 0.22);
+}
+
+.emp-prof__payCard {
+  background: linear-gradient(180deg, rgba(201, 148, 26, 0.05) 0%, #ffffff 60%);
+  border: 1px solid rgba(201, 148, 26, 0.24) !important;
+}
+
+/* Reveal toggle on a masked payroll value. Display-only - the button never
+   submits anything, and the API rejects writes to these fields anyway. */
+.emp-prof__reveal {
+  margin-left: 0.5rem;
+  padding: 2px 4px;
+  background: none;
+  border: 0;
+  border-radius: 6px;
+  color: #7b8a88;
+  font-size: 0.9rem;
+  line-height: 1;
+  cursor: pointer;
+  vertical-align: middle;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.emp-prof__reveal:hover {
+  background: rgba(26, 75, 72, 0.07);
+  color: var(--emp-teal);
+}
+
+.emp-prof__reveal:focus-visible {
+  outline: 2px solid var(--emp-olive);
+  outline-offset: 1px;
+}
+.emp-prof__payLabel {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #55625f;
+  margin-bottom: 0.35rem;
+}
+
+.emp-prof__payField {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(26, 75, 72, 0.13);
+  border-radius: 8px;
+  background: #fbfaf8;
+  font-size: 0.9rem;
+}
+
+.emp-prof__notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.8rem 0.95rem;
+  border-radius: 10px;
+  background: rgba(201, 148, 26, 0.12);
+  border: 1px solid rgba(201, 148, 26, 0.30);
+  font-size: 0.83rem;
+  line-height: 1.55;
+  color: #6b5410;
+}
+
+.emp-prof__notice i { flex-shrink: 0; margin-top: 1px; }
+
+@media (max-width: 576px) {
+  .emp-prof__empList li {
+    grid-template-columns: 26px 1fr;
+  }
+  .emp-prof__empValue { grid-column: 2; }
+}
+/* ============================ PRINT ============================ */
+/* ============================ PROFILE PAGE ============================ */
+
+.emp-prof__cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: #fff;
+  border-bottom: 1px solid rgba(26, 75, 72, 0.09);
+  padding: 0.9rem 1.1rem;
+}
+
+/* Completion + tip cards sit in the page header beside the title, matching the
+   approved design. Widths are capped so the title keeps room to breathe, and they
+   wrap under it on narrow screens instead of squeezing it. */
+.emp-prof__completionWrap { width: 260px; }
+.emp-prof__tipWrap { width: 300px; }
+
+@media (max-width: 1399px) {
+  .emp-prof__completionWrap,
+  .emp-prof__tipWrap { width: 100%; max-width: none; }
+}
+
+.emp-prof__completionCard .emp-prof__cardTitle { font-size: 0.86rem; }
+.emp-prof__cardTitle {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--emp-teal);
+}
+
+.emp-prof__completionPct {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--emp-teal);
+}
+
+.emp-prof__headIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+.emp-prof__headIcon--green { background: rgba(129, 158, 53, 0.16); color: var(--emp-olive-dark); }
+.emp-prof__headIcon--blue  { background: rgba(58, 106, 196, 0.14); color: #2f5da8; }
+.emp-prof__headIcon--amber { background: rgba(201, 148, 26, 0.18); color: #a4740f; }
+
+/* Hint card next to the completion bar. */
+.emp-prof__tipCard {
+  background: rgba(129, 158, 53, 0.10);
+  border: 1px solid rgba(129, 158, 53, 0.30) !important;
+}
+
+.emp-prof__tipIcon {
+  font-size: 1.75rem;
+  color: #5f7a1e;
+  flex-shrink: 0;
+}
+
+.emp-prof__name { color: var(--emp-teal); }
+
+/* Department reads as a full-width band under the name. */
+.emp-prof__deptBadge {
+  display: block;
+  width: 100%;
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  background: var(--emp-teal);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Left-hand fact list. */
+.emp-prof__factList li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  padding: 0.55rem 0;
+}
+
+.emp-prof__factList li + li { border-top: 1px dashed rgba(26, 75, 72, 0.09); }
+
+.emp-prof__factList li > i {
+  font-size: 1.05rem;
+  color: #7b8a88;
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+}
+
+.emp-prof__factLabel {
+  display: block;
+  font-size: 0.76rem;
+  color: #6b7a78;
+}
+
+.emp-prof__factValue {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1f2d2c;
+}
+
+/* Generic value + honest empty state. */
+.emp-prof__value { font-weight: 600; color: #1f2d2c; }
+.emp-prof__value--empty { font-weight: 500; color: #8a9795; }
+.emp-prof__value--muted { font-weight: 400; color: #6b7a78; }
+.emp-prof__value--masked { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 0.04em; }
+
+/* Read-only display that matches the height of a form control. */
+.emp-prof__readField {
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid rgba(26, 75, 72, 0.14);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 0.9rem;
+  color: #1f2d2c;
+}
+
+.emp-prof__ro {
+  font-weight: 500;
+  font-size: 0.78rem;
+  color: #8a9795;
+}
+
+/* Employment details panel. */
+.emp-prof__empCard { overflow: hidden; }
+
+.emp-prof__empHead {
+  background: rgba(58, 106, 196, 0.08);
+  border-bottom-color: rgba(58, 106, 196, 0.18);
+}
+
+.emp-prof__empList { padding: 0.4rem 0; }
+
+.emp-prof__empList li {
+  display: grid;
+  grid-template-columns: 26px minmax(110px, 40%) 1fr;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 1.1rem;
+}
+
+.emp-prof__empList li + li { border-top: 1px dashed rgba(26, 75, 72, 0.09); }
+
+.emp-prof__empList li > i {
+  font-size: 1rem;
+  color: #7b8a88;
+  text-align: center;
+}
+
+.emp-prof__empLabel { font-size: 0.82rem; color: #55625f; }
+
+.emp-prof__empValue {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #1f2d2c;
+  overflow-wrap: anywhere;
+}
+
+/* Tax & banking panel. */
+.emp-prof__payHead {
+  background: rgba(201, 148, 26, 0.10);
+  border-bottom-color: rgba(201, 148, 26, 0.22);
+}
+
+.emp-prof__payCard {
+  background: linear-gradient(180deg, rgba(201, 148, 26, 0.05) 0%, #ffffff 60%);
+  border: 1px solid rgba(201, 148, 26, 0.24) !important;
+}
+
+/* Reveal toggle on a masked payroll value. Display-only - the button never
+   submits anything, and the API rejects writes to these fields anyway. */
+.emp-prof__reveal {
+  margin-left: 0.5rem;
+  padding: 2px 4px;
+  background: none;
+  border: 0;
+  border-radius: 6px;
+  color: #7b8a88;
+  font-size: 0.9rem;
+  line-height: 1;
+  cursor: pointer;
+  vertical-align: middle;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.emp-prof__reveal:hover {
+  background: rgba(26, 75, 72, 0.07);
+  color: var(--emp-teal);
+}
+
+.emp-prof__reveal:focus-visible {
+  outline: 2px solid var(--emp-olive);
+  outline-offset: 1px;
+}
+.emp-prof__payLabel {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #55625f;
+  margin-bottom: 0.35rem;
+}
+
+.emp-prof__payField {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(26, 75, 72, 0.13);
+  border-radius: 8px;
+  background: #fbfaf8;
+  font-size: 0.9rem;
+}
+
+.emp-prof__notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.8rem 0.95rem;
+  border-radius: 10px;
+  background: rgba(201, 148, 26, 0.12);
+  border: 1px solid rgba(201, 148, 26, 0.30);
+  font-size: 0.83rem;
+  line-height: 1.55;
+  color: #6b5410;
+}
+
+.emp-prof__notice i { flex-shrink: 0; margin-top: 1px; }
+
+@media (max-width: 576px) {
+  .emp-prof__empList li {
+    grid-template-columns: 26px 1fr;
+  }
+  .emp-prof__empValue { grid-column: 2; }
+}
+/* ============================ PRINT ============================
+   "Print Payslip" calls window.print(). Without print rules that printed the
+   entire portal - sidebar, header, the payslip table and every other card. These
+   rules isolate the payslip: everything is hidden except the elements marked
+   .emp-printable inside the open modal.
+
+   Scoped to .emp-portal so no other portal's print behaviour changes. */
+
+@media print {
+  .emp-portal body,
+  .emp-portal .portalSidebar,
+  .emp-portal .sidebar,
+  .emp-portal .navbar,
+  .emp-portal .topbar,
+  .emp-portal .pageHeader,
+  .emp-portal .emp-print-hide {
+    display: none !important;
+  }
+
+  /* Unpin the modal from its fixed overlay so it flows onto the page. */
+  .emp-portal .modal.show.d-block {
+    position: static !important;
+    background: none !important;
+    display: block !important;
+  }
+
+  .emp-portal .modal-dialog {
+    max-width: none !important;
+    margin: 0 !important;
+  }
+
+  .emp-portal .modal-content {
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .emp-portal .emp-printable {
+    display: block !important;
+  }
+
+  /* Print the currency symbol and table rules reliably across browsers. */
+  .emp-portal .table {
+    color: #000 !important;
+  }
+}
 /* =============================================================================
    EMPLOYEE PORTAL — Design System & Motion Layer
    -----------------------------------------------------------------------------
@@ -457,6 +989,382 @@
 
 .emp-portal a:hover {
   color: var(--emp-olive);
+}
+
+/* ============================ DETAIL MODAL ============================
+   Shared "click a row to see the full record" dialog. Scoped to .emp-portal so
+   no other portal's modal styling is affected. */
+
+.emp-portal .emp-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1055;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+  overflow-y: auto;
+  background: rgba(15, 27, 26, 0.55);
+  backdrop-filter: blur(3px);
+  animation: emp-fade-in 0.18s var(--emp-ease-out);
+}
+
+.emp-portal .emp-modal-backdrop .modal-dialog {
+  margin: auto;
+  animation: emp-modal-rise 0.24s var(--emp-ease-out);
+}
+
+.emp-portal .emp-detail__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  background: var(--color-bg-main, #f1ece6);
+  border-bottom: 1px solid rgba(26, 75, 72, 0.1);
+  padding: 1.125rem 1.25rem;
+}
+
+.emp-portal .emp-detail__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 14px;
+  font-size: 1.25rem;
+  background: rgba(129, 158, 53, 0.14);
+  color: var(--emp-olive-dark);
+}
+
+.emp-portal .emp-detail__icon--success { background: rgba(34, 139, 94, 0.14); color: #1f7a52; }
+.emp-portal .emp-detail__icon--danger  { background: rgba(196, 62, 46, 0.14);  color: #b23b2c; }
+.emp-portal .emp-detail__icon--warning { background: rgba(201, 148, 26, 0.16); color: #a4740f; }
+.emp-portal .emp-detail__icon--info    { background: rgba(58, 106, 196, 0.14); color: #2f5da8; }
+.emp-portal .emp-detail__icon--teal    { background: rgba(26, 75, 72, 0.12);   color: var(--emp-teal); }
+
+.emp-portal .emp-detail__title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--emp-teal);
+  margin: 0;
+}
+
+.emp-portal .emp-detail__subtitle {
+  font-size: 0.83rem;
+  color: #6b7a78;
+  margin-top: 2px;
+}
+
+.emp-portal .emp-detail__badge {
+  align-self: center;
+  flex-shrink: 0;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 0.4em 0.75em;
+}
+
+.emp-portal .emp-detail__body {
+  padding: 1.25rem;
+  background: #fff;
+}
+
+.emp-portal .emp-detail__section + .emp-detail__section {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(26, 75, 72, 0.09);
+}
+
+.emp-portal .emp-detail__section-title {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #6b7a78;
+  margin-bottom: 0.75rem;
+}
+
+.emp-portal .emp-detail__row {
+  display: grid;
+  grid-template-columns: minmax(120px, 34%) 1fr;
+  gap: 0.5rem 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed rgba(26, 75, 72, 0.08);
+}
+
+.emp-portal .emp-detail__row:last-child { border-bottom: 0; }
+
+.emp-portal .emp-detail__label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6b7a78;
+  margin: 0;
+}
+
+.emp-portal .emp-detail__value {
+  font-size: 0.9rem;
+  color: #1f2d2c;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.emp-portal .emp-detail__prose {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: #1f2d2c;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: var(--color-bg-main, #f1ece6);
+  border-radius: var(--emp-radius-sm);
+  padding: 0.9rem 1rem;
+}
+
+.emp-portal .min-w-0 { min-width: 0; }
+
+/* ============================ PROJECT CARDS ============================ */
+
+.emp-portal .emp-project-card {
+  cursor: pointer;
+  transition: transform 0.22s var(--emp-ease-out), box-shadow 0.22s var(--emp-ease-out);
+}
+
+.emp-portal .emp-project-card:hover,
+.emp-portal .emp-project-card:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: var(--emp-shadow);
+}
+
+.emp-portal .emp-project-card__desc {
+  /* Clamp so a long description cannot make one card tower over the rest; the
+     full text is available in the detail dialog. */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.emp-portal .emp-repo-tree {
+  font-size: 0.86rem;
+  background: var(--color-bg-main, #f1ece6);
+  border-radius: var(--emp-radius-sm);
+  padding: 0.9rem 1rem;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.emp-portal .emp-repo-tree__item {
+  padding: 0.15rem 0;
+  color: #33413f;
+}
+
+.emp-portal .emp-repo-tree__item .bi-folder-fill { color: var(--emp-gold); }
+.emp-portal .emp-repo-tree__item .bi-file-earmark { color: #8c9a98; }
+
+/* Placeholder banner for a course with no thumbnail. */
+.emp-portal .emp-course-banner {
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.25rem;
+  color: rgba(255, 255, 255, 0.55);
+  background: linear-gradient(135deg, var(--emp-teal) 0%, #2c6b66 55%, var(--emp-olive-dark) 100%);
+}
+
+/* Circular overall-progress gauge on the Training page. */
+.emp-portal .emp-ring-stat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 62px;
+  height: 62px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  position: relative;
+}
+
+.emp-portal .emp-ring-stat::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.emp-portal .emp-ring-stat span {
+  position: relative;
+  z-index: 1;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--emp-teal);
+}
+
+/* Long text in a table cell: clamp to two lines, full text in the detail dialog. */
+.emp-portal .emp-clamp-cell {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 340px;
+}
+
+/* ============================ LEAVE DECISIONS ============================ */
+
+.emp-portal .emp-decision {
+  border-radius: var(--emp-radius-sm);
+  padding: 0.8rem 0.95rem;
+  border: 1px solid transparent;
+}
+
+.emp-portal .emp-decision--approved {
+  background: rgba(34, 139, 94, 0.08);
+  border-color: rgba(34, 139, 94, 0.28);
+}
+
+.emp-portal .emp-decision--rejected {
+  background: rgba(196, 62, 46, 0.08);
+  border-color: rgba(196, 62, 46, 0.26);
+}
+
+.emp-portal .emp-decision--pending {
+  background: rgba(201, 148, 26, 0.09);
+  border-color: rgba(201, 148, 26, 0.28);
+}
+
+.emp-portal .emp-decision__by {
+  font-size: 0.78rem;
+  color: #4a5a58;
+  margin-top: 0.15rem;
+}
+
+/* ============================ MESSAGE BUBBLES ============================ */
+
+.emp-portal .emp-msg {
+  max-width: 78%;
+  padding: 0.7rem 0.95rem;
+  border-radius: 16px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  box-shadow: var(--emp-shadow-xs);
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  cursor: pointer;
+  transition: transform 0.16s var(--emp-ease-out), box-shadow 0.16s var(--emp-ease-out);
+}
+
+.emp-portal .emp-msg:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--emp-shadow-sm);
+}
+
+.emp-portal .emp-msg--mine {
+  background: var(--emp-teal);
+  color: #fff;
+  border-bottom-right-radius: 5px;
+}
+
+.emp-portal .emp-msg--theirs {
+  background: #fff;
+  color: #1f2d2c;
+  border: 1px solid rgba(26, 75, 72, 0.1);
+  border-bottom-left-radius: 5px;
+}
+
+.emp-portal .emp-msg__meta {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+  font-size: 0.76rem;
+}
+
+.emp-portal .emp-msg__author { font-weight: 600; color: var(--emp-teal); }
+.emp-portal .emp-msg__time { color: #6b7a78; }
+
+.emp-portal .emp-msg--mine .emp-msg__author { color: #fff; }
+.emp-portal .emp-msg--mine .emp-msg__time { color: rgba(255, 255, 255, 0.7); }
+
+.emp-portal .emp-msg__hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.4rem;
+  font-size: 0.68rem;
+  opacity: 0.65;
+}
+
+/* ============================ LOGIN / RECOVERY ============================ */
+
+.emp-portal .emp-linkish {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: var(--emp-olive-dark);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.emp-portal .emp-linkish:hover { color: var(--emp-teal); }
+
+.emp-portal .emp-step {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.7rem 0.85rem;
+  border-radius: var(--emp-radius-sm);
+  background: #fff;
+  border: 1px solid rgba(26, 75, 72, 0.1);
+}
+
+.emp-portal .emp-step + .emp-step { margin-top: 0.5rem; }
+
+.emp-portal .emp-step--done { border-color: rgba(34, 139, 94, 0.35); background: rgba(34, 139, 94, 0.06); }
+.emp-portal .emp-step--active { border-color: var(--emp-olive); background: rgba(129, 158, 53, 0.07); }
+.emp-portal .emp-step--todo { opacity: 0.65; }
+
+.emp-portal .emp-step__num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: rgba(26, 75, 72, 0.1);
+  color: var(--emp-teal);
+}
+
+.emp-portal .emp-step--done .emp-step__num { background: #228b5e; color: #fff; }
+.emp-portal .emp-step--active .emp-step__num { background: var(--emp-olive); color: #fff; }
+
+/* Rows that open a detail dialog read as interactive. */
+.emp-portal .emp-row-clickable { cursor: pointer; }
+.emp-portal .emp-row-clickable:focus-visible {
+  outline: 2px solid var(--emp-olive);
+  outline-offset: -2px;
+}
+
+@keyframes emp-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes emp-modal-rise {
+  from { opacity: 0; transform: translateY(14px) scale(0.985); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (max-width: 576px) {
+  .emp-portal .emp-detail__row {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
 }
 
 /* ============================ EMPTY STATE ============================ */

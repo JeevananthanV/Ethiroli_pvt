@@ -526,6 +526,143 @@ body {
   text-decoration: underline;
 }
 
+/* Clickable feed row (employee portal only). The class is only applied when the
+   signed-in role is EMPLOYEE, so no other portal's tray changes. */
+.feedItem--clickable {
+  cursor: pointer;
+}
+
+.feedItem--clickable:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ---- Activity Feed item detail dialog (employee portal) ---- */
+
+.feedDetailBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1070;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(12, 26, 25, 0.55);
+  backdrop-filter: blur(3px);
+}
+
+.feedDetailModal {
+  width: 100%;
+  max-width: 520px;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.feedDetailHead {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 18px 20px 14px;
+  background: var(--admin-bg-light, #f7f4ee);
+  border-bottom: 1px solid var(--admin-border-light);
+}
+
+.feedDetailIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  font-size: 18px;
+  background: rgba(129, 158, 53, 0.16);
+  color: var(--color-primary);
+}
+
+.feedDetailHeadText {
+  flex: 1;
+  min-width: 0;
+}
+
+.feedDetailTitle {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--admin-text-primary, #1e293b);
+}
+
+.feedDetailSub {
+  font-size: 12px;
+  color: var(--admin-text-secondary, #64748b);
+}
+
+.feedDetailBody {
+  padding: 18px 20px;
+  overflow-y: auto;
+}
+
+.feedDetailMessage {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--admin-bg-light, #f7f4ee);
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--admin-text-primary, #1e293b);
+  overflow-wrap: anywhere;
+}
+
+.feedDetailList {
+  margin: 0;
+}
+
+.feedDetailRow {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 6px 14px;
+  padding: 7px 0;
+  border-bottom: 1px dashed var(--admin-border-light);
+}
+
+.feedDetailRow:last-child {
+  border-bottom: 0;
+}
+
+.feedDetailRow dt {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--admin-text-secondary, #64748b);
+  margin: 0;
+}
+
+.feedDetailRow dd {
+  font-size: 13px;
+  color: var(--admin-text-primary, #1e293b);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.feedDetailActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--admin-border-light);
+}
+
+@media (max-width: 576px) {
+  .feedDetailRow {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}
+
 .feedBackdrop {
   position: fixed;
   inset: 0;
@@ -815,6 +952,17 @@ body {
   font-size: 11px;
   color: rgba(255, 255, 255, 0.5);
   display: block;
+}
+
+/* Real Ethiroli brand mark (public/assets/images/ethiroli_logo.png). The asset is
+   a square 800x800 lockup with a white wordmark, so it is drawn at a square size
+   with object-fit: contain to keep the proportions and stay crisp. Used by the
+   employee portal sidebar, which sits on the dark brand surface. */
+.portalBrandLogo {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .portalNavMenu {

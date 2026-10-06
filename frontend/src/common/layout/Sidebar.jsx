@@ -152,9 +152,19 @@ export default function Sidebar({ role, navItems }) {
       >
         <div className="portalSidebarHeader">
           <Link to="/" className="portalBrandBox" aria-label="Dashboard Home">
-            <div className="portalLogoIcon">
-              <i className="bi bi-layers-fill" aria-hidden="true"></i>
-            </div>
+            {/* The employee portal shows the real Ethiroli brand asset used by the
+                public site. Other portals keep their existing icon tile. */}
+            {effectiveRole === 'EMPLOYEE' ? (
+              <img
+                src="/assets/images/ethiroli_logo.png"
+                className="portalBrandLogo"
+                alt="Ethiroli"
+              />
+            ) : (
+              <div className="portalLogoIcon">
+                <i className="bi bi-layers-fill" aria-hidden="true"></i>
+              </div>
+            )}
             <div>
               <div className="portalBrandName">
                 {String(effectiveRole || 'ETHIROLI').replace(/_/g, ' ')}

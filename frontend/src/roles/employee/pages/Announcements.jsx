@@ -40,10 +40,11 @@ export default function Announcements() {
             <div className="card shadow-sm border-0">
               <div className="card-body text-center py-5">
                 <i className="bi bi-megaphone fs-1 text-muted d-block mb-3"></i>
-                <h6 className="fw-bold text-dark">No announcements available</h6>
+                <h6 className="fw-bold text-dark">No announcements published yet</h6>
                 <p className="text-muted small mb-0 mx-auto" style={{ maxWidth: '520px' }}>
-                  There is currently no company-announcement feed wired up for the employee
-                  portal. When HR publishes a notice it will appear here.
+                  This page is connected and reads company notices published by HR. Nothing
+                  has been published at the moment - any new notice will appear here
+                  automatically.
                 </p>
               </div>
             </div>

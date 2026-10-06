@@ -536,14 +536,22 @@ export const oauthCallback = asyncHandler(async (req, res) => {
 });
 
 export const changePassword = asyncHandler(async (req, res) => {
-  const { currentPassword, newPassword } = req.body;
+  const { currentPassword, newPassword, confirmPassword } = req.body;
 
   if (!currentPassword || !newPassword) {
     throw new ValidationError('Both currentPassword and newPassword are required.');
   }
 
-  if (newPassword.length < 6) {
-    throw new ValidationError('newPassword must be at least 6 characters.');
+  if (confirmPassword !== undefined && confirmPassword !== null && confirmPassword !== newPassword) {
+    throw new ValidationError('The two new passwords do not match.');
+  }
+
+  if (newPassword === currentPassword) {
+    throw new ValidationError('Your new password must be different from the current one.');
+  }
+
+  if (newPassword.length < 8) {
+    throw new ValidationError('newPassword must be at least 8 characters.');
   }
 
   const user = await User.findById(req.user.id);
@@ -566,29 +574,42 @@ export const changePassword = asyncHandler(async (req, res) => {
     throw new ValidationError('Current password does not match.');
   }
 
-  const newHash = await bcrypt.hash(newPassword, 10);
-  await User.update(user.id, { password_hash: newHash });
+  // Keep the caller's session so they are not logged out mid-flow; every other
+  // session is revoked by CredentialService below. The token is resolved exactly
+  // the way `authenticate` does it - a Bearer-only request has no cookie, and
+  // previously that meant the caller was logged out by their own password change.
+  const authHeader = req.headers.authorization;
+  const bearerToken = authHeader && authHeader.startsWith('Bearer ') ? authHeader.slice(7).trim() : null;
+  const currentToken = req.cookies?.session_token
+    || req.sessionToken
+    || bearerToken
+    || req.headers['x-session-token']
+    || null;
+  const currentSession = currentToken ? await Session.findByToken(currentToken) : null;
 
-  // Revoke other active sessions for security
-  const currentToken = req.cookies?.session_token || req.sessionToken;
-  if (currentToken) {
-    await pool.query('DELETE FROM sessions WHERE user_id = ? AND token != ?', [user.id, currentToken]);
-  } else {
-    await pool.query('DELETE FROM sessions WHERE user_id = ?', [user.id]);
+  // CredentialService is the project's existing password engine: bcrypt(12),
+  // letter+number complexity, no reuse of the last 5 passwords, dual write to
+  // user_credentials, audit record and session revocation. Reusing it keeps a
+  // single implementation instead of a second, weaker one.
+  // actorId null => audited as a self-service USER_PASSWORD_CHANGE rather than an
+  // administrative one.
+  await CredentialService.updatePassword(user.id, newPassword, { actorId: null });
+
+  if (currentSession) {
+    await Session.create({
+      user_id: user.id,
+      token: currentToken,
+      expires_at: currentSession.expires_at,
+      user_agent: currentSession.user_agent,
+      ip_address: currentSession.ip_address,
+      portal_slug: req.portal || currentSession.portal_slug || 'app'
+    }).catch(() => { /* user simply signs in again */ });
   }
 
-  await AuditLog.create({
-    user_id: user.id,
-    action: 'CHANGE_PASSWORD',
-    entity_type: 'USER',
-    entity_id: user.id,
-    portal_slug: req.portal || 'app',
-    ip_address: req.ip || req.headers['x-forwarded-for'] || 'unknown',
-    user_agent: req.headers['user-agent'],
-    metadata: { success: true }
-  });
-
-  return success(res, 200, null, 'Password changed successfully');
+  return success(res, 200, {
+    changed: true,
+    other_sessions_revoked: true
+  }, 'Password changed successfully. Other sessions have been signed out.');
 });
 
 export const getDemoUsers = asyncHandler(async (req, res) => {

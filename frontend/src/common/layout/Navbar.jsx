@@ -4,6 +4,7 @@ import { useAuth } from '../hooks/useAuth.js';
 import { ROLES, ROLE_DEFAULT_ROUTES } from '../utils/roleRouting.js';
 import { useAppDispatch } from '../../store/hooks.js';
 import { toggleSidebar } from '../../store/slices/uiSlice.js';
+import RoleAvatar from '../components/RoleAvatar/RoleAvatar.jsx';
 
 export default function Navbar({ role, onSearchClick, onToggleFeed, unreadFeedCount = 0 }) {
   const { logout, user, activeRole, switchRole } = useAuth();
@@ -19,9 +20,7 @@ export default function Navbar({ role, onSearchClick, onToggleFeed, unreadFeedCo
     navigate(targetRoute);
   };
 
-  const userInitial = (user?.full_name || user?.email || 'U').charAt(0).toUpperCase();
-
-  const [userMenuOpen, setUserMenuOpen] = React.useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   const getRoleSlug = (r) => {
     switch (r) {
@@ -41,8 +40,6 @@ export default function Navbar({ role, onSearchClick, onToggleFeed, unreadFeedCo
   };
 
   const roleSlug = getRoleSlug(currentRole);
-  const [avatarError, setAvatarError] = React.useState(false);
-  const showAvatarImg = Boolean(user?.avatar_url && !avatarError);
 
   return (
     <header className="portalNavbar" role="banner">
@@ -153,18 +150,14 @@ export default function Navbar({ role, onSearchClick, onToggleFeed, unreadFeedCo
               aria-haspopup="true"
               style={{ background: 'transparent' }}
             >
-              <div className="portalAvatar" title={user.email}>
-                {showAvatarImg ? (
-                  <img
-                    src={user.avatar_url}
-                    alt={user.full_name || 'User'}
-                    className="portalAvatarImg"
-                    onError={() => setAvatarError(true)}
-                  />
-                ) : (
-                  userInitial
-                )}
-              </div>
+              <RoleAvatar
+                className="portalAvatar"
+                src={user.avatar_url}
+                role={currentRole}
+                name={user.full_name}
+                email={user.email}
+                title={user.email}
+              />
               <div className="d-none d-md-block text-start ms-2" style={{ lineHeight: '1.2' }}>
                 <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-text-main)' }}>
                   {user.full_name || 'Portal User'}
@@ -191,18 +184,14 @@ export default function Navbar({ role, onSearchClick, onToggleFeed, unreadFeedCo
                 }}
               >
                 <li className="px-3 py-2 border-bottom d-flex align-items-center gap-2">
-                  <div className="portalAvatar" style={{ width: '32px', height: '32px', fontSize: '12px', flexShrink: 0 }}>
-                    {showAvatarImg ? (
-                      <img
-                        src={user.avatar_url}
-                        alt={user.full_name || 'User'}
-                        className="portalAvatarImg"
-                        onError={() => setAvatarError(true)}
-                      />
-                    ) : (
-                      userInitial
-                    )}
-                  </div>
+                  <RoleAvatar
+                    className="portalAvatar"
+                    style={{ width: '32px', height: '32px', fontSize: '12px', flexShrink: 0 }}
+                    src={user.avatar_url}
+                    role={currentRole}
+                    name={user.full_name}
+                    email={user.email}
+                  />
                   <div style={{ overflow: 'hidden' }}>
                     <div className="fw-bold text-truncate" style={{ fontSize: '13px' }}>{user.full_name || 'Portal User'}</div>
                     <small className="text-muted text-truncate d-block" style={{ fontSize: '11px' }}>{user.email}</small>

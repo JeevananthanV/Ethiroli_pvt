@@ -18,7 +18,7 @@ import { validateBody } from '../middleware/validation.js';
 const router = express.Router();
 
 const READ_ROLES = ['STUDENT', 'INTERN', 'EMPLOYEE', 'TUTOR', 'PROJECT_MANAGER', 'ADMIN', 'SUPER_ADMIN', 'RECEPTION'];
-const AUTHOR_ROLES = ['TUTOR', 'ADMIN', 'SUPER_ADMIN'];
+const AUTHOR_ROLES = ['TUTOR', 'ADMIN', 'SUPER_ADMIN', 'PROJECT_MANAGER'];
 const LEARNER_ROLES = ['STUDENT', 'INTERN', 'EMPLOYEE'];
 
 router.use(authenticate);

@@ -19,7 +19,8 @@ import {
   createExpense,
   approveExpense,
   rejectExpense,
-  getPerformanceKPIs
+  getPerformanceKPIs,
+  listAssignableUsers
 } from '../controllers/pmController.js';
 import { authenticate } from '../middleware/auth.js';
 import { requireRole } from '../middleware/rbac.js';
@@ -31,6 +32,7 @@ router.use(authenticate);
 const pmRole = requireRole('PROJECT_MANAGER', 'ADMIN', 'SUPER_ADMIN');
 
 // Projects
+router.get('/projects/assignable-users', pmRole, listAssignableUsers);
 router.get('/projects', listProjects);
 router.get('/projects/:id', getProjectDetails);
 router.post('/projects', pmRole, createProject);

@@ -19,6 +19,7 @@ export default function PMProfile() {
 
   useEffect(() => {
     if (user) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFormData(prev => ({
         ...prev,
         full_name: user.full_name || prev.full_name,
@@ -36,7 +37,7 @@ export default function PMProfile() {
       updateProfile({ avatar_url: newAvatar || null });
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
-    } catch (_) {}
+    } catch { /* ignore avatar update error */ }
   };
 
   const handleSave = async (e) => {
@@ -55,7 +56,7 @@ export default function PMProfile() {
       });
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
-    } catch (_) {}
+    } catch { /* ignore profile save error */ }
     setSaving(false);
   };
 

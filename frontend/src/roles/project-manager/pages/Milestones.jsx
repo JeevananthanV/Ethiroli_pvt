@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage';
 import pmApi from '../../../services/api/pmApi';
 
@@ -16,8 +16,9 @@ export default function PMMilestones() {
     target_date: '',
     budget_allocated: ''
   });
+  const [projects, setProjects] = useState([]);
 
-  const loadMilestones = async () => {
+  const loadMilestones = useCallback(async () => {
     setLoading(true);
     try {
       const params = {};
@@ -36,19 +37,24 @@ export default function PMMilestones() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [statusFilter]);
 
   useEffect(() => {
     loadMilestones();
-  }, [statusFilter, loadMilestones]);
+  }, [loadMilestones]);
+
+  useEffect(() => {
+    pmApi.getProjects()
+      .then((res) => setProjects(res?.projects || []))
+      .catch(() => setProjects([]));
+  }, []);
 
   const handleCreate = async (e) => {
     e.preventDefault();
     try {
-      // In production use selected project ID, or fallback to first project ID
       await pmApi.createMilestone({
         ...formData,
-        project_id: formData.project_id || 'default-proj-id'
+        project_id: formData.project_id || (projects[0]?.id || 'default-proj-id')
       });
       setShowModal(false);
       setFormData({ project_id: '', title: '', description: '', target_date: '', budget_allocated: '' });
@@ -201,6 +207,20 @@ export default function PMMilestones() {
               </div>
               <form onSubmit={handleCreate}>
                 <div className="modal-body">
+                  <div className="mb-3">
+                    <label className="form-label">Project *</label>
+                    <select
+                      className="form-select"
+                      required
+                      value={formData.project_id}
+                      onChange={e => setFormData({ ...formData, project_id: e.target.value })}
+                    >
+                      <option value="">Select Project</option>
+                      {projects.map(p => (
+                        <option key={p.id} value={p.id}>{p.name || p.id}</option>
+                      ))}
+                    </select>
+                  </div>
                   <div className="mb-3">
                     <label className="form-label">Milestone Title *</label>
                     <input

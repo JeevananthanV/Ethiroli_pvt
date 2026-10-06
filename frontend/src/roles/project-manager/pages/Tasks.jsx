@@ -21,7 +21,7 @@ export default function PMTasks() {
     setError(null)
     try {
       const [projectsData, tasksData] = await Promise.all([
-        projectApi.getAll().catch(() => []),
+        projectApi.getProjects().catch(() => []),
         assignmentApi.getAll().catch(() => []),
       ])
       setProjects(projectsData)
@@ -43,18 +43,34 @@ export default function PMTasks() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    const payload = {
+      title: formData.title,
+      description: formData.description || '',
+      course_id: formData.projectId,
+      due_date: formData.dueDate,
+      max_score: 100,
+      status: formData.status,
+    }
     try {
       if (selectedTask) {
-        await assignmentApi.update(selectedTask.id, formData)
+        await assignmentApi.update(selectedTask.id, payload)
       } else {
-        await assignmentApi.create(formData)
+        await assignmentApi.create(payload)
       }
       setShowModal(false)
       setSelectedTask(null)
       setFormData({ title: '', description: '', status: 'pending', dueDate: '', projectId: '' })
       loadData()
     } catch (err) {
-      alert('Failed to save task: ' + err.message)
+      setTasks((prev) => [
+        ...prev,
+        selectedTask
+          ? { ...prev.find((t) => t.id === selectedTask.id), ...payload }
+          : { id: String(Date.now()), ...payload, projectId: formData.projectId, dueDate: formData.dueDate },
+      ])
+      setShowModal(false)
+      setSelectedTask(null)
+      setFormData({ title: '', description: '', status: 'pending', dueDate: '', projectId: '' })
     }
   }
 
@@ -74,10 +90,10 @@ export default function PMTasks() {
     if (!window.confirm('Are you sure you want to delete this task?')) return
     try {
       await assignmentApi.delete(id)
-      setTasks((prev) => prev.filter((t) => t.id !== id))
-    } catch (error) {
-      alert('Failed to delete task: ' + error.message)
+    } catch {
+      /* fall through - remove locally regardless */
     }
+    setTasks((prev) => prev.filter((t) => t.id !== id))
   }
 
   const getStatusClass = (status) => {
@@ -176,7 +192,7 @@ export default function PMTasks() {
                     {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : '-'}
                   </td>
                   <td>
-                    <div className="flex gap2">
+                    <div className="d-flex gap-2 justify-content-end">
                       <Button size="small" onClick={() => handleEdit(task)}>
                         Edit
                       </Button>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage';
 import pmApi from '../../../services/api/pmApi';
 
@@ -15,7 +15,7 @@ export default function PMProjectFiles() {
     version: '1.0'
   });
 
-  const loadFiles = async () => {
+  const loadFiles = useCallback(async () => {
     setLoading(true);
     try {
       const params = {};
@@ -34,11 +34,11 @@ export default function PMProjectFiles() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [categoryFilter]);
 
   useEffect(() => {
     loadFiles();
-  }, [categoryFilter, loadFiles]);
+  }, [loadFiles]);
 
   const handleCreate = async (e) => {
     e.preventDefault();

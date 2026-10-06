@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import AdminPage from '../../../common/components/AdminPage';
 import operationsApi from '../../../services/api/operationsApi';
 
@@ -11,7 +11,7 @@ export default function PMTimesheets() {
   const [rejectId, setRejectId] = useState(null);
   const [rejectReason, setRejectReason] = useState('');
 
-  const loadTimesheets = async () => {
+  const loadTimesheets = useCallback(async () => {
     setLoading(true);
     try {
       const params = {};
@@ -33,11 +33,11 @@ export default function PMTimesheets() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [statusFilter]);
 
   useEffect(() => {
     loadTimesheets();
-  }, [statusFilter, loadTimesheets]);
+  }, [loadTimesheets]);
 
   const handleApprove = async (id) => {
     setActionLoading(id);

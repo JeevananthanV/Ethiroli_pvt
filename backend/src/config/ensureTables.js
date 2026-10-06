@@ -96,7 +96,52 @@ export const ensureEssentialTables = async () => {
       } catch (_) {}
     }
 
-    console.log('Essential tables (contact_messages, career_applications, candidates, contact_inquiries, users.avatar_url) verified/created.');
+    // 6. In-app notification inbox.
+    //    pushNotificationService.js and projectNotificationService.js both
+    //    INSERT here, but no schema file ever declared the table, so every
+    //    push/in-app notification was silently dropped. Created here so the
+    //    existing push service starts working too.
+    await pool.execute(`
+      CREATE TABLE IF NOT EXISTS push_notifications (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id CHAR(36) NOT NULL,
+        title VARCHAR(255) NOT NULL,
+        body TEXT,
+        data JSON DEFAULT NULL,
+        is_read TINYINT(1) DEFAULT 0,
+        read_at DATETIME DEFAULT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        INDEX idx_pn_user (user_id),
+        INDEX idx_pn_user_unread (user_id, is_read),
+        INDEX idx_pn_created (created_at)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `);
+
+    // 7. Project ownership columns on student_projects.
+    //    The PM portal stores its projects in this table, so the person
+    //    responsible for delivering a project lives here alongside it.
+    for (const ddl of [
+      `ALTER TABLE student_projects ADD COLUMN IF NOT EXISTS manager_id CHAR(36) DEFAULT NULL`,
+      `ALTER TABLE student_projects ADD COLUMN IF NOT EXISTS assigned_user_ids JSON DEFAULT NULL`,
+      `ALTER TABLE student_projects ADD COLUMN IF NOT EXISTS priority VARCHAR(20) DEFAULT 'MEDIUM'`,
+      `ALTER TABLE student_projects ADD COLUMN IF NOT EXISTS due_date DATE DEFAULT NULL`,
+      `ALTER TABLE student_projects ADD COLUMN IF NOT EXISTS status VARCHAR(30) DEFAULT 'ACTIVE'`
+    ]) {
+      try {
+        await pool.execute(ddl);
+      } catch (colErr) {
+        // Older MySQL without ADD COLUMN IF NOT EXISTS: probe and add if absent.
+        try {
+          await pool.execute(ddl.replace('ADD COLUMN IF NOT EXISTS', 'ADD COLUMN'));
+        } catch (_) {}
+      }
+    }
+
+    try {
+      await pool.execute('CREATE INDEX idx_projects_manager ON student_projects (manager_id)');
+    } catch (_) {}
+
+    console.log('Essential tables (contact_messages, career_applications, candidates, contact_inquiries, users.avatar_url, push_notifications, student_projects ownership) verified/created.');
   } catch (err) {
     console.warn('Warning checking essential tables on startup:', err.message);
   }

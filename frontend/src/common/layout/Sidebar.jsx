@@ -4,6 +4,7 @@ import { useAuth } from '../hooks/useAuth.js';
 import { getNavigationForRole } from './navigationConfig.js';
 import { useAppSelector, useAppDispatch } from '../../store/hooks.js';
 import { toggleSidebar } from '../../store/slices/uiSlice.js';
+import RoleAvatar, { ROLE_LOGO_SRC } from '../components/RoleAvatar/RoleAvatar.jsx';
 
 export default function Sidebar({ role, navItems }) {
   const { user, activeRole } = useAuth();
@@ -132,8 +133,6 @@ export default function Sidebar({ role, navItems }) {
     }
   };
 
-  const userInitial = (user?.full_name || user?.email || 'U').charAt(0).toUpperCase();
-
   return (
     <>
       {/* Mobile Backdrop */}
@@ -153,12 +152,14 @@ export default function Sidebar({ role, navItems }) {
         <div className="portalSidebarHeader">
           <Link to="/" className="portalBrandBox" aria-label="Dashboard Home">
             {/* The employee portal shows the real Ethiroli brand asset used by the
-                public site. Other portals keep their existing icon tile. */}
-            {effectiveRole === 'EMPLOYEE' ? (
+                public site, and the PM portal uses the same lockup as its brand
+                tile. Other portals keep their existing icon tile. */}
+            {effectiveRole === 'EMPLOYEE' || effectiveRole === 'PROJECT_MANAGER' ? (
               <img
-                src="/assets/images/ethiroli_logo.png"
+                src={ROLE_LOGO_SRC}
                 className="portalBrandLogo"
                 alt="Ethiroli"
+                onError={(e) => { e.currentTarget.style.display = 'none'; }}
               />
             ) : (
               <div className="portalLogoIcon">
@@ -256,7 +257,7 @@ export default function Sidebar({ role, navItems }) {
         {user && (
           <div className="portalSidebarFooter">
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <div 
+              <RoleAvatar
                 style={{
                   width: '36px',
                   height: '36px',
@@ -271,18 +272,11 @@ export default function Sidebar({ role, navItems }) {
                   flexShrink: 0,
                   overflow: 'hidden'
                 }}
-              >
-                {user.avatar_url ? (
-                  <img
-                    src={user.avatar_url}
-                    alt={user.full_name || 'User'}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
-                    onError={(e) => { e.target.style.display = 'none'; }}
-                  />
-                ) : (
-                  userInitial
-                )}
-              </div>
+                src={user.avatar_url}
+                role={effectiveRole}
+                name={user.full_name}
+                email={user.email}
+              />
               <div style={{ overflow: 'hidden', lineHeight: '1.2' }}>
                 <div style={{ color: '#ffffff', fontSize: '13px', fontWeight: 600, textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden' }}>
                   {user.full_name || 'Authenticated User'}

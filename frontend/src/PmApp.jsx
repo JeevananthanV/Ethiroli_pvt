@@ -3,6 +3,7 @@ import RolePortalShell from './RolePortalShell.jsx';
 import PmRoutes from './roles/project-manager/PmRoutes.jsx';
 import PmLoginPage from './auth/portals/pages/PmLoginPage.jsx';
 import { ROLES } from './common/utils/roleRouting.js';
+import './roles/project-manager/pm-overrides.css';
 
 /**
  * PmApp - the Project Manager portal application (pm.html).

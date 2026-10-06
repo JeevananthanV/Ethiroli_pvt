@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AdminPage from '../../../common/components/AdminPage';
 import { employeeApi } from '../../../services/api/employeeApi';
 
 export default function PMTeam() {
+  const navigate = useNavigate();
   const [teamMembers, setTeamMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -139,7 +141,7 @@ export default function PMTeam() {
                       </div>
                     </td>
                     <td className="text-end">
-                      <button className="btn btn-sm btn-outline-secondary">Assign Task</button>
+                      <button className="btn btn-sm btn-outline-secondary" onClick={() => navigate('/app/pm/tasks')}>Assign Task</button>
                     </td>
                   </tr>
                 ))

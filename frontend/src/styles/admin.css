@@ -938,6 +938,17 @@ body {
   font-size: 18px;
   color: #ffffff;
   box-shadow: 0 4px 12px rgba(129, 158, 53, 0.3);
+  overflow: hidden;
+}
+
+/* Ethiroli brand mark inside the sidebar brand tile. */
+.portalBrandLogoImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+  border-radius: inherit;
+  background: rgba(255, 255, 255, 0.94);
 }
 
 .portalBrandName {
@@ -1496,6 +1507,48 @@ select:focus,
 textarea:focus {
   border-color: var(--color-primary) !important;
   box-shadow: 0 0 0 3px rgba(129, 158, 53, 0.2) !important;
+}
+
+/* Password field with a show/hide (eye) toggle. */
+.passwordField {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.passwordField .inputField {
+  width: 100%;
+  /* Room for the toggle button so the text never runs underneath it. */
+  padding-right: 40px !important;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  color: var(--color-text-muted);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.passwordToggle:hover {
+  color: var(--color-primary);
+  background: rgba(129, 158, 53, 0.12);
+}
+
+.passwordToggle:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
 }
 
 /* ============================================================

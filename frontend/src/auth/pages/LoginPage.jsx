@@ -78,6 +78,14 @@ export default function LoginPage({ portal, brandLogo, showPasswordToggle, foote
 
   return (
     <div className={styles.authContainer}>
+      {/* Decorative motion layers: drifting orbs + rotating conic sheen. */}
+      <div className={styles.authBackdrop} aria-hidden="true">
+        <div className={styles.authSheen} />
+        <div className={`${styles.authOrb} ${styles.authOrb1}`} />
+        <div className={`${styles.authOrb} ${styles.authOrb2}`} />
+        <div className={`${styles.authOrb} ${styles.authOrb3}`} />
+      </div>
+
       <div className={styles.authCard}>
         <div className={styles.header}>
           {brandLogo ? (
@@ -87,16 +95,19 @@ export default function LoginPage({ portal, brandLogo, showPasswordToggle, foote
           )}
           <p>{portalConfig?.label ? `${portalConfig.label} Portal` : (portal ? `${String(portal).toUpperCase()} Portal` : 'Login to your account')}</p>
           {portalConfig && (
-            <div style={{
-              display: 'inline-block',
-              marginTop: '0.35rem',
-              fontSize: '0.75rem',
-              fontWeight: 600,
-              padding: '0.25rem 0.65rem',
-              borderRadius: '9999px',
-              backgroundColor: portalConfig.brandColor ? `${portalConfig.brandColor}22` : '#f1f5f9',
-              color: portalConfig.brandColor || '#475569'
-            }}>
+            <div
+              className={styles.portalBadge}
+              style={{
+                display: 'inline-block',
+                marginTop: '0.35rem',
+                fontSize: '0.75rem',
+                fontWeight: 600,
+                padding: '0.25rem 0.65rem',
+                borderRadius: '9999px',
+                backgroundColor: portalConfig.brandColor ? `${portalConfig.brandColor}22` : '#f1f5f9',
+                color: portalConfig.brandColor || '#475569'
+              }}
+            >
               Dedicated Portal &bull; Role-Guarded Access
             </div>
           )}

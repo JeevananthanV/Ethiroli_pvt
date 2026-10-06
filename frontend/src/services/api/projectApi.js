@@ -30,6 +30,16 @@ export const deleteProject = async (id) => {
   return response.data?.data || response.data
 }
 
+/**
+ * Active users a project may be handed to (the "Responsible for delivery"
+ * picker). Server-side filtered to roles that can actually own a project.
+ */
+export const getAssignableUsers = async () => {
+  const response = await axios.get('/projects/assignable-users')
+  const body = response?.data ?? response
+  return Array.isArray(body) ? body : (Array.isArray(body?.data) ? body.data : [])
+}
+
 export const listProjects = getProjects
 
 export const getStudentProjects = getProjects
@@ -42,4 +52,5 @@ export const projectApi = {
   createProject,
   updateProject,
   deleteProject,
+  getAssignableUsers,
 }

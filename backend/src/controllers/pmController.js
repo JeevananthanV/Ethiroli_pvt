@@ -4,6 +4,14 @@ import ProjectSprint from '../models/ProjectSprint.js';
 import ProjectFile from '../models/ProjectFile.js';
 import ProjectExpense from '../models/ProjectExpense.js';
 import pool from '../config/database.js';
+import { notifyProjectAssignment } from '../services/projectNotificationService.js';
+import {
+  readAssignment,
+  touchesOwnership as ownershipTouched,
+  buildOwnershipPatch,
+  validateOwners,
+  fetchAssignableUsers
+} from '../services/projectAssignmentService.js';
 
 // ==========================================
 // 1. PROJECTS
@@ -79,6 +87,9 @@ export const createProject = async (req, res) => {
       return res.status(400).json({ error: 'Project name and repository URL are required' });
     }
 
+    const assignment = readAssignment(req.body);
+    await validateOwners(assignment.manager_id, assignment.assigned_user_ids);
+
     const id = await StudentProject.create({
       student_id: req.user.id,
       name,
@@ -87,12 +98,38 @@ export const createProject = async (req, res) => {
       repo_owner,
       repo_name,
       branch: branch || 'main',
-      is_active: true
+      is_active: true,
+      ...assignment
     });
 
     const project = await StudentProject.findById(id);
-    res.status(201).json({ success: true, project });
+
+    // Tell the responsible manager, the connected team, and oversight roles.
+    notifyProjectAssignment({
+      action: 'created',
+      project,
+      assignedIds: assignment.assigned_user_ids,
+      actor: {
+        id: req.user.id,
+        role: req.user.role,
+        ip: req.ip,
+        userAgent: req.headers['user-agent']
+      }
+    }).catch(() => {});
+
+    res.status(201).json({
+      success: true,
+      project,
+      notified: {
+        manager_id: assignment.manager_id,
+        assigned_user_ids: assignment.assigned_user_ids,
+        oversight_roles: ['SUPER_ADMIN', 'ADMIN']
+      }
+    });
   } catch (error) {
+    if (error.statusCode === 400) {
+      return res.status(400).json({ error: error.message });
+    }
     console.error('createProject error:', error);
     res.status(500).json({ error: 'Failed to create project' });
   }
@@ -105,12 +142,69 @@ export const updateProject = async (req, res) => {
     if (!project) {
       return res.status(404).json({ error: 'Project not found' });
     }
-    await StudentProject.update(id, req.body);
+
+    const ownershipChanged = ownershipTouched(req.body);
+    let ownershipPatch = null;
+    let merged = null;
+
+    if (ownershipChanged) {
+      // Only the fields actually sent are written, so changing just the owner
+      // does not wipe the existing team.
+      ownershipPatch = buildOwnershipPatch(req.body);
+      merged = readAssignment({ ...project, ...ownershipPatch });
+      await validateOwners(merged.manager_id, merged.assigned_user_ids);
+    }
+
+    await StudentProject.update(id, { ...req.body, ...ownershipPatch });
     const updated = await StudentProject.findById(id);
-    res.json({ success: true, project: updated });
+
+    if (ownershipChanged) {
+      const ownerChanged = project.manager_id !== updated.manager_id;
+      notifyProjectAssignment({
+        action: ownerChanged ? 'reassigned' : 'assigned',
+        project: updated,
+        assignedIds: updated.assigned_user_ids,
+        previousManagerId: ownerChanged ? project.manager_id : null,
+        actor: {
+          id: req.user.id,
+          role: req.user.role,
+          ip: req.ip,
+          userAgent: req.headers['user-agent']
+        }
+      }).catch(() => {});
+    }
+
+    res.json({
+      success: true,
+      project: updated,
+      notified: ownershipChanged
+        ? {
+            manager_id: merged.manager_id,
+            assigned_user_ids: merged.assigned_user_ids,
+            oversight_roles: ['SUPER_ADMIN', 'ADMIN']
+          }
+        : null
+    });
   } catch (error) {
+    if (error.statusCode === 400) {
+      return res.status(400).json({ error: error.message });
+    }
     console.error('updateProject error:', error);
     res.status(500).json({ error: 'Failed to update project' });
+  }
+};
+
+/**
+ * People a project can be handed to. Powers the "Responsible for delivery"
+ * picker in the PM portal without exposing the full user directory.
+ */
+export const listAssignableUsers = async (req, res) => {
+  try {
+    const users = await fetchAssignableUsers();
+    res.json({ success: true, users });
+  } catch (error) {
+    console.error('listAssignableUsers error:', error);
+    res.status(500).json({ error: 'Failed to load assignable users' });
   }
 };
 

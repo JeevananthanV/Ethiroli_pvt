@@ -4,7 +4,7 @@ import pmApi from '../../../services/api/pmApi';
 
 export default function PMPerformance() {
   const [kpis, setKpis] = useState(null);
-  const [_loading, setLoading] = useState(true); // eslint-disable-line react-hooks/conflicted-deps
+  const [_loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchKPIs = async () => {

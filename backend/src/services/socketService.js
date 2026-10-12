@@ -3,7 +3,7 @@ import { createAdapter } from '@socket.io/redis-adapter';
 import { createAdapter as createClusterAdapter } from '@socket.io/cluster-adapter';
 import Session from '../models/Session.js';
 import { logger } from '../config/logger.js';
-import { ALLOWED_ORIGINS } from '../config/constants.js';
+import { isAllowedOrigin } from '../config/constants.js';
 import { getRedisClient } from '../config/redis.js';
 import { lookupSession } from '../middleware/auth.js';
 
@@ -12,7 +12,11 @@ let io = null;
 export const initSocketServer = (server) => {
   io = new Server(server, {
     cors: {
-      origin: ALLOWED_ORIGINS,
+      // A function, not the ALLOWED_ORIGINS array: the array form matches
+      // origins as exact strings, so any dev port outside the list (3100, 3200)
+      // was rejected at the handshake with no CORS headers - realtime updates
+      // and the activity feed silently did nothing on those portals.
+      origin: (origin, callback) => callback(null, isAllowedOrigin(origin)),
       methods: ['GET', 'POST'],
       credentials: true
     },

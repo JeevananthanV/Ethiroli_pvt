@@ -379,3 +379,27 @@ const parsedEnvOrigins = (process.env.ALLOWED_ORIGINS || process.env.FRONTEND_OR
 
 export const ALLOWED_ORIGINS = Array.from(new Set([...DEFAULT_ORIGIN_LIST, ...parsedEnvOrigins]));
 
+/**
+ * Single source of truth for "may this browser talk to us?".
+ *
+ * The allow-list covers the deployed origins, and any loopback host is allowed
+ * on purpose so a developer can serve a portal on whatever port is free (the
+ * intern and project-manager dev servers use 3100 and 3200). Socket.IO needs
+ * this as a function: given a plain array it allow-lists exact strings only, so
+ * a new dev port fails the handshake with no Access-Control-Allow-Origin header
+ * while ordinary REST calls from that same port still work.
+ */
+export const isAllowedOrigin = (origin) => {
+  if (!origin) return true;
+  if (ALLOWED_ORIGINS.includes(origin)) return true;
+  try {
+    const { hostname } = new URL(origin);
+    if (['localhost', '127.0.0.1', '::1'].includes(hostname)) return true;
+    if (hostname === 'ethiroli.net' || hostname.endsWith('.ethiroli.net')) return true;
+    if (hostname.endsWith('.hostingersite.com') || hostname.endsWith('.hostinger.com')) return true;
+  } catch {
+    return false;
+  }
+  return false;
+};
+

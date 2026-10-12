@@ -113,3 +113,17 @@ export const getPortalConfig = (roleOrSlug) => {
 
 export const getPortalBySlug = (slug) =>
   Object.values(PORTAL_CONFIGS).find((config) => config.slug === slug) || null;
+
+/**
+ * Resolve a portal slug to its role enum.
+ *
+ * PORTAL_CONFIGS is keyed by the role enum, and the slugs are abbreviated
+ * (`pm` -> PROJECT_MANAGER), so uppercasing a slug is not a safe substitute.
+ * The backend's demo-users endpoint filters `WHERE u.role = ?` against a MySQL
+ * enum, and a non-matching value returns an empty list rather than an error.
+ */
+export const getRoleBySlug = (slug) => {
+  const config = getPortalConfig(slug);
+  if (!config) return null;
+  return Object.keys(PORTAL_CONFIGS).find((key) => PORTAL_CONFIGS[key] === config) || null;
+};

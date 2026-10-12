@@ -15,21 +15,7 @@ import apiVersioning from './middleware/apiVersioning.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-import { ALLOWED_ORIGINS } from './config/constants.js';
-
-const isAllowedOrigin = (origin) => {
-  if (!origin) return true;
-  if (ALLOWED_ORIGINS.includes(origin)) return true;
-  try {
-    const { hostname } = new URL(origin);
-    if (['localhost', '127.0.0.1', '::1'].includes(hostname)) return true;
-    if (hostname === 'ethiroli.net' || hostname.endsWith('.ethiroli.net')) return true;
-    if (hostname.endsWith('.hostingersite.com') || hostname.endsWith('.hostinger.com')) return true;
-  } catch {
-    return false;
-  }
-  return false;
-};
+import { isAllowedOrigin } from './config/constants.js';
 
 const app = express();
 

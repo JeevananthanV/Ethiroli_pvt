@@ -1,22 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../common/contexts/AuthContext.jsx';
 import { getRoleDefaultPath } from '../../common/utils/roleRouting.js';
+import { getDemoUsers } from '../../services/api/authApi.js';
 import Input from '../../common/components/Input/Input.jsx';
 import Button from '../../common/components/Button/Button.jsx';
 import MfaChallenge from '../components/MfaChallenge.jsx';
 import OAuthButton from '../components/OAuthButton.jsx';
-import { getPortalConfig } from '../portals/config/index.js';
+import { getPortalConfig, getRoleBySlug } from '../portals/config/index.js';
 import styles from './Auth.module.css';
 
 /**
  * LoginPage - the shared sign-in screen used by every role portal.
  *
- * `brandLogo`, `showPasswordToggle` and `footer` are opt-in: when a portal does
- * not pass them the rendered output is exactly as before, so adding them for the
- * employee portal does not change any other portal's login screen.
+ * `brandLogo`, `showPasswordToggle`, `demo` and `footer` are opt-in: when a
+ * portal does not pass them the rendered output is exactly as before, so
+ * adding them for one portal does not change any other portal's login screen.
  */
-export default function LoginPage({ portal, brandLogo, showPasswordToggle, footer }) {
+export default function LoginPage({ portal, brandLogo, showPasswordToggle, demo, demoPassword, footer }) {
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,8 +29,37 @@ export default function LoginPage({ portal, brandLogo, showPasswordToggle, foote
   const [requiresMfa, setRequiresMfa] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  const [demoAccounts, setDemoAccounts] = useState([]);
+  const [loadingDemo, setLoadingDemo] = useState(false);
+
   const portalConfig = portal ? getPortalConfig(portal) : null;
   const showOAuth = portalConfig?.oauthProviders?.length > 0;
+
+  // Only ever offer accounts that actually exist in the database.
+  useEffect(() => {
+    if (!demo || !portal) return undefined;
+    let active = true;
+    setLoadingDemo(true);
+    (async () => {
+      try {
+        const data = await getDemoUsers(getRoleBySlug(portal) || String(portal).toUpperCase());
+        if (active) setDemoAccounts(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error('Failed to load demo accounts:', err);
+      } finally {
+        if (active) setLoadingDemo(false);
+      }
+    })();
+    return () => { active = false; };
+  }, [demo, portal]);
+
+  // Named `selectAccount`, not `useAccount` - a leading "use" makes the
+  // react-hooks lint treat this plain callback as a hook.
+  const selectAccount = (accountEmail) => {
+    setEmail(accountEmail);
+    setPassword(demoPassword || '');
+    setError(null);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,7 +71,7 @@ export default function LoginPage({ portal, brandLogo, showPasswordToggle, foote
         setRequiresMfa(true);
         return;
       }
-      const loggedUser = response?.user;
+      const loggedUser = response?.user || response?.data?.user;
       const redirectPath = location.state?.from?.pathname || getRoleDefaultPath(loggedUser?.role);
       navigate(redirectPath, { replace: true });
     } catch (err) {
@@ -53,7 +83,7 @@ export default function LoginPage({ portal, brandLogo, showPasswordToggle, foote
 
   const handleMfaSubmit = async (mfaToken) => {
     const response = await login(email, password, portal, mfaToken);
-    const loggedUser = response?.user;
+    const loggedUser = response?.user || response?.data?.user;
     const redirectPath = location.state?.from?.pathname || getRoleDefaultPath(loggedUser?.role);
     navigate(redirectPath, { replace: true });
     return response;
@@ -171,6 +201,53 @@ export default function LoginPage({ portal, brandLogo, showPasswordToggle, foote
             )}
           </Button>
         </form>
+
+        {demo && (
+          <div className={styles.imsDemo}>
+            <div className={styles.imsDemoHead}>
+              <span className={styles.imsDemoTitle}>
+                <i className="bi bi-lightning-charge-fill" aria-hidden="true"></i>
+                Quick sign-in
+              </span>
+              <span className={styles.imsDemoBadge}>Demo</span>
+            </div>
+
+            {loadingDemo ? (
+              <div className={styles.imsDemoEmpty}>
+                <span className={styles.spinner} aria-hidden="true"></span>
+                Checking available accounts…
+              </div>
+            ) : demoAccounts.length === 0 ? (
+              <div className={styles.imsDemoEmpty}>
+                No demo accounts are set up right now. Sign in with the credentials
+                your mentor shared.
+              </div>
+            ) : (
+              <div className={styles.imsDemoList}>
+                {demoAccounts.slice(0, 4).map((account) => (
+                  <button
+                    key={account.email}
+                    type="button"
+                    className={styles.imsDemoItem}
+                    onClick={() => selectAccount(account.email)}
+                    disabled={loading}
+                  >
+                    <span className={styles.imsDemoAvatar} aria-hidden="true">
+                      <i className="bi bi-person-fill"></i>
+                    </span>
+                    <span className={styles.imsDemoMeta}>
+                      <span className={styles.imsDemoName}>
+                        {account.full_name || account.name || account.email}
+                      </span>
+                      <span className={styles.imsDemoSub}>{account.email}</span>
+                    </span>
+                    <span className={styles.imsDemoAction}>Use</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         {footer}
 

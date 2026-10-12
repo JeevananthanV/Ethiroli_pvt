@@ -53,7 +53,11 @@ export default function PmRoutes() {
         <Route path="settings" element={<PMCompanySettings />} />
         <Route path="clients" element={<PMClients />} />
         <Route path="subscriptions" element={<PMSubscriptions />} />
-        <Route path="*" element={<Navigate to="dashboard" replace />} />
+        {/* Absolute on purpose. A relative to="dashboard" inside the splat
+            route resolves against the matched path, so an unknown URL such as
+            /app/pm/help became /app/pm/help/dashboard, matched "*" again and
+            looped forever, growing the URL without bound. */}
+        <Route path="*" element={<Navigate to="/app/pm/dashboard" replace />} />
       </Routes>
     </Suspense>
   );

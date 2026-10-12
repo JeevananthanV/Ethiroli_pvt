@@ -1256,6 +1256,13 @@
   margin-bottom: 12px;
 }
 
+/* Stack of quick-sign-in account buttons. */
+.imsDemoList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .imsDemoTitle {
   display: inline-flex;
   align-items: center;

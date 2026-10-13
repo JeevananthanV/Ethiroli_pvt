@@ -237,7 +237,7 @@ export default function Feedback() {
                       <label htmlFor="workload-assessment" className="form-label small fw-semibold d-block">Workload Assessment</label>
                       <div className="d-flex gap-3">
                         <div className="form-check">
-                          <input id="workload-assessment"
+                          <input
                             className="form-check-input"
                             type="radio"
                             name="workloadRadio"

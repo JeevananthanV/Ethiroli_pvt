@@ -230,7 +230,7 @@ export default function WorkLog() {
                     <label htmlFor="6-any-blockers-for" className="form-label small fw-semibold d-block">6. Any blockers for tomorrow?</label>
                     <div className="d-flex gap-3 align-items-center mb-2">
                       <div className="form-check">
-                        <input id="6-any-blockers-for"
+                        <input
                           className="form-check-input"
                           type="radio"
                           name="blockerRadio"

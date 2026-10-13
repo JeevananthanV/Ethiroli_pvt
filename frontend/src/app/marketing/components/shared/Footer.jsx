@@ -69,6 +69,7 @@ const Footer = () => {
                     <Link to="/privacy-policy">Privacy Policy</Link>
                     <Link to="/terms-of-service">Terms of Service</Link>
                     <Link to="/sitemap">Sitemap</Link>
+                    <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer">XML Sitemap</a>
                     <Link to="/contact_us#faq">FAQs</Link>
                 </div>
             </div>

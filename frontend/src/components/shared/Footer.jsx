@@ -35,10 +35,11 @@ const Footer = () => {
                 <div className="et-footer-col">
                     <h4 className="et-footer-title">Useful Links</h4>
                     <ul className="et-footer-links">
-                        <li><a href="/services">Our Services</a><span className="et-arrow">→</span></li>
+                        <li><Link to="/services">Our Services</Link><span className="et-arrow">→</span></li>
                         <li><Link to="/about#team">Our Team</Link><span className="et-arrow">→</span></li>
-                        <li><Link to="/contact_us">Support</Link><span className="et-arrow">→</span></li>
-                        {/* <li><Link to="/privacy-policy">Privacy Policy</Link><span className="et-arrow">→</span></li> */}
+                        <li><Link to="/privacy-policy">Privacy Policy</Link><span className="et-arrow">→</span></li>
+                        <li><Link to="/terms-of-service">Terms of Service</Link><span className="et-arrow">→</span></li>
+                        <li><Link to="/sitemap">Sitemap</Link><span className="et-arrow">→</span></li>
                     </ul>
                 </div>
 
@@ -60,12 +61,14 @@ const Footer = () => {
             </div>
 
             <div className="et-footer-bottom">
-                <p>&copy; Copyright {currentYear}. All Rights Reserved</p>
-                {/* <div className="et-footer-bottom-links"> */}
-                    {/* <a href="#">Privacy and Policy</a>
-                    <a href="#">Sitemap</a>
-                    <a href="#">FAQs</a> */}
-                {/* </div> */}
+                <p>&copy; {currentYear} <a href="https://ethiroli.net" style={{ color: 'inherit', textDecoration: 'none' }}>ethiroli.net</a>. All Rights Reserved.</p>
+                <div className="et-footer-bottom-links" style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'center', marginTop: '8px' }}>
+                    <Link to="/privacy-policy">Privacy Policy</Link>
+                    <Link to="/terms-of-service">Terms of Service</Link>
+                    <Link to="/sitemap">Sitemap</Link>
+                    <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer">XML Sitemap</a>
+                    <Link to="/contact_us#faq">FAQs</Link>
+                </div>
             </div>
         </footer>
     );

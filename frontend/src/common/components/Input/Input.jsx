@@ -3,11 +3,17 @@ import React, { useId, useState } from 'react';
 // `type` is pulled out of the rest-spread deliberately: leaving it in `props`
 // means the trailing `{...props}` re-applies the caller's original
 // type="password" on every render and silently undoes the reveal toggle.
-const Input = ({ label, required, error, type = 'text', ...props }) => {
+const Input = ({ label, required, error, type = 'text', autoComplete, ...props }) => {
   const generatedId = useId();
   const inputId = props.id || props.name || generatedId;
   const isPasswordField = type === 'password';
+  const isEmailField = type === 'email' || props.name === 'email';
   const [revealed, setRevealed] = useState(false);
+
+  const resolvedAutoComplete = autoComplete || (
+    isPasswordField ? 'current-password' :
+    isEmailField ? 'email' : undefined
+  );
 
   const input = (
     <input
@@ -15,7 +21,7 @@ const Input = ({ label, required, error, type = 'text', ...props }) => {
       id={inputId}
       name={props.name || inputId}
       type={isPasswordField ? (revealed ? 'text' : 'password') : type}
-      autoComplete={props.autoComplete || (isPasswordField ? 'current-password' : (props.type === 'email' || props.name === 'email' ? 'email' : undefined))}
+      autoComplete={resolvedAutoComplete}
       {...props}
     />
   );

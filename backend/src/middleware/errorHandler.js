@@ -31,17 +31,18 @@ export const errorHandler = (err, req, res, next) => {
   }
 
   const statusCode = err.status || err.statusCode || 500;
-  // Never leak raw DB/SQL error messages or stack details to clients in production.
-  const isProd = process.env.NODE_ENV === 'production';
+  // Never leak raw DB/SQL error messages, table names, or database identifiers to clients.
+  const isSqlError = Boolean(err.code && (String(err.code).startsWith('ER_') || err.sqlState || err.sql || /Table '.*' doesn't exist/i.test(err.message || '')));
+  const isProd = process.env.NODE_ENV === 'production' || isSqlError;
   const message = isProd
-    ? 'Internal server error'
+    ? (isSqlError ? 'A database operation failed. Please contact the administrator.' : 'Internal server error')
     : (err.message || 'Internal server error');
 
   const response = {
     success: false,
     message,
-    ...(err.details && { details: err.details }),
-    code: err.code || 'INTERNAL_ERROR'
+    ...(err.details && !isSqlError && { details: err.details }),
+    code: isSqlError ? 'DATABASE_ERROR' : (err.code || 'INTERNAL_ERROR')
   };
 
   return res.status(statusCode).json(response);

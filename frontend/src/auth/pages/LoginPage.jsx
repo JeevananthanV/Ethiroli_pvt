@@ -6,7 +6,6 @@ import { getDemoUsers } from '../../services/api/authApi.js';
 import Input from '../../common/components/Input/Input.jsx';
 import Button from '../../common/components/Button/Button.jsx';
 import MfaChallenge from '../components/MfaChallenge.jsx';
-import OAuthButton from '../components/OAuthButton.jsx';
 import { getPortalConfig, getRoleBySlug } from '../portals/config/index.js';
 import styles from './Auth.module.css';
 
@@ -33,7 +32,6 @@ export default function LoginPage({ portal, brandLogo, showPasswordToggle, demo,
   const [loadingDemo, setLoadingDemo] = useState(false);
 
   const portalConfig = portal ? getPortalConfig(portal) : null;
-  const showOAuth = portalConfig?.oauthProviders?.length > 0;
 
   // Only ever offer accounts that actually exist in the database.
   useEffect(() => {
@@ -89,12 +87,6 @@ export default function LoginPage({ portal, brandLogo, showPasswordToggle, demo,
     return response;
   };
 
-  const handleOAuthClick = (provider) => {
-    const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
-    const redirectUri = `${window.location.origin}/auth/oauth/${provider}/callback`;
-    window.location.href = `${apiBase}/v1/auth/oauth/${provider}/authorize?portal=${portal}&redirectUri=${encodeURIComponent(redirectUri)}`;
-  };
-
   if (requiresMfa) {
     return (
       <MfaChallenge
@@ -129,13 +121,16 @@ export default function LoginPage({ portal, brandLogo, showPasswordToggle, demo,
               className={styles.portalBadge}
               style={{
                 display: 'inline-block',
-                marginTop: '0.35rem',
+                marginTop: '0.45rem',
                 fontSize: '0.75rem',
                 fontWeight: 600,
-                padding: '0.25rem 0.65rem',
+                letterSpacing: '0.025em',
+                padding: '0.3rem 0.8rem',
                 borderRadius: '9999px',
-                backgroundColor: portalConfig.brandColor ? `${portalConfig.brandColor}22` : '#f1f5f9',
-                color: portalConfig.brandColor || '#475569'
+                backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                color: '#e2e8f0',
+                border: `1px solid ${portalConfig.brandColor ? `${portalConfig.brandColor}66` : 'rgba(255, 255, 255, 0.2)'}`,
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)'
               }}
             >
               Dedicated Portal &bull; Role-Guarded Access
@@ -250,23 +245,6 @@ export default function LoginPage({ portal, brandLogo, showPasswordToggle, demo,
         )}
 
         {footer}
-
-        {showOAuth && (
-          <div className={styles.oauthSection}>
-            <div className={styles.divider}>
-              <span>Or continue with</span>
-            </div>
-            <div className={styles.oauthButtons}>
-              {portalConfig.oauthProviders.map((provider) => (
-                <OAuthButton
-                  key={provider}
-                  provider={provider}
-                  onClick={handleOAuthClick}
-                />
-              ))}
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

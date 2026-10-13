@@ -22,6 +22,17 @@ const app = express();
 // Trust reverse proxy (Hostinger, Nginx, LiteSpeed, Cloudflare)
 app.set('trust proxy', 1);
 
+// Canonical apex domain redirect: www.ethiroli.net -> https://ethiroli.net
+app.use((req, res, next) => {
+  const host = req.headers.host || '';
+  if (host.startsWith('www.')) {
+    const apexHost = host.slice(4);
+    const protocol = req.headers['x-forwarded-proto'] || (req.secure ? 'https' : 'https');
+    return res.redirect(301, `${protocol}://${apexHost}${req.originalUrl || req.url}`);
+  }
+  next();
+});
+
 // Request logging (first to capture all requests)
 app.use(requestLogger);
 

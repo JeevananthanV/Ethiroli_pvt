@@ -12,8 +12,11 @@ export const securityHeaders = (req, res, next) => {
   res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
   res.removeHeader('X-Powered-By');
 
-  if (process.env.NODE_ENV === 'production') {
-    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  // Enforce HSTS on HTTPS requests, reverse proxies, or live domains
+  const isHttps = req.secure || req.headers['x-forwarded-proto'] === 'https';
+  const isLocalhost = req.headers.host && (req.headers.host.includes('localhost') || req.headers.host.includes('127.0.0.1'));
+  if (process.env.NODE_ENV === 'production' || isHttps || !isLocalhost) {
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
   }
 
   next();

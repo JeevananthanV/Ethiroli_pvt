@@ -221,6 +221,42 @@ export async function seedAllRoles() {
     `-- Generated on: ${new Date().toISOString()}`,
     '--',
     'SET FOREIGN_KEY_CHECKS = 0;',
+    '',
+    '-- Ensure essential auth & profile tables exist in production',
+    `CREATE TABLE IF NOT EXISTS \`user_credentials\` (
+  \`user_id\` char(36) NOT NULL,
+  \`password_hash\` varchar(255) NOT NULL,
+  \`password_algo\` varchar(30) NOT NULL DEFAULT 'BCRYPT',
+  \`password_updated_at\` timestamp NOT NULL DEFAULT current_timestamp(),
+  \`failed_login_attempts\` int(11) NOT NULL DEFAULT 0,
+  \`lockout_until\` timestamp NULL DEFAULT NULL,
+  \`requires_password_change\` tinyint(1) NOT NULL DEFAULT 0,
+  \`password_history\` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  \`two_factor_secret\` varchar(255) DEFAULT NULL,
+  \`two_factor_enabled\` tinyint(1) NOT NULL DEFAULT 0,
+  \`created_at\` timestamp NOT NULL DEFAULT current_timestamp(),
+  \`updated_at\` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (\`user_id\`),
+  CONSTRAINT \`fk_uc_user\` FOREIGN KEY (\`user_id\`) REFERENCES \`users\` (\`id\`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;`,
+    '',
+    `CREATE TABLE IF NOT EXISTS \`interns\` (
+  \`id\` char(36) NOT NULL,
+  \`user_id\` char(36) NOT NULL,
+  \`mentor_id\` char(36) DEFAULT NULL,
+  \`college_name\` varchar(255) DEFAULT NULL,
+  \`stipend\` decimal(10,2) DEFAULT 0.00,
+  \`start_date\` date DEFAULT NULL,
+  \`end_date\` date DEFAULT NULL,
+  \`project_target\` varchar(255) DEFAULT NULL,
+  \`progress\` int(11) DEFAULT 0,
+  \`created_at\` timestamp NOT NULL DEFAULT current_timestamp(),
+  \`updated_at\` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (\`id\`),
+  KEY \`idx_intern_user\` (\`user_id\`),
+  KEY \`idx_intern_mentor\` (\`mentor_id\`),
+  CONSTRAINT \`fk_intern_user\` FOREIGN KEY (\`user_id\`) REFERENCES \`users\` (\`id\`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;`,
     ''
   ];
 

@@ -15,6 +15,7 @@ const Input = ({ label, required, error, type = 'text', ...props }) => {
       id={inputId}
       name={props.name || inputId}
       type={isPasswordField ? (revealed ? 'text' : 'password') : type}
+      autoComplete={props.autoComplete || (isPasswordField ? 'current-password' : (props.type === 'email' || props.name === 'email' ? 'email' : undefined))}
       {...props}
     />
   );

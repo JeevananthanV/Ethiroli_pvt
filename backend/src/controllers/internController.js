@@ -120,6 +120,89 @@ export const getMyInternProfile = asyncHandler(async (req, res) => {
   return success(res, 200, intern, 'Intern profile retrieved');
 });
 
+export const updateMyInternProfile = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const intern = await Intern.findByUserId(userId);
+  if (!intern) throw new NotFoundError('No intern profile is linked to this account.');
+
+  const { personal, academic, skills, socialLinks, internship, full_name, phone, avatar_url } = req.body;
+
+  const user = await User.findById(userId);
+  if (!user) throw new NotFoundError('User not found.');
+
+  const currentPrefs = user.preferences || {};
+  const newPrefs = { ...currentPrefs };
+  const userUpdates = {};
+
+  if (personal) {
+    if (personal.firstName !== undefined || personal.lastName !== undefined) {
+      const fName = personal.firstName !== undefined ? String(personal.firstName).trim() : (newPrefs.firstName || '');
+      const lName = personal.lastName !== undefined ? String(personal.lastName).trim() : (newPrefs.lastName || '');
+      const combined = `${fName} ${lName}`.trim();
+      if (combined) {
+        userUpdates.full_name = combined;
+      }
+      newPrefs.firstName = fName;
+      newPrefs.lastName = lName;
+    }
+    if (personal.phone !== undefined) {
+      const p = personal.phone ? String(personal.phone).trim() : null;
+      userUpdates.phone = p;
+      newPrefs.phone = p;
+    }
+    if (personal.dob !== undefined) newPrefs.dob = personal.dob;
+    if (personal.gender !== undefined) newPrefs.gender = personal.gender;
+    if (personal.address !== undefined) newPrefs.address = personal.address;
+    if (personal.emergencyContactName !== undefined) newPrefs.emergencyContactName = personal.emergencyContactName;
+    if (personal.emergencyContactPhone !== undefined) newPrefs.emergencyContactPhone = personal.emergencyContactPhone;
+    if (personal.emergencyRelation !== undefined) newPrefs.emergencyRelation = personal.emergencyRelation;
+  }
+
+  if (full_name !== undefined) {
+    userUpdates.full_name = String(full_name).trim();
+  }
+  if (phone !== undefined) {
+    userUpdates.phone = phone ? String(phone).trim() : null;
+  }
+  if (avatar_url !== undefined) {
+    userUpdates.avatar_url = avatar_url;
+  }
+
+  if (academic) {
+    if (academic.degree !== undefined) newPrefs.degree = academic.degree;
+    if (academic.department !== undefined) newPrefs.department = academic.department;
+    if (academic.yearOfStudy !== undefined) newPrefs.yearOfStudy = academic.yearOfStudy;
+    if (academic.rollNumber !== undefined) newPrefs.rollNumber = academic.rollNumber;
+    if (academic.cgpa !== undefined) newPrefs.cgpa = academic.cgpa;
+    if (academic.college !== undefined) {
+      newPrefs.college = academic.college;
+      await Intern.update(intern.id, { college_name: academic.college });
+    }
+  }
+
+  if (skills !== undefined && Array.isArray(skills)) {
+    newPrefs.skills = skills;
+  }
+
+  if (socialLinks) {
+    newPrefs.socialLinks = {
+      ...(newPrefs.socialLinks || {}),
+      ...socialLinks
+    };
+  }
+
+  if (internship) {
+    if (internship.track !== undefined) newPrefs.track = internship.track;
+    if (internship.cohort !== undefined) newPrefs.cohort = internship.cohort;
+  }
+
+  userUpdates.preferences = newPrefs;
+  await User.update(userId, userUpdates);
+
+  const updatedProfile = await Intern.findByUserId(userId);
+  return success(res, 200, updatedProfile, 'Intern profile updated successfully');
+});
+
 export const getAvailableMentors = asyncHandler(async (req, res) => {
   const pool = (await import('../config/database.js')).default;
   // There is no 'MENTOR' role in this schema - mentors are tutors. The old

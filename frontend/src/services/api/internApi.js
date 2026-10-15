@@ -52,3 +52,14 @@ export const exportInterns = async (params = {}) => {
   });
   return response.data;
 };
+
+export const getMyInternProfile = async () => {
+  const response = await axiosInstance.get('/v1/interns/me');
+  return response.data?.data || response.data;
+};
+
+export const updateMyInternProfile = async (data) => {
+  const response = await axiosInstance.patch('/v1/interns/me', data);
+  return response.data?.data || response.data;
+};
+

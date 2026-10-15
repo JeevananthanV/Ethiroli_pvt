@@ -6,25 +6,136 @@ export default class Intern {
   static format(row) {
     if (!row) return null;
     const name = row.full_name ? decrypt(row.full_name) : (row.name || null);
-    const mentor = row.mentor_name ? decrypt(row.mentor_name) : (row.mentor || 'Assigned Mentor');
+    const mentorName = row.mentor_full_name
+      ? decrypt(row.mentor_full_name)
+      : (row.mentor_name ? decrypt(row.mentor_name) : (row.mentor_id ? 'Assigned Mentor' : 'Not Assigned Yet'));
+    const mentorEmail = row.mentor_email ? decrypt(row.mentor_email) : null;
+    const email = row.email ? decrypt(row.email) : null;
+    const phone = row.phone ? decrypt(row.phone) : null;
+
+    let rawPrefs = {};
+    if (row.preferences) {
+      try {
+        rawPrefs = typeof row.preferences === 'string' ? JSON.parse(row.preferences) : row.preferences;
+      } catch (e) {
+        rawPrefs = {};
+      }
+    }
+
+    let firstName = '';
+    let lastName = '';
+    if (name) {
+      const parts = name.trim().split(/\s+/);
+      firstName = parts[0] || '';
+      lastName = parts.slice(1).join(' ') || '';
+    }
+
+    const personal = {
+      firstName: rawPrefs.firstName || firstName,
+      lastName: rawPrefs.lastName || lastName,
+      email: email || '',
+      phone: phone || rawPrefs.phone || '',
+      dob: rawPrefs.dob || '',
+      gender: rawPrefs.gender || 'Not Specified',
+      address: rawPrefs.address || '',
+      emergencyContactName: rawPrefs.emergencyContactName || '',
+      emergencyContactPhone: rawPrefs.emergencyContactPhone || '',
+      emergencyRelation: rawPrefs.emergencyRelation || ''
+    };
+
+    const academic = {
+      college: row.college_name || rawPrefs.college || '',
+      degree: rawPrefs.degree || '',
+      department: rawPrefs.department || '',
+      yearOfStudy: rawPrefs.yearOfStudy || '',
+      rollNumber: rawPrefs.rollNumber || '',
+      cgpa: rawPrefs.cgpa || ''
+    };
+
+    const startDateStr = row.start_date ? new Date(row.start_date).toISOString().slice(0, 10) : '';
+    const endDateStr = row.end_date ? new Date(row.end_date).toISOString().slice(0, 10) : '';
+
+    const internship = {
+      track: rawPrefs.track || row.project_target || 'Full Stack Web Development',
+      cohort: rawPrefs.cohort || 'Cohort 2026',
+      startDate: startDateStr,
+      endDate: endDateStr,
+      mentorName: mentorName,
+      mentorEmail: mentorEmail,
+      assignedProject: row.project_target || rawPrefs.assignedProject || 'Full Stack Web Development',
+      stipend: row.stipend !== undefined && row.stipend !== null ? `₹${Number(row.stipend).toLocaleString('en-IN')}` : '₹0',
+      progress: Number(row.progress || 0),
+      status: row.status || (endDateStr && new Date(endDateStr) < new Date() ? 'COMPLETED' : 'ACTIVE')
+    };
+
+    const skills = Array.isArray(rawPrefs.skills) ? rawPrefs.skills : [];
+    const socialLinks = {
+      github: rawPrefs.socialLinks?.github || rawPrefs.github || '',
+      linkedin: rawPrefs.socialLinks?.linkedin || rawPrefs.linkedin || '',
+      portfolio: rawPrefs.socialLinks?.portfolio || rawPrefs.portfolio || '',
+      twitter: rawPrefs.socialLinks?.twitter || rawPrefs.twitter || ''
+    };
+
     return {
       ...row,
       full_name: name,
       name: name,
-      email: row.email ? decrypt(row.email) : null,
-      mentor_name: mentor,
-      mentor: mentor
+      email: email,
+      phone: phone,
+      avatar_url: row.avatar_url || null,
+      mentor_name: mentorName,
+      mentor: mentorName,
+      mentor_email: mentorEmail,
+      preferences: rawPrefs,
+      personal,
+      academic,
+      internship,
+      skills,
+      socialLinks
     };
   }
 
   static async findById(id) {
-    const [rows] = await pool.execute('SELECT * FROM interns WHERE id = ?', [id]);
+    const [rows] = await pool.execute(
+      `SELECT i.*, 
+              u.full_name, u.email, u.phone, u.avatar_url, u.preferences, u.created_at as user_created_at,
+              m.full_name as mentor_full_name, m.email as mentor_email, m.role as mentor_role
+       FROM interns i
+       JOIN users u ON i.user_id = u.id
+       LEFT JOIN users m ON i.mentor_id = m.id
+       WHERE i.id = ?`,
+      [id]
+    );
     return rows.length > 0 ? this.format(rows[0]) : null;
   }
 
   static async findByUserId(userId) {
-    const [rows] = await pool.execute('SELECT * FROM interns WHERE user_id = ?', [userId]);
-    return rows.length > 0 ? this.format(rows[0]) : null;
+    const [rows] = await pool.execute(
+      `SELECT i.*, 
+              u.full_name, u.email, u.phone, u.avatar_url, u.preferences, u.created_at as user_created_at,
+              m.full_name as mentor_full_name, m.email as mentor_email, m.role as mentor_role
+       FROM interns i
+       JOIN users u ON i.user_id = u.id
+       LEFT JOIN users m ON i.mentor_id = m.id
+       WHERE i.user_id = ?`,
+      [userId]
+    );
+    if (rows.length > 0) {
+      return this.format(rows[0]);
+    }
+
+    const [userRows] = await pool.execute('SELECT * FROM users WHERE id = ?', [userId]);
+    if (userRows.length === 0) return null;
+
+    const newId = crypto.randomUUID();
+    const college = 'Engineering Institution';
+    await pool.execute(
+      `INSERT INTO interns (id, user_id, college_name, stipend, start_date, end_date, project_target, progress)
+       VALUES (?, ?, ?, 15000, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 90 DAY), 'Full Stack Web Development', 10)`,
+      [newId, userId, college]
+    );
+
+    return this.findByUserId(userId);
   }
 
   static async create({ id = crypto.randomUUID(), user_id, mentor_id = null, college_name, stipend = 0, start_date, end_date, project_target = null, progress = 0 }) {
@@ -59,7 +170,8 @@ export default class Intern {
 
   static async list({ limit = 50, offset = 0 } = {}) {
     const [rows] = await pool.execute(
-      `SELECT i.*, u.email, u.full_name, m.full_name as mentor_name 
+      `SELECT i.*, u.email, u.full_name, u.phone, u.avatar_url, u.preferences,
+              m.full_name as mentor_name, m.email as mentor_email 
        FROM interns i
        JOIN users u ON i.user_id = u.id
        LEFT JOIN users m ON i.mentor_id = m.id

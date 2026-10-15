@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { useAuth } from '../../../common/contexts/AuthContext.jsx';
 import { fetchInternDashboardData } from '../../../store/slices/internsSlice.js';
-import InlineNotice from '../components/InlineNotice.jsx';
 import './Dashboard.css';
 
 export default function Dashboard() {
@@ -19,12 +18,7 @@ export default function Dashboard() {
   const profile = dashboard?.profile || {};
 
   /**
-   * Who to greet.
-   *
-   * The intern profile row is created empty by self-registration, so it has no
-   * name until someone fills the profile in. The signed-in account always does,
-   * so it is the reliable source. The old fallback was a developer's own name,
-   * which greeted every intern as "Good Morning, Jeevananthan".
+   * Dynamic greeting derived from authenticated user or profile
    */
   const firstName = useMemo(() => {
     const candidate = user?.full_name || user?.name || profile.full_name || '';
@@ -34,9 +28,9 @@ export default function Dashboard() {
 
   const greetingName = firstName || 'Intern';
 
-  // Dynamically driven by database payload with fallback resilience
-  const todayFocusList = useMemo(() => {
-    if (dashboard?.todayFocus && Array.isArray(dashboard.todayFocus)) {
+  // Dynamic Today Focus items with fallback resilience
+  const initialFocus = useMemo(() => {
+    if (dashboard?.todayFocus && Array.isArray(dashboard.todayFocus) && dashboard.todayFocus.length > 0) {
       return dashboard.todayFocus;
     }
     return [
@@ -47,12 +41,10 @@ export default function Dashboard() {
     ];
   }, [dashboard]);
 
-  const [todayFocus, setTodayFocus] = useState(todayFocusList);
-  // Replaces the native alert() the Join Session button used to fire.
-  const [notice, setNotice] = useState('');
+  const [todayFocus, setTodayFocus] = useState(initialFocus);
 
   useEffect(() => {
-    if (dashboard?.todayFocus) {
+    if (dashboard?.todayFocus && Array.isArray(dashboard.todayFocus)) {
       setTodayFocus(dashboard.todayFocus);
     }
   }, [dashboard]);
@@ -64,641 +56,569 @@ export default function Dashboard() {
   };
 
   const completedFocusCount = todayFocus.filter((f) => f.done).length;
-  const focusProgress = todayFocus.length > 0 ? Math.round((completedFocusCount / todayFocus.length) * 100) : 0;
 
-  // 6 Metric Cards - Dynamically supplied by database aggregation
-  const kpiCards = useMemo(() => {
-    if (dashboard?.kpiCards && Array.isArray(dashboard.kpiCards) && dashboard.kpiCards.length > 0) {
-      return dashboard.kpiCards;
-    }
-    return [
-      {
-        title: 'Internship Duration',
-        value: `Day ${profile.day_number || 18} / ${profile.total_days || 45}`,
-        subtext: `${profile.duration_progress || 40}% of duration elapsed`,
-        icon: 'bi-calendar-range',
-        bgClass: 'kpi-blue',
-        progress: profile.duration_progress || 40
-      },
-      {
-        title: 'Daily Tasks',
-        value: `${dashboard?.stats?.tasks_completed || 12} / ${dashboard?.stats?.total_tasks || 15}`,
-        subtext: '80% Completed',
-        icon: 'bi-check2-square',
-        bgClass: 'kpi-emerald',
-        progress: 80
-      },
-      {
-        title: 'Attendance',
-        value: `${dashboard?.stats?.attendance_rate || 94}%`,
-        subtext: '38 of 40 days present',
-        icon: 'bi-clock-history',
-        bgClass: 'kpi-cyan',
-        progress: dashboard?.stats?.attendance_rate || 94
-      },
-      {
-        title: 'Training Modules',
-        value: '68%',
-        subtext: 'Phase 2: In Progress',
-        icon: 'bi-journal-code',
-        bgClass: 'kpi-indigo',
-        progress: 68
-      },
-      {
-        title: 'Active Projects',
-        value: '2 Active',
-        subtext: 'Ethiroli Web Portal v2',
-        icon: 'bi-kanban',
-        bgClass: 'kpi-amber',
-        progress: 65
-      },
-      {
-        title: 'Overall Progress',
-        value: `${dashboard?.stats?.overall_progress || 72}%`,
-        subtext: 'On Track for Distinction',
-        icon: 'bi-award-fill',
-        bgClass: 'kpi-purple',
-        progress: dashboard?.stats?.overall_progress || 72
-      }
-    ];
-  }, [dashboard, profile]);
-
+  // Curriculum data
   const curriculum = dashboard?.curriculum || {
-    track: 'Full Stack Web Development (MERN)',
+    track: profile.domain || 'Full Stack Web Development (MERN)',
     progress: 72,
     currentModule: 'React.js → State Management & Routing',
     currentDescription: 'Mastering Redux Toolkit slices, selectors, and async thunks.',
     nextModule: 'Node.js → Express → MySQL'
   };
 
-  const mentorCard = dashboard?.mentorCard || {
-    // No invented mentor. A self-registered intern has no mentor assigned yet,
-    // and showing "Arun Kumar / Online" would be a fabricated person on a live
-    // dashboard - it tells the intern to expect a session that does not exist.
-    name: profile.mentor_name || null,
-    role: profile.mentor_name ? 'Assigned Mentor' : null,
-    status: profile.mentor_name ? 'Assigned' : 'Not assigned yet',
-    nextSession: null,
-    avatar: null
-  };
+  // 6 Metric KPI cards matching the screenshot
+  const kpis = [
+    {
+      title: 'Internship Duration',
+      value: `Day ${profile.day_number || 18} / ${profile.total_days || 45}`,
+      subtext: `${profile.duration_progress || 40}% of duration elapsed`,
+      progress: profile.duration_progress || 40,
+      iconClass: 'bi-calendar-event',
+      iconBoxStyle: { background: '#ecfdf5', color: '#10b981' },
+      barColor: '#10b981'
+    },
+    {
+      title: 'Daily Tasks',
+      value: `${dashboard?.stats?.tasks_completed ?? 12} / ${dashboard?.stats?.total_tasks ?? 15}`,
+      subtext: '80% Completed',
+      progress: 80,
+      iconClass: 'bi-check2-square',
+      iconBoxStyle: { background: '#eff6ff', color: '#3b82f6' },
+      barColor: '#3b82f6'
+    },
+    {
+      title: 'Attendance',
+      value: `${dashboard?.stats?.attendance_rate ?? 94}%`,
+      subtext: `${profile.present_days || 38} of ${profile.working_days || 40} days present`,
+      progress: dashboard?.stats?.attendance_rate ?? 94,
+      iconClass: 'bi-person',
+      iconBoxStyle: { background: '#f0fdf4', color: '#16a34a' },
+      barColor: '#059669'
+    },
+    {
+      title: 'Training Modules',
+      value: '68%',
+      subtext: 'Phase 2: In Progress',
+      progress: 68,
+      iconClass: 'bi-journal-code',
+      iconBoxStyle: { background: '#faf5ff', color: '#9333ea' },
+      barColor: '#9333ea'
+    },
+    {
+      title: 'Active Projects',
+      value: '2 Active',
+      subtext: 'Ethiroli Web Portal v2',
+      progress: 65,
+      iconClass: 'bi-briefcase',
+      iconBoxStyle: { background: '#fffbeb', color: '#f59e0b' },
+      barColor: '#f59e0b'
+    },
+    {
+      title: 'Overall Progress',
+      value: `${dashboard?.stats?.overall_progress ?? 72}%`,
+      subtext: 'On Track for Distinction',
+      progress: dashboard?.stats?.overall_progress ?? 72,
+      iconClass: 'bi-bullseye',
+      iconBoxStyle: { background: '#f0fdfa', color: '#0d9488' },
+      barColor: '#0d9488'
+    }
+  ];
 
+  // Schedule items matching the screenshot
   const upcomingSchedule = dashboard?.upcomingSchedule || [
     {
-      badge: 'TODAY',
-      time: '4:00',
-      color: 'primary',
+      pillClass: 'today',
+      day: 'TODAY',
+      time: '4:00 PM',
       title: 'Mentor Doubt Clearing Session',
       desc: 'Live code review on Redux thunk slice errors with Arun Kumar.'
     },
     {
-      badge: 'TOM',
+      pillClass: 'tom',
+      day: 'TOM',
       time: '23:59',
-      color: 'danger',
       title: 'Assignment 3 Submission Deadline',
       desc: 'PostgreSQL Schema Design & Relational Constraints verification.'
     },
     {
-      badge: 'FRI',
+      pillClass: 'fri',
+      day: 'FRI',
       time: '15:00',
-      color: 'info',
       title: 'Weekly Project Sprint Review',
       desc: 'Demoing responsive admin dashboard navigation to project lead.'
     }
   ];
 
-  const recentActivity = dashboard?.recentActivity || [
+  // Recent activity stream matching the screenshot
+  const recentActivities = dashboard?.recentActivity || [
     {
-      icon: 'bi-check2',
-      color: 'success',
+      icon: 'bi-check-circle-fill text-success',
       title: 'Completed task "Create Navbar & Search Component"',
       meta: '2 hours ago • Daily Tasks'
     },
     {
-      icon: 'bi-chat-quote',
-      color: 'primary',
+      icon: 'bi-star-fill text-warning',
       title: 'Mentor Arun Kumar reviewed and approved your Daily Work Log',
       meta: 'Yesterday at 6:30 PM • Rated ⭐⭐⭐⭐ (4/5)'
     },
     {
-      icon: 'bi-award',
-      color: 'warning',
+      icon: 'bi-file-earmark-check-fill text-success',
       title: 'Assignment 2 "REST API Integration & RBAC Guards" was graded: 92/100',
       meta: '2 days ago • Assignments'
     }
   ];
 
-  const quickNavCategories = [
+  // Intern Portal Modules 4-column categories
+  const portalModules = [
     {
       category: 'Learning & Curriculum',
-      icon: 'bi-mortarboard-fill',
       items: [
-        { title: 'Training Plan', desc: '45-Day curriculum roadmap', path: '/app/intern/training-plan', icon: 'bi-journal-code' },
-        { title: 'LMS Courses', desc: 'Video lectures & lesson tests', path: '/app/intern/courses', icon: 'bi-collection-play-fill' },
-        { title: 'Assignments', desc: 'Code submissions & grades', path: '/app/intern/assignments', icon: 'bi-file-earmark-code-fill' },
-        { title: 'Achievements', desc: 'Badges & performance rank', path: '/app/intern/achievements', icon: 'bi-trophy-fill' }
+        {
+          title: 'Training Plan',
+          desc: '45-Day curriculum roadmap',
+          path: '/app/intern/training-plan',
+          icon: 'bi-journal-code',
+          iconStyle: { background: '#ecfdf5', color: '#10b981' }
+        },
+        {
+          title: 'LMS Courses',
+          desc: 'Video lectures & lesson tests',
+          path: '/app/intern/courses',
+          icon: 'bi-collection-play',
+          iconStyle: { background: '#eff6ff', color: '#3b82f6' }
+        },
+        {
+          title: 'Assignments',
+          desc: 'Code submissions & grades',
+          path: '/app/intern/assignments',
+          icon: 'bi-file-earmark-code',
+          iconStyle: { background: '#faf5ff', color: '#9333ea' }
+        },
+        {
+          title: 'Achievements',
+          desc: 'Badges & performance rank',
+          path: '/app/intern/achievements',
+          icon: 'bi-trophy',
+          iconStyle: { background: '#fffbeb', color: '#f59e0b' }
+        }
       ]
     },
     {
       category: 'Daily Execution',
-      icon: 'bi-briefcase-fill',
       items: [
-        { title: 'Daily Tasks', desc: 'Jira-style task manager', path: '/app/intern/tasks', icon: 'bi-list-task' },
-        { title: 'Attendance', desc: 'Clock-in & monthly grid', path: '/app/intern/attendance', icon: 'bi-calendar-check-fill' },
-        { title: 'Daily Work Log', desc: 'Daily activity & learning report', path: '/app/intern/work-log', icon: 'bi-pencil-square' },
-        { title: 'Projects', desc: 'Team deliverables & links', path: '/app/intern/projects', icon: 'bi-kanban-fill' }
+        {
+          title: 'Daily Tasks',
+          desc: 'Jira-style task manager',
+          path: '/app/intern/tasks',
+          icon: 'bi-check2-square',
+          iconStyle: { background: '#ecfdf5', color: '#10b981' }
+        },
+        {
+          title: 'Attendance',
+          desc: 'Clock-in & monthly grid',
+          path: '/app/intern/attendance',
+          icon: 'bi-calendar-check',
+          iconStyle: { background: '#eff6ff', color: '#3b82f6' }
+        },
+        {
+          title: 'Daily Work Log',
+          desc: 'Daily activity & learning report',
+          path: '/app/intern/work-log',
+          icon: 'bi-pencil-square',
+          iconStyle: { background: '#faf5ff', color: '#9333ea' }
+        },
+        {
+          title: 'Projects',
+          desc: 'Team deliverables & links',
+          path: '/app/intern/projects',
+          icon: 'bi-briefcase',
+          iconStyle: { background: '#fffbeb', color: '#f59e0b' }
+        }
       ]
     },
     {
       category: 'Mentorship & Growth',
-      icon: 'bi-stars',
       items: [
-        { title: 'Mentor & Doubts', desc: 'Ask doubts & 1-on-1 sessions', path: '/app/intern/mentor', icon: 'bi-chat-left-dots-fill' },
-        { title: 'Messages', desc: 'Direct chat with mentor & HR', path: '/app/intern/messages', icon: 'bi-chat-text-fill' },
-        { title: 'Feedback', desc: 'Weekly evaluations & scores', path: '/app/intern/feedback', icon: 'bi-chat-heart-fill' },
-        { title: 'Support Help Desk', desc: 'Submit help tickets', path: '/app/intern/help', icon: 'bi-question-circle-fill' }
+        {
+          title: 'Mentor & Doubts',
+          desc: 'Ask doubts & 1-on-1 sessions',
+          path: '/app/intern/mentor',
+          icon: 'bi-people',
+          iconStyle: { background: '#eff6ff', color: '#3b82f6' }
+        },
+        {
+          title: 'Messages',
+          desc: 'Direct chat with mentor & HR',
+          path: '/app/intern/messages',
+          icon: 'bi-chat-dots',
+          iconStyle: { background: '#faf5ff', color: '#9333ea' }
+        },
+        {
+          title: 'Feedback',
+          desc: 'Weekly evaluations & scores',
+          path: '/app/intern/feedback',
+          icon: 'bi-chat-heart',
+          iconStyle: { background: '#fdf2f8', color: '#ec4899' }
+        },
+        {
+          title: 'Support',
+          desc: 'Help Desk\nSubmit help tickets',
+          path: '/app/intern/help',
+          icon: 'bi-question-circle',
+          iconStyle: { background: '#ecfdf5', color: '#10b981' }
+        }
       ]
     },
     {
       category: 'Portal Records',
-      icon: 'bi-folder-fill',
       items: [
-        { title: 'Calendar', desc: 'Events, sprints & deadlines', path: '/app/intern/calendar', icon: 'bi-calendar3' },
-        { title: 'Documents', desc: 'Offer letters, policies & vault', path: '/app/intern/documents', icon: 'bi-file-earmark-text-fill' },
-        { title: 'Certificates', desc: 'Eligibility & verified credential', path: '/app/intern/certificates', icon: 'bi-award-fill' },
-        { title: 'My Profile', desc: 'Academic, skills & security', path: '/app/intern/profile', icon: 'bi-person-circle' }
+        {
+          title: 'Calendar',
+          desc: 'Events, sprints & deadlines',
+          path: '/app/intern/calendar',
+          icon: 'bi-calendar3',
+          iconStyle: { background: '#faf5ff', color: '#9333ea' }
+        },
+        {
+          title: 'Documents',
+          desc: 'Offer letters, policies & vault',
+          path: '/app/intern/documents',
+          icon: 'bi-file-earmark-text',
+          iconStyle: { background: '#fef2f2', color: '#ef4444' }
+        },
+        {
+          title: 'Certificates',
+          desc: 'Eligibility & verified credential',
+          path: '/app/intern/certificates',
+          icon: 'bi-award',
+          iconStyle: { background: '#fffbeb', color: '#f59e0b' }
+        },
+        {
+          title: 'My Profile',
+          desc: 'Academic, skills & security',
+          path: '/app/intern/profile',
+          icon: 'bi-person',
+          iconStyle: { background: '#f0fdfa', color: '#0d9488' }
+        }
       ]
     }
   ];
 
   return (
     <AdminPage
-      title="Intern Command Center"
-      subtitle="Your unified dashboard for daily tasks, curriculum learning, mentorship, and deliverables"
       loading={loading}
       error={error}
       onRetry={() => dispatch(fetchInternDashboardData())}
     >
-      <div className="intern-dashboard">
-        {/* Top Command Center Banner */}
-        <section aria-labelledby="welcome-heading">
-          <div className="intern-welcome-card shadow-sm">
-            <div className="intern-welcome-info">
-              <div className="d-flex align-items-center gap-2 mb-1 flex-wrap">
-                <span className="badge bg-primary-subtle text-primary border px-2 py-1 small fw-semibold">
-                  <i className="bi bi-code-slash me-1"></i> {curriculum.track}
-                </span>
-                <span className="badge bg-success-subtle text-success border px-2 py-1 small fw-semibold">
-                  <i className="bi bi-clock-history me-1"></i>{' '}
-                  {profile.total_days > 0
-                    ? `Day ${profile.day_number} of ${profile.total_days}`
-                    : 'Schedule not set'}
-                </span>
-                <span className="badge bg-info-subtle text-info border px-2 py-1 small fw-semibold">
-                  <i className="bi bi-patch-check-fill me-1"></i> Active Intern
-                </span>
-              </div>
-              <h2 id="welcome-heading" className="fw-bold mb-1">
-                Good Morning, {greetingName} 👋
-              </h2>
-              <p className="text-muted small mb-0">
-                You're making great strides on the Ethiroli Web Portal. Here's your mission plan for today.
-              </p>
+      <div className="intern-dashboard-root">
+        {/* 1. TOP COMMAND CENTER BANNER */}
+        <section className="ims-banner-card" aria-label="Intern Command Center Overview">
+          <div className="ims-banner-left">
+            <span className="ims-banner-pill-intern">INTERN</span>
+            <h1 className="ims-banner-title">Intern Command Center</h1>
+            <p className="ims-banner-subtitle">
+              Your unified dashboard for daily tasks, curriculum learning, mentorship, and deliverables
+            </p>
+            <div className="ims-banner-chips">
+              <span className="ims-banner-chip-track">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" fill="currentColor"/>
+                </svg>
+                {curriculum.track || 'Full Stack Web Development (MERN)'}
+              </span>
+              <span className="ims-banner-chip-schedule">
+                <i className="bi bi-calendar3" aria-hidden="true"></i>
+                {profile.total_days > 0 ? `Day ${profile.day_number || 18} of ${profile.total_days}` : 'Schedule not set'}
+              </span>
             </div>
-            <div className="intern-welcome-action d-flex flex-wrap gap-2">
-              <Link
-                to="/app/intern/attendance"
-                className="btn btn-primary d-inline-flex align-items-center gap-2 shadow-sm"
-                style={{ minHeight: '42px', paddingLeft: '1.1rem', paddingRight: '1.1rem' }}
-              >
-                <i className="bi bi-clock-fill"></i> Today's Attendance
-              </Link>
-              <Link
-                to="/app/intern/tasks"
-                className="btn btn-outline-primary d-inline-flex align-items-center gap-2 bg-white"
-                style={{ minHeight: '42px', paddingLeft: '1.1rem', paddingRight: '1.1rem' }}
-              >
-                <i className="bi bi-list-check"></i> Today's Tasks
-              </Link>
-              <Link
-                to="/app/intern/mentor"
-                className="btn btn-outline-secondary d-inline-flex align-items-center gap-2 bg-white"
-                style={{ minHeight: '42px', paddingLeft: '1.1rem', paddingRight: '1.1rem' }}
-              >
-                <i className="bi bi-chat-dots-fill"></i> Ask Mentor
-              </Link>
+          </div>
+
+          <div className="ims-banner-right">
+            <div className="ims-banner-brand-logo">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#065f46" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" fill="#10b981"/>
+              </svg>
+              <span>ETHIROLI</span>
             </div>
+            <h2 className="ims-banner-greeting">Good Morning, {greetingName} 👋</h2>
+            <p className="ims-banner-msg1">You're making great strides on the Ethiroli Web Portal.</p>
+            <p className="ims-banner-msg2">Here's your mission plan for today.</p>
+          </div>
+
+          {/* Botanical foliage illustration on the right edge */}
+          <div className="ims-banner-botanical-art" aria-hidden="true">
+            <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
+              <defs>
+                <linearGradient id="botanicalGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#34d399" />
+                  <stop offset="60%" stopColor="#059669" />
+                  <stop offset="100%" stopColor="#064e3b" />
+                </linearGradient>
+                <linearGradient id="botanicalGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#6ee7b7" />
+                  <stop offset="70%" stopColor="#10b981" />
+                  <stop offset="100%" stopColor="#047857" />
+                </linearGradient>
+                <linearGradient id="botanicalGrad3" x1="100%" y1="100%" x2="0%" y2="0%">
+                  <stop offset="0%" stopColor="#059669" />
+                  <stop offset="80%" stopColor="#10b981" />
+                  <stop offset="100%" stopColor="#a7f3d0" />
+                </linearGradient>
+              </defs>
+              <path d="M120 160C120 100 80 60 70 30C95 40 140 85 145 160Z" fill="url(#botanicalGrad1)" opacity="0.85" />
+              <path d="M150 160C140 90 105 30 85 0C120 10 165 60 160 160Z" fill="url(#botanicalGrad2)" opacity="0.9" />
+              <path d="M100 160C90 110 50 60 25 45C60 40 120 90 130 160Z" fill="url(#botanicalGrad3)" opacity="0.95" />
+              <path d="M80 160C70 125 35 90 0 80C35 70 90 105 105 160Z" fill="url(#botanicalGrad2)" opacity="0.9" />
+            </svg>
           </div>
         </section>
 
-        {/* 6 Key Performance Metric Cards */}
-        <section aria-label="Key Performance Indicators">
-          <div className="row g-4 ims-kpi-grid">
-            {/* Same card structure as the project cards in Projects.jsx, so the
-                two read as the same component: a label row, a title, a muted
-                caption, then a bordered footer holding the figure and its
-                progress bar. Previously these were a bespoke div-based card,
-                which is why the dashboard looked like a different system.
-
-                The outer grid replaces col-xxl-2: six Bootstrap columns only
-                start at 1400px, but the 270px sidebar leaves so little of it
-                that each card was 130px wide and the title split mid-word. */}
-            {kpiCards.map((kpi) => (
-              <div key={kpi.title} className="ims-kpi-cell">
-                <div className="card shadow-sm h-100 kpi-card">
-                  <div className="card-body p-3 d-flex flex-column">
-                    <div className="d-flex justify-content-between align-items-start mb-2 gap-2">
-                      <span className="badge bg-primary-subtle text-primary border kpi-badge">
-                        {kpi.title}
-                      </span>
-                      <span className={`kpi-icon-pill flex-shrink-0 ${kpi.bgClass}`}>
-                        <i className={`bi ${kpi.icon}`} aria-hidden="true"></i>
-                      </span>
-                    </div>
-
-                    <h5 className="fw-bold mb-1 text-dark kpi-value">{kpi.value}</h5>
-                    <p className="text-muted small mb-3 kpi-subtext">{kpi.subtext}</p>
-
-                    <div className="mt-auto border-top pt-3">
-                      <div className="d-flex justify-content-between small text-muted mb-1">
-                        <span>Progress</span>
-                        <span className="fw-bold text-primary">{kpi.progress}%</span>
-                      </div>
-                      <div className="progress" style={{ height: '6px' }}>
-                        <div
-                          className="progress-bar bg-primary"
-                          role="progressbar"
-                          style={{ width: `${kpi.progress}%` }}
-                          aria-valuenow={kpi.progress}
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                          aria-label={`${kpi.title} progress`}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
+        {/* 2. 6 KPI METRIC CARDS ROW */}
+        <section className="ims-kpis-grid" aria-label="Key Performance Indicators">
+          {kpis.map((kpi, idx) => (
+            <div key={idx} className="ims-kpi-card">
+              <div className="ims-kpi-top">
+                <div className="ims-kpi-icon-box" style={kpi.iconBoxStyle}>
+                  <i className={`bi ${kpi.iconClass}`} aria-hidden="true"></i>
                 </div>
+                <span className="ims-kpi-title">{kpi.title}</span>
               </div>
-            ))}
-          </div>
+              <div className="ims-kpi-value">{kpi.value}</div>
+              <div className="ims-kpi-subtext">{kpi.subtext}</div>
+              <div className="ims-kpi-progress-wrap">
+                <div className="ims-kpi-progress-track">
+                  <div
+                    className="ims-kpi-progress-bar"
+                    style={{ width: `${kpi.progress}%`, backgroundColor: kpi.barColor }}
+                    aria-valuenow={kpi.progress}
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    role="progressbar"
+                  />
+                </div>
+                <span className="ims-kpi-progress-pct">{kpi.progress}%</span>
+              </div>
+            </div>
+          ))}
         </section>
 
-        {/* Middle Row: Today's Focus & Training Progress + Mentor Card */}
-        <div className="row g-4">
-          {/* Left Column: Today's Focus (Must Do Today) */}
-          <div className="col-lg-7">
-            {/* ims-fill-card: this card is stretched to match the Curriculum +
-                Mentor stack beside it, and its four rows used to sit at the top
-                with ~200px of dead space below. Filling the column lets the
-                rows spread over the full height instead. */}
-            <div className="card shadow-sm border-0 h-100 ims-fill-card">
-              {/* Header carries an SVG progress ring. It replaces the previous
-                  "0/4 DONE (0%)" text badge AND the separate 6px bar below it -
-                  the ring shows the same information without spending a second
-                  row of header height, and it reads at a glance where a
-                  percentage chip does not. */}
-              <div className="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center gap-3">
-                <div className="min-w-0">
-                  <h5 className="mb-0 fw-bold text-dark d-flex align-items-center gap-2">
-                    <i className="bi bi-bullseye text-danger"></i> Today’s Focus
-                  </h5>
-                  <small className="text-muted">High priority execution items scheduled for today</small>
+        {/* 3. MIDDLE SECTION: 3 COLUMNS */}
+        <div className="ims-middle-grid">
+          {/* COLUMN 1: TODAY'S FOCUS */}
+          <section className="ims-card ims-focus-card" aria-label="Today's Focus">
+            <div className="ims-focus-header">
+              <div className="ims-focus-header-left">
+                <div className="ims-focus-icon-circle">
+                  <i className="bi bi-bullseye" aria-hidden="true"></i>
                 </div>
-                <div className="ims-ring" role="img"
-                  aria-label={`${completedFocusCount} of ${todayFocus.length} tasks done`}>
-                  <svg viewBox="0 0 56 56" className="ims-ring-svg" aria-hidden="true">
-                    <circle className="ims-ring-track" cx="28" cy="28" r="24" />
-                    <circle
-                      className="ims-ring-bar"
-                      cx="28" cy="28" r="24"
-                      strokeDasharray={`${2 * Math.PI * 24}`}
-                      strokeDashoffset={`${2 * Math.PI * 24 * (1 - focusProgress / 100)}`}
-                      transform="rotate(-90 28 28)"
-                    />
-                  </svg>
-                  <span className="ims-ring-text">{focusProgress}%</span>
+                <div>
+                  <h2 className="ims-focus-title">Today's Focus</h2>
+                  <p className="ims-focus-subtitle">High priority execution items scheduled for today</p>
                 </div>
               </div>
+              <span className="ims-focus-badge-count">
+                {completedFocusCount} / {todayFocus.length} tasks completed today
+              </span>
+            </div>
 
-              <div className="card-body p-3 pt-0 d-flex flex-column">
-                {/* Vertical stepper. The numbered rail replaces the checkbox-in-a-
-                    pill-plus-"Open" button rows: the rail runs down the left of
-                    every item, so the sequence reads as one continuous flow
-                    rather than four unrelated rows, and the current state is
-                    visible from the rail fill instead of from a progress bar. */}
-                <ol className="ims-stepper">
-                  {todayFocus.map((item, idx) => (
-                    <li key={item.id} className={`ims-step ${item.done ? 'is-done' : ''}`}>
-                      <div
-                        className="ims-step-marker"
-                        role="button"
-                        tabIndex={0}
-                        onClick={() => toggleFocus(item.id)}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            toggleFocus(item.id);
-                          }
-                        }}
-                        aria-pressed={item.done}
-                        aria-label={item.done ? `Mark "${item.text}" as pending` : `Mark "${item.text}" as done`}
-                        title={item.done ? 'Mark pending' : 'Mark done'}
-                      >
-                        <span className="ims-step-dot">
-                          {item.done ? (
-                            <i className="bi bi-check" aria-hidden="true"></i>
-                          ) : (
-                            idx + 1
-                          )}
-                        </span>
-                        {idx < todayFocus.length - 1 && <span className="ims-step-rail" aria-hidden="true"></span>}
-                      </div>
-
-                      <div className="ims-step-body d-flex align-items-center gap-3">
-                        <div className="min-w-0 flex-grow-1">
-                          <div className="ims-step-title">{item.text}</div>
-                          <div className="ims-step-sub">
-                            {item.done ? 'Done · tap to undo' : 'Pending · tap the step to complete'}
-                          </div>
-                        </div>
-                        <button
-                          type="button"
-                          className={`btn btn-sm px-3 rounded-pill flex-shrink-0 ${item.done ? 'btn-outline-secondary' : 'btn-outline-success'}`}
-                          style={{ minHeight: '34px' }}
-                          onClick={() => toggleFocus(item.id)}
-                          aria-pressed={item.done}
-                          aria-label={item.done ? `Mark "${item.text}" as undone` : `Mark "${item.text}" as done`}
-                        >
-                          {item.done ? (
-                            <>
-                              <i className="bi bi-arrow-counterclockwise me-1"></i> Mark Undone
-                            </>
-                          ) : (
-                            <>
-                              <i className="bi bi-check2-circle me-1"></i> Mark Done
-                            </>
-                          )}
-                        </button>
-                        <Link
-                          to={item.link}
-                          className="btn btn-outline-primary btn-sm px-3 rounded-pill flex-shrink-0"
-                          style={{ minHeight: '34px' }}
-                        >
-                          Open <i className="bi bi-arrow-right ms-1"></i>
-                        </Link>
-                      </div>
-                    </li>
-                  ))}
-                </ol>
-
-                {/* Footer summary. The total count used to only exist as the
-                    header badge; putting it here gives the card a defined
-                    bottom edge like every other card on this dashboard. */}
-                <div className="mt-auto pt-3 border-top d-flex justify-content-between align-items-center small">
-                  <span className="text-muted">
-                    <strong className="text-dark">{completedFocusCount}</strong>
-                    <span className="text-muted"> / {todayFocus.length} tasks completed today</span>
-                  </span>
-                  <div className="d-flex gap-3">
-                    <button
-                      type="button"
-                      className="btn btn-link btn-sm p-0 text-decoration-none fw-semibold"
-                      onClick={() => todayFocus.forEach((f) => !f.done && toggleFocus(f.id))}
-                      disabled={completedFocusCount === todayFocus.length}
-                    >
-                      Mark all done
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-link btn-sm p-0 text-decoration-none fw-semibold"
-                      onClick={() => todayFocus.forEach((f) => f.done && toggleFocus(f.id))}
-                      disabled={completedFocusCount === 0}
-                    >
-                      Mark all undone
-                    </button>
+            <div className="ims-focus-list">
+              {todayFocus.map((item, index) => (
+                <div
+                  key={item.id}
+                  className="ims-focus-row"
+                  onClick={() => toggleFocus(item.id)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      toggleFocus(item.id);
+                    }
+                  }}
+                  aria-pressed={item.done}
+                >
+                  <div className={`ims-focus-num ${item.done ? 'done' : ''}`}>
+                    {item.done ? <i className="bi bi-check-lg" aria-hidden="true"></i> : index + 1}
                   </div>
+                  <div className="ims-focus-row-content">
+                    <div className="ims-focus-row-title">{item.text}</div>
+                    <div className="ims-focus-row-meta">
+                      {item.done ? (
+                        <span className="ims-focus-done-badge">Completed</span>
+                      ) : (
+                        <span className="ims-focus-pending-badge">Pending</span>
+                      )}
+                      <span className="ims-focus-hint">· tap the step to complete</span>
+                    </div>
+                  </div>
+                  <i className="bi bi-chevron-right ims-focus-chevron" aria-hidden="true"></i>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* COLUMN 2: CURRICULUM PROGRESS */}
+          <section className="ims-card ims-curriculum-card" aria-label="Curriculum Progress">
+            <div className="ims-curriculum-header">
+              <i className="bi bi-book" aria-hidden="true"></i>
+              <h2>Curriculum Progress</h2>
+            </div>
+
+            <div className="ims-curriculum-gauge-row">
+              <div className="ims-donut-gauge" aria-hidden="true">
+                <svg viewBox="0 0 68 68" className="ims-donut-svg">
+                  <circle className="ims-donut-track" cx="34" cy="34" r="26" />
+                  <circle
+                    className="ims-donut-fill"
+                    cx="34"
+                    cy="34"
+                    r="26"
+                    strokeDasharray={`${2 * Math.PI * 26}`}
+                    strokeDashoffset={`${2 * Math.PI * 26 * (1 - (curriculum.progress || 72) / 100)}`}
+                  />
+                </svg>
+                <div className="ims-donut-text">{curriculum.progress || 72}%</div>
+              </div>
+
+              <div className="ims-curriculum-gauge-info">
+                <h3 className="ims-curriculum-track-name">{curriculum.track}</h3>
+                <span className="ims-curriculum-pct-label">{curriculum.progress || 72}% complete</span>
+                <span className="ims-curriculum-days-label">
+                  Day {profile.day_number || 18} of {profile.total_days || 45}
+                </span>
+              </div>
+            </div>
+
+            <div className="ims-curriculum-sublabel">Current module</div>
+            <div className="ims-curriculum-module-box">
+              <div className="ims-curriculum-mod-icon react-icon">
+                <i className="bi bi-atom" aria-hidden="true"></i>
+              </div>
+              <div className="ims-curriculum-mod-info">
+                <div className="ims-curriculum-mod-title">{curriculum.currentModule}</div>
+                <div className="ims-curriculum-mod-desc">{curriculum.currentDescription}</div>
+              </div>
+            </div>
+
+            <div className="ims-curriculum-sublabel">Next</div>
+            <Link to="/app/intern/training-plan" className="ims-curriculum-module-box text-decoration-none">
+              <div className="ims-curriculum-mod-icon node-icon">
+                <i className="bi bi-code-slash" aria-hidden="true"></i>
+              </div>
+              <div className="ims-curriculum-mod-info">
+                <div className="ims-curriculum-mod-title">{curriculum.nextModule}</div>
+              </div>
+              <i className="bi bi-chevron-right text-muted" aria-hidden="true"></i>
+            </Link>
+
+            <div className="ims-curriculum-mentor-box">
+              <div className="ims-mentor-avatar-icon">
+                <i className="bi bi-person" aria-hidden="true"></i>
+              </div>
+              <div className="ims-mentor-box-info">
+                <div className="ims-mentor-box-title">Assigned Mentor</div>
+                <div className="ims-mentor-box-status">
+                  {profile.mentor_name ? profile.mentor_name : 'Not assigned yet'}
+                </div>
+                <div className="ims-mentor-box-helper">
+                  {profile.mentor_name
+                    ? 'Your dedicated mentor for doubt clearing and reviews.'
+                    : 'No mentor assigned yet.\nYour mentor will be assigned shortly.'}
                 </div>
               </div>
             </div>
-          </div>
+          </section>
 
-          {/* Right Column: Training Progress & Assigned Mentor */}
-          <div className="col-lg-5">
-            <div className="d-flex flex-column gap-3 h-100">
-              {/* Curriculum Progress */}
-              <div className="card shadow-sm border-0 ims-curriculum">
-                <div className="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center gap-2">
-                  <h5 className="mb-0 fw-bold text-dark d-flex align-items-center gap-2">
-                    <i className="bi bi-mortarboard-fill text-primary"></i> Curriculum Progress
-                  </h5>
-                  {/* The percentage moved up into the header. It used to sit on
-                      the same flex line as the track name, and neither span could
-                      shrink, so "72% Completed" ran off the right edge of the
-                      card on this narrower column. */}
-                  <span className="ims-pct-pill flex-shrink-0">{curriculum.progress}%</span>
+          {/* COLUMN 3: STACKED SCHEDULE & ACTIVITY FEED */}
+          <div className="ims-stacked-right">
+            {/* Upper: Upcoming Deadlines & Schedule */}
+            <section className="ims-card ims-schedule-card" aria-label="Upcoming Deadlines and Schedule">
+              <div className="ims-section-top-bar">
+                <div className="ims-section-top-left">
+                  <i className="bi bi-calendar3" aria-hidden="true"></i>
+                  <h2>Upcoming Deadlines & Schedule</h2>
                 </div>
-                <div className="card-body p-3 pt-0">
-                  <div className="ims-track">{curriculum.track}</div>
-
-                  <div className="progress mb-2" style={{ height: '8px' }}>
-                    <div
-                      className="progress-bar bg-primary"
-                      role="progressbar"
-                      style={{ width: `${curriculum.progress}%` }}
-                      aria-valuenow={curriculum.progress}
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                      aria-label={`${curriculum.track} progress`}
-                    ></div>
-                  </div>
-                  <div className="d-flex justify-content-between align-items-center small text-muted mb-3">
-                    <span>{curriculum.progress}% complete</span>
-                    <span>Day {Math.min(profile.day_number || 18, profile.total_days || 45)} of {profile.total_days || 45}</span>
-                  </div>
-
-                  <div className="ims-panel mb-3">
-                    <span className="ims-panel-label">Current module</span>
-                    <div className="fw-semibold text-dark small mb-1">{curriculum.currentModule}</div>
-                    <p className="text-muted small mb-0">{curriculum.currentDescription}</p>
-                  </div>
-
-                  <div className="d-flex justify-content-between align-items-center gap-2 pt-3 border-top">
-                    <span className="text-muted small text-truncate">
-                      <strong className="text-dark">Next:</strong> {curriculum.nextModule}
-                    </span>
-                    <Link
-                      to="/app/intern/training-plan"
-                      className="fw-semibold text-primary text-decoration-none flex-shrink-0"
-                    >
-                      Roadmap <i className="bi bi-chevron-right"></i>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-
-              {/* Mentor Card */}
-              <div className="card shadow-sm border-0">
-                <div className="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
-                  <h5 className="mb-0 fw-bold text-dark d-flex align-items-center gap-2">
-                    <i className="bi bi-person-workspace text-info"></i> Assigned Mentor
-                  </h5>
-                  <span className={`badge ${mentorCard.name ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary'}`}>
-                    {mentorCard.status}
-                  </span>
-                </div>
-                <div className="card-body p-3 pt-0">
-                  <div className="d-flex align-items-center gap-3 mb-3">
-                    <div className="avatar-circle bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold fs-5" style={{ width: '48px', height: '48px' }}>
-                      {mentorCard.avatar || <i className="bi bi-person" aria-hidden="true"></i>}
-                    </div>
-                    <div>
-                      <h6 className="fw-bold mb-0 text-dark">{mentorCard.name || 'No mentor assigned yet'}</h6>
-                      {mentorCard.role && <small className="text-muted d-block">{mentorCard.role}</small>}
-                    </div>
-                  </div>
-
-                  {mentorCard.nextSession ? (
-                    <div className="p-2 bg-info-subtle rounded-2 border border-info-subtle mb-3 small d-flex align-items-center justify-content-between">
-                      <span><i className="bi bi-calendar-event me-2 text-info"></i>Next Session:</span>
-                      <strong className="text-dark">{mentorCard.nextSession}</strong>
-                    </div>
-                  ) : (
-                    <div className="p-2 bg-light rounded-2 border mb-3 small text-muted">
-                      <i className="bi bi-info-circle me-2"></i>
-                      {/* An assigned mentor with no scheduled session is a
-                          different state from having no mentor at all. The old
-                          single message told someone with a mentor that one
-                          "would be assigned shortly". */}
-                      {mentorCard.name
-                        ? 'No session scheduled yet. Sessions appear here once booked.'
-                        : 'Your mentor will be assigned shortly.'}
-                    </div>
-                  )}
-
-                  <div className="d-flex gap-2">
-                    <button
-                      className="btn btn-primary btn-sm flex-grow-1"
-                      style={{ minHeight: '36px' }}
-                      onClick={() => setNotice('Opening your mentoring session…')}
-                    >
-                      <i className="bi bi-camera-video-fill me-1"></i> Join Session
-                    </button>
-                    <Link
-                      to="/app/intern/messages"
-                      className="btn btn-outline-secondary btn-sm flex-grow-1"
-                      style={{ minHeight: '36px' }}
-                    >
-                      <i className="bi bi-chat-dots me-1"></i> Message
-                    </Link>
-                  </div>
-                  {notice && (
-                    <div className="mt-3">
-                      <InlineNotice message={notice} onDismiss={() => setNotice('')} />
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Schedule / Deadlines & Activity Feed */}
-        <div className="row g-4">
-          {/* Upcoming Schedule & Deadlines */}
-          <div className="col-lg-6">
-            <div className="card shadow-sm border-0 h-100">
-              <div className="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
-                <h5 className="mb-0 fw-bold text-dark d-flex align-items-center gap-2">
-                  <i className="bi bi-calendar3-event text-warning"></i> Upcoming Deadlines & Schedule
-                </h5>
-                <Link to="/app/intern/calendar" className="small text-decoration-none fw-semibold">
-                  Full Calendar <i className="bi bi-chevron-right"></i>
+                <Link to="/app/intern/calendar" className="ims-section-link">
+                  Full Calendar
                 </Link>
               </div>
-              <div className="card-body p-3 pt-0">
-                <div className="d-flex flex-column gap-3">
-                  {upcomingSchedule.map((item, idx) => (
-                    <div key={idx} className="d-flex align-items-start gap-3 p-3 bg-light rounded-3 border">
-                      {/* flex-column is required: admin.css sets .badge to
-                          display:inline-flex, so without it the day label and
-                          the time sat side by side, the pill grew to ~110px and
-                          the title ran underneath it. */}
-                      <div
-                        className={`badge bg-${item.color} p-2 text-center rounded-2 flex-column`}
-                        style={{ minWidth: '52px', flexShrink: 0 }}
-                      >
-                        <span className="small text-uppercase">{item.badge}</span>
-                        <strong className="fs-6">{item.time}</strong>
-                      </div>
-                      {/* min-w-0 lets a long title wrap instead of forcing the
-                          row wider than the card. */}
-                      <div className="min-w-0 flex-grow-1">
-                        <h6 className="fw-bold mb-0 text-dark">{item.title}</h6>
-                        <p className="text-muted small mb-0">{item.desc}</p>
-                      </div>
+
+              <div className="ims-schedule-list">
+                {upcomingSchedule.map((item, idx) => (
+                  <div key={idx} className="ims-schedule-item">
+                    <div className={`ims-schedule-pill ${item.pillClass}`}>
+                      <span className="ims-pill-day">{item.day}</span>
+                      <span className="ims-pill-time">{item.time}</span>
                     </div>
-                  ))}
+                    <div className="ims-schedule-item-info">
+                      <div className="ims-schedule-item-title">{item.title}</div>
+                      <div className="ims-schedule-item-desc">{item.desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Lower: Recent Activity Stream */}
+            <section className="ims-card ims-activity-card" aria-label="Recent Activity Stream">
+              <div className="ims-section-top-bar">
+                <div className="ims-section-top-left">
+                  <i className="bi bi-clock-history" aria-hidden="true"></i>
+                  <h2>Recent Activity Stream</h2>
+                </div>
+                <Link to="/app/intern/tasks" className="ims-section-link">
+                  View All
+                </Link>
+              </div>
+
+              <div className="ims-activity-list">
+                {recentActivities.map((act, idx) => (
+                  <div key={idx} className="ims-activity-item">
+                    <div className="ims-activity-dot-icon">
+                      <i className={`bi ${act.icon}`} aria-hidden="true"></i>
+                    </div>
+                    <div className="ims-activity-item-info">
+                      <div className="ims-activity-item-title">{act.title}</div>
+                      <div className="ims-activity-item-meta">{act.meta}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="ims-activity-empty-footer">
+                <i className="bi bi-file-earmark-medical" aria-hidden="true"></i>
+                <div className="ims-activity-empty-title">No recent activity.</div>
+                <div className="ims-activity-empty-desc">
+                  Your activity will appear here once you start completing tasks and interacting with the portal
                 </div>
               </div>
-            </div>
-          </div>
-
-          {/* Recent Activity Feed */}
-          <div className="col-lg-6">
-            <div className="card shadow-sm border-0 h-100">
-              <div className="card-header bg-white py-3 border-0">
-                <h5 className="mb-0 fw-bold text-dark d-flex align-items-center gap-2">
-                  <i className="bi bi-clock-history text-secondary"></i> Recent Activity Stream
-                </h5>
-              </div>
-              <div className="card-body p-3 pt-0">
-                <ul className="timeline-list list-unstyled mb-0">
-                  {recentActivity.map((act, idx) => (
-                    <li key={idx} className="timeline-item d-flex gap-3 pb-3 border-bottom mb-3">
-                      <div className={`timeline-icon bg-${act.color}-subtle text-${act.color} rounded-circle d-flex align-items-center justify-content-center`} style={{ width: '32px', height: '32px' }}>
-                        <i className={`bi ${act.icon}`}></i>
-                      </div>
-                      <div>
-                        <p className="mb-0 text-dark small">{act.title}</p>
-                        <small className="text-muted">{act.meta}</small>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+            </section>
           </div>
         </div>
 
-        {/* Categorized Quick Access Portal Navigation */}
-        <section aria-labelledby="portal-nav-heading">
-          <div className="intern-section-header mb-3">
-            <h5 id="portal-nav-heading" className="fw-bold mb-0 text-dark d-flex align-items-center gap-2">
-              <i className="bi bi-grid-fill text-primary"></i> Intern Portal Modules
-            </h5>
+        {/* 4. BOTTOM SECTION: INTERN PORTAL MODULES */}
+        <section className="ims-card ims-modules-card" aria-label="Intern Portal Modules">
+          <div className="ims-modules-header">
+            <i className="bi bi-grid-fill" aria-hidden="true"></i>
+            <h2>Intern Portal Modules</h2>
           </div>
-          <div className="row g-3 ims-module-grid">
-            {quickNavCategories.map((cat) => (
-              <div key={cat.category} className="ims-module-cell">
-                <div className="intern-portal-category shadow-sm">
-                  <h6 className="intern-category-title">
-                    <i className={`bi ${cat.icon}`}></i> {cat.category}
-                  </h6>
-                  <ul className="intern-tile-list" role="list">
-                    {cat.items.map((item) => (
-                      <li key={item.path} role="listitem">
-                        <Link to={item.path} className="intern-nav-tile">
-                          <div className="intern-tile-icon">
-                            <i className={`bi ${item.icon}`}></i>
-                          </div>
-                          <div className="intern-tile-content">
-                            <span className="intern-tile-name">{item.title}</span>
-                            <span className="intern-tile-desc">{item.desc}</span>
-                          </div>
-                          <i className="bi bi-chevron-right intern-tile-arrow"></i>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+
+          <div className="ims-modules-grid">
+            {portalModules.map((col, idx) => (
+              <div key={idx} className="ims-modules-col">
+                <div className="ims-modules-col-header">{col.category}</div>
+                <div className="ims-modules-list">
+                  {col.items.map((item, itemIdx) => (
+                    <Link key={itemIdx} to={item.path} className="ims-module-tile">
+                      <div className="ims-module-tile-icon" style={item.iconStyle}>
+                        <i className={`bi ${item.icon}`} aria-hidden="true"></i>
+                      </div>
+                      <div className="ims-module-tile-content">
+                        <span className="ims-module-tile-title">{item.title}</span>
+                        <span className="ims-module-tile-desc" style={{ whiteSpace: 'pre-line' }}>{item.desc}</span>
+                      </div>
+                    </Link>
+                  ))}
                 </div>
               </div>
             ))}

@@ -147,14 +147,32 @@ export default function Sidebar({ role, navItems }) {
       <nav 
         role="navigation"
         aria-label="Main Navigation"
-        className={`portalSidebar ${!sidebarOpen ? 'closed' : ''} ${sidebarOpen ? 'mobileOpen' : ''}`} 
+        className={`portalSidebar ${effectiveRole === 'INTERN' ? 'internSidebar' : ''} ${!sidebarOpen ? 'closed' : ''} ${sidebarOpen ? 'mobileOpen' : ''}`} 
       >
         <div className="portalSidebarHeader">
-          <Link to="/" className="portalBrandBox" aria-label="Dashboard Home">
-            {/* The employee portal shows the real Ethiroli brand asset used by the
-                public site, and the PM portal uses the same lockup as its brand
-                tile. Other portals keep their existing icon tile. */}
-            {effectiveRole === 'EMPLOYEE' || effectiveRole === 'PROJECT_MANAGER' ? (
+          <Link to={effectiveRole === 'INTERN' ? '/app/intern/dashboard' : '/'} className="portalBrandBox" aria-label="Dashboard Home">
+            {effectiveRole === 'INTERN' ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" fill="#10b981"/>
+                </svg>
+                <span style={{ fontSize: '15px', fontWeight: 800, letterSpacing: '0.04em', color: '#ffffff' }}>
+                  ETHIROLI
+                </span>
+                <span style={{
+                  fontSize: '9.5px',
+                  fontWeight: 800,
+                  color: '#10b981',
+                  border: '1px solid #10b981',
+                  padding: '1px 7px',
+                  borderRadius: '999px',
+                  letterSpacing: '0.05em',
+                  marginLeft: '4px'
+                }}>
+                  INTERN
+                </span>
+              </div>
+            ) : effectiveRole === 'EMPLOYEE' || effectiveRole === 'PROJECT_MANAGER' ? (
               <img
                 src={ROLE_LOGO_SRC}
                 className="portalBrandLogo"
@@ -166,12 +184,14 @@ export default function Sidebar({ role, navItems }) {
                 <i className="bi bi-layers-fill" aria-hidden="true"></i>
               </div>
             )}
-            <div>
-              <div className="portalBrandName">
-                {String(effectiveRole || 'ETHIROLI').replace(/_/g, ' ')}
+            {effectiveRole !== 'INTERN' && (
+              <div>
+                <div className="portalBrandName">
+                  {String(effectiveRole || 'ETHIROLI').replace(/_/g, ' ')}
+                </div>
+                <span className="portalBrandSubtitle">Enterprise Portal</span>
               </div>
-              <span className="portalBrandSubtitle">Enterprise Portal</span>
-            </div>
+            )}
           </Link>
         </div>
 
@@ -183,6 +203,34 @@ export default function Sidebar({ role, navItems }) {
             const childActive = hasChildren && item.children.some(c => isActive(c.path));
             const subMenuId = `nav-subgroup-${index}`;
             const groupBtnId = `nav-group-btn-${index}`;
+
+            if (effectiveRole === 'INTERN' && hasChildren) {
+              return (
+                <li key={groupKey} className="nav-item">
+                  <div className="portalNavSectionTitle">
+                    {item.label}
+                  </div>
+                  <ul className="list-unstyled mb-0" style={{ padding: 0 }}>
+                    {item.children.map((child) => {
+                      const active = isActive(child.path);
+                      return (
+                        <li key={child.path}>
+                          <Link
+                            to={child.path}
+                            onClick={handleNavClick}
+                            aria-current={active ? 'page' : undefined}
+                            className={`portalNavLink ${active ? 'active' : ''}`}
+                          >
+                            {child.icon && <i className={`${getIconClass(child.icon)}`} aria-hidden="true"></i>}
+                            <span>{child.label}</span>
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </li>
+              );
+            }
 
             if (hasChildren) {
               return (
@@ -253,8 +301,8 @@ export default function Sidebar({ role, navItems }) {
           })}
         </ul>
 
-        {/* User profile footer */}
-        {user && (
+        {/* User profile footer - hidden for INTERN */}
+        {user && effectiveRole !== 'INTERN' && (
           <div className="portalSidebarFooter">
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <RoleAvatar

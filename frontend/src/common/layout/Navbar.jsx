@@ -43,27 +43,54 @@ export default function Navbar({ role, onSearchClick, onToggleFeed, unreadFeedCo
 
   return (
     <header className="portalNavbar" role="banner">
-      <div className="portalNavbarBrand">
-        <button 
-          type="button" 
-          className="portalSidebarToggle" 
-          onClick={() => dispatch(toggleSidebar())} 
-          title="Toggle Navigation Menu"
-          aria-label="Toggle navigation menu"
-        >
-          <i className="bi bi-list fs-5"></i>
-        </button>
+      {currentRole === ROLES.INTERN ? (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <button 
+            type="button" 
+            className="portalSidebarToggle d-md-none" 
+            onClick={() => dispatch(toggleSidebar())} 
+            title="Toggle Navigation Menu"
+            aria-label="Toggle navigation menu"
+          >
+            <i className="bi bi-list fs-5"></i>
+          </button>
+          <button 
+            type="button" 
+            className="portalSearchPill internSearchPill" 
+            onClick={onSearchClick || (() => navigate(`/app/${roleSlug}/dashboard`))} 
+            title="Global Search"
+            style={{ width: '260px', justifyContent: 'space-between', background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '6px 14px' }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <i className="bi bi-search" style={{ color: '#64748b', fontSize: '13px' }}></i>
+              <span style={{ color: '#64748b', fontSize: '13px' }}>Search...</span>
+            </div>
+            <kbd style={{ background: '#f8fafc', border: '1px solid #e2e8f0', color: '#64748b', fontSize: '10.5px', padding: '1px 6px', borderRadius: '4px' }}>Ctrl K</kbd>
+          </button>
+        </div>
+      ) : (
+        <div className="portalNavbarBrand">
+          <button 
+            type="button" 
+            className="portalSidebarToggle" 
+            onClick={() => dispatch(toggleSidebar())} 
+            title="Toggle Navigation Menu"
+            aria-label="Toggle navigation menu"
+          >
+            <i className="bi bi-list fs-5"></i>
+          </button>
 
-        <span className="portalBrandTitle">
-          ETHIROLI
-        </span>
+          <span className="portalBrandTitle">
+            ETHIROLI
+          </span>
 
-        <span className="portalRoleBadge">
-          {String(currentRole || 'PORTAL').replace(/_/g, ' ')}
-        </span>
-      </div>
+          <span className="portalRoleBadge">
+            {String(currentRole || 'PORTAL').replace(/_/g, ' ')}
+          </span>
+        </div>
+      )}
 
-      <div className="portalNavbarActions" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <div className="portalNavbarActions" style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
         {isPrivileged && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', fontWeight: 600 }} className="d-none d-md-inline">
@@ -90,16 +117,18 @@ export default function Navbar({ role, onSearchClick, onToggleFeed, unreadFeedCo
           </div>
         )}
 
-        <button 
-          type="button" 
-          className="portalSearchPill" 
-          onClick={onSearchClick || (() => navigate(`/app/${roleSlug}/dashboard`))} 
-          title="Global Search"
-        >
-          <i className="bi bi-search"></i>
-          <span className="d-none d-sm-inline">Search...</span>
-          <kbd className="d-none d-md-inline">Ctrl K</kbd>
-        </button>
+        {currentRole !== ROLES.INTERN && (
+          <button 
+            type="button" 
+            className="portalSearchPill" 
+            onClick={onSearchClick || (() => navigate(`/app/${roleSlug}/dashboard`))} 
+            title="Global Search"
+          >
+            <i className="bi bi-search"></i>
+            <span className="d-none d-sm-inline">Search...</span>
+            <kbd className="d-none d-md-inline">Ctrl K</kbd>
+          </button>
+        )}
 
         {/* Notifications Icon */}
         <button
@@ -108,6 +137,7 @@ export default function Navbar({ role, onSearchClick, onToggleFeed, unreadFeedCo
           onClick={onToggleFeed || (() => navigate(`/app/${roleSlug}/notifications`))}
           title="Notifications"
           aria-label="View notifications"
+          style={currentRole === ROLES.INTERN ? { border: 'none', background: 'transparent', fontSize: '18px', color: '#1e293b', width: '32px', height: '32px' } : undefined}
         >
           <i className="bi bi-bell"></i>
           {unreadFeedCount > 0 && (
@@ -117,27 +147,31 @@ export default function Navbar({ role, onSearchClick, onToggleFeed, unreadFeedCo
           )}
         </button>
 
-        {/* Messages Icon */}
-        <button
-          type="button"
-          className="portalNotificationBtn"
-          onClick={() => navigate(`/app/${roleSlug}/messages`)}
-          title="Messages"
-          aria-label="View messages"
-        >
-          <i className="bi bi-chat-dots"></i>
-        </button>
+        {currentRole !== ROLES.INTERN && (
+          <>
+            {/* Messages Icon */}
+            <button
+              type="button"
+              className="portalNotificationBtn"
+              onClick={() => navigate(`/app/${roleSlug}/messages`)}
+              title="Messages"
+              aria-label="View messages"
+            >
+              <i className="bi bi-chat-dots"></i>
+            </button>
 
-        {/* Help & Support Icon */}
-        <button
-          type="button"
-          className="portalNotificationBtn"
-          onClick={() => navigate(`/app/${roleSlug}/help`)}
-          title="Help & Support"
-          aria-label="Help & Support"
-        >
-          <i className="bi bi-question-circle"></i>
-        </button>
+            {/* Help & Support Icon */}
+            <button
+              type="button"
+              className="portalNotificationBtn"
+              onClick={() => navigate(`/app/${roleSlug}/help`)}
+              title="Help & Support"
+              aria-label="Help & Support"
+            >
+              <i className="bi bi-question-circle"></i>
+            </button>
+          </>
+        )}
 
         {user && (
           <div className="dropdown" style={{ position: 'relative' }}>
@@ -152,18 +186,19 @@ export default function Navbar({ role, onSearchClick, onToggleFeed, unreadFeedCo
             >
               <RoleAvatar
                 className="portalAvatar"
+                style={currentRole === ROLES.INTERN ? { width: '36px', height: '36px', background: '#0f172a', color: '#ffffff', fontWeight: 700, fontSize: '14px' } : undefined}
                 src={user.avatar_url}
                 role={currentRole}
                 name={user.full_name}
                 email={user.email}
                 title={user.email}
               />
-              <div className="d-none d-md-block text-start ms-2" style={{ lineHeight: '1.2' }}>
-                <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--color-text-main)' }}>
-                  {user.full_name || 'Portal User'}
+              <div className="d-none d-md-block text-start ms-2" style={{ lineHeight: '1.25' }}>
+                <div style={{ fontSize: '13px', fontWeight: 700, color: '#0f172a' }}>
+                  {user.full_name || 'Intern User'}
                 </div>
-                <div style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>
-                  {String(currentRole || '').replace(/_/g, ' ')}
+                <div style={{ fontSize: '11px', color: '#64748b' }}>
+                  {user.email}
                 </div>
               </div>
             </button>

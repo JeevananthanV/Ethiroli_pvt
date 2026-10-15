@@ -7,19 +7,23 @@ import React from 'react';
 const AdminPage = ({ title, subtitle, loading, error, onRetry, actions, children }) => {
   return (
     <section className="adminPageContainer" aria-busy={loading || undefined}>
-      <header className="pageHeader" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px', flexWrap: 'wrap', gap: '12px' }}>
-        <div>
-          <h1 className="pageTitle" style={{ margin: '0 0 4px 0', fontSize: '1.75rem', fontWeight: 700, color: 'var(--admin-text-primary, #1e293b)' }}>
-            {title}
-          </h1>
-          {subtitle && (
-            <p className="pageSubtitle" style={{ margin: 0, fontSize: '0.95rem', color: 'var(--admin-text-secondary, #64748b)' }}>
-              {subtitle}
-            </p>
-          )}
-        </div>
-        {actions && <div className="pageActions" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>{actions}</div>}
-      </header>
+      {(title || subtitle || actions) ? (
+        <header className="pageHeader" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px', flexWrap: 'wrap', gap: '12px' }}>
+          <div>
+            {title && (
+              <h1 className="pageTitle" style={{ margin: '0 0 4px 0', fontSize: '1.75rem', fontWeight: 700, color: 'var(--admin-text-primary, #1e293b)' }}>
+                {title}
+              </h1>
+            )}
+            {subtitle && (
+              <p className="pageSubtitle" style={{ margin: 0, fontSize: '0.95rem', color: 'var(--admin-text-secondary, #64748b)' }}>
+                {subtitle}
+              </p>
+            )}
+          </div>
+          {actions && <div className="pageActions" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>{actions}</div>}
+        </header>
+      ) : null}
 
       {/* Accessible Skeleton Loading State */}
       {loading && (

@@ -1,1 +1,0 @@
-import{r as a,j as o}from"./vendor-react-B5B6roqg.js";import{D as r}from"./DynamicCalendarPage-CI0h2Huj.js";import{e as n}from"./employeePortalApi-iDsF6M-D.js";import"./AdminPage-Da_Ci8a9.js";import"./ErrorBoundary-DYytXeEn.js";function i(){const e=a.useCallback(t=>n.getMonthlyAttendance(t),[]);return o.jsx(r,{defaultRole:"EMPLOYEE",attendanceLoader:e})}export{i as default};

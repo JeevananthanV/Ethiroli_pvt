@@ -1,32 +1,11 @@
 import express from 'express';
-import {
-  getTasks,
-  createTask,
-  updateTaskStatus,
-  getTaskById,
-  deleteTask,
-} from '../models/VideoTask.js';
-import {
-  createLog,
-  getLogs,
-  getEditorStats,
-} from '../models/VideoWorkLog.js';
-import {
-  createReview,
-  getReviews,
-  getTaskReviewsCount,
-} from '../models/VideoReview.js';
-import {
-  createRevision,
-  getRevisions,
-  approveRevision,
-  rejectRevision,
-} from '../models/VideoRevision.js';
-import {
-  createDelivery,
-  getDeliveries,
-  updatePayment,
-} from '../models/VideoDelivery.js';
+import crypto from 'crypto';
+import pool from '../config/database.js';
+import VideoTask from '../models/VideoTask.js';
+import VideoWorkLog from '../models/VideoWorkLog.js';
+import VideoReview from '../models/VideoReview.js';
+import VideoRevision from '../models/VideoRevision.js';
+import VideoDelivery from '../models/VideoDelivery.js';
 import { authenticate } from '../middleware/auth.js';
 import { requireRole } from '../middleware/rbac.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
@@ -38,11 +17,10 @@ const router = express.Router();
 router.use(authenticate);
 
 // ==========================================
-// 1. VIDE PROJECTS
+// 1. VIDEO PROJECTS
 // ==========================================
 
 router.get('/projects', authenticate, requireRole('VIDEO_EDITOR', 'MANAGER', 'SUPER_ADMIN'), asyncHandler(async (req, res) => {
-  // Simple get - in full impl would use VideoProject model
   const [rows] = await pool.execute(
     `SELECT vp.*, u.full_name as editor_name 
      FROM video_projects vp
@@ -64,14 +42,14 @@ router.post('/projects', authenticate, requireRole('MANAGER', 'SUPER_ADMIN'), as
   );
 
   return success(res, 201, { id, title, project_type }, 'Video project created');
-});
+}));
 
 // ==========================================
-// 2. VIDE TASKS
+// 2. VIDEO TASKS
 // ==========================================
 
 router.get('/tasks', authenticate, requireRole('VIDEO_EDITOR', 'MANAGER', 'SUPER_ADMIN'), asyncHandler(async (req, res) => {
-  const result = await new (require('../models/VideoTask.js'))().getTasks({
+  const result = await VideoTask.getTasks({
     status: req.query.status,
     priority: req.query.priority,
     assigned_editor: req.query.bda_id,
@@ -82,33 +60,33 @@ router.get('/tasks', authenticate, requireRole('VIDEO_EDITOR', 'MANAGER', 'SUPER
 }));
 
 router.post('/tasks', authenticate, requireRole('MANAGER', 'SUPER_ADMIN'), asyncHandler(async (req, res) => {
-  const result = await new (require('../models/VideoTask.js))().createTask(req.body);
+  const result = await VideoTask.createTask(req.body);
   return success(res, 201, result, 'Video task created');
 }));
 
 router.get('/tasks/:id', authenticate, requireRole('*'), asyncHandler(async (req, res) => {
-  const task = await new (require('../models/VideoTask.js))().getTaskById(req.params.id);
+  const task = await VideoTask.getTaskById(req.params.id);
   if (!task) throw new NotFoundError('Video task not found');
   return success(res, 200, task, 'Video task retrieved');
 }));
 
 router.patch('/tasks/:id/status', authenticate, requireRole('VIDEO_EDITOR', 'MANAGER', 'SUPER_ADMIN'), asyncHandler(async (req, res) => {
-  const updated = await new (require('../models/VideoTask.js))().updateTaskStatus(req.params.id, req.body.status, req.user?.id);
+  const updated = await VideoTask.updateTaskStatus(req.params.id, req.body.status, req.user?.id);
   if (updated) return success(res, 200, { updated }, 'Task status updated');
   return success(res, 200, { updated: 0 }, 'No update made');
 }));
 
 router.delete('/tasks/:id', authenticate, requireRole('MANAGER', 'SUPER_ADMIN'), asyncHandler(async (req, res) => {
-  const deleted = await new (require('../models/VideoTask.js))().deleteTask(req.params.id);
+  const deleted = await VideoTask.deleteTask(req.params.id);
   return success(res, 200, { deleted }, 'Task deleted');
 }));
 
 // ==========================================
-// 3. VIDE WORK LOGS
+// 3. VIDEO WORK LOGS
 // ==========================================
 
 router.post('/tasks/:id/log', authenticate, requireRole('VIDEO_EDITOR'), asyncHandler(async (req, res) => {
-  const logId = await new (require('../models/VideoWorkLog.js))().createLog({
+  const logId = await VideoWorkLog.createLog({
     task_id: req.params.id,
     editor: req.user?.id,
     start_time: req.body.start_time,
@@ -120,21 +98,21 @@ router.post('/tasks/:id/log', authenticate, requireRole('VIDEO_EDITOR'), asyncHa
 }));
 
 router.get('/tasks/:id/logs', authenticate, requireRole('VIDEO_EDITOR', 'MANAGER', 'SUPER_ADMIN'), asyncHandler(async (req, res) => {
-  const result = await new (require('../models/VideoWorkLog.js))().getLogs({ task_id: req.params.id });
+  const result = await VideoWorkLog.getLogs({ task_id: req.params.id });
   return success(res, 200, result, 'Work logs retrieved');
 }));
 
 router.get('/editor/stats/:editorId', authenticate, requireRole('MANAGER', 'SUPER_ADMIN'), asyncHandler(async (req, res) => {
-  const result = await new (require('../models/VideoWorkLog.js))().getEditorStats(req.params.editorId);
+  const result = await VideoWorkLog.getEditorStats(req.params.editorId);
   return success(res, 200, result, 'Editor stats retrieved');
 }));
 
 // ==========================================
-// 4. VIDE REVIEWS
+// 4. VIDEO REVIEWS
 // ==========================================
 
 router.post('/tasks/:id/review', authenticate, requireRole('MANAGER', 'SUPER_ADMIN'), asyncHandler(async (req, res) => {
-  const reviewId = await new (require('../models/VideoReview.js))().createReview({
+  const reviewId = await VideoReview.createReview({
     task_id: req.params.id,
     reviewer: req.user?.id,
     comments: req.body.comments,
@@ -147,21 +125,21 @@ router.post('/tasks/:id/review', authenticate, requireRole('MANAGER', 'SUPER_ADM
 }));
 
 router.get('/tasks/:id/reviews', authenticate, requireRole('*'), asyncHandler(async (req, res) => {
-  const result = await new (require('../models/VideoReview.js))().getReviews({ task_id: req.params.id });
+  const result = await VideoReview.getReviews({ task_id: req.params.id });
   return success(res, 200, result, 'Reviews retrieved');
 }));
 
 router.get('/tasks/:id/reviews/count', authenticate, requireRole('*'), asyncHandler(async (req, res) => {
-  const result = await new (require('../models/VideoReview.js))().getTaskReviewsCount(req.params.id);
+  const result = await VideoReview.getTaskReviewsCount(req.params.id);
   return success(res, 200, result, 'Review counts retrieved');
 }));
 
 // ==========================================
-// 5. VIDE REVISIONS
+// 5. VIDEO REVISIONS
 // ==========================================
 
 router.post('/tasks/:id/revisions', authenticate, requireRole('VIDEO_EDITOR'), asyncHandler(async (req, res) => {
-  const revisionId = await new (require('../models/VideoRevision.js))().createRevision({
+  const revisionId = await VideoRevision.createRevision({
     task_id: req.params.id,
     version_number: req.body.version_number,
     previous_version: req.body.previous_version,
@@ -173,26 +151,26 @@ router.post('/tasks/:id/revisions', authenticate, requireRole('VIDEO_EDITOR'), a
 }));
 
 router.get('/tasks/:id/revisions', authenticate, requireRole('*'), asyncHandler(async (req, res) => {
-  const result = await new (require('../models/VideoRevision.js))().getRevisions({ task_id: req.params.id });
+  const result = await VideoRevision.getRevisions({ task_id: req.params.id });
   return success(res, 200, result, 'Revisions retrieved');
 }));
 
 router.patch('/revisions/:id/approve', authenticate, requireRole('MANAGER', 'SUPER_ADMIN'), asyncHandler(async (req, res) => {
-  const approved = await new (require('../models/VideoRevision.js))().approveRevision(req.params.id, req.user?.id);
+  const approved = await VideoRevision.approveRevision(req.params.id, req.user?.id);
   return success(res, 200, { approved }, 'Revision approved');
 }));
 
 router.patch('/revisions/:id/reject', authenticate, requireRole('MANAGER', 'SUPER_ADMIN'), asyncHandler(async (req, res) => {
-  const rejected = await new (require('../models/VideoRevision.js))().rejectRevision(req.params.id, req.user?.id, req.body?.reason);
+  const rejected = await VideoRevision.rejectRevision(req.params.id, req.user?.id, req.body?.reason);
   return success(res, 200, { rejected }, 'Revision rejected');
 }));
 
 // ==========================================
-// 5. VIDE DELIVERIES
+// 6. VIDEO DELIVERIES
 // ==========================================
 
 router.post('/tasks/:id/delivery', authenticate, requireRole('VIDEO_EDITOR'), asyncHandler(async (req, res) => {
-  const deliveryId = await new (require('../models/VideoDelivery.js))().createDelivery({
+  const deliveryId = await VideoDelivery.createDelivery({
     task_id: req.params.id,
     delivered_by: req.user?.id,
     client_approved: req.body.client_approved,
@@ -200,23 +178,22 @@ router.post('/tasks/:id/delivery', authenticate, requireRole('VIDEO_EDITOR'), as
     payment_amount: req.body.payment_amount,
     payment_status: req.body.payment_status || 'Unpaid',
   });
-  // Update task status to Delivered
-  await new (require('../models/VideoTask.js))().updateTaskStatus(req.params.id, 'Delivered', req.user?.id);
+  await VideoTask.updateTaskStatus(req.params.id, 'Delivered', req.user?.id);
   return success(res, 201, { deliveryId }, 'Delivery created');
 }));
 
 router.get('/tasks/:id/deliveries', authenticate, requireRole('*'), asyncHandler(async (req, res) => {
-  const result = await new (require('../models/VideoDelivery.js))().getDeliveries({ task_id: req.params.id });
+  const result = await VideoDelivery.getDeliveries({ task_id: req.params.id });
   return success(res, 200, result, 'Deliveries retrieved');
 }));
 
 router.patch('/deliveries/:id/payment', authenticate, requireRole('FINANCE', 'SUPER_ADMIN'), asyncHandler(async (req, res) => {
-  const updated = await new (require('../models/VideoDelivery.js))().updatePayment(req.params.id, req.body.paymentStatus, req.body.paymentRef);
+  const updated = await VideoDelivery.updatePayment(req.params.id, req.body.paymentStatus, req.body.paymentRef);
   return success(res, 200, { updated }, 'Payment status updated');
 }));
 
 // ==========================================
-// 6. TASK COMMISSION (Integrated with sales commission)
+// 7. TASK COMMISSION
 // ==========================================
 
 router.post(
@@ -224,15 +201,13 @@ router.post(
   authenticate,
   requireRole('MANAGER', 'SUPER_ADMIN'),
   asyncHandler(async (req, res) => {
-    const task = await new (require('../models/VideoTask.js))().getTaskById(req.params.id);
+    const task = await VideoTask.getTaskById(req.params.id);
     if (!task) throw new NotFoundError('Video task not found');
-    if task.status !== 'Delivered' throw new ValidationError('Task not delivered yet');
+    if (task.status !== 'Delivered') throw new ValidationError('Task not delivered yet');
 
-    // Calculate commission: 15% of estimated hours * rate
-    const hourlyRate = 500; // Configurable rate
+    const hourlyRate = 500;
     const commissionAmount = parseFloat((task.estimated_hours * hourlyRate * 0.15).toFixed(2));
 
-    // Create commission record using existing SalesCommission model approach
     const [commission] = await pool.execute(
       `INSERT INTO sales_commissions 
         (deal_id, bda_user_id, eligible_amount, commission_rate, commission_amount, status, created_by)

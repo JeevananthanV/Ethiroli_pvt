@@ -272,5 +272,3 @@ export default class SalesCommission {
     };
   }
 }
-
-export default SalesCommission;

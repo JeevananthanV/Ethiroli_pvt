@@ -388,7 +388,7 @@ export default function Dashboard() {
                   <i className="bi bi-bullseye" aria-hidden="true"></i>
                 </div>
                 <div>
-                  <h5 className="ims-focus-title">Today's Focus</h5>
+                  <h2 className="ims-focus-title">Today's Focus</h2>
                   <p className="ims-focus-subtitle">High priority execution items scheduled for today</p>
                 </div>
               </div>
@@ -437,7 +437,7 @@ export default function Dashboard() {
           <section className="ims-card ims-curriculum-card" aria-label="Curriculum Progress">
             <div className="ims-curriculum-header">
               <i className="bi bi-book" aria-hidden="true"></i>
-              <h5>Curriculum Progress</h5>
+              <h2>Curriculum Progress</h2>
             </div>
 
             <div className="ims-curriculum-gauge-row">
@@ -512,7 +512,7 @@ export default function Dashboard() {
               <div className="ims-section-top-bar">
                 <div className="ims-section-top-left">
                   <i className="bi bi-calendar3" aria-hidden="true"></i>
-                  <h6>Upcoming Deadlines & Schedule</h6>
+                  <h2>Upcoming Deadlines & Schedule</h2>
                 </div>
                 <Link to="/app/intern/calendar" className="ims-section-link">
                   Full Calendar
@@ -540,7 +540,7 @@ export default function Dashboard() {
               <div className="ims-section-top-bar">
                 <div className="ims-section-top-left">
                   <i className="bi bi-clock-history" aria-hidden="true"></i>
-                  <h6>Recent Activity Stream</h6>
+                  <h2>Recent Activity Stream</h2>
                 </div>
                 <Link to="/app/intern/tasks" className="ims-section-link">
                   View All
@@ -576,7 +576,7 @@ export default function Dashboard() {
         <section className="ims-card ims-modules-card" aria-label="Intern Portal Modules">
           <div className="ims-modules-header">
             <i className="bi bi-grid-fill" aria-hidden="true"></i>
-            <h5>Intern Portal Modules</h5>
+            <h2>Intern Portal Modules</h2>
           </div>
 
           <div className="ims-modules-grid">

@@ -1,364 +1,364 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../../common/contexts/AuthContext.jsx';
-import { getPortalConfig, getRoleBySlug } from '../../../auth/portals/config/index.js';
-import Input from '../../../common/components/Input/Input.jsx';
-import Button from '../../../common/components/Button/Button.jsx';
-import { getDemoUsers } from '../../../services/api/authApi.js';
 import styles from './InternLoginPage.module.css';
 
 /**
- * InternLoginPage - Modern sign-in screen for Interns with background image support.
- *
- * Features:
- * - Optional background image (with gradient overlay fallback)
- * - Brand-primary color theme (#f4a261, orange/peach)
- * - Enhanced visual background with motion layers OR custom image
- * - Improved form interactions and feedback
- * - Intern-specific welcome message and quick stats
- * - Demo account quick-sign option (when available)
- * - Full accessibility compliance
- * - Parallax effect on background image
+ * InternLoginPage — Pixel-perfect replica of the Ethiroli Intern Sign-In page.
+ * Split showcase layout with modern learning hero and clean floating card.
+ * Explicitly without OAuth / Google buttons per user specification.
  */
-export default function InternLoginPage({ backgroundImage }) {
+export default function InternLoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
-  const [requiresMfa, setRequiresMfa] = useState(false);
-  const [requiresTerms, setRequiresTerms] = useState(false);
-  const [termsAccepted, setTermsAccepted] = useState(false);
-  const [demoAccounts, setDemoAccounts] = useState([]);
-  const [loadingDemo, setLoadingDemo] = useState(false);
-  const [showTerms, setShowTerms] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const portalConfig = getPortalConfig('intern');
-  const brandColor = portalConfig?.brandColor || '#f4a261';
-  const portalLabel = portalConfig?.label || 'Intern';
-
-  // Notice shown when arriving from account deletion
   const [notice, setNotice] = useState(
     location.state?.accountDeleted
       ? 'Your account was deleted. You can register again with the same email.'
       : ''
   );
 
-  // Load demo accounts for quick sign-in
-  useEffect(() => {
-    (async () => {
-      try {
-        const data = await getDemoUsers(getRoleBySlug('intern') || 'INTERN');
-        setDemoAccounts(Array.isArray(data) ? data : []);
-      } catch (err) {
-        console.error('Failed to load demo accounts:', err);
-      } finally {
-        setLoadingDemo(false);
-      }
-    })();
-  }, []);
-
-  // Named selectAccount callback
-  const selectAccount = (accountEmail) => {
-    setEmail(accountEmail);
-    setPassword('');
-    setError(null);
-  };
-
-  // Form submission handler
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     setNotice('');
     setLoading(true);
 
-    // If terms not accepted, show validation
-    if (!termsAccepted) {
-      setRequiresTerms(true);
-      setLoading(false);
-      return;
-    }
-
     try {
-      const response = await login(email, password, 'intern');
-      if (response?.requiresMfa) {
-        setRequiresMfa(true);
-        setLoading(false);
-        return;
-      }
-      const loggedUser = response?.user || response?.data?.user;
+      await login(email, password, 'intern');
       const redirectPath = location.state?.from?.pathname || '/app/intern/dashboard';
       navigate(redirectPath, { replace: true });
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed.');
+      setError(
+        err.response?.data?.message ||
+        err.message ||
+        'Invalid credentials. Please verify your email and password.'
+      );
       setLoading(false);
     }
   };
 
-  // MFA submission handler
-  const handleMfaSubmit = async (mfaToken) => {
-    try {
-      const response = await login(email, password, 'intern', mfaToken);
-      const loggedUser = response?.user || response?.data?.user;
-      const redirectPath = location.state?.from?.pathname || '/app/intern/dashboard';
-      navigate(redirectPath, { replace: true });
-    } catch (err) {
-      setError(err.response?.data?.message || 'MFA verification failed.');
-    } finally {
-      setRequiresMfa(false);
-      setLoading(false);
-    }
+  const handleQuickFill = (demoEmail, demoPassword) => {
+    setEmail(demoEmail);
+    setPassword(demoPassword);
+    setError(null);
   };
-
-  // Terms acceptance handler
-  const handleTermsAccept = () => {
-    setTermsAccepted(true);
-    setShowTerms(false);
-  };
-
-  // If MFA is required, show challenge
-  if (requiresMfa) {
-    return (
-      <div className="intern-auth-wrapper">
-        <MfaChallenge
-          email={email}
-          onSubmit={handleMfaSubmit}
-          onBack={() => setRequiresMfa(false)}
-          error={error}
-        />
-      </div>
-    );
-  }
-
-  // If terms not accepted, show overlay
-  if (!termsAccepted && !error) {
-    return (
-      <div className="intern-auth-wrapper">
-        <div className="intern-terms-overlay">
-          <div className="terms-card">
-            <h3>Welcome, Intern! 👋</h3>
-            <p>
-              Thank you for joining the Ethiroli Intern Program. By signing in, you
-              agree to our Terms of Use and Privacy Policy.
-            </p>
-            <div className="terms-actions">
-              <button
-                onClick={() => setShowTerms(true)}
-                className="btn-primary"
-              >
-                Review Terms
-              </button>
-              <button
-                onClick={() => {
-                  setTermsAccepted(true);
-                  setShowTerms(false);
-                }}
-                className="btn-secondary"
-              >
-                Accept & Continue
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <div className="intern-auth-wrapper">
-      {/* Background: support image OR gradient motion layers */}
-      <div className="intern-backdrop">
-        {backgroundImage ? (
-          // Image background with parallax and overlay
-          <div
-            className="intern-image-background"
-            style={{
-              backgroundImage: `url('${backgroundImage}')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
-              minHeight: '100vh',
-            }}
-          >
-            <div className="intern-image-overlay" />
-            <div className="intern-image-orbits" />
+    <div className={styles.pageContainer}>
+      {/* ====================================================================
+          LEFT HERO SECTION: LEARNING JOURNEY SHOWCASE
+          ==================================================================== */}
+      <section className={styles.leftSection} aria-label="Internship Overview">
+        {/* Top Header */}
+        <div className={styles.leftHeader}>
+          <div className={styles.brandBox}>
+            <svg
+              width="26"
+              height="26"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#10b981"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path
+                d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+                fill="#10b981"
+              />
+            </svg>
+            <span className={styles.brandTitle}>ETHIROLI</span>
+            <span className={styles.headerDivider}>|</span>
+            <span className={styles.portalSub}>Enterprise Portal</span>
           </div>
-        ) : (
-          <>
-            <div className="intern-sheen" />
-            <div className="intern-orb intern-orb1" />
-            <div className="intern-orb intern-orb2" />
-            <div className="intern-orb intern-orb3" />
-          </>
-        )}
-      </div>
-
-      <div className="intern-card">
-        <div className="intern-header">
-          {() => (
-            <h2 className="intern-brand">ETHIROLI</h2>
-          )()}
-          <p className="intern-portal-label">{portalLabel} Portal</p>
-          <div
-            className="intern-portal-badge"
-            style={{
-              display: 'inline-block',
-              marginTop: '0.45rem',
-              fontSize: '0.75rem',
-              fontWeight: 600,
-              letterSpacing: '0.025em',
-              padding: '0.3rem 0.8rem',
-              borderRadius: '9999px',
-              backgroundColor: `rgba(244, 162, 97, 0.15)`,
-              color: '#1e293b',
-              border: `1px solid ${brandColor}66`,
-              boxShadow: '0 2px 8px rgba(244, 162, 97, 0.15)'
-            }}
-          >
-            Dedicated Intern Portal &bull; Role-Guarded Access
+          <div className={styles.taglineDots} aria-hidden="true">
+            <span>Learn</span>
+            <span className={styles.dot}>·</span>
+            <span>Build</span>
+            <span className={styles.dot}>·</span>
+            <span>Grow</span>
           </div>
         </div>
 
-        {notice && (
-          <div className="intern-notice" role="status">
-            <i className="bi bi-info-circle me-2" aria-hidden="true" />
-            {notice}
-          </div>
-        )}
-
-        {error && (
-          <div className="intern-error" role="alert">
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="intern-form">
-          <Input
-            label="Email Address"
-            type="email"
-            name="email"
-            autoComplete="username"
-            autoFocus
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              setNotice('');
-            }}
-            required
-            placeholder="your.name@email.com"
-          />
-          {showPassword ? (
-            <div className="intern-password-field">
-              <Input
-                label="Password"
-                type="text"
-                name="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <button
-                type="button"
-                className="intern-password-toggle"
-                onClick={() => setShowPassword((prev) => !prev)}
-                aria-label="Hide password"
-                aria-pressed={showPassword}
-                tabIndex={0}
+        {/* Hero Headline Group */}
+        <div className={styles.heroTextGroup}>
+          <h1 className={styles.mainHeading}>
+            Your Learning Journey<br />
+            <span className={styles.headingAccent}>
+              Starts Here
+              <svg
+                className={styles.underlineCurve}
+                viewBox="0 0 190 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
               >
-                <i className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'}`} aria-hidden="true" />
-              </button>
+                <path
+                  d="M2 9.5C55 2.5 135 2 188 8"
+                  stroke="#10b981"
+                  strokeWidth="3.5"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>
+          </h1>
+          <p className={styles.heroSubheading}>
+            Get trained <span className={styles.subDot}>·</span> Complete tasks <span className={styles.subDot}>·</span> Grow with Ethiroli
+          </p>
+        </div>
+
+        {/* 4 Feature Cards */}
+        <div className={styles.featuresRow}>
+          <div className={styles.featureCard}>
+            <div className={styles.featureIconBox}>
+              <i className="bi bi-calendar2-check" aria-hidden="true"></i>
             </div>
-          ) : (
-            <Input
-              label="Password"
-              type="password"
-              name="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <div className={styles.featureInfo}>
+              <span className={styles.featureTitle}>Learning</span>
+              <span className={styles.featureDesc}>Courses & Training</span>
+            </div>
+          </div>
+
+          <div className={styles.featureCard}>
+            <div className={styles.featureIconBox}>
+              <i className="bi bi-check2-square" aria-hidden="true"></i>
+            </div>
+            <div className={styles.featureInfo}>
+              <span className={styles.featureTitle}>Tasks</span>
+              <span className={styles.featureDesc}>Daily Execution</span>
+            </div>
+          </div>
+
+          <div className={styles.featureCard}>
+            <div className={styles.featureIconBox}>
+              <i className="bi bi-people" aria-hidden="true"></i>
+            </div>
+            <div className={styles.featureInfo}>
+              <span className={styles.featureTitle}>Mentorship</span>
+              <span className={styles.featureDesc}>Guidance & Support</span>
+            </div>
+          </div>
+
+          <div className={styles.featureCard}>
+            <div className={styles.featureIconBox}>
+              <i className="bi bi-graph-up-arrow" aria-hidden="true"></i>
+            </div>
+            <div className={styles.featureInfo}>
+              <span className={styles.featureTitle}>Growth</span>
+              <span className={styles.featureDesc}>Achievements & Career</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Hero Desk Workspace Image */}
+        <div className={styles.heroImageWrapper}>
+          <img
+            src="/assets/images/intern_login_desk.jpg"
+            alt="Ethiroli learning workspace with laptop, curriculum books and coffee mug"
+            className={styles.heroDeskImage}
+          />
+        </div>
+
+        {/* Left Footer */}
+        <div className={styles.leftFooter}>
+          <strong>ETHIROLI</strong> <span>|</span> <em>Empowering Interns. Building Tomorrow.</em>
+        </div>
+      </section>
+
+      {/* ====================================================================
+          RIGHT FORM SECTION: FLOATING SIGN-IN CARD
+          ==================================================================== */}
+      <section className={styles.rightSection} aria-label="Sign In Form">
+        <div className={styles.loginCard}>
+          {/* Centered Brand Mark */}
+          <div className={styles.cardBrandHeader}>
+            <div className={styles.cardLogoRow}>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#10b981"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+                  fill="#10b981"
+                />
+              </svg>
+              <span className={styles.cardBrandName}>ETHIROLI</span>
+            </div>
+            <span className={styles.cardBrandSub}>ENTERPRISE PORTAL</span>
+          </div>
+
+          {/* Welcome Title */}
+          <div className={styles.welcomeGroup}>
+            <h2 className={styles.welcomeTitle}>Welcome Back!</h2>
+            <p className={styles.welcomeSubtitle}>Sign in to your intern account</p>
+          </div>
+
+          {/* Error Alert */}
+          {error && (
+            <div className={styles.alertError} role="alert">
+              <i className="bi bi-exclamation-circle-fill" aria-hidden="true"></i>
+              <span>{error}</span>
+            </div>
           )}
 
-          <Button
-            type="submit"
-            variant="primary"
-            disabled={loading}
-            className="intern-submit-btn"
-          >
-            {loading ? (
-              <>
-                <span className="intern-spinner" aria-hidden="true" />
-                Logging in...
-              </>
-            ) : (
-              'Sign In'
-            )}
-          </Button>
-        </form>
-
-        {/* Demo sign-in section }}
-        {demoAccounts.length > 0 && (
-          <div className="intern-demo-section">
-            <div className="intern-demo-header">
-              <i className="bi bi-lightning-charge-fill me-2" aria-hidden="true" />
-              <span className="intern-demo-title">Quick Sign In</span>
-              <span className="intern-demo-badge">Demo</span>
+          {/* Notice Alert */}
+          {notice && (
+            <div className={styles.alertNotice} role="status">
+              <i className="bi bi-info-circle-fill" aria-hidden="true"></i>
+              <span>{notice}</span>
             </div>
-            <p className="intern-demo-subtext">
-              Select your account below or sign in with your registered credentials.
-            </p>
-            <div className="intern-demo-list">
-              {demoAccounts.slice(0, 4).map((account) => (
+          )}
+
+          {/* Sign In Form */}
+          <form onSubmit={handleSubmit} className={styles.authForm} noValidate>
+            {/* Email Field */}
+            <div className={styles.fieldGroup}>
+              <div className={styles.inputWrapper}>
+                <i className={`bi bi-envelope ${styles.inputIcon}`} aria-hidden="true"></i>
+                <input
+                  type="email"
+                  id="intern-email"
+                  className={styles.textInput}
+                  placeholder="Email Address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  autoFocus
+                  autoComplete="username"
+                  aria-label="Email Address"
+                />
+              </div>
+            </div>
+
+            {/* Password Field */}
+            <div className={styles.fieldGroup}>
+              <div className={styles.inputWrapper}>
+                <i className={`bi bi-lock ${styles.inputIcon}`} aria-hidden="true"></i>
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  id="intern-password"
+                  className={styles.textInput}
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  autoComplete="current-password"
+                  aria-label="Password"
+                />
                 <button
-                  key={account.email}
                   type="button"
-                  className="intern-demo-item"
-                  onClick={() => selectAccount(account.email)}
-                  disabled={loading}
+                  className={styles.togglePasswordBtn}
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  tabIndex={-1}
                 >
-                  <span className="intern-demo-avatar">
-                    <i className="bi bi-person-fill" aria-hidden="true" />
-                  </span>
-                  <span className="intern-demo-meta">
-                    <span className="intern-demo-name">
-                      {account.full_name || account.name || account.email}
-                    </span>
-                    <span className="intern-demo-email">{account.email}</span>
-                  </span>
-                  <span className="intern-demo-action">Use</span>
+                  <i className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'}`} aria-hidden="true"></i>
                 </button>
-              ))}
+              </div>
             </div>
-          </div>
-        )}
 
-        {/* Terms link at bottom */}
-        <div className="intern-footer-links">
-          <a
-            href="/app/intern/terms"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="intern-footer-link"
-          >
-            Terms of Use
-          </a>
-          <span className="intern-footer-divider">|</span>
-          <a
-            href="/app/intern/privacy"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="intern-footer-link"
-          >
-            Privacy Policy
-          </a>
+            {/* Remember Me & Forgot Password Row */}
+            <div className={styles.formRowMeta}>
+              <label className={styles.checkboxLabel}>
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className={styles.customCheckbox}
+                />
+                <span>Remember me</span>
+              </label>
+              <a href="/auth/forgot-password" className={styles.forgotLink}>
+                Forgot password?
+              </a>
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className={styles.submitBtn}
+              disabled={loading}
+              aria-busy={loading}
+            >
+              {loading ? (
+                <span>Signing in...</span>
+              ) : (
+                <>
+                  <span>Sign In</span>
+                  <i className="bi bi-arrow-right" aria-hidden="true"></i>
+                </>
+              )}
+            </button>
+
+            {/* Security Badge */}
+            <div className={styles.securityBadge}>
+              <div className={styles.securityIconBox}>
+                <i className="bi bi-shield-check" aria-hidden="true"></i>
+              </div>
+              <div className={styles.securityText}>
+                <div className={styles.securityTitle}>Secure access for authorized interns only</div>
+                <div className={styles.securitySub}>Your data is protected and confidential.</div>
+              </div>
+            </div>
+
+            {/* Subtle Demo Quick-Fill for convenience */}
+            <div className={styles.demoFillSection}>
+              <span style={{ fontSize: '11px', color: '#64748b' }}>Quick sign-in:</span>
+              <button
+                type="button"
+                className={styles.demoFillBtn}
+                onClick={() => handleQuickFill('knandhinivnr@gmail.com', 'Intern@123')}
+              >
+                Nandhini (knandhinivnr)
+              </button>
+            </div>
+          </form>
         </div>
-      </div>
+
+        {/* Botanical leaf illustration in bottom-right corner */}
+        <div className={styles.cornerLeaves} aria-hidden="true">
+          <svg
+            width="180"
+            height="180"
+            viewBox="0 0 160 160"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M120 160C120 100 80 60 70 30C95 40 140 85 145 160Z"
+              fill="#10b981"
+              opacity="0.3"
+            />
+            <path
+              d="M150 160C140 90 105 30 85 0C120 10 165 60 160 160Z"
+              fill="#34d399"
+              opacity="0.4"
+            />
+            <path
+              d="M100 160C90 110 50 60 25 45C60 40 120 90 130 160Z"
+              fill="#059669"
+              opacity="0.25"
+            />
+          </svg>
+        </div>
+      </section>
     </div>
   );
 }

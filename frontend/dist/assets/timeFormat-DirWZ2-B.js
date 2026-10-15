@@ -1,0 +1,1 @@
+const e=o=>{const t=o instanceof Date?o:new Date(o);if(!o||Number.isNaN(t.getTime()))return null;const r=t.getHours(),n=r>=12?"PM":"AM";return{hour:r%12===0?12:r%12,minute:t.getMinutes(),second:t.getSeconds(),period:n}},u=o=>{const t=e(o);return t?`${t.hour}:${String(t.minute).padStart(2,"0")} ${t.period}`:"—"};export{u as f};

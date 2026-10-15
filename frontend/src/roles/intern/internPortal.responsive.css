@@ -1,0 +1,456 @@
+/**
+ * Intern portal (IMS) responsive adaptation.
+ *
+ * Imported from InternApp.jsx right after internPortal.css. Every rule is
+ * nested under `.ims-scope`, which is the intern portal's own root wrapper, so
+ * nothing here can reach the other portals that share AdminPage / MainLayout.
+ *
+ * Why a separate file: internPortal.css owns control sizing (the btn-sm lift)
+ * and is breakpoint-free on purpose. Responsive layout is a different concern
+ * that changes per release, so keeping it apart means a spacing tweak never
+ * forces a fight with the sizing rules.
+ *
+ * Breakpoints, matching Bootstrap 5 so the two do not disagree mid-layout:
+ *   xs  <576    phones, portrait
+ *   sm  576-767 large phones
+ *   md  768-991 tablets / small laptops
+ *   lg  992-1199 laptops
+ *   xl  1200-1599 desktops
+ *   2xl >=1600  large desktops - the "big screen" case
+ */
+
+.ims-scope {
+  /* ================================================================
+     XL AND UP (>=1200) - stop the page stretching edge to edge
+     ================================================================ */
+
+  /* Without a cap, a 2560px monitor leaves single-line table rows and KPI
+     cards stranded hundreds of pixels apart. Capping the column keeps the
+     reading measure sane and centres the leftover space. */
+  .adminPageContainer {
+    max-width: 1680px;
+    margin-inline: auto;
+  }
+
+  /* ==== Attendance calendar grid ====
+     row-cols-md-7 puts 7 cells per row, which is right at the md breakpoint
+     but leaves 30-day months ending on a 2-cell orphan row. Pinning the
+     calendar to a 7-column grid at every width keeps each week on one row and
+     removes the ragged bottom edge. */
+  .ims-calendar-grid {
+    display: grid !important;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .ims-calendar-grid > .col {
+    max-width: none;
+    padding: 0;
+    flex: none;
+    width: auto;
+  }
+}
+
+/* Intern Portal Modules row.
+   Four cards across needs roughly 390px each before every tile label fits on
+   one line. Two-up needs ~1200px of viewport (the 270px sidebar takes a third
+   of a tablet width). Anything narrower runs one-up, so no tile ever wraps and
+   every chevron stays on the same baseline. */
+.ims-module-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+}
+
+.ims-module-cell {
+  max-width: none;
+  width: auto;
+  padding: 0;
+}
+
+@media (min-width: 1200px) and (max-width: 1599.98px) {
+  .ims-scope .ims-module-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1600px) {
+  .ims-scope .ims-module-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Dashboard KPI row.
+   Six cards across only from 1800px up. Below that the 270px sidebar plus
+   card padding leaves each card under ~130px, and the title box under ~55px -
+   narrower than "INTERNSHIP", which forces a mid-word break. */
+.ims-kpi-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr);
+  /* Matches the row g-4 used by the project cards, so the gutter between KPI
+     cards matches the gutter between everything else on the portal. */
+  gap: 1.5rem;
+}
+
+.ims-kpi-cell {
+  max-width: none;
+  width: auto;
+  padding: 0;
+}
+
+/* Two across on large phones: ~162px per card still leaves a ~83px title box,
+   which is too tight for "INTERNSHIP" - hence single-column below 576px. */
+@media (min-width: 576px) and (max-width: 991.98px) {
+  .ims-scope .ims-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Three across from tablet upward: roughly 350-460px per card, comfortably
+   wider than the longest KPI label ("Overall Progress"). */
+@media (min-width: 992px) and (max-width: 1799.98px) {
+  .ims-scope .ims-kpi-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Six across, but only where the 270px sidebar leaves genuine room. */
+@media (min-width: 1800px) {
+  .ims-scope .ims-kpi-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+/* ================================================================
+   LARGE DESKTOP (>=1600) - scale up, do not just stretch
+   ================================================================ */
+
+@media (min-width: 1600px) {
+  .ims-scope {
+    .adminPageContainer {
+      max-width: 1760px;
+    }
+
+    /* Still three across between 1600 and 1800: the sidebar is present at these
+       sizes, and six would land back at ~150px cards. */
+    /* Roomier gutters: at this width the default 1rem gutter makes the content
+       band feel cramped against the edges. */
+    .mainContent {
+      padding: 24px 40px;
+    }
+
+    /* The punch card's three columns (clock / duration / actions) each end up
+       very wide at 2xl. Cap the counter and clock so they stay readable
+       instead of floating in empty space. */
+    .ims-punch-clock {
+      font-size: 2.75rem;
+    }
+
+    .ims-punch-duration {
+      font-size: 2rem;
+    }
+
+    .card-body {
+      padding: 1.25rem 1.5rem;
+    }
+
+    .table th,
+    .table td {
+      padding: 0.85rem 1rem;
+    }
+
+    /* Wider touch targets - there is plenty of room for them. */
+    .btn {
+      min-height: 42px;
+    }
+  }
+}
+
+/* ================================================================
+   LAPTOP (992-1199)
+   ================================================================ */
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .ims-scope {
+    .mainContent {
+      padding: 20px 24px;
+    }
+
+    /* 7 columns at ~1000px is ~120px per cell, which still fits the day number
+       plus the hour label. Below this the label wraps and the grid grows
+       unevenly, so it drops to the tablet rules further down. */
+    .ims-calendar-grid {
+      display: grid !important;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 0.4rem;
+    }
+
+    .ims-calendar-grid > .col {
+      max-width: none;
+      padding: 0;
+      flex: none;
+      width: auto;
+    }
+  }
+}
+
+/* ================================================================
+   TABLET (768-991) - the main breakage point
+   ================================================================ */
+
+@media (max-width: 991.98px) {
+  .ims-scope {
+    .adminPageContainer {
+      max-width: none;
+    }
+
+    .mainContent {
+      padding: 16px 16px 24px;
+    }
+
+    /* The KPI row is col-6 col-md-3, so it is already 2-up here. Nothing to
+       force - but the page header actions need to drop below the title rather
+       than compete with it for a single line. */
+    .pageHeader {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .pageActions {
+      justify-content: flex-start;
+      flex-wrap: wrap;
+    }
+
+    /* Tables are the other big offender: every intern page renders data in a
+       <table> and a squeezed table breaks its own layout. Make it scroll
+       horizontally inside its own container instead of forcing the whole
+       page to scroll sideways. */
+    .table-responsive,
+    .ims-table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .ims-table-wrap table {
+      min-width: 640px;
+    }
+
+    /* Keep long unbroken strings (emails, URLs, file names) from blowing out
+       their column. */
+    .ims-break {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    /* Seven calendar columns is too tight at tablet width - the "Today" badge
+       and hour label stack and cells grow to different heights. Four across
+       keeps cells legible; the month is still scannable. */
+    .ims-calendar-grid {
+      display: grid !important;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.4rem;
+    }
+
+    .ims-calendar-grid > .col {
+      max-width: none;
+      padding: 0;
+      flex: none;
+      width: auto;
+    }
+
+    .card-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+}
+
+/* ================================================================
+   PHONE (<768) - sidebar becomes an overlay, everything stacks
+   ================================================================ */
+
+@media (max-width: 767.98px) {
+  .ims-scope {
+    .mainContent {
+      padding: 12px 12px 28px;
+    }
+
+    /* admin.css already turns .portalSidebar into a fixed overlay below 768px.
+       The missing half is the body scroll lock - without it the page scrolls
+       behind the open drawer and the menu feels broken. */
+    .ims-drawer-open {
+      overflow: hidden;
+    }
+
+    .pageHeader {
+      margin-bottom: 12px;
+    }
+
+    .pageTitle {
+      font-size: 1.3rem !important;
+    }
+
+    .pageSubtitle {
+      font-size: 0.85rem !important;
+    }
+
+    /* Full-bleed controls: a half-width button on a phone is below a usable
+       pointer target and leaves an awkward orphan next to its pair. */
+    .btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* ...except buttons that sit in a toolbar row, where full width stacks
+       them into an unusable column. */
+    .btn-group .btn {
+      width: auto;
+      flex: 1 1 auto;
+    }
+
+    /* ...and buttons that sit inside a flex ROW beside other content. `width:
+       100%` there means "100% of the row", so two controls in one row each
+       claim the whole row and squeeze their neighbour to nothing: the dashboard
+       stepper's Mark Done / Open pair overflowed the card, and on Messages the
+       conversation row collapsed to 2px beside its delete button. */
+    .ims-step-body .btn,
+    .ims-conv-list .btn,
+    .ims-bubble-actions .btn {
+      width: auto;
+    }
+
+    .pageActions .btn,
+    .card-header .btn {
+      width: auto;
+    }
+
+    /* KPI cards: col-6 is still 2-up, which is fine, but the value needs to
+       shrink or 100% overflows the card. */
+    .card h3 {
+      font-size: 1.35rem;
+    }
+
+    /* Three across is too many on a phone. */
+    .ims-calendar-grid {
+      display: grid !important;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.35rem;
+    }
+
+    .ims-calendar-grid > .col {
+      max-width: none;
+      padding: 0;
+      flex: none;
+      width: auto;
+    }
+
+    /* Stack the punch card's columns and drop the dividers - they read as
+       stray vertical lines once the columns are no longer side by side. */
+    .border-md-end {
+      border-right: 0 !important;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+    }
+
+    .display-6 {
+      font-size: 2rem;
+    }
+
+    /* Bootstrap modals are not full-screen on a phone; the scrollable body
+       fights the page scroll. */
+    .modal-dialog {
+      margin: 0.5rem;
+    }
+
+    .modal-content {
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-body {
+      overflow-y: auto;
+    }
+
+    /* Filter/legend rows wrap into a tall stack otherwise. */
+    .badge {
+      white-space: normal;
+    }
+  }
+}
+
+/* ================================================================
+   SMALL PHONE (<576)
+   ================================================================ */
+
+@media (max-width: 575.98px) {
+  .ims-scope {
+    .mainContent {
+      padding: 10px 10px 24px;
+    }
+
+    /* Two calendar columns. Three at 360px is ~110px per cell, which is just
+       enough for the day number but the hour label truncates. */
+    .ims-calendar-grid {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    /* Icon-only: at this width the labels wrap to two lines and the button
+       row doubles in height. Keep the icon, drop the text. */
+    .ims-icon-btn-label {
+      display: none;
+    }
+
+    /* "Today's Focus" stepper rows.
+       The row is a nowrap flex line holding the label and two buttons
+       (Mark Done + Open), which is ~260px of fixed chrome. Below ~576px the
+       viewport leaves the label almost nothing: at a 328px row it was down to
+       40px wide and wrapped to eight lines, and at 258px it hit 0px and the
+       step grew to 1000px tall with the buttons stranded far below the text.
+       Give the label the full row and let the two actions share the row
+       underneath it. */
+    .ims-step-body {
+      flex-wrap: wrap;
+      row-gap: 0.6rem;
+    }
+
+    .ims-step-body > .min-w-0 {
+      flex: 1 1 100%;
+    }
+
+    .ims-step-body > .btn {
+      flex: 1 1 auto;
+      width: auto;
+    }
+
+    /* Long single words (URLs, file names) must break rather than push the
+       row wider than the screen. */
+    .ims-step-title,
+    .ims-step-sub {
+      overflow-wrap: anywhere;
+    }
+
+    .card-body {
+      padding: 0.85rem;
+    }
+  }
+}
+
+/* ================================================================
+   ACCESSIBILITY - respect a reduced-motion preference
+   ================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .ims-scope {
+    .ims-calendar-grid button {
+      transition: none !important;
+    }
+
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

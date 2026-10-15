@@ -2570,7 +2570,12 @@ font-size: clamp(2rem, 3vw, 24px); }
     .et-hero-section{
         height: 80vh;
     }
-    header{
+    /* Scoped to the marketing hero sections on purpose. A bare `header`
+       selector also matched every page header in the role portals
+       (AdminPage's header.pageHeader), forcing it to 80vh and leaving a
+       screen-tall gap between the page title and the content below. */
+    header.replica-hero-section,
+    header.ab-hero {
         height: 80vh;
     }
 }
@@ -5105,7 +5110,11 @@ details[open] summary:after {
         flex-direction: column;
     }
 
-    .btn,
+    /* Scoped to the hero on purpose. A bare `.btn` selector turned every
+       button in every role portal full width below 768px - including the
+       "Open" links in the intern dashboard's task lists, which then stretched
+       past their card. */
+    .hero-buttons .btn,
     .btn-cta {
         width: 100%;
     }

@@ -20,6 +20,10 @@ const InternCalendar = lazy(() => import('./pages/Calendar.jsx'));
 const InternNotifications = lazy(() => import('./pages/Notifications.jsx'));
 const InternMessages = lazy(() => import('./pages/Messages.jsx'));
 const InternHelp = lazy(() => import('./pages/Help.jsx'));
+// Head of Interns cohort view. Separate from the individual dashboard and
+// only rendered for an account flagged is_intern_head (the backend enforces
+// the same rule on the route).
+const InternHead = lazy(() => import('./pages/InternHead.jsx'));
 
 function InternLoader() {
   return (
@@ -63,7 +67,13 @@ export default function InternApp() {
         <Route path="notifications" element={<InternNotifications />} />
         <Route path="messages" element={<InternMessages />} />
         <Route path="help" element={<InternHelp />} />
-        <Route path="*" element={<Navigate to="dashboard" replace />} />
+        <Route path="head" element={<InternHead />} />
+        <Route path="interns" element={<InternHead />} />
+        {/* Absolute on purpose. A relative to="dashboard" inside the splat
+            route resolves against the matched path, so an unknown URL such as
+            /app/intern/typo became /app/intern/typo/dashboard, matched "*"
+            again and looped forever, growing the URL without bound. */}
+        <Route path="*" element={<Navigate to="/app/intern/dashboard" replace />} />
       </Routes>
     </Suspense>
   );

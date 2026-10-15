@@ -288,6 +288,19 @@
   animation: shake 0.45s ease-in-out;
 }
 
+/* Informational notice (e.g. "your account was deleted"). Unlike .error this
+   is not animated with a shake - nothing went wrong, the state is expected. */
+.notice {
+  background: rgba(129, 158, 53, 0.16);
+  border: 1px solid rgba(129, 158, 53, 0.4);
+  color: #b9d36a;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm, 8px);
+  font-size: 13px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
 .form {
   display: flex;
   flex-direction: column;

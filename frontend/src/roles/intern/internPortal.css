@@ -287,6 +287,7 @@
 }
 
 .ims-bubble-btn {
+  position: relative;
   background: transparent;
   border: 0;
   padding: 0 0.15rem;
@@ -301,10 +302,69 @@
   background: rgba(255, 255, 255, 0.18);
 }
 
+/* The bubble actions are ~16x12px, so the tap target was the same as the icon.
+   Grow it with a transparent overlay rather than padding, which would push the
+   message meta line apart. Also reveal them on touch, where :hover never
+   fires - otherwise these two controls are unreachable on a phone. */
+.ims-bubble-btn::after {
+  content: "";
+  position: absolute;
+  inset: -7px -4px;
+}
+
+@media (hover: none) {
+  .ims-bubble-actions {
+    opacity: 1;
+  }
+}
+
 /* Conversation rows became a button + a delete button, so the row itself is no
    longer a <button> and needs the padding reset. */
+/* Progress bars, portal-wide.
+   Slimmer and with a transparent track, so the unfilled part shows the card
+   behind it instead of a grey (or, in the dark theme, near-black) slab that
+   reads as a heavy block next to the label. Scoped to .ims-scope so the other
+   nine portals keep their own bars. `!important` is required because these
+   elements carry inline `style={{ height: '6px' }}` heights, and Bootstrap's
+   own .progress background is the competing declaration for the track. */
+.ims-scope .progress {
+  height: 4px !important;
+  background-color: transparent !important;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.ims-scope .progress > .progress-bar {
+  border-radius: 999px;
+}
+
 .ims-conv-list .btn-link {
   color: inherit;
+}
+
+/* Icon-only delete button on a conversation row.
+
+   `flex-shrink-0` alone let this control resolve its flex basis to the full
+   width of the row, squeezing the conversation button beside it down to 2px
+   and leaving the list unreadable. Pin the size explicitly so the row button
+   keeps the space it needs. `padding` is reset because the unscoped marketing
+   `.btn` rules in global.css apply large pill padding to every button in every
+   portal. */
+.ims-scope .ims-conv-del {
+  /* An explicit flex-basis is required here, not `flex: 0 0 auto`: with
+     flex-basis:auto the browser resolved this control's base size to the full
+     width of the row, which collapsed the conversation button beside it to 2px.
+     Naming the basis pins it. */
+  flex: 0 0 34px;
+  width: 34px;
+  min-width: 34px;
+  max-width: 34px;
+  height: 34px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
 }
 
 .ims-conv-list .btn-link:focus-visible {
@@ -409,6 +469,12 @@
   }
 }
 
+/* "Today's Focus" rows.
+   NOTE: the `.ims-focus-*` rules that used to live here were dead - no JSX
+   referenced those class names. Today's Focus renders through the stepper
+   (.ims-stepper / .ims-step-body) instead, and its narrow-screen layout is
+   handled in internPortal.responsive.css. */
+
 /* FAQ cards ---------------------------------------------------------------- */
 
 /* Replaces Bootstrap's accordion, whose rows had mismatched backgrounds, a
@@ -504,4 +570,110 @@
 
 .ims-ticket-card .badge {
   font-weight: 500;
+}
+/* ===========================================================================
+   ATTENDANCE � stat tiles + live dot
+   Ported verbatim from the Employee portal's attendance screen so the Intern
+   portal shows the same KPI treatment. The employee styles are scoped to
+   .emp-portal, which the intern portal never matches, so the rules are
+   re-declared here against .ims-scope with the same values and the same
+   --ims- prefixed tone variables. Keep the two in step.
+   =========================================================================== */
+
+.ims-scope {
+  /* Tones copied from the employee portal's --emp-* palette. */
+  --ims-stat-olive: #819e35;
+  --ims-stat-teal: #1a4b48;
+  --ims-stat-gold: #e8d657;
+  --ims-stat-clay: #af431e;
+  --ims-stat-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --ims-stat-shadow: 0 8px 20px rgba(15, 23, 42, 0.09);
+  --ims-stat-dur: 0.25s;
+  --ims-stat-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ims-stat-ease-out: cubic-bezier(0, 0, 0.2, 1);
+}
+
+.ims-scope .emp-stat {
+  position: relative;
+  border-radius: var(--ims-radius);
+  padding: 1.1rem 1.15rem;
+  background: var(--color-surface, #fff);
+  border: 1px solid rgba(26, 75, 72, 0.08);
+  box-shadow: var(--ims-stat-shadow-sm);
+  overflow: hidden;
+  transition:
+    transform var(--ims-stat-dur) var(--ims-stat-ease),
+    box-shadow var(--ims-stat-dur) var(--ims-stat-ease);
+}
+
+/* brand accent rail */
+.ims-scope .emp-stat::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: var(--stat-tone, var(--ims-stat-olive));
+  transform-origin: top;
+  transform: scaleY(0.35);
+  opacity: 0.85;
+  transition: transform var(--ims-stat-dur) var(--ims-stat-ease-out);
+}
+
+.ims-scope .emp-stat:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--ims-stat-shadow);
+}
+
+.ims-scope .emp-stat:hover::before {
+  transform: scaleY(1);
+}
+
+.ims-scope .emp-stat__label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted, #555);
+  margin-bottom: 0.35rem;
+}
+
+.ims-scope .emp-stat__value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--ims-stat-teal);
+  font-variant-numeric: tabular-nums;
+}
+
+.ims-scope .emp-stat__hint {
+  font-size: 0.75rem;
+  color: var(--color-text-muted, #555);
+  margin-top: 0.2rem;
+}
+
+/* Tone variants */
+.ims-scope .emp-stat--olive { --stat-tone: var(--ims-stat-olive); }
+.ims-scope .emp-stat--gold  { --stat-tone: var(--ims-stat-gold); }
+.ims-scope .emp-stat--clay  { --stat-tone: var(--ims-stat-clay); }
+.ims-scope .emp-stat--teal  { --stat-tone: var(--ims-stat-teal); }
+
+/* Pulsing "currently clocked in" indicator */
+.ims-scope .emp-live-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ims-stat-olive);
+  box-shadow: 0 0 0 0 rgba(129, 158, 53, 0.6);
+  animation: imsPulse 1.9s infinite;
+}
+
+@keyframes imsPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(129, 158, 53, 0.55); }
+  70%  { box-shadow: 0 0 0 9px rgba(129, 158, 53, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(129, 158, 53, 0); }
+}
+
+@media (max-width: 768px) {
+  .ims-scope .emp-stat__value { font-size: 1.4rem; }
 }

@@ -435,6 +435,37 @@ body {
 }
 
 /* ============================================================
+   FLEX UTILITIES
+   ============================================================ */
+/* Bootstrap ships no min-width utilities, so `min-w-0` was a no-op class
+   outside the employee portal (the only definition of it lived under
+   .emp-portal). Without it a flex child keeps the default `min-width: auto`
+   and refuses to shrink below its content, so long labels push sibling
+   buttons straight out of their card on narrow screens. */
+.min-w-0 {
+  min-width: 0;
+}
+
+/* ============================================================
+   PROGRESS BARS
+   ============================================================ */
+/* Bootstrap's default track is an opaque grey slab, which reads as a heavy
+   block beside a label - and near-black against a dark card. Making the track
+   transparent lets the surface behind it show through instead, and rounds the
+   fill to match. Height is deliberately untouched so no portal's existing
+   sizing shifts; a portal wanting a slimmer bar sets its own height.
+   !important is required because these elements carry inline
+   `style={{ height: '6px' }}` and Bootstrap declares the track background. */
+.progress {
+  background-color: transparent !important;
+  border-radius: 999px;
+}
+
+.progress-bar {
+  border-radius: 999px;
+}
+
+/* ============================================================
    ACTIVITY FEED SLIDE-OVER DRAWER
    ============================================================ */
 .activityFeedTray {
@@ -692,6 +723,54 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
+  min-width: 0;
+  flex-shrink: 1;
+}
+
+/* The icon/action cluster on the right. Without min-width:0 the flex item
+   refuses to shrink below its content width and pushes the navbar wider than
+   the viewport on narrow screens, giving the page a horizontal scrollbar. */
+.portalNavbarActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+/* Narrow screens: trim the navbar chrome rather than let it overflow. The role
+   badge is decorative (the same role is spelled out in the user pill), and the
+   search pill collapses to its icon, both already have title/aria labels. */
+@media (max-width: 640px) {
+  .portalNavbar {
+    padding: 0 12px;
+  }
+  .portalNavbarBrand {
+    gap: 8px;
+  }
+  .portalRoleBadge {
+    display: none;
+  }
+  .portalNavbarActions {
+    gap: 6px;
+  }
+  .portalSearchPill {
+    padding: 6px 10px;
+    gap: 0;
+  }
+}
+
+@media (max-width: 400px) {
+  .portalBrandTitle {
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+  /* Only the avatar survives - the search pill and the secondary
+     bell/chat/help icons move into the sidebar drawer. */
+  .portalSearchPill,
+  .portalNavbarActions .portalNotificationBtn {
+    display: none;
+  }
 }
 
 .portalSidebarToggle {

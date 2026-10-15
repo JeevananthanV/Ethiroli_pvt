@@ -152,7 +152,11 @@ export default function TrainingPlan() {
               <small className="text-white-50">On Track for Distinction Certificate</small>
             </div>
           </div>
-          <div className="progress mt-3 bg-white bg-opacity-25" style={{ height: '10px' }}>
+          {/* Height and track colour come from .ims-progress in
+              internPortal.css. The old inline height plus bg-white bg-opacity-25
+              fought the stylesheet and won, which is why this bar rendered
+              heavier than the rest of the page. */}
+          <div className="progress mt-3 ims-progress">
             <div
               className="progress-bar bg-white"
               role="progressbar"
@@ -192,7 +196,7 @@ export default function TrainingPlan() {
                 <div className="card-body p-3 pt-0">
                   {/* Progress Bar */}
                   <div className="d-flex align-items-center gap-2 mb-3">
-                    <div className="progress flex-grow-1" style={{ height: '6px' }}>
+                    <div className="progress flex-grow-1 ims-progress">
                       <div
                         className={`progress-bar ${m.status === 'COMPLETED' ? 'bg-success' : 'bg-primary'}`}
                         style={{ width: `${m.progress}%` }}

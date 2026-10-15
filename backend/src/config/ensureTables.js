@@ -141,7 +141,27 @@ export const ensureEssentialTables = async () => {
       await pool.execute('CREATE INDEX idx_projects_manager ON student_projects (manager_id)');
     } catch (_) {}
 
-    console.log('Essential tables (contact_messages, career_applications, candidates, contact_inquiries, users.avatar_url, push_notifications, student_projects ownership) verified/created.');
+    // 8. Intern-head flag on users.
+    //    Session.findByToken selects u.is_intern_head, and requireInternHead.js
+    //    reads req.user.is_intern_head. No schema file ever added the column, so
+    //    the SELECT raised "Unknown column 'u.is_intern_head'", which surfaced as
+    //    a 401 "Authentication required" on EVERY authenticated request - the
+    //    activity feed and /auth/me included. Added here so the existing
+    //    intern-head guard works.
+    for (const ddl of [
+      `ALTER TABLE users ADD COLUMN IF NOT EXISTS is_intern_head TINYINT(1) NOT NULL DEFAULT 0`
+    ]) {
+      try {
+        await pool.execute(ddl);
+      } catch (colErr) {
+        // Older MySQL without ADD COLUMN IF NOT EXISTS: probe and add if absent.
+        try {
+          await pool.execute(ddl.replace('ADD COLUMN IF NOT EXISTS', 'ADD COLUMN'));
+        } catch (_) {}
+      }
+    }
+
+    console.log('Essential tables (contact_messages, career_applications, candidates, contact_inquiries, users.avatar_url, users.is_intern_head, push_notifications, student_projects ownership) verified/created.');
   } catch (err) {
     console.warn('Warning checking essential tables on startup:', err.message);
   }

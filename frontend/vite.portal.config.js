@@ -26,9 +26,13 @@ const portalRewritePlugin = (slug, html) => ({
         (prefix) => url === prefix || url.startsWith(`${prefix}/`) || url.startsWith(`${prefix}?`)
       )
       if (ownedByProxy) return next()
-      // Open the portal straight on its own sign-in page.
+      // Open the portal straight on its own sign-in page. This must serve the
+      // role's shell html, not the clean login URL: rewriting to /auth/<slug>/login
+      // and calling next() leaves the request extensionless, so Vite's SPA
+      // fallback answers it with index.html (the marketing site) instead.
+      // RolePortalShell already has a "/" route that navigates to the login.
       if (url === '/') {
-        req.url = `/auth/${slug}/login`
+        req.url = shell
         return next()
       }
       if (!url.includes('.') && !url.startsWith('/@')) {
@@ -72,6 +76,15 @@ const relativePathFallbackPlugin = () => ({
  */
 export const createPortalConfig = ({ slug, html, port }) =>
   defineConfig({
+    // Each dev server needs its OWN dep-optimizer cache.
+    //
+    // Vite keys optimized deps by a hash of the config, but every server in this
+    // project would otherwise share the single default node_modules/.vite dir.
+    // Two servers running at once then overwrite each other's cache: one
+    // re-optimizes, the other's already-emitted ?v=<hash> URLs 504 with
+    // "Outdated Optimize Dep", and the affected portal renders a blank page
+    // because the failure happens before React mounts.
+    cacheDir: `node_modules/.vite-${slug}`,
     plugins: [react(), portalRewritePlugin(slug, html), relativePathFallbackPlugin()],
     server: {
       port,

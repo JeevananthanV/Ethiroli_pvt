@@ -266,12 +266,22 @@ async function generateMasterSql() {
   // and role_permissions were created with MariaDB 11 default utf8mb4_uca1400_ai_ci.
   // Foreign keys (e.g. user_roles -> roles & users) fail with errno 150 unless collations match.
   sql.push(`-- ============================================================================`);
-  sql.push(`-- PART 0: COLLATION HARMONIZATION (FIX FOR MYSQL ERROR 150)`);
-  sql.push(`-- Harmonize roles and permissions to utf8mb4_unicode_ci to match users table`);
+  sql.push(`-- PART 0: COLLATION HARMONIZATION (FIX FOR MYSQL ERRORS 150 & 1833)`);
+  sql.push(`-- Live database has 120 tables in utf8mb4_unicode_ci, but roles, permissions,`);
+  sql.push(`-- and role_permissions were created with MariaDB default utf8mb4_uca1400_ai_ci.`);
+  sql.push(`-- Temporarily drop the FKs on role_permissions to allow converting roles/permissions`);
+  sql.push(`-- without Error #1833, then convert and restore the foreign keys seamlessly.`);
   sql.push(`-- ============================================================================`);
+  sql.push(`ALTER TABLE \`role_permissions\` DROP FOREIGN KEY IF EXISTS \`fk_rp_role\`;`);
+  sql.push(`ALTER TABLE \`role_permissions\` DROP FOREIGN KEY IF EXISTS \`fk_rp_perm\`;`);
+  sql.push(``);
   sql.push(`ALTER TABLE \`roles\` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`);
   sql.push(`ALTER TABLE \`permissions\` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`);
   sql.push(`ALTER TABLE \`role_permissions\` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`);
+  sql.push(``);
+  sql.push(`ALTER TABLE \`role_permissions\`
+  ADD CONSTRAINT \`fk_rp_perm\` FOREIGN KEY (\`permission_id\`) REFERENCES \`permissions\` (\`id\`) ON DELETE CASCADE,
+  ADD CONSTRAINT \`fk_rp_role\` FOREIGN KEY (\`role_id\`) REFERENCES \`roles\` (\`id\`) ON DELETE CASCADE;`);
   sql.push(``);
 
   // ============================================================================

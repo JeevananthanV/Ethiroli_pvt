@@ -1,7 +1,7 @@
 -- ============================================================================
 -- ETHIROLI PLATFORM - MASTER PRODUCTION MIGRATION & REPAIR SCRIPT
 -- Target Database: u629721489_ethiroli_Db (Hostinger MariaDB 11.8+)
--- Generated: 2026-10-15T10:34:04.124Z
+-- Generated: 2026-10-15T11:01:43.057Z
 -- Scope: Missing Tables (14) + Missing Columns (20) + Indexes + Seeds & Credentials
 -- Safe & Idempotent: Can be run repeatedly without data loss or duplicate keys.
 -- ============================================================================
@@ -12,12 +12,22 @@ SET FOREIGN_KEY_CHECKS = 0;
 SET NAMES utf8mb4;
 
 -- ============================================================================
--- PART 0: COLLATION HARMONIZATION (FIX FOR MYSQL ERROR 150)
--- Harmonize roles and permissions to utf8mb4_unicode_ci to match users table
+-- PART 0: COLLATION HARMONIZATION (FIX FOR MYSQL ERRORS 150 & 1833)
+-- Live database has 120 tables in utf8mb4_unicode_ci, but roles, permissions,
+-- and role_permissions were created with MariaDB default utf8mb4_uca1400_ai_ci.
+-- Temporarily drop the FKs on role_permissions to allow converting roles/permissions
+-- without Error #1833, then convert and restore the foreign keys seamlessly.
 -- ============================================================================
+ALTER TABLE `role_permissions` DROP FOREIGN KEY IF EXISTS `fk_rp_role`;
+ALTER TABLE `role_permissions` DROP FOREIGN KEY IF EXISTS `fk_rp_perm`;
+
 ALTER TABLE `roles` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `permissions` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `role_permissions` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+ALTER TABLE `role_permissions`
+  ADD CONSTRAINT `fk_rp_perm` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_rp_role` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
 
 -- ============================================================================
 -- PART 1: DDL - ENSURE MISSING TABLES EXIST
@@ -479,7 +489,7 @@ ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `description` = VALUES(`descrip
 -- [SUPER_ADMIN] admin@ethiroli.com (Super Administrator)
 -- Plaintext Password: Admin@123 | Portal: /auth/super-admin/login
 INSERT INTO `users` (`id`, `email`, `password_hash`, `full_name`, `phone`, `role`, `is_active`, `preferences`)
-VALUES ('368f5c88-12cd-11ed-861d-0242ac120002', '723770bf76abc5aa33fdac9e:68d007eb156954a884f0086c47ac8d75:a18e6c09bb52768dcede4184611d436e7de9', '$2b$12$Xoi4XGB1LT.CkYHVrC8MzeH.FRuDoXymWlyr7/gARGeR2h8Z2oRQS', '1b4baba1e650a3793631d34e:ddf5b3c19aaeb66ab63400b262dafd3b:862b69f723e6851f6cb4b0f2f7fded5b518bf5', NULL, 'SUPER_ADMIN', 1, '{"department":"Executive Operations","college":null,"seeded":true}')
+VALUES ('368f5c88-12cd-11ed-861d-0242ac120002', '723770bf76abc5aa33fdac9e:68d007eb156954a884f0086c47ac8d75:a18e6c09bb52768dcede4184611d436e7de9', '$2b$12$Bsg0tKtIlKO./xzat8qs3eL5c5dtlUChuJyF8jzNdjeWqWzVzEIUG', 'ed2f84439b74dac338eaf0bb:0664eb1c7e074fdbae35d69340215e58:8d1b3c5bb15ef6ef94d02b3aef06d58cfbaa75', NULL, 'SUPER_ADMIN', 1, '{"department":"Executive Operations","college":null,"seeded":true}')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `full_name` = VALUES(`full_name`),
@@ -487,7 +497,7 @@ ON DUPLICATE KEY UPDATE
   `is_active` = 1,
   `preferences` = VALUES(`preferences`);
 INSERT INTO `user_credentials` (`user_id`, `password_hash`, `password_algo`, `password_updated_at`, `failed_login_attempts`, `lockout_until`, `requires_password_change`, `password_history`)
-VALUES ('368f5c88-12cd-11ed-861d-0242ac120002', '$2b$12$Xoi4XGB1LT.CkYHVrC8MzeH.FRuDoXymWlyr7/gARGeR2h8Z2oRQS', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$Xoi4XGB1LT.CkYHVrC8MzeH.FRuDoXymWlyr7/gARGeR2h8Z2oRQS"]')
+VALUES ('368f5c88-12cd-11ed-861d-0242ac120002', '$2b$12$Bsg0tKtIlKO./xzat8qs3eL5c5dtlUChuJyF8jzNdjeWqWzVzEIUG', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$Bsg0tKtIlKO./xzat8qs3eL5c5dtlUChuJyF8jzNdjeWqWzVzEIUG"]')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `password_updated_at` = NOW(),
@@ -499,7 +509,7 @@ ON DUPLICATE KEY UPDATE
 -- [ADMIN] orgadmin@ethiroli.com (Organization Admin)
 -- Plaintext Password: Admin@123 | Portal: /auth/admin/login
 INSERT INTO `users` (`id`, `email`, `password_hash`, `full_name`, `phone`, `role`, `is_active`, `preferences`)
-VALUES ('bef7a014-983a-4041-89a1-c8cfa4590993', '096f2daf6bb8534451b7ca22:857266e023017bf9612e7a0a65eb3bb6:b4a75b39c7524335dba60d560087ba69f30e8fa55c', '$2b$12$zge4zOAhkXpux3/fj0fFhemoI7lR7JlvRDOfzQ8D.Xnimon0zA.ge', '4bee65836fee202f5634626f:8b9074803e14d2802cf3bb8358241bc4:59dbd352b3e0334e8e17a2da7934a0e9908c', NULL, 'ADMIN', 1, '{"department":"Administration","college":null,"seeded":true}')
+VALUES ('bef7a014-983a-4041-89a1-c8cfa4590993', '096f2daf6bb8534451b7ca22:857266e023017bf9612e7a0a65eb3bb6:b4a75b39c7524335dba60d560087ba69f30e8fa55c', '$2b$12$OkOI2tVZwj.wp4jZJOzrIe18Nck8NTFu3jhVXMQeLLU1MtVnnntRm', 'c32bd5f8082ca3fb2a70aa67:2b1167d026af6f64a9f6c5c425dd6b88:f860156dbc4c890e766b8a739c5ff6bf380f', NULL, 'ADMIN', 1, '{"department":"Administration","college":null,"seeded":true}')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `full_name` = VALUES(`full_name`),
@@ -507,7 +517,7 @@ ON DUPLICATE KEY UPDATE
   `is_active` = 1,
   `preferences` = VALUES(`preferences`);
 INSERT INTO `user_credentials` (`user_id`, `password_hash`, `password_algo`, `password_updated_at`, `failed_login_attempts`, `lockout_until`, `requires_password_change`, `password_history`)
-VALUES ('bef7a014-983a-4041-89a1-c8cfa4590993', '$2b$12$zge4zOAhkXpux3/fj0fFhemoI7lR7JlvRDOfzQ8D.Xnimon0zA.ge', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$zge4zOAhkXpux3/fj0fFhemoI7lR7JlvRDOfzQ8D.Xnimon0zA.ge"]')
+VALUES ('bef7a014-983a-4041-89a1-c8cfa4590993', '$2b$12$OkOI2tVZwj.wp4jZJOzrIe18Nck8NTFu3jhVXMQeLLU1MtVnnntRm', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$OkOI2tVZwj.wp4jZJOzrIe18Nck8NTFu3jhVXMQeLLU1MtVnnntRm"]')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `password_updated_at` = NOW(),
@@ -519,7 +529,7 @@ ON DUPLICATE KEY UPDATE
 -- [ADMIN] admin@ethiroli.net (System Administrator)
 -- Plaintext Password: Admin@123 | Portal: /auth/admin/login
 INSERT INTO `users` (`id`, `email`, `password_hash`, `full_name`, `phone`, `role`, `is_active`, `preferences`)
-VALUES ('479f6d99-23de-22fe-972e-0353bd230003', '75dd901360b5a88882148fa8:46aca0bca935b9eb9ae4bca62e3e6053:2e772508fdcabad35260ae03e2a895f0841b', '$2b$12$lNkGvyeuiNlALTS1MrM9WOCAFdsqslEQ709IokTXM2elOML1rh5Pa', '26a54a2e3f5e0f371eeea78e:235afaa88773a4effc90b994982afb36:c74c9ee7893d448a9340e8cb19084f4d635afb67', NULL, 'ADMIN', 1, '{"department":"Administration","college":null,"seeded":true}')
+VALUES ('479f6d99-23de-22fe-972e-0353bd230003', '75dd901360b5a88882148fa8:46aca0bca935b9eb9ae4bca62e3e6053:2e772508fdcabad35260ae03e2a895f0841b', '$2b$12$i92deDgbsk5FaqHgACBMoe/kaeJg/vGIPrmOI8hdGzJB5.VLvCfR6', 'e010b5a827cd90fdcf73d5a5:e57e379e533efe727e1a3fc2d637de38:dc34e10cf91a32f4f5e1ad3c5b433a447372b1fd', NULL, 'ADMIN', 1, '{"department":"Administration","college":null,"seeded":true}')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `full_name` = VALUES(`full_name`),
@@ -527,7 +537,7 @@ ON DUPLICATE KEY UPDATE
   `is_active` = 1,
   `preferences` = VALUES(`preferences`);
 INSERT INTO `user_credentials` (`user_id`, `password_hash`, `password_algo`, `password_updated_at`, `failed_login_attempts`, `lockout_until`, `requires_password_change`, `password_history`)
-VALUES ('479f6d99-23de-22fe-972e-0353bd230003', '$2b$12$lNkGvyeuiNlALTS1MrM9WOCAFdsqslEQ709IokTXM2elOML1rh5Pa', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$lNkGvyeuiNlALTS1MrM9WOCAFdsqslEQ709IokTXM2elOML1rh5Pa"]')
+VALUES ('479f6d99-23de-22fe-972e-0353bd230003', '$2b$12$i92deDgbsk5FaqHgACBMoe/kaeJg/vGIPrmOI8hdGzJB5.VLvCfR6', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$i92deDgbsk5FaqHgACBMoe/kaeJg/vGIPrmOI8hdGzJB5.VLvCfR6"]')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `password_updated_at` = NOW(),
@@ -539,7 +549,7 @@ ON DUPLICATE KEY UPDATE
 -- [HR] hr@ethiroli.com (HR Manager)
 -- Plaintext Password: Hr@123 | Portal: /auth/hr/login
 INSERT INTO `users` (`id`, `email`, `password_hash`, `full_name`, `phone`, `role`, `is_active`, `preferences`)
-VALUES ('0fa117ca-5edf-4687-b099-54290e40ffe1', '9944bc544d9ea138e00b990d:0eb78ed8f7827ef852852e4e5c200207:ec5511024e5ea8f450a1d12321aa16', '$2b$12$f6nfYuI4AjiRYEjv0fr6ievVyGVtidbvicyZ/uZJ/RosCtlKZtVlW', '10e4fdc9c26637acb0b93845:09063f48f74f5239965b9e348651a9bf:e3d9cc53a607ac12d2ea', NULL, 'HR', 1, '{"department":"Human Resources","college":null,"seeded":true}')
+VALUES ('0fa117ca-5edf-4687-b099-54290e40ffe1', '9944bc544d9ea138e00b990d:0eb78ed8f7827ef852852e4e5c200207:ec5511024e5ea8f450a1d12321aa16', '$2b$12$rs/LIwj6kWSLN8FZSvqeE.oluivhyh4T4H3EzH8IahdCvEIL8BUWC', '091383a1424d792e8574cd63:25164eacf9d02765e39b6079ec90bf38:eaa5b4ab5ab1b89128f2', NULL, 'HR', 1, '{"department":"Human Resources","college":null,"seeded":true}')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `full_name` = VALUES(`full_name`),
@@ -547,7 +557,7 @@ ON DUPLICATE KEY UPDATE
   `is_active` = 1,
   `preferences` = VALUES(`preferences`);
 INSERT INTO `user_credentials` (`user_id`, `password_hash`, `password_algo`, `password_updated_at`, `failed_login_attempts`, `lockout_until`, `requires_password_change`, `password_history`)
-VALUES ('0fa117ca-5edf-4687-b099-54290e40ffe1', '$2b$12$f6nfYuI4AjiRYEjv0fr6ievVyGVtidbvicyZ/uZJ/RosCtlKZtVlW', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$f6nfYuI4AjiRYEjv0fr6ievVyGVtidbvicyZ/uZJ/RosCtlKZtVlW"]')
+VALUES ('0fa117ca-5edf-4687-b099-54290e40ffe1', '$2b$12$rs/LIwj6kWSLN8FZSvqeE.oluivhyh4T4H3EzH8IahdCvEIL8BUWC', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$rs/LIwj6kWSLN8FZSvqeE.oluivhyh4T4H3EzH8IahdCvEIL8BUWC"]')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `password_updated_at` = NOW(),
@@ -556,7 +566,7 @@ ON DUPLICATE KEY UPDATE
   `requires_password_change` = 0,
   `password_history` = VALUES(`password_history`);
 INSERT INTO `employees` (`id`, `user_id`, `employee_code`, `department`, `designation`, `date_of_joining`)
-VALUES ('88069c4e-a78b-4c7d-aaf6-de8f6785af70', '0fa117ca-5edf-4687-b099-54290e40ffe1', 'EMP-102', 'Human Resources', 'HR Lead & Talent Ops', CURDATE())
+VALUES ('2fd96126-23fc-469e-86d0-10d3125560d2', '0fa117ca-5edf-4687-b099-54290e40ffe1', 'EMP-102', 'Human Resources', 'HR Lead & Talent Ops', CURDATE())
 ON DUPLICATE KEY UPDATE
   `employee_code` = VALUES(`employee_code`),
   `department` = VALUES(`department`),
@@ -565,7 +575,7 @@ ON DUPLICATE KEY UPDATE
 -- [TUTOR] tutor@ethiroli.com (Verified Senior Instructor)
 -- Plaintext Password: Tutor@123 | Portal: /auth/tutor/login
 INSERT INTO `users` (`id`, `email`, `password_hash`, `full_name`, `phone`, `role`, `is_active`, `preferences`)
-VALUES ('c60caddb-2848-492a-8724-4e7ec5d55850', '45d92b301139716fe1e12085:2443a1afcdb5de15edca1ce571372a4a:67e5865b1d9cfa282152ec85939905785601', '$2b$12$VyaC8U1jsc4kcnBwFF/qm.xQqR4KXNJ8Sbmr0nKWuCP2UCK7VRAo.', 'c64bf5e8d2ea438c4cec05d5:3621cc40580dc37100204ead1899ac9f:8ff484bab01c2826e1a3e418648ed99bf83037669129b3f93baf', NULL, 'TUTOR', 1, '{"department":"Academics & Training","college":null,"seeded":true}')
+VALUES ('c60caddb-2848-492a-8724-4e7ec5d55850', '45d92b301139716fe1e12085:2443a1afcdb5de15edca1ce571372a4a:67e5865b1d9cfa282152ec85939905785601', '$2b$12$A19cFm.NZSW0PyREdmp/Ce7oxJPAhgGkrTLXZejlDQsP8fDyNBBg2', '5faf1c286ea5162f61e5d795:f0ddc40a43e8935fdf88ef01bebc92ea:9ef6ac6ab90b6fb1440d4230c91486f7c87178ed84ec7368b80e', NULL, 'TUTOR', 1, '{"department":"Academics & Training","college":null,"seeded":true}')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `full_name` = VALUES(`full_name`),
@@ -573,7 +583,7 @@ ON DUPLICATE KEY UPDATE
   `is_active` = 1,
   `preferences` = VALUES(`preferences`);
 INSERT INTO `user_credentials` (`user_id`, `password_hash`, `password_algo`, `password_updated_at`, `failed_login_attempts`, `lockout_until`, `requires_password_change`, `password_history`)
-VALUES ('c60caddb-2848-492a-8724-4e7ec5d55850', '$2b$12$VyaC8U1jsc4kcnBwFF/qm.xQqR4KXNJ8Sbmr0nKWuCP2UCK7VRAo.', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$VyaC8U1jsc4kcnBwFF/qm.xQqR4KXNJ8Sbmr0nKWuCP2UCK7VRAo."]')
+VALUES ('c60caddb-2848-492a-8724-4e7ec5d55850', '$2b$12$A19cFm.NZSW0PyREdmp/Ce7oxJPAhgGkrTLXZejlDQsP8fDyNBBg2', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$A19cFm.NZSW0PyREdmp/Ce7oxJPAhgGkrTLXZejlDQsP8fDyNBBg2"]')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `password_updated_at` = NOW(),
@@ -585,7 +595,7 @@ ON DUPLICATE KEY UPDATE
 -- [PROJECT_MANAGER] pm@ethiroli.com (Project Manager)
 -- Plaintext Password: Pm@123 | Portal: /auth/pm/login
 INSERT INTO `users` (`id`, `email`, `password_hash`, `full_name`, `phone`, `role`, `is_active`, `preferences`)
-VALUES ('4433911c-04f6-4dc3-8738-e25ba5b1b4d4', 'ef6bacbe5becc007bb0e63f4:0c0ed496a4e4985af6d13eed447cb822:42661e14b1a26e2795d5adbda5b5de', '$2b$12$eWVkseKX3tXFELMSzOoIuuJ0/sZ5Y2htrsh9dTFEJQtCd1OqiRLJa', '926e93928c2fd5095f2e35bd:6153421c389fe9da51f4ca03547099ab:7f55c5c28e40edc1cd629ebacb8b7d', NULL, 'PROJECT_MANAGER', 1, '{"department":"Project Delivery","college":null,"seeded":true}')
+VALUES ('4433911c-04f6-4dc3-8738-e25ba5b1b4d4', 'ef6bacbe5becc007bb0e63f4:0c0ed496a4e4985af6d13eed447cb822:42661e14b1a26e2795d5adbda5b5de', '$2b$12$xVgr83sOgeUbzCZL6VFYh.vlnfS1ZBMOIFjQuieLS5AvcAMAj/IuW', '0c758b71767c0fadd5ef1d5e:e7d52dc9c455ae32117d1b8c79913a41:5d6f67c34bb16bcfbc58844ad16729', NULL, 'PROJECT_MANAGER', 1, '{"department":"Project Delivery","college":null,"seeded":true}')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `full_name` = VALUES(`full_name`),
@@ -593,7 +603,7 @@ ON DUPLICATE KEY UPDATE
   `is_active` = 1,
   `preferences` = VALUES(`preferences`);
 INSERT INTO `user_credentials` (`user_id`, `password_hash`, `password_algo`, `password_updated_at`, `failed_login_attempts`, `lockout_until`, `requires_password_change`, `password_history`)
-VALUES ('4433911c-04f6-4dc3-8738-e25ba5b1b4d4', '$2b$12$eWVkseKX3tXFELMSzOoIuuJ0/sZ5Y2htrsh9dTFEJQtCd1OqiRLJa', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$eWVkseKX3tXFELMSzOoIuuJ0/sZ5Y2htrsh9dTFEJQtCd1OqiRLJa"]')
+VALUES ('4433911c-04f6-4dc3-8738-e25ba5b1b4d4', '$2b$12$xVgr83sOgeUbzCZL6VFYh.vlnfS1ZBMOIFjQuieLS5AvcAMAj/IuW', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$xVgr83sOgeUbzCZL6VFYh.vlnfS1ZBMOIFjQuieLS5AvcAMAj/IuW"]')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `password_updated_at` = NOW(),
@@ -602,7 +612,7 @@ ON DUPLICATE KEY UPDATE
   `requires_password_change` = 0,
   `password_history` = VALUES(`password_history`);
 INSERT INTO `employees` (`id`, `user_id`, `employee_code`, `department`, `designation`, `date_of_joining`)
-VALUES ('02f553ea-0df4-4902-8047-972b844fe111', '4433911c-04f6-4dc3-8738-e25ba5b1b4d4', 'EMP-103', 'Project Delivery', 'Technical Project Manager', CURDATE())
+VALUES ('812152eb-7571-4eac-a089-0a456a9f07fa', '4433911c-04f6-4dc3-8738-e25ba5b1b4d4', 'EMP-103', 'Project Delivery', 'Technical Project Manager', CURDATE())
 ON DUPLICATE KEY UPDATE
   `employee_code` = VALUES(`employee_code`),
   `department` = VALUES(`department`),
@@ -611,7 +621,7 @@ ON DUPLICATE KEY UPDATE
 -- [FINANCE] finance@ethiroli.com (Finance Lead)
 -- Plaintext Password: Finance@123 | Portal: /auth/finance/login
 INSERT INTO `users` (`id`, `email`, `password_hash`, `full_name`, `phone`, `role`, `is_active`, `preferences`)
-VALUES ('8a8b4cfb-012a-4072-a24f-6cd999e9e007', 'ba19cdc0a1bb6536e110630f:83592ea04dd74df4d81efcaae26479e4:d30ab6c3f86ddaab41550b587b494dd90afe8504', '$2b$12$k48NLDYUVNg0Jh0FM1J/A.FNbUK5Us49b9w7jaJgdZ8HafvboVz4y', '7a2281e8669e7c2b96d9996d:239e7823a0f28b72e1e9383bd5e7649b:9e4c73bdecb7076c293187e6', NULL, 'FINANCE', 1, '{"department":"Finance & Accounts","college":null,"seeded":true}')
+VALUES ('8a8b4cfb-012a-4072-a24f-6cd999e9e007', 'ba19cdc0a1bb6536e110630f:83592ea04dd74df4d81efcaae26479e4:d30ab6c3f86ddaab41550b587b494dd90afe8504', '$2b$12$DRiXGjn4LmiTky6gDR9DceV7ELG3ppB.W9XfvhgkZtoI3IZgW5dzm', '051749bb1aed7f4c5e45aa7d:34a15d6337f0dfece59fa2f8ab906e81:6deabee7830ddad983c3c455', NULL, 'FINANCE', 1, '{"department":"Finance & Accounts","college":null,"seeded":true}')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `full_name` = VALUES(`full_name`),
@@ -619,7 +629,7 @@ ON DUPLICATE KEY UPDATE
   `is_active` = 1,
   `preferences` = VALUES(`preferences`);
 INSERT INTO `user_credentials` (`user_id`, `password_hash`, `password_algo`, `password_updated_at`, `failed_login_attempts`, `lockout_until`, `requires_password_change`, `password_history`)
-VALUES ('8a8b4cfb-012a-4072-a24f-6cd999e9e007', '$2b$12$k48NLDYUVNg0Jh0FM1J/A.FNbUK5Us49b9w7jaJgdZ8HafvboVz4y', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$k48NLDYUVNg0Jh0FM1J/A.FNbUK5Us49b9w7jaJgdZ8HafvboVz4y"]')
+VALUES ('8a8b4cfb-012a-4072-a24f-6cd999e9e007', '$2b$12$DRiXGjn4LmiTky6gDR9DceV7ELG3ppB.W9XfvhgkZtoI3IZgW5dzm', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$DRiXGjn4LmiTky6gDR9DceV7ELG3ppB.W9XfvhgkZtoI3IZgW5dzm"]')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `password_updated_at` = NOW(),
@@ -628,7 +638,7 @@ ON DUPLICATE KEY UPDATE
   `requires_password_change` = 0,
   `password_history` = VALUES(`password_history`);
 INSERT INTO `employees` (`id`, `user_id`, `employee_code`, `department`, `designation`, `date_of_joining`)
-VALUES ('faea07fd-d893-4cf8-9f3b-c3de8eea7d6f', '8a8b4cfb-012a-4072-a24f-6cd999e9e007', 'EMP-104', 'Finance & Accounts', 'Finance & Accounts Specialist', CURDATE())
+VALUES ('1e80f957-61c9-4675-a0e7-61ff25b994cc', '8a8b4cfb-012a-4072-a24f-6cd999e9e007', 'EMP-104', 'Finance & Accounts', 'Finance & Accounts Specialist', CURDATE())
 ON DUPLICATE KEY UPDATE
   `employee_code` = VALUES(`employee_code`),
   `department` = VALUES(`department`),
@@ -637,7 +647,7 @@ ON DUPLICATE KEY UPDATE
 -- [SALES] sales@ethiroli.com (Sales Executive)
 -- Plaintext Password: Sales@123 | Portal: /auth/sales/login
 INSERT INTO `users` (`id`, `email`, `password_hash`, `full_name`, `phone`, `role`, `is_active`, `preferences`)
-VALUES ('a25602e3-ecd5-4fbf-a833-284bf9d36909', '074da5370a0fa5ebc734db45:881e49450079cc132bd265d85b3d373b:f362b09ba267902744c24408df6177741434', '$2b$12$MK65VHsqVRlQru47.KGppeZ/72QkA8jFVM8bgXb0sZ5h5F1v6MP8a', '0effc7a780ab028aa754870c:33af687deef0766bc40c9d3baf2c9edb:cff25eb40721ea9ca213f3f70137c3', NULL, 'SALES', 1, '{"department":"Business Development & Sales","college":null,"seeded":true}')
+VALUES ('a25602e3-ecd5-4fbf-a833-284bf9d36909', '074da5370a0fa5ebc734db45:881e49450079cc132bd265d85b3d373b:f362b09ba267902744c24408df6177741434', '$2b$12$nDcT.D0wR8jvpq2/ZHDLBOeq1yT9uhSWcVhIMfK4PdGFkQ9sWVduu', '37f132471526d2ce48e45927:1ecf09ae7d1185367782e06802f97afd:7be0ea165fe56eb13ddd308d6f48e0', NULL, 'SALES', 1, '{"department":"Business Development & Sales","college":null,"seeded":true}')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `full_name` = VALUES(`full_name`),
@@ -645,7 +655,7 @@ ON DUPLICATE KEY UPDATE
   `is_active` = 1,
   `preferences` = VALUES(`preferences`);
 INSERT INTO `user_credentials` (`user_id`, `password_hash`, `password_algo`, `password_updated_at`, `failed_login_attempts`, `lockout_until`, `requires_password_change`, `password_history`)
-VALUES ('a25602e3-ecd5-4fbf-a833-284bf9d36909', '$2b$12$MK65VHsqVRlQru47.KGppeZ/72QkA8jFVM8bgXb0sZ5h5F1v6MP8a', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$MK65VHsqVRlQru47.KGppeZ/72QkA8jFVM8bgXb0sZ5h5F1v6MP8a"]')
+VALUES ('a25602e3-ecd5-4fbf-a833-284bf9d36909', '$2b$12$nDcT.D0wR8jvpq2/ZHDLBOeq1yT9uhSWcVhIMfK4PdGFkQ9sWVduu', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$nDcT.D0wR8jvpq2/ZHDLBOeq1yT9uhSWcVhIMfK4PdGFkQ9sWVduu"]')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `password_updated_at` = NOW(),
@@ -654,7 +664,7 @@ ON DUPLICATE KEY UPDATE
   `requires_password_change` = 0,
   `password_history` = VALUES(`password_history`);
 INSERT INTO `employees` (`id`, `user_id`, `employee_code`, `department`, `designation`, `date_of_joining`)
-VALUES ('1ffab667-9022-47a7-871d-83a38b095a15', 'a25602e3-ecd5-4fbf-a833-284bf9d36909', 'EMP-105', 'Business Development & Sales', 'Senior Sales Consultant', CURDATE())
+VALUES ('7839a222-eecf-48d0-8478-6c772bf014cb', 'a25602e3-ecd5-4fbf-a833-284bf9d36909', 'EMP-105', 'Business Development & Sales', 'Senior Sales Consultant', CURDATE())
 ON DUPLICATE KEY UPDATE
   `employee_code` = VALUES(`employee_code`),
   `department` = VALUES(`department`),
@@ -663,7 +673,7 @@ ON DUPLICATE KEY UPDATE
 -- [RECEPTION] reception@ethiroli.com (Front Desk Coordinator)
 -- Plaintext Password: Reception@123 | Portal: /auth/reception/login
 INSERT INTO `users` (`id`, `email`, `password_hash`, `full_name`, `phone`, `role`, `is_active`, `preferences`)
-VALUES ('7aa13dcd-5fd3-49d8-866f-c5451af8bf7f', 'd037976d6b670d8f6aaf7b11:41c0c3ca0c2e1abede3bb84d11e23f8e:e686a8204ba699917d7f54d12e9bd5df649350eb68e8', '$2b$12$VeAYwYKvqU7t/XN6fSfBKO/pWlIrkzy1W8FzN/.k7/3yCa9CBI1ra', 'ac54989b5833cd28c793f89a:9c90fb6edaac5ca2a2f22b3c47e9b294:b373f13a8639ba9061ebdbbe40bc99ea8192fbf800ee', NULL, 'RECEPTION', 1, '{"department":"Front Office & Reception","college":null,"seeded":true}')
+VALUES ('7aa13dcd-5fd3-49d8-866f-c5451af8bf7f', 'd037976d6b670d8f6aaf7b11:41c0c3ca0c2e1abede3bb84d11e23f8e:e686a8204ba699917d7f54d12e9bd5df649350eb68e8', '$2b$12$UJ03nDx0K.rvNtS8BXp8Ue4MjexPl2fCeQDNlR9mOlB41aDJDUWTW', 'a282052264f873395491ef64:c080d18779e6fecb0f74a40f13f9341c:9c0e87af0fb898018fa1d3ad5dc5ff90905e621a3ba0', NULL, 'RECEPTION', 1, '{"department":"Front Office & Reception","college":null,"seeded":true}')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `full_name` = VALUES(`full_name`),
@@ -671,7 +681,7 @@ ON DUPLICATE KEY UPDATE
   `is_active` = 1,
   `preferences` = VALUES(`preferences`);
 INSERT INTO `user_credentials` (`user_id`, `password_hash`, `password_algo`, `password_updated_at`, `failed_login_attempts`, `lockout_until`, `requires_password_change`, `password_history`)
-VALUES ('7aa13dcd-5fd3-49d8-866f-c5451af8bf7f', '$2b$12$VeAYwYKvqU7t/XN6fSfBKO/pWlIrkzy1W8FzN/.k7/3yCa9CBI1ra', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$VeAYwYKvqU7t/XN6fSfBKO/pWlIrkzy1W8FzN/.k7/3yCa9CBI1ra"]')
+VALUES ('7aa13dcd-5fd3-49d8-866f-c5451af8bf7f', '$2b$12$UJ03nDx0K.rvNtS8BXp8Ue4MjexPl2fCeQDNlR9mOlB41aDJDUWTW', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$UJ03nDx0K.rvNtS8BXp8Ue4MjexPl2fCeQDNlR9mOlB41aDJDUWTW"]')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `password_updated_at` = NOW(),
@@ -680,7 +690,7 @@ ON DUPLICATE KEY UPDATE
   `requires_password_change` = 0,
   `password_history` = VALUES(`password_history`);
 INSERT INTO `employees` (`id`, `user_id`, `employee_code`, `department`, `designation`, `date_of_joining`)
-VALUES ('1e744852-578c-4c8d-a0a7-f2b0bc2ed1db', '7aa13dcd-5fd3-49d8-866f-c5451af8bf7f', 'EMP-106', 'Front Office & Reception', 'Front Desk Lead', CURDATE())
+VALUES ('158998e9-ce99-4260-9db5-ef2354ab7c70', '7aa13dcd-5fd3-49d8-866f-c5451af8bf7f', 'EMP-106', 'Front Office & Reception', 'Front Desk Lead', CURDATE())
 ON DUPLICATE KEY UPDATE
   `employee_code` = VALUES(`employee_code`),
   `department` = VALUES(`department`),
@@ -689,7 +699,7 @@ ON DUPLICATE KEY UPDATE
 -- [EMPLOYEE] employee@ethiroli.com (Standard Staff Member)
 -- Plaintext Password: Employee@123 | Portal: /auth/employee/login
 INSERT INTO `users` (`id`, `email`, `password_hash`, `full_name`, `phone`, `role`, `is_active`, `preferences`)
-VALUES ('3bb859a1-cb3d-4952-b892-3868dfd6541f', 'f705510f6931e0c2bb53a848:a11c7bd5d5c145511d88e2668f6d2c64:fed006f97fe30b6d7d139a2f2950e298a2026ba6f5', '$2b$12$pUsRIp5gU3diS9trnzqlFOOL6HDWbPVM.Ryzjs1bYdZzlCiirz1Wq', '14b2acfd7546cf80c70c041d:72aa0d71ef4bc8c24a83d44130d5ce7e:6a868c52ef1ad72567a77c86501e1e928098620ed9', NULL, 'EMPLOYEE', 1, '{"department":"Operations","college":null,"seeded":true}')
+VALUES ('3bb859a1-cb3d-4952-b892-3868dfd6541f', 'f705510f6931e0c2bb53a848:a11c7bd5d5c145511d88e2668f6d2c64:fed006f97fe30b6d7d139a2f2950e298a2026ba6f5', '$2b$12$BcVkAKbjSmiuTfkG9gc9nOcuEuUk5/PSsBruYgdVVNYJ6cTxs7C1W', '828956d331129c9188bf4a1f:b210477b3033d231a47b04bcccc22bf2:d75f0596438391e37e26d0a28dfd69f1c26bdbca3c', NULL, 'EMPLOYEE', 1, '{"department":"Operations","college":null,"seeded":true}')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `full_name` = VALUES(`full_name`),
@@ -697,7 +707,7 @@ ON DUPLICATE KEY UPDATE
   `is_active` = 1,
   `preferences` = VALUES(`preferences`);
 INSERT INTO `user_credentials` (`user_id`, `password_hash`, `password_algo`, `password_updated_at`, `failed_login_attempts`, `lockout_until`, `requires_password_change`, `password_history`)
-VALUES ('3bb859a1-cb3d-4952-b892-3868dfd6541f', '$2b$12$pUsRIp5gU3diS9trnzqlFOOL6HDWbPVM.Ryzjs1bYdZzlCiirz1Wq', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$pUsRIp5gU3diS9trnzqlFOOL6HDWbPVM.Ryzjs1bYdZzlCiirz1Wq"]')
+VALUES ('3bb859a1-cb3d-4952-b892-3868dfd6541f', '$2b$12$BcVkAKbjSmiuTfkG9gc9nOcuEuUk5/PSsBruYgdVVNYJ6cTxs7C1W', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$BcVkAKbjSmiuTfkG9gc9nOcuEuUk5/PSsBruYgdVVNYJ6cTxs7C1W"]')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `password_updated_at` = NOW(),
@@ -706,7 +716,7 @@ ON DUPLICATE KEY UPDATE
   `requires_password_change` = 0,
   `password_history` = VALUES(`password_history`);
 INSERT INTO `employees` (`id`, `user_id`, `employee_code`, `department`, `designation`, `date_of_joining`)
-VALUES ('6365b935-3e2e-4612-a14b-72f4a6c32d8a', '3bb859a1-cb3d-4952-b892-3868dfd6541f', 'EMP-107', 'Operations', 'Operations Associate', CURDATE())
+VALUES ('cc9307c5-7610-4f8c-8011-a3fd149a8c00', '3bb859a1-cb3d-4952-b892-3868dfd6541f', 'EMP-107', 'Operations', 'Operations Associate', CURDATE())
 ON DUPLICATE KEY UPDATE
   `employee_code` = VALUES(`employee_code`),
   `department` = VALUES(`department`),
@@ -715,7 +725,7 @@ ON DUPLICATE KEY UPDATE
 -- [EMPLOYEE] staff@ethiroli.com (Senior Operations Staff)
 -- Plaintext Password: Employee@123 | Portal: /auth/employee/login
 INSERT INTO `users` (`id`, `email`, `password_hash`, `full_name`, `phone`, `role`, `is_active`, `preferences`)
-VALUES ('74e45a32-92ab-40f5-97c0-c888d7284c48', '5a0a794dcc347b74766b7d95:5121a3ae5a52962e52592543e9ca1aa3:f062e679fdc2d37ad6576c65c40641c7b161', '$2b$12$CST97m67.CGUD9GkuWPKaetrFE3NtZ811GHa625H3Wr1.TMmXk2WW', '5786c93760f436c7145fb694:d39348b17cba7a4a3e80a145c01a7d31:2134a4759d8da05bec465d4a79621052d8835cecfa51a4', NULL, 'EMPLOYEE', 1, '{"department":"Operations","college":null,"seeded":true}')
+VALUES ('74e45a32-92ab-40f5-97c0-c888d7284c48', '5a0a794dcc347b74766b7d95:5121a3ae5a52962e52592543e9ca1aa3:f062e679fdc2d37ad6576c65c40641c7b161', '$2b$12$FicpYfIErPnIDkOCG3zLweMmhPVWy1Zwn8nn7AckzXQ8u.1z3kc/6', '2371cee59a7cf236455fa8b0:66755a461b5992b17f134dc5f5645dfa:240ddc5e4d9d380ebe20df4f053c3fb885842d332763d3', NULL, 'EMPLOYEE', 1, '{"department":"Operations","college":null,"seeded":true}')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `full_name` = VALUES(`full_name`),
@@ -723,7 +733,7 @@ ON DUPLICATE KEY UPDATE
   `is_active` = 1,
   `preferences` = VALUES(`preferences`);
 INSERT INTO `user_credentials` (`user_id`, `password_hash`, `password_algo`, `password_updated_at`, `failed_login_attempts`, `lockout_until`, `requires_password_change`, `password_history`)
-VALUES ('74e45a32-92ab-40f5-97c0-c888d7284c48', '$2b$12$CST97m67.CGUD9GkuWPKaetrFE3NtZ811GHa625H3Wr1.TMmXk2WW', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$CST97m67.CGUD9GkuWPKaetrFE3NtZ811GHa625H3Wr1.TMmXk2WW"]')
+VALUES ('74e45a32-92ab-40f5-97c0-c888d7284c48', '$2b$12$FicpYfIErPnIDkOCG3zLweMmhPVWy1Zwn8nn7AckzXQ8u.1z3kc/6', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$FicpYfIErPnIDkOCG3zLweMmhPVWy1Zwn8nn7AckzXQ8u.1z3kc/6"]')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `password_updated_at` = NOW(),
@@ -732,7 +742,7 @@ ON DUPLICATE KEY UPDATE
   `requires_password_change` = 0,
   `password_history` = VALUES(`password_history`);
 INSERT INTO `employees` (`id`, `user_id`, `employee_code`, `department`, `designation`, `date_of_joining`)
-VALUES ('e254cb54-a5e2-4602-88d6-47db0f8ddd11', '74e45a32-92ab-40f5-97c0-c888d7284c48', 'EMP-108', 'Operations', 'Senior Associate', CURDATE())
+VALUES ('c7a09aad-b09c-4400-a00c-b08a65740c1e', '74e45a32-92ab-40f5-97c0-c888d7284c48', 'EMP-108', 'Operations', 'Senior Associate', CURDATE())
 ON DUPLICATE KEY UPDATE
   `employee_code` = VALUES(`employee_code`),
   `department` = VALUES(`department`),
@@ -741,7 +751,7 @@ ON DUPLICATE KEY UPDATE
 -- [STUDENT] student@ethiroli.com (Verified Active Student)
 -- Plaintext Password: Student@123 | Portal: /auth/student/login
 INSERT INTO `users` (`id`, `email`, `password_hash`, `full_name`, `phone`, `role`, `is_active`, `preferences`)
-VALUES ('39a59061-1113-49a8-8d63-4558bb4e70f4', '7f26bdc38553dd76c68db2d2:9867bdde6501388f2de245f3239d5ddb:2858e85a231ed1c7dc5573b007b8da001423172b', '$2b$12$WTbvKcHRAU5rBb3z3pbM5ujtzGh/Ssb1wkY3zbTWWoTPvOdvZsMc6', '5a0a9ae7ab5cbfa0fbb1a58c:2ddec0fcea7fe794b26d86cd8a4b06c5:1cb43bf900607f4d1278e2a0e1963bfc82ecbb127fb9cb', NULL, 'STUDENT', 1, '{"department":"Software Engineering","college":null,"seeded":true}')
+VALUES ('39a59061-1113-49a8-8d63-4558bb4e70f4', '7f26bdc38553dd76c68db2d2:9867bdde6501388f2de245f3239d5ddb:2858e85a231ed1c7dc5573b007b8da001423172b', '$2b$12$nHpcrHOCBSoWws4cVlFytus/XK/1JimdSL1WFgIrGXxciHw//pd46', '3c568461af03df92a3cd08b2:5686bb9546173bb6576910ab46ee4626:9032dc45705cad678700d278d0fadf131a2b4c902b05db', NULL, 'STUDENT', 1, '{"department":"Software Engineering","college":null,"seeded":true}')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `full_name` = VALUES(`full_name`),
@@ -749,7 +759,7 @@ ON DUPLICATE KEY UPDATE
   `is_active` = 1,
   `preferences` = VALUES(`preferences`);
 INSERT INTO `user_credentials` (`user_id`, `password_hash`, `password_algo`, `password_updated_at`, `failed_login_attempts`, `lockout_until`, `requires_password_change`, `password_history`)
-VALUES ('39a59061-1113-49a8-8d63-4558bb4e70f4', '$2b$12$WTbvKcHRAU5rBb3z3pbM5ujtzGh/Ssb1wkY3zbTWWoTPvOdvZsMc6', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$WTbvKcHRAU5rBb3z3pbM5ujtzGh/Ssb1wkY3zbTWWoTPvOdvZsMc6"]')
+VALUES ('39a59061-1113-49a8-8d63-4558bb4e70f4', '$2b$12$nHpcrHOCBSoWws4cVlFytus/XK/1JimdSL1WFgIrGXxciHw//pd46', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$nHpcrHOCBSoWws4cVlFytus/XK/1JimdSL1WFgIrGXxciHw//pd46"]')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `password_updated_at` = NOW(),
@@ -761,7 +771,7 @@ ON DUPLICATE KEY UPDATE
 -- [INTERN] gokulrajkumar2006@gmail.com (Gokul Rajkumar)
 -- Plaintext Password: Intern@123 | Portal: /auth/intern/login
 INSERT INTO `users` (`id`, `email`, `password_hash`, `full_name`, `phone`, `role`, `is_active`, `preferences`)
-VALUES ('58a8ee15-79a5-473f-ac95-c97bc03d3394', '197c5d15592a43790ea15cb9:585adf6769f3e41545d9bb2d2c006b8e:0f1de48f6e0c2061984db7caecd39bf8470f3a5d429b257a07cad9', '$2b$12$uBFWPOibgCXs/tG.rqbideOBVYCkTL7Rb0ViwrWDuzRPCFsRYMMTm', 'f37060563fdc71ed42c56186:e79593ca98ccad0a17dae0fa632f545f:dcfd0dec3556161eef57a9d3e726', NULL, 'INTERN', 1, '{"department":"Full Stack Development","college":"Anna University","seeded":true}')
+VALUES ('58a8ee15-79a5-473f-ac95-c97bc03d3394', '197c5d15592a43790ea15cb9:585adf6769f3e41545d9bb2d2c006b8e:0f1de48f6e0c2061984db7caecd39bf8470f3a5d429b257a07cad9', '$2b$12$.LgnGpEp6uj2M0xKYvu7NOrLQgeN5rmL5FarIYD1OavkV3ahDpZEO', '3811a3004de9cbd55d1ee205:d2d48668f534aedb2e5525073e93a54a:3299de98b6e0d9c8b5a548fdf516', NULL, 'INTERN', 1, '{"department":"Full Stack Development","college":"Anna University","seeded":true}')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `full_name` = VALUES(`full_name`),
@@ -769,7 +779,7 @@ ON DUPLICATE KEY UPDATE
   `is_active` = 1,
   `preferences` = VALUES(`preferences`);
 INSERT INTO `user_credentials` (`user_id`, `password_hash`, `password_algo`, `password_updated_at`, `failed_login_attempts`, `lockout_until`, `requires_password_change`, `password_history`)
-VALUES ('58a8ee15-79a5-473f-ac95-c97bc03d3394', '$2b$12$uBFWPOibgCXs/tG.rqbideOBVYCkTL7Rb0ViwrWDuzRPCFsRYMMTm', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$uBFWPOibgCXs/tG.rqbideOBVYCkTL7Rb0ViwrWDuzRPCFsRYMMTm"]')
+VALUES ('58a8ee15-79a5-473f-ac95-c97bc03d3394', '$2b$12$.LgnGpEp6uj2M0xKYvu7NOrLQgeN5rmL5FarIYD1OavkV3ahDpZEO', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$.LgnGpEp6uj2M0xKYvu7NOrLQgeN5rmL5FarIYD1OavkV3ahDpZEO"]')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `password_updated_at` = NOW(),
@@ -788,7 +798,7 @@ ON DUPLICATE KEY UPDATE
 -- [INTERN] srinithikumar54@gmail.com (Srinithi Kumar)
 -- Plaintext Password: Intern@123 | Portal: /auth/intern/login
 INSERT INTO `users` (`id`, `email`, `password_hash`, `full_name`, `phone`, `role`, `is_active`, `preferences`)
-VALUES ('45d3f678-47a0-442d-8330-9731b2d883b9', 'dce14f3cf7898a7c500f1773:88a410aaee9d68c90ac4e43c17f8dd9e:90c8c44c3cd833152508bd73f0854cb526ee9723e202fdb758', '$2b$12$GOCwx2fq9ebq8gdm.mP6buIB/w4qKuJQyAzorNllT2AiIQQG/BjLK', '1cc60a84966c8626783fa9e1:1152d6a0d9767f28dc6d1b31f730f1e7:7158ba82bddcb4e8af3ef5bb1c1e', NULL, 'INTERN', 1, '{"department":"Full Stack Development","college":"PSG College of Technology","seeded":true}')
+VALUES ('45d3f678-47a0-442d-8330-9731b2d883b9', 'dce14f3cf7898a7c500f1773:88a410aaee9d68c90ac4e43c17f8dd9e:90c8c44c3cd833152508bd73f0854cb526ee9723e202fdb758', '$2b$12$QalJRuaBTwM3j3AFATudUOkPTrcfZ7Jf/87G5t7QlzJdxkbI3kwLa', '4191269333994aa5cf64c87c:cd966a6e3df3fc88d4f018259941da09:10539a0f42070811db7f2455db66', NULL, 'INTERN', 1, '{"department":"Full Stack Development","college":"PSG College of Technology","seeded":true}')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `full_name` = VALUES(`full_name`),
@@ -796,7 +806,7 @@ ON DUPLICATE KEY UPDATE
   `is_active` = 1,
   `preferences` = VALUES(`preferences`);
 INSERT INTO `user_credentials` (`user_id`, `password_hash`, `password_algo`, `password_updated_at`, `failed_login_attempts`, `lockout_until`, `requires_password_change`, `password_history`)
-VALUES ('45d3f678-47a0-442d-8330-9731b2d883b9', '$2b$12$GOCwx2fq9ebq8gdm.mP6buIB/w4qKuJQyAzorNllT2AiIQQG/BjLK', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$GOCwx2fq9ebq8gdm.mP6buIB/w4qKuJQyAzorNllT2AiIQQG/BjLK"]')
+VALUES ('45d3f678-47a0-442d-8330-9731b2d883b9', '$2b$12$QalJRuaBTwM3j3AFATudUOkPTrcfZ7Jf/87G5t7QlzJdxkbI3kwLa', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$QalJRuaBTwM3j3AFATudUOkPTrcfZ7Jf/87G5t7QlzJdxkbI3kwLa"]')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `password_updated_at` = NOW(),
@@ -815,7 +825,7 @@ ON DUPLICATE KEY UPDATE
 -- [INTERN] sloganathan0105@gmail.com (S Loganathan)
 -- Plaintext Password: Intern@123 | Portal: /auth/intern/login
 INSERT INTO `users` (`id`, `email`, `password_hash`, `full_name`, `phone`, `role`, `is_active`, `preferences`)
-VALUES ('584f6dc7-adaf-4fb5-8cd6-03987543d776', 'f24dcded34523c67e52cccd7:d04aab2cace4bcf6c19075767a2c24ba:e234a505fc3ab79e9bcd99979378df585781ae4573ac437fe8', '$2b$12$SrJ9gV.c9gKmf/jgdU/YuOKRvvrHSzk2vpzcDWA3I7d8fgHH1grRS', '2edb63b8546d9083ee7854ff:ac07b16c2744d630a4038cc26184234b:4ab50a6820abfc79310e4e49', NULL, 'INTERN', 1, '{"department":"Web Applications","college":"Coimbatore Institute of Technology","seeded":true}')
+VALUES ('584f6dc7-adaf-4fb5-8cd6-03987543d776', 'f24dcded34523c67e52cccd7:d04aab2cace4bcf6c19075767a2c24ba:e234a505fc3ab79e9bcd99979378df585781ae4573ac437fe8', '$2b$12$60dm6UyMbTEJlt6OHiCgkOHIwtC97s2wLmF0vEA4jH9I6vNxbyLmG', '8b18ac29d04faf2760f39e0a:4ac325098ea06de17b628337dd783c21:004a85ea7ae4088d36d5f853', NULL, 'INTERN', 1, '{"department":"Web Applications","college":"Coimbatore Institute of Technology","seeded":true}')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `full_name` = VALUES(`full_name`),
@@ -823,7 +833,7 @@ ON DUPLICATE KEY UPDATE
   `is_active` = 1,
   `preferences` = VALUES(`preferences`);
 INSERT INTO `user_credentials` (`user_id`, `password_hash`, `password_algo`, `password_updated_at`, `failed_login_attempts`, `lockout_until`, `requires_password_change`, `password_history`)
-VALUES ('584f6dc7-adaf-4fb5-8cd6-03987543d776', '$2b$12$SrJ9gV.c9gKmf/jgdU/YuOKRvvrHSzk2vpzcDWA3I7d8fgHH1grRS', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$SrJ9gV.c9gKmf/jgdU/YuOKRvvrHSzk2vpzcDWA3I7d8fgHH1grRS"]')
+VALUES ('584f6dc7-adaf-4fb5-8cd6-03987543d776', '$2b$12$60dm6UyMbTEJlt6OHiCgkOHIwtC97s2wLmF0vEA4jH9I6vNxbyLmG', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$60dm6UyMbTEJlt6OHiCgkOHIwtC97s2wLmF0vEA4jH9I6vNxbyLmG"]')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `password_updated_at` = NOW(),
@@ -842,7 +852,7 @@ ON DUPLICATE KEY UPDATE
 -- [INTERN] stephen862k7@gmail.com (Stephen)
 -- Plaintext Password: Intern@123 | Portal: /auth/intern/login
 INSERT INTO `users` (`id`, `email`, `password_hash`, `full_name`, `phone`, `role`, `is_active`, `preferences`)
-VALUES ('69fa12f1-7d71-4c2a-8122-c8c12ed8754a', '75a91c45b6b5d1682a950693:9ad56c79e76403507f62583dc32accd8:3f9b1cbb278defc1ddffec7fa9c57b8192d74f5543c1', '$2b$12$7c2ajH3XLVTIUyz.8.Gw0eGwCWeBU62H54VsSa2UvHTf5gTFRqt5.', '0c35e10b38f1b0484eb6301f:54a43f182ffd727b4fdf99a018ef64a3:08a56b559f79fc', NULL, 'INTERN', 1, '{"department":"Data Science & AI","college":"Government College of Technology","seeded":true}')
+VALUES ('69fa12f1-7d71-4c2a-8122-c8c12ed8754a', '75a91c45b6b5d1682a950693:9ad56c79e76403507f62583dc32accd8:3f9b1cbb278defc1ddffec7fa9c57b8192d74f5543c1', '$2b$12$rdUgGFLJwIiGlPc19EnXBOJzWuQkOXSMIOqPNOsGhzcqhPXUfQtwm', 'c50e9f06fe4a11c77cbee45f:4d6c2891ed5419adbfaf9f04b3b31999:7028d6df9a07ad', NULL, 'INTERN', 1, '{"department":"Data Science & AI","college":"Government College of Technology","seeded":true}')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `full_name` = VALUES(`full_name`),
@@ -850,7 +860,7 @@ ON DUPLICATE KEY UPDATE
   `is_active` = 1,
   `preferences` = VALUES(`preferences`);
 INSERT INTO `user_credentials` (`user_id`, `password_hash`, `password_algo`, `password_updated_at`, `failed_login_attempts`, `lockout_until`, `requires_password_change`, `password_history`)
-VALUES ('69fa12f1-7d71-4c2a-8122-c8c12ed8754a', '$2b$12$7c2ajH3XLVTIUyz.8.Gw0eGwCWeBU62H54VsSa2UvHTf5gTFRqt5.', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$7c2ajH3XLVTIUyz.8.Gw0eGwCWeBU62H54VsSa2UvHTf5gTFRqt5."]')
+VALUES ('69fa12f1-7d71-4c2a-8122-c8c12ed8754a', '$2b$12$rdUgGFLJwIiGlPc19EnXBOJzWuQkOXSMIOqPNOsGhzcqhPXUfQtwm', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$rdUgGFLJwIiGlPc19EnXBOJzWuQkOXSMIOqPNOsGhzcqhPXUfQtwm"]')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `password_updated_at` = NOW(),
@@ -869,7 +879,7 @@ ON DUPLICATE KEY UPDATE
 -- [INTERN] Barathappu777@gmail.com (Barath Appu)
 -- Plaintext Password: Intern@123 | Portal: /auth/intern/login
 INSERT INTO `users` (`id`, `email`, `password_hash`, `full_name`, `phone`, `role`, `is_active`, `preferences`)
-VALUES ('d17aab8c-9280-445f-85ce-cc2a93764ddb', 'f7972af8ac8555bf6a245a88:0e03d2b1c95ce3c02f36b698de61c461:c67bdc98f3d61945deea5395c568e1783de89ef27e8716', '$2b$12$iVB9aCIiSIH04.21DFgXWuiXw7fdafBnO5mmAIkCJduu6X9gxNj1O', 'ddcd5d6a840bb4bca46d9b14:1e4748ce2a276baac79a6568e334e06a:9dbd4dac0771a1518c3e01', NULL, 'INTERN', 1, '{"department":"Backend Engineering","college":"SRM Institute of Science and Technology","seeded":true}')
+VALUES ('d17aab8c-9280-445f-85ce-cc2a93764ddb', 'f7972af8ac8555bf6a245a88:0e03d2b1c95ce3c02f36b698de61c461:c67bdc98f3d61945deea5395c568e1783de89ef27e8716', '$2b$12$cTUDZsZBU3kNNVo.j50fr.ow8ujSLTOggTqgR1GMjJUskCTHJofCO', '3a6703c1ef9ad9b294074f1b:d4fabaabe17e0ab30debc6c2246d8391:209afe8faff18c26ad4678', NULL, 'INTERN', 1, '{"department":"Backend Engineering","college":"SRM Institute of Science and Technology","seeded":true}')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `full_name` = VALUES(`full_name`),
@@ -877,7 +887,7 @@ ON DUPLICATE KEY UPDATE
   `is_active` = 1,
   `preferences` = VALUES(`preferences`);
 INSERT INTO `user_credentials` (`user_id`, `password_hash`, `password_algo`, `password_updated_at`, `failed_login_attempts`, `lockout_until`, `requires_password_change`, `password_history`)
-VALUES ('d17aab8c-9280-445f-85ce-cc2a93764ddb', '$2b$12$iVB9aCIiSIH04.21DFgXWuiXw7fdafBnO5mmAIkCJduu6X9gxNj1O', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$iVB9aCIiSIH04.21DFgXWuiXw7fdafBnO5mmAIkCJduu6X9gxNj1O"]')
+VALUES ('d17aab8c-9280-445f-85ce-cc2a93764ddb', '$2b$12$cTUDZsZBU3kNNVo.j50fr.ow8ujSLTOggTqgR1GMjJUskCTHJofCO', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$cTUDZsZBU3kNNVo.j50fr.ow8ujSLTOggTqgR1GMjJUskCTHJofCO"]')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `password_updated_at` = NOW(),
@@ -896,7 +906,7 @@ ON DUPLICATE KEY UPDATE
 -- [INTERN] knandhinivnr@gmail.com (Nandhini K)
 -- Plaintext Password: Intern@123 | Portal: /auth/intern/login
 INSERT INTO `users` (`id`, `email`, `password_hash`, `full_name`, `phone`, `role`, `is_active`, `preferences`)
-VALUES ('66da1638-9a06-4741-9ed2-8054b0417313', '3cb00bec9c3f1a7868692dc2:c9f65ce8106b238aafae5b7b96d6fbbb:65ee5dd5f6efa5f85cd7fd8fc8ecd826fab650a0e9ae', '$2b$12$zn/836J0pN3GRZDDKTLnq.kc.J/d.MFTiPLTCk48qrDpD6TrGhdVe', 'e0cdb62c9f56fcc2326afcad:4c9a3e2159149ca30d27c1af8782de8e:d5c7614509a3e2390604', NULL, 'INTERN', 1, '{"department":"Full Stack Web Development","college":"Anna University","seeded":true}')
+VALUES ('66da1638-9a06-4741-9ed2-8054b0417313', '3cb00bec9c3f1a7868692dc2:c9f65ce8106b238aafae5b7b96d6fbbb:65ee5dd5f6efa5f85cd7fd8fc8ecd826fab650a0e9ae', '$2b$12$ubZWwww2OwVC0SrjQAy76.ZRK7590rg1O.U1UJChmJMOQggODryPy', '7ae1b63bc5733797715ae5f9:064b2e13b15c802a2b1f377bf200428c:98f9d56890cbfbf3c7a1', NULL, 'INTERN', 1, '{"department":"Full Stack Web Development","college":"Anna University","seeded":true}')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `full_name` = VALUES(`full_name`),
@@ -904,7 +914,7 @@ ON DUPLICATE KEY UPDATE
   `is_active` = 1,
   `preferences` = VALUES(`preferences`);
 INSERT INTO `user_credentials` (`user_id`, `password_hash`, `password_algo`, `password_updated_at`, `failed_login_attempts`, `lockout_until`, `requires_password_change`, `password_history`)
-VALUES ('66da1638-9a06-4741-9ed2-8054b0417313', '$2b$12$zn/836J0pN3GRZDDKTLnq.kc.J/d.MFTiPLTCk48qrDpD6TrGhdVe', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$zn/836J0pN3GRZDDKTLnq.kc.J/d.MFTiPLTCk48qrDpD6TrGhdVe"]')
+VALUES ('66da1638-9a06-4741-9ed2-8054b0417313', '$2b$12$ubZWwww2OwVC0SrjQAy76.ZRK7590rg1O.U1UJChmJMOQggODryPy', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$ubZWwww2OwVC0SrjQAy76.ZRK7590rg1O.U1UJChmJMOQggODryPy"]')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `password_updated_at` = NOW(),
@@ -923,7 +933,7 @@ ON DUPLICATE KEY UPDATE
 -- [INTERN] mathishree008@gmail.com (Mathishree)
 -- Plaintext Password: Intern@123 | Portal: /auth/intern/login
 INSERT INTO `users` (`id`, `email`, `password_hash`, `full_name`, `phone`, `role`, `is_active`, `preferences`)
-VALUES ('eadd2eb6-b0af-4e3f-aa82-a08e29d891ee', 'd3ca4f4dfe0c1ad1f13a1b58:317b7cd6c1ef147347ef080b2281bd17:81d3b47e661975db99d95728dcf69a94db56e40c0aacf3', '$2b$12$19IHonI7GxJOnxV1wX6W..Fpw2W2L/hjvsj8yPZWOnyVdKR/.vM8O', 'd59b56d7dbe330ac08aac193:f8f475eb9aa9e36ec70832a3242fc762:d4a9f4f4866021d6b1cb', NULL, 'INTERN', 1, '{"department":"Full Stack Web Development","college":"PSG College of Technology","seeded":true}')
+VALUES ('eadd2eb6-b0af-4e3f-aa82-a08e29d891ee', 'd3ca4f4dfe0c1ad1f13a1b58:317b7cd6c1ef147347ef080b2281bd17:81d3b47e661975db99d95728dcf69a94db56e40c0aacf3', '$2b$12$bGPu4S6WVToq9GDCDqnoGe5dy28GILs4M02dp9LCPSJ9xWWi6td2G', '97b4305c36983895bfbf959b:267cbe66270d2c2103d6b5fc08b008aa:ed78807c526d6030baa7', NULL, 'INTERN', 1, '{"department":"Full Stack Web Development","college":"PSG College of Technology","seeded":true}')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `full_name` = VALUES(`full_name`),
@@ -931,7 +941,7 @@ ON DUPLICATE KEY UPDATE
   `is_active` = 1,
   `preferences` = VALUES(`preferences`);
 INSERT INTO `user_credentials` (`user_id`, `password_hash`, `password_algo`, `password_updated_at`, `failed_login_attempts`, `lockout_until`, `requires_password_change`, `password_history`)
-VALUES ('eadd2eb6-b0af-4e3f-aa82-a08e29d891ee', '$2b$12$19IHonI7GxJOnxV1wX6W..Fpw2W2L/hjvsj8yPZWOnyVdKR/.vM8O', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$19IHonI7GxJOnxV1wX6W..Fpw2W2L/hjvsj8yPZWOnyVdKR/.vM8O"]')
+VALUES ('eadd2eb6-b0af-4e3f-aa82-a08e29d891ee', '$2b$12$bGPu4S6WVToq9GDCDqnoGe5dy28GILs4M02dp9LCPSJ9xWWi6td2G', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$bGPu4S6WVToq9GDCDqnoGe5dy28GILs4M02dp9LCPSJ9xWWi6td2G"]')
 ON DUPLICATE KEY UPDATE
   `password_hash` = VALUES(`password_hash`),
   `password_updated_at` = NOW(),

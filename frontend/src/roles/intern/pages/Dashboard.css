@@ -99,7 +99,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  padding-right: 120px;
+  padding-right: 140px;
 }
 
 .ims-banner-brand-logo {
@@ -130,13 +130,18 @@
 
 .ims-banner-botanical-art {
   position: absolute;
-  right: -10px;
-  top: -15px;
-  bottom: -15px;
-  width: 140px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 220px;
   pointer-events: none;
   z-index: 1;
+  background-image: url('/assets/images/banner/botanical_banner_leaves.jpg');
+  background-size: cover;
+  background-position: right bottom;
   opacity: 0.95;
+  mask-image: linear-gradient(to left, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
 }
 
 /* 2. 6 KPI METRIC CARDS ROW */

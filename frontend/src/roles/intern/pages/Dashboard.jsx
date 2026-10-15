@@ -345,32 +345,8 @@ export default function Dashboard() {
             <p className="ims-banner-msg2">Here's your mission plan for today.</p>
           </div>
 
-          {/* Botanical foliage illustration on the right edge */}
-          <div className="ims-banner-botanical-art" aria-hidden="true">
-            <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
-              <defs>
-                <linearGradient id="botanicalGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#34d399" />
-                  <stop offset="60%" stopColor="#059669" />
-                  <stop offset="100%" stopColor="#064e3b" />
-                </linearGradient>
-                <linearGradient id="botanicalGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#6ee7b7" />
-                  <stop offset="70%" stopColor="#10b981" />
-                  <stop offset="100%" stopColor="#047857" />
-                </linearGradient>
-                <linearGradient id="botanicalGrad3" x1="100%" y1="100%" x2="0%" y2="0%">
-                  <stop offset="0%" stopColor="#059669" />
-                  <stop offset="80%" stopColor="#10b981" />
-                  <stop offset="100%" stopColor="#a7f3d0" />
-                </linearGradient>
-              </defs>
-              <path d="M120 160C120 100 80 60 70 30C95 40 140 85 145 160Z" fill="url(#botanicalGrad1)" opacity="0.85" />
-              <path d="M150 160C140 90 105 30 85 0C120 10 165 60 160 160Z" fill="url(#botanicalGrad2)" opacity="0.9" />
-              <path d="M100 160C90 110 50 60 25 45C60 40 120 90 130 160Z" fill="url(#botanicalGrad3)" opacity="0.95" />
-              <path d="M80 160C70 125 35 90 0 80C35 70 90 105 105 160Z" fill="url(#botanicalGrad2)" opacity="0.9" />
-            </svg>
-          </div>
+          {/* Botanical foliage background image in the right corner */}
+          <div className="ims-banner-botanical-art" aria-hidden="true" />
         </section>
 
         {/* 2. 6 KPI METRIC CARDS ROW */}

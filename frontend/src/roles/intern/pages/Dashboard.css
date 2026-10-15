@@ -2,6 +2,18 @@
    INTERN COMMAND CENTER - EXACT REPLICA STYLES
    ============================================================ */
 
+/* Scope body and main wrapper to crisp cool light gray #f8fafc */
+body:has(.internSidebar) .mainWrapper,
+body:has(.internSidebar) .mainContent,
+body:has(.internSidebar) {
+  background-color: #f8fafc !important;
+}
+
+body:has(.internSidebar) .portalNavbar {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
 .intern-dashboard-root {
   display: flex;
   flex-direction: column;
@@ -9,6 +21,35 @@
   padding: 0 0 2.5rem 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   color: #1e293b;
+}
+
+.ims-focus-title {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+}
+
+.ims-curriculum-header h5 {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  margin: 0 !important;
+}
+
+.ims-section-top-left h6 {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  margin: 0 !important;
+}
+
+.ims-modules-header h5 {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  margin: 0 !important;
 }
 
 /* 1. TOP COMMAND CENTER BANNER */

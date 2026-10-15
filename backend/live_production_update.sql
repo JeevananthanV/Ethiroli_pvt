@@ -906,17 +906,18 @@ ON DUPLICATE KEY UPDATE
 -- [INTERN] knandhinivnr@gmail.com (Nandhini K)
 -- Plaintext Password: Intern@123 | Portal: /auth/intern/login
 INSERT INTO `users` (`id`, `email`, `password_hash`, `full_name`, `phone`, `role`, `is_active`, `preferences`)
-VALUES ('66da1638-9a06-4741-9ed2-8054b0417313', '3cb00bec9c3f1a7868692dc2:c9f65ce8106b238aafae5b7b96d6fbbb:65ee5dd5f6efa5f85cd7fd8fc8ecd826fab650a0e9ae', '$2b$12$ubZWwww2OwVC0SrjQAy76.ZRK7590rg1O.U1UJChmJMOQggODryPy', '7ae1b63bc5733797715ae5f9:064b2e13b15c802a2b1f377bf200428c:98f9d56890cbfbf3c7a1', NULL, 'INTERN', 1, '{"department":"Full Stack Web Development","college":"Anna University","seeded":true}')
+VALUES ('66da1638-9a06-4741-9ed2-8054b0417313', 'knandhinivnr@gmail.com', '$2b$12$fUyZpKhXcsSrJtECL1Upsumsog80GONy1ELmC7IFZcnn8v.z.Bch.', 'Nandhini K', NULL, 'INTERN', 1, '{"department":"Full Stack Web Development","college":"Anna University","seeded":true}')
 ON DUPLICATE KEY UPDATE
-  `password_hash` = VALUES(`password_hash`),
-  `full_name` = VALUES(`full_name`),
+  `email` = 'knandhinivnr@gmail.com',
+  `password_hash` = '$2b$12$fUyZpKhXcsSrJtECL1Upsumsog80GONy1ELmC7IFZcnn8v.z.Bch.',
+  `full_name` = 'Nandhini K',
   `role` = 'INTERN',
   `is_active` = 1,
   `preferences` = VALUES(`preferences`);
 INSERT INTO `user_credentials` (`user_id`, `password_hash`, `password_algo`, `password_updated_at`, `failed_login_attempts`, `lockout_until`, `requires_password_change`, `password_history`)
-VALUES ('66da1638-9a06-4741-9ed2-8054b0417313', '$2b$12$ubZWwww2OwVC0SrjQAy76.ZRK7590rg1O.U1UJChmJMOQggODryPy', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$ubZWwww2OwVC0SrjQAy76.ZRK7590rg1O.U1UJChmJMOQggODryPy"]')
+VALUES ('66da1638-9a06-4741-9ed2-8054b0417313', '$2b$12$fUyZpKhXcsSrJtECL1Upsumsog80GONy1ELmC7IFZcnn8v.z.Bch.', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$fUyZpKhXcsSrJtECL1Upsumsog80GONy1ELmC7IFZcnn8v.z.Bch."]')
 ON DUPLICATE KEY UPDATE
-  `password_hash` = VALUES(`password_hash`),
+  `password_hash` = '$2b$12$fUyZpKhXcsSrJtECL1Upsumsog80GONy1ELmC7IFZcnn8v.z.Bch.',
   `password_updated_at` = NOW(),
   `failed_login_attempts` = 0,
   `lockout_until` = NULL,
@@ -933,17 +934,18 @@ ON DUPLICATE KEY UPDATE
 -- [INTERN] mathishree008@gmail.com (Mathishree)
 -- Plaintext Password: Intern@123 | Portal: /auth/intern/login
 INSERT INTO `users` (`id`, `email`, `password_hash`, `full_name`, `phone`, `role`, `is_active`, `preferences`)
-VALUES ('eadd2eb6-b0af-4e3f-aa82-a08e29d891ee', 'd3ca4f4dfe0c1ad1f13a1b58:317b7cd6c1ef147347ef080b2281bd17:81d3b47e661975db99d95728dcf69a94db56e40c0aacf3', '$2b$12$bGPu4S6WVToq9GDCDqnoGe5dy28GILs4M02dp9LCPSJ9xWWi6td2G', '97b4305c36983895bfbf959b:267cbe66270d2c2103d6b5fc08b008aa:ed78807c526d6030baa7', NULL, 'INTERN', 1, '{"department":"Full Stack Web Development","college":"PSG College of Technology","seeded":true}')
+VALUES ('eadd2eb6-b0af-4e3f-aa82-a08e29d891ee', 'mathishree008@gmail.com', '$2b$12$fUyZpKhXcsSrJtECL1Upsumsog80GONy1ELmC7IFZcnn8v.z.Bch.', 'Mathishree', NULL, 'INTERN', 1, '{"department":"Full Stack Web Development","college":"PSG College of Technology","seeded":true}')
 ON DUPLICATE KEY UPDATE
-  `password_hash` = VALUES(`password_hash`),
-  `full_name` = VALUES(`full_name`),
+  `email` = 'mathishree008@gmail.com',
+  `password_hash` = '$2b$12$fUyZpKhXcsSrJtECL1Upsumsog80GONy1ELmC7IFZcnn8v.z.Bch.',
+  `full_name` = 'Mathishree',
   `role` = 'INTERN',
   `is_active` = 1,
   `preferences` = VALUES(`preferences`);
 INSERT INTO `user_credentials` (`user_id`, `password_hash`, `password_algo`, `password_updated_at`, `failed_login_attempts`, `lockout_until`, `requires_password_change`, `password_history`)
-VALUES ('eadd2eb6-b0af-4e3f-aa82-a08e29d891ee', '$2b$12$bGPu4S6WVToq9GDCDqnoGe5dy28GILs4M02dp9LCPSJ9xWWi6td2G', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$bGPu4S6WVToq9GDCDqnoGe5dy28GILs4M02dp9LCPSJ9xWWi6td2G"]')
+VALUES ('eadd2eb6-b0af-4e3f-aa82-a08e29d891ee', '$2b$12$fUyZpKhXcsSrJtECL1Upsumsog80GONy1ELmC7IFZcnn8v.z.Bch.', 'BCRYPT', NOW(), 0, NULL, 0, '["$2b$12$fUyZpKhXcsSrJtECL1Upsumsog80GONy1ELmC7IFZcnn8v.z.Bch."]')
 ON DUPLICATE KEY UPDATE
-  `password_hash` = VALUES(`password_hash`),
+  `password_hash` = '$2b$12$fUyZpKhXcsSrJtECL1Upsumsog80GONy1ELmC7IFZcnn8v.z.Bch.',
   `password_updated_at` = NOW(),
   `failed_login_attempts` = 0,
   `lockout_until` = NULL,

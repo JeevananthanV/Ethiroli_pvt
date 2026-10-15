@@ -2,11 +2,13 @@
  * Seeds intern accounts into the database and generates SQL for live database execution.
  *
  * Accounts:
- * - gokulrajkumar2006@gmail.com : CFemE8r!i6K3Od
- * - srinithikumar54@gmail.com    : NHCg0ZUU!laqM!
- * - sloganathan0105@gmail.com   : DF&m!RPpGspUGV
- * - stephen862k7@gmail.com       : 1c9eN#OFQp73&S
- * - Barathappu777@gmail.com      : sKotWmDqMrjpv0
+ * - gokulrajkumar2006@gmail.com : Intern@123
+ * - srinithikumar54@gmail.com    : Intern@123
+ * - sloganathan0105@gmail.com   : Intern@123
+ * - stephen862k7@gmail.com       : Intern@123
+ * - Barathappu777@gmail.com      : Intern@123
+ * - knandhinivnr@gmail.com       : Intern@123
+ * - mathishree008@gmail.com      : Intern@123
  */
 
 import 'dotenv/config';
@@ -26,7 +28,7 @@ const __dirname = path.dirname(__filename);
 const INTERN_CREDENTIALS = [
   {
     email: 'gokulrajkumar2006@gmail.com',
-    password: 'CFemE8r!i6K3Od',
+    password: 'Intern@123',
     full_name: 'Gokul Rajkumar',
     college: 'Anna University',
     department: 'Software Engineering',
@@ -34,7 +36,7 @@ const INTERN_CREDENTIALS = [
   },
   {
     email: 'srinithikumar54@gmail.com',
-    password: 'NHCg0ZUU!laqM!',
+    password: 'Intern@123',
     full_name: 'Srinithi Kumar',
     college: 'PSG College of Technology',
     department: 'Full Stack Development',
@@ -42,7 +44,7 @@ const INTERN_CREDENTIALS = [
   },
   {
     email: 'sloganathan0105@gmail.com',
-    password: 'DF&m!RPpGspUGV',
+    password: 'Intern@123',
     full_name: 'S Loganathan',
     college: 'Coimbatore Institute of Technology',
     department: 'Web Applications',
@@ -50,7 +52,7 @@ const INTERN_CREDENTIALS = [
   },
   {
     email: 'stephen862k7@gmail.com',
-    password: '1c9eN#OFQp73&S',
+    password: 'Intern@123',
     full_name: 'Stephen',
     college: 'Government College of Technology',
     department: 'Frontend Engineering',
@@ -58,10 +60,26 @@ const INTERN_CREDENTIALS = [
   },
   {
     email: 'Barathappu777@gmail.com',
-    password: 'sKotWmDqMrjpv0',
+    password: 'Intern@123',
     full_name: 'Barath Appu',
     college: 'SRM Institute of Science and Technology',
     department: 'Backend Engineering',
+    stipend: 15000
+  },
+  {
+    email: 'knandhinivnr@gmail.com',
+    password: 'Intern@123',
+    full_name: 'Nandhini K',
+    college: 'Anna University',
+    department: 'Full Stack Web Development',
+    stipend: 15000
+  },
+  {
+    email: 'mathishree008@gmail.com',
+    password: 'Intern@123',
+    full_name: 'Mathishree',
+    college: 'PSG College of Technology',
+    department: 'Full Stack Web Development',
     stipend: 15000
   }
 ];
@@ -75,6 +93,42 @@ export async function seedInterns() {
     `-- Generated on: ${new Date().toISOString()}`,
     '--',
     'SET FOREIGN_KEY_CHECKS = 0;',
+    '',
+    '-- Ensure essential auth & profile tables exist in production',
+    `CREATE TABLE IF NOT EXISTS \`user_credentials\` (
+  \`user_id\` char(36) NOT NULL,
+  \`password_hash\` varchar(255) NOT NULL,
+  \`password_algo\` varchar(30) NOT NULL DEFAULT 'BCRYPT',
+  \`password_updated_at\` timestamp NOT NULL DEFAULT current_timestamp(),
+  \`failed_login_attempts\` int(11) NOT NULL DEFAULT 0,
+  \`lockout_until\` timestamp NULL DEFAULT NULL,
+  \`requires_password_change\` tinyint(1) NOT NULL DEFAULT 0,
+  \`password_history\` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  \`two_factor_secret\` varchar(255) DEFAULT NULL,
+  \`two_factor_enabled\` tinyint(1) NOT NULL DEFAULT 0,
+  \`created_at\` timestamp NOT NULL DEFAULT current_timestamp(),
+  \`updated_at\` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (\`user_id\`),
+  CONSTRAINT \`fk_uc_user\` FOREIGN KEY (\`user_id\`) REFERENCES \`users\` (\`id\`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;`,
+    '',
+    `CREATE TABLE IF NOT EXISTS \`interns\` (
+  \`id\` char(36) NOT NULL,
+  \`user_id\` char(36) NOT NULL,
+  \`mentor_id\` char(36) DEFAULT NULL,
+  \`college_name\` varchar(255) DEFAULT NULL,
+  \`stipend\` decimal(10,2) DEFAULT 0.00,
+  \`start_date\` date DEFAULT NULL,
+  \`end_date\` date DEFAULT NULL,
+  \`project_target\` varchar(255) DEFAULT NULL,
+  \`progress\` int(11) DEFAULT 0,
+  \`created_at\` timestamp NOT NULL DEFAULT current_timestamp(),
+  \`updated_at\` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (\`id\`),
+  KEY \`idx_intern_user\` (\`user_id\`),
+  KEY \`idx_intern_mentor\` (\`mentor_id\`),
+  CONSTRAINT \`fk_intern_user\` FOREIGN KEY (\`user_id\`) REFERENCES \`users\` (\`id\`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;`,
     ''
   ];
 

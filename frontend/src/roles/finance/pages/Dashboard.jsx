@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { getDashboardSummary, getDashboardTrends } from '../../../services/api/financeApi.js';
+import { getDashboardSummary, getDashboardTrends } from '../../../services/api/financeApi.js'; // we'll create this utils
 
 export default function Dashboard() {
   const [summary, setSummary] = useState(null);

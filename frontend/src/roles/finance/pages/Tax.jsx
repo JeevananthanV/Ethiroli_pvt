@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import useFinanceData from '../../../hooks/useFinanceData';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { getTaxSummary, recordTaxFiling } from '../../../services/api/financeApi.js';
 
 export default function FinanceTax() {
-  const [taxData, setTaxData] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [activeQuarter, setActiveQuarter] = useState('Q2-2026');
   const [showModal, setShowModal] = useState(false);
   const [filingForm, setFilingForm] = useState({
@@ -15,33 +14,12 @@ export default function FinanceTax() {
     tax_paid: ''
   });
 
-  const loadTaxSummary = async () => {
-    try {
-      setLoading(true);
-      const res = await getTaxSummary();
-      setTaxData(res);
-    } catch (err) {
-      console.error('Failed to load tax summary:', err);
-      setTaxData({
-        current_period: 'September 2026',
-        output_gst: 184500,
-        input_itc: 62300,
-        net_gst_payable: 122200,
-        tds_withheld: 38400,
-        filings: [
-          { id: '1', return_type: 'GSTR1', filing_period: 'August 2026', due_date: '2026-09-11', status: 'FILED', arn_number: 'AA3308260124589', tax_paid: 0 },
-          { id: '2', return_type: 'GSTR3B', filing_period: 'August 2026', due_date: '2026-09-20', status: 'DRAFT', arn_number: null, tax_paid: 122200 },
-          { id: '3', return_type: 'TDS_26Q', filing_period: 'Q1 (Apr - Jun)', due_date: '2026-07-31', status: 'VERIFIED', arn_number: 'TDS26Q20260731', tax_paid: 78500 }
-        ]
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    loadTaxSummary();
-  }, []);
+  // ------- dynamic data fetch via hook -------
+  const { data: taxData, loading, error, refetch } = useFinanceData(
+    () => getTaxSummary(),
+    []
+  );
+  // -------------------------------------------
 
   const handleRecordFiling = async (e) => {
     e.preventDefault();
@@ -58,7 +36,7 @@ export default function FinanceTax() {
         arn_number: '',
         tax_paid: ''
       });
-      loadTaxSummary();
+      refetch();
       alert('Tax filing return successfully recorded with ARN.');
     } catch (err) {
       alert(err.response?.data?.message || 'Failed to record tax filing');

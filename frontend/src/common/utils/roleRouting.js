@@ -15,6 +15,7 @@ export const ROLES = Object.freeze({
   EMPLOYEE: 'EMPLOYEE',
   STUDENT: 'STUDENT',
   INTERN: 'INTERN',
+  VIDE_EDITOR: 'VIDEO_EDITOR',
 });
 
 /**
@@ -27,6 +28,7 @@ export const ROLE_DEFAULT_ROUTES = Object.freeze({
   [ROLES.TUTOR]: '/app/tutor/dashboard',
   [ROLES.PROJECT_MANAGER]: '/app/pm/dashboard',
   [ROLES.FINANCE]: '/app/finance/dashboard',
+  [ROLES.VIDEO_EDITOR]: '/app/video-editor/dashboard',
   [ROLES.SALES]: '/app/sales/dashboard',
   [ROLES.RECEPTION]: '/app/reception/dashboard',
   [ROLES.EMPLOYEE]: '/app/employee/dashboard',

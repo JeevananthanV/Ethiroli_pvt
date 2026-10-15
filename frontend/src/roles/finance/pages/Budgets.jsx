@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import useFinanceData from '../../../hooks/useFinanceData';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { getBudgets, createBudget } from '../../../services/api/financeApi.js';
 
 export default function FinanceBudgets() {
-  const [budgets, setBudgets] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [filterYear, setFilterYear] = useState('2026-27');
   const [filterQuarter, setFilterQuarter] = useState('Q2');
   const [showModal, setShowModal] = useState(false);
@@ -17,28 +16,13 @@ export default function FinanceBudgets() {
     notes: ''
   });
 
-  const loadBudgets = useCallback(async () => {
-    try {
-      setLoading(true);
-      const res = await getBudgets({ fiscal_year: filterYear, quarter: filterQuarter });
-      const list = Array.isArray(res) ? res : res?.data || [];
-      setBudgets(list);
-    } catch (err) {
-      console.error('Failed to load budgets:', err);
-      setBudgets([
-        { id: '1', department: 'ENGINEERING', category: 'Cloud Infrastructure & Servers', allocated_amount: 300000, spent_amount: 195000, variance: 105000, utilization_percentage: 65.0, fiscal_year: '2026-27', quarter: 'Q2' },
-        { id: '2', department: 'MARKETING', category: 'Digital Ads & Performance Campaigns', allocated_amount: 150000, spent_amount: 128000, variance: 22000, utilization_percentage: 85.3, fiscal_year: '2026-27', quarter: 'Q2' },
-        { id: '3', department: 'HUMAN_RESOURCES', category: 'Recruitment & Employee Perks', allocated_amount: 80000, spent_amount: 42000, variance: 38000, utilization_percentage: 52.5, fiscal_year: '2026-27', quarter: 'Q2' },
-        { id: '4', department: 'OPERATIONS', category: 'Office Infrastructure & Logistics', allocated_amount: 120000, spent_amount: 95000, variance: 25000, utilization_percentage: 79.2, fiscal_year: '2026-27', quarter: 'Q2' }
-      ]);
-    } finally {
-      setLoading(false);
-    }
-  }, [filterYear, filterQuarter]);
-
-  useEffect(() => {
-    loadBudgets();
-  }, [loadBudgets]);
+  // ------- dynamic data fetch via hook -------
+  const { data: rawBudgets, loading, error, refetch } = useFinanceData(
+    () => getBudgets({ fiscal_year: filterYear, quarter: filterQuarter }),
+    [filterYear, filterQuarter]
+  );
+  const budgets = rawBudgets || [];
+  // -------------------------------------------
 
   const handleSaveBudget = async (e) => {
     e.preventDefault();
@@ -56,7 +40,7 @@ export default function FinanceBudgets() {
         allocated_amount: '',
         notes: ''
       });
-      loadBudgets();
+      refetch();
     } catch (err) {
       alert(err.response?.data?.message || 'Failed to save budget allocation');
     }
@@ -75,7 +59,7 @@ export default function FinanceBudgets() {
         <div className="col-md-4">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white border-start border-primary border-4">
             <small className="text-muted text-uppercase fw-semibold">Total Approved Budget</small>
-            <h3 className="mb-0 fw-bold mt-1 text-primary">₹{totalAllocated.toLocaleString()}</h3>
+            <h3 className="mb-0 fw-bold mt-1 text-primary">₹{(budgets?.reduce((s, b) => s + (parseFloat(b.allocated_amount) || 0), 0) || 0).toLocaleString()}</h3>
             <small className="text-muted">FY {filterYear} &bull; {filterQuarter}</small>
           </div>
         </div>
@@ -128,10 +112,12 @@ export default function FinanceBudgets() {
             <tbody>
               {loading ? (
                 <tr><td colSpan="6" className="text-center py-4">Loading budget variance data...</td></tr>
-              ) : budgets.length === 0 ? (
+              ) : error ? (
+                <tr><td colSpan="6" className="text-center py-4 text-danger">Error loading budget data</td></tr>
+              ) : !data || data.length === 0 ? (
                 <tr><td colSpan="6" className="text-center py-4 text-muted">No budget allocations found for this quarter.</td></tr>
               ) : (
-                budgets.map(b => (
+                data.map(b => (
                   <tr key={b.id}>
                     <td><span className="badge bg-light text-dark border">{b.department}</span></td>
                     <td><div className="fw-semibold text-dark">{b.category}</div></td>

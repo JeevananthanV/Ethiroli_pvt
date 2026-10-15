@@ -669,6 +669,18 @@ export const ROLE_NAVIGATION = Object.freeze({
     },
     { label: 'My Profile', path: '/app/intern/profile', icon: 'bi-person-circle' },
   ],
+  [ROLES.VIDEO_EDITOR]: [
+    { label: 'Dashboard', path: '/app/video-editor/dashboard', icon: 'bi-camera-video' },
+    { label: 'My Video Tasks', path: '/app/video-editor/my-tasks', icon: 'assignment' },
+    { label: 'All Projects', path: '/app/video-editor/all-projects', icon: 'folder' },
+    { label: 'Daily Work Log', path: '/app/video-editor/daily-log', icon: 'edit_note' },
+    { label: 'Time Tracker', path: '/app/video-editor/time-tracker', icon: 'timer' },
+    { label: 'Review & Revisions', path: '/app/video-editor/review-revisions', icon: 'repeat' },
+    { label: 'Media Library', path: '/app/video-editor/media-library', icon: 'folder2-open' },
+    { label: 'Calendar & Deadlines', path: '/app/video-editor/calendar', icon: 'calendar-month' },
+    { label: 'Performance Reports', path: '/app/video-editor/performance-reports', icon: 'bar-chart-line' },
+    { label: 'My Profile', path: '/app/video-editor/profile', icon: 'person-circle' },
+  ],
 });
 
 /**

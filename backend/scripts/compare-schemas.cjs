@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const prodSql = fs.readFileSync(path.join(__dirname, '..', 'u629721489_ethiroli_Db.sql'), 'utf8');
+const prodSql = fs.readFileSync(path.join(__dirname, '..', 'u629721489_ethiroli_Db (1).sql'), 'utf8');
 const schemaSql = fs.readFileSync(path.join(__dirname, '..', 'schema.sql'), 'utf8');
 
 function getTableNamesFromProd(sql) {

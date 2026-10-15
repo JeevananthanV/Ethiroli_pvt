@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { getLeads, createLead, updateLead, deleteLead, createDeal } from '../../../services/api/salesApi.js';
+import { getLeads, createLead, updateLead, deleteLead, convertLead } from '../../../services/api/salesApi.js';
 
 export default function Leads() {
   const [leads, setLeads] = useState([]);
@@ -82,7 +82,7 @@ export default function Leads() {
     setConvertData({
       lead_id: lead.id,
       title: `${lead.company_name || lead.first_name} - Platform Contract`,
-      deal_value: 350000,
+      deal_value: lead.estimated_value || 350000,  // Use estimated value if available, otherwise default
       contact_name: `${lead.first_name} ${lead.last_name || ''}`.trim(),
       contact_email: lead.email,
       expected_close_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)
@@ -93,17 +93,21 @@ export default function Leads() {
   const handleExecuteConvert = async (e) => {
     e.preventDefault();
     try {
-      await createDeal({
-        ...convertData,
-        stage: 'QUALIFICATION',
-        probability: 20
+      const { dealValue } = convertData;
+      const result = await convertLead({
+        leadId: convertData.lead_id,
+        dealValue,
+        stage: convertData.stage || 'QUALIFICATION',
+        notes: convertData.notes || ''
       });
-      await updateLead(convertData.lead_id, { status: 'CONVERTED' });
+      
+      // The atomic endpoint already handles both creating the deal and updating the lead
+      // Refresh the leads list to reflect the conversion
+      loadLeads();
       setShowConvertModal(false);
       alert('Lead successfully converted to an active Sales Deal!');
-      loadLeads();
     } catch (err) {
-      alert('Error converting lead to deal: ' + err.message);
+      alert('Error converting lead to deal: ' + (err.message || 'Unknown error'));
     }
   };
 

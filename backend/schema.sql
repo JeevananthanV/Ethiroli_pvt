@@ -2780,4 +2780,82 @@ ON DUPLICATE KEY UPDATE
   role_id = VALUES(role_id);
 
 
+-- Table: attendance_sessions
+CREATE TABLE IF NOT EXISTS `attendance_sessions` (
+  `id` char(36) NOT NULL DEFAULT (UUID()),
+  `user_id` char(36) NOT NULL,
+  `work_date` date NOT NULL,
+  `check_in_time` datetime NOT NULL,
+  `check_out_time` datetime DEFAULT NULL,
+  `worked_minutes` int(11) GENERATED ALWAYS AS (ifnull(timestampdiff(MINUTE,`check_in_time`,`check_out_time`),0)) STORED,
+  `status` enum('ACTIVE','COMPLETED') NOT NULL DEFAULT 'ACTIVE',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_sessions_user_date` (`user_id`,`work_date`),
+  KEY `idx_sessions_user_status` (`user_id`,`status`),
+  CONSTRAINT `fk_att_sess_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Table: password_change_requests
+CREATE TABLE IF NOT EXISTS `password_change_requests` (
+  `id` char(36) NOT NULL DEFAULT (UUID()),
+  `user_id` char(36) NOT NULL,
+  `reason` varchar(500) DEFAULT NULL,
+  `status` enum('PENDING','APPROVED','REJECTED','COMPLETED','EXPIRED') NOT NULL DEFAULT 'PENDING',
+  `requested_at` timestamp(6) NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `reviewed_by` char(36) DEFAULT NULL,
+  `reviewed_at` datetime(6) DEFAULT NULL,
+  `review_note` varchar(500) DEFAULT NULL,
+  `grant_expires_at` datetime(6) DEFAULT NULL,
+  `grant_used_at` datetime(6) DEFAULT NULL,
+  `completed_at` datetime(6) DEFAULT NULL,
+  `created_at` timestamp(6) NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `updated_at` timestamp(6) NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  PRIMARY KEY (`id`),
+  KEY `idx_pcr_user` (`user_id`),
+  KEY `idx_pcr_status` (`status`),
+  CONSTRAINT `fk_pcr_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Table: password_recovery_requests
+CREATE TABLE IF NOT EXISTS `password_recovery_requests` (
+  `id` char(36) NOT NULL DEFAULT (UUID()),
+  `email_hash` char(64) NOT NULL,
+  `employee_code` varchar(50) NOT NULL,
+  `user_id` char(36) DEFAULT NULL,
+  `reason` varchar(500) DEFAULT NULL,
+  `status` enum('PENDING','APPROVED','REJECTED','COMPLETED','EXPIRED') NOT NULL DEFAULT 'PENDING',
+  `requested_ip` varchar(64) DEFAULT NULL,
+  `requested_at` timestamp(6) NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `resolved_at` datetime(6) DEFAULT NULL,
+  `created_at` timestamp(6) NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `updated_at` timestamp(6) NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  PRIMARY KEY (`id`),
+  KEY `idx_prr_status` (`status`),
+  KEY `idx_prr_email_hash` (`email_hash`),
+  KEY `idx_prr_user` (`user_id`),
+  CONSTRAINT `fk_prr_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Column updates to existing baseline tables
+ALTER TABLE `attendance`
+  ADD COLUMN IF NOT EXISTS `work_mode` ENUM('REMOTE', 'OFFICE') NULL DEFAULT NULL AFTER `status`,
+  ADD COLUMN IF NOT EXISTS `worked_minutes` INT NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS `session_count` INT NOT NULL DEFAULT 0;
+
+ALTER TABLE `employees`
+  ADD COLUMN IF NOT EXISTS `uan` VARCHAR(20) NULL DEFAULT NULL AFTER `pf_number`;
+
+ALTER TABLE `leaves`
+  ADD COLUMN IF NOT EXISTS `review_note` VARCHAR(500) NULL DEFAULT NULL AFTER `approval_chain_step`;
+
+ALTER TABLE `sessions`
+  ADD COLUMN IF NOT EXISTS `impersonated_by` CHAR(36) NULL AFTER `ip_address`,
+  ADD COLUMN IF NOT EXISTS `impersonation_origin_token` VARCHAR(255) NULL AFTER `impersonated_by`;
+
+ALTER TABLE `interns`
+  ADD COLUMN IF NOT EXISTS `project_target` VARCHAR(255) DEFAULT 'Full Stack Development',
+  ADD COLUMN IF NOT EXISTS `progress` INT DEFAULT 10;
+
 SET FOREIGN_KEY_CHECKS = 1;

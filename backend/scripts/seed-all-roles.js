@@ -155,7 +155,7 @@ export const MASTER_ACCOUNTS = [
     portalUrl: '/auth/intern/login',
     dashboardUrl: '/app/intern/dashboard',
     email: 'gokulrajkumar2006@gmail.com',
-    password: 'CFemE8r!i6K3Od',
+    password: 'Intern@123',
     fullName: 'Gokul Rajkumar',
     college: 'Anna University',
     department: 'Software Engineering',
@@ -167,7 +167,7 @@ export const MASTER_ACCOUNTS = [
     portalUrl: '/auth/intern/login',
     dashboardUrl: '/app/intern/dashboard',
     email: 'srinithikumar54@gmail.com',
-    password: 'NHCg0ZUU!laqM!',
+    password: 'Intern@123',
     fullName: 'Srinithi Kumar',
     college: 'PSG College of Technology',
     department: 'Full Stack Development',
@@ -179,7 +179,7 @@ export const MASTER_ACCOUNTS = [
     portalUrl: '/auth/intern/login',
     dashboardUrl: '/app/intern/dashboard',
     email: 'sloganathan0105@gmail.com',
-    password: 'DF&m!RPpGspUGV',
+    password: 'Intern@123',
     fullName: 'S Loganathan',
     college: 'Coimbatore Institute of Technology',
     department: 'Web Applications',
@@ -191,7 +191,7 @@ export const MASTER_ACCOUNTS = [
     portalUrl: '/auth/intern/login',
     dashboardUrl: '/app/intern/dashboard',
     email: 'stephen862k7@gmail.com',
-    password: '1c9eN#OFQp73&S',
+    password: 'Intern@123',
     fullName: 'Stephen',
     college: 'Government College of Technology',
     department: 'Frontend Engineering',
@@ -203,21 +203,45 @@ export const MASTER_ACCOUNTS = [
     portalUrl: '/auth/intern/login',
     dashboardUrl: '/app/intern/dashboard',
     email: 'Barathappu777@gmail.com',
-    password: 'sKotWmDqMrjpv0',
+    password: 'Intern@123',
     fullName: 'Barath Appu',
     college: 'SRM Institute of Science and Technology',
     department: 'Backend Engineering',
+    stipend: 15000
+  },
+  // 17. Nandhini K
+  {
+    role: 'INTERN',
+    portalUrl: '/auth/intern/login',
+    dashboardUrl: '/app/intern/dashboard',
+    email: 'knandhinivnr@gmail.com',
+    password: 'Intern@123',
+    fullName: 'Nandhini K',
+    college: 'Anna University',
+    department: 'Full Stack Web Development',
+    stipend: 15000
+  },
+  // 18. Mathishree
+  {
+    role: 'INTERN',
+    portalUrl: '/auth/intern/login',
+    dashboardUrl: '/app/intern/dashboard',
+    email: 'mathishree008@gmail.com',
+    password: 'Intern@123',
+    fullName: 'Mathishree',
+    college: 'PSG College of Technology',
+    department: 'Full Stack Web Development',
     stipend: 15000
   }
 ];
 
 export async function seedAllRoles() {
-  console.log('Starting seed process for 16 primary & intern accounts...\n');
+  console.log('Starting seed process for 18 primary & intern accounts...\n');
 
   const sqlStatements = [
     '--',
     '-- Complete Production / Live SQL Seed Script',
-    '-- Primary Role Login Credentials (11 Roles) + Seeded Intern Accounts (5 Interns)',
+    '-- Primary Role Login Credentials (11 Roles) + Seeded Intern Accounts (7 Interns)',
     `-- Generated on: ${new Date().toISOString()}`,
     '--',
     'SET FOREIGN_KEY_CHECKS = 0;',
@@ -274,106 +298,116 @@ export async function seedAllRoles() {
       seeded: true
     });
 
-    // 1. Check existing user
-    let user = await User.findByEmail(rawEmail);
-    let userId;
-
-    if (user) {
-      userId = user.id;
-      await pool.execute(
-        `UPDATE users
-         SET password_hash = ?, full_name = ?, role = ?, is_active = 1, preferences = ?
-         WHERE id = ?`,
-        [passwordHash, encFullName, account.role, prefJson, userId]
-      );
-    } else {
-      userId = crypto.randomUUID();
-      await pool.execute(
-        `INSERT INTO users (id, email, password_hash, full_name, phone, role, is_active, preferences)
-         VALUES (?, ?, ?, ?, NULL, ?, 1, ?)`,
-        [userId, encEmail, passwordHash, encFullName, account.role, prefJson]
-      );
-    }
-
-    // 2. user_credentials table
-    await pool.execute(
-      `INSERT INTO user_credentials 
-       (user_id, password_hash, password_algo, password_updated_at, failed_login_attempts, lockout_until, requires_password_change, password_history)
-       VALUES (?, ?, 'BCRYPT', NOW(), 0, NULL, 0, ?)
-       ON DUPLICATE KEY UPDATE 
-         password_hash = VALUES(password_hash),
-         password_updated_at = NOW(),
-         failed_login_attempts = 0,
-         lockout_until = NULL,
-         requires_password_change = 0,
-         password_history = VALUES(password_history)`,
-      [userId, passwordHash, JSON.stringify([passwordHash])]
-    );
-
-    // 3. Role-specific child tables
-    let internId = null;
+    // Check existing or predetermined user ID
+    let userId = account.id || crypto.randomUUID();
+    let internId = account.internId || null;
     let employeeId = null;
 
-    if (account.role === 'INTERN') {
-      const [internRows] = await pool.execute('SELECT id FROM interns WHERE user_id = ?', [userId]);
-      const collegeName = account.college || 'Engineering College';
-      const stipend = account.stipend || 15000;
-      const startDate = new Date().toISOString().slice(0, 10);
-      const endDate = new Date(Date.now() + 90 * 86400000).toISOString().slice(0, 10);
-
-      if (internRows.length > 0) {
-        internId = internRows[0].id;
+    try {
+      let user = await User.findByEmail(rawEmail);
+      if (user) {
+        userId = user.id;
         await pool.execute(
-          `UPDATE interns 
-           SET college_name = ?, stipend = ?, project_target = 'Full Stack Development', progress = 10
+          `UPDATE users
+           SET password_hash = ?, full_name = ?, role = ?, is_active = 1, preferences = ?
            WHERE id = ?`,
-          [collegeName, stipend, internId]
+          [passwordHash, encFullName, account.role, prefJson, userId]
         );
       } else {
-        internId = crypto.randomUUID();
         await pool.execute(
-          `INSERT INTO interns (id, user_id, mentor_id, college_name, stipend, start_date, end_date, project_target, progress)
-           VALUES (?, ?, NULL, ?, ?, ?, ?, 'Full Stack Development', 10)`,
-          [internId, userId, collegeName, stipend, startDate, endDate]
+          `INSERT INTO users (id, email, password_hash, full_name, phone, role, is_active, preferences)
+           VALUES (?, ?, ?, ?, NULL, ?, 1, ?)`,
+          [userId, encEmail, passwordHash, encFullName, account.role, prefJson]
         );
       }
-    }
 
-    if (account.employeeCode) {
-      const [empRows] = await pool.execute('SELECT id FROM employees WHERE user_id = ?', [userId]);
-      const designation = account.designation || 'Staff';
-      const dept = account.department || 'Operations';
-      if (empRows.length > 0) {
-        employeeId = empRows[0].id;
-        await pool.execute(
-          `UPDATE employees 
-           SET employee_code = ?, department = ?, designation = ?
-           WHERE id = ?`,
-          [account.employeeCode, dept, designation, employeeId]
-        );
-      } else {
-        employeeId = crypto.randomUUID();
-        await pool.execute(
-          `INSERT INTO employees (id, user_id, employee_code, department, designation, date_of_joining)
-           VALUES (?, ?, ?, ?, ?, CURDATE())`,
-          [employeeId, userId, account.employeeCode, dept, designation]
-        );
+      // 2. user_credentials table
+      await pool.execute(
+        `INSERT INTO user_credentials 
+         (user_id, password_hash, password_algo, password_updated_at, failed_login_attempts, lockout_until, requires_password_change, password_history)
+         VALUES (?, ?, 'BCRYPT', NOW(), 0, NULL, 0, ?)
+         ON DUPLICATE KEY UPDATE 
+           password_hash = VALUES(password_hash),
+           password_updated_at = NOW(),
+           failed_login_attempts = 0,
+           lockout_until = NULL,
+           requires_password_change = 0,
+           password_history = VALUES(password_history)`,
+        [userId, passwordHash, JSON.stringify([passwordHash])]
+      );
+
+      // 3. Role-specific child tables
+      if (account.role === 'INTERN') {
+        const [internRows] = await pool.execute('SELECT id FROM interns WHERE user_id = ?', [userId]);
+        const collegeName = account.college || 'Engineering College';
+        const stipend = account.stipend || 15000;
+        const startDate = new Date().toISOString().slice(0, 10);
+        const endDate = new Date(Date.now() + 90 * 86400000).toISOString().slice(0, 10);
+
+        if (internRows.length > 0) {
+          internId = internRows[0].id;
+          await pool.execute(
+            `UPDATE interns 
+             SET college_name = ?, stipend = ?, project_target = 'Full Stack Development', progress = 10
+             WHERE id = ?`,
+            [collegeName, stipend, internId]
+          );
+        } else {
+          internId = internId || crypto.randomUUID();
+          await pool.execute(
+            `INSERT INTO interns (id, user_id, mentor_id, college_name, stipend, start_date, end_date, project_target, progress)
+             VALUES (?, ?, NULL, ?, ?, ?, ?, 'Full Stack Development', 10)`,
+            [internId, userId, collegeName, stipend, startDate, endDate]
+          );
+        }
       }
+
+      if (account.employeeCode) {
+        const [empRows] = await pool.execute('SELECT id FROM employees WHERE user_id = ?', [userId]);
+        const designation = account.designation || 'Staff';
+        const dept = account.department || 'Operations';
+        if (empRows.length > 0) {
+          employeeId = empRows[0].id;
+          await pool.execute(
+            `UPDATE employees 
+             SET employee_code = ?, department = ?, designation = ?
+             WHERE id = ?`,
+            [account.employeeCode, dept, designation, employeeId]
+          );
+        } else {
+          employeeId = crypto.randomUUID();
+          await pool.execute(
+            `INSERT INTO employees (id, user_id, employee_code, department, designation, date_of_joining)
+             VALUES (?, ?, ?, ?, ?, CURDATE())`,
+            [employeeId, userId, account.employeeCode, dept, designation]
+          );
+        }
+      }
+
+      const verifyUser = await User.findByEmail(rawEmail);
+      const passMatch = verifyUser ? await bcrypt.compare(account.password, verifyUser.password_hash) : false;
+
+      verificationResults.push({
+        Role: account.role,
+        Email: account.email,
+        Password: account.password,
+        PortalUrl: account.portalUrl,
+        DashboardUrl: account.dashboardUrl,
+        Status: passMatch ? 'VERIFIED_LOCAL' : 'LOCAL_MISMATCH',
+        UserId: userId
+      });
+    } catch (dbErr) {
+      // Local database might not be running or reachable, continue generating the SQL script
+      verificationResults.push({
+        Role: account.role,
+        Email: account.email,
+        Password: account.password,
+        PortalUrl: account.portalUrl,
+        DashboardUrl: account.dashboardUrl,
+        Status: 'SQL_GENERATED',
+        UserId: userId
+      });
     }
-
-    // 4. Verification Check
-    const verifyUser = await User.findByEmail(rawEmail);
-    const passMatch = verifyUser ? await bcrypt.compare(account.password, verifyUser.password_hash) : false;
-
-    verificationResults.push({
-      Role: account.role,
-      Email: account.email,
-      Password: account.password,
-      PortalUrl: account.portalUrl,
-      DashboardUrl: account.dashboardUrl,
-      Status: passMatch ? 'VERIFIED' : 'FAILED',
-      UserId: userId
-    });
 
     // 5. Build live SQL snippet
     const escapedEmail = encEmail.replace(/'/g, "\\'");

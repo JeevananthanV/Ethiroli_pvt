@@ -4,6 +4,7 @@ import SalesDeal from '../models/SalesDeal.js';
 import SalesProposal from '../models/SalesProposal.js';
 import SalesActivity from '../models/SalesActivity.js';
 import SalesTarget from '../models/SalesTarget.js';
+import SalesCommission from '../models/SalesCommission.js';
 import CustomerHandover from '../models/CustomerHandover.js';
 import { broadcastToRole } from '../services/socketService.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
@@ -264,8 +265,28 @@ export const updateDealStage = asyncHandler(async (req, res) => {
   const updated = await SalesDeal.updateStage(req.params.id, stage, loss_reason);
 
   // If deal moved to CLOSED_WON, increment rep's quota achievement
+  // AND auto-create commission record for the assigned BDA
   if (stage === 'CLOSED_WON' && existing.stage !== 'CLOSED_WON') {
     await SalesTarget.recordDealWon(existing.owner_id, existing.deal_value);
+
+    // Calculate and create commission (10% of deal value)
+    const commissionResult = await SalesCommission.calculateCommission(
+      existing.id,
+      existing.owner_id
+    );
+
+    if (commissionResult.alreadyExists) {
+      // Commission already exists, just notify
+      broadcastToRole('SALES', 'deal:stage_changed', updated);
+    } else {
+      // Broadcast commission creation via socket
+      broadcastToRole('SALES', 'commission:created', {
+        commissionId: commissionResult.commissionId,
+        dealId: existing.id,
+        commissionAmount: commissionResult.commissionAmount,
+        eligibleAmount: commissionResult.eligibleAmount,
+      });
+    }
   }
 
   broadcastToRole('SALES', 'deal:stage_changed', updated);

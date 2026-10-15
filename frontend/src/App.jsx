@@ -40,6 +40,7 @@ const ROLE_DASHBOARD_MAP = {
   EMPLOYEE: EmployeeDashboard,
   STUDENT: StudentDashboard,
   INTERN: InternApp,
+  VIDE_EDITOR: lazy(() => import('./roles/video/VideoRoutes')),
 };
 
 function LoadingSpinner() {

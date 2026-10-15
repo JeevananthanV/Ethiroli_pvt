@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 29, 2026 at 11:33 AM
+-- Generation Time: Oct 15, 2026 at 06:19 AM
 -- Server version: 11.8.9-MariaDB-log
 -- PHP Version: 7.2.34
 
@@ -279,6 +279,46 @@ CREATE TABLE `audit_logs` (
   `created_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `audit_logs`
+--
+
+INSERT INTO `audit_logs` (`id`, `user_id`, `action`, `entity_type`, `entity_id`, `old_value`, `new_value`, `ip_address`, `user_agent`, `created_at`) VALUES
+(1, '368f5c88-12cd-11ed-861d-0242ac120002', 'CREATE_LEAD_PUBLIC', 'LEAD', NULL, NULL, '{\"id\":\"\",\"name\":\"Test User\",\"email\":\"test@example.com\",\"phone\":\"9876543210\",\"source\":\"WEBSITE\",\"status\":\"NEW\"}', '2409:4091:a04d:401:7500:326c:dc29:53b6', NULL, '2026-09-30 06:27:06'),
+(2, NULL, 'CREATE_CONTACT_MESSAGE', 'CONTACT_MESSAGE', '1', NULL, '{\"id\":1,\"name\":\"Ethiroli Verification Test\",\"email\":\"verification@ethiroli.net\",\"phone\":\"+91 9876543210\",\"subject\":\"Production Form Verification\",\"message\":\"This is a test message to verify the contact form submission on production.\",\"created_at\":\"2026-09-30T06:52:53.706Z\"}', '2409:4091:a04d:401:7500:326c:dc29:53b6', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36', '2026-09-30 06:52:53'),
+(3, NULL, 'CREATE_CONTACT_MESSAGE', 'CONTACT_MESSAGE', '2', NULL, '{\"id\":2,\"name\":\"LOGANATHAN S\",\"email\":\"sloganathan0105@gmail.com\",\"phone\":\"8838676284\",\"subject\":\"Web Development & AI Solutions\",\"message\":\"Hello, I’m Loganathan, a B.Tech AI & Data Science student with hands-on experience in web development, React, Python, and AI-based projects. I’m interested in opportunities to contribute to your team and gain practical industry experience. I would be happy to discuss how my technical skills and project experience can support your requirements. Thank you for your time, and I look forward to hearing from you.\",\"created_at\":\"2026-09-30T06:55:33.554Z\"}', '2409:4091:a04d:401:ec07:71f3:672c:672f', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36', '2026-09-30 06:55:33'),
+(4, NULL, 'CREATE_CONTACT_MESSAGE', 'CONTACT_MESSAGE', '3', NULL, '{\"id\":3,\"name\":\"stephen\",\"email\":\"stephen862k7@gmail.com\",\"phone\":\"9345125667\",\"subject\":\"Webdeveloper\",\"message\":\"i like to join with yours.\",\"created_at\":\"2026-09-30T06:56:23.318Z\"}', '2409:4091:a04d:401:95d7:744c:2692:ba6c', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36', '2026-09-30 06:56:23'),
+(5, NULL, 'CREATE_CANDIDATE', 'CANDIDATE', '1', NULL, '{\"id\":1,\"applicationId\":1,\"name\":\"LOGANATHAN S\",\"fullName\":\"LOGANATHAN S\",\"email\":\"sloganathan0105@gmail.com\",\"phone\":\"8838676284\",\"role\":\"Web Developer Intern\",\"portfolioUrl\":\"https://loganathan-portfolio-ruby.vercel.app/\",\"experienceLevel\":\"Intermediate\",\"message\":\"I am a passionate AI & Data Science student with hands-on experience in web development, Python, React, and AI-based projects. I enjoy learning new technologies and building practical, user-focused solutions. I am a quick learner, adaptable, and committed to delivering quality work while continuously improving my skills. I believe my technical knowledge, creativity, and willingness to take on new challenges would allow me to contribute effectively to your team.\",\"source\":\"WEBSITE\",\"created_at\":\"2026-09-30T06:56:37.946Z\"}', '2409:4091:a04d:401:ec07:71f3:672c:672f', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36', '2026-09-30 06:56:37'),
+(6, NULL, 'CREATE_CONTACT_MESSAGE', 'CONTACT_MESSAGE', '4', NULL, '{\"id\":4,\"name\":\"Ethiroli Verification Test\",\"email\":\"verification@ethiroli.net\",\"phone\":\"+919876543210\",\"subject\":\"Production Form Verification\",\"message\":\"This is a live test message to verify the contact form submission on production.\",\"created_at\":\"2026-09-30T07:04:53.861Z\"}', '2409:4091:a04d:401:7500:326c:dc29:53b6', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)', '2026-09-30 07:04:53'),
+(7, NULL, 'CREATE_CANDIDATE', 'CANDIDATE', '2', NULL, '{\"id\":2,\"applicationId\":2,\"name\":\"Ethiroli Candidate Test\",\"fullName\":\"Ethiroli Candidate Test\",\"email\":\"candidate.test@ethiroli.net\",\"phone\":\"+919876543210\",\"role\":\"Web Developer Intern\",\"portfolioUrl\":\"https://ethiroli.net\",\"experienceLevel\":\"Beginner\",\"message\":\"Passionate web developer intern applicant testing live form flow.\",\"source\":\"WEBSITE\",\"created_at\":\"2026-09-30T07:04:54.015Z\"}', '2409:4091:a04d:401:7500:326c:dc29:53b6', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)', '2026-09-30 07:04:54'),
+(8, NULL, 'CREATE_CONTACT_MESSAGE', 'CONTACT_MESSAGE', '5', NULL, '{\"id\":5,\"name\":\"Gayathri Senthilkumar\",\"email\":\"gayathrisenthilkumar098@gmail.com\",\"phone\":\"+919080165383\",\"subject\":\"Web intern \",\"message\":\"Main hv Dr nsh neb nsbr khub khub khub\",\"created_at\":\"2026-09-30T07:53:37.660Z\"}', '2409:4091:a04d:401:24de:536f:af18:e751', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Mobile Safari/537.36', '2026-09-30 07:53:37'),
+(9, NULL, 'CREATE_CANDIDATE', 'CANDIDATE', '3', NULL, '{\"id\":3,\"applicationId\":3,\"name\":\"Santhiya Sakthivel\",\"fullName\":\"Santhiya Sakthivel\",\"email\":\"santhiyasakthivel858@gmail.com\",\"phone\":\"99446-21519\",\"role\":\"Web Developer Intern\",\"portfolioUrl\":\"https://santhiyasakthivel-portfolio.netlify.app/\",\"experienceLevel\":\"Beginner\",\"message\":\"Developer with hands-on experience in developing scalable web applications using the MERN Stack. Experienced in building REST APIs, designing responsive user interfaces, integrating databases, and collaborating with cross-functional teams. Passionate about writing clean, maintainable code and delivering high-quality software solutions. Seeking a Software Developer role where I can contribute to impactful projects while continuously enhancing my technical skills.\",\"source\":\"WEBSITE\",\"created_at\":\"2026-10-04T05:24:26.203Z\"}', '2001:4490:4e91:ac54:454b:97db:e39d:2cb', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36', '2026-10-04 05:24:26'),
+(10, NULL, 'CREATE_CANDIDATE', 'CANDIDATE', '4', NULL, '{\"id\":4,\"applicationId\":4,\"name\":\"Thrisha\",\"fullName\":\"Thrisha\",\"email\":\"thrishathrishaut@gmail.com\",\"phone\":\"+91 85319 43410\",\"role\":\"Web Developer Intern\",\"experienceLevel\":\"Beginner\",\"message\":\"I am a beginner with a strong interest in web development. I am eager to learn new technologies and improve my technical skills. I am a quick learner, a good team player, and ready to take on new challenges. I will work hard and contribute to the growth of the company.\",\"source\":\"WEBSITE\",\"created_at\":\"2026-10-11T14:12:08.309Z\"}', '2402:3a80:20:a9bf:857d:7e1a:9942:2c9f', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36 Edg/155.0.0.0', '2026-10-11 14:12:08'),
+(11, NULL, 'LOGIN_ATTEMPT', 'AUTH', NULL, NULL, '{\"success\":false,\"failure_reason\":\"user_not_found\",\"portal_slug\":\"employee\"}', '2409:40f4:3006:4eda:cd5d:c2b5:c5e4:46bd', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36', '2026-10-13 05:55:17'),
+(12, NULL, 'LOGIN_ATTEMPT', 'AUTH', NULL, NULL, '{\"success\":false,\"failure_reason\":\"user_not_found\",\"portal_slug\":\"employee\"}', '2409:40f4:3006:4eda:cd5d:c2b5:c5e4:46bd', NULL, '2026-10-13 05:56:06'),
+(13, NULL, 'LOGIN_ATTEMPT', 'AUTH', NULL, NULL, '{\"success\":false,\"failure_reason\":\"user_not_found\",\"portal_slug\":\"intern\"}', '2409:40f4:3006:4eda:cd5d:c2b5:c5e4:46bd', NULL, '2026-10-13 05:56:19'),
+(14, NULL, 'LOGIN_ATTEMPT', 'AUTH', NULL, NULL, '{\"success\":false,\"failure_reason\":\"user_not_found\",\"portal_slug\":\"employee\"}', '2409:40f4:3006:4eda:cd5d:c2b5:c5e4:46bd', NULL, '2026-10-13 05:56:19'),
+(15, NULL, 'LOGIN_ATTEMPT', 'AUTH', NULL, NULL, '{\"success\":false,\"failure_reason\":\"user_not_found\",\"portal_slug\":\"intern\"}', '2409:40f4:3006:4eda:cd5d:c2b5:c5e4:46bd', NULL, '2026-10-13 05:56:19'),
+(16, NULL, 'LOGIN_ATTEMPT', 'AUTH', NULL, NULL, '{\"success\":false,\"failure_reason\":\"user_not_found\",\"portal_slug\":\"admin\"}', '2409:40f4:3006:4eda:cd5d:c2b5:c5e4:46bd', NULL, '2026-10-13 05:56:19'),
+(17, NULL, 'LOGIN_ATTEMPT', 'AUTH', NULL, NULL, '{\"success\":false,\"failure_reason\":\"user_not_found\",\"portal_slug\":\"intern\"}', '2409:40f4:3006:4eda:cd5d:c2b5:c5e4:46bd', 'node', '2026-10-13 06:08:09'),
+(18, NULL, 'LOGIN_ATTEMPT', 'AUTH', NULL, NULL, '{\"success\":false,\"failure_reason\":\"user_not_found\",\"portal_slug\":\"admin\"}', '2409:40f4:3006:4eda:cd5d:c2b5:c5e4:46bd', 'node', '2026-10-13 06:10:30'),
+(19, NULL, 'LOGIN_ATTEMPT', 'AUTH', NULL, NULL, '{\"success\":false,\"failure_reason\":\"user_not_found\",\"portal_slug\":\"hr\"}', '2409:40f4:3006:4eda:cd5d:c2b5:c5e4:46bd', 'node', '2026-10-13 06:10:30'),
+(20, NULL, 'LOGIN_ATTEMPT', 'AUTH', NULL, NULL, '{\"success\":false,\"failure_reason\":\"user_not_found\",\"portal_slug\":\"tutor\"}', '2409:40f4:3006:4eda:cd5d:c2b5:c5e4:46bd', 'node', '2026-10-13 06:10:31'),
+(21, NULL, 'LOGIN_ATTEMPT', 'AUTH', NULL, NULL, '{\"success\":false,\"failure_reason\":\"user_not_found\",\"portal_slug\":\"pm\"}', '2409:40f4:3006:4eda:cd5d:c2b5:c5e4:46bd', 'node', '2026-10-13 06:10:31'),
+(22, NULL, 'LOGIN_ATTEMPT', 'AUTH', NULL, NULL, '{\"success\":false,\"failure_reason\":\"user_not_found\",\"portal_slug\":\"finance\"}', '2409:40f4:3006:4eda:cd5d:c2b5:c5e4:46bd', 'node', '2026-10-13 06:10:31'),
+(23, NULL, 'LOGIN_ATTEMPT', 'AUTH', NULL, NULL, '{\"success\":false,\"failure_reason\":\"user_not_found\",\"portal_slug\":\"sales\"}', '2409:40f4:3006:4eda:cd5d:c2b5:c5e4:46bd', 'node', '2026-10-13 06:10:31'),
+(24, NULL, 'LOGIN_ATTEMPT', 'AUTH', NULL, NULL, '{\"success\":false,\"failure_reason\":\"user_not_found\",\"portal_slug\":\"reception\"}', '2409:40f4:3006:4eda:cd5d:c2b5:c5e4:46bd', 'node', '2026-10-13 06:10:31'),
+(25, NULL, 'LOGIN_ATTEMPT', 'AUTH', NULL, NULL, '{\"success\":false,\"failure_reason\":\"user_not_found\",\"portal_slug\":\"employee\"}', '2409:40f4:3006:4eda:cd5d:c2b5:c5e4:46bd', 'node', '2026-10-13 06:10:31'),
+(26, NULL, 'LOGIN_ATTEMPT', 'AUTH', NULL, NULL, '{\"success\":false,\"failure_reason\":\"user_not_found\",\"portal_slug\":\"student\"}', '2409:40f4:3006:4eda:cd5d:c2b5:c5e4:46bd', 'node', '2026-10-13 06:10:31'),
+(27, NULL, 'LOGIN_ATTEMPT', 'AUTH', NULL, NULL, '{\"success\":false,\"failure_reason\":\"user_not_found\",\"portal_slug\":\"intern\"}', '2409:40f4:3006:4eda:cd5d:c2b5:c5e4:46bd', 'node', '2026-10-13 06:10:31'),
+(28, NULL, 'LOGIN_ATTEMPT', 'AUTH', NULL, NULL, '{\"success\":false,\"failure_reason\":\"user_not_found\",\"portal_slug\":\"intern\"}', '2409:40f4:3006:4eda:cd5d:c2b5:c5e4:46bd', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36', '2026-10-13 06:19:41'),
+(29, NULL, 'LOGIN_ATTEMPT', 'AUTH', NULL, NULL, '{\"success\":false,\"failure_reason\":\"user_not_found\",\"portal_slug\":\"intern\"}', '2409:40f4:3006:4eda:cd5d:c2b5:c5e4:46bd', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36', '2026-10-13 06:26:22'),
+(30, NULL, 'LOGIN_ATTEMPT', 'AUTH', NULL, NULL, '{\"success\":false,\"failure_reason\":\"user_not_found\",\"portal_slug\":\"intern\"}', '2409:40f4:3156:1d39:2d83:49a1:6096:ba56', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36', '2026-10-13 13:37:04'),
+(31, NULL, 'LOGIN_ATTEMPT', 'AUTH', NULL, NULL, '{\"success\":false,\"failure_reason\":\"user_not_found\",\"portal_slug\":\"intern\"}', '2409:40f4:3047:3484:95ec:7700:ae65:1411', 'node', '2026-10-13 18:21:56'),
+(32, NULL, 'CREATE_CANDIDATE', 'CANDIDATE', '5', NULL, '{\"id\":5,\"applicationId\":5,\"name\":\"PRINCE A\",\"fullName\":\"PRINCE A\",\"email\":\"princeprince45613@gmail.com\",\"phone\":\"+917502138129\",\"role\":\"Web Developer Intern\",\"portfolioUrl\":\"https://spidy-portfolio-bice.vercel.app/\",\"experienceLevel\":\"Beginner\",\"message\":\"I’m a full-stack developer building Lumen Academy, a bilingual (English and Tamil) NEET and JEE preparation platform for Indian students. I work with TypeScript, Node.js, Express, PostgreSQL with Prisma, and React, and I care about clean architecture, server-side security, and making exam prep accessible to every student.\",\"source\":\"WEBSITE\",\"created_at\":\"2026-10-15T02:50:35.296Z\"}', '2409:40f4:3150:35f4:d1d3:b713:87d9:6c7b', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36', '2026-10-15 02:50:35'),
+(33, 'd17aab8c-9280-445f-85ce-cc2a93764ddb', 'LOGIN_ATTEMPT', 'AUTH', 'd17aab8c-9280-445f-85ce-cc2a93764ddb', NULL, '{\"success\":false,\"failure_reason\":\"role_mismatch\",\"expected_role\":\"EMPLOYEE\",\"actual_role\":\"INTERN\",\"portal_slug\":\"employee\"}', '2409:4091:a04d:401:b834:ba66:2dee:8ebd', 'Mozilla/5.0 (Linux; Android 16; Pixel 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Mobile Safari/537.36', '2026-10-15 06:08:16'),
+(34, 'd17aab8c-9280-445f-85ce-cc2a93764ddb', 'LOGIN_ATTEMPT', 'AUTH', 'd17aab8c-9280-445f-85ce-cc2a93764ddb', NULL, '{\"success\":false,\"failure_reason\":\"role_mismatch\",\"expected_role\":\"EMPLOYEE\",\"actual_role\":\"INTERN\",\"portal_slug\":\"employee\"}', '2409:4091:a04d:401:b834:ba66:2dee:8ebd', 'Mozilla/5.0 (Linux; Android 16; Pixel 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Mobile Safari/537.36', '2026-10-15 06:08:38');
+
 -- --------------------------------------------------------
 
 --
@@ -432,6 +472,36 @@ DELIMITER $$
 CREATE TRIGGER `trg_candidate_documents_updated_at` BEFORE UPDATE ON `candidate_documents` FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP
 $$
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `career_applications`
+--
+
+CREATE TABLE `career_applications` (
+  `id` int(11) NOT NULL,
+  `full_name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `role` varchar(255) DEFAULT 'General Application',
+  `portfolio_url` varchar(500) DEFAULT NULL,
+  `experience_level` varchar(100) DEFAULT 'Entry',
+  `message` text DEFAULT NULL,
+  `status` varchar(50) DEFAULT 'NEW',
+  `created_at` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `career_applications`
+--
+
+INSERT INTO `career_applications` (`id`, `full_name`, `email`, `phone`, `role`, `portfolio_url`, `experience_level`, `message`, `status`, `created_at`) VALUES
+(1, 'LOGANATHAN S', 'sloganathan0105@gmail.com', '8838676284', 'Web Developer Intern', 'https://loganathan-portfolio-ruby.vercel.app/', 'Intermediate', 'I am a passionate AI & Data Science student with hands-on experience in web development, Python, React, and AI-based projects. I enjoy learning new technologies and building practical, user-focused solutions. I am a quick learner, adaptable, and committed to delivering quality work while continuously improving my skills. I believe my technical knowledge, creativity, and willingness to take on new challenges would allow me to contribute effectively to your team.', 'NEW', '2026-09-30 06:56:37'),
+(2, 'Ethiroli Candidate Test', 'candidate.test@ethiroli.net', '+919876543210', 'Web Developer Intern', 'https://ethiroli.net', 'Beginner', 'Passionate web developer intern applicant testing live form flow.', 'NEW', '2026-09-30 07:04:54'),
+(3, 'Santhiya Sakthivel', 'santhiyasakthivel858@gmail.com', '99446-21519', 'Web Developer Intern', 'https://santhiyasakthivel-portfolio.netlify.app/', 'Beginner', 'Developer with hands-on experience in developing scalable web applications using the MERN Stack. Experienced in building REST APIs, designing responsive user interfaces, integrating databases, and collaborating with cross-functional teams. Passionate about writing clean, maintainable code and delivering high-quality software solutions. Seeking a Software Developer role where I can contribute to impactful projects while continuously enhancing my technical skills.', 'NEW', '2026-10-04 05:24:26'),
+(4, 'Thrisha', 'thrishathrishaut@gmail.com', '+91 85319 43410', 'Web Developer Intern', NULL, 'Beginner', 'I am a beginner with a strong interest in web development. I am eager to learn new technologies and improve my technical skills. I am a quick learner, a good team player, and ready to take on new challenges. I will work hard and contribute to the growth of the company.', 'NEW', '2026-10-11 14:12:08'),
+(5, 'PRINCE A', 'princeprince45613@gmail.com', '+917502138129', 'Web Developer Intern', 'https://spidy-portfolio-bice.vercel.app/', 'Beginner', 'I’m a full-stack developer building Lumen Academy, a bilingual (English and Tamil) NEET and JEE preparation platform for Indian students. I work with TypeScript, Node.js, Express, PostgreSQL with Prisma, and React, and I care about clean architecture, server-side security, and making exam prep accessible to every student.', 'NEW', '2026-10-15 02:50:35');
 
 -- --------------------------------------------------------
 
@@ -621,6 +691,33 @@ DELIMITER $$
 CREATE TRIGGER `trg_contact_inquiry_attachments_updated_at` BEFORE UPDATE ON `contact_inquiry_attachments` FOR EACH ROW SET NEW.updated_at = CURRENT_TIMESTAMP
 $$
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contact_messages`
+--
+
+CREATE TABLE `contact_messages` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `subject` varchar(255) DEFAULT 'Website Inquiry',
+  `message` text DEFAULT NULL,
+  `source` varchar(100) DEFAULT 'WEBSITE',
+  `is_read` tinyint(1) DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `contact_messages`
+--
+
+INSERT INTO `contact_messages` (`id`, `name`, `email`, `phone`, `subject`, `message`, `source`, `is_read`, `created_at`) VALUES
+(2, 'LOGANATHAN S', 'sloganathan0105@gmail.com', '8838676284', 'Web Development & AI Solutions', 'Hello, I’m Loganathan, a B.Tech AI & Data Science student with hands-on experience in web development, React, Python, and AI-based projects. I’m interested in opportunities to contribute to your team and gain practical industry experience. I would be happy to discuss how my technical skills and project experience can support your requirements. Thank you for your time, and I look forward to hearing from you.', 'WEBSITE', 0, '2026-09-30 06:55:33'),
+(3, 'stephen', 'stephen862k7@gmail.com', '9345125667', 'Webdeveloper', 'i like to join with yours.', 'WEBSITE', 0, '2026-09-30 06:56:23'),
+(4, 'Ethiroli Verification Test', 'verification@ethiroli.net', '+919876543210', 'Production Form Verification', 'This is a live test message to verify the contact form submission on production.', 'WEBSITE', 0, '2026-09-30 07:04:53');
 
 -- --------------------------------------------------------
 
@@ -826,6 +923,18 @@ CREATE TABLE `employees` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `employees`
+--
+
+INSERT INTO `employees` (`id`, `user_id`, `employee_code`, `department`, `designation`, `date_of_joining`, `salary_structure_id`, `pan`, `bank_account`, `pf_number`, `created_at`, `updated_at`) VALUES
+('0e9212c3-a937-4700-a7e4-d3d052693bd9', '74e45a32-92ab-40f5-97c0-c888d7284c48', 'EMP-101', 'Engineering', 'Senior Full Stack Developer', '2026-10-15', NULL, NULL, NULL, NULL, '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('2242c222-cd21-4176-8599-7b0eb1f475ba', 'a25602e3-ecd5-4fbf-a833-284bf9d36909', 'EMP-105', 'Sales & Growth', 'Business Development Executive', '2026-10-15', NULL, NULL, NULL, NULL, '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('46fd39bb-80b8-4383-8cc5-8a2d83447a51', '7aa13dcd-5fd3-49d8-866f-c5451af8bf7f', 'EMP-106', 'Front Desk & Operations', 'Front Desk Officer', '2026-10-15', NULL, NULL, NULL, NULL, '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('c44ffd9c-7564-4d85-aad4-fd31b54af69d', '4433911c-04f6-4dc3-8738-e25ba5b1b4d4', 'EMP-103', 'Project Delivery', 'Technical Project Manager', '2026-10-15', NULL, NULL, NULL, NULL, '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('e351874e-f2e0-43ae-b57f-6fb0320c6585', '8a8b4cfb-012a-4072-a24f-6cd999e9e007', 'EMP-104', 'Finance & Accounts', 'Finance & Accounts Specialist', '2026-10-15', NULL, NULL, NULL, NULL, '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('fff74cdb-65e3-4158-b77e-cf81e49498c4', '0fa117ca-5edf-4687-b099-54290e40ffe1', 'EMP-102', 'Human Resources', 'HR Lead & Talent Ops', '2026-10-15', NULL, NULL, NULL, NULL, '2026-10-15 06:13:58', '2026-10-15 06:13:58');
 
 -- --------------------------------------------------------
 
@@ -1072,6 +1181,17 @@ CREATE TABLE `interns` (
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `interns`
+--
+
+INSERT INTO `interns` (`id`, `user_id`, `mentor_id`, `college_name`, `stipend`, `start_date`, `end_date`, `created_at`, `updated_at`) VALUES
+('9ff4b4f5-2803-40f7-a868-d5133f4ab264', '69fa12f1-7d71-4c2a-8122-c8c12ed8754a', NULL, 'Government College of Technology', 15000.00, '2026-10-13', '2027-01-11', '2026-10-15 06:03:41', '2026-10-15 06:03:41'),
+('adcd3ce5-b4ea-43c9-a0a8-bd28871c20af', '45d3f678-47a0-442d-8330-9731b2d883b9', NULL, 'PSG College of Technology', 15000.00, '2026-10-13', '2027-01-11', '2026-10-15 06:03:41', '2026-10-15 06:03:41'),
+('af5964a2-627c-40a6-b6c1-6f5db35e08ed', '58a8ee15-79a5-473f-ac95-c97bc03d3394', NULL, 'Anna University', 15000.00, '2026-10-13', '2027-01-11', '2026-10-15 06:03:41', '2026-10-15 06:03:41'),
+('b8e8aa7a-3665-4373-8bb4-358fa24d9396', '584f6dc7-adaf-4fb5-8cd6-03987543d776', NULL, 'Coimbatore Institute of Technology', 15000.00, '2026-10-13', '2027-01-11', '2026-10-15 06:03:41', '2026-10-15 06:03:41'),
+('c56a5051-e898-4afb-897e-61b5eeebe9ba', 'd17aab8c-9280-445f-85ce-cc2a93764ddb', NULL, 'SRM Institute of Science and Technology', 15000.00, '2026-10-13', '2027-01-11', '2026-10-15 06:03:41', '2026-10-15 06:03:41');
+
 -- --------------------------------------------------------
 
 --
@@ -1295,6 +1415,13 @@ CREATE TABLE `leads` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `leads`
+--
+
+INSERT INTO `leads` (`id`, `name`, `first_name`, `last_name`, `company_name`, `email`, `phone`, `source`, `status`, `assigned_to`, `notes`, `follow_up_date`, `converted_at`, `lost_reason`, `created_by`, `created_at`, `updated_at`) VALUES
+('f5391a6a-bc97-11f1-8036-89f8415d1036', 'e6e60935b94dacd6ac5a2e1a:6805ac549ac4a1be10f65490985202a8:55125a2f10f7d47acc', NULL, NULL, NULL, '973dfe463ec85785f5f95af5:fd072ce98b8f15e4e426b59ae9a32d12:61c5ff18e26896a0cdbd2863e121d1ec', '1fccd310b2bd9c5f03620dc2:2e2d227037c94c40335fdb89252fd1ad:40223aacbe5f4b52a045', 'WEBSITE', 'NEW', NULL, 'Subject: Test Subject\nMessage: Test Message', NULL, NULL, NULL, '368f5c88-12cd-11ed-861d-0242ac120002', '2026-09-30 06:27:06', '2026-09-30 06:27:06');
 
 -- --------------------------------------------------------
 
@@ -1858,6 +1985,23 @@ CREATE TABLE `provider_configs` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `push_notifications`
+--
+
+CREATE TABLE `push_notifications` (
+  `id` int(11) NOT NULL,
+  `user_id` char(36) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `body` text DEFAULT NULL,
+  `data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`data`)),
+  `is_read` tinyint(1) DEFAULT 0,
+  `read_at` datetime DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `quizzes`
 --
 
@@ -2210,7 +2354,12 @@ CREATE TABLE `student_projects` (
   `repo_structure` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`repo_structure`)),
   `is_active` tinyint(1) DEFAULT 1,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `manager_id` char(36) DEFAULT NULL,
+  `assigned_user_ids` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`assigned_user_ids`)),
+  `priority` varchar(20) DEFAULT 'MEDIUM',
+  `due_date` date DEFAULT NULL,
+  `status` varchar(30) DEFAULT 'ACTIVE'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2482,8 +2631,24 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `password_hash`, `full_name`, `phone`, `role`, `avatar_url`, `last_login_at`, `is_active`, `preferences`, `created_at`, `updated_at`) VALUES
-('368f5c88-12cd-11ed-861d-0242ac120002', 'admin@ethiroli.com', '$2b$10$sGe5S3fdrs7.dik.luV0w.keytoKyDhoHRhE41F5FTxGtp01lOQOK', 'Super Administrator', NULL, 'SUPER_ADMIN', NULL, NULL, 1, NULL, '2026-09-22 05:59:16', '2026-09-29 11:29:13'),
-('479f6d99-23de-22fe-972e-0353bd230003', 'admin@ethiroli.net', '$2b$10$sGe5S3fdrs7.dik.luV0w.keytoKyDhoHRhE41F5FTxGtp01lOQOK', 'System Administrator', NULL, 'ADMIN', NULL, NULL, 1, NULL, '2026-09-29 11:29:13', '2026-09-29 11:29:13');
+('0fa117ca-5edf-4687-b099-54290e40ffe1', '9944bc544d9ea138e00b990d:2a43c796e07c7a34783e55ff1e96c577:7626b327ccc947bc4a00b75389c655', '$2b$12$9e/QX95IkijRF0DDRSQ7X.HnUAcm04l6fai7qJmUKAp1U27ln0X4S', 'c5784ff0c040ac2cd1bb2e24:923125a78a55d29a9d0e483e5f9efa1d:584f32f1a62be555dbea', NULL, 'HR', NULL, NULL, 1, '{\"department\":\"Human Resources\",\"college\":null,\"seeded\":true}', '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('368f5c88-12cd-11ed-861d-0242ac120002', 'admin@ethiroli.com', '$2b$12$tjkRN0uGVqretPlMlLqI5Oe2817HGGLC0RCvUHGBxigx9gR/AXHJW', 'f55ac0d35e1c1f98c49a6f39:eb7df635ba2153260963abdc5b23823e:ac3ed04fb628de277e8f0a4a518b35ff3f8d55', NULL, 'SUPER_ADMIN', NULL, NULL, 1, '{\"department\":\"Executive Operations\",\"college\":null,\"seeded\":true}', '2026-09-22 05:59:16', '2026-10-15 06:13:58'),
+('39a59061-1113-49a8-8d63-4558bb4e70f4', '7f26bdc38553dd76c68db2d2:16b3295533fac8011efe2c86d6fdd61d:94ae2d450a03d8ddf75e88ead3af5b125ac03e2c', '$2b$12$sq.hiRCrdbCDT3FY1QoAduOJdKPLxciKeiOVC2iybkMg7QopF/pmS', '1ce0021adb64c0eae0cef965:4b4252876eb7c6328415ea4330161ff2:6d8b4f8661c38466672e186df162b820', NULL, 'STUDENT', NULL, NULL, 1, '{\"department\":\"Computer Science\",\"college\":null,\"seeded\":true}', '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('3bb859a1-cb3d-4952-b892-3868dfd6541f', '77e8f17042a5bc6511fa20f1:f459ba4d7eb137b0d91d8495015b6343:2ba81b376d8ba986e66e8574742a78', '$2b$12$N2b18h07gP6v1cI0x8V2QOhv9L5mH9Fv7j2R8w4m1t3v8K6P2x7yC', '2bb76f253da541289134a6ef:525287f39455359a1036cbff5dbdbfc3:cae5445c76da34fa6180cf7bc5ec', NULL, 'EMPLOYEE', NULL, NULL, 1, '{\"department\":\"Engineering\",\"college\":null,\"seeded\":true}', '2026-10-15 05:24:51', '2026-10-15 05:24:51'),
+('4433911c-04f6-4dc3-8738-e25ba5b1b4d4', 'ef6bacbe5becc007bb0e63f4:85c127605285601f88789fc7eb141878:16dd2621c6664fedd27e4713f566ef', '$2b$12$Ga6WUB2KCfCShtD9w2GJ5eL4BB2Z/wxf5A1.QKo/htX9bivu35waW', '282c525dddf81a8c82f2673f:cc1119fb21437ccb32aeca4eec130c9d:d0b1eff3dc5440d68a3ce9e541a459', NULL, 'PROJECT_MANAGER', NULL, NULL, 1, '{\"department\":\"Project Delivery\",\"college\":null,\"seeded\":true}', '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('45d3f678-47a0-442d-8330-9731b2d883b9', 'srinithikumar54@gmail.com', '$2b$12$r/bHnoAL75sD8gSxa45bA.Anm9sHzCpVUfEXW0RNnXeYos1dHKbWi', 'Srinithi Kumar', NULL, 'INTERN', NULL, NULL, 1, '{\"department\":\"Full Stack Development\",\"college\":\"PSG College of Technology\",\"seeded\":true}', '2026-10-15 06:02:32', '2026-10-15 06:02:32'),
+('479f6d99-23de-22fe-972e-0353bd230003', 'admin@ethiroli.net', '$2b$10$sGe5S3fdrs7.dik.luV0w.keytoKyDhoHRhE41F5FTxGtp01lOQOK', 'System Administrator', NULL, 'ADMIN', NULL, NULL, 1, NULL, '2026-09-29 11:29:13', '2026-09-29 11:29:13'),
+('584f6dc7-adaf-4fb5-8cd6-03987543d776', 'sloganathan0105@gmail.com', '$2b$12$QIDDYjt4X5wIXTgia.36NOKjeRgjiBRMYaHw5.JTwJPXCJjJ7ALt2', 'S Loganathan', NULL, 'INTERN', NULL, NULL, 1, '{\"department\":\"Web Applications\",\"college\":\"Coimbatore Institute of Technology\",\"seeded\":true}', '2026-10-15 06:02:32', '2026-10-15 06:02:32'),
+('58a8ee15-79a5-473f-ac95-c97bc03d3394', 'gokulrajkumar2006@gmail.com', '$2b$12$MKy82R2.0tVW5FMjvvvoHeInUltE2Wt6ocn2feRJE6OMGlu7XsUBm', '5363e5b8a4429dc47204253c:4e3d52cd78dd3c50428a9d3c483dc6fe:69f98602520c2de2657a4813866a', NULL, 'INTERN', NULL, NULL, 1, '{\"department\":\"Software Engineering\",\"college\":\"Anna University\",\"seeded\":true}', '2026-10-15 06:02:32', '2026-10-15 06:14:36'),
+('69fa12f1-7d71-4c2a-8122-c8c12ed8754a', 'stephen862k7@gmail.com', '$2b$12$NHI74VQqRfqX.pWfykmbWe0GuGm2TUg61KFRZoDMo2wy36r3QNapa', 'Stephen', NULL, 'INTERN', NULL, NULL, 1, '{\"department\":\"Frontend Engineering\",\"college\":\"Government College of Technology\",\"seeded\":true}', '2026-10-15 06:02:32', '2026-10-15 06:02:32'),
+('74e45a32-92ab-40f5-97c0-c888d7284c48', 'f705510f6931e0c2bb53a848:bd583fb9d508f5a5785a220d1b6e435b:7673be4874a36d602d750a417aaee61cf69388617e', '$2b$12$MwsiI6XzQiLXLWy5B2MssOstebVUQCAz.GkABTYcNzRa4QGb7D6bW', 'cf5160f97b8419be51580eab:43669fd59003245cbc466abc79d41ffb:d69c07e86d5db989b1fb96384c5ffc', NULL, 'EMPLOYEE', NULL, NULL, 1, '{\"department\":\"Engineering\",\"college\":null,\"seeded\":true}', '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('7aa13dcd-5fd3-49d8-866f-c5451af8bf7f', 'd037976d6b670d8f6aaf7b11:1c7d9cd7249239975e286862e991feea:6ab4ddc3603d58c18cc654f96782a4faba00d101684f', '$2b$12$SztNhOH8vNJFuY0dkWV5A.C.OIsIAz/wwKrjtzDwSAy77HBjLmsES', 'd221351f6ec6ef003f00c072:0c1e0ca3117ec4680e58a786413fb640:02b2f7ca24bdb15cb53eee05bef2e286484a', NULL, 'RECEPTION', NULL, NULL, 1, '{\"department\":\"Front Desk & Operations\",\"college\":null,\"seeded\":true}', '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('8a8b4cfb-012a-4072-a24f-6cd999e9e007', 'ba19cdc0a1bb6536e110630f:21ae84d4ae9da2225fa11384c7d1dbbb:9a7de1d8a90e5188dab45d3fcdcf8b7ebf798868', '$2b$12$SHqpm4HR8OfAWWJXD2Y3QOVmwf2v/QOUnXY1yYpcMqCNktzOEfgVO', '0a4d82cdb2aaaff665584447:4ad222be01d53f396f33fcb2bcc3b6ee:57e454a23c7237b81cead8de', NULL, 'FINANCE', NULL, NULL, 1, '{\"department\":\"Finance & Accounts\",\"college\":null,\"seeded\":true}', '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('a25602e3-ecd5-4fbf-a833-284bf9d36909', '074da5370a0fa5ebc734db45:d1d9039ce289c48920dffdc1d21a7eaf:8e57168f7964e0b74fd0b94d6447db6ca687', '$2b$12$kucK.8f6b7g96Qg3UmPO8OPGE/1Se2EAXOo.Cc106UWp4maTvk8S2', '356c252d144e11f745667e78:7204c438ffda51e955af695e3cae46f6:411aab437068155cfa8612e7faf68c', NULL, 'SALES', NULL, NULL, 1, '{\"department\":\"Sales & Growth\",\"college\":null,\"seeded\":true}', '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('bef7a014-983a-4041-89a1-c8cfa4590993', '096f2daf6bb8534451b7ca22:99f931f5373ef6b958727aa5b7ce46c2:bf631e5683270818fe02a8e85d1916dc5e1dbe56dc', '$2b$12$Y2qklBaSTOKe8en4qOB7VOPTHU8TTGxXLOdKuzRLcnfmlb7JiFrAe', '37a721997b767f4ecee41dd9:8426169c4ddf3ce723e76ff7aa25ed52:e3e18a250774a30a0f77c2e384c999d9050d', NULL, 'ADMIN', NULL, NULL, 1, '{\"department\":\"Administration\",\"college\":null,\"seeded\":true}', '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('c5ec486b-ab51-437d-b6f1-3e0c25a36de3', '426e057d06ba50fefdedfe04:0af9048c77553bf34ab67e71b74143f2:58db2a8d5815a19ee49a0398d5e72111ab3b8d', '$2b$12$RXWpDBLS/8RuZgEmMN2lv.8vKtIuHMr/ilf.xDFrKyKjV/PBJUVAy', '37a5b8a60ac33eb393a2af19:0ef0a9947802a32dd8e7db038772a157:0794ab99f83567e86dbcf24ca6b740', NULL, 'INTERN', NULL, NULL, 1, '{\"department\":\"Software Engineering\",\"college\":\"Anna University, Chennai\",\"seeded\":true}', '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('c60caddb-2848-492a-8724-4e7ec5d55850', '45d92b301139716fe1e12085:489449cddd8d4a50f832f42539c0d32a:14fc42a0fd22c172fc4aaa1f59be48862463', '$2b$12$98.bQwZKLJqPMcBnLxtU/OTtWVPvI8pqwCoU3MNh6AXY.VFV8ciKm', '631c473bb519d9e01ac63fb3:6f27263046076850ed3c8935adf52369:4ded3be60413ef538ce5a4ec9f748dd2443f673c476fb811887b', NULL, 'TUTOR', NULL, NULL, 1, '{\"department\":\"Academics & Training\",\"college\":null,\"seeded\":true}', '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('d17aab8c-9280-445f-85ce-cc2a93764ddb', 'Barathappu777@gmail.com', '$2b$12$ADPmoic0ZmHDVoOcEf4bU.QmwOmLqhesnotno/VwgN2ofOMmqUK/e', 'Barath Appu', NULL, 'INTERN', NULL, NULL, 1, '{\"department\":\"Backend Engineering\",\"college\":\"SRM Institute of Science and Technology\",\"seeded\":true}', '2026-10-15 06:02:32', '2026-10-15 06:02:32');
 
 -- --------------------------------------------------------
 
@@ -2497,6 +2662,49 @@ CREATE TABLE `user_badges` (
   `badge_id` char(36) NOT NULL,
   `earned_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_credentials`
+--
+
+CREATE TABLE `user_credentials` (
+  `user_id` char(36) NOT NULL,
+  `password_hash` varchar(255) NOT NULL,
+  `password_algo` varchar(30) NOT NULL DEFAULT 'BCRYPT',
+  `password_updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `failed_login_attempts` int(11) NOT NULL DEFAULT 0,
+  `lockout_until` timestamp NULL DEFAULT NULL,
+  `requires_password_change` tinyint(1) NOT NULL DEFAULT 0,
+  `password_history` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `two_factor_secret` varchar(255) DEFAULT NULL,
+  `two_factor_enabled` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `user_credentials`
+--
+
+INSERT INTO `user_credentials` (`user_id`, `password_hash`, `password_algo`, `password_updated_at`, `failed_login_attempts`, `lockout_until`, `requires_password_change`, `password_history`, `two_factor_secret`, `two_factor_enabled`, `created_at`, `updated_at`) VALUES
+('0fa117ca-5edf-4687-b099-54290e40ffe1', '$2b$12$9e/QX95IkijRF0DDRSQ7X.HnUAcm04l6fai7qJmUKAp1U27ln0X4S', 'BCRYPT', '2026-10-15 06:13:58', 0, NULL, 0, '[\"$2b$12$9e/QX95IkijRF0DDRSQ7X.HnUAcm04l6fai7qJmUKAp1U27ln0X4S\"]', NULL, 0, '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('368f5c88-12cd-11ed-861d-0242ac120002', '$2b$12$tjkRN0uGVqretPlMlLqI5Oe2817HGGLC0RCvUHGBxigx9gR/AXHJW', 'BCRYPT', '2026-10-15 06:13:58', 0, NULL, 0, '[\"$2b$12$tjkRN0uGVqretPlMlLqI5Oe2817HGGLC0RCvUHGBxigx9gR/AXHJW\"]', NULL, 0, '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('39a59061-1113-49a8-8d63-4558bb4e70f4', '$2b$12$sq.hiRCrdbCDT3FY1QoAduOJdKPLxciKeiOVC2iybkMg7QopF/pmS', 'BCRYPT', '2026-10-15 06:13:58', 0, NULL, 0, '[\"$2b$12$sq.hiRCrdbCDT3FY1QoAduOJdKPLxciKeiOVC2iybkMg7QopF/pmS\"]', NULL, 0, '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('4433911c-04f6-4dc3-8738-e25ba5b1b4d4', '$2b$12$Ga6WUB2KCfCShtD9w2GJ5eL4BB2Z/wxf5A1.QKo/htX9bivu35waW', 'BCRYPT', '2026-10-15 06:13:58', 0, NULL, 0, '[\"$2b$12$Ga6WUB2KCfCShtD9w2GJ5eL4BB2Z/wxf5A1.QKo/htX9bivu35waW\"]', NULL, 0, '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('45d3f678-47a0-442d-8330-9731b2d883b9', '$2b$12$r/bHnoAL75sD8gSxa45bA.Anm9sHzCpVUfEXW0RNnXeYos1dHKbWi', 'BCRYPT', '2026-10-15 06:02:32', 0, NULL, 0, '[\"$2b$12$r/bHnoAL75sD8gSxa45bA.Anm9sHzCpVUfEXW0RNnXeYos1dHKbWi\"]', NULL, 0, '2026-10-15 06:02:32', '2026-10-15 06:02:32'),
+('584f6dc7-adaf-4fb5-8cd6-03987543d776', '$2b$12$QIDDYjt4X5wIXTgia.36NOKjeRgjiBRMYaHw5.JTwJPXCJjJ7ALt2', 'BCRYPT', '2026-10-15 06:02:32', 0, NULL, 0, '[\"$2b$12$QIDDYjt4X5wIXTgia.36NOKjeRgjiBRMYaHw5.JTwJPXCJjJ7ALt2\"]', NULL, 0, '2026-10-15 06:02:32', '2026-10-15 06:02:32'),
+('58a8ee15-79a5-473f-ac95-c97bc03d3394', '$2b$12$MKy82R2.0tVW5FMjvvvoHeInUltE2Wt6ocn2feRJE6OMGlu7XsUBm', 'BCRYPT', '2026-10-15 06:14:36', 0, NULL, 0, '[\"$2b$12$MKy82R2.0tVW5FMjvvvoHeInUltE2Wt6ocn2feRJE6OMGlu7XsUBm\"]', NULL, 0, '2026-10-15 06:02:32', '2026-10-15 06:14:36'),
+('69fa12f1-7d71-4c2a-8122-c8c12ed8754a', '$2b$12$NHI74VQqRfqX.pWfykmbWe0GuGm2TUg61KFRZoDMo2wy36r3QNapa', 'BCRYPT', '2026-10-15 06:02:32', 0, NULL, 0, '[\"$2b$12$NHI74VQqRfqX.pWfykmbWe0GuGm2TUg61KFRZoDMo2wy36r3QNapa\"]', NULL, 0, '2026-10-15 06:02:32', '2026-10-15 06:02:32'),
+('74e45a32-92ab-40f5-97c0-c888d7284c48', '$2b$12$MwsiI6XzQiLXLWy5B2MssOstebVUQCAz.GkABTYcNzRa4QGb7D6bW', 'BCRYPT', '2026-10-15 06:13:58', 0, NULL, 0, '[\"$2b$12$MwsiI6XzQiLXLWy5B2MssOstebVUQCAz.GkABTYcNzRa4QGb7D6bW\"]', NULL, 0, '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('7aa13dcd-5fd3-49d8-866f-c5451af8bf7f', '$2b$12$SztNhOH8vNJFuY0dkWV5A.C.OIsIAz/wwKrjtzDwSAy77HBjLmsES', 'BCRYPT', '2026-10-15 06:13:58', 0, NULL, 0, '[\"$2b$12$SztNhOH8vNJFuY0dkWV5A.C.OIsIAz/wwKrjtzDwSAy77HBjLmsES\"]', NULL, 0, '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('8a8b4cfb-012a-4072-a24f-6cd999e9e007', '$2b$12$SHqpm4HR8OfAWWJXD2Y3QOVmwf2v/QOUnXY1yYpcMqCNktzOEfgVO', 'BCRYPT', '2026-10-15 06:13:58', 0, NULL, 0, '[\"$2b$12$SHqpm4HR8OfAWWJXD2Y3QOVmwf2v/QOUnXY1yYpcMqCNktzOEfgVO\"]', NULL, 0, '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('a25602e3-ecd5-4fbf-a833-284bf9d36909', '$2b$12$kucK.8f6b7g96Qg3UmPO8OPGE/1Se2EAXOo.Cc106UWp4maTvk8S2', 'BCRYPT', '2026-10-15 06:13:58', 0, NULL, 0, '[\"$2b$12$kucK.8f6b7g96Qg3UmPO8OPGE/1Se2EAXOo.Cc106UWp4maTvk8S2\"]', NULL, 0, '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('bef7a014-983a-4041-89a1-c8cfa4590993', '$2b$12$Y2qklBaSTOKe8en4qOB7VOPTHU8TTGxXLOdKuzRLcnfmlb7JiFrAe', 'BCRYPT', '2026-10-15 06:13:58', 0, NULL, 0, '[\"$2b$12$Y2qklBaSTOKe8en4qOB7VOPTHU8TTGxXLOdKuzRLcnfmlb7JiFrAe\"]', NULL, 0, '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('c5ec486b-ab51-437d-b6f1-3e0c25a36de3', '$2b$12$RXWpDBLS/8RuZgEmMN2lv.8vKtIuHMr/ilf.xDFrKyKjV/PBJUVAy', 'BCRYPT', '2026-10-15 06:13:58', 0, NULL, 0, '[\"$2b$12$RXWpDBLS/8RuZgEmMN2lv.8vKtIuHMr/ilf.xDFrKyKjV/PBJUVAy\"]', NULL, 0, '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('c60caddb-2848-492a-8724-4e7ec5d55850', '$2b$12$98.bQwZKLJqPMcBnLxtU/OTtWVPvI8pqwCoU3MNh6AXY.VFV8ciKm', 'BCRYPT', '2026-10-15 06:13:58', 0, NULL, 0, '[\"$2b$12$98.bQwZKLJqPMcBnLxtU/OTtWVPvI8pqwCoU3MNh6AXY.VFV8ciKm\"]', NULL, 0, '2026-10-15 06:13:58', '2026-10-15 06:13:58'),
+('d17aab8c-9280-445f-85ce-cc2a93764ddb', '$2b$12$ADPmoic0ZmHDVoOcEf4bU.QmwOmLqhesnotno/VwgN2ofOMmqUK/e', 'BCRYPT', '2026-10-15 06:02:32', 0, NULL, 0, '[\"$2b$12$ADPmoic0ZmHDVoOcEf4bU.QmwOmLqhesnotno/VwgN2ofOMmqUK/e\"]', NULL, 0, '2026-10-15 06:02:32', '2026-10-15 06:02:32');
 
 -- --------------------------------------------------------
 
@@ -2816,6 +3024,15 @@ ALTER TABLE `candidate_documents`
   ADD KEY `idx_application` (`application_id`);
 
 --
+-- Indexes for table `career_applications`
+--
+ALTER TABLE `career_applications`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_email` (`email`),
+  ADD KEY `idx_role` (`role`),
+  ADD KEY `idx_created_at` (`created_at`);
+
+--
 -- Indexes for table `cart_sessions`
 --
 ALTER TABLE `cart_sessions`
@@ -2885,6 +3102,14 @@ ALTER TABLE `contact_inquiries`
 ALTER TABLE `contact_inquiry_attachments`
   ADD PRIMARY KEY (`attachment_id`),
   ADD KEY `idx_inquiry` (`inquiry_id`);
+
+--
+-- Indexes for table `contact_messages`
+--
+ALTER TABLE `contact_messages`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_email` (`email`),
+  ADD KEY `idx_created_at` (`created_at`);
 
 --
 -- Indexes for table `coupons`
@@ -3406,6 +3631,15 @@ ALTER TABLE `provider_configs`
   ADD KEY `idx_enabled` (`is_enabled`);
 
 --
+-- Indexes for table `push_notifications`
+--
+ALTER TABLE `push_notifications`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_pn_user` (`user_id`),
+  ADD KEY `idx_pn_user_unread` (`user_id`,`is_read`),
+  ADD KEY `idx_pn_created` (`created_at`);
+
+--
 -- Indexes for table `quizzes`
 --
 ALTER TABLE `quizzes`
@@ -3555,7 +3789,8 @@ ALTER TABLE `student_projects`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `unique_student_repo` (`student_id`,`github_repo_url`(255)),
   ADD KEY `idx_student` (`student_id`),
-  ADD KEY `idx_repo` (`github_repo_url`(255));
+  ADD KEY `idx_repo` (`github_repo_url`(255)),
+  ADD KEY `idx_projects_manager` (`manager_id`);
 
 --
 -- Indexes for table `subscriptions`
@@ -3678,6 +3913,12 @@ ALTER TABLE `user_badges`
   ADD KEY `idx_user` (`user_id`);
 
 --
+-- Indexes for table `user_credentials`
+--
+ALTER TABLE `user_credentials`
+  ADD PRIMARY KEY (`user_id`);
+
+--
 -- Indexes for table `visitor_logs`
 --
 ALTER TABLE `visitor_logs`
@@ -3749,7 +3990,19 @@ ALTER TABLE `application_status_history`
 -- AUTO_INCREMENT for table `audit_logs`
 --
 ALTER TABLE `audit_logs`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
+--
+-- AUTO_INCREMENT for table `career_applications`
+--
+ALTER TABLE `career_applications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `contact_messages`
+--
+ALTER TABLE `contact_messages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -3768,6 +4021,12 @@ ALTER TABLE `job_categories`
 --
 ALTER TABLE `job_types`
   MODIFY `job_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `push_notifications`
+--
+ALTER TABLE `push_notifications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `system_configs`
@@ -4431,6 +4690,12 @@ ALTER TABLE `transactions`
 ALTER TABLE `user_badges`
   ADD CONSTRAINT `user_badges_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `user_badges_ibfk_2` FOREIGN KEY (`badge_id`) REFERENCES `badges` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `user_credentials`
+--
+ALTER TABLE `user_credentials`
+  ADD CONSTRAINT `fk_uc_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `visitor_logs`

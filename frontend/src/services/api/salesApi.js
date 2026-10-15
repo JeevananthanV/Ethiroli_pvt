@@ -163,6 +163,67 @@ export const deleteLead = async (id) => {
   return response.data?.data || response.data;
 };
 
+/** Convert a lead to a deal atomically.
+ *  Creates a linked deal and updates the lead status to CONVERTED in a single transaction.
+ *  @param {string} leadId - The lead ID to convert
+ * @param {number} dealValue - The actual deal value in ₹
+ * @param {string} stage - The deal stage (QUALIFICATION, DISCOVERY, etc.)
+ * @param {string} [notes] - Optional notes for the conversion
+ * @returns {Promise<Object>} Response with deal and lead data
+ */
+export async function convertLead({ leadId, dealValue, stage, notes }) {
+  const response = await axiosInstance.post(
+    `/v1/sales/leads/${leadId}/convert`,
+    { dealValue, stage, notes }
+  );
+  return response.data?.data || response.data;
+}
+
+/** Commission API functions */
+export async function calculateCommission({ dealId, bdaId }) {
+  const response = await axiosInstance.post('/v1/sales/commissions/calculate', {
+    dealId,
+    bdaId,
+  });
+  return response.data?.data || response.data;
+}
+
+export async function getCommissions(filters = {}) {
+  const response = await axiosInstance.get('/v1/sales/commissions', {
+    params: filters,
+  });
+  return response.data?.data || response.data;
+}
+
+export async function getCommissionById(id) {
+  const response = await axiosInstance.get(`/v1/sales/commissions/${id}`);
+  return response.data?.data || response.data;
+}
+
+export async function approveCommission(id, notes) {
+  const response = await axiosInstance.patch(
+    `/v1/sales/commissions/${id}/approve`,
+    { notes }
+  );
+  return response.data?.data || response.data;
+}
+
+export async function payCommission(id, paymentReference) {
+  const response = await axiosInstance.patch(
+    `/v1/sales/commissions/${id}/pay`,
+    { paymentReference }
+  );
+  return response.data?.data || response.data;
+}
+
+export async function rejectCommission(id, reason) {
+  const response = await axiosInstance.patch(
+    `/v1/sales/commissions/${id}/reject`,
+    { reason }
+  );
+  return response.data?.data || response.data;
+}
+
 export const getClients = async (params) => {
   const response = await axiosInstance.get('/v1/clients', { params });
   return response.data?.data || response.data;

@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import useFinanceData from '../../../hooks/useFinanceData';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { getTransactions, createTransaction } from '../../../services/api/financeApi.js';
 
 export default function FinanceTransactions() {
-  const [transactions, setTransactions] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [filterType, setFilterType] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -20,32 +19,12 @@ export default function FinanceTransactions() {
     gst_rate: 18.0
   });
 
-  const loadTransactions = useCallback(async () => {
-    try {
-      setLoading(true);
-      const params = {};
-      if (filterType) params.type = filterType;
-      if (filterCategory) params.category = filterCategory;
-      const data = await getTransactions(params);
-      const list = Array.isArray(data) ? data : data?.data || [];
-      setTransactions(list);
-    } catch (err) {
-      console.error('Failed to load transactions:', err);
-      // Fallback sample records if DB empty
-      setTransactions([
-        { id: '1', type: 'INCOME', category: 'Client Retainer', amount: 150000, date: '2026-09-08', description: 'Tech Corp retainer billing', gst_amount: 27000, payment_method: 'BANK_TRANSFER', reference_number: 'NEFT-881923', is_reconciled: 1 },
-        { id: '2', type: 'EXPENSE', category: 'Cloud Infrastructure', amount: 48500, date: '2026-09-07', description: 'AWS Production hosting clusters', gst_amount: 8730, payment_method: 'CARD', reference_number: 'TXN-AWS-912', is_reconciled: 1 },
-        { id: '3', type: 'INCOME', category: 'Student Fees', amount: 35000, date: '2026-09-05', description: 'Full-Stack Web batch enrollment', gst_amount: 6300, payment_method: 'UPI', reference_number: 'UPI-9918231', is_reconciled: 1 },
-        { id: '4', type: 'EXPENSE', category: 'Salaries & Payroll', amount: 485000, date: '2026-09-01', description: 'August 2026 employee payroll disbursement', gst_amount: 0, payment_method: 'BANK_TRANSFER', reference_number: 'HDFC-BATCH-08', is_reconciled: 1 }
-      ]);
-    } finally {
-      setLoading(false);
-    }
-  }, [filterType, filterCategory]);
-
-  useEffect(() => {
-    loadTransactions();
-  }, [loadTransactions]);
+  // ------- dynamic data fetch via hook -------
+  const { data: transactions, loading, error, refetch } = useFinanceData(
+    () => getTransactions({ type: filterType, category: filterCategory }),
+    [filterType, filterCategory]
+  );
+  // --------------------------------------------
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -144,10 +123,10 @@ export default function FinanceTransactions() {
             <tbody>
               {loading ? (
                 <tr><td colSpan="8" className="text-center py-4">Loading general ledger entries...</td></tr>
-              ) : transactions.length === 0 ? (
+              ) : !data || data.length === 0 ? (
                 <tr><td colSpan="8" className="text-center py-4 text-muted">No transactions found matching your criteria.</td></tr>
               ) : (
-                transactions.map(t => (
+                data.map(t => (
                   <tr key={t.id}>
                     <td>{t.date}</td>
                     <td>

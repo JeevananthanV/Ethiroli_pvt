@@ -63,7 +63,7 @@ export default function Navbar({ role, onSearchClick, onToggleFeed, unreadFeedCo
         </span>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <div className="portalNavbarActions" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
         {isPrivileged && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', fontWeight: 600 }} className="d-none d-md-inline">

@@ -27,43 +27,39 @@
   margin-bottom: 0.35rem;
 }
 
-/* 6 KPI Cards */
-.intern-kpi-card {
-  background: var(--admin-card-bg, #ffffff);
-  border: 1px solid var(--admin-border-subtle, #e2e8f0);
-  border-radius: 12px;
-  padding: 1.15rem;
-  display: flex;
-  flex-direction: column;
+/* KPI cards now use the shared Bootstrap .card / .card-body structure that
+   Projects.jsx uses, so these rules only cover what Bootstrap does not:
+   the icon pill, the title badge wrapping, and holding the value and caption
+   to one line. The bespoke .intern-kpi-card shell is gone with it. */
+
+.kpi-card {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  height: 100%;
 }
 
-.intern-kpi-card:hover {
+.kpi-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.08);
 }
 
-.kpi-title {
-  font-size: 0.775rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: var(--admin-text-muted, #64748b);
-  /* Was overlapping the icon pill once the card got narrow. */
+/* A long label like "INTERNSHIP DURATION" must not push the value and bar
+   down inside its own card, which would break the row's alignment. */
+.kpi-badge {
+  line-height: 1.35;
+  text-align: left;
   min-width: 0;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
 .kpi-value {
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: var(--admin-text-primary, #0f172a);
+  /* "Day 18 / 45" used to wrap onto a second line while "12 / 15" and "94%"
+     did not, staggering the progress bars and captions across the row. */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .kpi-subtext {
-  font-size: 0.75rem;
-  color: var(--admin-text-muted, #64748b);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -87,24 +83,256 @@
 .kpi-purple { background: rgba(147, 51, 234, 0.12); color: #7e22ce; }
 
 /* Quick Nav Categories */
+/* Curriculum Progress card.
+   It lives in the narrow col-lg-5 column, so every text row here has to be
+   allowed to shrink or it escapes the card. */
+.ims-pct-pill {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--admin-text-on-primary, #ffffff);
+  background: var(--color-primary, #819e35);
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  line-height: 1.4;
+}
+
+/* Track name gets its own line instead of sharing one with the percentage. */
+.ims-track {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--admin-text-primary, #1e293b);
+  margin-bottom: 0.4rem;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+/* Neutral inset panel for the current-module detail, matching the light
+   bordered style used elsewhere on the portal. */
+.ims-panel {
+  background: var(--admin-bg-light, #f7f4ee);
+  border: 1px solid var(--admin-border-subtle, #e2e8f0);
+  border-radius: 10px;
+  padding: 0.85rem;
+}
+
+.ims-panel-label {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--admin-text-muted, #64748b);
+  margin-bottom: 0.3rem;
+}
+
+/* ============================================================
+   Today's Focus - vertical stepper
+   ============================================================ */
+
+/* Circular progress ring in the card header. */
+.ims-ring {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+}
+
+.ims-ring-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.ims-ring-track {
+  fill: none;
+  stroke: var(--admin-border-subtle, #e2e8f0);
+  stroke-width: 5;
+}
+
+.ims-ring-bar {
+  fill: none;
+  stroke: var(--color-primary, #819e35);
+  stroke-width: 5;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+.ims-ring-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--admin-text-primary, #1e293b);
+}
+
+/* The stepper rail. Drawn as a pseudo-element on each step and clipped on
+   the last one, so it reads as a single continuous line running through the
+   dots instead of a divider between rows. */
+.ims-stepper {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  flex: 1 1 auto;
+  justify-content: space-evenly;
+}
+
+.ims-step {
+  display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.ims-step-marker {
+  position: relative;
+  width: 30px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  padding-top: 0.1rem;
+}
+
+.ims-step-dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid var(--admin-border, #cbd5e1);
+  background: #ffffff;
+  color: var(--admin-text-muted, #64748b);
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  transition: all 0.25s ease;
+}
+
+.ims-step-rail {
+  position: absolute;
+  top: 34px;
+  bottom: -1.15rem;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--admin-border-subtle, #e2e8f0);
+}
+
+/* Completed steps fill their dot and tint the rail below them, so the line
+   fills from the top down as work is checked off. */
+.ims-step.is-done .ims-step-dot {
+  background: var(--color-primary, #819e35);
+  border-color: var(--color-primary, #819e35);
+  color: #ffffff;
+}
+
+.ims-step.is-done .ims-step-rail {
+  background: var(--color-primary, #819e35);
+}
+
+.ims-step-body {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: var(--admin-card-bg, #ffffff);
+  border: 1px solid var(--admin-border-subtle, #e2e8f0);
+  border-radius: 10px;
+  padding: 0.7rem 0.8rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ims-step:hover .ims-step-body {
+  border-color: rgba(37, 99, 235, 0.25);
+  box-shadow: 0 4px 14px -6px rgba(15, 23, 42, 0.12);
+}
+
+.ims-step-title {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--admin-text-primary, #1e293b);
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.ims-step.is-done .ims-step-title {
+  text-decoration: line-through;
+  color: var(--admin-text-muted, #64748b);
+}
+
+.ims-step-sub {
+  font-size: 0.66rem;
+  color: var(--admin-text-muted, #94a3b8);
+}
+
+/* The number-only affordance for the whole step: a clickable area spanning
+   the marker, so tapping anywhere on the left rail toggles the task - the
+   earlier version needed a 26px button, which was a poor pointer target. */
+.ims-step-marker {
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ims-ring-bar {
+    transition: none;
+  }
+}
+
+/* Today's Focus is stretched by its neighbour column (Curriculum Progress +
+   Assigned Mentor stack taller than it), so its four rows used to sit at the
+   top of the card leaving ~200px of blank card below. Filling the card and
+   distributing the rows over the real height removes that dead band and makes
+   the row sit level with the column beside it. */
+.ims-fill-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.ims-fill-card > .card-body {
+  flex: 1 1 auto;
+}
+
+.ims-focus-list {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Quick Nav Categories */
 .intern-portal-category {
   background: var(--admin-card-bg, #ffffff);
   border: 1px solid var(--admin-border-subtle, #e2e8f0);
   border-radius: 12px;
-  padding: 1.25rem;
+  /* 1rem rather than 1.25rem: the four-across column is only ~207px wide, and
+     the extra padding was the difference between a label fitting and
+     breaking mid-word. */
+  padding: 1rem;
   height: 100%;
 }
 
 .intern-category-title {
-  font-size: 0.85rem;
+  /* "LEARNING & CURRICULUM" was splitting as "CURRICULU / M" at four cards
+     across: the uppercase run plus 0.05em tracking overflowed the column and
+     the word broke mid-letter. Slightly tighter type and a word-preferring
+     break rule keep it on whole words. */
+  font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
   color: var(--admin-text-muted, #64748b);
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
 .intern-tile-list {
@@ -169,6 +397,13 @@
   font-size: 0.9rem;
   font-weight: 600;
   display: block;
+  /* Names run from "Calendar" to "Support Help Desk". At the old four-across
+     width (~207px) the long ones wrapped to three lines, so tile heights came
+     out 62 / 84 / 106px and the chevrons floated at different levels. The
+     cards are now wide enough that every name sits on one line; the break rule
+     stays as a guard rather than as the layout mechanism. */
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
 .intern-tile-desc {

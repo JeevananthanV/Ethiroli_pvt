@@ -24,6 +24,32 @@ export const getAttendanceById = async (id) => {
   return response.data;
 };
 
+/* ---------------------------------------------------------------------------
+ * Session-based punch clock (self-scoped on the server).
+ *
+ * The endpoints above write a single day row per day, so they cannot express
+ * multiple work sessions, breaks, or a live "still clocked in" state. These
+ * power the punch-clock UI that the Employee and Intern portals share.
+ * ------------------------------------------------------------------------- */
+
+/** Today's punch state plus every session, with live worked minutes. */
+export const getTodayAttendance = async () => {
+  const response = await axiosInstance.get('/v1/attendance/today');
+  return response.data;
+};
+
+/** History rows enriched with per-day sessions and true worked minutes. */
+export const getAttendanceHistory = async (params = {}) => {
+  const response = await axiosInstance.get('/v1/attendance/history', { params });
+  return response.data;
+};
+
+/** `action` is 'CHECK_IN' or 'CHECK_OUT'. */
+export const punchAttendance = async (action, data = {}) => {
+  const response = await axiosInstance.post('/v1/attendance/punch', { action, ...data });
+  return response.data;
+};
+
 export const updateAttendance = async (id, data) => {
   const response = await axiosInstance.put(`/v1/attendance/${id}`, data);
   return response.data;
@@ -50,6 +76,9 @@ export const attendanceApi = {
   update: updateAttendance,
   delete: deleteAttendance,
   getSummary: getAttendanceSummary,
+  getToday: getTodayAttendance,
+  getHistory: getAttendanceHistory,
+  punch: punchAttendance,
 };
 
 export default attendanceApi;

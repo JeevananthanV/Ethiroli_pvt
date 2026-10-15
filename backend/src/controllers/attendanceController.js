@@ -1,9 +1,12 @@
 import Attendance from '../models/Attendance.js';
+import AttendanceSession from '../models/AttendanceSession.js';
+import ActivityFeed from '../models/ActivityFeed.js';
 import AuditLog from '../models/AuditLog.js';
 import { broadcastToRole, broadcastToUser } from '../services/socketService.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 import { success } from '../utils/response.js';
 import { NotFoundError, BadRequestError } from '../utils/errors.js';
+import { businessDate, BUSINESS_TIMEZONE } from '../config/timezone.js';
 
 export const getAttendanceSummary = asyncHandler(async (req, res) => {
   const isManager = ['HR', 'ADMIN', 'SUPER_ADMIN'].includes(req.user.role);
@@ -98,6 +101,157 @@ export const checkOut = asyncHandler(async (req, res) => {
   });
   broadcastToRole('HR', 'attendance_check_out', { userId, time: new Date() });
   return success(res, 200, { user_id: userId, check_out_time: new Date() }, 'Checked out successfully');
+});
+
+/* ---------------------------------------------------------------------------
+ * Self-scoped, session-based attendance (the punch-clock surface).
+ *
+ * These mirror /v1/employee/attendance/* for the other role portals, so the
+ * Intern portal can use the same attendance UI as the Employee portal instead
+ * of the older day-row-only flow. Always scoped to req.user.id: a caller can
+ * never pass a user_id, so there is no way to punch in for someone else.
+ * ------------------------------------------------------------------------- */
+
+export const getMyTodayAttendance = asyncHandler(async (req, res) => {
+  const summary = await Attendance.getDaySummary(req.user.id, businessDate());
+  return success(res, 200, { ...summary, timezone: BUSINESS_TIMEZONE }, 'Today attendance retrieved');
+});
+
+export const getMyAttendanceHistory = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const to = req.query.end_date || businessDate();
+  // 365 rows covers a full year in one round trip, which is what the KPI tiles
+  // are computed from.
+  const from = req.query.start_date || businessDate(new Date(Date.now() - 365 * 86400000));
+  const limit = Math.max(1, parseInt(req.query.limit, 10) || 365);
+
+  const [records, rollup, allSessions] = await Promise.all([
+    Attendance.list({ user_id: userId, start_date: from, end_date: to, limit, offset: 0 }),
+    AttendanceSession.dailyRollup(userId, from, to),
+    AttendanceSession.listRange(userId, from, to),
+  ]);
+
+  const rollupByDate = new Map(rollup.map((r) => [r.work_date, r]));
+  const sessionsByDate = new Map();
+  for (const s of allSessions) {
+    const list = sessionsByDate.get(s.work_date) || [];
+    list.push(s);
+    sessionsByDate.set(s.work_date, list);
+  }
+
+  const enriched = records.map((r) => {
+    const workDate = r.work_date || (r.date ? String(r.date).slice(0, 10) : null);
+    const day = rollupByDate.get(workDate);
+    const sessions = sessionsByDate.get(workDate) || [];
+    const hasSessions = sessions.length > 0;
+
+    // First-in / last-out come from the sessions when there are any; the legacy
+    // day-row columns are only a fallback for days recorded before sessions.
+    const firstCheckIn = hasSessions
+      ? (sessions.find((s) => s.check_in_time)?.check_in_time ?? null)
+      : (r.check_in_time ?? null);
+    const lastCheckOut = hasSessions
+      ? ([...sessions].reverse().find((s) => s.check_out_time)?.check_out_time ?? null)
+      : (r.check_out_time ?? null);
+
+    return {
+      ...r,
+      work_date: workDate,
+      check_in_time: firstCheckIn,
+      check_out_time: lastCheckOut,
+      first_check_in: firstCheckIn,
+      last_check_out: lastCheckOut,
+      session_count: hasSessions ? sessions.length : Number(r.session_count || 0),
+      sessions,
+      has_sessions: hasSessions,
+      worked_minutes: hasSessions ? (day?.worked_minutes ?? 0) : Math.round(Number(r.total_hours || 0) * 60),
+      worked_hours: hasSessions
+        ? Number(((day?.worked_minutes ?? 0) / 60).toFixed(2))
+        : Number(r.total_hours || 0),
+      is_open: Boolean(day?.is_open),
+    };
+  });
+
+  // Days that have sessions but no legacy attendance row, so real worked time
+  // is never hidden by a missing day-row.
+  const legacyDates = new Set(enriched.map((r) => r.work_date));
+  for (const [workDate, day] of rollupByDate) {
+    if (legacyDates.has(workDate)) continue;
+    const sessions = sessionsByDate.get(workDate) || [];
+    enriched.push({
+      id: `sessions-${workDate}`,
+      work_date: workDate,
+      date: workDate,
+      check_in_time: day.first_check_in,
+      check_out_time: day.last_check_out,
+      status: 'PRESENT',
+      is_late: false,
+      session_count: sessions.length,
+      sessions,
+      has_sessions: true,
+      worked_minutes: day.worked_minutes,
+      worked_hours: Number((day.worked_minutes / 60).toFixed(2)),
+      is_open: day.is_open,
+    });
+  }
+  enriched.sort((a, b) => (a.work_date < b.work_date ? 1 : -1));
+
+  return success(res, 200, enriched, 'Attendance history retrieved', { timezone: BUSINESS_TIMEZONE });
+});
+
+export const punchMyAttendance = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const action = req.body?.action;
+  const workDate = businessDate();
+
+  if (action === 'CHECK_IN') {
+    const active = await AttendanceSession.getActiveSession(userId);
+    if (active) {
+      throw new BadRequestError('You are already punched in. Please punch out before starting a new session.');
+    }
+    const mode = req.body?.work_mode === 'OFFICE' ? 'OFFICE' : 'REMOTE';
+    await AttendanceSession.startSession({ userId, workDate, checkInTime: new Date() });
+    // attendance_sessions has no work_mode column, so the mode is written on the
+    // legacy day row by syncDayRow's caller instead - kept here only so the
+    // client can still report which mode the intern punched in for.
+    await Attendance.checkIn(userId, workDate, 'PRESENT', mode).catch(() => {});
+    const summary = await Attendance.syncDayRow(userId, workDate);
+    await ActivityFeed.create({
+      user_id: userId,
+      actor_id: userId,
+      event_type: 'ATTENDANCE_PUNCH_IN',
+      entity_type: 'Attendance',
+      entity_id: null,
+      payload: { work_date: workDate, at: new Date().toISOString() }
+    });
+    broadcastToRole('HR', 'attendance_check_in', { userId, time: new Date() });
+    return success(res, 200, summary, 'Punched in successfully');
+  }
+
+  if (action === 'CHECK_OUT') {
+    const active = await AttendanceSession.getActiveSession(userId);
+    if (!active) {
+      throw new BadRequestError('You are not currently punched in. Please punch in first.');
+    }
+    await AttendanceSession.endSession({ userId, checkOutTime: new Date() });
+    const summary = await Attendance.syncDayRow(userId, workDate);
+    await ActivityFeed.create({
+      user_id: userId,
+      actor_id: userId,
+      event_type: 'ATTENDANCE_PUNCH_OUT',
+      entity_type: 'Attendance',
+      entity_id: null,
+      payload: {
+        work_date: workDate,
+        worked_hours: summary?.worked_hours ?? 0,
+        at: new Date().toISOString()
+      }
+    });
+    broadcastToRole('HR', 'attendance_check_out', { userId, time: new Date() });
+    return success(res, 200, summary, 'Punched out successfully');
+  }
+
+  throw new BadRequestError('Invalid punch action. Must be CHECK_IN or CHECK_OUT');
 });
 
 export const manualCorrect = asyncHandler(async (req, res) => {

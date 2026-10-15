@@ -95,9 +95,9 @@ export const PORTAL_CONFIGS = {
     slug: 'intern',
     label: 'Intern',
     pageComponent: 'InternLoginPage',
-    strategies: ['password', 'oauth'],
+    strategies: ['password'],
     mfaRequired: false,
-    oauthProviders: ['linkedin'],
+    oauthProviders: [],
     brandColor: '#f4a261',
   },
 };

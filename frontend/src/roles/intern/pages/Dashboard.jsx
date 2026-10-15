@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
+import { useAuth } from '../../../common/contexts/AuthContext.jsx';
 import { fetchInternDashboardData } from '../../../store/slices/internsSlice.js';
 import InlineNotice from '../components/InlineNotice.jsx';
 import './Dashboard.css';
@@ -9,12 +10,29 @@ import './Dashboard.css';
 export default function Dashboard() {
   const dispatch = useDispatch();
   const { dashboard, loading, error } = useSelector((state) => state.interns || {});
+  const { user } = useAuth();
 
   useEffect(() => {
     dispatch(fetchInternDashboardData());
   }, [dispatch]);
 
   const profile = dashboard?.profile || {};
+
+  /**
+   * Who to greet.
+   *
+   * The intern profile row is created empty by self-registration, so it has no
+   * name until someone fills the profile in. The signed-in account always does,
+   * so it is the reliable source. The old fallback was a developer's own name,
+   * which greeted every intern as "Good Morning, Jeevananthan".
+   */
+  const firstName = useMemo(() => {
+    const candidate = user?.full_name || user?.name || profile.full_name || '';
+    const trimmed = String(candidate).trim();
+    return trimmed ? trimmed.split(/\s+/)[0] : '';
+  }, [user?.full_name, user?.name, profile.full_name]);
+
+  const greetingName = firstName || 'Intern';
 
   // Dynamically driven by database payload with fallback resilience
   const todayFocusList = useMemo(() => {
@@ -114,11 +132,14 @@ export default function Dashboard() {
   };
 
   const mentorCard = dashboard?.mentorCard || {
-    name: profile.mentor_name || 'Arun Kumar',
-    role: 'Senior Full Stack Developer • Lead Mentor',
-    status: 'Online',
-    nextSession: 'Today • 4:00 PM (30 min)',
-    avatar: 'AK'
+    // No invented mentor. A self-registered intern has no mentor assigned yet,
+    // and showing "Arun Kumar / Online" would be a fabricated person on a live
+    // dashboard - it tells the intern to expect a session that does not exist.
+    name: profile.mentor_name || null,
+    role: profile.mentor_name ? 'Assigned Mentor' : null,
+    status: profile.mentor_name ? 'Assigned' : 'Not assigned yet',
+    nextSession: null,
+    avatar: null
   };
 
   const upcomingSchedule = dashboard?.upcomingSchedule || [
@@ -224,17 +245,20 @@ export default function Dashboard() {
             <div className="intern-welcome-info">
               <div className="d-flex align-items-center gap-2 mb-1 flex-wrap">
                 <span className="badge bg-primary-subtle text-primary border px-2 py-1 small fw-semibold">
-                  <i className="bi bi-code-slash me-1"></i> Full Stack Web Development (MERN)
+                  <i className="bi bi-code-slash me-1"></i> {curriculum.track}
                 </span>
                 <span className="badge bg-success-subtle text-success border px-2 py-1 small fw-semibold">
-                  <i className="bi bi-clock-history me-1"></i> Day 18 of 45
+                  <i className="bi bi-clock-history me-1"></i>{' '}
+                  {profile.total_days > 0
+                    ? `Day ${profile.day_number} of ${profile.total_days}`
+                    : 'Schedule not set'}
                 </span>
                 <span className="badge bg-info-subtle text-info border px-2 py-1 small fw-semibold">
                   <i className="bi bi-patch-check-fill me-1"></i> Active Intern
                 </span>
               </div>
               <h2 id="welcome-heading" className="fw-bold mb-1">
-                Good Morning, {profile.full_name || 'Jeevananthan'} 👋
+                Good Morning, {greetingName} 👋
               </h2>
               <p className="text-muted small mb-0">
                 You're making great strides on the Ethiroli Web Portal. Here's your mission plan for today.
@@ -268,31 +292,50 @@ export default function Dashboard() {
 
         {/* 6 Key Performance Metric Cards */}
         <section aria-label="Key Performance Indicators">
-          <div className="row g-3">
-            {/* col-xxl-2 rather than col-xl-2 on the cards below: six across at
-                1200px left each one too narrow, so the title wrapped to two
-                lines and ran under the icon pill. Six-across now starts at 1400px. */}
+          <div className="row g-4 ims-kpi-grid">
+            {/* Same card structure as the project cards in Projects.jsx, so the
+                two read as the same component: a label row, a title, a muted
+                caption, then a bordered footer holding the figure and its
+                progress bar. Previously these were a bespoke div-based card,
+                which is why the dashboard looked like a different system.
+
+                The outer grid replaces col-xxl-2: six Bootstrap columns only
+                start at 1400px, but the 270px sidebar leaves so little of it
+                that each card was 130px wide and the title split mid-word. */}
             {kpiCards.map((kpi) => (
-              <div key={kpi.title} className="col-12 col-sm-6 col-lg-4 col-xxl-2">
-                <div className="intern-kpi-card shadow-sm">
-                  <div className="d-flex justify-content-between align-items-start gap-2 mb-2">
-                    <span className="kpi-title min-w-0">{kpi.title}</span>
-                    <div className={`kpi-icon-pill flex-shrink-0 ${kpi.bgClass}`}>
-                      <i className={`bi ${kpi.icon}`}></i>
+              <div key={kpi.title} className="ims-kpi-cell">
+                <div className="card shadow-sm h-100 kpi-card">
+                  <div className="card-body p-3 d-flex flex-column">
+                    <div className="d-flex justify-content-between align-items-start mb-2 gap-2">
+                      <span className="badge bg-primary-subtle text-primary border kpi-badge">
+                        {kpi.title}
+                      </span>
+                      <span className={`kpi-icon-pill flex-shrink-0 ${kpi.bgClass}`}>
+                        <i className={`bi ${kpi.icon}`} aria-hidden="true"></i>
+                      </span>
+                    </div>
+
+                    <h5 className="fw-bold mb-1 text-dark kpi-value">{kpi.value}</h5>
+                    <p className="text-muted small mb-3 kpi-subtext">{kpi.subtext}</p>
+
+                    <div className="mt-auto border-top pt-3">
+                      <div className="d-flex justify-content-between small text-muted mb-1">
+                        <span>Progress</span>
+                        <span className="fw-bold text-primary">{kpi.progress}%</span>
+                      </div>
+                      <div className="progress" style={{ height: '6px' }}>
+                        <div
+                          className="progress-bar bg-primary"
+                          role="progressbar"
+                          style={{ width: `${kpi.progress}%` }}
+                          aria-valuenow={kpi.progress}
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                          aria-label={`${kpi.title} progress`}
+                        ></div>
+                      </div>
                     </div>
                   </div>
-                  <h3 className="kpi-value mb-1">{kpi.value}</h3>
-                  <div className="progress kpi-progress mb-2" style={{ height: '4px' }}>
-                    <div
-                      className="progress-bar"
-                      role="progressbar"
-                      style={{ width: `${kpi.progress}%` }}
-                      aria-valuenow={kpi.progress}
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                  <span className="kpi-subtext">{kpi.subtext}</span>
                 </div>
               </div>
             ))}
@@ -303,64 +346,136 @@ export default function Dashboard() {
         <div className="row g-4">
           {/* Left Column: Today's Focus (Must Do Today) */}
           <div className="col-lg-7">
-            <div className="card shadow-sm border-0 h-100">
-              <div className="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center flex-wrap gap-2">
-                <div>
+            {/* ims-fill-card: this card is stretched to match the Curriculum +
+                Mentor stack beside it, and its four rows used to sit at the top
+                with ~200px of dead space below. Filling the column lets the
+                rows spread over the full height instead. */}
+            <div className="card shadow-sm border-0 h-100 ims-fill-card">
+              {/* Header carries an SVG progress ring. It replaces the previous
+                  "0/4 DONE (0%)" text badge AND the separate 6px bar below it -
+                  the ring shows the same information without spending a second
+                  row of header height, and it reads at a glance where a
+                  percentage chip does not. */}
+              <div className="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center gap-3">
+                <div className="min-w-0">
                   <h5 className="mb-0 fw-bold text-dark d-flex align-items-center gap-2">
-                    <i className="bi bi-bullseye text-danger"></i> Today’s Focus (Must Do Today)
+                    <i className="bi bi-bullseye text-danger"></i> Today’s Focus
                   </h5>
                   <small className="text-muted">High priority execution items scheduled for today</small>
                 </div>
-                <div className="d-flex align-items-center gap-2">
-                  <span className="badge bg-success-subtle text-success fw-semibold">
-                    {completedFocusCount}/{todayFocus.length} Done ({focusProgress}%)
-                  </span>
+                <div className="ims-ring" role="img"
+                  aria-label={`${completedFocusCount} of ${todayFocus.length} tasks done`}>
+                  <svg viewBox="0 0 56 56" className="ims-ring-svg" aria-hidden="true">
+                    <circle className="ims-ring-track" cx="28" cy="28" r="24" />
+                    <circle
+                      className="ims-ring-bar"
+                      cx="28" cy="28" r="24"
+                      strokeDasharray={`${2 * Math.PI * 24}`}
+                      strokeDashoffset={`${2 * Math.PI * 24 * (1 - focusProgress / 100)}`}
+                      transform="rotate(-90 28 28)"
+                    />
+                  </svg>
+                  <span className="ims-ring-text">{focusProgress}%</span>
                 </div>
               </div>
 
-              <div className="card-body p-3 pt-0">
-                <div className="progress mb-3" style={{ height: '6px' }}>
-                  <div
-                    className="progress-bar bg-success"
-                    style={{ width: `${focusProgress}%` }}
-                    role="progressbar"
-                  ></div>
-                </div>
+              <div className="card-body p-3 pt-0 d-flex flex-column">
+                {/* Vertical stepper. The numbered rail replaces the checkbox-in-a-
+                    pill-plus-"Open" button rows: the rail runs down the left of
+                    every item, so the sequence reads as one continuous flow
+                    rather than four unrelated rows, and the current state is
+                    visible from the rail fill instead of from a progress bar. */}
+                <ol className="ims-stepper">
+                  {todayFocus.map((item, idx) => (
+                    <li key={item.id} className={`ims-step ${item.done ? 'is-done' : ''}`}>
+                      <div
+                        className="ims-step-marker"
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => toggleFocus(item.id)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            toggleFocus(item.id);
+                          }
+                        }}
+                        aria-pressed={item.done}
+                        aria-label={item.done ? `Mark "${item.text}" as pending` : `Mark "${item.text}" as done`}
+                        title={item.done ? 'Mark pending' : 'Mark done'}
+                      >
+                        <span className="ims-step-dot">
+                          {item.done ? (
+                            <i className="bi bi-check" aria-hidden="true"></i>
+                          ) : (
+                            idx + 1
+                          )}
+                        </span>
+                        {idx < todayFocus.length - 1 && <span className="ims-step-rail" aria-hidden="true"></span>}
+                      </div>
 
-                <div className="list-group list-group-flush">
-                  {todayFocus.map((item) => (
-                    <div
-                      key={item.id}
-                      className={`list-group-item px-0 py-3 d-flex align-items-center justify-content-between border-bottom ${
-                        item.done ? 'bg-light-subtle' : ''
-                      }`}
-                    >
-                      <div className="d-flex align-items-center gap-3 flex-grow-1 min-w-0">
+                      <div className="ims-step-body d-flex align-items-center gap-3">
+                        <div className="min-w-0 flex-grow-1">
+                          <div className="ims-step-title">{item.text}</div>
+                          <div className="ims-step-sub">
+                            {item.done ? 'Done · tap to undo' : 'Pending · tap the step to complete'}
+                          </div>
+                        </div>
                         <button
                           type="button"
-                          className={`btn rounded-circle p-0 d-flex align-items-center justify-content-center flex-shrink-0 ${
-                            item.done ? 'btn-success text-white' : 'btn-outline-secondary'
-                          }`}
-                          style={{ width: '26px', height: '26px', minHeight: '26px' }}
+                          className={`btn btn-sm px-3 rounded-pill flex-shrink-0 ${item.done ? 'btn-outline-secondary' : 'btn-outline-success'}`}
+                          style={{ minHeight: '34px' }}
                           onClick={() => toggleFocus(item.id)}
                           aria-pressed={item.done}
-                          aria-label={item.done ? 'Mark pending' : 'Mark done'}
+                          aria-label={item.done ? `Mark "${item.text}" as undone` : `Mark "${item.text}" as done`}
                         >
-                          <i className={`bi ${item.done ? 'bi-check' : ''}`}></i>
+                          {item.done ? (
+                            <>
+                              <i className="bi bi-arrow-counterclockwise me-1"></i> Mark Undone
+                            </>
+                          ) : (
+                            <>
+                              <i className="bi bi-check2-circle me-1"></i> Mark Done
+                            </>
+                          )}
                         </button>
-                        <span className={`fw-medium ${item.done ? 'text-decoration-line-through text-muted' : 'text-dark'}`}>
-                          {item.text}
-                        </span>
+                        <Link
+                          to={item.link}
+                          className="btn btn-outline-primary btn-sm px-3 rounded-pill flex-shrink-0"
+                          style={{ minHeight: '34px' }}
+                        >
+                          Open <i className="bi bi-arrow-right ms-1"></i>
+                        </Link>
                       </div>
-                      <Link
-                        to={item.link}
-                        className="btn btn-outline-primary btn-sm px-3 rounded-pill flex-shrink-0"
-                        style={{ minHeight: '34px' }}
-                      >
-                        Open <i className="bi bi-arrow-right ms-1"></i>
-                      </Link>
-                    </div>
+                    </li>
                   ))}
+                </ol>
+
+                {/* Footer summary. The total count used to only exist as the
+                    header badge; putting it here gives the card a defined
+                    bottom edge like every other card on this dashboard. */}
+                <div className="mt-auto pt-3 border-top d-flex justify-content-between align-items-center small">
+                  <span className="text-muted">
+                    <strong className="text-dark">{completedFocusCount}</strong>
+                    <span className="text-muted"> / {todayFocus.length} tasks completed today</span>
+                  </span>
+                  <div className="d-flex gap-3">
+                    <button
+                      type="button"
+                      className="btn btn-link btn-sm p-0 text-decoration-none fw-semibold"
+                      onClick={() => todayFocus.forEach((f) => !f.done && toggleFocus(f.id))}
+                      disabled={completedFocusCount === todayFocus.length}
+                    >
+                      Mark all done
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-link btn-sm p-0 text-decoration-none fw-semibold"
+                      onClick={() => todayFocus.forEach((f) => f.done && toggleFocus(f.id))}
+                      disabled={completedFocusCount === 0}
+                    >
+                      Mark all undone
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -369,35 +484,51 @@ export default function Dashboard() {
           {/* Right Column: Training Progress & Assigned Mentor */}
           <div className="col-lg-5">
             <div className="d-flex flex-column gap-3 h-100">
-              {/* Training Progress Widget */}
-              <div className="card shadow-sm border-0">
-                <div className="card-header bg-white py-3 border-0">
+              {/* Curriculum Progress */}
+              <div className="card shadow-sm border-0 ims-curriculum">
+                <div className="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center gap-2">
                   <h5 className="mb-0 fw-bold text-dark d-flex align-items-center gap-2">
                     <i className="bi bi-mortarboard-fill text-primary"></i> Curriculum Progress
                   </h5>
+                  {/* The percentage moved up into the header. It used to sit on
+                      the same flex line as the track name, and neither span could
+                      shrink, so "72% Completed" ran off the right edge of the
+                      card on this narrower column. */}
+                  <span className="ims-pct-pill flex-shrink-0">{curriculum.progress}%</span>
                 </div>
                 <div className="card-body p-3 pt-0">
-                  <div className="d-flex justify-content-between align-items-center mb-1">
-                    <span className="fw-semibold text-dark">{curriculum.track}</span>
-                    <span className="fw-bold text-primary">{curriculum.progress}% Completed</span>
+                  <div className="ims-track">{curriculum.track}</div>
+
+                  <div className="progress mb-2" style={{ height: '8px' }}>
+                    <div
+                      className="progress-bar bg-primary"
+                      role="progressbar"
+                      style={{ width: `${curriculum.progress}%` }}
+                      aria-valuenow={curriculum.progress}
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      aria-label={`${curriculum.track} progress`}
+                    ></div>
                   </div>
-                  <div className="progress mb-3" style={{ height: '8px' }}>
-                    <div className="progress-bar bg-primary" style={{ width: `${curriculum.progress}%` }}></div>
+                  <div className="d-flex justify-content-between align-items-center small text-muted mb-3">
+                    <span>{curriculum.progress}% complete</span>
+                    <span>Day {Math.min(profile.day_number || 18, profile.total_days || 45)} of {profile.total_days || 45}</span>
                   </div>
 
-                  <div className="p-3 bg-light rounded-3 border mb-3">
-                    <div className="d-flex align-items-center gap-2 mb-1">
-                      <span className="badge bg-warning text-dark small">Current Module</span>
-                      <strong className="small text-dark">{curriculum.currentModule}</strong>
-                    </div>
-                    <p className="text-muted small mb-0">
-                      {curriculum.currentDescription}
-                    </p>
+                  <div className="ims-panel mb-3">
+                    <span className="ims-panel-label">Current module</span>
+                    <div className="fw-semibold text-dark small mb-1">{curriculum.currentModule}</div>
+                    <p className="text-muted small mb-0">{curriculum.currentDescription}</p>
                   </div>
 
-                  <div className="d-flex justify-content-between align-items-center text-muted small">
-                    <span><strong>Next Up:</strong> {curriculum.nextModule}</span>
-                    <Link to="/app/intern/training-plan" className="fw-semibold text-primary text-decoration-none">
+                  <div className="d-flex justify-content-between align-items-center gap-2 pt-3 border-top">
+                    <span className="text-muted small text-truncate">
+                      <strong className="text-dark">Next:</strong> {curriculum.nextModule}
+                    </span>
+                    <Link
+                      to="/app/intern/training-plan"
+                      className="fw-semibold text-primary text-decoration-none flex-shrink-0"
+                    >
                       Roadmap <i className="bi bi-chevron-right"></i>
                     </Link>
                   </div>
@@ -410,23 +541,38 @@ export default function Dashboard() {
                   <h5 className="mb-0 fw-bold text-dark d-flex align-items-center gap-2">
                     <i className="bi bi-person-workspace text-info"></i> Assigned Mentor
                   </h5>
-                  <span className="badge bg-success-subtle text-success">{mentorCard.status}</span>
+                  <span className={`badge ${mentorCard.name ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary'}`}>
+                    {mentorCard.status}
+                  </span>
                 </div>
                 <div className="card-body p-3 pt-0">
                   <div className="d-flex align-items-center gap-3 mb-3">
                     <div className="avatar-circle bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold fs-5" style={{ width: '48px', height: '48px' }}>
-                      {mentorCard.avatar}
+                      {mentorCard.avatar || <i className="bi bi-person" aria-hidden="true"></i>}
                     </div>
                     <div>
-                      <h6 className="fw-bold mb-0 text-dark">{mentorCard.name}</h6>
-                      <small className="text-muted d-block">{mentorCard.role}</small>
+                      <h6 className="fw-bold mb-0 text-dark">{mentorCard.name || 'No mentor assigned yet'}</h6>
+                      {mentorCard.role && <small className="text-muted d-block">{mentorCard.role}</small>}
                     </div>
                   </div>
 
-                  <div className="p-2 bg-info-subtle rounded-2 border border-info-subtle mb-3 small d-flex align-items-center justify-content-between">
-                    <span><i className="bi bi-calendar-event me-2 text-info"></i>Next Session:</span>
-                    <strong className="text-dark">{mentorCard.nextSession}</strong>
-                  </div>
+                  {mentorCard.nextSession ? (
+                    <div className="p-2 bg-info-subtle rounded-2 border border-info-subtle mb-3 small d-flex align-items-center justify-content-between">
+                      <span><i className="bi bi-calendar-event me-2 text-info"></i>Next Session:</span>
+                      <strong className="text-dark">{mentorCard.nextSession}</strong>
+                    </div>
+                  ) : (
+                    <div className="p-2 bg-light rounded-2 border mb-3 small text-muted">
+                      <i className="bi bi-info-circle me-2"></i>
+                      {/* An assigned mentor with no scheduled session is a
+                          different state from having no mentor at all. The old
+                          single message told someone with a mentor that one
+                          "would be assigned shortly". */}
+                      {mentorCard.name
+                        ? 'No session scheduled yet. Sessions appear here once booked.'
+                        : 'Your mentor will be assigned shortly.'}
+                    </div>
+                  )}
 
                   <div className="d-flex gap-2">
                     <button
@@ -530,9 +676,9 @@ export default function Dashboard() {
               <i className="bi bi-grid-fill text-primary"></i> Intern Portal Modules
             </h5>
           </div>
-          <div className="row g-3">
+          <div className="row g-3 ims-module-grid">
             {quickNavCategories.map((cat) => (
-              <div key={cat.category} className="col-12 col-md-6 col-lg-3">
+              <div key={cat.category} className="ims-module-cell">
                 <div className="intern-portal-category shadow-sm">
                   <h6 className="intern-category-title">
                     <i className={`bi ${cat.icon}`}></i> {cat.category}

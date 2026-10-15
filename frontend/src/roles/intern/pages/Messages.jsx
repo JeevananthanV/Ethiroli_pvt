@@ -385,7 +385,7 @@ export default function InternMessages() {
 
                       <button
                         type="button"
-                        className="btn btn-sm btn-link text-danger flex-shrink-0 px-1"
+                        className="btn btn-sm btn-link text-danger ims-conv-del"
                         title={`Delete conversation with ${c.name}`}
                         aria-label={`Delete conversation with ${c.name}`}
                         onClick={() => deleteConversation(c.id)}

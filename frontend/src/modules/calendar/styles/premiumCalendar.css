@@ -482,6 +482,7 @@
 }
 
 .cell-add-btn {
+  position: relative;
   width: 20px;
   height: 20px;
   border-radius: var(--cal-radius-full);
@@ -497,10 +498,31 @@
   font-size: 0.7rem;
 }
 
+/* Enlarge the pointer/touch target of the two small calendar controls without
+   changing how they look. A 16-20px control is a 16-20px target, which is well
+   under the 24px minimum and painful to hit on a phone. The ::after overlay is
+   transparent and absolutely positioned, so it grows the hit area while the
+   visible marker stays exactly the same size and the grid never reflows. */
+.att-chip::after,
+.cell-add-btn::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: inherit;
+}
+
 .grid-cell:hover .cell-add-btn {
   opacity: 1;
   background: #ffffff;
   border-color: var(--cal-border);
+}
+
+/* The add button only appears on hover, so on a touch device it was never
+   reachable at all. Reveal it whenever the device has no hover. */
+@media (hover: none) {
+  .cell-add-btn {
+    opacity: 1;
+  }
 }
 
 .cell-add-btn:hover {
@@ -1104,6 +1126,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   min-width: 16px;
   height: 16px;
   padding: 0 4px;

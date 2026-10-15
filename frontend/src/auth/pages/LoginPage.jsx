@@ -29,6 +29,15 @@ export default function LoginPage({ portal, brandLogo, showPasswordToggle, demo,
   const [requiresMfa, setRequiresMfa] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  // Shown when the visitor arrives here straight from "Delete my account".
+  // Without it, landing on a bare sign-in form after destroying an account
+  // looks like something went wrong.
+  const [notice, setNotice] = useState(
+    location.state?.accountDeleted
+      ? 'Your account was deleted. You can register again with the same email.'
+      : ''
+  );
+
   const [demoAccounts, setDemoAccounts] = useState([]);
   const [loadingDemo, setLoadingDemo] = useState(false);
 
@@ -64,6 +73,7 @@ export default function LoginPage({ portal, brandLogo, showPasswordToggle, demo,
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setNotice('');
     setLoading(true);
     try {
       const response = await login(email, password, portal);
@@ -143,6 +153,13 @@ export default function LoginPage({ portal, brandLogo, showPasswordToggle, demo,
           )}
         </div>
 
+        {notice && (
+          <div className={styles.notice} role="status">
+            <i className="bi bi-info-circle me-2" aria-hidden="true"></i>
+            {notice}
+          </div>
+        )}
+
         {error && <div className={styles.error} role="alert">{error}</div>}
 
         <form onSubmit={handleSubmit} className={styles.form}>
@@ -152,9 +169,9 @@ export default function LoginPage({ portal, brandLogo, showPasswordToggle, demo,
             name="email"
             autoComplete="username"
             autoFocus
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
-            required 
+            value={email}
+            onChange={(e) => { setEmail(e.target.value); setNotice(''); }}
+            required
           />
           {showPasswordToggle ? (
             <div className={styles.passwordField}>

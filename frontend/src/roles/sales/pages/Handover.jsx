@@ -28,15 +28,7 @@ export default function Handover() {
       ]);
 
       const items = hRes?.items || (Array.isArray(hRes) ? hRes : []);
-      if (items.length > 0) {
-        setHandovers(items);
-      } else {
-        setHandovers([
-          { id: '1', deal_title: 'Enterprise LMS Campus Deployment', deal_value: 650000, client_name: 'Apex Infotech Solutions', handover_to: 'PROJECT_MANAGER', scope_summary: 'Full LMS instance with single-sign-on integration, 50-course library, and student database synchronization.', kickoff_date: '2026-09-15', status: 'PENDING', handover_by_name: 'Rahul Sharma' },
-          { id: '2', deal_title: 'Corporate Upskilling 50-Seats', deal_value: 350000, client_name: 'Zenith Tech Solutions', handover_to: 'ACADEMIC_COORDINATOR', scope_summary: 'Batch of 50 trainee software engineers for 12-week Full Stack Python & React curriculum.', kickoff_date: '2026-09-18', status: 'ACCEPTED', handover_by_name: 'Ananya Deshmukh' },
-          { id: '3', deal_title: 'Cloud Infrastructure Migration', deal_value: 480000, client_name: 'FinServe Corp', handover_to: 'OPERATIONS', scope_summary: 'Provisioning multi-tenant AWS environments and automated daily database backups.', kickoff_date: '2026-09-05', status: 'ONBOARDED', handover_by_name: 'Rahul Sharma' }
-        ]);
-      }
+      setHandovers(items);
 
       setWonDeals(dRes?.items || (Array.isArray(dRes) ? dRes : []));
       setClients(cRes?.items || (Array.isArray(cRes) ? cRes : []));

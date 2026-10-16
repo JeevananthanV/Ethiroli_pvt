@@ -14,15 +14,7 @@ export default function Communications() {
         setLoading(true);
         const res = await getCommunications();
         const items = res?.items || (Array.isArray(res) ? res : []);
-        if (items.length > 0) {
-          setMessages(items);
-        } else {
-          setMessages([
-            { id: '1', channel: 'EMAIL', recipient: 'ananya@infosystems.com', subject: 'Formal Quotation: Enterprise LMS Campus Tier', body: 'Dear Ananya, Thank you for your time on our demo call yesterday. Attached is the complete commercial proposal...', sent_at: '2026-09-09 16:30:00', status: 'DELIVERED' },
-            { id: '2', channel: 'SMS', recipient: '+91 98765 43210', subject: 'Demo Confirmation Reminder', body: 'Hi Rajesh, Reminder for our Platform Architecture demo scheduled tomorrow at 11:00 AM IST.', sent_at: '2026-09-08 18:00:00', status: 'DELIVERED' },
-            { id: '3', channel: 'EMAIL', recipient: 'priya@eduglobal.org', subject: 'Follow-up on MOU Legal Clauses', body: 'Dear Priya, Following up regarding the clause 4.2 data residency terms discussed with our CTO...', sent_at: '2026-09-07 14:15:00', status: 'OPENED' }
-          ]);
-        }
+        setMessages(items);
       } catch (err) {
         console.error('Failed to load communications:', err);
       } finally {

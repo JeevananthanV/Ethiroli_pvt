@@ -28,15 +28,7 @@ export default function SalesProposals() {
       ]);
 
       const items = pRes?.items || (Array.isArray(pRes) ? pRes : []);
-      if (items.length > 0) {
-        setProposals(items);
-      } else {
-        setProposals([
-          { id: '1', proposal_number: 'PROP-2026-081', client_name: 'Zenith Tech', title: '50-Seat Corporate License Package', total_amount: 350000, discount_percentage: 5, valid_until: '2026-09-25', status: 'SENT', created_at: '2026-09-05' },
-          { id: '2', proposal_number: 'PROP-2026-082', client_name: 'EduGlobal Institute', title: 'Institutional LMS Cloud Tier', total_amount: 600000, discount_percentage: 0, valid_until: '2026-09-30', status: 'ACCEPTED', created_at: '2026-09-02' },
-          { id: '3', proposal_number: 'PROP-2026-083', client_name: 'Nexus Corp', title: 'Custom Data Analytics Syllabus', total_amount: 180000, discount_percentage: 10, valid_until: '2026-08-31', status: 'EXPIRED', created_at: '2026-08-15' }
-        ]);
-      }
+      setProposals(items);
 
       setDeals(dRes?.items || (Array.isArray(dRes) ? dRes : []));
     } catch (err) {

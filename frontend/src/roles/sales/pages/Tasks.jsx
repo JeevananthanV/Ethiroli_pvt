@@ -21,16 +21,7 @@ export default function Tasks() {
       setLoading(true);
       const res = await getActivities({ activity_type: ['NOTE', 'FOLLOW_UP'] });
       const items = res?.items || (Array.isArray(res) ? res : []);
-      if (items.length > 0) {
-        setTasks(items);
-      } else {
-        setTasks([
-          { id: '1', title: 'Prepare revised pricing tiers for Zenith Tech proposal', priority: 'HIGH', scheduled_at: '2026-09-11', outcome: 'PENDING', description: 'Include 15% academic discount clause' },
-          { id: '2', title: 'Send case studies to EduGlobal Institute IT committee', priority: 'MEDIUM', scheduled_at: '2026-09-12', outcome: 'COMPLETED', description: 'Attach AWS high-availability benchmark PDF' },
-          { id: '3', title: 'Review quarterly quota attainment with Sales Director', priority: 'HIGH', scheduled_at: '2026-09-15', outcome: 'PENDING', description: 'Discuss Q3 pipeline pacing and target revisions' },
-          { id: '4', title: 'Update CRM contact records for Quantum Labs stakeholders', priority: 'LOW', scheduled_at: '2026-09-14', outcome: 'PENDING', description: 'Add new VP of Engineering email and mobile' }
-        ]);
-      }
+      setTasks(items);
     } catch (err) {
       console.error('Failed to load tasks:', err);
     } finally {

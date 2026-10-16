@@ -17,26 +17,16 @@ export default function Dashboard() {
         ]);
 
         setSummary(sumData || {
-          leads: { total: 48, new: 14, qualified: 22, converted: 12 },
-          deals: { total: 18, open: 12, won: 4, lost: 2, pipeline_value: 3850000, weighted_pipeline_value: 2150000, won_revenue: 1250000 },
-          proposals: { total: 10, sent: 6, accepted: 3, accepted_value: 950000 },
-          activities: { upcoming_total: 8, pending_calls: 5, scheduled_meetings: 3 },
-          revenue: { mrr: 285000, arr: 3420000, active_subscriptions: 14 },
-          quota: { target_revenue: 2000000, achieved_revenue: 1250000, deals_target: 8, deals_won: 4, attainment_percentage: 62.5 },
-          recent_deals: [
-            { id: '1', title: 'Enterprise LMS Deployment', client_name: 'Apex Infotech', deal_value: 650000, stage: 'CLOSED_WON' },
-            { id: '2', title: 'Fintech Analytics Suite', client_name: 'Nexus Capital', deal_value: 420000, stage: 'NEGOTIATION' },
-            { id: '3', title: 'HRMS Cloud Migration', client_name: 'Vanguard Systems', deal_value: 380000, stage: 'PROPOSAL_SENT' },
-          ]
+          leads: { total: 0, new: 0, qualified: 0, converted: 0 },
+          deals: { total: 0, open: 0, won: 0, lost: 0, pipeline_value: 0, weighted_pipeline_value: 0, won_revenue: 0 },
+          proposals: { total: 0, sent: 0, accepted: 0, accepted_value: 0 },
+          activities: { upcoming_total: 0, pending_calls: 0, scheduled_meetings: 0 },
+          revenue: { mrr: 0, arr: 0, active_subscriptions: 0 },
+          quota: { target_revenue: 0, achieved_revenue: 0, deals_target: 0, deals_won: 0, attainment_percentage: 0 },
+          recent_deals: []
         });
 
-        setPipeline(Array.isArray(pipeData) && pipeData.length > 0 ? pipeData : [
-          { stage: 'QUALIFICATION', deal_count: 5, total_value: 850000, avg_probability: 20 },
-          { stage: 'DISCOVERY', deal_count: 4, total_value: 920000, avg_probability: 40 },
-          { stage: 'PROPOSAL_SENT', deal_count: 3, total_value: 1100000, avg_probability: 60 },
-          { stage: 'NEGOTIATION', deal_count: 2, total_value: 980000, avg_probability: 80 },
-          { stage: 'CLOSED_WON', deal_count: 4, total_value: 1250000, avg_probability: 100 }
-        ]);
+        setPipeline(Array.isArray(pipeData) ? pipeData : []);
       } catch (err) {
         console.error('Error loading sales dashboard:', err);
       } finally {
@@ -251,22 +241,30 @@ export default function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              {summary?.recent_deals?.map((deal, idx) => (
-                <tr key={idx}>
-                  <td className="fw-semibold text-dark">{deal.title}</td>
-                  <td>{deal.client_name || 'Direct Lead'}</td>
-                  <td className="fw-bold text-success">₹{(deal.deal_value || 0).toLocaleString()}</td>
-                  <td>
-                    <span className={`badge ${
-                      deal.stage === 'CLOSED_WON' ? 'bg-success' :
-                      deal.stage === 'NEGOTIATION' ? 'bg-primary' : 'bg-secondary'
-                    }`}>
-                      {deal.stage}
-                    </span>
+              {summary?.recent_deals && summary.recent_deals.length > 0 ? (
+                summary.recent_deals.map((deal, idx) => (
+                  <tr key={idx}>
+                    <td className="fw-semibold text-dark">{deal.title}</td>
+                    <td>{deal.client_name || 'Direct Lead'}</td>
+                    <td className="fw-bold text-success">₹{(deal.deal_value || 0).toLocaleString()}</td>
+                    <td>
+                      <span className={`badge ${
+                        deal.stage === 'CLOSED_WON' ? 'bg-success' :
+                        deal.stage === 'NEGOTIATION' ? 'bg-primary' : 'bg-secondary'
+                      }`}>
+                        {deal.stage}
+                      </span>
+                    </td>
+                    <td className="text-muted">{deal.expected_close_date || '—'}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" className="text-center py-4 text-muted">
+                    No active deals recorded yet. Convert a dental lead from CRM to create an active deal.
                   </td>
-                  <td className="text-muted">{deal.expected_close_date || 'Q3 2026'}</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>

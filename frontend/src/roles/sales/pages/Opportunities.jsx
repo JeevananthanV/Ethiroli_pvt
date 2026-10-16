@@ -12,16 +12,7 @@ export default function SalesOpportunities() {
       setLoading(true);
       const res = await getDeals({ stage: filterStage || undefined });
       const items = res?.items || (Array.isArray(res) ? res : []);
-      if (items.length > 0) {
-        setOpportunities(items.filter(d => !['CLOSED_LOST'].includes(d.stage)));
-      } else {
-        setOpportunities([
-          { id: '1', title: 'Enterprise Training License - 50 Seats', client_name: 'Zenith Tech', deal_value: 350000, probability: 80, stage: 'PROPOSAL_SENT', expected_close_date: '2026-09-30', contact_name: 'Vikramaditya Rao' },
-          { id: '2', title: 'College Campus LMS Integration', client_name: 'EduGlobal Institute', deal_value: 600000, probability: 60, stage: 'DISCOVERY', expected_close_date: '2026-10-15', contact_name: 'Priya Sundaram' },
-          { id: '3', title: 'Corporate Upskilling Cohort', client_name: 'Quantum Labs', deal_value: 220000, probability: 90, stage: 'NEGOTIATION', expected_close_date: '2026-09-20', contact_name: 'Rohan Mehra' },
-          { id: '4', title: 'Fintech Automated Compliance Engine', client_name: 'Apex Infotech', deal_value: 850000, probability: 40, stage: 'QUALIFICATION', expected_close_date: '2026-11-01', contact_name: 'Siddharth Roy' }
-        ]);
-      }
+      setOpportunities(items.filter(d => !['CLOSED_LOST'].includes(d.stage)));
     } catch (err) {
       console.error('Failed to load opportunities:', err);
     } finally {

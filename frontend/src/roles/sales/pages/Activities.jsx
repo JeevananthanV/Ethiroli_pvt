@@ -23,16 +23,7 @@ export default function Activities() {
       setLoading(true);
       const res = await getActivities({ activity_type: typeFilter || undefined });
       const items = res?.items || (Array.isArray(res) ? res : []);
-      if (items.length > 0) {
-        setActivities(items);
-      } else {
-        setActivities([
-          { id: '1', activity_type: 'CALL', title: 'Introductory Discovery Call with VP Tech', lead_company: 'Zenith Tech', deal_title: '50-Seat Corporate Upskill', duration_minutes: 25, outcome: 'CONNECTED', scheduled_at: '2026-09-09 11:30:00', description: 'Discussed cohort timelines and seat counts. Sent brochure.' },
-          { id: '2', activity_type: 'MEETING', title: 'Platform Architecture Deep Dive', lead_company: 'EduGlobal Institute', deal_title: 'Institutional LMS White-label', duration_minutes: 45, outcome: 'COMPLETED', scheduled_at: '2026-09-08 15:00:00', meeting_link: 'https://meet.google.com/xyz-abcd-efg', description: 'Demonstrated SSO integration, student grading workflows, and compliance reporting.' },
-          { id: '3', activity_type: 'DEMO', title: 'Live Product Walkthrough with Dean', lead_company: 'Symbiosis Academic Network', deal_title: 'Higher Ed LMS Suite', duration_minutes: 60, outcome: 'MEETING_BOOKED', scheduled_at: '2026-09-07 16:30:00', description: 'Scheduled follow-up meeting for legal contract sign-off.' },
-          { id: '4', activity_type: 'EMAIL', title: 'Revised Pricing Proposal Sent', lead_company: 'Quantum Labs', deal_title: 'Custom AI Curriculum', duration_minutes: 10, outcome: 'COMPLETED', scheduled_at: '2026-09-06 09:15:00', description: 'Forwarded formal quote with 10% volume discount.' }
-        ]);
-      }
+      setActivities(items);
     } catch (err) {
       console.error('Failed to load activities:', err);
     } finally {

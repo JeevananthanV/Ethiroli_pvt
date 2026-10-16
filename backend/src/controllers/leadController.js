@@ -8,15 +8,21 @@ import { success } from '../utils/response.js';
 import { NotFoundError } from '../utils/errors.js';
 
 export const listLeads = asyncHandler(async (req, res) => {
-  const { status, source, limit = 50, offset = 0 } = req.query;
-  const isSales = req.user.role === 'SALES';
+  const { status, source, limit = 200, offset = 0, assigned_to } = req.query;
+
+  let filterAssigned = undefined;
+  if (assigned_to === 'me') {
+    filterAssigned = req.user.id;
+  } else if (assigned_to && assigned_to !== 'all') {
+    filterAssigned = assigned_to;
+  }
 
   const leads = await Lead.list({
-    assigned_to: isSales ? req.user.id : undefined,
+    assigned_to: filterAssigned,
     status,
     source,
-    limit: parseInt(limit, 10),
-    offset: parseInt(offset, 10)
+    limit: parseInt(limit, 10) || 200,
+    offset: parseInt(offset, 10) || 0
   });
   return success(res, 200, leads);
 });

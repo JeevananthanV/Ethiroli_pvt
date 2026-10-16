@@ -2,13 +2,7 @@ import React, { useState } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 
 export default function Documents() {
-  const [docs, setDocs] = useState([
-    { id: '1', name: 'Enterprise LMS Technical Specification 2026.pdf', category: 'PRODUCT_COLLATERAL', size: '4.8 MB', updated_at: '2026-09-05', downloads: 142 },
-    { id: '2', name: 'Master Services Agreement (MSA) Template.docx', category: 'LEGAL_CONTRACT', size: '256 KB', updated_at: '2026-08-20', downloads: 89 },
-    { id: '3', name: 'Higher Education Campus Upskilling Case Study.pdf', category: 'CASE_STUDY', size: '2.1 MB', updated_at: '2026-09-01', downloads: 95 },
-    { id: '4', name: 'Commercial Price List & Volume Discount Matrix.pdf', category: 'PRICING_SHEET', size: '820 KB', updated_at: '2026-09-08', downloads: 210 },
-    { id: '5', name: 'Cloud Infrastructure ISO 27001 Security Whitepaper.pdf', category: 'COMPLIANCE', size: '3.4 MB', updated_at: '2026-07-15', downloads: 64 }
-  ]);
+  const [docs, setDocs] = useState([]);
   const [categoryFilter, setCategoryFilter] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState({ name: '', category: 'PRODUCT_COLLATERAL', size: '1.5 MB' });

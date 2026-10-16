@@ -22,15 +22,7 @@ export default function Meetings() {
       setLoading(true);
       const res = await getActivities({ activity_type: ['MEETING', 'DEMO'] });
       const items = res?.items || (Array.isArray(res) ? res : []);
-      if (items.length > 0) {
-        setMeetings(items);
-      } else {
-        setMeetings([
-          { id: '1', title: 'Product Architecture & Cloud Security Walkthrough', lead_company: 'EduGlobal Institute', duration_minutes: 45, outcome: 'MEETING_BOOKED', scheduled_at: '2026-09-12 11:00:00', meeting_link: 'https://meet.google.com/edu-demo-2026', description: 'Presenting ISO 27001 data protection and multi-tenant student database isolation.' },
-          { id: '2', title: 'Commercial Contract & SLA Terms Review', lead_company: 'Zenith Tech Solutions', duration_minutes: 30, outcome: 'COMPLETED', scheduled_at: '2026-09-10 15:30:00', meeting_link: 'https://meet.google.com/zenith-sla-review', description: 'Agreed on 99.9% uptime guarantee and Tier-1 escalation matrix.' },
-          { id: '3', title: 'Custom AI Curriculum Co-Design Session', lead_company: 'Quantum Labs', duration_minutes: 60, outcome: 'MEETING_BOOKED', scheduled_at: '2026-09-14 16:00:00', meeting_link: 'https://zoom.us/j/9876543210', description: 'Aligning capstone project topics with industry mentor assignments.' }
-        ]);
-      }
+      setMeetings(items);
     } catch (err) {
       console.error('Failed to load meetings:', err);
     } finally {

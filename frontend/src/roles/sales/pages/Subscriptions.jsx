@@ -12,16 +12,7 @@ export default function Subscriptions() {
         setLoading(true);
         const res = await getSubscriptions();
         const items = res?.items || (Array.isArray(res) ? res : []);
-        if (items.length > 0) {
-          setSubscriptions(items);
-        } else {
-          setSubscriptions([
-            { id: '1', client_name: 'Tata Consultancy Services', plan_name: 'Enterprise Ultra Cloud', monthly_fee: 150000, billing_cycle: 'ANNUAL', seats: 250, start_date: '2026-01-01', next_renewal: '2026-12-31', is_active: 1 },
-            { id: '2', client_name: 'Apex Infotech Solutions', plan_name: 'Professional Team Tier', monthly_fee: 45000, billing_cycle: 'MONTHLY', seats: 50, start_date: '2026-04-15', next_renewal: '2026-10-15', is_active: 1 },
-            { id: '3', client_name: 'Symbiosis Academic Network', plan_name: 'Higher Ed Campus Unlimited', monthly_fee: 90000, billing_cycle: 'ANNUAL', seats: 500, start_date: '2026-03-01', next_renewal: '2027-02-28', is_active: 1 },
-            { id: '4', client_name: 'Zenith Logistics Global', plan_name: 'Operations Growth Seat', monthly_fee: 28000, billing_cycle: 'MONTHLY', seats: 30, start_date: '2026-06-01', next_renewal: '2026-09-30', is_active: 1 }
-          ]);
-        }
+        setSubscriptions(items);
       } catch (err) {
         console.error('Failed to load subscriptions:', err);
       } finally {

@@ -2,12 +2,7 @@ import React, { useState } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 
 export default function SalesCampaigns() {
-  const [campaigns, setCampaigns] = useState([
-    { id: '1', name: 'Q3 Enterprise Tech Upskilling Email Blast', channel: 'EMAIL', sent: 1250, opened: '48.2%', clicks: '14.1%', leads: 42, budget: 15000, status: 'COMPLETED' },
-    { id: '2', name: 'Campus Placement Officer WhatsApp Outreach', channel: 'WHATSAPP', sent: 350, opened: '92.0%', clicks: '38.4%', leads: 28, budget: 8000, status: 'ACTIVE' },
-    { id: '3', name: 'Full-Stack Developer Internship Webinar', channel: 'WEBINAR', sent: 2100, opened: '35.0%', clicks: '8.5%', leads: 74, budget: 25000, status: 'COMPLETED' },
-    { id: '4', name: 'LinkedIn Sponsored InMail for CTOs', channel: 'LINKEDIN', sent: 800, opened: '56.4%', clicks: '18.2%', leads: 31, budget: 35000, status: 'ACTIVE' }
-  ]);
+  const [campaigns, setCampaigns] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState({
     name: '',
@@ -91,27 +86,35 @@ export default function SalesCampaigns() {
               </tr>
             </thead>
             <tbody>
-              {campaigns.map(c => (
-                <tr key={c.id}>
-                  <td><div className="fw-semibold text-dark">{c.name}</div></td>
-                  <td>
-                    <span className="badge bg-light text-dark border">
-                      <i className={`bi bi-${c.channel === 'EMAIL' ? 'envelope' : c.channel === 'WHATSAPP' ? 'whatsapp text-success' : c.channel === 'LINKEDIN' ? 'linkedin text-primary' : 'broadcast'} me-1`}></i>
-                      {c.channel}
-                    </span>
-                  </td>
-                  <td>{c.sent.toLocaleString()}</td>
-                  <td><strong className="text-primary">{c.opened}</strong></td>
-                  <td>{c.clicks}</td>
-                  <td><span className="badge bg-success bg-opacity-10 text-success fw-bold">{c.leads} Leads</span></td>
-                  <td>₹{(c.budget || 0).toLocaleString()}</td>
-                  <td>
-                    <span className={`badge ${c.status === 'ACTIVE' ? 'bg-success' : 'bg-secondary'}`}>
-                      {c.status}
-                    </span>
+              {campaigns.length === 0 ? (
+                <tr>
+                  <td colSpan="8" className="text-center py-4 text-muted">
+                    No marketing campaigns configured yet. Click "New Campaign" to launch an outreach blast.
                   </td>
                 </tr>
-              ))}
+              ) : (
+                campaigns.map(c => (
+                  <tr key={c.id}>
+                    <td><div className="fw-semibold text-dark">{c.name}</div></td>
+                    <td>
+                      <span className="badge bg-light text-dark border">
+                        <i className={`bi bi-${c.channel === 'EMAIL' ? 'envelope' : c.channel === 'WHATSAPP' ? 'whatsapp text-success' : c.channel === 'LINKEDIN' ? 'linkedin text-primary' : 'broadcast'} me-1`}></i>
+                        {c.channel}
+                      </span>
+                    </td>
+                    <td>{c.sent.toLocaleString()}</td>
+                    <td><strong className="text-primary">{c.opened}</strong></td>
+                    <td>{c.clicks}</td>
+                    <td><span className="badge bg-success bg-opacity-10 text-success fw-bold">{c.leads} Leads</span></td>
+                    <td>₹{(c.budget || 0).toLocaleString()}</td>
+                    <td>
+                      <span className={`badge ${c.status === 'ACTIVE' ? 'bg-success' : 'bg-secondary'}`}>
+                        {c.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

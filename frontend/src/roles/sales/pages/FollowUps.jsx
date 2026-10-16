@@ -30,15 +30,7 @@ export default function SalesFollowUps() {
       ]);
 
       const items = actRes?.items || (Array.isArray(actRes) ? actRes : []);
-      if (items.length > 0) {
-        setFollowUps(items);
-      } else {
-        setFollowUps([
-          { id: '1', title: 'Check on CFO review of LMS pricing', lead_company: 'Zenith Tech', deal_title: '50-Seat Corporate License', scheduled_at: '2026-09-11 10:00:00', outcome: 'MEETING_BOOKED', description: 'CFO requested payment milestones breakdown' },
-          { id: '2', title: 'Follow-up on MOU legal compliance draft', lead_company: 'EduGlobal Institute', deal_title: 'Institutional LMS Cloud Tier', scheduled_at: '2026-09-12 14:30:00', outcome: 'CONNECTED', description: 'Verify clause 4.2 data residency terms' },
-          { id: '3', title: 'Quarterly upsell touchpoint', lead_company: 'Quantum Labs', deal_title: 'Custom AI Curriculum', scheduled_at: '2026-09-15 16:00:00', outcome: 'NO_ANSWER', description: 'Client out of office till Monday' }
-        ]);
-      }
+      setFollowUps(items);
 
       setDeals(dRes?.items || (Array.isArray(dRes) ? dRes : []));
       setLeads(lRes?.items || (Array.isArray(lRes) ? lRes : []));

@@ -12,33 +12,10 @@ export default function SalesReports() {
         setLoading(true);
         const data = await getSalesReports();
         setReports(data || {
-          monthly_performance: [
-            { month: '2026-04', won_count: 3, won_volume: 850000, lost_count: 1, lost_volume: 200000 },
-            { month: '2026-05', won_count: 4, won_volume: 1100000, lost_count: 2, lost_volume: 350000 },
-            { month: '2026-06', won_count: 3, won_volume: 920000, lost_count: 1, lost_volume: 180000 },
-            { month: '2026-07', won_count: 5, won_volume: 1350000, lost_count: 2, lost_volume: 420000 },
-            { month: '2026-08', won_count: 4, won_volume: 1200000, lost_count: 1, lost_volume: 150000 },
-            { month: '2026-09', won_count: 5, won_volume: 1450000, lost_count: 2, lost_volume: 380000 },
-          ],
-          lead_funnel: [
-            { status: 'NEW', count: 48 },
-            { status: 'CONTACTED', count: 32 },
-            { status: 'QUALIFIED', count: 22 },
-            { status: 'CONVERTED', count: 14 }
-          ],
-          rep_leaderboard: [
-            { rep_id: '1', name: 'Rahul Sharma', deals_won: 9, closed_revenue: 2850000 },
-            { rep_id: '2', name: 'Ananya Deshmukh', deals_won: 7, closed_revenue: 2150000 },
-            { rep_id: '3', name: 'Vikramaditya Rao', deals_won: 5, closed_revenue: 1650000 },
-            { rep_id: '4', name: 'Kavita Nair', deals_won: 4, closed_revenue: 1200000 }
-          ],
-          stage_distribution: [
-            { stage: 'QUALIFICATION', count: 6, value: 950000 },
-            { stage: 'DISCOVERY', count: 4, value: 820000 },
-            { stage: 'PROPOSAL_SENT', count: 3, value: 1050000 },
-            { stage: 'NEGOTIATION', count: 2, value: 890000 },
-            { stage: 'CLOSED_WON', count: 5, value: 1450000 }
-          ]
+          monthly_performance: [],
+          lead_funnel: [],
+          rep_leaderboard: [],
+          stage_distribution: []
         });
       } catch (err) {
         console.error('Failed to load sales reports:', err);

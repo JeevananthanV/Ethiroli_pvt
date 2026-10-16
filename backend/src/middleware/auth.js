@@ -100,6 +100,11 @@ export const authenticate = async (req, res, next) => {
       email: sessionRecord.email,
       full_name: sessionRecord.full_name,
       role: sessionRecord.role,
+      preferences: sessionRecord.preferences,
+      roles: [
+        sessionRecord.role,
+        ...(Array.isArray(sessionRecord.preferences?.roles) ? sessionRecord.preferences.roles : [])
+      ],
       is_active: sessionRecord.is_active,
       avatar_url: sessionRecord.avatar_url || null,
       tenant_id: sessionRecord.tenant_id || null,

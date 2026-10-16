@@ -12,16 +12,7 @@ export default function Notifications() {
         setLoading(true);
         const res = await getNotifications();
         const items = res?.items || (Array.isArray(res) ? res : []);
-        if (items.length > 0) {
-          setNotifications(items);
-        } else {
-          setNotifications([
-            { id: '1', title: 'Deal Closed Won 🎉', message: 'Congratulations! Deal "Enterprise LMS Campus Deployment" (₹6,50,000) was marked CLOSED_WON.', type: 'SUCCESS', created_at: '10 minutes ago', read: false },
-            { id: '2', title: 'Commercial Proposal Accepted', message: 'EduGlobal Institute accepted proposal PROP-2026-082 (₹6,00,000). Handover to PM is now available.', type: 'SUCCESS', created_at: '2 hours ago', read: false },
-            { id: '3', title: 'Urgent Cadence Alert: Call Due', message: 'Follow-up call with CTO Rajesh Varma (CloudBridge Tech) is scheduled for today at 2:00 PM.', type: 'WARNING', created_at: '4 hours ago', read: false },
-            { id: '4', title: 'New Inbound Lead Assigned', message: 'Ananya Deshmukh from InfoSystems Global was assigned to you via Website form.', type: 'INFO', created_at: 'Yesterday', read: true }
-          ]);
-        }
+        setNotifications(items);
       } catch (err) {
         console.error('Failed to load notifications:', err);
       } finally {

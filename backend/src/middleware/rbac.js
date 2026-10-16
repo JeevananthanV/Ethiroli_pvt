@@ -48,7 +48,13 @@ export const requireRole = (...allowedRoles) => {
       return next();
     }
 
-    if (allowedRoles.length > 0 && !allowedRoles.includes(req.user.role)) {
+    const userRoles = [
+      req.user.role,
+      ...(Array.isArray(req.user.roles) ? req.user.roles : []),
+      ...(Array.isArray(req.user.preferences?.roles) ? req.user.preferences.roles : [])
+    ];
+
+    if (allowedRoles.length > 0 && !allowedRoles.some(r => userRoles.includes(r))) {
       return next(new AuthorizationError(
         `Forbidden. Role '${req.user.role}' is not authorized.`,
         { allowedRoles, currentRole: req.user.role }
@@ -73,7 +79,13 @@ export const requirePortalRole = (req, res, next) => {
     return next();
   }
 
-  if (req.user.role !== expectedRole) {
+  const userRoles = [
+    req.user.role,
+    ...(Array.isArray(req.user.roles) ? req.user.roles : []),
+    ...(Array.isArray(req.user.preferences?.roles) ? req.user.preferences.roles : [])
+  ];
+
+  if (!userRoles.includes(expectedRole)) {
     return next(new AuthorizationError(
       `Access denied. This resource requires role '${expectedRole}'.`,
       { requiredRole: expectedRole, currentRole: req.user.role, path: req.path }

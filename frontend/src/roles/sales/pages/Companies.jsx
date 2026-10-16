@@ -14,17 +14,7 @@ export default function Companies() {
         setLoading(true);
         const res = await getClients();
         const items = res?.items || (Array.isArray(res) ? res : []);
-        if (items.length > 0) {
-          setCompanies(items);
-        } else {
-          setCompanies([
-            { id: '1', company_name: 'Tata Consultancy & Services', industry: 'Information Technology', tier: 'ENTERPRISE', arr: 1800000, active_deals: 3, contact_person: 'Mr. N. Chandrasekaran', location: 'Mumbai, India', status: 'ACTIVE' },
-            { id: '2', company_name: 'Apex Infotech Solutions', industry: 'Fintech / Edtech', tier: 'MID_MARKET', arr: 650000, active_deals: 2, contact_person: 'Siddharth Roy', location: 'Bangalore, India', status: 'ACTIVE' },
-            { id: '3', company_name: 'Nexus Retailers Pvt Ltd', industry: 'Retail & Logistics', tier: 'MID_MARKET', arr: 420000, active_deals: 1, contact_person: 'Kavita Nair', location: 'Chennai, India', status: 'ACTIVE' },
-            { id: '4', company_name: 'Symbiosis Academic Network', industry: 'Higher Education', tier: 'ENTERPRISE', arr: 1200000, active_deals: 2, contact_person: 'Dr. Anita Joshi', location: 'Pune, India', status: 'ACTIVE' },
-            { id: '5', company_name: 'Zenith Logistics Global', industry: 'Supply Chain', tier: 'GROWTH', arr: 280000, active_deals: 1, contact_person: 'Sunil Rao', location: 'Hyderabad, India', status: 'PROSPECT' }
-          ]);
-        }
+        setCompanies(items);
       } catch (err) {
         console.error('Failed to load companies:', err);
       } finally {

@@ -39,7 +39,14 @@ const PrivateRoute = ({ children, allowedRoles }) => {
 
   if (allowedRoles && allowedRoles.length > 0) {
     const userRole = user.role || user.tenantRole;
-    if (!isRoleAuthorized(userRole, allowedRoles)) {
+    const userRoles = [
+      userRole,
+      ...(Array.isArray(user.roles) ? user.roles : []),
+      ...(Array.isArray(user.preferences?.roles) ? user.preferences.roles : [])
+    ].filter(Boolean);
+
+    const isAuth = userRoles.some(r => isRoleAuthorized(r, allowedRoles));
+    if (!isAuth) {
       return <Navigate to="/unauthorized" replace />;
     }
   }

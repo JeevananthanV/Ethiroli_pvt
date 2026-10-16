@@ -30,26 +30,17 @@ export default function SalesContacts() {
   const fetchContacts = async () => {
     setLoading(true);
     try {
-      const res = await getLeads();
+      const res = await getLeads({ limit: 200 });
       const list = res?.items || (Array.isArray(res) ? res : []);
-      if (list.length > 0) {
-        setContacts(list.map(l => ({
-          id: l.id,
-          name: `${l.first_name || ''} ${l.last_name || ''}`.trim() || 'Key Contact',
-          email: l.email,
-          phone: l.phone,
-          company: l.company_name || 'Enterprise Account',
-          status: l.status || 'QUALIFIED',
-          last_contacted: l.created_at ? new Date(l.created_at).toLocaleDateString() : 'Recent'
-        })));
-      } else {
-        setContacts([
-          { id: '1', name: 'Vikramaditya Rao', email: 'vikram.rao@enterprise.in', phone: '+91 98450 12345', company: 'Zenith Tech Solutions', status: 'QUALIFIED', last_contacted: '2026-09-08' },
-          { id: '2', name: 'Priya Sundaram', email: 'priya@eduglobal.org', phone: '+91 99201 98765', company: 'EduGlobal Institute', status: 'PROPOSAL_SENT', last_contacted: '2026-09-07' },
-          { id: '3', name: 'Rohan Mehra', email: 'rohan.m@quantum.co', phone: '+91 97112 34567', company: 'Quantum Labs', status: 'NEGOTIATION', last_contacted: '2026-09-09' },
-          { id: '4', name: 'Dr. Anita Joshi', email: 'anita.joshi@symbiosis.edu', phone: '+91 98220 54321', company: 'Symbiosis Group', status: 'CONTACTED', last_contacted: '2026-09-06' }
-        ]);
-      }
+      setContacts(list.map(l => ({
+        id: l.id,
+        name: `${l.first_name || l.name || ''} ${l.last_name || ''}`.trim() || 'Contact',
+        email: l.email,
+        phone: l.phone,
+        company: l.company_name || 'Clinic Account',
+        status: l.status || 'NEW',
+        last_contacted: l.created_at ? new Date(l.created_at).toLocaleDateString() : 'Recent'
+      })));
     } catch (err) {
       console.error('Failed to load contacts:', err);
     } finally {

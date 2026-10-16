@@ -16,21 +16,10 @@ export default function SalesPipeline() {
           getDeals().catch(() => ({ items: [] }))
         ]);
 
-        setPipelineData(Array.isArray(pData) && pData.length > 0 ? pData : [
-          { stage: 'QUALIFICATION', deal_count: 5, total_value: 850000, avg_probability: 20 },
-          { stage: 'DISCOVERY', deal_count: 4, total_value: 920000, avg_probability: 40 },
-          { stage: 'PROPOSAL_SENT', deal_count: 3, total_value: 1100000, avg_probability: 60 },
-          { stage: 'NEGOTIATION', deal_count: 2, total_value: 980000, avg_probability: 80 },
-          { stage: 'CLOSED_WON', deal_count: 4, total_value: 1250000, avg_probability: 100 }
-        ]);
+        setPipelineData(Array.isArray(pData) ? pData : []);
 
         const items = dData?.items || (Array.isArray(dData) ? dData : []);
-        setDeals(items.length > 0 ? items : [
-          { id: '1', title: 'Enterprise Training License - 50 Seats', client_name: 'Zenith Tech', deal_value: 350000, stage: 'PROPOSAL_SENT', expected_close_date: '2026-09-30', probability: 60 },
-          { id: '2', title: 'College Campus LMS Integration', client_name: 'EduGlobal Inst', deal_value: 600000, stage: 'DISCOVERY', expected_close_date: '2026-10-15', probability: 40 },
-          { id: '3', title: 'Corporate Upskilling Cohort', client_name: 'Quantum Labs', deal_value: 220000, stage: 'NEGOTIATION', expected_close_date: '2026-09-20', probability: 80 },
-          { id: '4', title: 'Dev Bootcamp In-House', client_name: 'FinServe Corp', deal_value: 480000, stage: 'CLOSED_WON', expected_close_date: '2026-09-10', probability: 100 }
-        ]);
+        setDeals(items);
       } catch (err) {
         console.error('Failed to load pipeline analysis:', err);
       } finally {

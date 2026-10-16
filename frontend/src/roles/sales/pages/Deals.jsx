@@ -25,17 +25,7 @@ export default function SalesDeals() {
       setLoading(true);
       const res = await getDeals();
       const items = res?.items || (Array.isArray(res) ? res : []);
-      if (items.length > 0) {
-        setDeals(items);
-      } else {
-        setDeals([
-          { id: '1', title: 'Full Stack Cohort License', client_name: 'Alpha Infotech', deal_value: 150000, contact_name: 'Kiran K.', stage: 'QUALIFICATION', probability: 20, expected_close_date: '2026-10-15' },
-          { id: '2', title: 'LMS White-label Deployment', client_name: 'EduGlobal Inst', deal_value: 600000, contact_name: 'Dr. Ramesh', stage: 'DISCOVERY', probability: 40, expected_close_date: '2026-10-30' },
-          { id: '3', title: '50-Seat Corporate Upskill', client_name: 'Zenith Tech', deal_value: 350000, contact_name: 'Vikramaditya', stage: 'PROPOSAL_SENT', probability: 60, expected_close_date: '2026-09-30' },
-          { id: '4', title: 'Custom AI Curriculum', client_name: 'Quantum Labs', deal_value: 220000, contact_name: 'Rohan Mehra', stage: 'NEGOTIATION', probability: 80, expected_close_date: '2026-09-25' },
-          { id: '5', title: 'Dev Bootcamp In-House', client_name: 'FinServe Corp', deal_value: 480000, contact_name: 'Meera N.', stage: 'CLOSED_WON', probability: 100, expected_close_date: '2026-09-10' }
-        ]);
-      }
+      setDeals(items);
     } catch (err) {
       console.error('Failed to load deals:', err);
     } finally {

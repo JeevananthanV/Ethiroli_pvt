@@ -20,16 +20,7 @@ export default function Targets() {
       setLoading(true);
       const res = await getTargets();
       const items = res?.items || (Array.isArray(res) ? res : []);
-      if (items.length > 0) {
-        setTargets(items);
-      } else {
-        setTargets([
-          { id: '1', user_name: 'Rahul Sharma', fiscal_year: '2026-27', period_type: 'QUARTERLY', period_label: 'Q2', target_revenue: 2000000, achieved_revenue: 2150000, deals_target: 8, deals_won: 9, achievement_rate: 107.5 },
-          { id: '2', user_name: 'Ananya Deshmukh', fiscal_year: '2026-27', period_type: 'QUARTERLY', period_label: 'Q2', target_revenue: 1800000, achieved_revenue: 1650000, deals_target: 7, deals_won: 6, achievement_rate: 91.7 },
-          { id: '3', user_name: 'Vikramaditya Rao', fiscal_year: '2026-27', period_type: 'QUARTERLY', period_label: 'Q2', target_revenue: 1500000, achieved_revenue: 1200000, deals_target: 6, deals_won: 4, achievement_rate: 80.0 },
-          { id: '4', user_name: 'Rahul Sharma', fiscal_year: '2026-27', period_type: 'QUARTERLY', period_label: 'Q3', target_revenue: 2500000, achieved_revenue: 1250000, deals_target: 10, deals_won: 4, achievement_rate: 50.0 }
-        ]);
-      }
+      setTargets(items);
     } catch (err) {
       console.error('Failed to load targets:', err);
     } finally {

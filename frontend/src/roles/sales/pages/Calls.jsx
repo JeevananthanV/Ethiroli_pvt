@@ -21,16 +21,7 @@ export default function Calls() {
       setLoading(true);
       const res = await getActivities({ activity_type: 'CALL' });
       const items = res?.items || (Array.isArray(res) ? res : []);
-      if (items.length > 0) {
-        setCalls(items);
-      } else {
-        setCalls([
-          { id: '1', title: 'Outbound pitch to CTO Rajesh Varma', lead_company: 'CloudBridge Tech', duration_minutes: 18, outcome: 'CONNECTED', scheduled_at: '2026-09-09 14:00:00', description: 'Pitching our custom learning paths. Wants demo on Thursday.' },
-          { id: '2', title: 'Cold call to HR Director Priya Sundaram', lead_company: 'EduGlobal Institute', duration_minutes: 8, outcome: 'CONNECTED', scheduled_at: '2026-09-08 11:15:00', description: 'Discussed faculty certification requirements.' },
-          { id: '3', title: 'Callback to Procurement Lead', lead_company: 'Zenith Logistics', duration_minutes: 2, outcome: 'NO_ANSWER', scheduled_at: '2026-09-08 16:45:00', description: 'Voicemail left regarding contract amendments.' },
-          { id: '4', title: 'Follow-up call to CFO', lead_company: 'Quantum Labs', duration_minutes: 14, outcome: 'CONNECTED', scheduled_at: '2026-09-07 10:30:00', description: 'Discussed invoice payment milestones.' }
-        ]);
-      }
+      setCalls(items);
     } catch (err) {
       console.error('Failed to load calls:', err);
     } finally {

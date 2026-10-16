@@ -103,6 +103,8 @@ router.use(resolveTenant);
 router.use('/health', healthRoutes);
 router.use('/v1/auth', authRoutes);
 router.use('/v1/contact-messages', contactRoutes);
+router.use('/v1/inquiries', contactRoutes);
+router.use('/v1/public/inquiries', contactRoutes);
 router.use('/v1/candidates', candidateRoutes);
 router.use('/v1/career-applications', candidateRoutes);
 router.use('/v1/leads', leadRoutes);

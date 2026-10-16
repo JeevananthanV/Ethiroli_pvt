@@ -5,13 +5,40 @@ import { asyncHandler } from '../middleware/errorHandler.js';
 import { success } from '../utils/response.js';
 import { NotFoundError, ValidationError } from '../utils/errors.js';
 
+export const inferInquiryCategory = (subject = '', message = '') => {
+  const text = `${subject || ''} ${message || ''}`.toLowerCase();
+  if (text.includes('course') || text.includes('fee') || text.includes('learn') || text.includes('training') || text.includes('syllabus') || text.includes('batch') || text.includes('mern') || text.includes('full stack') || text.includes('react') || text.includes('python')) {
+    return 'Course Enquiry';
+  }
+  if (text.includes('intern') || text.includes('semester') || text.includes('college') || text.includes('student') || text.includes('summer')) {
+    return 'Internship';
+  }
+  if (text.includes('job') || text.includes('developer') || text.includes('engineer') || text.includes('devops') || text.includes('architect') || text.includes('hire') || text.includes('hiring') || text.includes('career') || text.includes('resume') || text.includes('opening')) {
+    return 'Job Enquiry';
+  }
+  return 'General';
+};
+
 export const listContactMessages = asyncHandler(async (req, res) => {
   const [rows] = await pool.query(
     'SELECT * FROM contact_messages ORDER BY created_at DESC'
   );
 
-  return success(res, 200, rows, 'Contact messages retrieved successfully', {
-    total: rows.length
+  const formatted = rows.map((r) => {
+    const category = r.category || inferInquiryCategory(r.subject, r.message);
+    const status = r.status || (r.is_read ? 'PROCESSED' : 'NEW');
+    const submitted_at = r.created_at ? new Date(r.created_at).toISOString().split('T')[0] : '';
+    return {
+      ...r,
+      sender_name: r.name,
+      category,
+      status,
+      submitted_at
+    };
+  });
+
+  return success(res, 200, formatted, 'Contact messages retrieved successfully', {
+    total: formatted.length
   });
 });
 
@@ -123,6 +150,11 @@ export const convertInquiryToLead = asyncHandler(async (req, res) => {
       );
     } catch (_) {}
   }
+
+  // Update status in contact_messages
+  try {
+    await pool.execute('UPDATE contact_messages SET status = "CONVERTED", is_read = 1 WHERE id = ?', [id]);
+  } catch (_) {}
 
   await AuditLog.create({
     user_id: req.user?.id || null,

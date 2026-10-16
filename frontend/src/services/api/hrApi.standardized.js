@@ -183,7 +183,11 @@ export const listCareerApplications = async (params = {}) => {
  * Inquiries
  */
 export const listInquiries = async (params = {}) => {
-  return standardFetch(axiosInstance.get('/v1/inquiries', { params }));
+  try {
+    return await standardFetch(axiosInstance.get('/v1/inquiries', { params }));
+  } catch (err) {
+    return await standardFetch(axiosInstance.get('/v1/contact-messages', { params }));
+  }
 };
 
 /**

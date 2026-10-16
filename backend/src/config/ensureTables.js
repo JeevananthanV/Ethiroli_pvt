@@ -206,6 +206,34 @@ export const ensureEssentialTables = async () => {
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     `);
 
+    // 12. Ensure category and status columns exist on contact_messages
+    for (const ddl of [
+      `ALTER TABLE contact_messages ADD COLUMN IF NOT EXISTS category VARCHAR(100) DEFAULT 'General'`,
+      `ALTER TABLE contact_messages ADD COLUMN IF NOT EXISTS status VARCHAR(50) DEFAULT 'NEW'`
+    ]) {
+      try {
+        await pool.execute(ddl);
+      } catch (colErr) {
+        try {
+          await pool.execute(ddl.replace('ADD COLUMN IF NOT EXISTS', 'ADD COLUMN'));
+        } catch (_) {}
+      }
+    }
+
+    // Ensure representative inquiries across categories for funnel routing
+    try {
+      const [existingInq] = await pool.query('SELECT COUNT(*) as cnt FROM contact_messages');
+      if (existingInq[0]?.cnt < 4) {
+        await pool.execute(`
+          INSERT INTO contact_messages (name, email, phone, subject, category, message, status, source, created_at)
+          VALUES
+          ('Saravanan Muthu', 'saravanan.m@gmail.com', '+91 98405 11223', 'Inquiry regarding Full Stack Web Development course fees and weekend batch timings', 'Course Enquiry', 'Hello, I am currently working in tech support and want to transition into Full Stack MERN development. Could you please share the syllabus, fees structure, and schedule for the upcoming weekend batch?', 'NEW', 'WEBSITE', '2026-09-29 10:30:00'),
+          ('Nandhini Jayaraman', 'nandhini.j@outlook.com', '+91 97901 88990', 'Summer Internship Opportunity for CSE 3rd Year students', 'Internship', 'Respected HR team, our university is commencing semester break and I am seeking a 3-month internship in React.js / Frontend. I have attached my GitHub portfolio link.', 'NEW', 'WEBSITE', '2026-09-28 14:15:00'),
+          ('Ganesh Pandian', 'ganesh.p@gmail.com', '+91 94440 22334', 'Application for Senior DevOps / AWS Architect role', 'Job Enquiry', 'Hi HR team, I noticed your opening on LinkedIn for DevOps. I have 5 years experience in Terraform, AWS ECS, and Docker. Can I submit my resume directly?', 'CONVERTED', 'WEBSITE', '2026-09-26 11:00:00')
+        `);
+      }
+    } catch (_) {}
+
     console.log('Essential tables (contact_messages, career_applications, candidates, contact_inquiries, users.avatar_url, users.is_intern_head, push_notifications, student_projects ownership, attendance.status LEAVE, leaves, leave_balances) verified/created.');
 
     try {

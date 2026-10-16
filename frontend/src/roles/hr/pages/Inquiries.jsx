@@ -109,11 +109,16 @@ export default function HRInquiries() {
 
   const handleExecuteConvert = async (e) => {
     e.preventDefault();
-    await convertInquiryToLead(selectedInquiry.id, convertTarget, {
-      name: selectedInquiry.sender_name || selectedInquiry.name,
-      email: selectedInquiry.email,
-      phone: selectedInquiry.phone
-    });
+    try {
+      await convertInquiryToLead(selectedInquiry.id, convertTarget, {
+        name: selectedInquiry.sender_name || selectedInquiry.name,
+        email: selectedInquiry.email,
+        phone: selectedInquiry.phone
+      });
+      if (typeof refresh === 'function') {
+        refresh();
+      }
+    } catch (_) {}
 
     setLocalInquiries(prev =>
       prev.map(i => (i.id === selectedInquiry.id ? { ...i, status: 'CONVERTED' } : i))

@@ -8,96 +8,7 @@ import { listPerformance, updatePerformance } from '../../../../services/api/hrA
 const EMPLOYEE_TEMPLATES = ['30 Day Review', '60 Day Review', '90 Day Review', 'Annual Review'];
 const INTERN_TEMPLATES = ['15 Day Review', '30 Day Review', '45 Day Review', '60 Day Review', 'Final Evaluation'];
 
-const INITIAL_REVIEWS_MOCK = [
-  {
-    id: 'REV-101',
-    person_name: 'Priyadharshini Kumar',
-    role_type: 'EMPLOYEE',
-    designation: 'Senior Full Stack Engineer',
-    review_template: 'Annual Review',
-    period: 'FY 2025-26',
-    overall_rating: 4.8,
-    status: 'COMPLETED',
-    evaluation: {
-      technical_skills: 5,
-      task_completion: 5,
-      attendance: 5,
-      communication: 4,
-      teamwork: 5,
-      problem_solving: 5,
-      project_performance: 5
-    },
-    mentor_feedback: 'Demonstrated outstanding ownership in architectural scalability and cloud microservices.',
-    manager_feedback: 'Exemplary performance, strong peer mentoring and timely feature deliveries.',
-    hr_comments: 'Promoted to Senior Full Stack Engineer. Eligible for annual performance bonus.'
-  },
-  {
-    id: 'REV-102',
-    person_name: 'Vikas Sundaram',
-    role_type: 'INTERN',
-    designation: 'React & Node.js Intern',
-    review_template: '30 Day Review',
-    period: 'Month 1 Milestone',
-    overall_rating: 4.6,
-    status: 'COMPLETED',
-    evaluation: {
-      technical_skills: 4,
-      task_completion: 5,
-      attendance: 5,
-      communication: 4,
-      teamwork: 5,
-      problem_solving: 4,
-      project_performance: 5
-    },
-    mentor_feedback: 'Quick learner, completed all Phase 2 coding assignments ahead of sprint due dates.',
-    manager_feedback: 'Good discipline in daily standups and Git pull requests.',
-    hr_comments: 'Onboarding Phase 2 cleared. Transitioning to Live Project sprint.'
-  },
-  {
-    id: 'REV-103',
-    person_name: 'Rithwik Sridhar',
-    role_type: 'INTERN',
-    designation: 'AI / Machine Learning Intern',
-    review_template: 'Final Evaluation',
-    period: 'Internship Completion',
-    overall_rating: 4.9,
-    status: 'COMPLETED',
-    evaluation: {
-      technical_skills: 5,
-      task_completion: 5,
-      attendance: 5,
-      communication: 5,
-      teamwork: 5,
-      problem_solving: 5,
-      project_performance: 5
-    },
-    mentor_feedback: 'Engineered high-accuracy assessment recommendation algorithms.',
-    manager_feedback: 'Highly recommended for Pre-Placement Offer (PPO).',
-    hr_comments: 'Internship Completion Certificate issued. Full-time offer extended.'
-  },
-  {
-    id: 'REV-104',
-    person_name: 'Arunmozhi Varman',
-    role_type: 'EMPLOYEE',
-    designation: 'Product Manager',
-    review_template: '60 Day Review',
-    period: 'Mid-Probation Check',
-    overall_rating: 4.5,
-    status: 'PENDING_REVIEW',
-    evaluation: {
-      technical_skills: 4,
-      task_completion: 5,
-      attendance: 5,
-      communication: 5,
-      teamwork: 4,
-      problem_solving: 4,
-      project_performance: 4
-    },
-    mentor_feedback: 'Good domain grasp over course analytics roadmap.',
-    manager_feedback: 'Review meeting scheduled for upcoming Friday.',
-    hr_comments: 'Pending leadership signoff.'
-  }
-];
+const INITIAL_REVIEWS_MOCK = [];
 
 export default function HRPerformance() {
   const {
@@ -115,7 +26,7 @@ export default function HRPerformance() {
     undefined
   );
 
-  const [localReviews, setLocalReviews] = useState(INITIAL_REVIEWS_MOCK);
+  const [localReviews, setLocalReviews] = useState([]);
   const [roleFilter, setRoleFilter] = useState('ALL');
   const [selectedReview, setSelectedReview] = useState(null);
   const [showDetailModal, setShowDetailModal] = useState(false);

@@ -28,98 +28,7 @@ const DEFAULT_COURSES = [
   'Digital Marketing & Growth Strategy'
 ];
 
-const INITIAL_STUDENTS_MOCK = [
-  {
-    id: 'STU-101',
-    name: 'Aishwarya Rajesh',
-    email: 'aishwarya.r@ethiroli.edu',
-    phone: '+91 98401 23456',
-    course: 'Full Stack Web Development (MERN)',
-    enrolled_date: '2026-08-15',
-    duration: '6 Months',
-    payment_status: 'PAID',
-    progress_percentage: 82,
-    attendance_rate: 94,
-    tutor: 'Karthik Subramanian',
-    certificate_status: 'In Progress',
-    status: 'Training'
-  },
-  {
-    id: 'STU-102',
-    name: 'Gowtham Chandran',
-    email: 'gowtham.c@ethiroli.edu',
-    phone: '+91 97902 34567',
-    course: 'Python Data Science & AI',
-    enrolled_date: '2026-07-01',
-    duration: '4 Months',
-    payment_status: 'PAID',
-    progress_percentage: 100,
-    attendance_rate: 98,
-    tutor: 'Dr. Meenakshi Sundaram',
-    certificate_status: 'Issued',
-    status: 'Certificate'
-  },
-  {
-    id: 'STU-103',
-    name: 'Sneha Mohan',
-    email: 'sneha.m@ethiroli.edu',
-    phone: '+91 94443 89012',
-    course: 'Cloud DevOps & AWS Architect',
-    enrolled_date: '2026-09-10',
-    duration: '6 Months',
-    payment_status: 'PARTIAL',
-    progress_percentage: 35,
-    attendance_rate: 88,
-    tutor: 'Vigneshwaran P.',
-    certificate_status: 'Pending',
-    status: 'Training'
-  },
-  {
-    id: 'STU-104',
-    name: 'Balaji Venkatesh',
-    email: 'balaji.v@gmail.com',
-    phone: '+91 98845 67890',
-    course: 'UI/UX Design Masterclass',
-    enrolled_date: '2026-09-22',
-    duration: '3 Months',
-    payment_status: 'PENDING',
-    progress_percentage: 0,
-    attendance_rate: 0,
-    tutor: 'Pooja Krishnan',
-    certificate_status: 'Not Eligible',
-    status: 'Payment'
-  },
-  {
-    id: 'STU-105',
-    name: 'Deepika Senthil',
-    email: 'deepika.s@outlook.com',
-    phone: '+91 96001 12233',
-    course: 'Java Spring Boot Microservices',
-    enrolled_date: '2026-09-28',
-    duration: '5 Months',
-    payment_status: 'PAID',
-    progress_percentage: 12,
-    attendance_rate: 100,
-    tutor: 'Senthil Nathan',
-    certificate_status: 'In Progress',
-    status: 'Enrolled'
-  },
-  {
-    id: 'STU-106',
-    name: 'Hariharan Natarajan',
-    email: 'hariharan.n@gmail.com',
-    phone: '+91 98410 99887',
-    course: 'Full Stack Web Development (MERN)',
-    enrolled_date: '2026-06-15',
-    duration: '6 Months',
-    payment_status: 'PAID',
-    progress_percentage: 100,
-    attendance_rate: 96,
-    tutor: 'Karthik Subramanian',
-    certificate_status: 'Verified & Issued',
-    status: 'Completed'
-  }
-];
+const INITIAL_STUDENTS_MOCK = [];
 
 export default function HRStudents() {
   const {
@@ -140,7 +49,7 @@ export default function HRStudents() {
     undefined
   );
 
-  const [localStudents, setLocalStudents] = useState(INITIAL_STUDENTS_MOCK);
+  const [localStudents, setLocalStudents] = useState([]);
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [paymentFilter, setPaymentFilter] = useState('ALL');
   const [selectedCourse, setSelectedCourse] = useState('ALL');
@@ -157,7 +66,7 @@ export default function HRStudents() {
     course: DEFAULT_COURSES[0],
     duration: '6 Months',
     payment_status: 'PAID',
-    tutor: 'Karthik Subramanian',
+    tutor: 'Staff Tutor',
     status: 'Enrolled',
     enrolled_date: new Date().toISOString().split('T')[0]
   });
@@ -168,10 +77,26 @@ export default function HRStudents() {
   };
 
   const studentList = useMemo(() => {
-    if (Array.isArray(fetchedStudents) && fetchedStudents.length > 0) {
-      return fetchedStudents;
-    }
-    return localStudents;
+    const rawList = Array.isArray(fetchedStudents) && fetchedStudents.length > 0
+      ? fetchedStudents
+      : localStudents;
+
+    return rawList.map((stu) => ({
+      ...stu,
+      id: stu.id,
+      name: stu.name || stu.full_name || 'Student',
+      email: stu.email || '—',
+      phone: stu.phone || '—',
+      course: stu.course || stu.course_title || 'Enrolled Course',
+      enrolled_date: stu.enrolled_date || (stu.created_at ? new Date(stu.created_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'),
+      duration: stu.duration || '6 Months',
+      payment_status: stu.payment_status || 'PAID',
+      progress_percentage: stu.progress_percentage || stu.progress || 0,
+      attendance_rate: stu.attendance_rate || 100,
+      tutor: stu.tutor || stu.tutor_name || 'Assigned Tutor',
+      certificate_status: stu.certificate_status || 'In Progress',
+      status: stu.status || 'Active'
+    }));
   }, [fetchedStudents, localStudents]);
 
   const filteredStudents = useMemo(() => {

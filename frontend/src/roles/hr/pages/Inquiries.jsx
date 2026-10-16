@@ -7,51 +7,7 @@ import { listInquiries, convertInquiryToLead } from '../../../../services/api/hr
 
 const INQUIRY_CATEGORIES = ['ALL', 'Course Enquiry', 'Job Enquiry', 'Internship', 'General'];
 
-const INITIAL_INQUIRIES_MOCK = [
-  {
-    id: 'INQ-101',
-    sender_name: 'Saravanan Muthu',
-    email: 'saravanan.m@gmail.com',
-    phone: '+91 98405 11223',
-    subject: 'Inquiry regarding Full Stack Web Development course fees and weekend batch timings',
-    category: 'Course Enquiry',
-    message: 'Hello, I am currently working in tech support and want to transition into Full Stack MERN development. Could you please share the syllabus, fees structure, and schedule for the upcoming weekend batch?',
-    submitted_at: '2026-09-29',
-    status: 'NEW'
-  },
-  {
-    id: 'INQ-102',
-    sender_name: 'Nandhini Jayaraman',
-    email: 'nandhini.j@outlook.com',
-    phone: '+91 97901 88990',
-    subject: 'Summer Internship Opportunity for CSE 3rd Year students',
-    category: 'Internship',
-    message: 'Respected HR team, our university is commencing semester break and I am seeking a 3-month internship in React.js / Frontend. I have attached my GitHub portfolio link.',
-    submitted_at: '2026-09-28',
-    status: 'NEW'
-  },
-  {
-    id: 'INQ-103',
-    sender_name: 'Ganesh Pandian',
-    email: 'ganesh.p@gmail.com',
-    phone: '+91 94440 22334',
-    subject: 'Application for Senior DevOps / AWS Architect role',
-    category: 'Job Enquiry',
-    message: 'Hi HR team, I noticed your opening on LinkedIn for DevOps. I have 5 years experience in Terraform, AWS ECS, and Docker. Can I submit my resume directly?',
-    submitted_at: '2026-09-26',
-    status: 'CONVERTED'
-  },
-  {
-    id: 'INQ-104',
-    sender_name: 'Dr. R. Chandrasekhar',
-    email: 'chandrasekhar@college.edu',
-    subject: 'College Campus Seminar & MoU Collaboration',
-    category: 'General',
-    message: 'We would like to invite Ethiroli leadership for an AI workshop at our college campus in October.',
-    submitted_at: '2026-09-24',
-    status: 'PROCESSED'
-  }
-];
+const INITIAL_INQUIRIES_MOCK = [];
 
 export default function HRInquiries() {
   const {
@@ -69,7 +25,7 @@ export default function HRInquiries() {
     undefined
   );
 
-  const [localInquiries, setLocalInquiries] = useState(INITIAL_INQUIRIES_MOCK);
+  const [localInquiries, setLocalInquiries] = useState([]);
   const [categoryFilter, setCategoryFilter] = useState('ALL');
 
   const [showDetailModal, setShowDetailModal] = useState(false);

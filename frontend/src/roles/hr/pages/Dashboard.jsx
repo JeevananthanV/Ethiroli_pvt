@@ -5,20 +5,20 @@ import { getDashboardMetrics } from '../../../../services/api/hrApi.standardized
 import './Dashboard.css';
 
 const DEFAULT_METRICS = {
-  totalEmployees: 42,
-  totalInterns: 18,
-  totalStudents: 126,
-  newJoiners: 5,
-  pendingOnboarding: 8,
-  interviewsToday: 4,
-  documentsPending: 12,
-  reviewsDue: 6,
-  presentToday: 58,
-  totalWorkforce: 60,
-  pendingLeaves: 3,
-  openJobs: 4,
-  totalApplications: 15,
-  totalInquiries: 9
+  totalEmployees: 0,
+  totalInterns: 0,
+  totalStudents: 0,
+  newJoiners: 0,
+  pendingOnboarding: 0,
+  interviewsToday: 0,
+  documentsPending: 0,
+  reviewsDue: 0,
+  presentToday: 0,
+  totalWorkforce: 0,
+  pendingLeaves: 0,
+  openJobs: 0,
+  totalApplications: 0,
+  totalInquiries: 0
 };
 
 export default function HRDashboard() {
@@ -39,20 +39,21 @@ export default function HRDashboard() {
     ? { ...DEFAULT_METRICS, ...rawMetrics }
     : DEFAULT_METRICS;
 
-  const attendance = metrics.totalWorkforce > 0
-    ? Math.min(100, Math.max(0, Math.round((metrics.presentToday / metrics.totalWorkforce) * 100)))
-    : 96;
+  const totalWorkforce = (metrics.totalEmployees || 0) + (metrics.totalInterns || 0);
+  const attendance = totalWorkforce > 0 && metrics.presentToday > 0
+    ? Math.min(100, Math.max(0, Math.round((metrics.presentToday / totalWorkforce) * 100)))
+    : 0;
 
-  // Primary 8 KPI Cards matching user specification
+  // Primary 8 KPI Cards with honest real data from database
   const primaryCards = [
-    { label: 'Employees', value: metrics.totalEmployees || 42, icon: 'bi-person-badge', tone: 'indigo', detail: 'Full-time active workforce', link: '/app/hr/employees' },
-    { label: 'Interns', value: metrics.totalInterns || 18, icon: 'bi-mortarboard', tone: 'purple', detail: 'College & tech interns', link: '/app/hr/interns' },
-    { label: 'Students', value: metrics.totalStudents || 126, icon: 'bi-book', tone: 'green', detail: 'Active course enrollees', link: '/app/hr/students' },
-    { label: 'New Joiners', value: metrics.newJoiners || 5, icon: 'bi-person-plus', tone: 'amber', detail: 'Joined in last 30 days', link: '/app/hr/onboarding' },
-    { label: 'Pending Onboarding', value: metrics.pendingOnboarding || 8, icon: 'bi-rocket-takeoff', tone: 'amber', detail: 'Checklists & plan tasks', link: '/app/hr/onboarding' },
-    { label: 'Interviews Today', value: metrics.interviewsToday || 4, icon: 'bi-person-video3', tone: 'indigo', detail: 'Candidate evaluations', link: '/app/hr/interviews' },
-    { label: 'Documents Pending', value: metrics.documentsPending || 12, icon: 'bi-folder-check', tone: 'purple', detail: 'Awaiting HR verification', link: '/app/hr/documents' },
-    { label: 'Reviews Due', value: metrics.reviewsDue || 6, icon: 'bi-graph-up-arrow', tone: 'green', detail: 'Probation & sprint evaluations', link: '/app/hr/performance' },
+    { label: 'Employees', value: metrics.totalEmployees ?? 0, icon: 'bi-person-badge', tone: 'indigo', detail: 'Full-time active workforce', link: '/app/hr/employees' },
+    { label: 'Interns', value: metrics.totalInterns ?? 0, icon: 'bi-mortarboard', tone: 'purple', detail: 'College & tech interns', link: '/app/hr/interns' },
+    { label: 'Students', value: metrics.totalStudents ?? 0, icon: 'bi-book', tone: 'green', detail: 'Active course enrollees', link: '/app/hr/students' },
+    { label: 'New Joiners', value: metrics.newJoiners ?? 0, icon: 'bi-person-plus', tone: 'amber', detail: 'Joined in last 30 days', link: '/app/hr/onboarding' },
+    { label: 'Pending Onboarding', value: metrics.pendingOnboarding ?? 0, icon: 'bi-rocket-takeoff', tone: 'amber', detail: 'Checklists & plan tasks', link: '/app/hr/onboarding' },
+    { label: 'Interviews Today', value: metrics.interviewsToday ?? 0, icon: 'bi-person-video3', tone: 'indigo', detail: 'Candidate evaluations', link: '/app/hr/interviews' },
+    { label: 'Documents Pending', value: metrics.documentsPending ?? 0, icon: 'bi-folder-check', tone: 'purple', detail: 'Awaiting HR verification', link: '/app/hr/documents' },
+    { label: 'Reviews Due', value: metrics.reviewsDue ?? 0, icon: 'bi-graph-up-arrow', tone: 'green', detail: 'Probation & sprint evaluations', link: '/app/hr/performance' },
   ];
 
   return (
@@ -136,7 +137,7 @@ export default function HRDashboard() {
                 <strong>HR Requests & Letters</strong>
                 <small>WFH, Salary certificates & experience letter generation</small>
               </span>
-              <em>5</em>
+              <em>0</em>
               <i className="bi bi-chevron-right" />
             </Link>
           </div>

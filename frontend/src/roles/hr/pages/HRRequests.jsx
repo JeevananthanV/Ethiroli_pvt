@@ -19,73 +19,7 @@ const REQUEST_TYPES = [
 
 const REQUEST_STATUSES = ['ALL', 'PENDING', 'IN_REVIEW', 'APPROVED', 'REJECTED', 'COMPLETED'];
 
-const INITIAL_REQUESTS_MOCK = [
-  {
-    id: 'REQ-101',
-    requester_name: 'Priya Raman',
-    role: 'EMPLOYEE',
-    designation: 'Frontend Engineer',
-    department: 'Engineering',
-    request_type: 'Work from home',
-    priority: 'HIGH',
-    details: 'Requesting remote access for 2 days due to personal transit and family function in hometown.',
-    status: 'PENDING',
-    submitted_date: '2026-09-28',
-    hr_remarks: ''
-  },
-  {
-    id: 'REQ-102',
-    requester_name: 'Rahul Venkat',
-    role: 'INTERN',
-    designation: 'React & Node Intern',
-    department: 'Engineering',
-    request_type: 'Experience letter',
-    priority: 'MEDIUM',
-    details: 'Need official university endorsement / internship completion letter for semester evaluation.',
-    status: 'IN_REVIEW',
-    submitted_date: '2026-09-27',
-    hr_remarks: 'Document drafted, pending final signature.'
-  },
-  {
-    id: 'REQ-103',
-    requester_name: 'Arun Prasad',
-    role: 'EMPLOYEE',
-    designation: 'Backend Tech Lead',
-    department: 'Engineering',
-    request_type: 'Salary certificate',
-    priority: 'MEDIUM',
-    details: 'Annual compensation certificate for housing finance bank loan verification.',
-    status: 'APPROVED',
-    submitted_date: '2026-09-25',
-    hr_remarks: 'Digitally signed certificate issued to registered email.'
-  },
-  {
-    id: 'REQ-104',
-    requester_name: 'Divya Natarajan',
-    role: 'EMPLOYEE',
-    designation: 'HR Coordinator',
-    department: 'Human Resources',
-    request_type: 'Bank details update',
-    priority: 'LOW',
-    details: 'Updated HDFC account salary credit coordinates with attached cancelled cheque.',
-    status: 'COMPLETED',
-    submitted_date: '2026-09-24',
-    hr_remarks: 'Payroll master database updated successfully.'
-  },
-  {
-    id: 'REQ-105',
-    requester_name: 'Siddharth M.',
-    role: 'INTERN',
-    designation: 'UI/UX Intern',
-    department: 'Design',
-    request_type: 'Document request',
-    priority: 'LOW',
-    details: 'Requesting verified copy of signed internship agreement.',
-    status: 'PENDING',
-    submitted_date: '2026-09-29',
-    hr_remarks: ''
-  }
-];
+const INITIAL_REQUESTS_MOCK = [];
 
 export default function HRRequests() {
   const {
@@ -103,7 +37,7 @@ export default function HRRequests() {
     undefined
   );
 
-  const [localRequests, setLocalRequests] = useState(INITIAL_REQUESTS_MOCK);
+  const [localRequests, setLocalRequests] = useState([]);
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [typeFilter, setTypeFilter] = useState('ALL');
   const [roleFilter, setRoleFilter] = useState('ALL');

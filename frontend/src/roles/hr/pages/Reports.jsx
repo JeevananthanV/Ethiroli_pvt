@@ -43,53 +43,7 @@ const ANALYTICS_DATA = {
   }
 };
 
-const INITIAL_REPORTS_MOCK = [
-  {
-    id: 'RPT-2026-01',
-    title: 'Monthly Workforce & Headcount Distribution',
-    category: 'Workforce & Headcount',
-    generated_at: '2026-09-30',
-    records_count: 186,
-    status: 'Ready',
-    summary: 'Breakdown of 42 full-time employees, 18 interns, and 126 active student enrollees across 6 departments.'
-  },
-  {
-    id: 'RPT-2026-02',
-    title: 'Student Course Progress & Certificate Clearance Audit',
-    category: 'Students & Certification',
-    generated_at: '2026-09-28',
-    records_count: 126,
-    status: 'Ready',
-    summary: 'Clearance audit for 45 issued certificates, verifying tuition payment clearance and LMS quiz completion.'
-  },
-  {
-    id: 'RPT-2026-03',
-    title: 'Internship Performance & Pre-Placement (PPO) Evaluation',
-    category: 'Interns & Projects',
-    generated_at: '2026-09-27',
-    records_count: 18,
-    status: 'Ready',
-    summary: 'Evaluation ratings for Q3 intern cohort with 72% PPO conversion recommendation rate.'
-  },
-  {
-    id: 'RPT-2026-04',
-    title: 'Onboarding SLA & Task Completion Compliance Report',
-    category: 'Onboarding & SLAs',
-    generated_at: '2026-09-25',
-    records_count: 8,
-    status: 'Ready',
-    summary: 'Analysis of 15/30/60/90-day phase-driven plans with 96.2% checklist item completion on schedule.'
-  },
-  {
-    id: 'RPT-2026-05',
-    title: 'Workforce Monthly Attendance & Leave Utilization Summary',
-    category: 'Attendance & Leaves',
-    generated_at: '2026-09-24',
-    records_count: 60,
-    status: 'Ready',
-    summary: 'Consolidated attendance rate of 96% with leave utilization metrics across engineering and product.'
-  }
-];
+const INITIAL_REPORTS_MOCK = [];
 
 export default function HRReports() {
   const {
@@ -107,7 +61,7 @@ export default function HRReports() {
     undefined
   );
 
-  const [localReports, setLocalReports] = useState(INITIAL_REPORTS_MOCK);
+  const [localReports, setLocalReports] = useState([]);
   const [activeCategory, setActiveCategory] = useState('ALL');
   const [selectedReport, setSelectedReport] = useState(null);
   const [showDetailModal, setShowDetailModal] = useState(false);

@@ -7,6 +7,7 @@ import { validateBody } from '../middleware/validation.js';
 const router = express.Router();
 router.use(authenticate);
 
+router.get('/reports', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), listReportDefinitions);
 router.post('/reports/execute', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), executeReport);
 router.get('/reports/definitions', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), listReportDefinitions);
 router.post('/reports/definitions', requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), validateBody('createReportDefinition'), createReportDefinition);

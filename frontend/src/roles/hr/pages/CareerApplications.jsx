@@ -7,60 +7,7 @@ import { listCareerApplications, convertCandidateToEmployee, convertCandidateToI
 
 const CANDIDATE_STAGES = ['ALL', 'Applied', 'Shortlisted', 'Interview', 'Selected', 'Offer', 'Converted'];
 
-const INITIAL_APPLICATIONS_MOCK = [
-  {
-    id: 'APP-2026-01',
-    candidate_name: 'Harish Kumar',
-    email: 'harish.k@gmail.com',
-    phone: '+91 98409 12345',
-    position: 'Full Stack React & Node Developer',
-    experience: '3.5 Years',
-    current_company: 'Infosys',
-    applied_at: '2026-09-27',
-    status: 'Selected',
-    resume_summary: 'Experienced in React, TypeScript, Express, PostgreSQL, and AWS deployment.',
-    type_preference: 'EMPLOYEE'
-  },
-  {
-    id: 'APP-2026-02',
-    candidate_name: 'Meghana Reddy',
-    email: 'meghana.reddy@outlook.com',
-    phone: '+91 97902 44556',
-    position: 'UI/UX & Product Design',
-    experience: 'Fresher / Final Year',
-    current_company: 'Vellore Institute of Technology (VIT)',
-    applied_at: '2026-09-28',
-    status: 'Selected',
-    resume_summary: 'Strong portfolio in Figma, design systems, mobile app wireframing, and micro-interactions.',
-    type_preference: 'INTERN'
-  },
-  {
-    id: 'APP-2026-03',
-    candidate_name: 'Sanjay Manikandan',
-    email: 'sanjay.m@gmail.com',
-    phone: '+91 94443 66778',
-    position: 'DevOps & Cloud Engineer',
-    experience: '2 Years',
-    current_company: 'Zoho Corporation',
-    applied_at: '2026-09-25',
-    status: 'Interview',
-    resume_summary: 'Hands-on experience with Docker, Kubernetes, Terraform, and CI/CD pipelines.',
-    type_preference: 'EMPLOYEE'
-  },
-  {
-    id: 'APP-2026-04',
-    candidate_name: 'Archana Venkataraman',
-    email: 'archana.v@gmail.com',
-    phone: '+91 98840 88990',
-    position: 'Python Data Science Intern',
-    experience: 'Student',
-    current_company: 'CEG Anna University',
-    applied_at: '2026-09-29',
-    status: 'Shortlisted',
-    resume_summary: 'Knowledge of Pandas, Scikit-learn, BigQuery, and statistical data visualization.',
-    type_preference: 'INTERN'
-  }
-];
+const INITIAL_APPLICATIONS_MOCK = [];
 
 export default function HRCareerApplications() {
   const {
@@ -78,7 +25,7 @@ export default function HRCareerApplications() {
     undefined
   );
 
-  const [localApps, setLocalApps] = useState(INITIAL_APPLICATIONS_MOCK);
+  const [localApps, setLocalApps] = useState([]);
   const [statusFilter, setStatusFilter] = useState('ALL');
 
   const [showDetailModal, setShowDetailModal] = useState(false);

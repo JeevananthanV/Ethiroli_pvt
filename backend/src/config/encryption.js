@@ -3,15 +3,19 @@ import crypto from 'crypto';
 const ALGORITHM = 'aes-256-gcm';
 const KEY_LENGTH = 32; // 256 bits
 const IV_LENGTH = 12;  // 96 bits for GCM
+const SECRET = process.env.ENCRYPTION_SECRET || 'ethiroli_default_secret_32_chars_long!';
 const SALT = crypto.scryptSync(process.env.ENCRYPTION_SECRET || 'dev_encryption_secret_salt_123', 'salt', 32);
 
 // Derive encryption key via PBKDF2
-const deriveKey = (password) => {
-  return crypto.pbkdf2Sync(password, SALT, 100000, KEY_LENGTH, 'sha256');
+const deriveKey = (password, saltBuffer = SALT) => {
+  return crypto.pbkdf2Sync(password, saltBuffer, 100000, KEY_LENGTH, 'sha256');
 };
 
-const SECRET = process.env.ENCRYPTION_SECRET || 'ethiroli_default_secret_32_chars_long!';
-const KEY = deriveKey(SECRET);
+const KEY = deriveKey(SECRET, SALT);
+
+// Legacy/fallback salt key (allows decrypting rows seeded with dev salt)
+const LEGACY_SALT = crypto.scryptSync('dev_encryption_secret_salt_123', 'salt', 32);
+const LEGACY_KEY = deriveKey(SECRET, LEGACY_SALT);
 
 // Randomized encryption (for non-searchable fields)
 export const encrypt = (text) => {
@@ -46,13 +50,20 @@ export const decrypt = (cipherText) => {
     const authTag = Buffer.from(authTagHex, 'hex');
     const encrypted = Buffer.from(encryptedHex, 'hex');
     
-    const decipher = crypto.createDecipheriv(ALGORITHM, KEY, iv);
-    decipher.setAuthTag(authTag);
-    
-    let decrypted = decipher.update(encrypted, 'hex', 'utf8');
-    decrypted += decipher.final('utf8');
-    
-    return decrypted;
+    try {
+      const decipher = crypto.createDecipheriv(ALGORITHM, KEY, iv);
+      decipher.setAuthTag(authTag);
+      let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+      decrypted += decipher.final('utf8');
+      return decrypted;
+    } catch (primaryErr) {
+      // Fallback to legacy key derivation
+      const decipher = crypto.createDecipheriv(ALGORITHM, LEGACY_KEY, iv);
+      decipher.setAuthTag(authTag);
+      let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+      decrypted += decipher.final('utf8');
+      return decrypted;
+    }
   } catch (err) {
     return cipherText;
   }

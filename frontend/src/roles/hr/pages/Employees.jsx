@@ -17,108 +17,7 @@ const EMPLOYEE_STATUSES = [
   'Exited'
 ];
 
-const INITIAL_EMPLOYEES_MOCK = [
-  {
-    id: 'ETH-EMP-001',
-    full_name: 'Karthik Subramanian',
-    email: 'karthik.s@ethiroli.net',
-    phone: '+91 98400 11223',
-    department: 'Engineering',
-    designation: 'Principal Architect & VP Engineering',
-    manager: 'Jeevananthan V (CEO)',
-    joining_date: '2024-01-10',
-    work_mode: 'Hybrid',
-    ctc: '₹ 28,00,000 PA',
-    bank_name: 'HDFC Bank (A/C: ****5432)',
-    attendance_rate: 98,
-    leaves_balance: 14,
-    training_status: 'Completed (Cloud & Security SOP)',
-    performance_rating: '4.9 / 5.0 (Exceeds Expectations)',
-    assets_assigned: 'MacBook Pro M3 Max, 4K Display, Security Token',
-    onboarding_plan: 'Completed (90-Day Enterprise)',
-    status: 'Active'
-  },
-  {
-    id: 'ETH-EMP-002',
-    full_name: 'Priyadharshini Kumar',
-    email: 'priya.k@ethiroli.net',
-    phone: '+91 98401 55667',
-    department: 'Engineering',
-    designation: 'Senior Full Stack Engineer',
-    manager: 'Karthik Subramanian',
-    joining_date: '2025-03-15',
-    work_mode: 'On-site',
-    ctc: '₹ 14,50,000 PA',
-    bank_name: 'ICICI Bank (A/C: ****8812)',
-    attendance_rate: 96,
-    leaves_balance: 18,
-    training_status: 'Completed (Microservices & Docker)',
-    performance_rating: '4.7 / 5.0 (Strong Performer)',
-    assets_assigned: 'Dell XPS 15, Multi-port Dock',
-    onboarding_plan: 'Completed (30-Day Standard)',
-    status: 'Active'
-  },
-  {
-    id: 'ETH-EMP-003',
-    full_name: 'Arunmozhi Varman',
-    email: 'arun.v@ethiroli.net',
-    phone: '+91 97900 88990',
-    department: 'Product',
-    designation: 'Product Manager',
-    manager: 'Jeevananthan V (CEO)',
-    joining_date: '2026-08-01',
-    work_mode: 'Hybrid',
-    ctc: '₹ 16,00,000 PA',
-    bank_name: 'Axis Bank (A/C: ****2341)',
-    attendance_rate: 94,
-    leaves_balance: 20,
-    training_status: 'In Progress (EdTech Analytics SOP)',
-    performance_rating: '4.5 / 5.0 (On Track)',
-    assets_assigned: 'ThinkPad X1 Carbon',
-    onboarding_plan: 'Phase 3 - Production Ownership (60-Day)',
-    status: 'Onboarding'
-  },
-  {
-    id: 'ETH-EMP-004',
-    full_name: 'Soundarya Raman',
-    email: 'soundarya.r@gmail.com',
-    phone: '+91 94441 33445',
-    department: 'Design',
-    designation: 'Lead UI/UX Designer',
-    manager: 'Arunmozhi Varman',
-    joining_date: '2026-10-15',
-    work_mode: 'Hybrid',
-    ctc: '₹ 12,00,000 PA',
-    bank_name: 'Pending Verification',
-    attendance_rate: 0,
-    leaves_balance: 24,
-    training_status: 'Scheduled',
-    performance_rating: 'Pre-joining',
-    assets_assigned: 'Pending Allocation',
-    onboarding_plan: 'Assigned (30-Day Employee Plan)',
-    status: 'Offer Accepted'
-  },
-  {
-    id: 'ETH-EMP-005',
-    full_name: 'Vigneshwaran P.',
-    email: 'vignesh.p@ethiroli.net',
-    phone: '+91 96000 77889',
-    department: 'Engineering',
-    designation: 'DevOps & Cloud Engineer',
-    manager: 'Karthik Subramanian',
-    joining_date: '2024-06-01',
-    work_mode: 'Remote',
-    ctc: '₹ 11,50,000 PA',
-    bank_name: 'HDFC Bank (A/C: ****9012)',
-    attendance_rate: 99,
-    leaves_balance: 8,
-    training_status: 'Completed (AWS Security)',
-    performance_rating: '4.8 / 5.0 (Outstanding)',
-    assets_assigned: 'MacBook Air M2',
-    onboarding_plan: 'Completed',
-    status: 'Active'
-  }
-];
+const INITIAL_EMPLOYEES_MOCK = [];
 
 export default function HREmployees() {
   const {
@@ -142,7 +41,7 @@ export default function HREmployees() {
     undefined
   );
 
-  const [localEmployees, setLocalEmployees] = useState(INITIAL_EMPLOYEES_MOCK);
+  const [localEmployees, setLocalEmployees] = useState([]);
   const [deptFilter, setDeptFilter] = useState('ALL');
   const [statusFilter, setStatusFilter] = useState('ALL');
 
@@ -158,11 +57,11 @@ export default function HREmployees() {
     phone: '',
     department: 'Engineering',
     designation: '',
-    manager: 'Karthik Subramanian',
+    manager: 'HR Manager',
     joining_date: new Date().toISOString().split('T')[0],
     work_mode: 'Hybrid',
     ctc: '₹ 8,00,000 PA',
-    status: 'Offer Accepted'
+    status: 'Active'
   });
 
   const showToast = (msg) => {
@@ -171,10 +70,26 @@ export default function HREmployees() {
   };
 
   const employeeList = useMemo(() => {
-    if (Array.isArray(fetchedEmployees) && fetchedEmployees.length > 0) {
-      return fetchedEmployees;
-    }
-    return localEmployees;
+    const rawList = Array.isArray(fetchedEmployees) && fetchedEmployees.length > 0
+      ? fetchedEmployees
+      : localEmployees;
+
+    return rawList.map((emp) => ({
+      ...emp,
+      id: emp.employee_code || emp.id,
+      full_name: emp.full_name || emp.name || 'Employee',
+      email: emp.email || '—',
+      phone: emp.phone || '—',
+      department: emp.department || 'Operations',
+      designation: emp.designation || 'Staff Member',
+      manager: emp.manager || 'HR Manager',
+      joining_date: emp.joining_date || (emp.date_of_joining ? new Date(emp.date_of_joining).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'),
+      work_mode: emp.work_mode || 'On-site',
+      ctc: emp.ctc || 'Standard Enterprise Band',
+      status: emp.status || (emp.is_active ? 'Active' : 'Inactive'),
+      attendance_rate: emp.attendance_rate !== undefined ? emp.attendance_rate : 100,
+      leaves_balance: emp.leaves_balance !== undefined ? emp.leaves_balance : 12
+    }));
   }, [fetchedEmployees, localEmployees]);
 
   const departments = useMemo(() => {

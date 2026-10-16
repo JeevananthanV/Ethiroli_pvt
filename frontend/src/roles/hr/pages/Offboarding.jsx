@@ -7,68 +7,7 @@ import { listExitRequests, createExitRequest, updateExitRequest } from '../../..
 
 const EXIT_STATUSES = ['ALL', 'INITIATED', 'HANDOVER_IN_PROGRESS', 'NO_DUES_PENDING', 'APPROVED', 'COMPLETED'];
 
-const INITIAL_EXITS_MOCK = [
-  {
-    id: 'EXIT-2026-01',
-    person_name: 'Rajesh Kannan',
-    role_type: 'EMPLOYEE',
-    designation: 'Senior Backend Engineer',
-    department: 'Engineering',
-    resignation_date: '2026-09-01',
-    last_working_day: '2026-10-15',
-    reason: 'Higher Studies abroad (MS in Computer Science)',
-    status: 'NO_DUES_PENDING',
-    clearances: {
-      it_assets_returned: true,
-      it_access_revoked: true,
-      finance_no_dues: true,
-      manager_kt_complete: true,
-      hr_exit_interview: false
-    },
-    exit_interview_notes: 'Expressed gratitude for high learning curve at Ethiroli. Recommends more knowledge-sharing sessions.',
-    relieving_letter_issued: false
-  },
-  {
-    id: 'EXIT-2026-02',
-    person_name: 'Rithwik Sridhar',
-    role_type: 'INTERN',
-    designation: 'AI / Machine Learning Intern',
-    department: 'Engineering',
-    resignation_date: '2026-09-15',
-    last_working_day: '2026-09-30',
-    reason: 'Internship Tenure Completion (3 Months)',
-    status: 'COMPLETED',
-    clearances: {
-      it_assets_returned: true,
-      it_access_revoked: true,
-      finance_no_dues: true,
-      manager_kt_complete: true,
-      hr_exit_interview: true
-    },
-    exit_interview_notes: 'Delivered Capstone AI project with 4.9 rating. Accepted PPO offer.',
-    relieving_letter_issued: true
-  },
-  {
-    id: 'EXIT-2026-03',
-    person_name: 'Pavithra Natarajan',
-    role_type: 'EMPLOYEE',
-    designation: 'QA Automation Engineer',
-    department: 'Engineering',
-    resignation_date: '2026-09-20',
-    last_working_day: '2026-10-30',
-    reason: 'Relocation to hometown due to personal reasons',
-    status: 'HANDOVER_IN_PROGRESS',
-    clearances: {
-      it_assets_returned: false,
-      it_access_revoked: false,
-      finance_no_dues: false,
-      manager_kt_complete: false,
-      hr_exit_interview: false
-    },
-    exit_interview_notes: 'Handover scheduled with QA junior team.',
-    relieving_letter_issued: false
-  }
-];
+const INITIAL_EXITS_MOCK = [];
 
 export default function HROffboarding() {
   const {
@@ -86,7 +25,7 @@ export default function HROffboarding() {
     undefined
   );
 
-  const [localExits, setLocalExits] = useState(INITIAL_EXITS_MOCK);
+  const [localExits, setLocalExits] = useState([]);
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [roleFilter, setRoleFilter] = useState('ALL');
 

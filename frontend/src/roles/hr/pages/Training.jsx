@@ -5,68 +5,7 @@ import Button from '../../../common/components/Button/Button.jsx';
 import { useHrData } from '../../../hooks/useHrData';
 import { listTrainings, createTraining, updateTraining } from '../../../../services/api/hrApi.standardized.js';
 
-const INITIAL_TRAININGS_MOCK = [
-  {
-    id: 'TRN-101',
-    title: 'Full Stack MERN Bootcamp Track',
-    target_role: 'STUDENT',
-    assigned_to: 'Aishwarya Rajesh (STU-101)',
-    assigned_tutor_or_mentor: 'Karthik Subramanian (Tutor)',
-    start_date: '2026-08-15',
-    target_completion: '2027-02-15',
-    progress: 82,
-    status: 'IN_PROGRESS',
-    lms_sync_status: 'Active (Module 8 of 10)'
-  },
-  {
-    id: 'TRN-102',
-    title: 'Advanced React Architecture & Microservices',
-    target_role: 'INTERN',
-    assigned_to: 'Vikas Sundaram (INT-2026-01)',
-    assigned_tutor_or_mentor: 'Vigneshwaran P. (Mentor)',
-    start_date: '2026-08-01',
-    target_completion: '2026-10-31',
-    progress: 85,
-    status: 'IN_PROGRESS',
-    lms_sync_status: 'Active (Sprint Project)'
-  },
-  {
-    id: 'TRN-103',
-    title: 'Enterprise Cloud Security & AWS Compliance SOP',
-    target_role: 'EMPLOYEE',
-    assigned_to: 'Arunmozhi Varman (Product Manager)',
-    assigned_tutor_or_mentor: 'Karthik Subramanian (VP Eng)',
-    start_date: '2026-09-01',
-    target_completion: '2026-10-15',
-    progress: 100,
-    status: 'COMPLETED',
-    lms_sync_status: 'Certified (Score 98%)'
-  },
-  {
-    id: 'TRN-104',
-    title: 'Python Data Science & BigQuery Analytics',
-    target_role: 'STUDENT',
-    assigned_to: 'Gowtham Chandran (STU-102)',
-    assigned_tutor_or_mentor: 'Dr. Meenakshi Sundaram (Tutor)',
-    start_date: '2026-07-01',
-    target_completion: '2026-10-30',
-    progress: 100,
-    status: 'COMPLETED',
-    lms_sync_status: 'Completed (Final Capstone Evaluated)'
-  },
-  {
-    id: 'TRN-105',
-    title: 'Figma Design Tokens & Glassmorphism Design System',
-    target_role: 'INTERN',
-    assigned_to: 'Dharani Velu (INT-2026-02)',
-    assigned_tutor_or_mentor: 'Soundarya Raman (Lead Designer)',
-    start_date: '2026-09-01',
-    target_completion: '2026-11-30',
-    progress: 60,
-    status: 'IN_PROGRESS',
-    lms_sync_status: 'Active (Hands-on Wireframing)'
-  }
-];
+const INITIAL_TRAININGS_MOCK = [];
 
 export default function HRTraining() {
   const {
@@ -84,7 +23,7 @@ export default function HRTraining() {
     undefined
   );
 
-  const [localTrainings, setLocalTrainings] = useState(INITIAL_TRAININGS_MOCK);
+  const [localTrainings, setLocalTrainings] = useState([]);
   const [roleFilter, setRoleFilter] = useState('ALL');
   const [statusFilter, setStatusFilter] = useState('ALL');
 

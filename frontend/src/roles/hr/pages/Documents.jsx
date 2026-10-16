@@ -16,86 +16,7 @@ const DOCUMENT_CATEGORIES = [
   'Expiring Documents'
 ];
 
-const INITIAL_DOCS_MOCK = [
-  {
-    id: 'DOC-101',
-    name: 'Aadhaar Card & PAN Card Verification',
-    owner_name: 'Priyadharshini Kumar',
-    owner_role: 'EMPLOYEE',
-    category: 'Employee Documents',
-    document_type: 'National ID & Tax Card',
-    status: 'VERIFIED',
-    uploaded_at: '2026-09-15',
-    expiry_date: '2034-01-01',
-    verified_by: 'Karthik Subramanian (HR Lead)',
-    file_size: '2.4 MB'
-  },
-  {
-    id: 'DOC-102',
-    name: 'College Bonafide & NOC Certificate',
-    owner_name: 'Vikas Sundaram',
-    owner_role: 'INTERN',
-    category: 'Intern Documents',
-    document_type: 'Academic NOC',
-    status: 'PENDING',
-    uploaded_at: '2026-09-28',
-    expiry_date: '2026-12-31',
-    verified_by: 'Under Review',
-    file_size: '1.1 MB'
-  },
-  {
-    id: 'DOC-103',
-    name: '10th & 12th Academic Marks Transcript',
-    owner_name: 'Aishwarya Rajesh',
-    owner_role: 'STUDENT',
-    category: 'Student Documents',
-    document_type: 'Course Admission Proof',
-    status: 'VERIFIED',
-    uploaded_at: '2026-08-16',
-    expiry_date: 'N/A',
-    verified_by: 'Admissions Desk',
-    file_size: '3.8 MB'
-  },
-  {
-    id: 'DOC-104',
-    name: 'Previous Relieving Letter & Salary Slips',
-    owner_name: 'Soundarya Raman',
-    owner_role: 'EMPLOYEE',
-    category: 'Employee Documents',
-    document_type: 'Prior Service Proof',
-    status: 'PENDING',
-    uploaded_at: '2026-09-29',
-    expiry_date: 'N/A',
-    verified_by: 'Under Review',
-    file_size: '4.2 MB'
-  },
-  {
-    id: 'DOC-105',
-    name: 'Signed Internship Agreement & Code of Conduct',
-    owner_name: 'Dharani Velu',
-    owner_role: 'INTERN',
-    category: 'Intern Documents',
-    document_type: 'Legal Agreement',
-    status: 'REJECTED',
-    uploaded_at: '2026-09-22',
-    expiry_date: 'N/A',
-    verified_by: 'HR Operations (Missing Signature on Page 3)',
-    file_size: '1.9 MB'
-  },
-  {
-    id: 'DOC-106',
-    name: 'Passport & Work Visa Clearance',
-    owner_name: 'Arunmozhi Varman',
-    owner_role: 'EMPLOYEE',
-    category: 'Expiring Documents',
-    document_type: 'International Travel ID',
-    status: 'VERIFIED',
-    uploaded_at: '2024-02-10',
-    expiry_date: '2026-10-25',
-    verified_by: 'Compliance Team',
-    file_size: '2.1 MB'
-  }
-];
+const INITIAL_DOCS_MOCK = [];
 
 export default function HRDocuments() {
   const {
@@ -116,7 +37,7 @@ export default function HRDocuments() {
     undefined
   );
 
-  const [localDocs, setLocalDocs] = useState(INITIAL_DOCS_MOCK);
+  const [localDocs, setLocalDocs] = useState([]);
   const [activeCategory, setActiveCategory] = useState('ALL');
 
   const [showAddModal, setShowAddModal] = useState(false);

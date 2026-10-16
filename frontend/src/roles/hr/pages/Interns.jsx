@@ -7,6 +7,7 @@ import { listInterns, createIntern, updateIntern, deleteIntern } from '../../../
 
 const INTERNSHIP_STATUSES = [
   'ALL',
+  'Active',
   'Applied',
   'Interview',
   'Selected',
@@ -18,96 +19,7 @@ const INTERNSHIP_STATUSES = [
   'Completed'
 ];
 
-const INITIAL_INTERNS_MOCK = [
-  {
-    id: 'INT-2026-01',
-    name: 'Vikas Sundaram',
-    email: 'vikas.sundaram@gmail.com',
-    phone: '+91 98402 11223',
-    college: 'PSG College of Technology, Coimbatore',
-    degree: 'B.Tech Information Technology (Final Year)',
-    department: 'Engineering',
-    role: 'React & Node.js Intern',
-    mentor: 'Vigneshwaran P.',
-    pm: 'Arunmozhi Varman',
-    start_date: '2026-08-01',
-    end_date: '2026-10-31',
-    duration: '3 Months',
-    plan_name: '60-Day Advanced Internship Plan',
-    attendance: 96,
-    training_progress: 85,
-    project_assigned: 'Ethiroli Student Analytics Microservice',
-    performance_score: '4.8 / 5.0 (Excellent)',
-    certificate_status: 'Eligible (Post Evaluation)',
-    status: 'Project'
-  },
-  {
-    id: 'INT-2026-02',
-    name: 'Dharani Velu',
-    email: 'dharani.velu@outlook.com',
-    phone: '+91 97901 33445',
-    college: 'SSN College of Engineering, Chennai',
-    degree: 'B.E. Computer Science & Engineering',
-    department: 'Design',
-    role: 'UI/UX Design Intern',
-    mentor: 'Soundarya Raman',
-    pm: 'Arunmozhi Varman',
-    start_date: '2026-09-01',
-    end_date: '2026-11-30',
-    duration: '3 Months',
-    plan_name: '30-Day Intern Onboarding Plan',
-    attendance: 100,
-    training_progress: 60,
-    project_assigned: 'Enterprise Dashboard Glassmorphism Redesign',
-    performance_score: '4.6 / 5.0 (Very Good)',
-    certificate_status: 'In Progress',
-    status: 'Training'
-  },
-  {
-    id: 'INT-2026-03',
-    name: 'Rithwik Sridhar',
-    email: 'rithwik.s@gmail.com',
-    phone: '+91 94440 99881',
-    college: 'Thiagarajar College of Engineering, Madurai',
-    degree: 'B.Tech AI & Data Science',
-    department: 'Engineering',
-    role: 'AI / Machine Learning Intern',
-    mentor: 'Karthik Subramanian',
-    pm: 'Arunmozhi Varman',
-    start_date: '2026-07-01',
-    end_date: '2026-09-30',
-    duration: '3 Months',
-    plan_name: '60-Day Advanced Internship Plan',
-    attendance: 98,
-    training_progress: 100,
-    project_assigned: 'AI Curriculum Assessment Engine',
-    performance_score: '4.9 / 5.0 (Outstanding PPO Candidate)',
-    certificate_status: 'Issued & Verified',
-    status: 'Completed'
-  },
-  {
-    id: 'INT-2026-04',
-    name: 'Kavitha Ramachandran',
-    email: 'kavitha.r@gmail.com',
-    phone: '+91 98841 55667',
-    college: 'MIT Campus, Anna University',
-    degree: 'M.Sc Computer Science',
-    department: 'Engineering',
-    role: 'Full Stack Web Intern',
-    mentor: 'Priyadharshini Kumar',
-    pm: 'Arunmozhi Varman',
-    start_date: '2026-10-01',
-    end_date: '2026-12-31',
-    duration: '3 Months',
-    plan_name: '30-Day Intern Onboarding Plan',
-    attendance: 0,
-    training_progress: 0,
-    project_assigned: 'Pending Allocation',
-    performance_score: 'Not Assessed Yet',
-    certificate_status: 'Pending',
-    status: 'Offer'
-  }
-];
+const INITIAL_INTERNS_MOCK = [];
 
 export default function HRInterns() {
   const {
@@ -131,7 +43,7 @@ export default function HRInterns() {
     undefined
   );
 
-  const [localInterns, setLocalInterns] = useState(INITIAL_INTERNS_MOCK);
+  const [localInterns, setLocalInterns] = useState([]);
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [deptFilter, setDeptFilter] = useState('ALL');
 
@@ -148,13 +60,13 @@ export default function HRInterns() {
     degree: '',
     department: 'Engineering',
     role: '',
-    mentor: 'Vigneshwaran P.',
-    pm: 'Arunmozhi Varman',
+    mentor: 'HR Manager',
+    pm: 'Technical Project Manager',
     start_date: new Date().toISOString().split('T')[0],
     end_date: '',
     duration: '3 Months',
     plan_name: '30-Day Intern Onboarding Plan',
-    status: 'Onboarding'
+    status: 'Active'
   });
 
   const showToast = (msg) => {
@@ -163,10 +75,27 @@ export default function HRInterns() {
   };
 
   const internList = useMemo(() => {
-    if (Array.isArray(fetchedInterns) && fetchedInterns.length > 0) {
-      return fetchedInterns;
-    }
-    return localInterns;
+    const rawList = Array.isArray(fetchedInterns) && fetchedInterns.length > 0
+      ? fetchedInterns
+      : localInterns;
+
+    return rawList.map((intern) => ({
+      ...intern,
+      id: intern.id,
+      name: intern.name || intern.full_name || 'Intern',
+      email: intern.email || '—',
+      phone: intern.phone || intern.personal?.phone || '—',
+      college: intern.college || intern.college_name || intern.academic?.college || 'Engineering Institution',
+      degree: intern.degree || intern.academic?.degree || 'Undergraduate',
+      department: intern.department || intern.academic?.department || 'Engineering',
+      role: intern.role || intern.project_target || intern.internship?.assignedProject || 'Intern Track',
+      mentor: intern.mentor || intern.mentor_name || 'Assigned Mentor',
+      duration: intern.duration || '3 Months',
+      start_date: intern.start_date ? new Date(intern.start_date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '—',
+      end_date: intern.end_date ? new Date(intern.end_date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '—',
+      training_progress: intern.training_progress !== undefined ? intern.training_progress : (intern.progress || intern.internship?.progress || 0),
+      status: intern.status || intern.internship?.status || 'Active'
+    }));
   }, [fetchedInterns, localInterns]);
 
   const filteredInterns = useMemo(() => {
@@ -243,8 +172,10 @@ export default function HRInterns() {
 
   const getStatusBadge = (status) => {
     switch (status) {
+      case 'Active':
+      case 'ACTIVE':
       case 'Completed':
-        return <span className="badge bg-success">Completed</span>;
+        return <span className="badge bg-success">{status}</span>;
       case 'Project':
       case 'Training':
       case 'Evaluation':

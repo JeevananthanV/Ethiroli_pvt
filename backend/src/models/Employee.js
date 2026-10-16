@@ -22,14 +22,11 @@ export default class Employee {
       pan: safeDecrypt(row.pan),
       bank_account: safeDecrypt(row.bank_account),
       pf_number: safeDecrypt(row.pf_number),
-      // uan was added encrypted by migration 013 but was never decrypted here, so
-      // the Employee Profile's "PF / UAN" row would have rendered the raw
-      // ciphertext to the employee once HR populated it.
       uan: safeDecrypt(row.uan),
-      // bank_name / bank_ifsc are public branch identifiers (printed on a cheque
-      // book and in every UPI id) and are stored in plain text by migration 016.
-      // blood_group / emergency_contact / address are self-service plain text,
-      // consistent with users.phone.
+      joining_date: row.date_of_joining ? new Date(row.date_of_joining).toISOString().slice(0, 10) : null,
+      status: row.status || (row.is_active ? 'Active' : 'Inactive'),
+      attendance_rate: row.attendance_rate !== undefined ? row.attendance_rate : 100,
+      leaves_balance: row.leaves_balance !== undefined ? row.leaves_balance : 12
     };
   }
 

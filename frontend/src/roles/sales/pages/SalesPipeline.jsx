@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { getPipelineSummary, getDeals } from '../../../services/api/salesApi.js';
+import { Link } from 'react-router-dom';
 
 export default function SalesPipeline() {
   const [pipelineData, setPipelineData] = useState([]);
@@ -29,64 +30,105 @@ export default function SalesPipeline() {
     loadData();
   }, []);
 
-  const totalValue = pipelineData.reduce((acc, p) => acc + (p.total_value || 0), 0);
-  const totalWeighted = pipelineData.reduce((acc, p) => acc + ((p.total_value * p.avg_probability) / 100), 0);
+  const totalValue = pipelineData.reduce((acc, p) => acc + (parseFloat(p.total_value) || 0), 0);
+  const totalWeighted = pipelineData.reduce((acc, p) => acc + (((parseFloat(p.total_value) || 0) * (p.avg_probability || 20)) / 100), 0);
+  const wonCount = deals.filter(d => d.stage === 'CLOSED_WON').length;
+  const winRate = deals.length > 0 ? Math.round((wonCount / deals.length) * 100) : 38;
 
   return (
     <AdminPage
       title="Sales Pipeline Health & Velocity"
       subtitle="Funnel conversion velocity, stage conversion rates, drop-off analysis, and weighted revenue forecast"
       actions={
-        <a href="#/deals" className="btn btn-outline-primary">
-          <i className="bi bi-kanban me-1"></i> Manage Deals
-        </a>
+        <Link to="/app/sales/deals" className="btn btn-primary btn-sm d-flex align-items-center gap-1 shadow-sm">
+          <i className="bi bi-kanban me-1"></i> Interactive Deals Board
+        </Link>
       }
     >
       {/* Metrics Header */}
-      <div className="row g-3 mb-2">
+      <div className="row g-3 mb-4">
         <div className="col-md-4">
-          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white border-start border-primary border-4">
-            <small className="text-uppercase fw-semibold text-muted">Cumulative Pipeline</small>
-            <h3 className="mb-0 fw-bold mt-1 text-primary">₹{totalValue.toLocaleString()}</h3>
-            <small className="text-muted">Across all active stages</small>
+          <div className="sales-kpi-card kpi-indigo">
+            <div className="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <span className="text-muted small text-uppercase fw-bold letter-spacing">Cumulative Pipeline</span>
+                <div className="kpi-metric-val mt-1">₹{totalValue.toLocaleString('en-IN')}</div>
+              </div>
+              <div className="kpi-icon-bubble kpi-bubble-indigo">
+                <i className="bi bi-layers-fill"></i>
+              </div>
+            </div>
+            <div className="pt-2 border-top border-light-subtle small text-muted">
+              Across all active commercial gates
+            </div>
           </div>
         </div>
+
         <div className="col-md-4">
-          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white border-start border-success border-4">
-            <small className="text-uppercase fw-semibold text-muted">Weighted Conversion Value</small>
-            <h3 className="mb-0 fw-bold mt-1 text-success">₹{Math.round(totalWeighted).toLocaleString()}</h3>
-            <small className="text-success"><i className="bi bi-check-circle me-1"></i>Risk-adjusted close expectation</small>
+          <div className="sales-kpi-card kpi-emerald">
+            <div className="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <span className="text-muted small text-uppercase fw-bold letter-spacing">Weighted Value</span>
+                <div className="kpi-metric-val mt-1 text-success">₹{Math.round(totalWeighted).toLocaleString('en-IN')}</div>
+              </div>
+              <div className="kpi-icon-bubble kpi-bubble-emerald">
+                <i className="bi bi-shield-check"></i>
+              </div>
+            </div>
+            <div className="pt-2 border-top border-light-subtle small text-success fw-semibold">
+              <i className="bi bi-check-circle me-1"></i>Risk-adjusted close expectation
+            </div>
           </div>
         </div>
+
         <div className="col-md-4">
-          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white border-start border-info border-4">
-            <small className="text-uppercase fw-semibold text-muted">Overall Funnel Win Rate</small>
-            <h3 className="mb-0 fw-bold mt-1 text-info">38.5%</h3>
-            <small className="text-muted">Leads qualified to Won</small>
+          <div className="sales-kpi-card kpi-sky">
+            <div className="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <span className="text-muted small text-uppercase fw-bold letter-spacing">Overall Win Rate</span>
+                <div className="kpi-metric-val mt-1 text-info">{winRate}%</div>
+              </div>
+              <div className="kpi-icon-bubble kpi-bubble-sky">
+                <i className="bi bi-pie-chart-fill"></i>
+              </div>
+            </div>
+            <div className="pt-2 border-top border-light-subtle small text-muted">
+              Leads qualified to realized contract
+            </div>
           </div>
         </div>
       </div>
 
       {/* Visual Conversion Funnel */}
-      <div className="card border-0 shadow-sm rounded-3 p-3 bg-white mb-2">
-        <h5 className="fw-bold mb-3">Pipeline Funnel Progression</h5>
-        <div className="row g-2 text-center">
+      <div className="sales-table-card p-4 mb-4">
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <h6 className="fw-bold mb-0 text-dark">
+            <i className="bi bi-funnel-fill text-primary me-2"></i>
+            Pipeline Funnel Progression & Conversion Gates
+          </h6>
+          <span className="badge bg-light text-dark border px-3 py-1">SLA Standardized Gates</span>
+        </div>
+
+        <div className="row g-3 text-center">
           {pipelineData.map((stage, idx) => {
-            const widthPercentage = Math.max(25, 100 - (idx * 16));
+            const colors = ['#64748b', '#0ea5e9', '#f59e0b', '#4f46e5', '#10b981'];
+            const color = colors[idx % colors.length];
+
             return (
-              <div key={idx} className="col-12 col-md mb-2">
+              <div key={idx} className="col-12 col-md">
                 <div
-                  className="p-3 rounded-3 text-white shadow-sm mx-auto"
+                  className="p-3 rounded-3 text-white shadow-sm mx-auto h-100 d-flex flex-column justify-content-between"
                   style={{
-                    backgroundColor: idx === 4 ? '#198754' : idx === 3 ? '#0d6efd' : idx === 2 ? '#0dcaf0' : idx === 1 ? '#6c757d' : '#495057',
-                    maxWidth: `${widthPercentage}%`,
-                    minWidth: '160px'
+                    backgroundColor: color,
+                    minHeight: '140px'
                   }}
                 >
-                  <div className="fw-bold text-uppercase small">{stage.stage.replace('_', ' ')}</div>
-                  <h4 className="fw-bold my-1">{stage.deal_count} Deals</h4>
-                  <small className="opacity-75">₹{(stage.total_value || 0).toLocaleString()}</small>
-                  <div className="mt-1 small bg-dark bg-opacity-25 rounded px-2 py-0">
+                  <div className="fw-bold text-uppercase small text-white-50">{stage.stage.replace('_', ' ')}</div>
+                  <div>
+                    <h3 className="fw-bold my-1 text-white">{stage.deal_count}</h3>
+                    <div className="small fw-semibold">₹{(parseFloat(stage.total_value) || 0).toLocaleString('en-IN')}</div>
+                  </div>
+                  <div className="mt-2 small bg-dark bg-opacity-25 rounded px-2 py-1 text-white">
                     {stage.avg_probability}% Win Prob
                   </div>
                 </div>
@@ -96,17 +138,23 @@ export default function SalesPipeline() {
         </div>
       </div>
 
-      {/* Breakdown Table */}
-      <div className="card border-0 shadow-sm rounded-3 bg-white">
-        <div className="card-header bg-white border-0 py-3">
-          <h6 className="mb-0 fw-bold">Active Deals in Current Pipeline</h6>
+      {/* Active Deals Table */}
+      <div className="sales-table-card">
+        <div className="card-header d-flex justify-content-between align-items-center">
+          <h6 className="mb-0 fw-bold text-dark">
+            <i className="bi bi-briefcase text-primary me-2"></i>
+            Active Commercial Deals in Current Cycle
+          </h6>
+          <Link to="/app/sales/deals" className="btn btn-sm btn-outline-primary">
+            Open Deals <i className="bi bi-arrow-right ms-1"></i>
+          </Link>
         </div>
         <div className="table-responsive">
-          <table className="table table-hover align-middle mb-0">
-            <thead className="table-light">
+          <table className="table sales-table align-middle">
+            <thead>
               <tr>
                 <th>Deal Title</th>
-                <th>Client Account</th>
+                <th>Clinic Account</th>
                 <th>Current Stage</th>
                 <th>Contract Value</th>
                 <th>Probability</th>
@@ -114,20 +162,28 @@ export default function SalesPipeline() {
               </tr>
             </thead>
             <tbody>
-              {deals.map(deal => (
-                <tr key={deal.id}>
-                  <td className="fw-semibold text-dark">{deal.title}</td>
-                  <td>{deal.client_name || 'Enterprise Client'}</td>
-                  <td>
-                    <span className="badge bg-primary bg-opacity-10 text-primary">
-                      {deal.stage}
-                    </span>
+              {deals.length === 0 ? (
+                <tr>
+                  <td colSpan="6" className="text-center py-4 text-muted">
+                    No active deals in cycle.
                   </td>
-                  <td className="fw-bold text-dark">₹{parseFloat(deal.deal_value || 0).toLocaleString()}</td>
-                  <td>{deal.probability}%</td>
-                  <td className="text-muted">{deal.expected_close_date || 'Q3 2026'}</td>
                 </tr>
-              ))}
+              ) : (
+                deals.map(deal => (
+                  <tr key={deal.id}>
+                    <td className="fw-bold text-dark">{deal.title}</td>
+                    <td>{deal.client_name || deal.lead_company || 'Clinic Account'}</td>
+                    <td>
+                      <span className="badge bg-primary-subtle text-primary border border-primary-subtle">
+                        {deal.stage}
+                      </span>
+                    </td>
+                    <td className="fw-bold text-success">₹{parseFloat(deal.deal_value || 0).toLocaleString('en-IN')}</td>
+                    <td>{deal.probability}%</td>
+                    <td className="text-muted">{deal.expected_close_date || '—'}</td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

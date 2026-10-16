@@ -32,11 +32,14 @@ export default function SalesReports() {
       subtitle="Executive revenue pacing, lead conversion funnel, sales rep leaderboards, and historical win/loss ratios"
     >
       {/* Row 1: Funnel & Rep Leaderboard */}
-      <div className="row g-4 mb-2">
+      <div className="row g-4 mb-4">
         {/* Lead Funnel */}
         <div className="col-lg-6">
-          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100">
-            <h5 className="fw-bold mb-3">CRM Lead Conversion Funnel</h5>
+          <div className="sales-table-card p-3 h-100">
+            <h6 className="fw-bold mb-3 text-dark">
+              <i className="bi bi-funnel text-primary me-2"></i>
+              CRM Lead Conversion Funnel
+            </h6>
             <div className="d-flex flex-column gap-3">
               {reports?.lead_funnel?.map((item, idx) => {
                 const max = reports.lead_funnel[0]?.count || 1;
@@ -47,7 +50,7 @@ export default function SalesReports() {
                       <span className="fw-semibold text-dark">{item.status}</span>
                       <strong>{item.count} Leads ({pct}%)</strong>
                     </div>
-                    <div className="progress" style={{ height: '10px' }}>
+                    <div className="progress" style={{ height: '8px' }}>
                       <div
                         className={`progress-bar ${
                           idx === 3 ? 'bg-success' : idx === 2 ? 'bg-primary' : idx === 1 ? 'bg-info' : 'bg-secondary'
@@ -61,7 +64,7 @@ export default function SalesReports() {
               })}
             </div>
 
-            <div className="p-3 bg-light rounded-3 mt-4 d-flex justify-content-around text-center">
+            <div className="p-3 bg-light rounded-3 mt-4 d-flex justify-content-around text-center border">
               <div>
                 <small className="text-muted d-block">Overall Conversion</small>
                 <strong className="fs-5 text-success">29.1%</strong>
@@ -80,11 +83,14 @@ export default function SalesReports() {
 
         {/* Rep Leaderboard */}
         <div className="col-lg-6">
-          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100">
-            <h5 className="fw-bold mb-3">Sales Representative Leaderboard</h5>
+          <div className="sales-table-card p-3 h-100">
+            <h6 className="fw-bold mb-3 text-dark">
+              <i className="bi bi-trophy text-warning me-2"></i>
+              Sales Associate Leaderboard
+            </h6>
             <div className="table-responsive">
-              <table className="table table-hover align-middle mb-0">
-                <thead className="table-light">
+              <table className="table sales-table align-middle mb-0">
+                <thead>
                   <tr>
                     <th>Rank</th>
                     <th>Representative</th>
@@ -104,15 +110,15 @@ export default function SalesReports() {
                       </td>
                       <td>
                         <div className="fw-bold text-dark">{rep.name}</div>
-                        <small className="text-muted">Enterprise Account Exec</small>
+                        <small className="text-muted">Business Development Associate</small>
                       </td>
                       <td>
-                        <span className="badge bg-primary bg-opacity-10 text-primary fw-bold">
+                        <span className="badge bg-primary-subtle text-primary border border-primary-subtle fw-bold">
                           {rep.deals_won} Deals
                         </span>
                       </td>
                       <td>
-                        <strong className="text-success">₹{(rep.closed_revenue || 0).toLocaleString()}</strong>
+                        <strong className="text-success">₹{(rep.closed_revenue || 0).toLocaleString('en-IN')}</strong>
                       </td>
                     </tr>
                   ))}
@@ -124,10 +130,13 @@ export default function SalesReports() {
       </div>
 
       {/* Row 2: Monthly Win/Loss Pacing Table */}
-      <div className="card border-0 shadow-sm rounded-3 bg-white p-3">
-        <h5 className="fw-bold mb-3">Historical Monthly Bookings & Pacing</h5>
+      <div className="sales-table-card p-3">
+        <h6 className="fw-bold mb-3 text-dark">
+          <i className="bi bi-calendar-range text-primary me-2"></i>
+          Historical Monthly Bookings & Pacing
+        </h6>
         <div className="table-responsive">
-          <table className="table table-hover align-middle mb-0">
+          <table className="table sales-table align-middle mb-0">
             <thead className="table-light">
               <tr>
                 <th>Month</th>

@@ -56,7 +56,7 @@ export default function Leads() {
   const [bdaFilter, setBdaFilter] = useState('');
   const [viewScope, setViewScope] = useState('all'); // 'my' | 'all'
 
-  // Detailed Lead Inspection Modal
+  // Detailed Lead Inspection Modal / Drawer
   const [inspectingLead, setInspectingLead] = useState(null);
 
   // Add / Edit Modal
@@ -99,12 +99,11 @@ export default function Leads() {
   const loadLeads = async () => {
     try {
       setLoading(true);
-      const res = await getLeads({ limit: 200 });
+      const res = await getLeads({ limit: 250 });
       const items = res?.items || (Array.isArray(res) ? res : []);
       setLeads(items);
     } catch (err) {
       console.error('Failed to load leads:', err);
-      setLeads([]);
     } finally {
       setLoading(false);
     }
@@ -114,15 +113,40 @@ export default function Leads() {
     loadLeads();
   }, []);
 
-  // Dynamically extract distinct BDA names from real loaded data
-  const dynamicBdaList = Array.from(new Set(leads.map(l => l.bda_name).filter(Boolean)));
+  const dynamicBdaList = Array.from(
+    new Set(leads.map(l => l.bda_name).filter(Boolean))
+  );
+
+  const filtered = leads.filter(lead => {
+    const q = searchTerm.toLowerCase();
+    const clinic = (lead.company_name || '').toLowerCase();
+    const doc = (lead.first_name || lead.name || '').toLowerCase();
+    const phone = (lead.phone || '').toLowerCase();
+    const code = (lead.lead_code || '').toLowerCase();
+    const dist = (lead.district || '').toLowerCase();
+
+    const matchesSearch = !searchTerm || clinic.includes(q) || doc.includes(q) || phone.includes(q) || code.includes(q) || dist.includes(q);
+    const matchesDistrict = !districtFilter || lead.district === districtFilter;
+    const matchesPackage = !packageFilter || (lead.service_interested && lead.service_interested.includes(packageFilter)) || (lead.package_tier && lead.package_tier.includes(packageFilter));
+    const matchesStatus = !statusFilter || (lead.pipeline_stage && lead.pipeline_stage.includes(statusFilter)) || (lead.status && lead.status === statusFilter);
+    const matchesBda = !bdaFilter || lead.bda_name === bdaFilter;
+
+    let matchesScope = true;
+    if (viewScope === 'my' && user) {
+      const uName = (user.name || user.full_name || '').toLowerCase();
+      const bda = (lead.bda_name || '').toLowerCase();
+      matchesScope = (lead.assigned_to && String(lead.assigned_to) === String(user.id)) || (uName && bda && (uName.includes(bda) || bda.includes(uName)));
+    }
+
+    return matchesSearch && matchesDistrict && matchesPackage && matchesStatus && matchesBda && matchesScope;
+  });
 
   const handleOpenAdd = () => {
     setEditingLead(null);
     setIsCustomDistrict(false);
     setCustomDistrictText('');
     setLeadForm({
-      lead_code: `ETH-2026-${String(leads.length + 1).padStart(3, '0')}`,
+      lead_code: `ETH-${new Date().getFullYear()}-${String(leads.length + 1).padStart(3, '0')}`,
       first_name: '',
       last_name: '',
       company_name: '',
@@ -135,9 +159,9 @@ export default function Leads() {
       pipeline_stage: 'Stage 1: Lead Ingestion & Qualification Discovery',
       status: 'NEW',
       source: 'PHONE',
-      follow_up_date: new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10),
+      follow_up_date: new Date(Date.now() + 86400000).toISOString().slice(0, 10),
       meeting_date: '',
-      next_action: 'Initiate 15-minute SLA qualification sequence with Doctor.',
+      next_action: 'Perform outbound discovery call and audit website/socials.',
       lost_reason: '',
       notes: ''
     });
@@ -213,7 +237,7 @@ export default function Leads() {
   const handleOpenConvert = (lead) => {
     setConvertData({
       lead_id: lead.id,
-      title: `${lead.company_name || lead.first_name} - ${lead.package_tier || 'Healthcare'} Agreement`,
+      title: `${lead.company_name || lead.first_name} - Healthcare Contract Closure`,
       deal_value: lead.quoted_amount || 55000,
       contact_name: `${lead.first_name || lead.name || ''} ${lead.last_name || ''}`.trim(),
       expected_close_date: new Date(Date.now() + 30 * 86400000).toISOString().slice(0, 10)
@@ -224,11 +248,13 @@ export default function Leads() {
   const handleExecuteConvert = async (e) => {
     e.preventDefault();
     try {
-      await convertLead({
-        leadId: convertData.lead_id,
+      await convertLead(convertData.lead_id, {
         dealValue: convertData.deal_value,
         stage: 'CLOSED_WON',
-        notes: `Converted to deal from CRM Lead ID: ${convertData.lead_id}`
+        title: convertData.title,
+        contact_name: convertData.contact_name,
+        expectedCloseDate: convertData.expected_close_date,
+        notes: `Converted to active contract from Lead ID: ${convertData.lead_id}`
       });
       loadLeads();
       setShowConvertModal(false);
@@ -248,119 +274,108 @@ export default function Leads() {
     }
   };
 
-  // Filter leads based on user search, filters, and dynamic scope
-  const filtered = leads.filter(l => {
-    const q = searchTerm.toLowerCase();
-    const leadCode = (l.lead_code || '').toLowerCase();
-    const fullName = `${l.first_name || l.name || ''} ${l.last_name || ''}`.toLowerCase();
-    const company = (l.company_name || '').toLowerCase();
-    const phone = (l.phone || '').toLowerCase();
-    const notes = (l.notes || '').toLowerCase();
-    const district = (l.district || '').toLowerCase();
-    const bda = (l.bda_name || '').toLowerCase();
-    const service = (l.service_interested || '').toLowerCase();
-
-    const matchesSearch = leadCode.includes(q) || fullName.includes(q) || company.includes(q) || phone.includes(q) || notes.includes(q);
-    const matchesDistrict = !districtFilter || district.includes(districtFilter.toLowerCase()) || notes.includes(districtFilter.toLowerCase());
-    const matchesBda = !bdaFilter || bda.includes(bdaFilter.toLowerCase());
-    const matchesStatus = !statusFilter || l.status === statusFilter || (l.pipeline_stage || '').includes(statusFilter);
-    const matchesPackage = !packageFilter || service.includes(packageFilter.toLowerCase());
-    const matchesScope = viewScope === 'all' || l.assigned_to === user?.id;
-
-    return matchesSearch && matchesDistrict && matchesBda && matchesStatus && matchesPackage && matchesScope;
-  });
-
   return (
     <AdminPage
-      title="Clinic & Healthcare Outreach CRM"
-      subtitle="Full 17-field B2B pipeline, commercial package alignment, and territorial tracking"
-    >
-      {/* Top Scope and Action Bar */}
-      <div className="card border-0 shadow-sm rounded-3 p-3 bg-white mb-3">
-        <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
-          <div className="d-flex flex-wrap align-items-center gap-2">
-            <span className="fw-semibold small text-muted text-uppercase me-2">View Scope:</span>
+      title="Healthcare Commercial Leads"
+      subtitle="Structured 17-field B2B SaaS tracking blueprint, Tamil Nadu clinic outreach, and territory conversion"
+      actions={
+        <div className="d-flex align-items-center gap-2">
+          <div className="btn-group btn-group-sm">
             <button
               type="button"
-              className={`btn btn-sm ${viewScope === 'all' ? 'btn-primary' : 'btn-outline-secondary'}`}
-              onClick={() => { setViewScope('all'); setBdaFilter(''); }}
+              className={`btn ${viewScope === 'all' ? 'btn-primary' : 'btn-outline-primary'}`}
+              onClick={() => setViewScope('all')}
             >
-              All Territory Leads ({leads.length})
+              All Territory ({leads.length})
             </button>
             <button
               type="button"
-              className={`btn btn-sm ${viewScope === 'my' ? 'btn-primary' : 'btn-outline-secondary'}`}
+              className={`btn ${viewScope === 'my' ? 'btn-primary' : 'btn-outline-primary'}`}
               onClick={() => setViewScope('my')}
             >
-              <i className="bi bi-person-check me-1"></i> My Assigned Leads
+              My Territory Leads
             </button>
           </div>
 
-          <div>
-            <button className="btn btn-primary" onClick={handleOpenAdd}>
-              <i className="bi bi-plus-lg me-1"></i> Add Dental Lead
-            </button>
-          </div>
+          <button
+            className="btn btn-primary btn-sm d-flex align-items-center gap-1 shadow-sm"
+            onClick={handleOpenAdd}
+          >
+            <i className="bi bi-plus-lg"></i>
+            <span>Add Healthcare Lead</span>
+          </button>
         </div>
+      }
+    >
+      {/* 1-Click Territory Quick Filter Bar */}
+      <div className="sales-filter-bar mb-3">
+        <div className="d-flex flex-wrap justify-content-between align-items-center gap-2">
+          <div className="d-flex align-items-center gap-2">
+            <span className="small text-muted fw-bold text-uppercase">Territory:</span>
+            <div className="territory-pills">
+              <button
+                type="button"
+                className={`territory-pill-btn ${districtFilter === '' ? 'active' : ''}`}
+                onClick={() => setDistrictFilter('')}
+              >
+                All Hubs ({leads.length})
+              </button>
+              <button
+                type="button"
+                className={`territory-pill-btn ${districtFilter === 'Rasipuram' ? 'active' : ''}`}
+                onClick={() => setDistrictFilter('Rasipuram')}
+              >
+                Rasipuram (15)
+              </button>
+              <button
+                type="button"
+                className={`territory-pill-btn ${districtFilter === 'Erode' ? 'active' : ''}`}
+                onClick={() => setDistrictFilter('Erode')}
+              >
+                Erode (35)
+              </button>
+              <button
+                type="button"
+                className={`territory-pill-btn ${districtFilter === 'Namakkal' ? 'active' : ''}`}
+                onClick={() => setDistrictFilter('Namakkal')}
+              >
+                Namakkal (26)
+              </button>
+              <button
+                type="button"
+                className={`territory-pill-btn ${districtFilter === 'Omalur' ? 'active' : ''}`}
+                onClick={() => setDistrictFilter('Omalur')}
+              >
+                Omalur (21)
+              </button>
+              <button
+                type="button"
+                className={`territory-pill-btn ${districtFilter === 'Salem' ? 'active' : ''}`}
+                onClick={() => setDistrictFilter('Salem')}
+              >
+                Salem (3)
+              </button>
+            </div>
+          </div>
 
-        {/* Territory District Chips */}
-        <div className="d-flex flex-wrap align-items-center gap-1 pt-2 border-top">
-          <span className="small text-muted fw-semibold me-2">Focus Locations:</span>
-          <button
-            type="button"
-            className={`btn btn-xs py-1 px-2 ${districtFilter === '' ? 'btn-dark' : 'btn-light border'}`}
-            onClick={() => setDistrictFilter('')}
-          >
-            All Areas ({leads.length})
-          </button>
-          <button
-            type="button"
-            className={`btn btn-xs py-1 px-2 ${districtFilter === 'Rasipuram' ? 'btn-dark' : 'btn-light border'}`}
-            onClick={() => setDistrictFilter('Rasipuram')}
-          >
-            📍 Rasipuram (15)
-          </button>
-          <button
-            type="button"
-            className={`btn btn-xs py-1 px-2 ${districtFilter === 'Erode' ? 'btn-dark' : 'btn-light border'}`}
-            onClick={() => setDistrictFilter('Erode')}
-          >
-            📍 Erode (35)
-          </button>
-          <button
-            type="button"
-            className={`btn btn-xs py-1 px-2 ${districtFilter === 'Namakkal' ? 'btn-dark' : 'btn-light border'}`}
-            onClick={() => setDistrictFilter('Namakkal')}
-          >
-            📍 Namakkal (26)
-          </button>
-          <button
-            type="button"
-            className={`btn btn-xs py-1 px-2 ${districtFilter === 'Omalur' ? 'btn-dark' : 'btn-light border'}`}
-            onClick={() => setDistrictFilter('Omalur')}
-          >
-            📍 Omalur (21)
-          </button>
-          <button
-            type="button"
-            className={`btn btn-xs py-1 px-2 ${districtFilter === 'Salem' ? 'btn-dark' : 'btn-light border'}`}
-            onClick={() => setDistrictFilter('Salem')}
-          >
-            📍 Salem (3)
-          </button>
+          <div className="d-flex align-items-center gap-2">
+            <span className="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1">
+              {filtered.length} Leads Displayed
+            </span>
+          </div>
         </div>
       </div>
 
-      {/* Filter Toolbar */}
+      {/* Advanced Filter Toolbar */}
       <div className="card border-0 shadow-sm rounded-3 p-3 bg-white mb-3">
         <div className="row g-2 align-items-center">
-          <div className="col-lg-3 col-md-6">
+          <div className="col-lg-4 col-md-6">
             <div className="input-group">
               <span className="input-group-text bg-light border-end-0"><i className="bi bi-search text-muted"></i></span>
               <input
                 type="text"
                 className="form-control bg-light border-start-0"
-                placeholder="Search clinic, doctor, phone..."
+                placeholder="Search clinic, doctor name, phone, lead code..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -370,44 +385,24 @@ export default function Leads() {
           <div className="col-lg-3 col-md-3">
             <select
               className="form-select bg-light"
-              value={districtFilter}
-              onChange={(e) => setDistrictFilter(e.target.value)}
-            >
-              <option value="">All Locations</option>
-              <optgroup label="Clusters / Taluks">
-                {CUSTOM_LOCATIONS.map((loc) => (
-                  <option key={loc} value={loc}>{loc}</option>
-                ))}
-              </optgroup>
-              <optgroup label="Tamil Nadu 38 Districts">
-                {TN_DISTRICTS.map((dst) => (
-                  <option key={dst} value={dst}>{dst}</option>
-                ))}
-              </optgroup>
-            </select>
-          </div>
-
-          <div className="col-lg-3 col-md-3">
-            <select
-              className="form-select bg-light"
               value={packageFilter}
               onChange={(e) => setPackageFilter(e.target.value)}
             >
-              <option value="">All Packages</option>
+              <option value="">All Package Tiers</option>
               {COMMERCIAL_PACKAGES.map((pkg) => (
                 <option key={pkg.name} value={pkg.tier}>{pkg.name}</option>
               ))}
             </select>
           </div>
 
-          <div className="col-lg-3 col-md-6">
+          <div className="col-lg-3 col-md-3">
             {dynamicBdaList.length > 1 ? (
               <select
                 className="form-select bg-light"
                 value={bdaFilter}
                 onChange={(e) => setBdaFilter(e.target.value)}
               >
-                <option value="">All Associates ({dynamicBdaList.length})</option>
+                <option value="">All Assigned Associates ({dynamicBdaList.length})</option>
                 {dynamicBdaList.map((b) => (
                   <option key={b} value={b}>{b}</option>
                 ))}
@@ -418,7 +413,7 @@ export default function Leads() {
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
               >
-                <option value="">All Stages</option>
+                <option value="">All Pipeline Stages</option>
                 <option value="Stage 1">Stage 1: Lead Ingestion & Qualification</option>
                 <option value="Stage 2">Stage 2: Strategic Discovery & Demo</option>
                 <option value="Stage 3">Stage 3: Solution Scoping & Proposal</option>
@@ -428,88 +423,98 @@ export default function Leads() {
               </select>
             )}
           </div>
+
+          <div className="col-lg-2 col-md-12 text-end">
+            <button
+              className="btn btn-outline-secondary btn-sm w-100"
+              onClick={() => {
+                setSearchTerm('');
+                setDistrictFilter('');
+                setPackageFilter('');
+                setStatusFilter('');
+                setBdaFilter('');
+              }}
+            >
+              <i className="bi bi-x-circle me-1"></i> Reset Filters
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Leads Table */}
-      <div className="card border-0 shadow-sm rounded-3 bg-white overflow-hidden mb-4">
-        <div className="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
+      <div className="sales-table-card mb-4">
+        <div className="card-header d-flex justify-content-between align-items-center">
           <div className="d-flex align-items-center gap-2">
-            <h5 className="fw-bold mb-0 text-dark">
+            <h6 className="fw-bold mb-0 text-dark">
               <i className="bi bi-hospital text-primary me-2"></i>
-              Verified Healthcare Leads
-            </h5>
-            <span className="badge bg-primary rounded-pill px-3 py-1">
+              Verified Healthcare Leads Directory
+            </h6>
+            <span className="badge bg-primary rounded-pill px-2 py-1 small">
               {filtered.length} Leads
             </span>
           </div>
-
           <div className="text-muted small">
-            Tamil Nadu Healthcare Outreach
+            Tamil Nadu Healthcare Outreach &bull; 17-Field Commercial Pipeline
           </div>
         </div>
 
         <div className="table-responsive">
-          <table className="table align-middle table-hover mb-0">
-            <thead className="table-light text-uppercase small text-muted">
+          <table className="table sales-table align-middle">
+            <thead>
               <tr>
-                <th>Lead Code</th>
+                <th>Lead ID</th>
                 <th>Clinic & Decision Maker</th>
-                <th>Phone Number</th>
+                <th>Direct Contact</th>
                 <th>District / Area</th>
-                <th>Associate</th>
-                <th>Package Tier</th>
-                <th>Stage & Next Action</th>
+                <th>Assigned BDA</th>
+                <th>Interested Package</th>
+                <th>Pipeline Stage & Action Gate</th>
                 <th className="text-end">Actions</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan="8" className="text-center py-5 text-muted">
-                    <div className="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
-                    Loading verified leads from live database...
+                  <td colSpan="8" className="text-center py-5">
+                    <div className="spinner-border text-primary spinner-border-sm me-2" role="status"></div>
+                    Loading healthcare leads...
                   </td>
                 </tr>
               ) : filtered.length === 0 ? (
                 <tr>
                   <td colSpan="8" className="text-center py-5 text-muted">
-                    <i className="bi bi-inbox fs-2 d-block mb-2 text-secondary"></i>
-                    No leads found matching your criteria.
+                    No leads found matching the selected filters.
                   </td>
                 </tr>
               ) : (
                 filtered.map((lead) => (
                   <tr key={lead.id}>
                     <td>
-                      <span className="badge bg-light text-dark border font-monospace">
-                        {lead.lead_code || `ETH-2026`}
+                      <span className="font-monospace fw-semibold text-primary small">
+                        {lead.lead_code || `ETH-${lead.id}`}
                       </span>
                     </td>
                     <td>
-                      <div className="fw-bold text-dark d-flex align-items-center">
-                        <i className="bi bi-heart-pulse-fill text-danger me-2"></i>
-                        <span>{lead.company_name || 'Clinic Name Not Listed'}</span>
-                      </div>
+                      <div className="fw-bold text-dark">{lead.company_name}</div>
                       <div className="small text-muted">
-                        <i className="bi bi-person-fill text-secondary me-1"></i>
-                        {lead.first_name || lead.name || 'Doctor Not Listed'}
+                        <i className="bi bi-person me-1"></i>
+                        {lead.first_name || lead.name || 'Doctor In-charge'}
                       </div>
                     </td>
                     <td>
                       {lead.phone ? (
                         <div className="d-flex flex-column gap-1">
-                          <a href={`tel:${lead.phone}`} className="badge bg-light text-primary border text-decoration-none px-2 py-1">
-                            <i className="bi bi-telephone-fill me-1"></i>
+                          <a href={`tel:${lead.phone}`} className="action-pill-btn action-pill-phone">
+                            <i className="bi bi-telephone-fill"></i>
                             {lead.phone}
                           </a>
                           <a 
                             href={`https://wa.me/91${lead.phone}`} 
                             target="_blank" 
                             rel="noreferrer"
-                            className="badge bg-success-subtle text-success border border-success-subtle text-decoration-none px-2 py-1"
+                            className="action-pill-btn action-pill-whatsapp"
                           >
-                            <i className="bi bi-whatsapp me-1"></i> WhatsApp
+                            <i className="bi bi-whatsapp"></i> WhatsApp
                           </a>
                         </div>
                       ) : (
@@ -523,7 +528,7 @@ export default function Leads() {
                     </td>
                     <td>
                       <span className="badge bg-light text-dark border px-2 py-1">
-                        <i className="bi bi-person me-1"></i>
+                        <i className="bi bi-person-badge me-1"></i>
                         {lead.bda_name || 'Associate'}
                       </span>
                     </td>
@@ -594,92 +599,133 @@ export default function Leads() {
         </div>
       </div>
 
-      {/* 17-Field Full Inspection Modal */}
+      {/* Slide-out Inspection Drawer (17-Field Full Blueprint) */}
       {inspectingLead && (
-        <div className="modal d-block" style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}>
-          <div className="modal-dialog modal-dialog-centered modal-lg">
-            <div className="modal-content border-0 shadow-lg rounded-3">
-              <div className="modal-header bg-dark text-white">
-                <div>
-                  <h5 className="modal-title fw-bold mb-0">
-                    <i className="bi bi-shield-check text-success me-2"></i>
-                    {inspectingLead.company_name}
-                  </h5>
-                  <small className="text-muted font-monospace">{inspectingLead.lead_code || 'ETH-2026'}</small>
-                </div>
-                <button type="button" className="btn-close btn-close-white" onClick={() => setInspectingLead(null)}></button>
+        <>
+          <div className="sp-drawer-backdrop" onClick={() => setInspectingLead(null)}></div>
+          <div className="sp-drawer-panel">
+            <div className="d-flex justify-content-between align-items-center p-3 border-bottom bg-dark text-white">
+              <div>
+                <h5 className="fw-bold mb-0">
+                  <i className="bi bi-shield-check text-success me-2"></i>
+                  {inspectingLead.company_name}
+                </h5>
+                <small className="text-muted font-monospace">{inspectingLead.lead_code || 'ETH-2026'}</small>
               </div>
-              <div className="modal-body p-4">
-                <div className="row g-3">
-                  <div className="col-md-6">
-                    <div className="p-3 bg-light rounded-3 border">
-                      <span className="small text-muted fw-semibold">Doctor / Decision Maker</span>
-                      <h6 className="fw-bold text-dark mt-1 mb-0">{inspectingLead.first_name || inspectingLead.name || 'N/A'}</h6>
-                      <div className="text-muted small mt-1">Primary MD & Clinic Director</div>
-                    </div>
+              <button
+                type="button"
+                className="btn-close btn-close-white"
+                onClick={() => setInspectingLead(null)}
+              ></button>
+            </div>
+
+            <div className="p-4 overflow-auto flex-grow-1">
+              <div className="row g-3">
+                <div className="col-12">
+                  <div className="sp-detail-card">
+                    <span className="small text-muted fw-bold text-uppercase">Doctor / Decision Maker</span>
+                    <h5 className="fw-bold text-dark mt-1 mb-0">{inspectingLead.first_name || inspectingLead.name || 'N/A'}</h5>
+                    <div className="text-muted small mt-1">Clinic Director & Key Commercial Decision Maker</div>
                   </div>
-                  <div className="col-md-6">
-                    <div className="p-3 bg-light rounded-3 border">
-                      <span className="small text-muted fw-semibold">Contact Phone Number</span>
-                      <h6 className="fw-bold text-primary mt-1 mb-0">{inspectingLead.phone || 'N/A'}</h6>
-                      <div className="text-muted small mt-1">10-Digit Mobile / WhatsApp Verified</div>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="p-3 bg-light rounded-3 border">
-                      <span className="small text-muted fw-semibold">District / Area</span>
-                      <h6 className="fw-bold text-dark mt-1 mb-0">{inspectingLead.district || 'Tamil Nadu'}</h6>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="p-3 bg-light rounded-3 border">
-                      <span className="small text-muted fw-semibold">Assigned Associate</span>
-                      <h6 className="fw-bold text-dark mt-1 mb-0">{inspectingLead.bda_name || 'Associate'}</h6>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="p-3 bg-light rounded-3 border">
-                      <span className="small text-muted fw-semibold">Interest Level</span>
-                      <h6 className="fw-bold text-dark mt-1 mb-0">
-                        <span className="badge bg-danger-subtle text-danger border border-danger-subtle">
-                          {inspectingLead.interest_level || 'WARM'}
-                        </span>
-                      </h6>
-                    </div>
-                  </div>
-                  <div className="col-md-8">
-                    <div className="p-3 bg-light rounded-3 border">
-                      <span className="small text-muted fw-semibold">Service Package Interested In</span>
-                      <h6 className="fw-bold text-dark mt-1 mb-0">{inspectingLead.service_interested || 'Scale & Optimize'}</h6>
-                      <div className="text-muted small mt-1">Tier: {inspectingLead.package_tier || 'Standard Package'}</div>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="p-3 bg-light rounded-3 border">
-                      <span className="small text-muted fw-semibold">Quoted Amount</span>
-                      <h6 className="fw-bold text-success mt-1 mb-0 fs-5">
-                        ₹{parseFloat(inspectingLead.quoted_amount || 0).toLocaleString('en-IN')}
-                      </h6>
-                      <div className="text-muted small mt-1">Proposal Locked Gate</div>
-                    </div>
-                  </div>
-                  <div className="col-md-12">
-                    <div className="p-3 bg-light rounded-3 border border-primary">
-                      <span className="small text-primary fw-semibold text-uppercase">Active Pipeline Stage & Mandatory SLA Action Gate</span>
-                      <div className="fw-bold text-dark mt-1">{inspectingLead.pipeline_stage || 'Stage 1'}</div>
-                      <p className="text-secondary small mt-2 mb-0">
-                        <i className="bi bi-arrow-right-circle-fill text-primary me-1"></i>
-                        {inspectingLead.next_action || 'Execute outbound qualification sequence.'}
-                      </p>
+                </div>
+
+                <div className="col-md-6">
+                  <div className="sp-detail-card">
+                    <span className="small text-muted fw-bold text-uppercase">Direct Phone</span>
+                    <h6 className="fw-bold text-primary mt-1 mb-2">{inspectingLead.phone || 'N/A'}</h6>
+                    <div className="d-flex gap-2">
+                      <a href={`tel:${inspectingLead.phone}`} className="action-pill-btn action-pill-phone">
+                        <i className="bi bi-telephone-fill"></i> Call Now
+                      </a>
+                      <a 
+                        href={`https://wa.me/91${inspectingLead.phone}`} 
+                        target="_blank" 
+                        rel="noreferrer"
+                        className="action-pill-btn action-pill-whatsapp"
+                      >
+                        <i className="bi bi-whatsapp"></i> WhatsApp
+                      </a>
                     </div>
                   </div>
                 </div>
+
+                <div className="col-md-6">
+                  <div className="sp-detail-card">
+                    <span className="small text-muted fw-bold text-uppercase">District / Area</span>
+                    <h6 className="fw-bold text-dark mt-1 mb-0">{inspectingLead.district || 'Tamil Nadu'}</h6>
+                    <div className="text-muted small mt-1">Territory Hub</div>
+                  </div>
+                </div>
+
+                <div className="col-md-6">
+                  <div className="sp-detail-card">
+                    <span className="small text-muted fw-bold text-uppercase">Assigned Associate</span>
+                    <h6 className="fw-bold text-dark mt-1 mb-0">{inspectingLead.bda_name || 'Active Rep'}</h6>
+                  </div>
+                </div>
+
+                <div className="col-md-6">
+                  <div className="sp-detail-card">
+                    <span className="small text-muted fw-bold text-uppercase">Interest Level</span>
+                    <h6 className="fw-bold text-dark mt-1 mb-0">
+                      <span className="badge bg-danger-subtle text-danger border border-danger-subtle">
+                        {inspectingLead.interest_level || 'WARM'}
+                      </span>
+                    </h6>
+                  </div>
+                </div>
+
+                <div className="col-12">
+                  <div className="sp-detail-card">
+                    <div className="d-flex justify-content-between align-items-center">
+                      <div>
+                        <span className="small text-muted fw-bold text-uppercase">Package Interested In</span>
+                        <h6 className="fw-bold text-dark mt-1 mb-0">{inspectingLead.service_interested || 'Scale & Optimize'}</h6>
+                        <div className="text-muted small mt-1">Tier: {inspectingLead.package_tier || 'Healthcare Growth'}</div>
+                      </div>
+                      <div className="text-end">
+                        <span className="small text-muted fw-bold text-uppercase">Quoted Amount</span>
+                        <div className="fw-bold text-success fs-5">
+                          ₹{parseFloat(inspectingLead.quoted_amount || 0).toLocaleString('en-IN')}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="col-12">
+                  <div className="sp-detail-card active-stage">
+                    <span className="small text-primary fw-bold text-uppercase">Active Pipeline Stage & Mandatory SLA Action</span>
+                    <div className="fw-bold text-dark mt-1 fs-6">{inspectingLead.pipeline_stage || 'Stage 1'}</div>
+                    <p className="text-secondary small mt-2 mb-0">
+                      <i className="bi bi-arrow-right-circle-fill text-primary me-1"></i>
+                      {inspectingLead.next_action || 'Execute outbound qualification sequence.'}
+                    </p>
+                  </div>
+                </div>
+
+                {inspectingLead.meeting_date && (
+                  <div className="col-12">
+                    <div className="sp-detail-card">
+                      <span className="small text-muted fw-bold text-uppercase">Scheduled Consultation / Demo</span>
+                      <div className="fw-bold text-dark mt-1">
+                        <i className="bi bi-calendar-event text-primary me-2"></i>
+                        {new Date(inspectingLead.meeting_date).toLocaleString()}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-light" onClick={() => setInspectingLead(null)}>Close</button>
+            </div>
+
+            <div className="p-3 border-top bg-light d-flex justify-content-between">
+              <button type="button" className="btn btn-light" onClick={() => setInspectingLead(null)}>
+                Close
+              </button>
+              <div className="d-flex gap-2">
                 <button 
                   type="button" 
-                  className="btn btn-primary"
+                  className="btn btn-outline-primary"
                   onClick={() => {
                     const l = inspectingLead;
                     setInspectingLead(null);
@@ -688,10 +734,21 @@ export default function Leads() {
                 >
                   <i className="bi bi-pencil me-1"></i> Edit Lead
                 </button>
+                <button
+                  type="button"
+                  className="btn btn-success"
+                  onClick={() => {
+                    const l = inspectingLead;
+                    setInspectingLead(null);
+                    handleOpenConvert(l);
+                  }}
+                >
+                  <i className="bi bi-lightning-charge-fill me-1"></i> Convert to Deal
+                </button>
               </div>
             </div>
           </div>
-        </div>
+        </>
       )}
 
       {/* Add / Edit Lead Modal */}

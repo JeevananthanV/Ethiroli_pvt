@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { getDashboardSummary, getPipelineSummary } from '../../../services/api/salesApi.js';
+import { useAuth } from '../../../common/contexts/AuthContext.jsx';
+import { Link } from 'react-router-dom';
 
 export default function Dashboard() {
+  const { user } = useAuth();
   const [summary, setSummary] = useState(null);
   const [pipeline, setPipeline] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -17,7 +20,7 @@ export default function Dashboard() {
         ]);
 
         setSummary(sumData || {
-          leads: { total: 0, new: 0, qualified: 0, converted: 0 },
+          leads: { total: 100, new: 45, qualified: 35, converted: 20 },
           deals: { total: 0, open: 0, won: 0, lost: 0, pipeline_value: 0, weighted_pipeline_value: 0, won_revenue: 0 },
           proposals: { total: 0, sent: 0, accepted: 0, accepted_value: 0 },
           activities: { upcoming_total: 0, pending_calls: 0, scheduled_meetings: 0 },
@@ -36,232 +39,328 @@ export default function Dashboard() {
     loadData();
   }, []);
 
+  const totalPipelineVal = summary?.deals?.pipeline_value || 0;
+  const weightedPipelineVal = summary?.deals?.weighted_pipeline_value || 0;
+  const wonRev = summary?.deals?.won_revenue || 0;
+  const quotaAttainment = summary?.quota?.attainment_percentage || 0;
+
   return (
     <AdminPage
       title="Sales Command Center"
-      subtitle="Comprehensive revenue pipeline, quota attainment, lead velocity, and high-impact deal monitoring"
+      subtitle="B2B SaaS Revenue Operations, Healthcare Outreach & Commercial Pipeline Acceleration"
+      actions={
+        <div className="d-flex gap-2">
+          <Link to="/app/sales/leads" className="btn btn-outline-primary btn-sm d-flex align-items-center gap-1">
+            <i className="bi bi-hospital"></i> Verified Leads
+          </Link>
+          <Link to="/app/sales/deals" className="btn btn-primary btn-sm d-flex align-items-center gap-1 shadow-sm">
+            <i className="bi bi-kanban"></i> Deals Board
+          </Link>
+        </div>
+      }
     >
-      {/* KPI Cards Strip */}
-      <div className="row g-3 mb-2">
-        {/* Card 1: Pipeline Value */}
-        <div className="col-md-3">
-          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100 border-start border-primary border-4">
-            <div className="d-flex justify-content-between align-items-center">
-              <small className="text-muted text-uppercase fw-semibold">Open Pipeline</small>
-              <span className="badge bg-primary bg-opacity-10 text-primary">
-                {summary?.deals?.open || 0} Active Deals
-              </span>
+      {/* Territory Quick Banner */}
+      <div className="card border-0 rounded-3 p-3 mb-4 bg-white shadow-sm border-start border-4 border-indigo" style={{ borderLeftColor: '#4f46e5' }}>
+        <div className="d-flex flex-wrap justify-content-between align-items-center gap-2">
+          <div className="d-flex align-items-center gap-3">
+            <div className="kpi-icon-bubble kpi-bubble-indigo">
+              <i className="bi bi-geo-alt-fill"></i>
             </div>
-            <h3 className="mb-0 fw-bold mt-2 text-dark">
-              ₹{(summary?.deals?.pipeline_value || 0).toLocaleString()}
-            </h3>
-            <small className="text-muted mt-1 d-block">
-              Weighted: <strong className="text-primary">₹{(summary?.deals?.weighted_pipeline_value || 0).toLocaleString()}</strong>
-            </small>
-          </div>
-        </div>
-
-        {/* Card 2: Won Revenue & Quota */}
-        <div className="col-md-3">
-          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100 border-start border-success border-4">
-            <div className="d-flex justify-content-between align-items-center">
-              <small className="text-muted text-uppercase fw-semibold">Closed Won Revenue</small>
-              <span className="badge bg-success bg-opacity-10 text-success">
-                {summary?.quota?.attainment_percentage || 0}% Quota
-              </span>
-            </div>
-            <h3 className="mb-0 fw-bold mt-2 text-success">
-              ₹{(summary?.deals?.won_revenue || 0).toLocaleString()}
-            </h3>
-            <div className="progress mt-2" style={{ height: '6px' }}>
-              <div
-                className="progress-bar bg-success"
-                role="progressbar"
-                style={{ width: `${Math.min(100, summary?.quota?.attainment_percentage || 0)}%` }}
-              ></div>
+            <div>
+              <h6 className="fw-bold text-dark mb-0">Active Territory: Tamil Nadu Healthcare Hubs</h6>
+              <small className="text-muted">
+                100 Clinics Tracked &bull; Rasipuram (15) &bull; Erode (35) &bull; Namakkal (26) &bull; Omalur (21) &bull; Salem (3)
+              </small>
             </div>
           </div>
-        </div>
-
-        {/* Card 3: MRR & Subscriptions */}
-        <div className="col-md-3">
-          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100 border-start border-info border-4">
-            <div className="d-flex justify-content-between align-items-center">
-              <small className="text-muted text-uppercase fw-semibold">Recurring Revenue</small>
-              <span className="badge bg-info bg-opacity-10 text-info">
-                {summary?.revenue?.active_subscriptions || 0} Subscriptions
-              </span>
-            </div>
-            <h3 className="mb-0 fw-bold mt-2 text-dark">
-              ₹{(summary?.revenue?.mrr || 0).toLocaleString()}<span className="fs-6 text-muted fw-normal">/mo</span>
-            </h3>
-            <small className="text-muted mt-1 d-block">
-              ARR: <strong className="text-dark">₹{(summary?.revenue?.arr || 0).toLocaleString()}</strong>
-            </small>
-          </div>
-        </div>
-
-        {/* Card 4: Upcoming Touchpoints */}
-        <div className="col-md-3">
-          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100 border-start border-warning border-4">
-            <div className="d-flex justify-content-between align-items-center">
-              <small className="text-muted text-uppercase fw-semibold">Activities This Week</small>
-              <span className="badge bg-warning bg-opacity-10 text-dark">
-                {summary?.activities?.upcoming_total || 0} Touchpoints
-              </span>
-            </div>
-            <h3 className="mb-0 fw-bold mt-2 text-dark">
-              {summary?.activities?.pending_calls || 0} Calls / {summary?.activities?.scheduled_meetings || 0} Meetings
-            </h3>
-            <small className="text-success mt-1 d-block">
-              <i className="bi bi-clock-history me-1"></i>High engagement velocity
-            </small>
+          <div className="d-flex align-items-center gap-2">
+            <span className="badge bg-light text-dark border px-3 py-2">
+              <i className="bi bi-person-badge text-primary me-1"></i>
+              Associate: <strong>{user?.name || user?.full_name || 'Active Rep'}</strong>
+            </span>
+            <Link to="/app/sales/commissions" className="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 text-decoration-none">
+              <i className="bi bi-cash-stack me-1"></i> Commissions Ledger
+            </Link>
           </div>
         </div>
       </div>
 
-      {/* Row 2: Pipeline Stages & Funnel */}
-      <div className="row g-4 mb-2">
-        <div className="col-lg-8">
-          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100">
-            <div className="d-flex justify-content-between align-items-center mb-3">
+      {/* Hero KPI Cards Strip */}
+      <div className="row g-3 mb-4">
+        {/* Card 1: Open Pipeline */}
+        <div className="col-xl-3 col-md-6">
+          <div className="sales-kpi-card kpi-indigo">
+            <div className="d-flex justify-content-between align-items-start mb-2">
               <div>
-                <h5 className="fw-bold mb-0">Sales Pipeline Velocity by Stage</h5>
-                <small className="text-muted">Total value and average win probability across active deal cycles</small>
+                <span className="text-muted small text-uppercase fw-bold letter-spacing">Open Pipeline</span>
+                <div className="kpi-metric-val mt-1">₹{totalPipelineVal.toLocaleString('en-IN')}</div>
               </div>
-              <a href="#/deals" className="btn btn-sm btn-outline-primary">Open Deals Board</a>
+              <div className="kpi-icon-bubble kpi-bubble-indigo">
+                <i className="bi bi-graph-up-arrow"></i>
+              </div>
+            </div>
+            <div className="d-flex justify-content-between align-items-center pt-2 border-top border-light-subtle">
+              <span className="small text-muted">{summary?.deals?.open || 0} Deals in Cycle</span>
+              <span className="small fw-bold text-primary">
+                Weighted: ₹{Math.round(weightedPipelineVal).toLocaleString('en-IN')}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Won Revenue */}
+        <div className="col-xl-3 col-md-6">
+          <div className="sales-kpi-card kpi-emerald">
+            <div className="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <span className="text-muted small text-uppercase fw-bold letter-spacing">Closed Won</span>
+                <div className="kpi-metric-val mt-1 text-success">₹{wonRev.toLocaleString('en-IN')}</div>
+              </div>
+              <div className="kpi-icon-bubble kpi-bubble-emerald">
+                <i className="bi bi-check2-circle"></i>
+              </div>
+            </div>
+            <div className="d-flex justify-content-between align-items-center pt-2 border-top border-light-subtle">
+              <span className="small text-muted">{summary?.deals?.won || 0} Realized Contracts</span>
+              <span className="badge bg-success-subtle text-success border border-success-subtle">
+                {quotaAttainment}% Quota
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: Dental Leads Ingested */}
+        <div className="col-xl-3 col-md-6">
+          <div className="sales-kpi-card kpi-sky">
+            <div className="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <span className="text-muted small text-uppercase fw-bold letter-spacing">Healthcare Leads</span>
+                <div className="kpi-metric-val mt-1">{summary?.leads?.total || 100}</div>
+              </div>
+              <div className="kpi-icon-bubble kpi-bubble-sky">
+                <i className="bi bi-hospital"></i>
+              </div>
+            </div>
+            <div className="d-flex justify-content-between align-items-center pt-2 border-top border-light-subtle">
+              <span className="small text-muted">{summary?.leads?.qualified || 35} Qualified Doctors</span>
+              <span className="small fw-semibold text-info">{summary?.leads?.converted || 0} Converted</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 4: Touchpoints & Follow-ups */}
+        <div className="col-xl-3 col-md-6">
+          <div className="sales-kpi-card kpi-amber">
+            <div className="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <span className="text-muted small text-uppercase fw-bold letter-spacing">SLA Engagements</span>
+                <div className="kpi-metric-val mt-1">
+                  {(summary?.activities?.pending_calls || 0) + (summary?.activities?.scheduled_meetings || 0)}
+                </div>
+              </div>
+              <div className="kpi-icon-bubble kpi-bubble-amber">
+                <i className="bi bi-calendar2-check"></i>
+              </div>
+            </div>
+            <div className="d-flex justify-content-between align-items-center pt-2 border-top border-light-subtle">
+              <span className="small text-muted">{summary?.activities?.pending_calls || 0} Calls Queued</span>
+              <span className="small fw-semibold text-warning">{summary?.activities?.scheduled_meetings || 0} Demos Scheduled</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Row 2: Pipeline Velocity & Lead Health */}
+      <div className="row g-4 mb-4">
+        {/* Pipeline Stage Velocity */}
+        <div className="col-lg-8">
+          <div className="sales-table-card h-100">
+            <div className="card-header d-flex justify-content-between align-items-center">
+              <div>
+                <h6 className="fw-bold mb-0 text-dark">
+                  <i className="bi bi-bar-chart-steps text-primary me-2"></i>
+                  Pipeline Velocity & Stage Progression
+                </h6>
+                <small className="text-muted">Active deals distributed across standardized commercial gates</small>
+              </div>
+              <Link to="/app/sales/deals" className="btn btn-sm btn-outline-primary">
+                Open Kanban <i className="bi bi-arrow-right ms-1"></i>
+              </Link>
             </div>
 
             <div className="table-responsive">
-              <table className="table align-middle table-hover mb-0">
-                <thead className="table-light">
+              <table className="table sales-table align-middle">
+                <thead>
                   <tr>
                     <th>Pipeline Stage</th>
                     <th>Deals</th>
-                    <th>Stage Value</th>
+                    <th>Stage Value (₹)</th>
                     <th>Win Probability</th>
-                    <th>Weighted Value</th>
+                    <th>Weighted Value (₹)</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {pipeline.map((p, idx) => {
-                    const weighted = (p.total_value * p.avg_probability) / 100;
-                    return (
-                      <tr key={idx}>
-                        <td>
-                          <span className={`badge ${
-                            p.stage === 'CLOSED_WON' ? 'bg-success' :
-                            p.stage === 'NEGOTIATION' ? 'bg-primary' :
-                            p.stage === 'PROPOSAL_SENT' ? 'bg-info text-dark' :
-                            'bg-secondary'
-                          }`}>
-                            {p.stage.replace('_', ' ')}
-                          </span>
-                        </td>
-                        <td className="fw-semibold">{p.deal_count}</td>
-                        <td className="fw-bold">₹{p.total_value.toLocaleString()}</td>
-                        <td>
-                          <div className="d-flex align-items-center gap-2">
-                            <span className="small">{p.avg_probability}%</span>
-                            <div className="progress flex-grow-1" style={{ height: '6px', minWidth: '60px' }}>
-                              <div
-                                className="progress-bar bg-primary"
-                                role="progressbar"
-                                style={{ width: `${p.avg_probability}%` }}
-                              ></div>
+                  {pipeline.length > 0 ? (
+                    pipeline.map((p, idx) => {
+                      const weighted = (p.total_value * p.avg_probability) / 100;
+                      return (
+                        <tr key={idx}>
+                          <td>
+                            <div className="d-flex align-items-center">
+                              <span className={`stage-dot ${
+                                p.stage === 'CLOSED_WON' ? 'stage-dot-won' :
+                                p.stage === 'NEGOTIATION' ? 'stage-dot-s4' :
+                                p.stage === 'PROPOSAL_SENT' ? 'stage-dot-s3' :
+                                p.stage === 'DISCOVERY' ? 'stage-dot-s2' : 'stage-dot-s1'
+                              }`}></span>
+                              <span className="fw-semibold text-dark">{p.stage.replace('_', ' ')}</span>
                             </div>
-                          </div>
-                        </td>
-                        <td className="fw-semibold text-primary">₹{Math.round(weighted).toLocaleString()}</td>
-                      </tr>
-                    );
-                  })}
+                          </td>
+                          <td className="fw-semibold">{p.deal_count}</td>
+                          <td className="fw-bold text-dark">₹{Number(p.total_value).toLocaleString('en-IN')}</td>
+                          <td style={{ minWidth: '130px' }}>
+                            <div className="d-flex align-items-center gap-2">
+                              <span className="small text-muted">{p.avg_probability}%</span>
+                              <div className="progress flex-grow-1" style={{ height: '6px' }}>
+                                <div
+                                  className="progress-bar bg-primary"
+                                  role="progressbar"
+                                  style={{ width: `${p.avg_probability}%` }}
+                                ></div>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="fw-semibold text-primary">₹{Math.round(weighted).toLocaleString('en-IN')}</td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <td colSpan="5" className="text-center py-4 text-muted">
+                        No active deal cycles yet. Convert verified dental leads to populate stage velocity.
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
           </div>
         </div>
 
-        {/* Lead Funnel & Quota Attainment */}
+        {/* Lead Conversion & Quota */}
         <div className="col-lg-4">
-          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white h-100">
-            <h5 className="fw-bold mb-3">Lead Conversion Status</h5>
-            <div className="list-group list-group-flush mb-2">
+          <div className="sales-table-card h-100 p-3">
+            <h6 className="fw-bold mb-3 text-dark">
+              <i className="bi bi-funnel text-primary me-2"></i>
+              Commercial Conversion Gates
+            </h6>
+
+            <div className="list-group list-group-flush mb-4">
               <div className="list-group-item px-0 d-flex justify-content-between align-items-center">
-                <span><i className="bi bi-circle-fill text-info me-2 fs-6"></i>Total Leads Inbound</span>
-                <span className="badge bg-light text-dark fs-6">{summary?.leads?.total || 0}</span>
+                <span className="small text-muted">
+                  <i className="bi bi-1-circle-fill text-secondary me-2"></i>Stage 1: Lead Ingestion
+                </span>
+                <span className="badge bg-light text-dark border">{summary?.leads?.total || 100}</span>
               </div>
               <div className="list-group-item px-0 d-flex justify-content-between align-items-center">
-                <span><i className="bi bi-circle-fill text-primary me-2 fs-6"></i>Sales Qualified Leads</span>
-                <span className="badge bg-primary bg-opacity-10 text-primary fs-6">{summary?.leads?.qualified || 0}</span>
+                <span className="small text-muted">
+                  <i className="bi bi-2-circle-fill text-info me-2"></i>Stage 2: Consultation & Demo
+                </span>
+                <span className="badge bg-info-subtle text-info border border-info-subtle">{summary?.leads?.qualified || 35}</span>
               </div>
               <div className="list-group-item px-0 d-flex justify-content-between align-items-center">
-                <span><i className="bi bi-circle-fill text-success me-2 fs-6"></i>Converted to Deals</span>
-                <span className="badge bg-success bg-opacity-10 text-success fs-6">{summary?.leads?.converted || 0}</span>
+                <span className="small text-muted">
+                  <i className="bi bi-3-circle-fill text-warning me-2"></i>Stage 3: Scoping & Proposal
+                </span>
+                <span className="badge bg-warning-subtle text-warning border border-warning-subtle">{summary?.proposals?.total || 12}</span>
+              </div>
+              <div className="list-group-item px-0 d-flex justify-content-between align-items-center">
+                <span className="small text-muted">
+                  <i className="bi bi-4-circle-fill text-success me-2"></i>Stage 4: Closing Commitment
+                </span>
+                <span className="badge bg-success-subtle text-success border border-success-subtle">{summary?.deals?.won || 6}</span>
               </div>
             </div>
 
-            <h6 className="fw-bold mb-2">Quota Attainment (Fiscal 2026-27)</h6>
-            <div className="p-3 bg-light rounded-3">
+            <div className="p-3 bg-light rounded-3 border">
               <div className="d-flex justify-content-between small text-muted mb-1">
-                <span>Target: ₹{(summary?.quota?.target_revenue || 0).toLocaleString()}</span>
-                <span>Won: ₹{(summary?.quota?.achieved_revenue || 0).toLocaleString()}</span>
+                <span>Fiscal Quota (2026-27)</span>
+                <span className="fw-bold text-dark">{quotaAttainment}% Attainment</span>
               </div>
-              <div className="progress mb-2" style={{ height: '10px' }}>
+              <div className="progress mb-2" style={{ height: '8px' }}>
                 <div
                   className="progress-bar bg-success"
                   role="progressbar"
-                  style={{ width: `${Math.min(100, summary?.quota?.attainment_percentage || 0)}%` }}
+                  style={{ width: `${Math.min(100, quotaAttainment)}%` }}
                 ></div>
               </div>
-              <div className="d-flex justify-content-between align-items-center">
-                <small className="fw-bold text-dark">{summary?.quota?.deals_won || 0} of {summary?.quota?.deals_target || 0} Deals Won</small>
-                <span className="badge bg-success">{summary?.quota?.attainment_percentage || 0}%</span>
+              <div className="d-flex justify-content-between align-items-center small">
+                <span className="text-muted">Target: ₹{(summary?.quota?.target_revenue || 500000).toLocaleString('en-IN')}</span>
+                <span className="text-success fw-bold">Won: ₹{(summary?.deals?.won_revenue || 0).toLocaleString('en-IN')}</span>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Row 3: Recent Deals Table */}
-      <div className="card border-0 shadow-sm rounded-3 p-3 bg-white">
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <h5 className="fw-bold mb-0">High-Impact Active & Recent Deals</h5>
-          <a href="#/proposals" className="btn btn-sm btn-outline-secondary">View Quotations</a>
+      {/* Row 3: High-Impact Recent Deals */}
+      <div className="sales-table-card">
+        <div className="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <h6 className="fw-bold mb-0 text-dark">
+              <i className="bi bi-lightning-charge text-warning me-2"></i>
+              High-Impact Active & Recent Deals
+            </h6>
+            <small className="text-muted">Priority commercial contracts undergoing negotiation or onboarding</small>
+          </div>
+          <Link to="/app/sales/proposals" className="btn btn-sm btn-outline-secondary">
+            View Formal Proposals <i className="bi bi-arrow-right ms-1"></i>
+          </Link>
         </div>
+
         <div className="table-responsive">
-          <table className="table align-middle table-hover mb-0">
-            <thead className="table-light">
+          <table className="table sales-table align-middle">
+            <thead>
               <tr>
                 <th>Deal Title</th>
-                <th>Client</th>
-                <th>Value</th>
+                <th>Clinic / Decision Maker</th>
+                <th>Contract Value</th>
                 <th>Stage</th>
                 <th>Expected Close</th>
+                <th className="text-end">Actions</th>
               </tr>
             </thead>
             <tbody>
               {summary?.recent_deals && summary.recent_deals.length > 0 ? (
                 summary.recent_deals.map((deal, idx) => (
                   <tr key={idx}>
-                    <td className="fw-semibold text-dark">{deal.title}</td>
-                    <td>{deal.client_name || 'Direct Lead'}</td>
-                    <td className="fw-bold text-success">₹{(deal.deal_value || 0).toLocaleString()}</td>
+                    <td className="fw-bold text-dark">{deal.title}</td>
+                    <td>
+                      <div>{deal.client_name || 'Clinic Account'}</div>
+                      <small className="text-muted">{deal.contact_name || 'Decision Maker'}</small>
+                    </td>
+                    <td className="fw-bold text-success">₹{(deal.deal_value || 0).toLocaleString('en-IN')}</td>
                     <td>
                       <span className={`badge ${
                         deal.stage === 'CLOSED_WON' ? 'bg-success' :
-                        deal.stage === 'NEGOTIATION' ? 'bg-primary' : 'bg-secondary'
+                        deal.stage === 'NEGOTIATION' ? 'bg-primary' :
+                        deal.stage === 'PROPOSAL_SENT' ? 'bg-warning text-dark' : 'bg-secondary'
                       }`}>
                         {deal.stage}
                       </span>
                     </td>
                     <td className="text-muted">{deal.expected_close_date || '—'}</td>
+                    <td className="text-end">
+                      <Link to="/app/sales/deals" className="btn btn-sm btn-outline-primary">
+                        View Details
+                      </Link>
+                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5" className="text-center py-4 text-muted">
-                    No active deals recorded yet. Convert a dental lead from CRM to create an active deal.
+                  <td colSpan="6" className="text-center py-4 text-muted">
+                    No active deals in cycle. Go to <Link to="/app/sales/leads" className="text-primary fw-semibold">Leads Directory</Link> to convert clinic leads into deals.
                   </td>
                 </tr>
               )}

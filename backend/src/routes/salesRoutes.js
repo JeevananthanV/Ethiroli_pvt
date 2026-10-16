@@ -174,62 +174,66 @@ router.patch(
   })
 );
 
-// 8. Lead-to-Deal Conversion (atomic transaction - critical fix)
+// 8. Lead-to-Deal Conversion (atomic transaction with real lead context)
 router.post(
   '/leads/:id/convert',
   authenticate,
   requireRole('SALES', 'ADMIN', 'SUPER_ADMIN'),
   asyncHandler(async (req, res) => {
-    const { dealValue, stage } = req.body;
+    const { dealValue, stage, title, contact_name, notes, expectedCloseDate } = req.body;
     const leadId = req.params.id;
-
-    if (!dealValue || !stage) {
-      return res.status(400).json({
-        message: 'dealValue and stage are required',
-      });
-    }
 
     const connection = await pool.getConnection();
 
     try {
       await connection.beginTransaction();
 
-      // 1. Create the linked deal
+      // 1. Retrieve the existing lead
+      const [leads] = await connection.execute(
+        `SELECT * FROM leads WHERE id = ?`,
+        [leadId]
+      );
+      if (!leads.length) {
+        await connection.rollback();
+        return res.status(404).json({ message: 'Lead not found' });
+      }
+      const lead = leads[0];
+
+      const dealTitle = title || `${lead.company_name || 'Clinic'} - Contract Closure`;
+      const contactPerson = contact_name || lead.first_name || lead.name || 'Decision Maker';
+      const contactPhone = lead.phone || '';
+      const contactEmail = lead.email || '';
+      const dealStage = stage || 'QUALIFICATION';
+      const ownerId = lead.assigned_to || req.user?.id;
+      const val = parseFloat(dealValue) || parseFloat(lead.quoted_amount) || 55000;
+      const closeDate = expectedCloseDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+
+      // 2. Create the linked deal
       const [dealResult] = await connection.execute(
         `INSERT INTO sales_deals 
           (title, client_id, lead_id, contact_name, contact_email, contact_phone, 
            deal_value, currency, stage, probability, expected_close_date, owner_id, notes)
-         VALUES (
-           CONCAT('Converted Lead - ', ?),
-           NULL,
-           ?,
-           ?,
-           ?,
-           ?,
-           ?,
-           'INR',
-           20,
-           DATE_ADD(CURDATE(), INTERVAL 30 DAY),
-           ?,
-           ?
-         `,
-         [
-           stage,
-           leadId,
-           req.user?.contact_person || 'Unknown',
-           req.user?.email || '',
-           req.user?.phone || '',
-           dealValue,
-           req.user?.id,
-         ]
-       );
+         VALUES (?, NULL, ?, ?, ?, ?, ?, 'INR', 20, ?, ?, ?)`,
+        [
+          dealTitle,
+          leadId,
+          contactPerson,
+          contactEmail,
+          contactPhone,
+          val,
+          closeDate,
+          ownerId,
+          notes || lead.notes || ''
+        ]
+      );
 
-       const newDealId = dealResult.insertId;
+      const newDealId = dealResult.insertId;
 
-      // 2. Update the lead status to CONVERTED and link the deal
+      // 3. Update the lead status to CONVERTED and link the deal
       await connection.execute(
         `UPDATE leads
          SET status = 'CONVERTED',
+             pipeline_stage = 'Closed-Won (Onboarding Realization)',
              linked_deal_id = ?,
              converted_at = NOW(),
              updated_at = NOW()
@@ -237,21 +241,19 @@ router.post(
         [newDealId, leadId]
       );
 
-      // 3. Log the activity
+      // 4. Log the activity with correct column names (activity_type, description)
       await connection.execute(
         `INSERT INTO sales_activities
-          (type, title, lead_id, deal_id, performed_by, notes, created_at)
-         VALUES (
-           'DEAL_CREATED',
-           CONCAT('Lead converted to deal: ', ?),
-           ?,
-           ?,
-           ?,
-           CONCAT('Converted lead to deal at ', ?),
-           NOW()
-         `,
-         [stage, leadId, newDealId, req.user?.id, new Date().toISOString()]
-       );
+          (activity_type, title, lead_id, deal_id, performed_by, description, created_at)
+         VALUES ('NOTE', ?, ?, ?, ?, ?, NOW())`,
+        [
+          `Lead converted to deal: ${dealTitle}`,
+          leadId,
+          newDealId,
+          req.user?.id,
+          `Converted lead to active deal with value ₹${val.toLocaleString()}`
+        ]
+      );
 
       await connection.commit();
 
@@ -268,10 +270,8 @@ router.post(
         [newDealId]
       );
 
-      // Broadcast via socket (simplified)
-      // io.emit('lead/converted', { leadId, dealId: newDealId, deal: deal[0] });
-
       return res.status(200).json({
+        success: true,
         message: 'Lead converted successfully',
         deal: deal[0],
         leadId,

@@ -82,24 +82,27 @@ export default function Handover() {
   return (
     <AdminPage
       title="Customer Handover & Post-Sales Onboarding"
-      subtitle="Seamless transition of closed-won deals to Project Managers, Academic Coordinators, and Operations teams"
+      subtitle="Seamless transition of closed-won deals to Project Managers and Operations teams"
       actions={
-        <button className="btn btn-primary d-flex align-items-center gap-2" onClick={() => setShowModal(true)}>
+        <button className="btn btn-primary btn-sm d-flex align-items-center gap-1 shadow-sm" onClick={() => setShowModal(true)}>
           <i className="bi bi-box-arrow-right"></i>
           <span>Initiate Handover</span>
         </button>
       }
     >
-      <div className="card border-0 shadow-sm rounded-3 bg-white">
-        <div className="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
-          <h6 className="mb-0 fw-bold">Post-Sales Onboarding Queue</h6>
-          <span className="badge bg-light text-secondary border px-3 py-2">
+      <div className="sales-table-card">
+        <div className="card-header d-flex justify-content-between align-items-center">
+          <h6 className="mb-0 fw-bold text-dark">
+            <i className="bi bi-box-seam text-primary me-2"></i>
+            Post-Sales Onboarding Queue
+          </h6>
+          <span className="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1">
             {handovers.length} Handovers Tracked
           </span>
         </div>
 
         <div className="table-responsive">
-          <table className="table table-hover align-middle mb-0">
+          <table className="table sales-table align-middle mb-0">
             <thead className="table-light">
               <tr>
                 <th>Deal & Account</th>

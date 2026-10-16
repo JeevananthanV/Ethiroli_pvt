@@ -21,14 +21,20 @@ export const getDashboardSummary = asyncHandler(async (req, res) => {
   const isManagement = ['ADMIN', 'SUPER_ADMIN'].includes(req.user?.role);
 
   // 1. Leads overview
-  const [leadStats] = await pool.query(`
+  let leadSql = `
     SELECT 
       COUNT(*) as total_leads,
       COUNT(CASE WHEN status = 'NEW' THEN 1 END) as new_leads,
       COUNT(CASE WHEN status = 'QUALIFIED' THEN 1 END) as qualified_leads,
       COUNT(CASE WHEN status = 'CONVERTED' THEN 1 END) as converted_leads
     FROM leads
-  `);
+  `;
+  const leadParams = [];
+  if (!isManagement && currentUserId) {
+    leadSql += ` WHERE assigned_to = ?`;
+    leadParams.push(currentUserId);
+  }
+  const [leadStats] = await pool.query(leadSql, leadParams);
 
   // 2. Deals overview
   let dealsSql = `
@@ -102,14 +108,19 @@ export const getDashboardSummary = asyncHandler(async (req, res) => {
   const [targetStats] = await pool.query(targetSql, targetParams);
 
   // 7. Recent won deals for ticker
-  const [recentDeals] = await pool.query(`
+  let recentDealsSql = `
     SELECT d.id, d.title, d.deal_value, d.stage, d.expected_close_date,
-           c.company_name as client_name
+           c.company_name as client_name, d.contact_name
     FROM sales_deals d
     LEFT JOIN clients c ON d.client_id = c.id
-    ORDER BY d.created_at DESC
-    LIMIT 5
-  `);
+  `;
+  const recentParams = [];
+  if (!isManagement && currentUserId) {
+    recentDealsSql += ` WHERE d.owner_id = ?`;
+    recentParams.push(currentUserId);
+  }
+  recentDealsSql += ` ORDER BY d.created_at DESC LIMIT 5`;
+  const [recentDeals] = await pool.query(recentDealsSql, recentParams);
 
   const totalTarget = parseFloat(targetStats[0]?.total_target || 0);
   const totalAchieved = parseFloat(targetStats[0]?.total_achieved || 0);

@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import RouteLoader from '../../common/components/RouteLoader/RouteLoader.jsx';
+import './salesPortal.css';
 
 // Lazy-loaded Sales Pages
 const SalesDashboard = lazy(() => import('./pages/Dashboard.jsx'));

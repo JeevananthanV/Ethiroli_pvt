@@ -16,6 +16,7 @@ export default function SalesContacts() {
     email: '',
     phone: '',
     company_name: '',
+    district: 'Erode',
     status: 'QUALIFIED'
   });
 
@@ -30,16 +31,19 @@ export default function SalesContacts() {
   const fetchContacts = async () => {
     setLoading(true);
     try {
-      const res = await getLeads({ limit: 200 });
+      const res = await getLeads({ limit: 250 });
       const list = res?.items || (Array.isArray(res) ? res : []);
       setContacts(list.map(l => ({
         id: l.id,
-        name: `${l.first_name || l.name || ''} ${l.last_name || ''}`.trim() || 'Contact',
+        name: `${l.first_name || l.name || ''} ${l.last_name || ''}`.trim() || 'Doctor / Decision Maker',
         email: l.email,
         phone: l.phone,
         company: l.company_name || 'Clinic Account',
+        district: l.district || 'Tamil Nadu',
         status: l.status || 'NEW',
-        last_contacted: l.created_at ? new Date(l.created_at).toLocaleDateString() : 'Recent'
+        stage: l.pipeline_stage || 'Stage 1',
+        bda: l.bda_name || 'Associate',
+        last_contacted: l.last_contact_date ? new Date(l.last_contact_date).toLocaleDateString('en-IN') : 'Recent'
       })));
     } catch (err) {
       console.error('Failed to load contacts:', err);
@@ -55,10 +59,16 @@ export default function SalesContacts() {
   const handleCreateContact = async (e) => {
     e.preventDefault();
     try {
-      await createLead({ ...form, source: 'CRM_MANUAL' });
+      await createLead({
+        ...form,
+        name: form.first_name,
+        source: 'PHONE',
+        notes: `Direct Doctor Contact added via Contacts directory in ${form.district}`
+      });
       setShowAddModal(false);
-      setForm({ first_name: '', last_name: '', email: '', phone: '', company_name: '', status: 'QUALIFIED' });
+      setForm({ first_name: '', last_name: '', email: '', phone: '', company_name: '', district: 'Erode', status: 'QUALIFIED' });
       fetchContacts();
+      alert('Healthcare decision maker added successfully!');
     } catch (err) {
       alert('Failed to add contact: ' + err.message);
     }
@@ -73,106 +83,157 @@ export default function SalesContacts() {
         title: `${activityForm.activity_type}: ${selectedContact?.name || 'Contact'} - ${activityForm.title || 'Discussion'}`
       });
       setShowLogModal(false);
-      alert('Activity logged successfully!');
+      alert('Touchpoint logged successfully!');
     } catch (err) {
-      alert('Failed to log activity: ' + err.message);
+      alert('Failed to log touchpoint: ' + err.message);
     }
   };
 
   const filtered = contacts.filter(c => {
     const name = c.name || '';
     const company = c.company || '';
-    const email = c.email || '';
-    return !search || name.toLowerCase().includes(search.toLowerCase()) || company.toLowerCase().includes(search.toLowerCase()) || email.toLowerCase().includes(search.toLowerCase());
+    const phone = c.phone || '';
+    const dist = c.district || '';
+    const q = search.toLowerCase();
+    return !search || name.toLowerCase().includes(q) || company.toLowerCase().includes(q) || phone.toLowerCase().includes(q) || dist.toLowerCase().includes(q);
   });
 
   return (
     <AdminPage
-      title="CRM Contacts Directory"
-      subtitle="Key decision makers, department heads, and technical buyers across corporate accounts"
+      title="Healthcare Contacts Directory"
+      subtitle="Clinic directors, head dentists, and commercial decision makers across Tamil Nadu territory hubs"
       actions={
-        <button className="btn btn-primary d-flex align-items-center gap-2" onClick={() => setShowAddModal(true)}>
+        <button className="btn btn-primary btn-sm d-flex align-items-center gap-1 shadow-sm" onClick={() => setShowAddModal(true)}>
           <i className="bi bi-person-plus-fill"></i>
-          <span>Add Contact</span>
+          <span>Add Doctor Contact</span>
         </button>
       }
     >
-      <div className="card border-0 shadow-sm rounded-3">
-        <div className="card-header bg-white border-0 py-3">
-          <div className="input-group" style={{ maxWidth: '360px' }}>
-            <span className="input-group-text bg-light border-0"><i className="bi bi-search"></i></span>
-            <input
-              type="text"
-              className="form-control bg-light border-0"
-              placeholder="Search contacts by name, company, email..."
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-            />
+      {/* Search Header */}
+      <div className="card border-0 shadow-sm rounded-3 p-3 bg-white mb-3">
+        <div className="row g-2 align-items-center">
+          <div className="col-md-6">
+            <div className="input-group">
+              <span className="input-group-text bg-light border-end-0"><i className="bi bi-search text-muted"></i></span>
+              <input
+                type="text"
+                className="form-control bg-light border-start-0"
+                placeholder="Search by doctor name, clinic, phone, district..."
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="col-md-6 text-md-end">
+            <span className="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2">
+              {filtered.length} Healthcare Decision Makers
+            </span>
           </div>
         </div>
+      </div>
 
+      {/* Contacts Table */}
+      <div className="sales-table-card">
         <div className="table-responsive">
-          <table className="table table-hover align-middle mb-0">
-            <thead className="table-light">
+          <table className="table sales-table align-middle">
+            <thead>
               <tr>
-                <th>Contact Person</th>
-                <th>Company Account</th>
-                <th>Phone & Email</th>
+                <th>Decision Maker</th>
+                <th>Clinic / Business Name</th>
+                <th>Direct Outreach</th>
+                <th>District / Area</th>
+                <th>Assigned BDA</th>
                 <th>Relationship Stage</th>
-                <th>Last Active</th>
-                <th className="text-end">Quick Actions</th>
+                <th className="text-end">Touchpoint</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan="6" className="text-center py-4">Loading contacts directory...</td></tr>
+                <tr>
+                  <td colSpan="7" className="text-center py-5">
+                    <div className="spinner-border text-primary spinner-border-sm me-2" role="status"></div>
+                    Loading directory...
+                  </td>
+                </tr>
               ) : filtered.length === 0 ? (
-                <tr><td colSpan="6" className="text-center py-4 text-muted">No contacts found matching search criteria.</td></tr>
+                <tr>
+                  <td colSpan="7" className="text-center py-5 text-muted">
+                    No contacts match search criteria.
+                  </td>
+                </tr>
               ) : (
                 filtered.map(contact => (
                   <tr key={contact.id}>
                     <td>
                       <div className="d-flex align-items-center gap-2">
-                        <div className="rounded-circle bg-primary bg-opacity-10 text-primary fw-bold d-flex align-items-center justify-content-center" style={{ width: '38px', height: '38px' }}>
-                          {(contact.name || 'C').charAt(0).toUpperCase()}
+                        <div className="kpi-icon-bubble kpi-bubble-indigo" style={{ width: '38px', height: '38px', fontSize: '1rem' }}>
+                          <i className="bi bi-person-fill"></i>
                         </div>
                         <div>
-                          <div className="fw-semibold text-dark">{contact.name}</div>
-                          <small className="text-muted">Primary Decision Maker</small>
+                          <div className="fw-bold text-dark">{contact.name}</div>
+                          <small className="text-muted">Doctor / Director</small>
                         </div>
                       </div>
                     </td>
-                    <td className="fw-semibold">{contact.company || 'Enterprise Prospect'}</td>
                     <td>
-                      <div><i className="bi bi-telephone text-muted me-1 small"></i>{contact.phone || '—'}</div>
-                      <small className="text-muted"><i className="bi bi-envelope text-muted me-1 small"></i>{contact.email || '—'}</small>
+                      <div className="fw-semibold text-dark">{contact.company}</div>
                     </td>
                     <td>
-                      <span className="badge bg-primary bg-opacity-10 text-primary">
-                        {contact.status || 'ACTIVE'}
+                      {contact.phone ? (
+                        <div className="d-flex gap-1">
+                          <a href={`tel:${contact.phone}`} className="action-pill-btn action-pill-phone">
+                            <i className="bi bi-telephone-fill"></i> {contact.phone}
+                          </a>
+                          <a 
+                            href={`https://wa.me/91${contact.phone}`} 
+                            target="_blank" 
+                            rel="noreferrer"
+                            className="action-pill-btn action-pill-whatsapp"
+                          >
+                            <i className="bi bi-whatsapp"></i> WhatsApp
+                          </a>
+                        </div>
+                      ) : (
+                        <span className="text-muted small">—</span>
+                      )}
+                    </td>
+                    <td>
+                      <span className="badge bg-light text-dark border">
+                        <i className="bi bi-geo-alt-fill text-primary me-1"></i>
+                        {contact.district}
                       </span>
                     </td>
-                    <td><small className="text-muted">{contact.last_contacted || 'Recently'}</small></td>
+                    <td>
+                      <span className="badge bg-light text-dark border">
+                        {contact.bda}
+                      </span>
+                    </td>
+                    <td>
+                      <span className={`badge ${
+                        contact.status === 'CONVERTED' ? 'bg-success' :
+                        contact.status === 'LOST' ? 'bg-danger' :
+                        contact.status === 'DEMO' ? 'bg-info text-dark' : 'bg-primary-subtle text-primary border border-primary-subtle'
+                      }`}>
+                        {contact.stage || contact.status}
+                      </span>
+                    </td>
                     <td className="text-end">
-                      <div className="btn-group btn-group-sm">
-                        <button
-                          className="btn btn-outline-primary"
-                          title="Schedule Touchpoint"
-                          onClick={() => {
-                            setSelectedContact(contact);
-                            setActivityForm({
-                              activity_type: 'CALL',
-                              title: `Catch-up with ${contact.name}`,
-                              scheduled_at: new Date().toISOString().slice(0, 16),
-                              outcome: 'CONNECTED',
-                              description: ''
-                            });
-                            setShowLogModal(true);
-                          }}
-                        >
-                          <i className="bi bi-calendar-plus me-1"></i>Log Touchpoint
-                        </button>
-                      </div>
+                      <button
+                        className="btn btn-sm btn-outline-primary"
+                        onClick={() => {
+                          setSelectedContact(contact);
+                          setActivityForm({
+                            activity_type: 'CALL',
+                            title: `Catch-up with ${contact.name}`,
+                            scheduled_at: new Date().toISOString().slice(0, 16),
+                            outcome: 'CONNECTED',
+                            description: ''
+                          });
+                          setShowLogModal(true);
+                        }}
+                      >
+                        <i className="bi bi-calendar-plus me-1"></i> Log Touchpoint
+                      </button>
                     </td>
                   </tr>
                 ))
@@ -184,72 +245,66 @@ export default function SalesContacts() {
 
       {/* Add Contact Modal */}
       {showAddModal && (
-        <div className="modal d-block" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+        <div className="modal d-block" style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}>
           <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content border-0 shadow">
-              <div className="modal-header">
-                <h5 className="modal-title fw-bold">Add Enterprise Contact</h5>
-                <button type="button" className="btn-close" onClick={() => setShowAddModal(false)}></button>
+            <div className="modal-content border-0 shadow-lg rounded-3">
+              <div className="modal-header bg-primary text-white">
+                <h5 className="modal-title fw-bold">Add Healthcare Decision Maker</h5>
+                <button type="button" className="btn-close btn-close-white" onClick={() => setShowAddModal(false)}></button>
               </div>
               <form onSubmit={handleCreateContact}>
-                <div className="modal-body">
+                <div className="modal-body p-4">
                   <div className="row g-2 mb-3">
-                    <div className="col-6">
-                      <label className="form-label small fw-semibold">First Name *</label>
+                    <div className="col-12">
+                      <label className="form-label small fw-semibold">Doctor / Decision Maker Name *</label>
                       <input
                         type="text"
                         className="form-control"
                         required
+                        placeholder="Dr. Full Name"
                         value={form.first_name}
                         onChange={e => setForm({ ...form, first_name: e.target.value })}
                       />
                     </div>
-                    <div className="col-6">
-                      <label className="form-label small fw-semibold">Last Name</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        value={form.last_name}
-                        onChange={e => setForm({ ...form, last_name: e.target.value })}
-                      />
-                    </div>
                   </div>
                   <div className="mb-3">
-                    <label className="form-label small fw-semibold">Company / Organization *</label>
+                    <label className="form-label small fw-semibold">Clinic / Business Name *</label>
                     <input
                       type="text"
                       className="form-control"
                       required
+                      placeholder="e.g. Apex Dental Care"
                       value={form.company_name}
                       onChange={e => setForm({ ...form, company_name: e.target.value })}
                     />
                   </div>
                   <div className="row g-2 mb-3">
                     <div className="col-6">
-                      <label className="form-label small fw-semibold">Email *</label>
-                      <input
-                        type="email"
-                        className="form-control"
-                        required
-                        value={form.email}
-                        onChange={e => setForm({ ...form, email: e.target.value })}
-                      />
-                    </div>
-                    <div className="col-6">
-                      <label className="form-label small fw-semibold">Phone *</label>
+                      <label className="form-label small fw-semibold">Phone (10 digits) *</label>
                       <input
                         type="text"
                         className="form-control"
                         required
+                        placeholder="9876543210"
                         value={form.phone}
                         onChange={e => setForm({ ...form, phone: e.target.value })}
+                      />
+                    </div>
+                    <div className="col-6">
+                      <label className="form-label small fw-semibold">District / Area</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Erode, Rasipuram..."
+                        value={form.district}
+                        onChange={e => setForm({ ...form, district: e.target.value })}
                       />
                     </div>
                   </div>
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-light" onClick={() => setShowAddModal(false)}>Cancel</button>
-                  <button type="submit" className="btn btn-primary">Save Contact</button>
+                  <button type="submit" className="btn btn-primary">Save Decision Maker</button>
                 </div>
               </form>
             </div>
@@ -259,57 +314,51 @@ export default function SalesContacts() {
 
       {/* Log Activity Modal */}
       {showLogModal && (
-        <div className="modal d-block" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+        <div className="modal d-block" style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}>
           <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content border-0 shadow">
-              <div className="modal-header">
-                <h5 className="modal-title fw-bold">Log Touchpoint for {selectedContact?.name}</h5>
-                <button type="button" className="btn-close" onClick={() => setShowLogModal(false)}></button>
+            <div className="modal-content border-0 shadow-lg rounded-3">
+              <div className="modal-header bg-dark text-white">
+                <h5 className="modal-title fw-bold">
+                  <i className="bi bi-clock-history text-primary me-2"></i>
+                  Log SLA Touchpoint: {selectedContact?.name}
+                </h5>
+                <button type="button" className="btn-close btn-close-white" onClick={() => setShowLogModal(false)}></button>
               </div>
               <form onSubmit={handleLogActivity}>
-                <div className="modal-body">
+                <div className="modal-body p-4">
                   <div className="row g-2 mb-3">
                     <div className="col-6">
-                      <label className="form-label small fw-semibold">Activity Type</label>
+                      <label className="form-label small fw-semibold">Touchpoint Type</label>
                       <select
                         className="form-select"
                         value={activityForm.activity_type}
                         onChange={e => setActivityForm({ ...activityForm, activity_type: e.target.value })}
                       >
-                        <option value="CALL">Phone Call</option>
-                        <option value="MEETING">In-Person Meeting</option>
-                        <option value="DEMO">Product Demo</option>
-                        <option value="EMAIL">Email Follow-Up</option>
+                        <option value="CALL">Outbound Call</option>
+                        <option value="MEETING">Clinic Demo / In-Person</option>
+                        <option value="NOTE">Clinical Note / WhatsApp Follow-up</option>
                       </select>
                     </div>
                     <div className="col-6">
-                      <label className="form-label small fw-semibold">Scheduled Date & Time *</label>
-                      <input
-                        type="datetime-local"
-                        className="form-control"
-                        required
-                        value={activityForm.scheduled_at}
-                        onChange={e => setActivityForm({ ...activityForm, scheduled_at: e.target.value })}
-                      />
+                      <label className="form-label small fw-semibold">Outcome</label>
+                      <select
+                        className="form-select"
+                        value={activityForm.outcome}
+                        onChange={e => setActivityForm({ ...activityForm, outcome: e.target.value })}
+                      >
+                        <option value="CONNECTED">Connected & Engaged</option>
+                        <option value="INTERESTED">Demo Scheduled</option>
+                        <option value="FOLLOW_UP">Follow-up Requested</option>
+                        <option value="NO_ANSWER">No Answer / Busy</option>
+                      </select>
                     </div>
                   </div>
                   <div className="mb-3">
-                    <label className="form-label small fw-semibold">Topic / Agenda *</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      required
-                      placeholder="e.g. Q4 Platform Renewal discussion"
-                      value={activityForm.title}
-                      onChange={e => setActivityForm({ ...activityForm, title: e.target.value })}
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label className="form-label small fw-semibold">Notes / Outcome</label>
+                    <label className="form-label small fw-semibold">Discussion Summary</label>
                     <textarea
                       className="form-control"
                       rows="3"
-                      placeholder="Summary of conversation, objections, next steps..."
+                      placeholder="Doctor's interest, requirements discussed, next follow-up agreement..."
                       value={activityForm.description}
                       onChange={e => setActivityForm({ ...activityForm, description: e.target.value })}
                     ></textarea>
@@ -317,7 +366,7 @@ export default function SalesContacts() {
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-light" onClick={() => setShowLogModal(false)}>Cancel</button>
-                  <button type="submit" className="btn btn-primary">Save Touchpoint</button>
+                  <button type="submit" className="btn btn-primary">Log Touchpoint</button>
                 </div>
               </form>
             </div>

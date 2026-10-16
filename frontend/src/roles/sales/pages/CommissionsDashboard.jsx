@@ -143,34 +143,70 @@ export default function CommissionsDashboard() {
       {/* Summary KPI Cards */}
       <div className="row g-3 mb-4">
         <div className="col-xl-3 col-sm-6">
-          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white border-start border-4 border-primary h-100">
-            <span className="text-muted small text-uppercase fw-semibold">Total Earned</span>
-            <h3 className="fw-bold text-dark mb-1 mt-2">₹{totalAmount.toLocaleString('en-IN')}</h3>
-            <span className="small text-muted">{commissions.length} Verified Deals</span>
+          <div className="sales-kpi-card kpi-indigo">
+            <div className="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <span className="text-muted small text-uppercase fw-bold letter-spacing">Total Earned</span>
+                <div className="kpi-metric-val mt-1">₹{totalAmount.toLocaleString('en-IN')}</div>
+              </div>
+              <div className="kpi-icon-bubble kpi-bubble-indigo">
+                <i className="bi bi-wallet2"></i>
+              </div>
+            </div>
+            <div className="pt-2 border-top border-light-subtle small text-muted">
+              {commissions.length} Verified Commercial Deals
+            </div>
           </div>
         </div>
 
         <div className="col-xl-3 col-sm-6">
-          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white border-start border-4 border-success h-100">
-            <span className="text-muted small text-uppercase fw-semibold">Disbursed / Paid</span>
-            <h3 className="fw-bold text-success mb-1 mt-2">₹{paidAmount.toLocaleString('en-IN')}</h3>
-            <span className="small text-muted">Settled to Account</span>
+          <div className="sales-kpi-card kpi-emerald">
+            <div className="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <span className="text-muted small text-uppercase fw-bold letter-spacing">Disbursed / Paid</span>
+                <div className="kpi-metric-val mt-1 text-success">₹{paidAmount.toLocaleString('en-IN')}</div>
+              </div>
+              <div className="kpi-icon-bubble kpi-bubble-emerald">
+                <i className="bi bi-check2-all"></i>
+              </div>
+            </div>
+            <div className="pt-2 border-top border-light-subtle small text-muted">
+              Official Reference ETH-PAY Disbursed
+            </div>
           </div>
         </div>
 
         <div className="col-xl-3 col-sm-6">
-          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white border-start border-4 border-info h-100">
-            <span className="text-muted small text-uppercase fw-semibold">Approved / Payable</span>
-            <h3 className="fw-bold text-primary mb-1 mt-2">₹{payableAmount.toLocaleString('en-IN')}</h3>
-            <span className="small text-muted">Cleared for Payout</span>
+          <div className="sales-kpi-card kpi-sky">
+            <div className="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <span className="text-muted small text-uppercase fw-bold letter-spacing">Approved / Payable</span>
+                <div className="kpi-metric-val mt-1 text-primary">₹{payableAmount.toLocaleString('en-IN')}</div>
+              </div>
+              <div className="kpi-icon-bubble kpi-bubble-sky">
+                <i className="bi bi-shield-check"></i>
+              </div>
+            </div>
+            <div className="pt-2 border-top border-light-subtle small text-muted">
+              Cleared for Bank Transfer
+            </div>
           </div>
         </div>
 
         <div className="col-xl-3 col-sm-6">
-          <div className="card border-0 shadow-sm rounded-3 p-3 bg-white border-start border-4 border-warning h-100">
-            <span className="text-muted small text-uppercase fw-semibold">Pending Approval</span>
-            <h3 className="fw-bold text-warning mb-1 mt-2">₹{pendingAmount.toLocaleString('en-IN')}</h3>
-            <span className="small text-muted">Awaiting Verification</span>
+          <div className="sales-kpi-card kpi-amber">
+            <div className="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <span className="text-muted small text-uppercase fw-bold letter-spacing">Pending Approval</span>
+                <div className="kpi-metric-val mt-1 text-warning">₹{pendingAmount.toLocaleString('en-IN')}</div>
+              </div>
+              <div className="kpi-icon-bubble kpi-bubble-amber">
+                <i className="bi bi-hourglass-split"></i>
+              </div>
+            </div>
+            <div className="pt-2 border-top border-light-subtle small text-muted">
+              Under Leadership Review
+            </div>
           </div>
         </div>
       </div>

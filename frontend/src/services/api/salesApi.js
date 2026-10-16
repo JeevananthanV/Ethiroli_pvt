@@ -171,10 +171,21 @@ export const deleteLead = async (id) => {
  * @param {string} [notes] - Optional notes for the conversion
  * @returns {Promise<Object>} Response with deal and lead data
  */
-export async function convertLead({ leadId, dealValue, stage, notes }) {
+export async function convertLead(firstArg, secondArg) {
+  let leadId;
+  let payload = {};
+  if (typeof firstArg === 'object' && firstArg !== null) {
+    leadId = firstArg.leadId;
+    payload = firstArg;
+  } else {
+    leadId = firstArg;
+    if (secondArg && typeof secondArg === 'object') {
+      payload = secondArg;
+    }
+  }
   const response = await axiosInstance.post(
     `/v1/sales/leads/${leadId}/convert`,
-    { dealValue, stage, notes }
+    payload
   );
   return response.data?.data || response.data;
 }

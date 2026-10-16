@@ -8,7 +8,7 @@ import { success } from '../utils/response.js';
 import { NotFoundError } from '../utils/errors.js';
 
 export const listLeads = asyncHandler(async (req, res) => {
-  const { status, source, limit = 200, offset = 0, assigned_to } = req.query;
+  const { status, source, limit = 200, offset = 0, assigned_to, district, search } = req.query;
 
   let filterAssigned = undefined;
   if (assigned_to === 'me') {
@@ -21,6 +21,8 @@ export const listLeads = asyncHandler(async (req, res) => {
     assigned_to: filterAssigned,
     status,
     source,
+    district,
+    search,
     limit: parseInt(limit, 10) || 200,
     offset: parseInt(offset, 10) || 0
   });
@@ -34,17 +36,54 @@ export const getLead = asyncHandler(async (req, res) => {
 });
 
 export const createLead = asyncHandler(async (req, res) => {
-  const { name, email, phone, source, status, assigned_to, notes, follow_up_date } = req.body;
-
-  const leadId = await Lead.create({
+  const {
     name,
+    first_name,
+    last_name,
+    company_name,
     email,
     phone,
     source,
-    status: status || 'NEW',
+    status,
     assigned_to,
     notes,
     follow_up_date,
+    lead_code,
+    district,
+    service_interested,
+    package_tier,
+    interest_level,
+    pipeline_stage,
+    quoted_amount,
+    meeting_date,
+    first_contact_date,
+    last_contact_date,
+    next_action
+  } = req.body;
+
+  const leadId = await Lead.create({
+    name: name || first_name || company_name,
+    first_name: first_name || name,
+    last_name,
+    company_name,
+    email,
+    phone,
+    source: source || 'PHONE',
+    status: status || 'NEW',
+    assigned_to: assigned_to || req.user.id,
+    notes,
+    follow_up_date,
+    lead_code,
+    district,
+    service_interested,
+    package_tier,
+    interest_level,
+    pipeline_stage,
+    quoted_amount,
+    meeting_date,
+    first_contact_date,
+    last_contact_date,
+    next_action,
     created_by: req.user.id
   });
 

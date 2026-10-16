@@ -98,11 +98,20 @@ router.get(
   authenticate,
   requireRole('SALES', 'MANAGER', 'SUPER_ADMIN'),
   asyncHandler(async (req, res) => {
+    let bda_id = req.query.bda_id;
+    const isManagement = ['ADMIN', 'SUPER_ADMIN', 'MANAGER'].includes(req.user?.role);
+    if (!isManagement) {
+      bda_id = req.user?.id;
+    } else if (bda_id === 'me') {
+      bda_id = req.user?.id;
+    }
+
     const filters = {
-      bda_id: req.query.bda_id,
+      bda_id,
       status: req.query.status,
+      category: req.query.category,
       page: req.query.page || 1,
-      limit: req.query.limit || 20,
+      limit: req.query.limit || 50,
     };
     const result = await SalesCommission.getCommissions(filters);
     return success(res, 200, result, 'Commissions retrieved');

@@ -60,7 +60,9 @@ export default function SalesRoutes() {
         <Route path="communications" element={<SalesCommunications />} />
         <Route path="notifications" element={<SalesNotifications />} />
         <Route path="profile" element={<SalesProfile />} />
-        <Route path="commissions" element={<CommissionsDashboard />} />
+        <Route path="commissions" element={
+  <Suspense fallback={<div className="text-center py-4"><div className="spinner-border text-primary" role="status"><span className="visually-hidden">Loading...</span></div></div>}><CommissionsDashboard /></Suspense>
+} />
         <Route path="*" element={<Navigate to="dashboard" replace />} />
       </Routes>
     </Suspense>

@@ -25,7 +25,7 @@ export const listContactMessages = asyncHandler(async (req, res) => {
   );
 
   const formatted = rows.map((r) => {
-    const category = r.category || inferInquiryCategory(r.subject, r.message);
+    const category = (r.category && r.category !== 'General') ? r.category : inferInquiryCategory(r.subject, r.message);
     const status = r.status || (r.is_read ? 'PROCESSED' : 'NEW');
     const submitted_at = r.created_at ? new Date(r.created_at).toISOString().split('T')[0] : '';
     return {

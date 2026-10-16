@@ -44,6 +44,14 @@ export default function HROnboarding() {
   const [submitting, setSubmitting] = useState(false);
   const [toastMsg, setToastMsg] = useState('');
 
+  const [formData, setFormData] = useState({
+    employee_name: '',
+    department: 'Engineering',
+    start_date: new Date().toISOString().split('T')[0],
+    end_date: '',
+    track: 'technical'
+  });
+
   // --- Show Toast Helper ---
   const showToast = (msg) => {
     setToastMsg(msg);
@@ -51,43 +59,56 @@ export default function HROnboarding() {
   };
 
   // --- handleCreate ---
-  const handleCreate = async (e, formData) => {
+  const handleCreateSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
     try {
-      await handleCreate(formData); // From useHrData
+      await createOnboarding(formData);
       await refresh();
       setShowAddModal(false);
       showToast('Onboarding process added successfully!');
-      setSubmitting(false);
+      setFormData({
+        employee_name: '',
+        department: 'Engineering',
+        start_date: new Date().toISOString().split('T')[0],
+        end_date: '',
+        track: 'technical'
+      });
     } catch (err) {
       const message = err.response?.data?.message || err.message || 'Failed to create onboarding';
-      setError(message);
       showToast(message);
+    } finally {
       setSubmitting(false);
     }
   };
 
   // --- handleEditOpen ---
-  const handleEditOpen = (onboarding) => {
-    setSelectedOnboarding(onboarding);
+  const handleEditOpen = (ob) => {
+    setSelectedOnboarding(ob);
+    setFormData({
+      employee_name: ob.employee_name || ob.name || '',
+      department: ob.department || 'Engineering',
+      start_date: ob.start_date || '',
+      end_date: ob.end_date || '',
+      track: ob.track || 'technical'
+    });
+    setShowEditModal(true);
   };
 
   // --- handleUpdate ---
-  const handleUpdate = async (e, formData) => {
+  const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     if (!selectedOnboarding) return;
     setSubmitting(true);
     try {
-      await handleUpdate(selectedOnboarding.id, formData); // From useHrData
+      await updateOnboarding(selectedOnboarding.id, formData);
       await refresh();
       setShowEditModal(false);
-      showToast(`Onboarding updated successfully.`);
-      setSubmitting(false);
+      showToast('Onboarding updated successfully.');
     } catch (err) {
       const message = err.response?.data?.message || err.message || 'Failed to update onboarding';
-      setError(message);
       showToast(message);
+    } finally {
       setSubmitting(false);
     }
   };
@@ -204,7 +225,7 @@ export default function HROnboarding() {
 
         {/* Add Onboarding Modal */}
         <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)} title="Add New Onboarding">
-          <form onSubmit={(e) => handleCreate(e, formData)}>
+          <form onSubmit={handleCreateSubmit}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div>
                 <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Employee Name *</label>
@@ -276,7 +297,7 @@ export default function HROnboarding() {
 
         {/* Edit Onboarding Modal */}
         <Modal isOpen={showEditModal} onClose={() => setShowEditModal(false)} title="Edit Onboarding">
-          <form onSubmit={(e) => handleUpdate(e, formData)}>
+          <form onSubmit={handleUpdateSubmit}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div>
                 <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Employee Name</label>

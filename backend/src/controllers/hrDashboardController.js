@@ -2,7 +2,16 @@ import pool from '../config/database.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 import { success } from '../utils/response.js';
 
+let cachedMetrics = null;
+let lastCacheTime = 0;
+const CACHE_TTL_MS = 10000;
+
 export const getDashboardMetrics = asyncHandler(async (req, res) => {
+  const now = Date.now();
+  if (cachedMetrics && (now - lastCacheTime < CACHE_TTL_MS)) {
+    return success(res, 200, cachedMetrics, 'HR dashboard metrics retrieved successfully');
+  }
+
   const today = new Date().toISOString().slice(0, 10);
 
   // Run parallel aggregate queries for high performance real data
@@ -58,6 +67,9 @@ export const getDashboardMetrics = asyncHandler(async (req, res) => {
     totalInquiries: contactMsgRows[0]?.total || 0,
     timestamp: new Date().toISOString()
   };
+
+  cachedMetrics = metrics;
+  lastCacheTime = now;
 
   return success(res, 200, metrics, 'HR dashboard metrics retrieved successfully');
 });

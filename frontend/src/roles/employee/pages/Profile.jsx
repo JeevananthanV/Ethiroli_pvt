@@ -99,8 +99,61 @@ export default function Profile() {
   const [formData, setFormData] = useState({
     full_name: '',
     phone: '',
-    avatar_url: ''
+    avatar_url: '',
+    // Self-service personal information, stored on the employee record.
+    blood_group: '',
+    emergency_contact: '',
+    address: ''
   });
+
+  /** Client-side field errors, keyed by form field name. */
+  const [fieldErrors, setFieldErrors] = useState({});
+
+  /**
+   * Blood group options.
+   *
+   * Mirrors BLOOD_GROUPS in the backend controller. The backend is the real
+   * gate - this list only prevents the user picking something that would be
+   * rejected on save. 'Unknown' is a genuine stored value meaning "rather not
+   * say"; leaving the field blank means "not answered yet", which renders as
+   * "Not on record".
+   */
+  const BLOOD_GROUPS = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-', 'Unknown'];
+
+  /**
+   * Mirrors the shared PHONE_REGEX the backend uses, so the message shown here
+   * is the message the server would give.
+   */
+  const PHONE_REGEX = /^\+?[1-9]\d{1,14}$/;
+
+  /**
+   * Validates the editable fields before submitting.
+   * @returns {object} errors keyed by field name; empty object means valid.
+   */
+  const validateForm = (values) => {
+    const errors = {};
+
+    if (!values.full_name || !values.full_name.trim()) {
+      errors.full_name = 'Full legal name is required.';
+    }
+
+    if (values.emergency_contact && values.emergency_contact.trim()) {
+      const digits = values.emergency_contact.trim().replace(/\D/g, '');
+      // PHONE_REGEX only requires 2 digits; the backend additionally requires a
+      // 7-digit floor because an emergency contact has to be diallable. Mirrored
+      // here so the message shown matches the one the server would return.
+      if (!PHONE_REGEX.test(values.emergency_contact.trim().replace(/[\s()-]/g, '')) || digits.length < 7) {
+        errors.emergency_contact =
+          'Enter a valid phone number (7-15 digits, optional leading +).';
+      }
+    }
+
+    if (values.address && values.address.length > 500) {
+      errors.address = 'Address must be 500 characters or fewer.';
+    }
+
+    return errors;
+  };
 
   const loadProfile = useCallback(async () => {
     setLoading(true);
@@ -113,9 +166,13 @@ export default function Profile() {
         setFormData({
           full_name: data.user.full_name || '',
           phone: data.user.phone || '',
-          avatar_url: data.user.avatar_url || ''
+          avatar_url: data.user.avatar_url || '',
+          blood_group: data.employee?.blood_group || '',
+          emergency_contact: data.employee?.emergency_contact || '',
+          address: data.employee?.address || ''
         });
       }
+      setFieldErrors({});
     } catch (err) {
       setError(err.response?.data?.message || err.message || 'Failed to load your profile');
     } finally {
@@ -143,20 +200,37 @@ export default function Profile() {
     setFormData({
       full_name: profile?.user?.full_name || '',
       phone: profile?.user?.phone || '',
-      avatar_url: profile?.user?.avatar_url || ''
+      avatar_url: profile?.user?.avatar_url || '',
+      blood_group: profile?.employee?.blood_group || '',
+      emergency_contact: profile?.employee?.emergency_contact || '',
+      address: profile?.employee?.address || ''
     });
+    setFieldErrors({});
   };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+
+    // Validate before calling the API so the user sees the problem next to the
+    // field rather than as a banner after a round trip. The backend re-validates
+    // every value regardless - this is convenience, not the security boundary.
+    const errors = validateForm(formData);
+    setFieldErrors(errors);
+    if (Object.keys(errors).length > 0) {
+      setError('Please correct the highlighted fields and try again.');
+      return;
+    }
+
     setSaving(true);
     setError(null);
     setSuccessMsg('');
     try {
       await employeePortalApi.updateMyProfile(formData);
       updateProfile({ full_name: formData.full_name, avatar_url: formData.avatar_url || null });
-      setSuccessMsg('Contact details saved.');
+      setSuccessMsg('Your details have been saved.');
       setEditing(false);
+      // Re-read from the server so the page shows exactly what was persisted
+      // rather than trusting the values that were typed.
       await loadProfile();
     } catch (err) {
       setError(err.response?.data?.message || err.message || 'Failed to save your details');
@@ -186,6 +260,12 @@ export default function Profile() {
       { key: 'department', filled: Boolean(emp?.department) },
       { key: 'designation', filled: Boolean(emp?.designation) },
       { key: 'joining date', filled: Boolean(emp?.date_of_joining) },
+      // Self-service fields the employee can actually complete, so they belong in
+      // the score. Emergency contact is the one that matters most in practice.
+      { key: 'emergency contact', filled: Boolean(emp?.emergency_contact) },
+      { key: 'address', filled: Boolean(emp?.address) },
+      // blood group is deliberately NOT scored: "Unknown" is a legitimate answer,
+      // so counting it as incomplete would penalise a valid choice.
     ];
     const filled = checks.filter((c) => c.filled).length;
     return {
@@ -409,6 +489,108 @@ export default function Profile() {
                           disabled
                         />
                       </div>
+
+                      {/*
+                        Self-service personal information. Same grid, same
+                        typography and same Edit / Save behaviour as the fields
+                        above - no separate form, so Save Changes still persists
+                        everything in one request.
+                      */}
+                      <div className="col-md-6">
+                        <label className="form-label fw-semibold" htmlFor="prof-blood">
+                          Blood Group
+                        </label>
+                        {editing ? (
+                          <select
+                            id="prof-blood"
+                            className={`form-control ${fieldErrors.blood_group ? 'is-invalid' : ''}`}
+                            value={formData.blood_group}
+                            onChange={(e) => {
+                              setFormData({ ...formData, blood_group: e.target.value });
+                              setFieldErrors((p) => ({ ...p, blood_group: undefined }));
+                            }}
+                            aria-describedby={fieldErrors.blood_group ? 'prof-blood-err' : undefined}
+                          >
+                            <option value="">Not recorded</option>
+                            {BLOOD_GROUPS.map((g) => (
+                              <option key={g} value={g}>{g}</option>
+                            ))}
+                          </select>
+                        ) : (
+                          <div className="emp-prof__readField">
+                            <Value>{emp?.blood_group}</Value>
+                          </div>
+                        )}
+                        {fieldErrors.blood_group && (
+                          <div className="invalid-feedback d-block" id="prof-blood-err">
+                            {fieldErrors.blood_group}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="col-md-6">
+                        <label className="form-label fw-semibold" htmlFor="prof-emergency">
+                          Emergency Contact Number
+                        </label>
+                        {editing ? (
+                          <input
+                            id="prof-emergency"
+                            type="tel"
+                            inputMode="tel"
+                            className={`form-control ${fieldErrors.emergency_contact ? 'is-invalid' : ''}`}
+                            value={formData.emergency_contact}
+                            onChange={(e) => {
+                              setFormData({ ...formData, emergency_contact: e.target.value });
+                              setFieldErrors((p) => ({ ...p, emergency_contact: undefined }));
+                            }}
+                            placeholder="+91 98765 43210"
+                            aria-describedby={fieldErrors.emergency_contact ? 'prof-emergency-err' : undefined}
+                          />
+                        ) : (
+                          <div className="emp-prof__readField">
+                            <Value>{emp?.emergency_contact}</Value>
+                          </div>
+                        )}
+                        {fieldErrors.emergency_contact && (
+                          <div className="invalid-feedback d-block" id="prof-emergency-err">
+                            {fieldErrors.emergency_contact}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="col-12">
+                        <label className="form-label fw-semibold" htmlFor="prof-address">
+                          Address
+                        </label>
+                        {editing ? (
+                          <textarea
+                            id="prof-address"
+                            rows="3"
+                            className={`form-control ${fieldErrors.address ? 'is-invalid' : ''}`}
+                            value={formData.address}
+                            onChange={(e) => {
+                              setFormData({ ...formData, address: e.target.value });
+                              setFieldErrors((p) => ({ ...p, address: undefined }));
+                            }}
+                            placeholder="House / street, area, city, state, PIN code"
+                            aria-describedby={fieldErrors.address ? 'prof-address-err' : undefined}
+                          />
+                        ) : (
+                          <div className="emp-prof__readField" style={{ whiteSpace: 'pre-wrap' }}>
+                            <Value>{emp?.address}</Value>
+                          </div>
+                        )}
+                        {fieldErrors.address && (
+                          <div className="invalid-feedback d-block" id="prof-address-err">
+                            {fieldErrors.address}
+                          </div>
+                        )}
+                        {editing && (
+                          <div className="form-text">
+                            {formData.address.length}/500 characters
+                          </div>
+                        )}
+                      </div>
                     </div>
 
                     {/* Pushes the save button to the bottom so it lines up with
@@ -521,14 +703,32 @@ export default function Profile() {
                     />
                   </div>
                 </div>
+                {/*
+                  PF and UAN were previously merged into one "PF / UAN Number"
+                  row driven by `pf_number || uan`, so whichever was present hid
+                  the other and an employee could not tell which identifier they
+                  were looking at. They are separate statutory registrations with
+                  separate numbers, so they are now separate rows.
+                */}
                 <div className="col-md-4">
-                  <span className="emp-prof__payLabel">PF / UAN Number</span>
+                  <span className="emp-prof__payLabel">PF Number</span>
                   <div className="emp-prof__payField">
                     <MaskedValue
-                      value={emp?.pf_number || emp?.uan}
-                      label="PF or UAN number"
+                      value={emp?.pf_number}
+                      label="PF number"
                       revealed={Boolean(revealed.pf)}
                       onToggle={() => toggleReveal('pf')}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <span className="emp-prof__payLabel">UAN Number</span>
+                  <div className="emp-prof__payField">
+                    <MaskedValue
+                      value={emp?.uan}
+                      label="UAN number"
+                      revealed={Boolean(revealed.uan)}
+                      onToggle={() => toggleReveal('uan')}
                     />
                   </div>
                 </div>
@@ -543,13 +743,51 @@ export default function Profile() {
                     />
                   </div>
                 </div>
+                {/*
+                  Bank name and IFSC are public branch identifiers (printed on a
+                  cheque book and in every UPI id), stored in plain text by
+                  migration 016 and maintained by HR / Finance. They are shown
+                  unmasked because masking a public routing code protects nothing,
+                  but they are still read-only like the rest of the block.
+                */}
+                <div className="col-md-4">
+                  <span className="emp-prof__payLabel">Bank Name</span>
+                  <div className="emp-prof__payField">
+                    <span className="emp-prof__value">
+                      {emp?.bank_name || (
+                        <span className="emp-prof__value--empty">Not on record</span>
+                      )}
+                    </span>
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <span className="emp-prof__payLabel">IFSC Code</span>
+                  <div className="emp-prof__payField">
+                    <span className="emp-prof__value emp-prof__value--masked">
+                      {emp?.bank_ifsc || (
+                        <span className="emp-prof__value--empty">Not on record</span>
+                      )}
+                    </span>
+                  </div>
+                </div>
               </div>
 
+              {/*
+                Deliberately NOT shown:
+                  - Account holder name: no such column and no HR/Finance workflow
+                    that populates one. Inventing a field to fill the card out
+                    would be exactly what this block avoids.
+                  - Any "verified" badge: no verification status is stored
+                    anywhere, so there is nothing genuine to display.
+                  - Salary payment details: net pay is shown on the Payslips
+                    page from real payroll records; repeating it here would be
+                    redundant.
+              */}
               <div className="emp-prof__notice mt-3">
                 <i className="bi bi-info-circle-fill" aria-hidden="true"></i>
                 <span>
-                  Tap the eye to check a full number. These details are managed and verified by
-                  HR / Finance &mdash; please contact HR if you need to update them.
+                  Tap the eye to check a full number. These details are entered and maintained by
+                  HR / Finance &mdash; please contact HR if any of them is wrong or needs updating.
                 </span>
               </div>
             </div>

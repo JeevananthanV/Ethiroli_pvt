@@ -7,14 +7,29 @@ export default class Employee {
     if (!row) return null;
     const fullName = row.full_name ? decrypt(row.full_name) : (row.name || null);
     const email = row.email ? decrypt(row.email) : null;
+    // Defence in depth: if `decrypt` ever throws (it currently swallows its own
+    // errors and returns the input unchanged, which is what lets legacy plaintext
+    // rows keep working), the profile request must still render rather than 500.
+    const safeDecrypt = (v) => {
+      if (!v) return null;
+      try { return decrypt(v); } catch { return null; }
+    };
     return {
       ...row,
       full_name: fullName,
       name: fullName,
       email,
-      pan: row.pan ? decrypt(row.pan) : null,
-      bank_account: row.bank_account ? decrypt(row.bank_account) : null,
-      pf_number: row.pf_number ? decrypt(row.pf_number) : null
+      pan: safeDecrypt(row.pan),
+      bank_account: safeDecrypt(row.bank_account),
+      pf_number: safeDecrypt(row.pf_number),
+      // uan was added encrypted by migration 013 but was never decrypted here, so
+      // the Employee Profile's "PF / UAN" row would have rendered the raw
+      // ciphertext to the employee once HR populated it.
+      uan: safeDecrypt(row.uan),
+      // bank_name / bank_ifsc are public branch identifiers (printed on a cheque
+      // book and in every UPI id) and are stored in plain text by migration 016.
+      // blood_group / emergency_contact / address are self-service plain text,
+      // consistent with users.phone.
     };
   }
 
@@ -88,6 +103,23 @@ export default class Employee {
     if (updates.date_of_joining !== undefined) {
       queryParts.push('date_of_joining = ?');
       values.push(updates.date_of_joining);
+    }
+
+    // Self-service personal information (migration 017). Plain text, matching
+    // users.phone. Validation lives in the controller that accepts them, so that
+    // the same rules apply whether the value arrives from the employee portal or
+    // an HR write.
+    if (updates.blood_group !== undefined) {
+      queryParts.push('blood_group = ?');
+      values.push(updates.blood_group || null);
+    }
+    if (updates.emergency_contact !== undefined) {
+      queryParts.push('emergency_contact = ?');
+      values.push(updates.emergency_contact || null);
+    }
+    if (updates.address !== undefined) {
+      queryParts.push('address = ?');
+      values.push(updates.address || null);
     }
 
     if (queryParts.length === 0) return;

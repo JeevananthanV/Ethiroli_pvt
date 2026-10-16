@@ -536,33 +536,7 @@
   line-height: 1.25;
 }
 
-/* Quick Fill Demo Hint */
-.demoFillSection {
-  margin-top: 0.85rem;
-  padding-top: 0.75rem;
-  border-top: 1px dashed #e2e8f0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
 
-.demoFillBtn {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  padding: 3px 8px;
-  font-size: 10.5px;
-  color: #475569;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.15s ease;
-}
-
-.demoFillBtn:hover {
-  background: #ecfdf5;
-  color: #065f46;
-  border-color: #a7f3d0;
-}
 
 /* Botanical leaf artwork in bottom right corner outside card */
 .cornerLeaves {

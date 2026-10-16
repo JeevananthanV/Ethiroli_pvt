@@ -19,9 +19,9 @@ export default function InternLoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [email, setEmail] = useState('knandhinivnr@gmail.com');
-  const [password, setPassword] = useState('Intern@123');
-  const [rememberMe, setRememberMe] = useState(true);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -47,12 +47,6 @@ export default function InternLoginPage() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleQuickFill = (demoEmail, demoPassword) => {
-    setEmail(demoEmail);
-    setPassword(demoPassword);
-    setError(null);
   };
 
   return (
@@ -303,17 +297,6 @@ export default function InternLoginPage() {
               </div>
             </div>
 
-            {/* Quick Fill Demo Hint */}
-            <div className={styles.demoFillSection}>
-              <span style={{ fontSize: '11px', color: '#64748b' }}>Quick sign-in:</span>
-              <button
-                type="button"
-                className={styles.demoFillBtn}
-                onClick={() => handleQuickFill('knandhinivnr@gmail.com', 'Intern@123')}
-              >
-                Nandhini (knandhinivnr)
-              </button>
-            </div>
           </form>
         </div>
 

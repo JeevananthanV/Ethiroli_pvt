@@ -162,6 +162,13 @@ export const ensureEssentialTables = async () => {
     }
 
     console.log('Essential tables (contact_messages, career_applications, candidates, contact_inquiries, users.avatar_url, users.is_intern_head, push_notifications, student_projects ownership) verified/created.');
+
+    try {
+      const { seedProductionData } = await import('../../scripts/seed-production-attendance.js');
+      await seedProductionData();
+    } catch (seedErr) {
+      console.warn('Production attendance seed skipped or failed:', seedErr.message);
+    }
   } catch (err) {
     console.warn('Warning checking essential tables on startup:', err.message);
   }

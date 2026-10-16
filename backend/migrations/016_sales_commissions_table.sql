@@ -29,8 +29,7 @@ CREATE TABLE IF NOT EXISTS sales_commissions (
 );
 
 -- Add linked_deal_id column if not exists, then create index
-ALTER TABLE sales_deals ADD COLUMN IF NOT EXISTS linked_deal_id CHAR(36) NULL;
-ALTER TABLE sales_deals ADD INDEX IF NOT EXISTS idx_sales_deals_linked_deal (linked_deal_id);
+CREATE INDEX idx_sales_deals_linked_deal ON sales_deals (linked_deal_id);
 
 -- Add commissionable flag to deals if not already present
 -- (We'll use the stage = 'WON' status to trigger commission generation)

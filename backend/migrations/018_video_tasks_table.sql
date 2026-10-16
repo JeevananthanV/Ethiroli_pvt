@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS video_tasks (
   project_id CHAR(36) NOT NULL,
   title VARCHAR(255) NOT NULL,
   video_type ENUM('Instagram Reel', 'YouTube Video', 'Corporate Video', 'Webinar', 'Product Demo', 'Presentation') NOT NULL,
-  assigned_editor VARCHAR(36) NOT NULL,
+  assigned_editor CHAR(36) NULL,
   status ENUM('Assigned', 'Editing', 'Internal Review', 'Client Review', 'Revision', 'Approved', 'Delivered') DEFAULT 'Assigned',
   priority ENUM('Low', 'Medium', 'High', 'Urgent') DEFAULT 'Medium',
   estimated_hours DECIMAL(5,2) DEFAULT 2.00,

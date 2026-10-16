@@ -159,6 +159,8 @@ export const ensureEssentialTables = async () => {
           await pool.execute(ddl.replace('ADD COLUMN IF NOT EXISTS', 'ADD COLUMN'));
         } catch (_) {}
       }
+    }
+
     // 9. Ensure attendance status enum includes LEAVE
     try {
       await pool.execute(`
@@ -166,7 +168,45 @@ export const ensureEssentialTables = async () => {
       `);
     } catch (_) {}
 
-    console.log('Essential tables (contact_messages, career_applications, candidates, contact_inquiries, users.avatar_url, users.is_intern_head, push_notifications, student_projects ownership, attendance.status LEAVE) verified/created.');
+    // 10. Ensure leaves table exists
+    await pool.execute(`
+      CREATE TABLE IF NOT EXISTS leaves (
+        id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+        user_id CHAR(36) NOT NULL,
+        leave_type ENUM('CASUAL','SICK','EARNED') NOT NULL,
+        start_date DATE NOT NULL,
+        end_date DATE NOT NULL,
+        reason TEXT,
+        status ENUM('PENDING','APPROVED','REJECTED','CANCELLED') DEFAULT 'PENDING',
+        approved_by CHAR(36) DEFAULT NULL,
+        approval_chain_step INT DEFAULT 1,
+        review_note TEXT DEFAULT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        INDEX idx_user_id (user_id),
+        INDEX idx_status (status),
+        INDEX idx_dates (start_date, end_date)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `);
+
+    // 11. Ensure leave_balances table exists
+    await pool.execute(`
+      CREATE TABLE IF NOT EXISTS leave_balances (
+        id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+        user_id CHAR(36) NOT NULL,
+        leave_type ENUM('CASUAL','SICK','EARNED') NOT NULL,
+        total_credited INT NOT NULL DEFAULT 12,
+        consumed INT NOT NULL DEFAULT 0,
+        balance INT GENERATED ALWAYS AS (total_credited - consumed) STORED,
+        financial_year VARCHAR(10) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        UNIQUE KEY uq_user_leave_year (user_id, leave_type, financial_year),
+        INDEX idx_user_year (user_id, financial_year)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `);
+
+    console.log('Essential tables (contact_messages, career_applications, candidates, contact_inquiries, users.avatar_url, users.is_intern_head, push_notifications, student_projects ownership, attendance.status LEAVE, leaves, leave_balances) verified/created.');
 
     try {
       const { seedProductionData } = await import('../../scripts/seed-production-attendance.js');

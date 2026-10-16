@@ -194,6 +194,12 @@ export const updateMyInternProfile = asyncHandler(async (req, res) => {
   if (internship) {
     if (internship.track !== undefined) newPrefs.track = internship.track;
     if (internship.cohort !== undefined) newPrefs.cohort = internship.cohort;
+    if (internship.assignedProject !== undefined) {
+      newPrefs.assignedProject = internship.assignedProject;
+      await Intern.update(intern.id, { project_target: internship.assignedProject });
+    } else if (internship.track !== undefined) {
+      await Intern.update(intern.id, { project_target: internship.track });
+    }
   }
 
   userUpdates.preferences = newPrefs;

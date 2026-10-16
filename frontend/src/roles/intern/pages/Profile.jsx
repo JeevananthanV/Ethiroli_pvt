@@ -199,6 +199,40 @@ export default function Profile() {
     }
   };
 
+  const handleSaveInternship = async (e) => {
+    e.preventDefault();
+    setSaving(true);
+    try {
+      await updateMyInternProfile({
+        internship: internshipInfo
+      });
+      setAlert({ type: 'success', text: 'Internship details successfully saved to live database!' });
+    } catch (err) {
+      setAlert({ type: 'danger', text: err?.response?.data?.message || err?.message || 'Failed to update internship details.' });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const POPULAR_SKILLS = [
+    'React', 'Node.js', 'Express.js', 'MySQL', 'JavaScript',
+    'TypeScript', 'Python', 'Git', 'Docker', 'HTML/CSS',
+    'Tailwind CSS', 'Redux', 'REST APIs', 'Next.js'
+  ];
+
+  const handleQuickAddSkill = async (skillName) => {
+    if (!skills.includes(skillName)) {
+      const updated = [...skills, skillName];
+      setSkills(updated);
+      try {
+        await updateMyInternProfile({ skills: updated });
+        setAlert({ type: 'success', text: `Skill "${skillName}" added and saved!` });
+      } catch (err) {
+        setAlert({ type: 'danger', text: err?.response?.data?.message || err?.message || 'Failed to save skill.' });
+      }
+    }
+  };
+
   const handleAddSkill = async (e) => {
     e.preventDefault();
     const val = newSkillInput.trim();
@@ -632,25 +666,60 @@ export default function Profile() {
                     </form>
                   )}
 
-                  {/* Internship Information Tab (Read-Only live data) */}
+                  {/* Internship Information Tab (Dynamic & Live Saved) */}
                   {activeTab === 'internship' && (
-                    <div>
-                      <div className="row g-3 small">
-                        <div className="col-sm-6 p-3 bg-light rounded-3 border">
-                          <span className="text-muted d-block">Internship Track</span>
-                          <strong className="text-dark">{internshipInfo.track || 'Full Stack Web Development'}</strong>
+                    <form onSubmit={handleSaveInternship}>
+                      <div className="row g-3 mb-3">
+                        <div className="col-sm-6">
+                          <label htmlFor="internship-track" className="form-label small fw-semibold">
+                            Internship Track / Domain
+                          </label>
+                          <input
+                            id="internship-track"
+                            type="text"
+                            className="form-control form-control-sm"
+                            placeholder="e.g. Full Stack Web Development"
+                            value={internshipInfo.track}
+                            onChange={(e) => setInternshipInfo({ ...internshipInfo, track: e.target.value })}
+                            required
+                          />
                         </div>
-                        <div className="col-sm-6 p-3 bg-light rounded-3 border">
-                          <span className="text-muted d-block">Cohort / Batch</span>
-                          <strong className="text-dark">{internshipInfo.cohort || 'Cohort 2026'}</strong>
+                        <div className="col-sm-6">
+                          <label htmlFor="internship-cohort" className="form-label small fw-semibold">
+                            Cohort / Batch
+                          </label>
+                          <input
+                            id="internship-cohort"
+                            type="text"
+                            className="form-control form-control-sm"
+                            placeholder="e.g. Cohort 2026 - Batch 1"
+                            value={internshipInfo.cohort}
+                            onChange={(e) => setInternshipInfo({ ...internshipInfo, cohort: e.target.value })}
+                          />
                         </div>
+                      </div>
+
+                      <div className="mb-3">
+                        <label htmlFor="assigned-project" className="form-label small fw-semibold">
+                          Assigned Project / Focus Area
+                        </label>
+                        <input
+                          id="assigned-project"
+                          type="text"
+                          className="form-control form-control-sm"
+                          placeholder="e.g. Enterprise HR & Learning Management Platform"
+                          value={internshipInfo.assignedProject}
+                          onChange={(e) => setInternshipInfo({ ...internshipInfo, assignedProject: e.target.value })}
+                        />
+                      </div>
+
+                      <div className="row g-3 small mb-4">
                         <div className="col-sm-6 p-3 bg-light rounded-3 border">
                           <span className="text-muted d-block">Assigned Mentor</span>
                           <strong className="text-dark">{internshipInfo.mentorName || 'Not Assigned Yet'}</strong>
-                        </div>
-                        <div className="col-sm-6 p-3 bg-light rounded-3 border">
-                          <span className="text-muted d-block">Assigned Project</span>
-                          <strong className="text-dark">{internshipInfo.assignedProject || 'Full Stack Development'}</strong>
+                          {internshipInfo.mentorEmail && (
+                            <span className="text-muted d-block mt-1">{internshipInfo.mentorEmail}</span>
+                          )}
                         </div>
                         <div className="col-sm-6 p-3 bg-light rounded-3 border">
                           <span className="text-muted d-block">Internship Period</span>
@@ -668,7 +737,7 @@ export default function Profile() {
                           <span className="text-muted d-block">Monthly Stipend</span>
                           <strong className="text-dark">{internshipInfo.stipend || '₹0'}</strong>
                         </div>
-                        <div className="col-sm-6 p-3 bg-light rounded-3 border">
+                        <div className="col-12 p-3 bg-light rounded-3 border">
                           <span className="text-muted d-block">Overall Milestone Progress</span>
                           <div className="d-flex align-items-center gap-2 mt-1">
                             <div className="progress flex-grow-1" style={{ height: '8px' }}>
@@ -685,23 +754,34 @@ export default function Profile() {
                           </div>
                         </div>
                       </div>
-                    </div>
+
+                      <button type="submit" className="btn btn-primary btn-sm px-4" disabled={saving}>
+                        {saving ? (
+                          <>
+                            <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                            Saving...
+                          </>
+                        ) : (
+                          'Save Internship Details'
+                        )}
+                      </button>
+                    </form>
                   )}
 
                   {/* Skills & Tech Stack Tab */}
                   {activeTab === 'skills' && (
                     <div>
                       <h6 className="fw-bold text-dark small mb-2">Technical Skills & Competencies</h6>
-                      <p className="text-muted small mb-3">Add the programming languages, frameworks, libraries, and tools you have worked with.</p>
+                      <p className="text-muted small mb-3">Add the programming languages, frameworks, libraries, and tools you have worked with. Changes are automatically saved to your live profile in the database.</p>
 
                       <div className="d-flex flex-wrap gap-2 mb-3 min-vh-20">
                         {skills.length === 0 ? (
                           <div className="p-3 text-muted border rounded bg-light w-100 text-center">
-                            No skills tagged yet. Add your first skill below!
+                            No skills tagged yet. Pick a suggested skill below or add custom skills!
                           </div>
                         ) : (
                           skills.map((skill) => (
-                            <span key={skill} className="badge bg-light text-dark border p-2 d-flex align-items-center gap-2">
+                            <span key={skill} className="badge bg-primary-subtle text-primary border p-2 d-flex align-items-center gap-2">
                               {skill}
                               <button
                                 type="button"
@@ -715,12 +795,32 @@ export default function Profile() {
                         )}
                       </div>
 
+                      {/* Quick Suggestion Pills */}
+                      <div className="mb-3 p-3 bg-light rounded-3 border">
+                        <span className="text-muted small fw-semibold d-block mb-2">
+                          <i className="bi bi-stars text-warning me-1"></i> Popular Suggestions (Click to Add):
+                        </span>
+                        <div className="d-flex flex-wrap gap-2">
+                          {POPULAR_SKILLS.filter(s => !skills.includes(s)).map((skill) => (
+                            <button
+                              key={skill}
+                              type="button"
+                              className="btn btn-sm btn-white bg-white border text-secondary"
+                              style={{ fontSize: '0.78rem' }}
+                              onClick={() => handleQuickAddSkill(skill)}
+                            >
+                              + {skill}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
                       <form onSubmit={handleAddSkill} className="row g-2 align-items-center">
                         <div className="col-sm-8">
                           <input
                             type="text"
                             className="form-control form-control-sm"
-                            placeholder="Add a new skill (e.g. React, Node.js, Express, MySQL, Docker)..."
+                            placeholder="Add a custom skill (e.g. GraphQL, AWS, Figma)..."
                             value={newSkillInput}
                             onChange={(e) => setNewSkillInput(e.target.value)}
                           />

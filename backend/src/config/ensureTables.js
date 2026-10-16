@@ -96,6 +96,17 @@ export const ensureEssentialTables = async () => {
       } catch (_) {}
     }
 
+    // Ensure status column on interns table
+    try {
+      const [internStatusCol] = await pool.query(`
+        SELECT COLUMN_NAME FROM information_schema.COLUMNS 
+        WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'interns' AND COLUMN_NAME = 'status'
+      `);
+      if (internStatusCol.length === 0) {
+        await pool.query("ALTER TABLE interns ADD COLUMN status VARCHAR(50) DEFAULT 'ACTIVE'");
+      }
+    } catch (_) {}
+
     // 6. In-app notification inbox.
     //    pushNotificationService.js and projectNotificationService.js both
     //    INSERT here, but no schema file ever declared the table, so every

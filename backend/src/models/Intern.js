@@ -86,6 +86,7 @@ export default class Intern {
       mentor_name: mentorName,
       mentor: mentorName,
       mentor_email: mentorEmail,
+      mentor_full_name: mentorName,
       college: row.college_name || academic.college || 'Engineering Institution',
       role: rawPrefs.role || rawPrefs.track || row.project_target || internship.assignedProject || 'Intern Track',
       department: rawPrefs.department || academic.department || 'Engineering',
@@ -166,6 +167,7 @@ export default class Intern {
     if (updates.end_date !== undefined) { queryParts.push('end_date = ?'); values.push(updates.end_date); }
     if (updates.project_target !== undefined) { queryParts.push('project_target = ?'); values.push(updates.project_target); }
     if (updates.progress !== undefined) { queryParts.push('progress = ?'); values.push(updates.progress); }
+    if (updates.status !== undefined) { queryParts.push('status = ?'); values.push(updates.status); }
 
     if (queryParts.length === 0) return;
     values.push(id);

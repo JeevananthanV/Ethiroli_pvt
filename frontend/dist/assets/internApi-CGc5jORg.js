@@ -1,1 +1,0 @@
-import{a as t}from"./ErrorBoundary-fRo6zpbX.js";const s=async()=>(await t.get("/v1/interns/dashboard")).data,r=async()=>{const a=await t.get("/v1/interns/me");return a.data?.data||a.data},o=async a=>{const n=await t.patch("/v1/interns/me",a);return n.data?.data||n.data};export{r as a,s as g,o as u};

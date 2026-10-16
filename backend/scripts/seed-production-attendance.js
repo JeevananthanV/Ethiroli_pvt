@@ -186,6 +186,30 @@ export const ATTENDANCE_RECORDS = [
   { date: '2026-10-16', name: 'K. Gokulraj', login: '10:00:00', logout: null }
 ];
 
+export const LEAVES_DATA = [
+  // S. Loganathan (Joined 24 Sep)
+  { date: '2026-10-05', name: 'S. Loganathan', leave_type: 'CASUAL', reason: 'Personal Leave' },
+  { date: '2026-10-15', name: 'S. Loganathan', leave_type: 'CASUAL', reason: 'College Work / Academic Leave' },
+
+  // K. Stephen (Joined 24 Sep)
+  { date: '2026-09-29', name: 'K. Stephen', leave_type: 'CASUAL', reason: 'Personal Leave' },
+  { date: '2026-10-06', name: 'K. Stephen', leave_type: 'CASUAL', reason: 'College Internal Exams' },
+  { date: '2026-10-07', name: 'K. Stephen', leave_type: 'CASUAL', reason: 'College Internal Exams' },
+  { date: '2026-10-08', name: 'K. Stephen', leave_type: 'CASUAL', reason: 'College Internal Exams' },
+  { date: '2026-10-12', name: 'K. Stephen', leave_type: 'CASUAL', reason: 'Medical Leave' },
+
+  // Bharath G (Joined 24 Sep)
+  { date: '2026-09-29', name: 'Bharath G', leave_type: 'CASUAL', reason: 'Personal Leave' },
+  { date: '2026-09-30', name: 'Bharath G', leave_type: 'CASUAL', reason: 'Personal Leave' },
+  { date: '2026-10-01', name: 'Bharath G', leave_type: 'CASUAL', reason: 'Personal Leave' },
+  { date: '2026-10-06', name: 'Bharath G', leave_type: 'CASUAL', reason: 'College Project Review' },
+  { date: '2026-10-07', name: 'Bharath G', leave_type: 'CASUAL', reason: 'College Project Review' },
+  { date: '2026-10-08', name: 'Bharath G', leave_type: 'CASUAL', reason: 'College Project Review' },
+  { date: '2026-10-09', name: 'Bharath G', leave_type: 'CASUAL', reason: 'College Project Review' },
+  { date: '2026-10-12', name: 'Bharath G', leave_type: 'CASUAL', reason: 'Family Function' },
+  { date: '2026-10-13', name: 'Bharath G', leave_type: 'CASUAL', reason: 'Family Function' },
+];
+
 export async function seedProductionData() {
   console.log('--- Starting Production Intern & Attendance Data Seeding ---');
 
@@ -232,6 +256,9 @@ export async function seedProductionData() {
   } catch (_) {
     try { await pool.execute(`ALTER TABLE attendance ADD COLUMN session_count INT NOT NULL DEFAULT 0;`); } catch (_) {}
   }
+  try {
+    await pool.execute(`ALTER TABLE attendance MODIFY COLUMN status ENUM('PRESENT','ABSENT','HALF_DAY','LEAVE') NOT NULL DEFAULT 'PRESENT';`);
+  } catch (_) {}
 
   // 2. Seed / Update HR User
   const defaultHrPasswordHash = await bcrypt.hash('Hr@123', 10);
@@ -350,9 +377,9 @@ export async function seedProductionData() {
       workedMinutes = Math.max(0, Math.floor((outTime - inTime) / 60000));
     }
 
-    // Determine late check-in (shift starts at 09:00)
+    // Determine late check-in (shift starts at 10:30 AM IST)
     const [loginH, loginM] = record.login.split(':').map(Number);
-    const isLate = (loginH * 60 + loginM) > 9 * 60 ? 1 : 0;
+    const isLate = (loginH * 60 + loginM) > (10 * 60 + 30) ? 1 : 0;
 
     // Idempotent clean: clear any pre-existing sessions for this user on this date
     await pool.execute(
@@ -385,7 +412,104 @@ export async function seedProductionData() {
     seededDays++;
   }
 
+  // 6. Seed Leaves into leaves and attendance tables
+  let seededLeaves = 0;
+  for (const leave of LEAVES_DATA) {
+    const userId = internIdByName.get(leave.name);
+    if (!userId) {
+      console.warn(`Could not resolve user ID for leave: ${leave.name}`);
+      continue;
+    }
+
+    // Insert or update into leaves table
+    const [existingLeaves] = await pool.execute(
+      `SELECT id FROM leaves WHERE user_id = ? AND start_date = ? AND end_date = ?`,
+      [userId, leave.date, leave.date]
+    );
+    if (existingLeaves.length === 0) {
+      await pool.execute(
+        `INSERT INTO leaves (id, user_id, leave_type, start_date, end_date, reason, status, approved_by)
+         VALUES (?, ?, ?, ?, ?, ?, 'APPROVED', ?)`,
+        [crypto.randomUUID(), userId, leave.leave_type || 'CASUAL', leave.date, leave.date, leave.reason, hrUser.id]
+      );
+    } else {
+      await pool.execute(
+        `UPDATE leaves SET status = 'APPROVED', leave_type = ?, reason = ?, approved_by = ? WHERE id = ?`,
+        [leave.leave_type || 'CASUAL', leave.reason, hrUser.id, existingLeaves[0].id]
+      );
+    }
+
+    // Upsert into attendance summary table as LEAVE
+    await pool.execute(
+      `INSERT INTO attendance (id, user_id, date, check_in_time, check_out_time, is_late, status, worked_minutes, session_count)
+       VALUES (?, ?, ?, NULL, NULL, 0, 'LEAVE', 0, 0)
+       ON DUPLICATE KEY UPDATE
+         check_in_time = NULL,
+         check_out_time = NULL,
+         is_late = 0,
+         status = 'LEAVE',
+         worked_minutes = 0,
+         session_count = 0`,
+      [crypto.randomUUID(), userId, leave.date]
+    );
+
+    // Clean up any stray sessions on approved leave date
+    await pool.execute(
+      `DELETE FROM attendance_sessions WHERE user_id = ? AND work_date = ?`,
+      [userId, leave.date]
+    );
+
+    seededLeaves++;
+  }
+
+  // 7. Seed statutory leave balances for all interns (Casual: 12, Sick: 8, Earned: 15)
+  const currentYear = new Date().getFullYear().toString();
+  await pool.execute(`
+    CREATE TABLE IF NOT EXISTS leave_balances (
+      id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+      user_id CHAR(36) NOT NULL,
+      leave_type ENUM('CASUAL','SICK','EARNED') NOT NULL,
+      total_credited INT NOT NULL DEFAULT 12,
+      consumed INT NOT NULL DEFAULT 0,
+      balance INT GENERATED ALWAYS AS (total_credited - consumed) STORED,
+      financial_year VARCHAR(10) NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      UNIQUE KEY uq_user_leave_year (user_id, leave_type, financial_year),
+      INDEX idx_user_year (user_id, financial_year)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `);
+
+  for (const intern of INTERNS_DATA) {
+    const userId = internIdByName.get(intern.name);
+    if (!userId) continue;
+
+    const takenLeaves = LEAVES_DATA.filter((l) => l.name === intern.name).length;
+
+    await pool.execute(
+      `INSERT INTO leave_balances (id, user_id, leave_type, total_credited, consumed, financial_year)
+       VALUES (?, ?, 'CASUAL', 12, ?, ?)
+       ON DUPLICATE KEY UPDATE consumed = VALUES(consumed)`,
+      [crypto.randomUUID(), userId, takenLeaves, currentYear]
+    );
+
+    await pool.execute(
+      `INSERT INTO leave_balances (id, user_id, leave_type, total_credited, consumed, financial_year)
+       VALUES (?, ?, 'SICK', 8, 0, ?)
+       ON DUPLICATE KEY UPDATE total_credited = 8`,
+      [crypto.randomUUID(), userId, currentYear]
+    );
+
+    await pool.execute(
+      `INSERT INTO leave_balances (id, user_id, leave_type, total_credited, consumed, financial_year)
+       VALUES (?, ?, 'EARNED', 15, 0, ?)
+       ON DUPLICATE KEY UPDATE total_credited = 15`,
+      [crypto.randomUUID(), userId, currentYear]
+    );
+  }
+
   console.log(`✅ Successfully seeded ${seededSessions} punch sessions across ${seededDays} attendance day summaries.`);
+  console.log(`✅ Successfully seeded ${seededLeaves} approved leave records and leave balances.`);
   console.log('--- Production Seed Finished ---');
 }
 

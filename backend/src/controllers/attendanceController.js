@@ -1,3 +1,4 @@
+import pool from '../config/database.js';
 import Attendance from '../models/Attendance.js';
 import AttendanceSession from '../models/AttendanceSession.js';
 import ActivityFeed from '../models/ActivityFeed.js';
@@ -125,11 +126,30 @@ export const getMyAttendanceHistory = asyncHandler(async (req, res) => {
   const from = req.query.start_date || businessDate(new Date(Date.now() - 365 * 86400000));
   const limit = Math.max(1, parseInt(req.query.limit, 10) || 365);
 
-  const [records, rollup, allSessions] = await Promise.all([
+  const [records, rollup, allSessions, leaveRows] = await Promise.all([
     Attendance.list({ user_id: userId, start_date: from, end_date: to, limit, offset: 0 }),
     AttendanceSession.dailyRollup(userId, from, to),
     AttendanceSession.listRange(userId, from, to),
+    pool.execute(
+      `SELECT DATE_FORMAT(start_date, '%Y-%m-%d') AS start_date,
+              DATE_FORMAT(end_date, '%Y-%m-%d') AS end_date,
+              leave_type, reason, status
+       FROM leaves
+       WHERE user_id = ? AND status = 'APPROVED'
+         AND start_date <= ? AND end_date >= ?`,
+      [userId, to, from]
+    ).then(([rows]) => rows).catch(() => []),
   ]);
+
+  const leaveByDate = new Map();
+  for (const l of leaveRows) {
+    const s = l.start_date;
+    const e = l.end_date;
+    if (!s || !e) continue;
+    for (let d = new Date(`${s}T00:00:00Z`); d <= new Date(`${e}T00:00:00Z`); d.setUTCDate(d.getUTCDate() + 1)) {
+      leaveByDate.set(d.toISOString().slice(0, 10), l);
+    }
+  }
 
   const rollupByDate = new Map(rollup.map((r) => [r.work_date, r]));
   const sessionsByDate = new Map();
@@ -145,8 +165,7 @@ export const getMyAttendanceHistory = asyncHandler(async (req, res) => {
     const sessions = sessionsByDate.get(workDate) || [];
     const hasSessions = sessions.length > 0;
 
-    // First-in / last-out come from the sessions when there are any; the legacy
-    // day-row columns are only a fallback for days recorded before sessions.
+    // First-in / last-out come from the sessions when there are any
     const firstCheckIn = hasSessions
       ? (sessions.find((s) => s.check_in_time)?.check_in_time ?? null)
       : (r.check_in_time ?? null);
@@ -154,30 +173,85 @@ export const getMyAttendanceHistory = asyncHandler(async (req, res) => {
       ? ([...sessions].reverse().find((s) => s.check_out_time)?.check_out_time ?? null)
       : (r.check_out_time ?? null);
 
+    // Rule: arrivals after 10:30 AM (IST) are marked as late
+    let isLate = false;
+    if (r.status === 'PRESENT' && firstCheckIn) {
+      try {
+        const d = new Date(firstCheckIn);
+        const parts = d.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour12: false }).split(':');
+        const minutes = Number(parts[0]) * 60 + Number(parts[1]);
+        isLate = minutes > (10 * 60 + 30);
+      } catch (_) {
+        isLate = Boolean(r.is_late);
+      }
+    } else {
+      isLate = Boolean(r.is_late);
+    }
+
+    const isLeave = r.status === 'LEAVE' || (leaveByDate.has(workDate) && !hasSessions);
+    const leaveInfo = leaveByDate.get(workDate);
+
     return {
       ...r,
       work_date: workDate,
-      check_in_time: firstCheckIn,
-      check_out_time: lastCheckOut,
-      first_check_in: firstCheckIn,
-      last_check_out: lastCheckOut,
-      session_count: hasSessions ? sessions.length : Number(r.session_count || 0),
-      sessions,
-      has_sessions: hasSessions,
-      worked_minutes: hasSessions ? (day?.worked_minutes ?? 0) : Math.round(Number(r.total_hours || 0) * 60),
-      worked_hours: hasSessions
+      check_in_time: isLeave ? null : firstCheckIn,
+      check_out_time: isLeave ? null : lastCheckOut,
+      first_check_in: isLeave ? null : firstCheckIn,
+      last_check_out: isLeave ? null : lastCheckOut,
+      session_count: isLeave ? 0 : (hasSessions ? sessions.length : Number(r.session_count || 0)),
+      sessions: isLeave ? [] : sessions,
+      has_sessions: hasSessions && !isLeave,
+      worked_minutes: isLeave ? 0 : (hasSessions ? (day?.worked_minutes ?? 0) : Math.round(Number(r.total_hours || 0) * 60)),
+      worked_hours: isLeave ? 0 : (hasSessions
         ? Number(((day?.worked_minutes ?? 0) / 60).toFixed(2))
-        : Number(r.total_hours || 0),
-      is_open: Boolean(day?.is_open),
+        : Number(r.total_hours || 0)),
+      status: isLeave ? 'LEAVE' : (r.status || 'PRESENT'),
+      is_late: isLeave ? false : isLate,
+      is_open: isLeave ? false : Boolean(day?.is_open),
+      leave_type: leaveInfo?.leave_type || (isLeave ? 'CASUAL' : null),
+      reason: leaveInfo?.reason || (isLeave ? 'Approved Leave' : null)
     };
   });
 
-  // Days that have sessions but no legacy attendance row, so real worked time
-  // is never hidden by a missing day-row.
-  const legacyDates = new Set(enriched.map((r) => r.work_date));
+  // Inject approved leaves for dates without attendance rows
+  const existingDates = new Set(enriched.map((r) => r.work_date));
+  for (const [leaveDate, l] of leaveByDate) {
+    if (existingDates.has(leaveDate)) continue;
+    enriched.push({
+      id: `leave-${leaveDate}`,
+      work_date: leaveDate,
+      date: leaveDate,
+      check_in_time: null,
+      check_out_time: null,
+      first_check_in: null,
+      last_check_out: null,
+      status: 'LEAVE',
+      is_late: false,
+      session_count: 0,
+      sessions: [],
+      has_sessions: false,
+      worked_minutes: 0,
+      worked_hours: 0,
+      is_open: false,
+      leave_type: l.leave_type,
+      reason: l.reason,
+    });
+  }
+
+  // Days that have sessions but no legacy attendance row
+  const allDates = new Set(enriched.map((r) => r.work_date));
   for (const [workDate, day] of rollupByDate) {
-    if (legacyDates.has(workDate)) continue;
+    if (allDates.has(workDate)) continue;
     const sessions = sessionsByDate.get(workDate) || [];
+    let isLate = false;
+    if (day.first_check_in) {
+      try {
+        const d = new Date(day.first_check_in);
+        const parts = d.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour12: false }).split(':');
+        const minutes = Number(parts[0]) * 60 + Number(parts[1]);
+        isLate = minutes > (10 * 60 + 30);
+      } catch (_) {}
+    }
     enriched.push({
       id: `sessions-${workDate}`,
       work_date: workDate,
@@ -185,7 +259,7 @@ export const getMyAttendanceHistory = asyncHandler(async (req, res) => {
       check_in_time: day.first_check_in,
       check_out_time: day.last_check_out,
       status: 'PRESENT',
-      is_late: false,
+      is_late: isLate,
       session_count: sessions.length,
       sessions,
       has_sessions: true,

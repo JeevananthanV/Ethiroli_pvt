@@ -159,9 +159,14 @@ export const ensureEssentialTables = async () => {
           await pool.execute(ddl.replace('ADD COLUMN IF NOT EXISTS', 'ADD COLUMN'));
         } catch (_) {}
       }
-    }
+    // 9. Ensure attendance status enum includes LEAVE
+    try {
+      await pool.execute(`
+        ALTER TABLE attendance MODIFY COLUMN status ENUM('PRESENT','ABSENT','HALF_DAY','LEAVE') NOT NULL DEFAULT 'PRESENT'
+      `);
+    } catch (_) {}
 
-    console.log('Essential tables (contact_messages, career_applications, candidates, contact_inquiries, users.avatar_url, users.is_intern_head, push_notifications, student_projects ownership) verified/created.');
+    console.log('Essential tables (contact_messages, career_applications, candidates, contact_inquiries, users.avatar_url, users.is_intern_head, push_notifications, student_projects ownership, attendance.status LEAVE) verified/created.');
 
     try {
       const { seedProductionData } = await import('../../scripts/seed-production-attendance.js');

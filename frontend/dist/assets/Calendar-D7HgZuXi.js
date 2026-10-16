@@ -1,1 +1,0 @@
-import{j as a}from"./vendor-react-B5B6roqg.js";import{D as r}from"./DynamicCalendarPage-CaAIZV10.js";import"./AdminPage-Ba97Wtl5.js";import"./ErrorBoundary-fRo6zpbX.js";function i(){return a.jsx(r,{defaultRole:"SALES"})}export{i as default};

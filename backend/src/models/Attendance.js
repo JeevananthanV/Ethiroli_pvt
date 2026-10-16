@@ -163,7 +163,7 @@ export default class Attendance {
    * configured shift start (SHIFT_START, default 09:00 business time).
    */
   static async computeIsLate(userId, workDate) {
-    const shiftStart = process.env.SHIFT_START || '09:00';
+    const shiftStart = process.env.SHIFT_START || '10:30:00';
     const [rows] = await pool.execute(
       `SELECT TIME(MIN(check_in_time)) AS first_in
        FROM attendance_sessions
@@ -271,9 +271,8 @@ export default class Attendance {
   static async checkIn(user_id, customDate = null, customStatus = 'PRESENT', workMode = null) {
     const date = customDate || this.today();
     const now = new Date();
-    // Late = arrived after 09:00. The previous `getMinutes() > 0` test made
-    // 10:00 sharp count as on-time and 09:01 late.
-    const isLate = (now.getHours() * 60 + now.getMinutes()) > 9 * 60;
+    // Late = arrived after 10:30 AM.
+    const isLate = (now.getHours() * 60 + now.getMinutes()) > (10 * 60 + 30);
     const statusVal = String(customStatus).toUpperCase();
     const mode = workMode && ['REMOTE', 'OFFICE'].includes(String(workMode).toUpperCase())
       ? String(workMode).toUpperCase()

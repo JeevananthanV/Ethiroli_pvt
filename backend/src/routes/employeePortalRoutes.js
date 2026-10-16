@@ -32,7 +32,7 @@ router.use(authenticate);
 // administrator can still open /app/employee/* from the shared console.
 // No other portal calls /v1/employee/* - hrApi and receptionApi use
 // /v1/employees, which is a separate router - so this is employee-scoped.
-router.use(requireRole('EMPLOYEE', 'ADMIN', 'SUPER_ADMIN'));
+router.use(requireRole('EMPLOYEE', 'ADMIN', 'SUPER_ADMIN', 'INTERN'));
 
 // 1. Dashboard
 router.get('/dashboard', controller.getDashboardOverview);

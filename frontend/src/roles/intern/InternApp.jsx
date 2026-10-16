@@ -5,6 +5,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 const InternDashboard = lazy(() => import('./pages/Dashboard.jsx'));
 const InternProfile = lazy(() => import('./pages/Profile.jsx'));
 const InternAttendance = lazy(() => import('./pages/Attendance.jsx'));
+const InternLeaves = lazy(() => import('../employee/pages/Leaves.jsx'));
 const InternTasks = lazy(() => import('./pages/Tasks.jsx'));
 const InternProjects = lazy(() => import('./pages/Projects.jsx'));
 const InternAssignments = lazy(() => import('./pages/Assignments.jsx'));
@@ -47,6 +48,7 @@ export default function InternApp() {
         <Route path="dashboard" element={<InternDashboard />} />
         <Route path="profile" element={<InternProfile />} />
         <Route path="attendance" element={<InternAttendance />} />
+        <Route path="leaves" element={<InternLeaves />} />
         <Route path="tasks" element={<InternTasks />} />
         <Route path="projects" element={<InternProjects />} />
         <Route path="assignments" element={<InternAssignments />} />

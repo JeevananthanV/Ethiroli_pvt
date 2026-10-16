@@ -549,6 +549,7 @@ export const ROLE_NAVIGATION = Object.freeze({
     { label: 'My Training Plan', path: '/app/intern/training-plan', icon: 'route' },
     { label: 'Daily Tasks', path: '/app/intern/tasks', icon: 'checklist' },
     { label: 'Attendance', path: '/app/intern/attendance', icon: 'schedule' },
+    { label: 'Leaves', path: '/app/intern/leaves', icon: 'event_busy' },
     { label: 'Projects', path: '/app/intern/projects', icon: 'code' },
     { label: 'Assignments', path: '/app/intern/assignments', icon: 'assignment' },
     { label: 'Daily Work Log', path: '/app/intern/work-log', icon: 'edit_note' },

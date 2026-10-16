@@ -150,6 +150,7 @@ export default function Attendance() {
   const stats = {
     total: history.length,
     present: history.filter((r) => r.status === 'PRESENT').length,
+    leaves: history.filter((r) => r.status === 'LEAVE').length,
     late: history.filter((r) => r.is_late).length,
     halfDay: history.filter((r) => r.status === 'HALF_DAY').length,
     absent: history.filter((r) => r.status === 'ABSENT').length,
@@ -167,7 +168,7 @@ export default function Attendance() {
    * half day as 0.5, matching how the mentor reads the figure.
    */
   const rate = stats.total > 0
-    ? Math.round(((stats.present + stats.halfDay * 0.5) / stats.total) * 100)
+    ? Math.round(((stats.present + stats.leaves + stats.halfDay * 0.5) / stats.total) * 100)
     : null;
 
   const totalHours = (history.reduce((s, r) => s + (Number(r.worked_hours) || 0), 0)).toFixed(1);
@@ -208,7 +209,9 @@ export default function Attendance() {
             <div className="emp-stat emp-stat--teal h-100 text-center">
               <span className="emp-stat__label d-block">Present Days</span>
               <div className="emp-stat__value">{stats.present}</div>
-              <div className="emp-stat__hint">{stats.total} Logged Days</div>
+              <div className="emp-stat__hint">
+                {stats.total} Logged Days{stats.leaves > 0 ? ` • ${stats.leaves} Leave${stats.leaves === 1 ? '' : 's'}` : ''}
+              </div>
             </div>
           </div>
           <div className="col-6 col-md-3">
@@ -222,7 +225,7 @@ export default function Attendance() {
             <div className="emp-stat emp-stat--clay h-100 text-center">
               <span className="emp-stat__label d-block">Punctuality</span>
               <div className={`emp-stat__value ${stats.late > 2 ? 'text-warning' : ''}`}>{stats.late} Late</div>
-              <div className="emp-stat__hint">{stats.late === 0 ? 'Perfect timing' : 'Arrivals after 09:00'}</div>
+              <div className="emp-stat__hint">{stats.late === 0 ? 'Perfect timing' : 'Arrivals after 10:30'}</div>
             </div>
           </div>
         </div>
@@ -366,7 +369,7 @@ export default function Attendance() {
                       </td>
                       <td>
                         <span className="badge bg-light text-dark border">
-                          {record.session_count ?? 0}
+                          {record.status === 'LEAVE' ? '—' : (record.session_count ?? 0)}
                         </span>
                       </td>
                       <td>
@@ -378,14 +381,19 @@ export default function Attendance() {
                               </span>
                             ))}
                           </div>
+                        ) : record.status === 'LEAVE' ? (
+                          <span className="badge bg-warning bg-opacity-25 text-warning-emphasis border border-warning-subtle d-inline-flex align-items-center gap-1">
+                            <i className="bi bi-calendar2-check"></i>
+                            {record.leave_type ? `${record.leave_type} Leave` : 'Approved Leave'}{record.reason ? ` • ${record.reason}` : ''}
+                          </span>
                         ) : (
                           <span className="font-monospace small text-muted">
                             {formatClock(record.check_in_time)} – {formatClock(record.check_out_time)}
                           </span>
                         )}
                       </td>
-                      <td className="fw-semibold text-success">
-                        {formatDuration(record.worked_minutes ?? Math.round((record.worked_hours || 0) * 60))}
+                      <td className={record.status === 'LEAVE' ? 'text-muted' : 'fw-semibold text-success'}>
+                        {record.status === 'LEAVE' ? '—' : formatDuration(record.worked_minutes ?? Math.round((record.worked_hours || 0) * 60))}
                       </td>
                       <td>
                         <span className={`badge ${record.status === 'PRESENT' ? 'bg-success' : record.status === 'LEAVE' ? 'bg-warning text-dark' : 'bg-danger'}`}>
@@ -396,7 +404,11 @@ export default function Attendance() {
                         )}
                       </td>
                       <td>
-                        {record.is_late ? (
+                        {record.status === 'LEAVE' ? (
+                          <span className="badge bg-light text-muted border d-inline-flex align-items-center gap-1">
+                            <i className="bi bi-calendar-check text-muted"></i> Approved Leave
+                          </span>
+                        ) : record.is_late ? (
                           <span className="badge bg-warning text-dark d-inline-flex align-items-center gap-1">
                             <i className="bi bi-exclamation-triangle-fill"></i> Late
                           </span>

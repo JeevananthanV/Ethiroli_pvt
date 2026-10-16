@@ -394,12 +394,16 @@ function PasswordRecovery({ onClose }) {
 /**
  * EmployeeLoginPage - the employee portal sign-in screen.
  *
- * Three employee-specific concerns on top of the shared LoginPage:
- *  1. the real Ethiroli logo, plus a password visibility toggle;
- *  2. the password recovery workflow, which has to live on the sign-in screen
+ * Four employee-specific concerns on top of the shared LoginPage:
+ *  1. the polished card (`variant="polished"`), which is what makes the labels
+ *     and inputs legible on this dark background - the global admin.css forces
+ *     #374151 labels and white input boxes, which are unusable here. Opt-in, so
+ *     no other portal's sign-in screen changes;
+ *  2. the real Ethiroli logo, plus a password visibility toggle;
+ *  3. the password recovery workflow, which has to live on the sign-in screen
  *     because a locked-out employee cannot reach any authenticated page. It opens
  *     as a centered dialog so the sign-in form keeps its own compact height;
- *  3. when the axios 401 handler bounces an expired session here, the user is
+ *  4. when the axios 401 handler bounces an expired session here, the user is
  *     told why they landed on a login screen instead of the portal silently
  *     reloading in a loop.
  */
@@ -447,6 +451,7 @@ export default function EmployeeLoginPage() {
 
       <LoginPage
         portal="employee"
+        variant="polished"
         brandLogo={BRAND_LOGO}
         showPasswordToggle
         footer={footer}

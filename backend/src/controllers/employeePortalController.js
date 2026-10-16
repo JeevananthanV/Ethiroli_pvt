@@ -17,6 +17,7 @@ import { asyncHandler } from '../middleware/errorHandler.js';
 import { success, error } from '../utils/response.js';
 import { NotFoundError, BadRequestError, AuthorizationError } from '../utils/errors.js';
 import { decrypt } from '../config/encryption.js';
+import { validatePhone } from '../utils/validators.js';
 
 // Allowed ENUM values (mirror the database schemas) — validated before insert
 // so invalid input returns 400 instead of a raw DB error / 500.
@@ -70,6 +71,10 @@ const PROTECTED_EMPLOYEE_FIELDS = [
   'uan',
   'bank_account',
   'bank_ifsc',
+  // Added by migration 016 alongside bank_ifsc. It was missing from this list, so
+  // a crafted `bank_name` was silently dropped rather than refused - the exact
+  // failure mode the comment above describes.
+  'bank_name',
   'employee_code',
   'department',
   'designation',
@@ -81,10 +86,25 @@ const PROTECTED_EMPLOYEE_FIELDS = [
   'role'
 ];
 
+/**
+ * Accepted blood groups for the self-service profile field.
+ *
+ * Stored as VARCHAR(5) rather than a MySQL ENUM so the list lives in one place
+ * and can be extended without an ALTER. Validated on every write here, which is
+ * the single gate - the frontend dropdown is a convenience, not the check.
+ * 'Unknown' is the explicit "I'd rather not say" option; it is a real stored
+ * value, distinct from NULL ("not answered yet").
+ */
+const BLOOD_GROUPS = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-', 'Unknown'];
+
 // 1. Dashboard Overview
 export const getDashboardOverview = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const today = businessDate();
+
+  // The dashboard's attendance widget reads the same session data, so the
+  // auto punch-out has to run here too or it can show a stale "still open".
+  await autoCloseStaleSessions(userId);
 
   const emp = await Employee.findByUserId(userId);
 
@@ -128,6 +148,37 @@ export const getDashboardOverview = asyncHandler(async (req, res) => {
   }, 'Employee dashboard overview retrieved');
 });
 
+/**
+ * Close any session left open on a PREVIOUS business day, at 23:59:59 of that
+ * day, and re-sync the legacy day rows it affects.
+ *
+ * This runs ahead of the punch guard and the read endpoints on purpose. A
+ * forgotten punch-out otherwise leaves the employee 'ACTIVE' indefinitely, and
+ * because getActiveSession() is not date-scoped, the next day's CHECK_IN is
+ * rejected with "You are already punched in" - the employee is locked out of
+ * the punch clock completely. Sweeping first makes the day self-complete, so
+ * the record is always finished by the end of the day it belongs to.
+ *
+ * Returns the number of sessions closed, for logging/tests.
+ */
+const autoCloseStaleSessions = async (userId = null) => {
+  const closed = await AttendanceSession.autoCloseStaleSessions(userId);
+  if (closed.length === 0) return 0;
+
+  // Re-sync each affected day so attendance.check_out_time / worked_minutes /
+  // session_count stop reporting the day as still open.
+  for (const { user_id: uid, work_date: date } of closed) {
+    try {
+      await Attendance.syncDayRow(uid, date);
+    } catch (err) {
+      // A failed summary sync must not block the punch that triggered this.
+      console.error(`auto punch-out: failed to sync ${date} for user ${uid}:`, err.message);
+    }
+  }
+  console.log(`auto punch-out: closed ${closed.length} stale session(s) at 23:59:59`);
+  return closed.length;
+};
+
 // 2. Attendance & Punch Clock
 // Supports multiple work sessions per day. Daily worked time is the SUM of each
 // session's duration, so un-punched breaks/lunch are excluded.
@@ -135,6 +186,11 @@ export const punchAttendance = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const { action } = req.body; // 'CHECK_IN' | 'CHECK_OUT'
   const workDate = businessDate();
+
+  // Before anything else: a session still open from an earlier day is closed at
+  // that day's 23:59:59, so today's punch-in is never blocked by yesterday's
+  // forgotten punch-out.
+  await autoCloseStaleSessions(userId);
 
   if (action === 'CHECK_IN') {
     // Reject a second punch-in while a session is already open.
@@ -184,6 +240,8 @@ export const punchAttendance = asyncHandler(async (req, res) => {
 });
 
 export const getTodayAttendance = asyncHandler(async (req, res) => {
+  // Keep the record honest even if nobody has touched the punch clock today.
+  await autoCloseStaleSessions(req.user.id);
   const summary = await Attendance.getDaySummary(req.user.id, businessDate());
   return success(res, 200, { ...summary, timezone: BUSINESS_TIMEZONE }, 'Today attendance retrieved');
 });
@@ -194,6 +252,9 @@ export const getAttendanceHistory = asyncHandler(async (req, res) => {
   const pageNum = Math.max(1, parseInt(page, 10) || 1);
   const pageSize = Math.max(1, parseInt(limit, 10) || 50);
   const offset = (pageNum - 1) * pageSize;
+
+  // So a forgotten punch-out shows as a completed day rather than "open".
+  await autoCloseStaleSessions(userId);
 
   // Default window: last 60 days up to today (business timezone).
   const to = end_date || businessDate();
@@ -320,6 +381,10 @@ export const getAttendanceHistory = asyncHandler(async (req, res) => {
 export const getMonthlyAttendance = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const today = businessDate();
+
+  // The calendar colours and counts days from the sessions, so a day left open
+  // by a forgotten punch-out must be closed before the month is summarised.
+  await autoCloseStaleSessions(userId);
 
   const requestedMonth = req.query.month;
   const monthMatch = requestedMonth === undefined || requestedMonth === ''
@@ -822,8 +887,12 @@ export const getMyProfile = asyncHandler(async (req, res) => {
 
 export const updateMyProfile = asyncHandler(async (req, res) => {
   const userId = req.user.id;
-  const { phone, full_name, preferences, avatar_url, avatar } = req.body;
+  const {
+    phone, full_name, preferences, avatar_url, avatar,
+    blood_group, emergency_contact, address
+  } = req.body;
   const updates = {};
+  const employeeUpdates = {};
 
   // PAN / PF / bank / employment fields belong to HR, Finance and Admin. Refuse
   // the request outright instead of quietly ignoring it, so an employee (or a
@@ -859,6 +928,73 @@ export const updateMyProfile = asyncHandler(async (req, res) => {
 
   if (preferences !== undefined) updates.preferences = preferences;
 
+  /*
+   * Self-service personal information, stored on the employee record
+   * (migration 017) rather than on users, because they describe the employee
+   * rather than the login identity.
+   *
+   * Validated here rather than trusted from the form. Each is optional: an empty
+   * string clears the column to NULL, which the profile renders as
+   * "Not on record". Nothing is defaulted - a missing field stays missing.
+   */
+
+  if (blood_group !== undefined) {
+    if (blood_group === null || blood_group === '') {
+      employeeUpdates.blood_group = null;
+    } else {
+      const value = String(blood_group).trim();
+      if (!BLOOD_GROUPS.includes(value)) {
+        throw new BadRequestError(
+          `Invalid blood group "${blood_group}". Must be one of: ${BLOOD_GROUPS.join(', ')}`
+        );
+      }
+      employeeUpdates.blood_group = value;
+    }
+  }
+
+  if (emergency_contact !== undefined) {
+    if (emergency_contact === null || emergency_contact === '') {
+      employeeUpdates.emergency_contact = null;
+    } else {
+      const value = String(emergency_contact).trim();
+      // Reuses the project's shared PHONE_REGEX so the emergency contact is
+      // accepted in the same formats as the employee phone. Optional leading
+      // '+', spaces/brackets/dashes tolerated.
+      if (!validatePhone(value)) {
+        throw new BadRequestError(
+          'emergency_contact must be a valid phone number (7-15 digits, optional leading +)'
+        );
+      }
+      // The shared regex only requires 2 digits, which is not a number anyone
+      // could actually dial in an emergency. An emergency contact that cannot be
+      // dialled is worse than none, so a 7-digit floor is enforced here rather
+      // than changing PHONE_REGEX, which every other role also depends on.
+      const digits = value.replace(/\D/g, '');
+      if (digits.length < 7) {
+        throw new BadRequestError(
+          'emergency_contact must be a valid phone number (7-15 digits, optional leading +)'
+        );
+      }
+      // Strip formatting for storage so it is directly diallable.
+      employeeUpdates.emergency_contact = value.replace(/[\s()-]/g, '');
+    }
+  }
+
+  if (address !== undefined) {
+    if (address === null || address === '') {
+      employeeUpdates.address = null;
+    } else {
+      if (typeof address !== 'string') {
+        throw new BadRequestError('address must be a string');
+      }
+      const value = address.trim();
+      if (value.length > 500) {
+        throw new BadRequestError('address must be 500 characters or fewer');
+      }
+      employeeUpdates.address = value;
+    }
+  }
+
   const resolvedAvatar = avatar_url !== undefined ? avatar_url : avatar;
   if (resolvedAvatar !== undefined) {
     if (resolvedAvatar === null || resolvedAvatar === '') {
@@ -876,15 +1012,43 @@ export const updateMyProfile = asyncHandler(async (req, res) => {
     }
   }
 
-  if (Object.keys(updates).length === 0) {
+  if (Object.keys(updates).length === 0 && Object.keys(employeeUpdates).length === 0) {
     throw new BadRequestError('No supported profile fields were provided');
   }
 
-  await User.update(userId, updates);
+  /*
+   * Scoped to the caller's OWN employee row.
+   *
+   * `emp` is resolved from req.user.id, never from a request parameter, so an
+   * employee cannot address another employee's record by supplying an id. The
+   * protected-field check above already refused any attempt to write PAN / PF /
+   * UAN / banking through this endpoint.
+   */
+  if (Object.keys(updates).length > 0) {
+    await User.update(userId, updates);
+  }
+
+  let employee = null;
+  if (Object.keys(employeeUpdates).length > 0) {
+    const emp = await Employee.findByUserId(userId);
+    if (!emp) {
+      throw new NotFoundError(
+        'No employee record is linked to this account, so personal information cannot be saved.'
+      );
+    }
+    await Employee.update(emp.id, employeeUpdates);
+    // Re-read so the response reflects exactly what was persisted.
+    employee = await Employee.findByUserId(userId);
+  }
+
   const updatedUser = await User.findById(userId);
   const safeUser = updatedUser ? { ...updatedUser } : null;
   if (safeUser) delete safeUser.password_hash;
-  return success(res, 200, safeUser, 'Profile updated successfully');
+
+  // `employee` is additive: existing callers that only read the user object are
+  // unaffected, and the profile page gets the saved personal fields without a
+  // second round trip.
+  return success(res, 200, { ...(safeUser || {}), ...(employee ? { employee } : {}) }, 'Profile updated successfully');
 });
 
 // 7. Support Tickets & Help Desk

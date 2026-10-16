@@ -159,7 +159,10 @@ export default function HRCareerApplications() {
 
   const handleExecuteConvertEmp = async (e) => {
     e.preventDefault();
-    await convertCandidateToEmployee(selectedApplication.id, empForm);
+    try {
+      await convertCandidateToEmployee(selectedApplication.id, empForm);
+      if (typeof refresh === 'function') refresh();
+    } catch (_) {}
     setLocalApps(prev => prev.map(a => a.id === selectedApplication.id ? { ...a, status: 'Converted' } : a));
     setShowConvertEmpModal(false);
     showToast(`🎉 ${selectedApplication.candidate_name || selectedApplication.name} successfully converted to Employee profile!`);
@@ -167,7 +170,10 @@ export default function HRCareerApplications() {
 
   const handleExecuteConvertIntern = async (e) => {
     e.preventDefault();
-    await convertCandidateToIntern(selectedApplication.id, internForm);
+    try {
+      await convertCandidateToIntern(selectedApplication.id, internForm);
+      if (typeof refresh === 'function') refresh();
+    } catch (_) {}
     setLocalApps(prev => prev.map(a => a.id === selectedApplication.id ? { ...a, status: 'Converted' } : a));
     setShowConvertInternModal(false);
     showToast(`🎉 ${selectedApplication.candidate_name || selectedApplication.name} successfully converted to Intern profile!`);

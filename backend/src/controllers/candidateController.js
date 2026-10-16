@@ -11,10 +11,31 @@ export const listCandidates = asyncHandler(async (req, res) => {
   const { job_id, status, page = 1, limit = 50 } = req.query;
   const offset = (parseInt(page) - 1) * parseInt(limit);
 
-  const [items, countRow] = await Promise.all([
+  let [items, countRow] = await Promise.all([
     Candidate.list({ job_id, status, limit: parseInt(limit), offset }),
     Candidate.count({ job_id, status })
   ]);
+
+  if (!items || items.length === 0) {
+    const [appRows] = await pool.query('SELECT * FROM career_applications ORDER BY created_at DESC');
+    if (appRows && appRows.length > 0) {
+      items = appRows.map(r => ({
+        id: r.id,
+        name: r.full_name || r.name,
+        candidate_name: r.full_name || r.name,
+        email: r.email,
+        phone: r.phone,
+        role: r.role || 'Web Developer Intern',
+        position: r.role || 'Web Developer Intern',
+        source: 'WEBSITE_CAREER',
+        status: r.status === 'NEW' ? 'Applied' : (r.status || 'Applied'),
+        resume_url: r.portfolio_url,
+        notes: r.message,
+        created_at: r.created_at
+      }));
+      countRow = items.length;
+    }
+  }
 
   return success(res, 200, items, 'Candidates retrieved', {
     page: parseInt(page),
@@ -29,8 +50,28 @@ export const listCareerApplications = asyncHandler(async (req, res) => {
     'SELECT * FROM career_applications ORDER BY created_at DESC'
   );
 
-  return success(res, 200, rows, 'Career applications retrieved successfully', {
-    total: rows.length
+  const formatted = rows.map((r) => ({
+    id: r.id,
+    candidate_name: r.full_name || r.name,
+    name: r.full_name || r.name,
+    email: r.email,
+    phone: r.phone || '',
+    position: r.role || 'Web Developer Intern',
+    role: r.role || 'Web Developer Intern',
+    experience: r.experience_level || 'Beginner',
+    experience_level: r.experience_level || 'Beginner',
+    current_company: r.experience_level ? `${r.experience_level} Experience` : 'Applicant',
+    applied_at: r.created_at ? new Date(r.created_at).toISOString().split('T')[0] : '',
+    status: r.status === 'NEW' ? 'Applied' : (r.status || 'Applied'),
+    resume_summary: r.message,
+    message: r.message,
+    portfolio_url: r.portfolio_url,
+    resume_url: r.portfolio_url,
+    type_preference: (r.role || '').toLowerCase().includes('intern') ? 'INTERN' : 'EMPLOYEE'
+  }));
+
+  return success(res, 200, formatted, 'Career applications retrieved successfully', {
+    total: formatted.length
   });
 });
 

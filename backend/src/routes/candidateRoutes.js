@@ -22,9 +22,15 @@ router.post('/apply', createCandidate);
 router.post('/candidates/apply', createCandidate);
 
 // Protected endpoints for HR and Admins
-router.get('/', authenticate, requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), listCandidates);
+router.get('/', authenticate, requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), (req, res, next) => {
+  if (req.baseUrl.includes('career-applications')) {
+    return listCareerApplications(req, res, next);
+  }
+  return listCandidates(req, res, next);
+});
 router.get('/candidates', authenticate, requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), listCandidates);
 router.get('/applications', authenticate, requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), listCareerApplications);
+router.get('/career-applications', authenticate, requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), listCareerApplications);
 router.get('/:id', authenticate, requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), getCandidate);
 router.patch('/:id', authenticate, requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), updateCandidate);
 router.delete('/:id', authenticate, requireRole('HR', 'ADMIN', 'SUPER_ADMIN'), deleteCandidate);

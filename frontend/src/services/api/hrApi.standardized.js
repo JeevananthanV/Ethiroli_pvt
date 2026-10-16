@@ -176,7 +176,14 @@ export const listHrRoutes = async () => {
  * Career Applications
  */
 export const listCareerApplications = async (params = {}) => {
-  return standardFetch(axiosInstance.get('/v1/career-applications', { params }));
+  try {
+    const res = await standardFetch(axiosInstance.get('/v1/career-applications', { params }));
+    if (Array.isArray(res) && res.length > 0) return res;
+    if (res?.data && Array.isArray(res.data) && res.data.length > 0) return res.data;
+    return await standardFetch(axiosInstance.get('/v1/career-applications/applications', { params }));
+  } catch (err) {
+    return await standardFetch(axiosInstance.get('/v1/candidates/applications', { params }));
+  }
 };
 
 /**

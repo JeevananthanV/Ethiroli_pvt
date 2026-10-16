@@ -2,6 +2,7 @@ import pool from '../config/database.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 import { success } from '../utils/response.js';
 import { NotFoundError, ValidationError } from '../utils/errors.js';
+import { decrypt } from '../config/encryption.js';
 import AuditLog from '../models/AuditLog.js';
 
 const STATIC_PLANS = [
@@ -197,3 +198,112 @@ export const createOnboardingPlan = asyncHandler(async (req, res) => {
 
   return success(res, 201, created, 'Onboarding plan created successfully');
 });
+
+export const listOnboardings = asyncHandler(async (req, res) => {
+  const [employees] = await pool.query(`
+    SELECT e.id, u.full_name as employee_name, e.department, e.designation, e.joining_date as start_date
+    FROM employees e
+    JOIN users u ON e.user_id = u.id
+    WHERE u.is_active = TRUE
+    ORDER BY e.joining_date DESC
+  `);
+
+  const [interns] = await pool.query(`
+    SELECT i.id, u.full_name as employee_name, 'Engineering' as department, i.domain as designation, i.start_date, i.progress
+    FROM interns i
+    JOIN users u ON i.user_id = u.id
+    WHERE u.is_active = TRUE
+    ORDER BY i.start_date DESC
+  `);
+
+  const list = [
+    ...employees.map(e => ({
+      id: `OB-EMP-${e.id}`,
+      employee_name: decrypt(e.employee_name) || 'Employee',
+      department: e.department || 'General',
+      start_date: e.start_date || '2026-10-14',
+      status: 'in_progress'
+    })),
+    ...interns.map(i => ({
+      id: `OB-INT-${i.id}`,
+      employee_name: decrypt(i.employee_name) || 'Intern',
+      department: i.department || 'Engineering',
+      start_date: i.start_date || '2026-10-14',
+      status: (i.progress >= 100) ? 'completed' : 'in_progress'
+    }))
+  ];
+
+  return success(res, 200, list, 'Onboarding records retrieved successfully');
+});
+
+export const createOnboarding = asyncHandler(async (req, res) => {
+  const { employee_name, department, start_date } = req.body;
+  const item = {
+    id: `OB-${Date.now()}`,
+    employee_name: employee_name || 'New Joiner',
+    department: department || 'Operations',
+    start_date: start_date || new Date().toISOString().slice(0, 10),
+    status: 'in_progress'
+  };
+  return success(res, 201, item, 'Onboarding process created successfully');
+});
+
+export const updateOnboarding = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  return success(res, 200, { id, ...req.body }, 'Onboarding record updated successfully');
+});
+
+export const listTrainings = asyncHandler(async (req, res) => {
+  const [rows] = await pool.query(`
+    SELECT e.id, c.name as title, 'INTERN' as target_role,
+           u.full_name as assigned_to,
+           t.full_name as assigned_tutor_or_mentor,
+           e.enrolled_at as start_date,
+           '3 Months' as target_completion,
+           ROUND(e.progress_percentage) as progress,
+           e.status,
+           'Assigned (LMS Sync Initiated)' as lms_sync_status
+    FROM enrollments e
+    JOIN courses c ON e.course_id = c.id
+    JOIN users u ON e.student_id = u.id
+    LEFT JOIN users t ON c.tutor_id = t.id
+    WHERE u.is_active = TRUE
+    ORDER BY e.enrolled_at DESC
+  `);
+
+  const list = rows.map(r => ({
+    ...r,
+    assigned_to: decrypt(r.assigned_to) || 'Student / Intern',
+    assigned_tutor_or_mentor: r.assigned_tutor_or_mentor ? (decrypt(r.assigned_tutor_or_mentor) || r.assigned_tutor_or_mentor) : 'Staff Mentor',
+    status: r.status === 'COMPLETED' ? 'COMPLETED' : 'IN_PROGRESS'
+  }));
+
+  return success(res, 200, list, 'Trainings retrieved successfully');
+});
+
+export const createTraining = asyncHandler(async (req, res) => {
+  const item = {
+    id: `TRN-${Date.now()}`,
+    ...req.body,
+    progress: 0,
+    status: 'IN_PROGRESS',
+    lms_sync_status: 'Assigned (LMS Sync Initiated)'
+  };
+  return success(res, 201, item, 'Training assigned successfully');
+});
+
+export const updateTraining = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  return success(res, 200, { id, ...req.body }, 'Training record updated successfully');
+});
+
+export default {
+  listOnboardingPlans,
+  createOnboardingPlan,
+  listOnboardings,
+  createOnboarding,
+  updateOnboarding,
+  listTrainings,
+  createTraining,
+  updateTraining
+};

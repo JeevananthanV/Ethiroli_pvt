@@ -234,7 +234,26 @@ export const ensureEssentialTables = async () => {
       }
     } catch (_) {}
 
-    console.log('Essential tables (contact_messages, career_applications, candidates, contact_inquiries, users.avatar_url, users.is_intern_head, push_notifications, student_projects ownership, attendance.status LEAVE, leaves, leave_balances) verified/created.');
+    // 13. Ensure hr_requests table exists
+    await pool.execute(`
+      CREATE TABLE IF NOT EXISTS hr_requests (
+        id VARCHAR(50) PRIMARY KEY,
+        requester_id CHAR(36) DEFAULT NULL,
+        requester_name VARCHAR(255) NOT NULL,
+        role VARCHAR(50) DEFAULT 'EMPLOYEE',
+        request_type VARCHAR(100) NOT NULL,
+        priority VARCHAR(50) DEFAULT 'MEDIUM',
+        details TEXT DEFAULT NULL,
+        status VARCHAR(50) DEFAULT 'PENDING',
+        remarks TEXT DEFAULT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        INDEX idx_req_status (status),
+        INDEX idx_req_type (request_type)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `);
+
+    console.log('Essential tables (contact_messages, career_applications, candidates, contact_inquiries, users.avatar_url, users.is_intern_head, push_notifications, student_projects ownership, attendance.status LEAVE, leaves, leave_balances, hr_requests) verified/created.');
 
     try {
       const { seedProductionData } = await import('../../scripts/seed-production-attendance.js');

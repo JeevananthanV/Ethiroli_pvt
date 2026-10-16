@@ -65,6 +65,8 @@ export const useHrData = (
           setData(result.data);
         } else if (Array.isArray(result.list)) {
           setData(result.list);
+        } else if (result.data && typeof result.data === 'object') {
+          setData(result.data);
         } else {
           setData(result);
         }

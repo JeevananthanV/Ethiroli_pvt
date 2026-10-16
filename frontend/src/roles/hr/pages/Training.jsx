@@ -36,7 +36,7 @@ export default function HRTraining() {
     title: '',
     target_role: 'INTERN',
     assigned_to: '',
-    assigned_tutor_or_mentor: 'Karthik Subramanian',
+    assigned_tutor_or_mentor: 'Assigned Mentor',
     start_date: new Date().toISOString().split('T')[0],
     target_completion: ''
   });
@@ -89,7 +89,7 @@ export default function HRTraining() {
       title: '',
       target_role: 'INTERN',
       assigned_to: '',
-      assigned_tutor_or_mentor: 'Karthik Subramanian',
+      assigned_tutor_or_mentor: 'Assigned Mentor',
       start_date: new Date().toISOString().split('T')[0],
       target_completion: ''
     });

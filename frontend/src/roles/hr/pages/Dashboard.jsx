@@ -35,9 +35,15 @@ export default function HRDashboard() {
     undefined
   );
 
-  const metrics = rawMetrics && typeof rawMetrics === 'object' && !Array.isArray(rawMetrics)
-    ? { ...DEFAULT_METRICS, ...rawMetrics }
-    : DEFAULT_METRICS;
+  const unwrapMetrics = (raw) => {
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return DEFAULT_METRICS;
+    const source = (raw.data && typeof raw.data === 'object' && !Array.isArray(raw.data))
+      ? raw.data
+      : raw;
+    return { ...DEFAULT_METRICS, ...source };
+  };
+
+  const metrics = unwrapMetrics(rawMetrics);
 
   const totalWorkforce = (metrics.totalEmployees || 0) + (metrics.totalInterns || 0);
   const attendance = totalWorkforce > 0 && metrics.presentToday > 0

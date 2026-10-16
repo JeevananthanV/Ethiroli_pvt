@@ -201,15 +201,15 @@ export const createOnboardingPlan = asyncHandler(async (req, res) => {
 
 export const listOnboardings = asyncHandler(async (req, res) => {
   const [employees] = await pool.query(`
-    SELECT e.id, u.full_name as employee_name, e.department, e.designation, e.joining_date as start_date
+    SELECT e.id, u.full_name as employee_name, e.department, e.designation, e.date_of_joining as start_date
     FROM employees e
     JOIN users u ON e.user_id = u.id
     WHERE u.is_active = TRUE
-    ORDER BY e.joining_date DESC
+    ORDER BY e.date_of_joining DESC
   `);
 
   const [interns] = await pool.query(`
-    SELECT i.id, u.full_name as employee_name, 'Engineering' as department, i.domain as designation, i.start_date, i.progress
+    SELECT i.id, u.full_name as employee_name, 'Engineering' as department, i.project_target as designation, i.start_date, i.progress
     FROM interns i
     JOIN users u ON i.user_id = u.id
     WHERE u.is_active = TRUE

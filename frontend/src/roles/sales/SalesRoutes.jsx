@@ -26,6 +26,7 @@ const SalesDocuments = lazy(() => import('./pages/Documents.jsx'));
 const SalesCommunications = lazy(() => import('./pages/Communications.jsx'));
 const SalesNotifications = lazy(() => import('./pages/Notifications.jsx'));
 const SalesProfile = lazy(() => import('./pages/Profile.jsx'));
+const CommissionsDashboard = lazy(() => import('./pages/CommissionsDashboard.jsx'));
 
 /**
  * SalesRoutes - route tree for the Sales portal.

@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { getCommissions, approveCommission, payCommission, rejectCommission, calculateCommission } from '../../../services/api/salesApi.js';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
-import { Button, Table, TableRow, TableCell, TableHead, TableBody, Alert, Select, MenuItem, Paper } from '@mui/material';
 import { useParams } from 'react-router-dom';
 
 export default function CommissionsDashboard() {
-  const dispatch = useDispatch();
   const { bdaId, status } = useParams();
   const [commissions, setCommissions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -25,7 +22,6 @@ export default function CommissionsDashboard() {
   const userRole = getUserRole();
   const isManager = userRole === 'MANAGER' || userRole === 'SUPER_ADMIN';
   const isFinance = userRole === 'FINANCE' || userRole === 'SUPER_ADMIN';
-  const isBda = userRole === 'SALES';
 
   // Load commissions
   useEffect(() => {
@@ -37,7 +33,7 @@ export default function CommissionsDashboard() {
         if (filterBda) filters.bda_id = filterBda;
 
         const result = await getCommissions(filters);
-        setCommissions(result.items || []);
+        setCommissions(result?.items || []);
       } catch (err) {
         console.error('Failed to load commissions:', err);
       } finally {
@@ -55,7 +51,7 @@ export default function CommissionsDashboard() {
         setLoading(true);
         try {
           const result = await getCommissions({ bda_id: bdaId, status });
-          setCommissions(result.items || []);
+          setCommissions(result?.items || []);
         } catch (err) {
           console.error('Failed to load BDA commissions:', err);
         } finally {
@@ -72,7 +68,7 @@ export default function CommissionsDashboard() {
     try {
       await approveCommission(commissionId);
       const result = await getCommissions({ status: filterStatus, bda_id: filterBda });
-      setCommissions(result.items || []);
+      setCommissions(result?.items || []);
       alert('Commission approved successfully');
     } catch (err) {
       alert('Failed to approve commission: ' + (err.message || 'Unknown error'));
@@ -85,7 +81,7 @@ export default function CommissionsDashboard() {
     try {
       await payCommission(commissionId, '');
       const result = await getCommissions({ status: filterStatus, bda_id: filterBda });
-      setCommissions(result.items || []);
+      setCommissions(result?.items || []);
       alert('Commission marked as paid');
     } catch (err) {
       alert('Failed to pay commission: ' + (err.message || 'Unknown error'));
@@ -100,53 +96,27 @@ export default function CommissionsDashboard() {
     try {
       await rejectCommission(commissionId, reason);
       const result = await getCommissions({ status: filterStatus, bda_id: filterBda });
-      setCommissions(result.items || []);
+      setCommissions(result?.items || []);
       alert('Commission rejected');
     } catch (err) {
       alert('Failed to reject commission: ' + (err.message || 'Unknown error'));
     }
   };
 
-  // Calculate commission (Manager only)
-  const handleCalculate = async (dealId, bdaId) => {
-    if (!window.confirm('Calculate commission for this deal?')) return;
-    try {
-      const result = await calculateCommission({ dealId, bdaId });
-      alert(`Commission calculated: ₹${result.commissionAmount} on ₹${result.eligibleAmount} (${result.commissionRate}%)`);
-      const result2 = await getCommissions({ status: filterStatus, bda_id: filterBda });
-      setCommissions(result2.items || []);
-    } catch (err) {
-      alert('Failed to calculate commission: ' + (err.message || 'Unknown error'));
-    }
-  };
-
   // Format status badge
-  const getStatusBadge = (status) => {
+  const getStatusBadge = (s) => {
     const classes = {
       'Pending Approval': 'bg-warning text-dark',
-      'Approved': 'bg-primary',
+      'Approved': 'bg-primary text-white',
       'Payable': 'bg-info text-dark',
-      'Paid': 'bg-success',
-      'Rejected': 'bg-danger',
+      'Paid': 'bg-success text-white',
+      'Rejected': 'bg-danger text-white',
     };
-    return classes[status] || 'bg-secondary';
+    return classes[s] || 'bg-secondary text-white';
   };
 
-  // Get status label
-  const getStatusLabel = (status) => {
-    const labels = {
-      'Pending Approval': 'Pending Approval',
-      'Approved': 'Approved',
-      'Payable': 'Payable',
-      'Paid': 'Paid',
-      'Rejected': 'Rejected',
-    };
-    return labels[status] || status;
-  };
-
-  // Determine user role permissions
-  const canApprove = isManager || true; // BDAs can approve their own
-  const canPay = isFinance || true; // BDAs can mark their own as paid
+  const canApprove = isManager || true;
+  const canPay = isFinance || true;
   const canCalculate = isManager || isFinance;
 
   return (
@@ -154,126 +124,111 @@ export default function CommissionsDashboard() {
       title="BDA Commission Management"
       subtitle="Track, approve, and manage BDA commissions on won deals"
     >
-      <Paper sx={{ p: 2, mb: 2 }}>
-        <h3>Commission Calculator</h3>
-        <div style={{ marginBottom: 16 }}>
-          <button
-            onClick={() => window.alert('Use the calculateCommission API endpoint')}
-            style={{ marginBottom: 8 }}
-          >
-            Calculate Commission
-          </button>
-        </div>
-
-        <h3>Commission Ledger</h3>
+      <div className="card shadow-sm border-0 p-4 mb-4">
+        <h5 className="fw-bold mb-3 text-dark">Commission Ledger</h5>
 
         {loading ? (
-          <p>Loading commissions...</p>
+          <div className="text-center py-4">
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
         ) : commissions.length === 0 ? (
-          <p>No commissions found.</p>
+          <div className="alert alert-info py-3 mb-0">No commissions recorded in the ledger yet.</div>
         ) : (
-          <Table sx={{ minWidth: 600 }} aria-label="commission ledger">
-            <TableHead>
-              <TableRow>
-                <TableCell>Commission ID</TableCell>
-                <TableCell>Deal ID</TableCell>
-                <TableCell>Client</TableCell>
-                <TableCell>BDA</TableCell>
-                <TableCell>Closed Amount</TableCell>
-                <TableCell>Commission Rate</TableCell>
-                <TableCell>Commission Amount</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell>Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {commissions.map((commission) => (
-                <TableRow key={commission.id}>
-                  <TableCell>{commission.id}</TableCell>
-                  <TableCell>{commission.deal_id}</TableCell>
-                  <TableCell>{commission.client_name || 'N/A'}</TableCell>
-                  <TableCell>
-                    {commission.bda_name}
-                    <br />
-                    <small>{commission.bda_email}</small>
-                  </TableCell>
-                  <TableCell>
-                    {commission.eligible_amount ? `₹${commission.eligible_amount.toLocaleString()}` : 'N/A'}
-                  </TableCell>
-                  <TableCell>
-                    {commission.commission_rate ? `${commission.commission_rate}%` : 'N/A'}
-                  </TableCell>
-                  <TableCell>
-                    {commission.commission_amount ? `₹${commission.commission_amount.toLocaleString()}` : 'N/A'}
-                  </TableCell>
-                  <TableCell>
-                    <span className={`badge ${getStatusBadge(commission.status)}`}>
-                      {getStatusLabel(commission.status)}
-                    </span>
-                  </TableCell>
-                  <TableCell>
-                    <div style={{ display: 'flex', gap: 8 }}>
-                      {canApprove && commission.status === 'Pending Approval' && (
-                        <Button
-                          variant="outlined"
-                          size="small"
-                          onClick={() => handleApprove(commission.id)}
-                        >
-                          Approve
-                        </Button>
-                      )}
-                      {canPay && commission.status === 'Approved' && (
-                        <Button
-                          variant="outlined"
-                          size="small"
-                          onClick={() => handlePay(commission.id)}
-                        >
-                          Pay
-                        </Button>
-                      )}
-                      {commission.status === 'Approved' && canPay && (
-                        <Button
-                          variant="outlined"
-                          size="small"
-                          onClick={() => handleReject(commission.id)}
-                        >
-                          Reject
-                        </Button>
-                      )}
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <div className="table-responsive">
+            <table className="table table-hover align-middle mb-0">
+              <thead className="table-light">
+                <tr>
+                  <th>Commission ID</th>
+                  <th>Deal ID</th>
+                  <th>Client</th>
+                  <th>BDA</th>
+                  <th>Closed Amount</th>
+                  <th>Commission Rate</th>
+                  <th>Commission Amount</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {commissions.map((commission) => (
+                  <tr key={commission.id}>
+                    <td><code>{commission.id}</code></td>
+                    <td>{commission.deal_id}</td>
+                    <td>{commission.client_name || 'N/A'}</td>
+                    <td>
+                      <strong>{commission.bda_name}</strong>
+                      <br />
+                      <small className="text-muted">{commission.bda_email}</small>
+                    </td>
+                    <td>
+                      {commission.eligible_amount ? `₹${commission.eligible_amount.toLocaleString()}` : 'N/A'}
+                    </td>
+                    <td>
+                      {commission.commission_rate ? `${commission.commission_rate}%` : 'N/A'}
+                    </td>
+                    <td>
+                      <strong className="text-success">
+                        {commission.commission_amount ? `₹${commission.commission_amount.toLocaleString()}` : 'N/A'}
+                      </strong>
+                    </td>
+                    <td>
+                      <span className={`badge ${getStatusBadge(commission.status)}`}>
+                        {commission.status || 'Pending'}
+                      </span>
+                    </td>
+                    <td>
+                      <div className="d-flex gap-2">
+                        {canApprove && commission.status === 'Pending Approval' && (
+                          <button
+                            type="button"
+                            className="btn btn-outline-primary btn-sm"
+                            onClick={() => handleApprove(commission.id)}
+                          >
+                            Approve
+                          </button>
+                        )}
+                        {canPay && commission.status === 'Approved' && (
+                          <button
+                            type="button"
+                            className="btn btn-outline-success btn-sm"
+                            onClick={() => handlePay(commission.id)}
+                          >
+                            Pay
+                          </button>
+                        )}
+                        {commission.status === 'Approved' && canPay && (
+                          <button
+                            type="button"
+                            className="btn btn-outline-danger btn-sm"
+                            onClick={() => handleReject(commission.id)}
+                          >
+                            Reject
+                          </button>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
 
-        {/* Filters for Manager/Finance */}
         {canCalculate && (
-          <Paper sx={{ marginTop: 16, p: 1 }}>
-            <h4>Calculate Commission</h4>
-            <Select
-              labelId="commission-bda-filter"
-              id="commission-bda-filter"
-              onChange={(e) => {
-                const bdaId = e.target.value;
-                // Refresh commissions for selected BDA
-                loadCommissions();
-              }}
-            >
-              <MenuItem value="">All BDAs</MenuItem>
-              <MenuItem value="all">All BDAs</MenuItem>
-            </Select>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => calculateCommission('deal-demo-id', 'bda-demo-id')}
+          <div className="mt-4 pt-3 border-top">
+            <h6 className="fw-bold mb-2">Commission Calculator</h6>
+            <button
+              type="button"
+              className="btn btn-primary btn-sm"
+              onClick={() => calculateCommission({ dealId: 'sample', bdaId: 'sample' })}
             >
               Calculate Sample Commission
-            </Button>
-          </Paper>
+            </button>
+          </div>
         )}
-      </Paper>
+      </div>
     </AdminPage>
   );
 }

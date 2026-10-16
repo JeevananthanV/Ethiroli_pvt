@@ -1,41 +1,32 @@
 /* ==========================================================================
-   Intern Login Page — Exact UI/UX Replica matching the reference design
-   Role: INTERN | Clean 2-Column Split Hero Layout (Zero OAuth, Zero Google)
+   Intern Login Page — Exact UI/UX Replica matching the reference mockup
+   Role: INTERN | Clean 58/42 Split Screen Layout (Zero OAuth, Zero Google)
    ========================================================================== */
 
 .pageContainer {
   min-height: 100vh;
   width: 100%;
   display: flex;
-  justify-content: center;
-  background: #f8fafc;
+  background: #ffffff;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   color: #0f172a;
   overflow-x: hidden;
   position: relative;
-}
-
-.pageInner {
-  width: 100%;
-  max-width: 1560px;
-  min-height: 100vh;
-  display: flex;
-  align-items: stretch;
-  position: relative;
-  background: #ffffff;
+  box-sizing: border-box;
 }
 
 /* ==========================================================================
-   LEFT SECTION: HERO & SHOWCASE
+   LEFT SECTION: HERO & SHOWCASE (58%)
    ========================================================================== */
 .leftSection {
-  flex: 1.18;
+  flex: 0 0 58%;
+  width: 58%;
   display: flex;
   flex-direction: column;
   padding: 2.25rem 3.5rem 1.75rem 3.5rem;
   position: relative;
-  overflow: hidden;
   background: #ffffff;
+  box-sizing: border-box;
 }
 
 /* Header */
@@ -43,7 +34,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.75rem;
 }
 
 .brandBox {
@@ -92,16 +83,16 @@
 
 /* Headline Group */
 .heroTextGroup {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .mainHeading {
-  font-size: 2.45rem;
+  font-size: 2.35rem;
   font-weight: 800;
-  line-height: 1.16;
+  line-height: 1.15;
   letter-spacing: -0.025em;
   color: #0f172a;
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 0.45rem 0;
 }
 
 .headingAccent {
@@ -131,15 +122,16 @@
   color: #94a3b8;
 }
 
-/* 4 Feature Pills / Cards in 1 Row */
+/* 4 Feature Badges */
 .featuresRow {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
   gap: 12px;
   margin-bottom: 1.5rem;
+  width: 100%;
 }
 
 .featureCard {
+  flex: 1;
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
@@ -149,6 +141,7 @@
   gap: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+  min-width: 0;
 }
 
 .featureCard:hover {
@@ -158,13 +151,13 @@
 }
 
 .featureIconBox {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: 15px;
   flex-shrink: 0;
 }
 
@@ -192,6 +185,7 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
+  overflow: hidden;
 }
 
 .featureTitle {
@@ -214,7 +208,7 @@
 .heroImageWrapper {
   flex: 1;
   width: 100%;
-  min-height: 340px;
+  min-height: 380px;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 16px 36px -12px rgba(15, 23, 42, 0.1);
@@ -233,7 +227,7 @@
 
 /* Left Footer */
 .leftFooter {
-  padding-top: 0.5rem;
+  padding-top: 0.25rem;
   font-size: 11.5px;
   color: #64748b;
   display: flex;
@@ -252,10 +246,11 @@
 }
 
 /* ==========================================================================
-   RIGHT SECTION: FORM CARD & SURROUNDINGS
+   RIGHT SECTION: FORM CARD & SURROUNDINGS (42%)
    ========================================================================== */
 .rightSection {
-  flex: 0.82;
+  flex: 0 0 42%;
+  width: 42%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -263,6 +258,7 @@
   position: relative;
   background: #f8fafc;
   border-left: 1px solid #f1f5f9;
+  box-sizing: border-box;
 }
 
 .loginCard {
@@ -275,6 +271,7 @@
   box-shadow: 0 20px 45px -15px rgba(15, 23, 42, 0.08), 0 0 1px 1px rgba(0, 0, 0, 0.02);
   position: relative;
   z-index: 2;
+  box-sizing: border-box;
 }
 
 /* Brand header inside card */
@@ -396,6 +393,7 @@
   background: #ffffff;
   outline: none;
   transition: all 0.15s ease;
+  box-sizing: border-box;
 }
 
 .passwordInput {
@@ -583,26 +581,31 @@
     padding: 2rem;
   }
   .featuresRow {
-    grid-template-columns: repeat(2, 1fr);
+    flex-wrap: wrap;
+  }
+  .featureCard {
+    flex: 0 0 calc(50% - 6px);
   }
 }
 
 @media (max-width: 860px) {
-  .pageInner {
+  .pageContainer {
     flex-direction: column;
     min-height: auto;
   }
   .leftSection {
-    padding: 2rem 1.5rem;
+    width: 100%;
     flex: none;
+    padding: 2rem 1.5rem;
   }
   .heroImageWrapper {
     min-height: 240px;
     max-height: 280px;
   }
   .rightSection {
-    padding: 2rem 1.5rem;
+    width: 100%;
     flex: none;
+    padding: 2rem 1.5rem;
     border-left: none;
     border-top: 1px solid #f1f5f9;
   }

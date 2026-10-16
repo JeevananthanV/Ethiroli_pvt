@@ -1,0 +1,1 @@
+import{j as r}from"./vendor-react-B5B6roqg.js";import{D as t}from"./DynamicCalendarPage-BM8nXoVD.js";import"./AdminPage-Ba97Wtl5.js";import"./ErrorBoundary-q-egbQF6.js";function m(){return r.jsx(t,{defaultRole:"RECEPTION"})}export{m as default};

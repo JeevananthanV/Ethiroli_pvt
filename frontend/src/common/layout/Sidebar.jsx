@@ -153,9 +153,12 @@ export default function Sidebar({ role, navItems }) {
           <Link to={effectiveRole === 'INTERN' ? '/app/intern/dashboard' : '/'} className="portalBrandBox" aria-label="Dashboard Home">
             {effectiveRole === 'INTERN' ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" fill="#10b981"/>
-                </svg>
+                <img
+                  src="/assets/images/ethiroli_logo.png"
+                  alt="Ethiroli"
+                  style={{ width: '30px', height: '30px', objectFit: 'contain' }}
+                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                />
                 <span style={{ fontSize: '15px', fontWeight: 800, letterSpacing: '0.04em', color: '#ffffff' }}>
                   ETHIROLI
                 </span>
@@ -172,17 +175,14 @@ export default function Sidebar({ role, navItems }) {
                   INTERN
                 </span>
               </div>
-            ) : effectiveRole === 'EMPLOYEE' || effectiveRole === 'PROJECT_MANAGER' ? (
+            ) : (
               <img
-                src={ROLE_LOGO_SRC}
+                src="/assets/images/ethiroli_logo.png"
                 className="portalBrandLogo"
                 alt="Ethiroli"
+                style={{ width: '36px', height: '36px', objectFit: 'contain' }}
                 onError={(e) => { e.currentTarget.style.display = 'none'; }}
               />
-            ) : (
-              <div className="portalLogoIcon">
-                <i className="bi bi-layers-fill" aria-hidden="true"></i>
-              </div>
             )}
             {effectiveRole !== 'INTERN' && (
               <div>

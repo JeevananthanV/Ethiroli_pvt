@@ -80,6 +80,13 @@ export default function Navbar({ role, onSearchClick, onToggleFeed, unreadFeedCo
             <i className="bi bi-list fs-5"></i>
           </button>
 
+          <img
+            src="/assets/images/ethiroli_logo.png"
+            alt="Ethiroli"
+            style={{ width: '26px', height: '26px', objectFit: 'contain', marginRight: '6px' }}
+            onError={(e) => { e.currentTarget.style.display = 'none'; }}
+          />
+
           <span className="portalBrandTitle">
             ETHIROLI
           </span>

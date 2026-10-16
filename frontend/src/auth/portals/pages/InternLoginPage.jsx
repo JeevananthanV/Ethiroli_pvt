@@ -61,22 +61,11 @@ export default function InternLoginPage() {
         {/* Top Header */}
         <div className={styles.leftHeader}>
           <div className={styles.brandBox}>
-            <svg
-              width="26"
-              height="26"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#10b981"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path
-                d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
-                fill="#10b981"
-              />
-            </svg>
+            <img
+              src="/assets/images/ethiroli_logo.png"
+              alt="Ethiroli"
+              style={{ width: '28px', height: '28px', objectFit: 'contain' }}
+            />
             <span className={styles.brandTitle}>ETHIROLI</span>
             <span className={styles.headerDivider}>|</span>
             <span className={styles.portalSub}>Enterprise Portal</span>
@@ -183,22 +172,11 @@ export default function InternLoginPage() {
           {/* Centered Brand Mark */}
           <div className={styles.cardBrandHeader}>
             <div className={styles.cardLogoRow}>
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#10b981"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path
-                  d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
-                  fill="#10b981"
-                />
-              </svg>
+              <img
+                src="/assets/images/ethiroli_logo.png"
+                alt="Ethiroli"
+                style={{ width: '32px', height: '32px', objectFit: 'contain' }}
+              />
               <span className={styles.cardBrandName}>ETHIROLI</span>
             </div>
             <span className={styles.cardBrandSub}>ENTERPRISE PORTAL</span>

@@ -16,7 +16,7 @@ import styles from './Auth.module.css';
  * portal does not pass them the rendered output is exactly as before, so
  * adding them for one portal does not change any other portal's login screen.
  */
-export default function LoginPage({ portal, brandLogo, showPasswordToggle, demo, demoPassword, footer }) {
+export default function LoginPage({ portal, brandLogo = '/assets/images/ethiroli_logo.png', showPasswordToggle, demo, demoPassword, footer }) {
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -120,11 +120,15 @@ export default function LoginPage({ portal, brandLogo, showPasswordToggle, demo,
 
       <div className={styles.authCard}>
         <div className={styles.header}>
-          {brandLogo ? (
-            <img src={brandLogo} className={styles.brandLogo} alt="Ethiroli" />
-          ) : (
-            <h2>ETHIROLI</h2>
+          {brandLogo && (
+            <img
+              src={brandLogo}
+              alt="Ethiroli"
+              style={{ width: '48px', height: '48px', objectFit: 'contain', margin: '0 auto 10px auto', display: 'block' }}
+              onError={(e) => { e.currentTarget.style.display = 'none'; }}
+            />
           )}
+          <h2>ETHIROLI</h2>
           <p>{portalConfig?.label ? `${portalConfig.label} Portal` : (portal ? `${String(portal).toUpperCase()} Portal` : 'Login to your account')}</p>
           {portalConfig && (
             <div

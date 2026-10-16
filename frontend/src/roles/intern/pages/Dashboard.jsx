@@ -335,9 +335,11 @@ export default function Dashboard() {
 
           <div className="ims-banner-right">
             <div className="ims-banner-brand-logo">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#065f46" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" fill="#10b981"/>
-              </svg>
+              <img
+                src="/assets/images/ethiroli_logo.png"
+                alt="Ethiroli"
+                style={{ width: '22px', height: '22px', objectFit: 'contain' }}
+              />
               <span>ETHIROLI</span>
             </div>
             <h2 className="ims-banner-greeting">Good Morning, {greetingName} 👋</h2>

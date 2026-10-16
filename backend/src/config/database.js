@@ -14,7 +14,8 @@ const pool = mysql.createPool({
   connectionLimit,
   enableKeepAlive: true,
   keepAliveInitialDelay: 10000,
-  connectTimeout: 20000
+  connectTimeout: 20000,
+  timezone: '+05:30'
 });
 
 export const checkDatabaseHealth = async (poolInstance) => {

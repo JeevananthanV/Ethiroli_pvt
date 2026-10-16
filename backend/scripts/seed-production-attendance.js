@@ -345,8 +345,8 @@ export async function seedProductionData() {
     // Calculate worked minutes for completed sessions
     let workedMinutes = 0;
     if (checkOutDateTime) {
-      const inTime = new Date(checkInDateTime).getTime();
-      const outTime = new Date(checkOutDateTime).getTime();
+      const inTime = new Date(`${record.date}T${record.login}+05:30`).getTime();
+      const outTime = new Date(`${record.date}T${record.logout}+05:30`).getTime();
       workedMinutes = Math.max(0, Math.floor((outTime - inTime) / 60000));
     }
 

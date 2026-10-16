@@ -8,12 +8,17 @@
  * Attendance page miss the current day's record in IST.
  */
 
-/** `09:00 AM` style clock time. */
+/** `09:00 AM` style clock time in business timezone (Asia/Kolkata). */
 export function formatClock(ts) {
   if (!ts) return '--:--';
   const d = new Date(ts);
   if (Number.isNaN(d.getTime())) return '--:--';
-  return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  return d.toLocaleTimeString('en-US', {
+    timeZone: 'Asia/Kolkata',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  });
 }
 
 /** `09:00 AM – 01:00 PM` for a session, with "Running" for an open one. */

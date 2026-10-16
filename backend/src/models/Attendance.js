@@ -15,10 +15,12 @@ export default class Attendance {
       try {
         const d = new Date(ts);
         if (Number.isNaN(d.getTime())) return String(ts);
-        const hours24 = d.getHours();
-        const period = hours24 >= 12 ? 'PM' : 'AM';
-        const hour12 = hours24 % 12 === 0 ? 12 : hours24 % 12;
-        return `${hour12}:${String(d.getMinutes()).padStart(2, '0')} ${period}`;
+        return d.toLocaleTimeString('en-US', {
+          timeZone: 'Asia/Kolkata',
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true
+        });
       } catch {
         return String(ts);
       }

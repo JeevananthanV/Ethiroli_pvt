@@ -597,6 +597,7 @@ export const ROLE_NAVIGATION = Object.freeze({
       label: 'Revenue & Growth',
       icon: 'graph-up-arrow',
       children: [
+        { label: 'Commissions Ledger', path: '/app/sales/commissions', icon: 'wallet2' },
         { label: 'Subscriptions', path: '/app/sales/subscriptions', icon: 'arrow-repeat' },
         { label: 'Campaigns', path: '/app/sales/campaigns', icon: 'megaphone' },
         { label: 'Customer Handover', path: '/app/sales/handover', icon: 'box-arrow-right' },

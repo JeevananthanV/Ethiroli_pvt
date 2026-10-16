@@ -1,5 +1,5 @@
 import express from 'express';
-import { login, logout, getMe, verifyMfa, oauthAuthorize, oauthCallback, changePassword, impersonate, stopImpersonation, getDemoUsers } from '../controllers/authController.js';
+import { login, logout, getMe, verifyMfa, oauthAuthorize, oauthCallback, changePassword, impersonate, stopImpersonation } from '../controllers/authController.js';
 import { authenticate } from '../middleware/auth.js';
 import { validateBody } from '../middleware/validation.js';
 import { loginLimiter, passwordRecoveryLimiter } from '../middleware/rateLimiter.js';
@@ -12,7 +12,6 @@ import {
 
 const router = express.Router();
 
-router.get('/demo-users', getDemoUsers);
 router.post('/login', loginLimiter, validateBody('login'), login);
 // This router is mounted at /api/v1/auth, so do not repeat /auth here.
 router.post('/portal-login', loginLimiter, validateBody('login'), portalAuth, login);

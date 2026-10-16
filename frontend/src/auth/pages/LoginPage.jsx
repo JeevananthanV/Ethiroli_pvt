@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../common/contexts/AuthContext.jsx';
 import { getRoleDefaultPath } from '../../common/utils/roleRouting.js';
-import { getDemoUsers } from '../../services/api/authApi.js';
 import Input from '../../common/components/Input/Input.jsx';
 import Button from '../../common/components/Button/Button.jsx';
 import MfaChallenge from '../components/MfaChallenge.jsx';
@@ -37,36 +36,7 @@ export default function LoginPage({ portal, brandLogo = '/assets/images/ethiroli
       : ''
   );
 
-  const [demoAccounts, setDemoAccounts] = useState([]);
-  const [loadingDemo, setLoadingDemo] = useState(false);
-
   const portalConfig = portal ? getPortalConfig(portal) : null;
-
-  // Only ever offer accounts that actually exist in the database.
-  useEffect(() => {
-    if (!demo || !portal) return undefined;
-    let active = true;
-    setLoadingDemo(true);
-    (async () => {
-      try {
-        const data = await getDemoUsers(getRoleBySlug(portal) || String(portal).toUpperCase());
-        if (active) setDemoAccounts(Array.isArray(data) ? data : []);
-      } catch (err) {
-        console.error('Failed to load demo accounts:', err);
-      } finally {
-        if (active) setLoadingDemo(false);
-      }
-    })();
-    return () => { active = false; };
-  }, [demo, portal]);
-
-  // Named `selectAccount`, not `useAccount` - a leading "use" makes the
-  // react-hooks lint treat this plain callback as a hook.
-  const selectAccount = (accountEmail) => {
-    setEmail(accountEmail);
-    setPassword(demoPassword || '');
-    setError(null);
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -217,53 +187,6 @@ export default function LoginPage({ portal, brandLogo = '/assets/images/ethiroli
             )}
           </Button>
         </form>
-
-        {demo && (
-          <div className={styles.imsDemo}>
-            <div className={styles.imsDemoHead}>
-              <span className={styles.imsDemoTitle}>
-                <i className="bi bi-lightning-charge-fill" aria-hidden="true"></i>
-                Quick sign-in
-              </span>
-              <span className={styles.imsDemoBadge}>Demo</span>
-            </div>
-
-            {loadingDemo ? (
-              <div className={styles.imsDemoEmpty}>
-                <span className={styles.spinner} aria-hidden="true"></span>
-                Checking available accounts…
-              </div>
-            ) : demoAccounts.length === 0 ? (
-              <div className={styles.imsDemoEmpty}>
-                No demo accounts are set up right now. Sign in with the credentials
-                your mentor shared.
-              </div>
-            ) : (
-              <div className={styles.imsDemoList}>
-                {demoAccounts.slice(0, 4).map((account) => (
-                  <button
-                    key={account.email}
-                    type="button"
-                    className={styles.imsDemoItem}
-                    onClick={() => selectAccount(account.email)}
-                    disabled={loading}
-                  >
-                    <span className={styles.imsDemoAvatar} aria-hidden="true">
-                      <i className="bi bi-person-fill"></i>
-                    </span>
-                    <span className={styles.imsDemoMeta}>
-                      <span className={styles.imsDemoName}>
-                        {account.full_name || account.name || account.email}
-                      </span>
-                      <span className={styles.imsDemoSub}>{account.email}</span>
-                    </span>
-                    <span className={styles.imsDemoAction}>Use</span>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
 
         {footer}
       </div>

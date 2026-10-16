@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { getCommissions, approveCommission, payCommission, rejectCommission, calculateCommission } from '../../../services/api/salesApi.js';
+import { getCommissions, approveCommission, payCommission, rejectCommission } from '../../../services/api/salesApi.js';
 import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { useAuth } from '../../../common/contexts/AuthContext.jsx';
-
-const MATHISHREE_ID = 'eadd2eb6-b0af-4e3f-aa82-a08e29d891ee';
-const NANDHINI_ID = '66da1638-9a06-4741-9ed2-8054b0417313';
 
 const PACKAGES = [
   { id: 'all', label: 'All Packages & Add-ons' },
@@ -22,25 +19,17 @@ export default function CommissionsDashboard() {
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
-  
-  // Determine default BDA filter based on logged-in user
-  const isMathiUser = user?.email?.includes('mathishree') || user?.id === MATHISHREE_ID;
-  const isNandhiniUser = user?.email?.includes('nandhini') || user?.id === NANDHINI_ID;
-  const isManagement = ['ADMIN', 'SUPER_ADMIN', 'MANAGER'].includes(user?.role);
+  const [filterBda, setFilterBda] = useState('');
 
-  const [filterBda, setFilterBda] = useState(() => {
-    if (isMathiUser) return MATHISHREE_ID;
-    if (isNandhiniUser) return NANDHINI_ID;
-    return '';
-  });
+  const isManagement = ['ADMIN', 'SUPER_ADMIN', 'MANAGER'].includes(user?.role);
 
   const loadCommissions = async () => {
     setLoading(true);
     try {
       const filters = {};
       if (filterStatus) filters.status = filterStatus;
-      if (filterBda) filters.bda_id = filterBda;
       if (filterCategory && filterCategory !== 'all') filters.category = filterCategory;
+      if (filterBda) filters.bda_id = filterBda;
 
       const result = await getCommissions(filters);
       setCommissions(result?.items || []);
@@ -54,26 +43,33 @@ export default function CommissionsDashboard() {
 
   useEffect(() => {
     loadCommissions();
-  }, [filterStatus, filterBda, filterCategory]);
+  }, [filterStatus, filterCategory, filterBda]);
+
+  // Extract distinct BDA names dynamically from loaded data (for management view)
+  const availableBdas = Array.from(
+    new Map(
+      commissions
+        .filter(c => c.bda_user_id && c.bda_name)
+        .map(c => [c.bda_user_id, { id: c.bda_user_id, name: c.bda_name }])
+    ).values()
+  );
 
   // Actions
   const handleApprove = async (id) => {
-    if (!window.confirm('Approve this commission for payment processing?')) return;
+    if (!window.confirm('Approve this commission for payment clearance?')) return;
     try {
       await approveCommission(id, 'Approved by sales management');
       loadCommissions();
-      alert('Commission successfully approved!');
     } catch (err) {
       alert('Approval failed: ' + (err.message || 'Error'));
     }
   };
 
   const handlePay = async (id) => {
-    const ref = window.prompt('Enter transaction reference / bank UTR (leave blank to auto-generate):');
+    const ref = window.prompt('Enter transaction reference / payment note (optional):');
     try {
       await payCommission(id, ref || undefined);
       loadCommissions();
-      alert('Commission marked as Paid!');
     } catch (err) {
       alert('Payment update failed: ' + (err.message || 'Error'));
     }
@@ -85,13 +81,12 @@ export default function CommissionsDashboard() {
     try {
       await rejectCommission(id, reason);
       loadCommissions();
-      alert('Commission rejected.');
     } catch (err) {
       alert('Rejection failed: ' + (err.message || 'Error'));
     }
   };
 
-  // Metrics computation
+  // Metrics computation from real records
   const totalAmount = commissions.reduce((acc, c) => acc + (parseFloat(c.commission_amount) || 0), 0);
   const paidAmount = commissions.filter(c => c.status === 'Paid').reduce((acc, c) => acc + (parseFloat(c.commission_amount) || 0), 0);
   const payableAmount = commissions.filter(c => c.status === 'Approved' || c.status === 'Payable').reduce((acc, c) => acc + (parseFloat(c.commission_amount) || 0), 0);
@@ -110,43 +105,38 @@ export default function CommissionsDashboard() {
 
   return (
     <AdminPage
-      title="BDA Commission Management & Ledger"
-      subtitle="Live commercial tier payout tracking, commission approvals, and BDA earnings"
+      title="Commission Ledger & Performance Payouts"
+      subtitle="Track verified BDA commission earnings, commercial tier disbursements, and live approval status"
     >
-      {/* Top BDA View Switcher Pills */}
+      {/* Top Controls Bar */}
       <div className="card border-0 shadow-sm rounded-3 p-3 bg-white mb-4">
         <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
-          <div className="d-flex flex-wrap align-items-center gap-2">
-            <span className="fw-semibold text-muted small text-uppercase me-2">BDA View:</span>
-            <button
-              type="button"
-              className={`btn btn-sm ${filterBda === '' ? 'btn-primary' : 'btn-outline-secondary'}`}
-              onClick={() => setFilterBda('')}
-            >
-              All BDAs Overview
-            </button>
-            <button
-              type="button"
-              className={`btn btn-sm ${filterBda === MATHISHREE_ID ? 'btn-primary' : 'btn-outline-secondary'}`}
-              onClick={() => setFilterBda(MATHISHREE_ID)}
-            >
-              <i className="bi bi-person-fill me-1"></i> Mathishree S (₹30,500)
-            </button>
-            <button
-              type="button"
-              className={`btn btn-sm ${filterBda === NANDHINI_ID ? 'btn-primary' : 'btn-outline-secondary'}`}
-              onClick={() => setFilterBda(NANDHINI_ID)}
-            >
-              <i className="bi bi-person-fill me-1"></i> Nandhini K (₹30,500)
-            </button>
-          </div>
-
           <div className="d-flex align-items-center gap-2">
-            <span className="badge bg-light text-dark border px-3 py-2">
-              <i className="bi bi-shield-check text-success me-1"></i>
-              Active BDA: {filterBda === MATHISHREE_ID ? 'Mathishree S' : filterBda === NANDHINI_ID ? 'Nandhini K' : 'All BDAs'}
+            <span className="badge bg-light text-dark border px-3 py-2 fs-6">
+              <i className="bi bi-person-circle text-primary me-2"></i>
+              Representative: {user?.name || user?.full_name || 'Active Associate'}
+            </span>
+            <span className="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2">
+              Role: {user?.role || 'SALES'}
             </span>
           </div>
+
+          {isManagement && availableBdas.length > 0 && (
+            <div className="d-flex align-items-center gap-2">
+              <label className="small text-muted fw-semibold mb-0">Filter Associate:</label>
+              <select
+                className="form-select form-select-sm"
+                style={{ minWidth: '180px' }}
+                value={filterBda}
+                onChange={(e) => setFilterBda(e.target.value)}
+              >
+                <option value="">All Associates</option>
+                {availableBdas.map((b) => (
+                  <option key={b.id} value={b.id}>{b.name}</option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
       </div>
 
@@ -154,17 +144,17 @@ export default function CommissionsDashboard() {
       <div className="row g-3 mb-4">
         <div className="col-xl-3 col-sm-6">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white border-start border-4 border-primary h-100">
-            <span className="text-muted small text-uppercase fw-semibold">Total Commissions</span>
+            <span className="text-muted small text-uppercase fw-semibold">Total Earned</span>
             <h3 className="fw-bold text-dark mb-1 mt-2">₹{totalAmount.toLocaleString('en-IN')}</h3>
-            <span className="small text-muted">{commissions.length} Qualified Deals Won</span>
+            <span className="small text-muted">{commissions.length} Verified Deals</span>
           </div>
         </div>
 
         <div className="col-xl-3 col-sm-6">
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white border-start border-4 border-success h-100">
-            <span className="text-muted small text-uppercase fw-semibold">Paid Out</span>
+            <span className="text-muted small text-uppercase fw-semibold">Disbursed / Paid</span>
             <h3 className="fw-bold text-success mb-1 mt-2">₹{paidAmount.toLocaleString('en-IN')}</h3>
-            <span className="small text-muted">Transferred to Bank Account</span>
+            <span className="small text-muted">Settled to Account</span>
           </div>
         </div>
 
@@ -172,7 +162,7 @@ export default function CommissionsDashboard() {
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white border-start border-4 border-info h-100">
             <span className="text-muted small text-uppercase fw-semibold">Approved / Payable</span>
             <h3 className="fw-bold text-primary mb-1 mt-2">₹{payableAmount.toLocaleString('en-IN')}</h3>
-            <span className="small text-muted">Ready for finance clearance</span>
+            <span className="small text-muted">Cleared for Payout</span>
           </div>
         </div>
 
@@ -180,16 +170,16 @@ export default function CommissionsDashboard() {
           <div className="card border-0 shadow-sm rounded-3 p-3 bg-white border-start border-4 border-warning h-100">
             <span className="text-muted small text-uppercase fw-semibold">Pending Approval</span>
             <h3 className="fw-bold text-warning mb-1 mt-2">₹{pendingAmount.toLocaleString('en-IN')}</h3>
-            <span className="small text-muted">Awaiting management signoff</span>
+            <span className="small text-muted">Awaiting Verification</span>
           </div>
         </div>
       </div>
 
-      {/* Filters Bar: Category, Status, Search */}
+      {/* Filter Toolbar */}
       <div className="card border-0 shadow-sm rounded-3 p-3 bg-white mb-4">
         <div className="row g-3 align-items-center">
-          <div className="col-lg-4 col-md-6">
-            <label className="form-label small text-muted fw-semibold mb-1">Package / Tier Category</label>
+          <div className="col-lg-5 col-md-6">
+            <label className="form-label small text-muted fw-semibold mb-1">Package Category</label>
             <select
               className="form-select"
               value={filterCategory}
@@ -203,8 +193,8 @@ export default function CommissionsDashboard() {
             </select>
           </div>
 
-          <div className="col-lg-3 col-md-6">
-            <label className="form-label small text-muted fw-semibold mb-1">Commission Status</label>
+          <div className="col-lg-4 col-md-6">
+            <label className="form-label small text-muted fw-semibold mb-1">Status</label>
             <select
               className="form-select"
               value={filterStatus}
@@ -219,13 +209,13 @@ export default function CommissionsDashboard() {
             </select>
           </div>
 
-          <div className="col-lg-5 col-md-12 text-lg-end mt-lg-4">
+          <div className="col-lg-3 col-md-12 text-lg-end mt-lg-4">
             <button
               type="button"
-              className="btn btn-outline-primary btn-sm me-2"
+              className="btn btn-outline-primary btn-sm"
               onClick={loadCommissions}
             >
-              <i className="bi bi-arrow-clockwise me-1"></i> Refresh Ledger
+              <i className="bi bi-arrow-clockwise me-1"></i> Refresh
             </button>
           </div>
         </div>
@@ -238,19 +228,19 @@ export default function CommissionsDashboard() {
             <i className="bi bi-wallet2 text-primary me-2"></i>
             Live Commission Ledger ({commissions.length})
           </h5>
-          <span className="badge bg-light text-muted border">Standard SDR/BDA Rate: 10% on Closed Deals</span>
+          <span className="badge bg-light text-muted border">Standard Commission: 10% on Closed Deals</span>
         </div>
 
         {loading ? (
           <div className="text-center py-5">
             <div className="spinner-border text-primary" role="status"></div>
-            <p className="mt-2 text-muted small">Loading commission records from live database...</p>
+            <p className="mt-2 text-muted small">Loading records from live database...</p>
           </div>
         ) : commissions.length === 0 ? (
           <div className="text-center py-5">
-            <i className="bi bi-file-earmark-spreadsheet display-4 text-muted mb-3 d-block"></i>
+            <i className="bi bi-inbox fs-2 d-block mb-2 text-secondary"></i>
             <h6 className="fw-bold text-dark">No commission records found</h6>
-            <p className="text-muted small">Try adjusting your BDA, Package Category, or Status filters.</p>
+            <p className="text-muted small">Commission entries are generated automatically as closed deals are verified.</p>
           </div>
         ) : (
           <div className="table-responsive">
@@ -258,36 +248,26 @@ export default function CommissionsDashboard() {
               <thead className="table-light text-uppercase small text-muted">
                 <tr>
                   <th>Deal & Clinic</th>
-                  <th>Assigned BDA</th>
-                  <th>Package Category</th>
-                  <th className="text-end">Closed Value (₹)</th>
+                  <th>Associate</th>
+                  <th className="text-end">Deal Amount (₹)</th>
                   <th className="text-center">Rate</th>
                   <th className="text-end">Commission (₹)</th>
                   <th className="text-center">Status</th>
                   <th>Payment Ref</th>
-                  <th className="text-end">Actions</th>
+                  {isManagement && <th className="text-end">Management Actions</th>}
                 </tr>
               </thead>
               <tbody>
                 {commissions.map((comm) => (
                   <tr key={comm.id}>
                     <td>
-                      <div className="fw-bold text-dark">{comm.deal_title || 'Healthcare Deal'}</div>
-                      <small className="text-muted">{comm.client_name || 'Direct Clinic'}</small>
-                    </td>
-                    <td>
-                      <span className="badge bg-primary-subtle text-primary border border-primary-subtle">
-                        <i className="bi bi-person me-1"></i>
-                        {comm.bda_name || 'BDA'}
-                      </span>
+                      <div className="fw-bold text-dark">{comm.deal_title || 'Healthcare Agreement'}</div>
+                      <small className="text-muted">{comm.client_name || 'Direct Business'}</small>
                     </td>
                     <td>
                       <span className="badge bg-light text-dark border">
-                        {comm.deal_title?.includes('Enterprise') ? 'Enterprise Automation' :
-                         comm.deal_title?.includes('Scale') ? 'Scale & Optimize' :
-                         comm.deal_title?.includes('Essential') ? 'Essential Growth' :
-                         comm.deal_title?.includes('UI/UX') ? 'Advanced Web & UI/UX' :
-                         comm.deal_title?.includes('Reels') ? 'Reels Video Pack' : 'Dental Solutions'}
+                        <i className="bi bi-person me-1"></i>
+                        {comm.bda_name || 'Associate'}
                       </span>
                     </td>
                     <td className="text-end fw-semibold text-secondary">
@@ -311,45 +291,44 @@ export default function CommissionsDashboard() {
                         <span className="text-muted small">—</span>
                       )}
                     </td>
-                    <td className="text-end">
-                      <div className="d-flex justify-content-end gap-1">
-                        {comm.status === 'Pending Approval' && (
-                          <>
+                    {isManagement && (
+                      <td className="text-end">
+                        <div className="d-flex justify-content-end gap-1">
+                          {comm.status === 'Pending Approval' && (
+                            <>
+                              <button
+                                type="button"
+                                className="btn btn-sm btn-outline-success"
+                                onClick={() => handleApprove(comm.id)}
+                              >
+                                Approve
+                              </button>
+                              <button
+                                type="button"
+                                className="btn btn-sm btn-outline-danger"
+                                onClick={() => handleReject(comm.id)}
+                              >
+                                Reject
+                              </button>
+                            </>
+                          )}
+                          {(comm.status === 'Approved' || comm.status === 'Payable') && (
                             <button
                               type="button"
-                              className="btn btn-sm btn-outline-success"
-                              title="Approve Commission"
-                              onClick={() => handleApprove(comm.id)}
+                              className="btn btn-sm btn-success text-white"
+                              onClick={() => handlePay(comm.id)}
                             >
-                              Approve
+                              <i className="bi bi-check2-circle me-1"></i> Pay
                             </button>
-                            <button
-                              type="button"
-                              className="btn btn-sm btn-outline-danger"
-                              title="Reject Commission"
-                              onClick={() => handleReject(comm.id)}
-                            >
-                              Reject
-                            </button>
-                          </>
-                        )}
-                        {(comm.status === 'Approved' || comm.status === 'Payable') && (
-                          <button
-                            type="button"
-                            className="btn btn-sm btn-success text-white"
-                            title="Mark as Paid"
-                            onClick={() => handlePay(comm.id)}
-                          >
-                            <i className="bi bi-check2-circle me-1"></i> Pay
-                          </button>
-                        )}
-                        {comm.status === 'Paid' && (
-                          <span className="badge bg-success-subtle text-success">
-                            <i className="bi bi-check-all me-1"></i> Settled
-                          </span>
-                        )}
-                      </div>
-                    </td>
+                          )}
+                          {comm.status === 'Paid' && (
+                            <span className="badge bg-success-subtle text-success">
+                              <i className="bi bi-check-all me-1"></i> Settled
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>
@@ -358,11 +337,11 @@ export default function CommissionsDashboard() {
         )}
       </div>
 
-      {/* Package Rate Reference Matrix */}
+      {/* Commercial Reference Matrix */}
       <div className="card border-0 shadow-sm rounded-3 p-4 bg-light">
         <h6 className="fw-bold text-dark mb-3">
           <i className="bi bi-info-circle text-primary me-2"></i>
-          Ethiroli Commercial Packages & Commission Reference Matrix
+          Ethiroli Commercial Packages Reference Matrix
         </h6>
         <div className="row g-3">
           {PACKAGES.filter(p => p.id !== 'all').map((pkg) => (

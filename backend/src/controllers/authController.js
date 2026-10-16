@@ -625,43 +625,7 @@ export const changePassword = asyncHandler(async (req, res) => {
 });
 
 export const getDemoUsers = asyncHandler(async (req, res) => {
-  const role = req.query.role || ROLES.STUDENT;
-
-  const [rows] = await pool.execute(
-    `SELECT u.id, u.email, u.full_name, u.preferences,
-            i.college_name as intern_college,
-            i.project_target as intern_target,
-            i.progress as intern_progress,
-            (SELECT c.name FROM enrollments e JOIN courses c ON e.course_id = c.id WHERE e.student_id = u.id ORDER BY e.progress_percentage DESC LIMIT 1) as top_course,
-            (SELECT e.progress_percentage FROM enrollments e WHERE e.student_id = u.id ORDER BY e.progress_percentage DESC LIMIT 1) as top_progress
-     FROM users u
-     LEFT JOIN interns i ON i.user_id = u.id
-     WHERE u.role = ? AND u.is_active = 1
-     ORDER BY u.created_at DESC
-     LIMIT 25`,
-    [role]
-  );
-
-  const formatted = rows.map(r => {
-    const userFmt = User.format(r);
-    let prefs = {};
-    try {
-      prefs = typeof r.preferences === 'string' ? JSON.parse(r.preferences) : (r.preferences || {});
-    } catch {
-      prefs = {};
-    }
-    return {
-      id: r.id,
-      email: userFmt.email,
-      full_name: userFmt.full_name,
-      department: prefs.department || null,
-      college: r.intern_college || prefs.college || null,
-      top_course: r.intern_target || r.top_course || null,
-      top_progress: r.intern_progress !== null ? parseFloat(r.intern_progress) : (r.top_progress !== null ? parseFloat(r.top_progress) : 0)
-    };
-  });
-
-  return success(res, 200, formatted, 'Users retrieved dynamically from database');
+  return success(res, 200, [], 'Demo accounts disabled for security');
 });
 
 

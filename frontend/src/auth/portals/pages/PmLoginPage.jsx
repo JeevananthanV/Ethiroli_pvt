@@ -9,5 +9,5 @@ import LoginPage from '../../pages/LoginPage.jsx';
  * returns for the PROJECT_MANAGER role - it never invents people.
  */
 export default function PmLoginPage() {
-  return <LoginPage portal="pm" demo demoPassword="Pm@123" />;
+  return <LoginPage portal="pm" />;
 }

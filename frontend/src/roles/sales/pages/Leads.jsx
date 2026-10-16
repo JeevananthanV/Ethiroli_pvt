@@ -3,9 +3,6 @@ import AdminPage from '../../../common/components/AdminPage/AdminPage.jsx';
 import { getLeads, createLead, updateLead, deleteLead, convertLead } from '../../../services/api/salesApi.js';
 import { useAuth } from '../../../common/contexts/AuthContext.jsx';
 
-const MATHISHREE_ID = 'eadd2eb6-b0af-4e3f-aa82-a08e29d891ee';
-const NANDHINI_ID = '66da1638-9a06-4741-9ed2-8054b0417313';
-
 // All 38 Districts of Tamil Nadu
 const TN_DISTRICTS = [
   'Ariyalur', 'Chengalpattu', 'Chennai', 'Coimbatore', 'Cuddalore',
@@ -18,7 +15,7 @@ const TN_DISTRICTS = [
   'Vellore', 'Viluppuram', 'Virudhunagar'
 ];
 
-// Special custom locations / taluks / clusters
+// Special tracking clusters / taluks
 const CUSTOM_LOCATIONS = [
   'Rasipuram', 'Omalur', 'Sankagiri', 'Mettur', 'Bhavani', 'Gobichettipalayam', 'Tiruchengode', 'Attur', 'Edappadi'
 ];
@@ -56,16 +53,8 @@ export default function Leads() {
   const [statusFilter, setStatusFilter] = useState('');
   const [districtFilter, setDistrictFilter] = useState('');
   const [packageFilter, setPackageFilter] = useState('');
-
-  // Default BDA detection based on logged-in user
-  const isMathiUser = user?.email?.includes('mathishree') || user?.id === MATHISHREE_ID;
-  const isNandhiniUser = user?.email?.includes('nandhini') || user?.id === NANDHINI_ID;
-
-  const [bdaFilter, setBdaFilter] = useState(() => {
-    if (isMathiUser) return 'Mathishree S';
-    if (isNandhiniUser) return 'Nandhini K';
-    return '';
-  });
+  const [bdaFilter, setBdaFilter] = useState('');
+  const [viewScope, setViewScope] = useState('all'); // 'my' | 'all'
 
   // Detailed Lead Inspection Modal
   const [inspectingLead, setInspectingLead] = useState(null);
@@ -82,7 +71,6 @@ export default function Leads() {
     last_name: '',
     company_name: '',
     phone: '',
-    email: '',
     district: 'Erode',
     service_interested: 'Scale & Optimize (₹55,000/mo)',
     package_tier: 'Scale & Optimize',
@@ -91,7 +79,6 @@ export default function Leads() {
     pipeline_stage: 'Stage 1: Lead Ingestion & Qualification Discovery',
     status: 'NEW',
     source: 'PHONE',
-    assigned_to: MATHISHREE_ID,
     follow_up_date: '',
     meeting_date: '',
     next_action: '',
@@ -106,7 +93,6 @@ export default function Leads() {
     title: '',
     deal_value: 55000,
     contact_name: '',
-    contact_email: '',
     expected_close_date: ''
   });
 
@@ -128,6 +114,9 @@ export default function Leads() {
     loadLeads();
   }, []);
 
+  // Dynamically extract distinct BDA names from real loaded data
+  const dynamicBdaList = Array.from(new Set(leads.map(l => l.bda_name).filter(Boolean)));
+
   const handleOpenAdd = () => {
     setEditingLead(null);
     setIsCustomDistrict(false);
@@ -138,7 +127,6 @@ export default function Leads() {
       last_name: '',
       company_name: '',
       phone: '',
-      email: '',
       district: 'Erode',
       service_interested: 'Scale & Optimize (₹55,000/mo)',
       package_tier: 'Scale & Optimize',
@@ -147,10 +135,9 @@ export default function Leads() {
       pipeline_stage: 'Stage 1: Lead Ingestion & Qualification Discovery',
       status: 'NEW',
       source: 'PHONE',
-      assigned_to: isNandhiniUser ? NANDHINI_ID : MATHISHREE_ID,
       follow_up_date: new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10),
       meeting_date: '',
-      next_action: 'Initiate 15-minute SLA WhatsApp/call sequence with Doctor.',
+      next_action: 'Initiate 15-minute SLA qualification sequence with Doctor.',
       lost_reason: '',
       notes: ''
     });
@@ -169,7 +156,6 @@ export default function Leads() {
       last_name: lead.last_name || '',
       company_name: lead.company_name || '',
       phone: lead.phone || '',
-      email: lead.email || '',
       district: lead.district || 'Erode',
       service_interested: lead.service_interested || 'Scale & Optimize (₹55,000/mo)',
       package_tier: lead.package_tier || 'Scale & Optimize',
@@ -178,7 +164,6 @@ export default function Leads() {
       pipeline_stage: lead.pipeline_stage || 'Stage 1: Lead Ingestion & Qualification Discovery',
       status: lead.status || 'NEW',
       source: lead.source || 'PHONE',
-      assigned_to: lead.assigned_to || (isNandhiniUser ? NANDHINI_ID : MATHISHREE_ID),
       follow_up_date: lead.follow_up_date ? String(lead.follow_up_date).slice(0, 10) : '',
       meeting_date: lead.meeting_date ? String(lead.meeting_date).slice(0, 16) : '',
       next_action: lead.next_action || '',
@@ -202,14 +187,12 @@ export default function Leads() {
   const handleSaveLead = async (e) => {
     e.preventDefault();
     const finalDistrict = isCustomDistrict ? customDistrictText : leadForm.district;
-    const bdaName = leadForm.assigned_to === NANDHINI_ID ? 'Nandhini K' : 'Mathishree S';
-    const notesPayload = `District / Area: ${finalDistrict} | BDA: ${bdaName} | Package: ${leadForm.service_interested}`;
 
     const payload = {
       ...leadForm,
       district: finalDistrict,
       name: leadForm.first_name,
-      notes: notesPayload
+      notes: `District / Area: ${finalDistrict} | Package: ${leadForm.service_interested}`
     };
 
     try {
@@ -230,10 +213,9 @@ export default function Leads() {
   const handleOpenConvert = (lead) => {
     setConvertData({
       lead_id: lead.id,
-      title: `${lead.company_name || lead.first_name} - ${lead.package_tier || 'Dental Platform'} Contract`,
+      title: `${lead.company_name || lead.first_name} - ${lead.package_tier || 'Healthcare'} Agreement`,
       deal_value: lead.quoted_amount || 55000,
       contact_name: `${lead.first_name || lead.name || ''} ${lead.last_name || ''}`.trim(),
-      contact_email: lead.email || '',
       expected_close_date: new Date(Date.now() + 30 * 86400000).toISOString().slice(0, 10)
     });
     setShowConvertModal(true);
@@ -250,7 +232,7 @@ export default function Leads() {
       });
       loadLeads();
       setShowConvertModal(false);
-      alert('Lead converted into an Active Sales Deal & Commercial Pipeline!');
+      alert('Lead successfully converted into an Active Commercial Deal!');
     } catch (err) {
       alert('Error converting lead: ' + (err.message || 'Unknown error'));
     }
@@ -266,7 +248,7 @@ export default function Leads() {
     }
   };
 
-  // Filtered Leads
+  // Filter leads based on user search, filters, and dynamic scope
   const filtered = leads.filter(l => {
     const q = searchTerm.toLowerCase();
     const leadCode = (l.lead_code || '').toLowerCase();
@@ -280,43 +262,37 @@ export default function Leads() {
 
     const matchesSearch = leadCode.includes(q) || fullName.includes(q) || company.includes(q) || phone.includes(q) || notes.includes(q);
     const matchesDistrict = !districtFilter || district.includes(districtFilter.toLowerCase()) || notes.includes(districtFilter.toLowerCase());
-    const matchesBda = !bdaFilter || bda.includes(bdaFilter.toLowerCase()) || notes.includes(bdaFilter.toLowerCase());
+    const matchesBda = !bdaFilter || bda.includes(bdaFilter.toLowerCase());
     const matchesStatus = !statusFilter || l.status === statusFilter || (l.pipeline_stage || '').includes(statusFilter);
     const matchesPackage = !packageFilter || service.includes(packageFilter.toLowerCase());
+    const matchesScope = viewScope === 'all' || l.assigned_to === user?.id;
 
-    return matchesSearch && matchesDistrict && matchesBda && matchesStatus && matchesPackage;
+    return matchesSearch && matchesDistrict && matchesBda && matchesStatus && matchesPackage && matchesScope;
   });
 
   return (
     <AdminPage
-      title="Healthcare & Clinic CRM Pipeline"
-      subtitle="Complete 17-field B2B SaaS tracking, commercial package alignment, and BDA territory governance"
+      title="Clinic & Healthcare Outreach CRM"
+      subtitle="Full 17-field B2B pipeline, commercial package alignment, and territorial tracking"
     >
-      {/* Territory & BDA Quick-Selection Navigation */}
+      {/* Top Scope and Action Bar */}
       <div className="card border-0 shadow-sm rounded-3 p-3 bg-white mb-3">
-        <div className="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+        <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
           <div className="d-flex flex-wrap align-items-center gap-2">
-            <span className="fw-bold small text-muted text-uppercase me-1">BDA Scope:</span>
+            <span className="fw-semibold small text-muted text-uppercase me-2">View Scope:</span>
             <button
               type="button"
-              className={`btn btn-sm ${bdaFilter === '' ? 'btn-primary' : 'btn-outline-secondary'}`}
-              onClick={() => setBdaFilter('')}
+              className={`btn btn-sm ${viewScope === 'all' ? 'btn-primary' : 'btn-outline-secondary'}`}
+              onClick={() => { setViewScope('all'); setBdaFilter(''); }}
             >
-              All BDAs (100)
+              All Territory Leads ({leads.length})
             </button>
             <button
               type="button"
-              className={`btn btn-sm ${bdaFilter === 'Mathishree S' ? 'btn-primary' : 'btn-outline-secondary'}`}
-              onClick={() => setBdaFilter('Mathishree S')}
+              className={`btn btn-sm ${viewScope === 'my' ? 'btn-primary' : 'btn-outline-secondary'}`}
+              onClick={() => setViewScope('my')}
             >
-              <i className="bi bi-person-fill me-1"></i> Mathishree S (50 Leads)
-            </button>
-            <button
-              type="button"
-              className={`btn btn-sm ${bdaFilter === 'Nandhini K' ? 'btn-primary' : 'btn-outline-secondary'}`}
-              onClick={() => setBdaFilter('Nandhini K')}
-            >
-              <i className="bi bi-person-fill me-1"></i> Nandhini K (50 Leads)
+              <i className="bi bi-person-check me-1"></i> My Assigned Leads
             </button>
           </div>
 
@@ -329,7 +305,7 @@ export default function Leads() {
 
         {/* Territory District Chips */}
         <div className="d-flex flex-wrap align-items-center gap-1 pt-2 border-top">
-          <span className="small text-muted fw-semibold me-2">Focus Districts:</span>
+          <span className="small text-muted fw-semibold me-2">Focus Locations:</span>
           <button
             type="button"
             className={`btn btn-xs py-1 px-2 ${districtFilter === '' ? 'btn-dark' : 'btn-light border'}`}
@@ -375,7 +351,7 @@ export default function Leads() {
         </div>
       </div>
 
-      {/* Advanced Filter Toolbar */}
+      {/* Filter Toolbar */}
       <div className="card border-0 shadow-sm rounded-3 p-3 bg-white mb-3">
         <div className="row g-2 align-items-center">
           <div className="col-lg-3 col-md-6">
@@ -384,7 +360,7 @@ export default function Leads() {
               <input
                 type="text"
                 className="form-control bg-light border-start-0"
-                placeholder="Search lead ID, clinic, doctor, phone..."
+                placeholder="Search clinic, doctor, phone..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -397,8 +373,8 @@ export default function Leads() {
               value={districtFilter}
               onChange={(e) => setDistrictFilter(e.target.value)}
             >
-              <option value="">All Tamil Nadu Locations ({leads.length})</option>
-              <optgroup label="Active Clusters / Taluks">
+              <option value="">All Locations</option>
+              <optgroup label="Clusters / Taluks">
                 {CUSTOM_LOCATIONS.map((loc) => (
                   <option key={loc} value={loc}>{loc}</option>
                 ))}
@@ -417,7 +393,7 @@ export default function Leads() {
               value={packageFilter}
               onChange={(e) => setPackageFilter(e.target.value)}
             >
-              <option value="">All Commercial Packages</option>
+              <option value="">All Packages</option>
               {COMMERCIAL_PACKAGES.map((pkg) => (
                 <option key={pkg.name} value={pkg.tier}>{pkg.name}</option>
               ))}
@@ -425,19 +401,32 @@ export default function Leads() {
           </div>
 
           <div className="col-lg-3 col-md-6">
-            <select
-              className="form-select bg-light"
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-            >
-              <option value="">All Pipeline Stages</option>
-              <option value="Stage 1">Stage 1: Lead Ingestion & Qualification</option>
-              <option value="Stage 2">Stage 2: Strategic Discovery & Demo</option>
-              <option value="Stage 3">Stage 3: Solution Scoping & Proposal</option>
-              <option value="Stage 4">Stage 4: Contract Finalization</option>
-              <option value="Closed-Won">Closed-Won (Onboarding Realization)</option>
-              <option value="Closed-Lost">Closed-Lost (60-Day Nurture)</option>
-            </select>
+            {dynamicBdaList.length > 1 ? (
+              <select
+                className="form-select bg-light"
+                value={bdaFilter}
+                onChange={(e) => setBdaFilter(e.target.value)}
+              >
+                <option value="">All Associates ({dynamicBdaList.length})</option>
+                {dynamicBdaList.map((b) => (
+                  <option key={b} value={b}>{b}</option>
+                ))}
+              </select>
+            ) : (
+              <select
+                className="form-select bg-light"
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+              >
+                <option value="">All Stages</option>
+                <option value="Stage 1">Stage 1: Lead Ingestion & Qualification</option>
+                <option value="Stage 2">Stage 2: Strategic Discovery & Demo</option>
+                <option value="Stage 3">Stage 3: Solution Scoping & Proposal</option>
+                <option value="Stage 4">Stage 4: Contract Finalization</option>
+                <option value="Closed-Won">Closed-Won (Onboarding Realization)</option>
+                <option value="Closed-Lost">Closed-Lost (60-Day Nurture)</option>
+              </select>
+            )}
           </div>
         </div>
       </div>
@@ -448,15 +437,15 @@ export default function Leads() {
           <div className="d-flex align-items-center gap-2">
             <h5 className="fw-bold mb-0 text-dark">
               <i className="bi bi-hospital text-primary me-2"></i>
-              Active Dental Pipeline Leads
+              Verified Healthcare Leads
             </h5>
             <span className="badge bg-primary rounded-pill px-3 py-1">
-              {filtered.length} Leads Shown
+              {filtered.length} Leads
             </span>
           </div>
 
           <div className="text-muted small">
-            Showing verified Tamil Nadu healthcare providers
+            Tamil Nadu Healthcare Outreach
           </div>
         </div>
 
@@ -465,12 +454,12 @@ export default function Leads() {
             <thead className="table-light text-uppercase small text-muted">
               <tr>
                 <th>Lead Code</th>
-                <th>Clinic & Doctor</th>
+                <th>Clinic & Decision Maker</th>
                 <th>Phone Number</th>
                 <th>District / Area</th>
-                <th>Assigned BDA</th>
-                <th>Commercial Package</th>
-                <th>Stage & SLA Action</th>
+                <th>Associate</th>
+                <th>Package Tier</th>
+                <th>Stage & Next Action</th>
                 <th className="text-end">Actions</th>
               </tr>
             </thead>
@@ -479,7 +468,7 @@ export default function Leads() {
                 <tr>
                   <td colSpan="8" className="text-center py-5 text-muted">
                     <div className="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
-                    Loading verified dental leads from live database...
+                    Loading verified leads from live database...
                   </td>
                 </tr>
               ) : filtered.length === 0 ? (
@@ -490,117 +479,115 @@ export default function Leads() {
                   </td>
                 </tr>
               ) : (
-                filtered.map((lead) => {
-                  return (
-                    <tr key={lead.id}>
-                      <td>
-                        <span className="badge bg-light text-dark border font-monospace">
-                          {lead.lead_code || `ETH-2026`}
+                filtered.map((lead) => (
+                  <tr key={lead.id}>
+                    <td>
+                      <span className="badge bg-light text-dark border font-monospace">
+                        {lead.lead_code || `ETH-2026`}
+                      </span>
+                    </td>
+                    <td>
+                      <div className="fw-bold text-dark d-flex align-items-center">
+                        <i className="bi bi-heart-pulse-fill text-danger me-2"></i>
+                        <span>{lead.company_name || 'Clinic Name Not Listed'}</span>
+                      </div>
+                      <div className="small text-muted">
+                        <i className="bi bi-person-fill text-secondary me-1"></i>
+                        {lead.first_name || lead.name || 'Doctor Not Listed'}
+                      </div>
+                    </td>
+                    <td>
+                      {lead.phone ? (
+                        <div className="d-flex flex-column gap-1">
+                          <a href={`tel:${lead.phone}`} className="badge bg-light text-primary border text-decoration-none px-2 py-1">
+                            <i className="bi bi-telephone-fill me-1"></i>
+                            {lead.phone}
+                          </a>
+                          <a 
+                            href={`https://wa.me/91${lead.phone}`} 
+                            target="_blank" 
+                            rel="noreferrer"
+                            className="badge bg-success-subtle text-success border border-success-subtle text-decoration-none px-2 py-1"
+                          >
+                            <i className="bi bi-whatsapp me-1"></i> WhatsApp
+                          </a>
+                        </div>
+                      ) : (
+                        <span className="text-muted small">—</span>
+                      )}
+                    </td>
+                    <td>
+                      <span className="badge bg-info-subtle text-info-emphasis border border-info-subtle px-2 py-1">
+                        <i className="bi bi-geo-alt-fill me-1"></i>{lead.district || 'Tamil Nadu'}
+                      </span>
+                    </td>
+                    <td>
+                      <span className="badge bg-light text-dark border px-2 py-1">
+                        <i className="bi bi-person me-1"></i>
+                        {lead.bda_name || 'Associate'}
+                      </span>
+                    </td>
+                    <td>
+                      <div className="fw-semibold text-dark small">
+                        {lead.service_interested || 'Scale & Optimize'}
+                      </div>
+                      <div className="text-success small fw-bold">
+                        ₹{lead.quoted_amount ? parseFloat(lead.quoted_amount).toLocaleString('en-IN') : '55,000'}
+                      </div>
+                    </td>
+                    <td style={{ maxWidth: '280px' }}>
+                      <div>
+                        <span className={`badge ${
+                          lead.status === 'CONVERTED' || lead.pipeline_stage?.includes('Closed-Won') ? 'bg-success' :
+                          lead.status === 'LOST' || lead.pipeline_stage?.includes('Closed-Lost') ? 'bg-danger' :
+                          lead.status === 'DEMO' || lead.pipeline_stage?.includes('Stage 2') ? 'bg-info text-dark' :
+                          lead.status === 'COUNSELLING' || lead.pipeline_stage?.includes('Stage 3') ? 'bg-primary' :
+                          'bg-warning text-dark'
+                        }`}>
+                          {lead.pipeline_stage || lead.status || 'Stage 1'}
                         </span>
-                      </td>
-                      <td>
-                        <div className="fw-bold text-dark d-flex align-items-center">
-                          <i className="bi bi-heart-pulse-fill text-danger me-2"></i>
-                          <span>{lead.company_name || 'Clinic Name Not Listed'}</span>
-                        </div>
-                        <div className="small text-muted">
-                          <i className="bi bi-person-fill text-secondary me-1"></i>
-                          {lead.first_name || lead.name || 'Doctor Not Listed'}
-                        </div>
-                      </td>
-                      <td>
-                        {lead.phone ? (
-                          <div className="d-flex flex-column gap-1">
-                            <a href={`tel:${lead.phone}`} className="badge bg-light text-primary border text-decoration-none px-2 py-1">
-                              <i className="bi bi-telephone-fill me-1"></i>
-                              {lead.phone}
-                            </a>
-                            <a 
-                              href={`https://wa.me/91${lead.phone}`} 
-                              target="_blank" 
-                              rel="noreferrer"
-                              className="badge bg-success-subtle text-success border border-success-subtle text-decoration-none px-2 py-1"
-                            >
-                              <i className="bi bi-whatsapp me-1"></i> WhatsApp
-                            </a>
-                          </div>
-                        ) : (
-                          <span className="text-muted small">—</span>
-                        )}
-                      </td>
-                      <td>
-                        <span className="badge bg-info-subtle text-info-emphasis border border-info-subtle px-2 py-1">
-                          <i className="bi bi-geo-alt-fill me-1"></i>{lead.district || 'Tamil Nadu'}
-                        </span>
-                      </td>
-                      <td>
-                        <span className="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1">
-                          <i className="bi bi-person-check-fill me-1"></i>
-                          {lead.bda_name || (lead.assigned_to === NANDHINI_ID ? 'Nandhini K' : 'Mathishree S')}
-                        </span>
-                      </td>
-                      <td>
-                        <div className="fw-semibold text-dark small">
-                          {lead.service_interested || 'Scale & Optimize'}
-                        </div>
-                        <div className="text-success small fw-bold">
-                          ₹{lead.quoted_amount ? parseFloat(lead.quoted_amount).toLocaleString('en-IN') : '55,000'}
-                        </div>
-                      </td>
-                      <td style={{ maxWidth: '280px' }}>
-                        <div>
-                          <span className={`badge ${
-                            lead.status === 'CONVERTED' || lead.pipeline_stage?.includes('Closed-Won') ? 'bg-success' :
-                            lead.status === 'LOST' || lead.pipeline_stage?.includes('Closed-Lost') ? 'bg-danger' :
-                            lead.status === 'DEMO' || lead.pipeline_stage?.includes('Stage 2') ? 'bg-info text-dark' :
-                            lead.status === 'COUNSELLING' || lead.pipeline_stage?.includes('Stage 3') ? 'bg-primary' :
-                            'bg-warning text-dark'
-                          }`}>
-                            {lead.pipeline_stage || lead.status || 'Stage 1: Lead Ingestion'}
-                          </span>
-                        </div>
-                        {lead.next_action && (
-                          <small className="text-muted d-block text-truncate mt-1" title={lead.next_action}>
-                            <i className="bi bi-arrow-right-short text-primary"></i>
-                            {lead.next_action}
-                          </small>
-                        )}
-                      </td>
-                      <td className="text-end">
-                        <div className="btn-group btn-group-sm">
-                          <button
-                            className="btn btn-outline-info"
-                            title="Inspect 17-field details"
-                            onClick={() => setInspectingLead(lead)}
-                          >
-                            <i className="bi bi-eye"></i>
-                          </button>
-                          <button
-                            className="btn btn-outline-success"
-                            title="Convert to Deal"
-                            onClick={() => handleOpenConvert(lead)}
-                          >
-                            <i className="bi bi-lightning-charge-fill"></i>
-                          </button>
-                          <button
-                            className="btn btn-outline-secondary"
-                            title="Edit Lead"
-                            onClick={() => handleOpenEdit(lead)}
-                          >
-                            <i className="bi bi-pencil"></i>
-                          </button>
-                          <button
-                            className="btn btn-outline-danger"
-                            title="Delete Lead"
-                            onClick={() => handleDelete(lead.id)}
-                          >
-                            <i className="bi bi-trash"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
+                      </div>
+                      {lead.next_action && (
+                        <small className="text-muted d-block text-truncate mt-1" title={lead.next_action}>
+                          <i className="bi bi-arrow-right-short text-primary"></i>
+                          {lead.next_action}
+                        </small>
+                      )}
+                    </td>
+                    <td className="text-end">
+                      <div className="btn-group btn-group-sm">
+                        <button
+                          className="btn btn-outline-info"
+                          title="Inspect 17-field details"
+                          onClick={() => setInspectingLead(lead)}
+                        >
+                          <i className="bi bi-eye"></i>
+                        </button>
+                        <button
+                          className="btn btn-outline-success"
+                          title="Convert to Deal"
+                          onClick={() => handleOpenConvert(lead)}
+                        >
+                          <i className="bi bi-lightning-charge-fill"></i>
+                        </button>
+                        <button
+                          className="btn btn-outline-secondary"
+                          title="Edit Lead"
+                          onClick={() => handleOpenEdit(lead)}
+                        >
+                          <i className="bi bi-pencil"></i>
+                        </button>
+                        <button
+                          className="btn btn-outline-danger"
+                          title="Delete Lead"
+                          onClick={() => handleDelete(lead.id)}
+                        >
+                          <i className="bi bi-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
               )}
             </tbody>
           </table>
@@ -646,8 +633,8 @@ export default function Leads() {
                   </div>
                   <div className="col-md-4">
                     <div className="p-3 bg-light rounded-3 border">
-                      <span className="small text-muted fw-semibold">Assigned BDA</span>
-                      <h6 className="fw-bold text-dark mt-1 mb-0">{inspectingLead.bda_name || 'Assigned BDA'}</h6>
+                      <span className="small text-muted fw-semibold">Assigned Associate</span>
+                      <h6 className="fw-bold text-dark mt-1 mb-0">{inspectingLead.bda_name || 'Associate'}</h6>
                     </div>
                   </div>
                   <div className="col-md-4">
@@ -664,7 +651,7 @@ export default function Leads() {
                     <div className="p-3 bg-light rounded-3 border">
                       <span className="small text-muted fw-semibold">Service Package Interested In</span>
                       <h6 className="fw-bold text-dark mt-1 mb-0">{inspectingLead.service_interested || 'Scale & Optimize'}</h6>
-                      <div className="text-muted small mt-1">Package Tier: {inspectingLead.package_tier || 'Standard Retainer'}</div>
+                      <div className="text-muted small mt-1">Tier: {inspectingLead.package_tier || 'Standard Package'}</div>
                     </div>
                   </div>
                   <div className="col-md-4">
@@ -699,7 +686,7 @@ export default function Leads() {
                     handleOpenEdit(l);
                   }}
                 >
-                  <i className="bi bi-pencil me-1"></i> Edit Lead Fields
+                  <i className="bi bi-pencil me-1"></i> Edit Lead
                 </button>
               </div>
             </div>
@@ -714,7 +701,7 @@ export default function Leads() {
             <div className="modal-content border-0 shadow-lg rounded-3">
               <div className="modal-header bg-primary text-white">
                 <h5 className="modal-title fw-bold">
-                  {editingLead ? 'Edit Dental Outreach Lead' : 'Create New Dental Outreach Lead'}
+                  {editingLead ? 'Edit Healthcare Lead' : 'Create New Healthcare Lead'}
                 </h5>
                 <button type="button" className="btn-close btn-close-white" onClick={() => setShowLeadModal(false)}></button>
               </div>
@@ -722,7 +709,7 @@ export default function Leads() {
                 <div className="modal-body p-4">
                   <div className="row g-3">
                     <div className="col-md-4">
-                      <label className="form-label small fw-semibold">Lead ID (ETH Format)</label>
+                      <label className="form-label small fw-semibold">Lead ID</label>
                       <input
                         type="text"
                         className="form-control"
@@ -739,7 +726,6 @@ export default function Leads() {
                         required
                         value={leadForm.company_name}
                         onChange={(e) => setLeadForm({ ...leadForm, company_name: e.target.value })}
-                        placeholder="e.g. Royal Dental Hospital"
                       />
                     </div>
                     <div className="col-md-6">
@@ -750,7 +736,6 @@ export default function Leads() {
                         required
                         value={leadForm.first_name}
                         onChange={(e) => setLeadForm({ ...leadForm, first_name: e.target.value })}
-                        placeholder="Dr. Full Name"
                       />
                     </div>
                     <div className="col-md-6">
@@ -761,11 +746,9 @@ export default function Leads() {
                         required
                         value={leadForm.phone}
                         onChange={(e) => setLeadForm({ ...leadForm, phone: e.target.value })}
-                        placeholder="e.g. 9842725602"
                       />
                     </div>
 
-                    {/* District / Area & Custom Location Handling */}
                     <div className="col-md-6">
                       <label className="form-label small fw-semibold">District / Area (Tamil Nadu) *</label>
                       <select
@@ -780,7 +763,7 @@ export default function Leads() {
                           }
                         }}
                       >
-                        <optgroup label="Core Tracking Clusters">
+                        <optgroup label="Clusters / Taluks">
                           {CUSTOM_LOCATIONS.map((loc) => (
                             <option key={loc} value={loc}>{loc}</option>
                           ))}
@@ -796,7 +779,7 @@ export default function Leads() {
                         <input
                           type="text"
                           className="form-control mt-2"
-                          placeholder="Type custom city, taluk or area..."
+                          placeholder="Type custom location..."
                           value={customDistrictText}
                           onChange={(e) => setCustomDistrictText(e.target.value)}
                           required
@@ -805,19 +788,6 @@ export default function Leads() {
                     </div>
 
                     <div className="col-md-6">
-                      <label className="form-label small fw-semibold">Assigned BDA *</label>
-                      <select
-                        className="form-select"
-                        value={leadForm.assigned_to}
-                        onChange={(e) => setLeadForm({ ...leadForm, assigned_to: e.target.value })}
-                      >
-                        <option value={MATHISHREE_ID}>Mathishree S</option>
-                        <option value={NANDHINI_ID}>Nandhini K</option>
-                      </select>
-                    </div>
-
-                    {/* Product & Package Alignment */}
-                    <div className="col-md-8">
                       <label className="form-label small fw-semibold">Service Package Interested In *</label>
                       <select
                         className="form-select"
@@ -841,8 +811,7 @@ export default function Leads() {
                       />
                     </div>
 
-                    {/* Pipeline Stage & Governance */}
-                    <div className="col-md-6">
+                    <div className="col-md-5">
                       <label className="form-label small fw-semibold">Pipeline Stage</label>
                       <select
                         className="form-select"
@@ -877,17 +846,6 @@ export default function Leads() {
                       </select>
                     </div>
 
-                    <div className="col-md-3">
-                      <label className="form-label small fw-semibold">Next Follow-up Date</label>
-                      <input
-                        type="date"
-                        className="form-control"
-                        value={leadForm.follow_up_date}
-                        onChange={(e) => setLeadForm({ ...leadForm, follow_up_date: e.target.value })}
-                      />
-                    </div>
-
-                    {/* Closed-Lost Reason taxonomy if lost */}
                     {(leadForm.pipeline_stage?.includes('Closed-Lost') || leadForm.status === 'LOST') && (
                       <div className="col-12">
                         <div className="p-3 bg-danger-subtle rounded-3 border border-danger-subtle">
@@ -908,13 +866,12 @@ export default function Leads() {
                     )}
 
                     <div className="col-12">
-                      <label className="form-label small fw-semibold">Mandatory Next Action / Stage Gate Notes</label>
+                      <label className="form-label small fw-semibold">Next Action / Stage Notes</label>
                       <textarea
                         className="form-control"
                         rows="2"
                         value={leadForm.next_action}
                         onChange={(e) => setLeadForm({ ...leadForm, next_action: e.target.value })}
-                        placeholder="e.g. Schedule 45-minute discovery demo on Google Maps SEO and automated WhatsApp patient flows."
                       ></textarea>
                     </div>
                   </div>

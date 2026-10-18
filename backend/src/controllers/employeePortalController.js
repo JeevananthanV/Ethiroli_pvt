@@ -34,6 +34,15 @@ const MAX_AVATAR_BYTES = 512 * 1024;
 // Day names indexed by Date#getUTCDay(), used by the monthly attendance payload.
 const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+/** Safely decrypt an encrypted value, returning null if decryption fails
+ * (i.e. decrypt() returns the input unchanged). Prevents raw ciphertext
+ * from leaking into the UI. */
+const safeDecryptName = (v) => {
+  if (!v) return null;
+  const decrypted = decrypt(v);
+  return decrypted === v ? null : decrypted;
+};
+
 /**
  * Normalises a MySQL DATE column to a `YYYY-MM-DD` string.
  *
@@ -601,7 +610,7 @@ export const getLeavesAndBalances = asyncHandler(async (req, res) => {
     );
     for (const r of reviewerRows) {
       reviewersById.set(r.id, {
-        name: r.full_name ? decrypt(r.full_name) : null,
+        name: safeDecryptName(r.full_name),
         role: r.role
       });
     }
@@ -1188,8 +1197,8 @@ export const getMessageContacts = asyncHandler(async (req, res) => {
   // (a random hex string) as the contact name and thread title.
   const contacts = rows.map((r) => ({
     id: r.id,
-    email: r.email ? decrypt(r.email) : null,
-    full_name: r.full_name ? decrypt(r.full_name) : null,
+    email: safeDecryptName(r.email),
+    full_name: safeDecryptName(r.full_name),
     role: r.role,
     avatar_url: r.avatar_url,
     designation: r.designation || null,

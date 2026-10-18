@@ -1,9 +1,25 @@
 import pool from '../config/database.js';
+import { decrypt } from '../config/encryption.js';
+
+/** Safely decrypt a value, returning null if missing or undecryptable.
+ *  decrypt() returns the input unchanged when it can't decrypt, so we check
+ *  for that and return null instead of echoing ciphertext. */
+const safeDecrypt = (v) => {
+  if (!v) return null;
+  const decrypted = decrypt(v);
+  return decrypted === v ? null : decrypted;
+};
 
 export default class ActivityFeed {
   static format(row) {
     if (!row) return null;
-    return row;
+    return {
+      ...row,
+      // users.full_name / users.email are AES-encrypted at rest; decrypt before
+      // exposing to the frontend so users see real names, not ciphertext.
+      actor_name: safeDecrypt(row.actor_name) || null,
+      actor_email: safeDecrypt(row.actor_email) || null,
+    };
   }
 
   static async findById(id) {

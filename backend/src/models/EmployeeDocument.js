@@ -2,15 +2,24 @@ import crypto from 'crypto';
 import pool from '../config/database.js';
 import { decrypt } from '../config/encryption.js';
 
+/** Safely decrypt an encrypted value, returning null if decryption fails
+ *  (i.e. decrypt() returns the input unchanged). Prevents raw ciphertext
+ *  from leaking into the UI. */
+const safeDecryptName = (v) => {
+  if (!v) return null;
+  const decrypted = decrypt(v);
+  return decrypted === v ? null : decrypted;
+};
+
 export default class EmployeeDocument {
   static format(row) {
     if (!row) return null;
-    const name = row.full_name ? decrypt(row.full_name) : (row.employee_name || null);
+    const name = row.full_name ? safeDecryptName(row.full_name) : (row.employee_name || null);
     return {
       ...row,
       employee_name: name,
       user_name: name,
-      email: row.email ? decrypt(row.email) : null
+      email: row.email ? safeDecryptName(row.email) : null
     };
   }
 

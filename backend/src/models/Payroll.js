@@ -2,6 +2,15 @@ import crypto from 'crypto';
 import pool from '../config/database.js';
 import { decrypt } from '../config/encryption.js';
 
+/** Safely decrypt an encrypted value, returning null if decryption fails
+ *  (i.e. decrypt() returns the input unchanged). Prevents raw ciphertext
+ *  from leaking into the UI. */
+const safeDecryptName = (v) => {
+  if (!v) return null;
+  const decrypted = decrypt(v);
+  return decrypted === v ? null : decrypted;
+};
+
 export default class Payroll {
   /**
    * `payroll.month_year` is a MySQL DATE column. The driver materialises it as
@@ -30,7 +39,7 @@ export default class Payroll {
 
   static format(row) {
     if (!row) return null;
-    const name = row.full_name ? decrypt(row.full_name) : (row.employee_name || null);
+    const name = row.full_name ? safeDecryptName(row.full_name) : (row.employee_name || null);
     const basicVal = parseFloat(row.basic || 0);
     const hraVal = parseFloat(row.hra || 0);
     const daVal = parseFloat(row.da || 0);

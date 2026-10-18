@@ -3,10 +3,19 @@ import pool from '../config/database.js';
 import { decrypt } from '../config/encryption.js';
 import AttendanceSession from './AttendanceSession.js';
 
+/** Safely decrypt an encrypted value, returning null if decryption fails
+ *  (i.e. decrypt() returns the input unchanged). Prevents raw ciphertext
+ *  from leaking into the UI. */
+const safeDecryptName = (v) => {
+  if (!v) return null;
+  const decrypted = decrypt(v);
+  return decrypted === v ? null : decrypted;
+};
+
 export default class Attendance {
   static format(row) {
     if (!row) return null;
-    const name = row.full_name ? decrypt(row.full_name) : (row.name || null);
+    const name = row.full_name ? safeDecryptName(row.full_name) : (row.name || null);
     // 12-hour clock with an AM/PM marker. toLocaleTimeString without
     // `hour12` follows the machine locale and produced 24-hour "railway" times
     // (13:57) on non-US regions.

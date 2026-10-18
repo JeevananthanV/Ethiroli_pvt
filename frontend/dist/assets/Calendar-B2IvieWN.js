@@ -1,0 +1,1 @@
+import{j as r}from"./vendor-react-CyNzO99t.js";import{D as t}from"./DynamicCalendarPage-CfO6JJ4E.js";import"./vendor-redux-C6p7jDbx.js";import"./AdminPage-BXe2dG37.js";import"./ErrorBoundary-DNfUpXBs.js";import"./vendor-network-DuvCiPtx.js";import"./vendor-router-HlgQYC6F.js";function s(){return r.jsx(t,{defaultRole:"TUTOR"})}export{s as default};

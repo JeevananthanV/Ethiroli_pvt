@@ -1,0 +1,1 @@
+import{a as r}from"./ErrorBoundary-DNfUpXBs.js";import"./vendor-redux-C6p7jDbx.js";import"./vendor-react-CyNzO99t.js";import"./vendor-network-DuvCiPtx.js";import"./vendor-router-HlgQYC6F.js";const n=async()=>(await r.get("/v1/marketplace/products")).data,i=async t=>(await r.post("/v1/marketplace/products",t)).data;export{n as getMarketplaceProducts,i as publishProduct};

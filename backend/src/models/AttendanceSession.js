@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import pool from '../config/database.js';
-import { BUSINESS_TIMEZONE } from '../config/timezone.js';
+import { BUSINESS_TIMEZONE, businessDate } from '../config/timezone.js';
 
 /**
  * AttendanceSession - one work session (a punch-in / punch-out pair).
@@ -189,6 +189,41 @@ export default class AttendanceSession {
       session_count: Number(rows[0].session_count || 0),
       is_open: Number(rows[0].active_count || 0) > 0,
     };
+  }
+
+  /**
+   * Close any session still ACTIVE from a previous business day at 23:59:59
+   * of that day. Returns the closed rows (user_id, work_date) so the caller
+   * can re-sync daily summary rows. Never touches the current business day.
+   */
+  static async autoCloseStaleSessions(userId = null) {
+    const today = businessDate();
+    const [rows] = await pool.execute(
+      `SELECT id, user_id, DATE_FORMAT(work_date, '%Y-%m-%d') AS work_date,
+              check_in_time, check_out_time, worked_minutes, status
+       FROM attendance_sessions
+       WHERE status = 'ACTIVE' AND work_date < ?
+       ${userId ? 'AND user_id = ?' : ''}`,
+      userId ? [today, userId] : [today]
+    );
+    if (rows.length === 0) return [];
+
+    const now = new Date();
+    for (const row of rows) {
+      const workDate = row.work_date; // already YYYY-MM-DD
+
+      await pool.execute(
+        `UPDATE attendance_sessions
+         SET check_out_time = ?, status = 'COMPLETED', updated_at = NOW()
+         WHERE id = ? AND status = 'ACTIVE'`,
+        [`${workDate} 23:59:59`, row.id]
+      );
+    }
+
+    return rows.map((r) => ({
+      user_id: r.user_id,
+      work_date: r.work_date,
+    }));
   }
 
   static get timezone() {

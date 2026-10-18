@@ -15,7 +15,7 @@ import styles from './Auth.module.css';
  * portal does not pass them the rendered output is exactly as before, so
  * adding them for one portal does not change any other portal's login screen.
  */
-export default function LoginPage({ portal, brandLogo = '/assets/images/ethiroli_logo.png', showPasswordToggle, demo, demoPassword, footer }) {
+export default function LoginPage({ portal, brandLogo = '/assets/images/ethiroli_logo.png', showPasswordToggle, demo, demoPassword, footer, variant }) {
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -75,6 +75,102 @@ export default function LoginPage({ portal, brandLogo = '/assets/images/ethiroli
         onBack={() => setRequiresMfa(false)}
         error={error}
       />
+    );
+  }
+
+  if (variant === 'polished') {
+    return (
+      <div className={styles.authContainer}>
+        <div className={`${styles.authCard} ${styles['authCard--polished']}`}>
+          <div className={styles.polishedHeader}>
+            {brandLogo && (
+              <img src={brandLogo} className={styles.polishedLogo} alt="Ethiroli" />
+            )}
+            <h2 className={styles.polishedWordmark}>ETHIROLI</h2>
+            <p className={styles.polishedPortal}>
+              {portalConfig?.label ? `${portalConfig.label} Portal` : (portal ? `${String(portal).toUpperCase()} Portal` : 'Login to your account')}
+            </p>
+            <span className={styles.polishedBadge}>Dedicated Portal &bull; Role-Guarded Access</span>
+          </div>
+
+          {error && (
+            <div className={`${styles.error} ${styles.polishedAlert}`} role="alert">
+              <i className="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+              <span>{error}</span>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className={styles.form}>
+            <div className={styles.polishedField}>
+              <label className="label" htmlFor="polished-email">
+                Email <span className="required">*</span>
+              </label>
+              <div className={styles.polishedControl}>
+                <i className={`bi bi-envelope ${styles.polishedIcon}`} aria-hidden="true"></i>
+                <input
+                  id="polished-email"
+                  className="inputField"
+                  type="email"
+                  name="email"
+                  autoComplete="username"
+                  autoFocus
+                  value={email}
+                  onChange={(e) => { setEmail(e.target.value); setNotice(''); }}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className={styles.polishedField}>
+              <label className="label" htmlFor="polished-password">
+                Password <span className="required">*</span>
+              </label>
+              <div className={`${styles.polishedControl} ${showPasswordToggle ? styles['polishedControl--reveal'] : ''}`}>
+                <i className={`bi bi-lock ${styles.polishedIcon}`} aria-hidden="true"></i>
+                <input
+                  id="polished-password"
+                  className="inputField"
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                {showPasswordToggle && (
+                  <button
+                    type="button"
+                    className={styles.polishedReveal}
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    aria-pressed={showPassword}
+                  >
+                    <i className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'}`} aria-hidden="true"></i>
+                  </button>
+                )}
+              </div>
+            </div>
+
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={loading}
+              className={`${styles.submitBtn} ${styles.polishedSubmit}`}
+            >
+              {loading ? (
+                <>
+                  <span className={styles.spinner} aria-hidden="true"></span>
+                  Logging in...
+                </>
+              ) : (
+                'Log In'
+              )}
+            </Button>
+          </form>
+
+          {footer}
+        </div>
+      </div>
     );
   }
 

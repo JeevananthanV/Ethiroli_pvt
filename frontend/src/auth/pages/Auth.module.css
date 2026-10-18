@@ -1,5 +1,4 @@
-.authContainer {
-  position: relative;
+﻿.authContainer {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -7,23 +6,125 @@
   background: radial-gradient(circle at 50% 20%, rgba(129, 158, 53, 0.15) 0%, rgba(26, 75, 72, 0.3) 40%, #0c1a19 85%), #0c1a19;
   font-family: var(--font-body, 'Montserrat', sans-serif);
   padding: 24px;
+  position: relative;
   overflow: hidden;
 }
 
-/* ==========================================================================
-   Ambient motion layers
+.authCard {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 40px;
+  border-radius: var(--radius-xl, 20px);
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(129, 158, 53, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  animation: slideUp 0.4s ease-out;
+}
 
-   .authCard referenced `slideUp` but no @keyframes rule existed anywhere in
-   the codebase, so the entrance animation silently never ran. The keyframes
-   below are defined here, alongside the decorative drifting orbs that give the
-   sign-in screen something to move against.
-   ========================================================================== */
+.header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.header h2 {
+  margin: 0 0 8px 0;
+  font-size: 30px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--color-primary, #819E35), var(--base-gold, #E8D657));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 2px;
+}
+
+.header p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-text-on-dark, rgba(255, 255, 255, 0.85));
+  opacity: 0.8;
+  font-weight: 500;
+}
+
+.error {
+  background: rgba(175, 67, 30, 0.18);
+  border: 1px solid rgba(175, 67, 30, 0.4);
+  color: #ff7654;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm, 8px);
+  font-size: 13px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.notice {
+  background: rgba(129, 158, 53, 0.16);
+  border: 1px solid rgba(129, 158, 53, 0.4);
+  color: #b9d36a;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm, 8px);
+  font-size: 13px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background: var(--color-primary, #819E35);
+  color: var(--color-text-on-primary, #FFFFFF);
+  border: none;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.03em;
+  border-radius: var(--radius-sm, 8px);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: 0 4px 16px rgba(129, 158, 53, 0.3);
+}
+
+.submitBtn:hover {
+  background: var(--base-gold, #E8D657);
+  color: var(--base-dark, #0c1a19);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(232, 214, 87, 0.4);
+}
 
 .authBackdrop {
   position: absolute;
   inset: 0;
   pointer-events: none;
   overflow: hidden;
+}
+
+.authSheen {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 720px;
+  height: 720px;
+  margin: -360px 0 0 -360px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(129, 158, 53, 0.12) 60deg,
+    transparent 140deg,
+    transparent 220deg,
+    rgba(232, 214, 87, 0.1) 290deg,
+    transparent 360deg
+  );
+  border-radius: 50%;
+  animation: sheenSpin 30s linear infinite;
+  pointer-events: none;
 }
 
 .authOrb {
@@ -61,92 +162,8 @@
   animation: orbDrift3 26s ease-in-out infinite;
 }
 
-/* Slow conic sheen sweeping behind the card. */
-.authSheen {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 720px;
-  height: 720px;
-  margin: -360px 0 0 -360px;
-  background: conic-gradient(
-    from 0deg,
-    transparent 0deg,
-    rgba(129, 158, 53, 0.12) 60deg,
-    transparent 140deg,
-    transparent 220deg,
-    rgba(232, 214, 87, 0.1) 290deg,
-    transparent 360deg
-  );
-  border-radius: 50%;
-  animation: sheenSpin 30s linear infinite;
-  pointer-events: none;
-}
-
-.authCard {
-  position: relative;
-  z-index: 1;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 40px;
-  border-radius: var(--radius-xl, 20px);
-  width: 100%;
-  max-width: 420px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(129, 158, 53, 0.08);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  animation: slideUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.4s ease,
-    border-color 0.4s ease;
-}
-
-.authCard:hover {
-  transform: translateY(-4px);
-  border-color: rgba(129, 158, 53, 0.4);
-  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.65), 0 0 60px rgba(129, 158, 53, 0.18);
-}
-
-/* Gradient hairline that travels around the card border. */
-.authCard::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(
-    130deg,
-    transparent 0%,
-    rgba(129, 158, 53, 0.65) 35%,
-    rgba(232, 214, 87, 0.75) 50%,
-    transparent 80%
-  );
-  background-size: 250% 250%;
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  animation: borderSweep 6s ease-in-out infinite;
-  pointer-events: none;
-}
-
-/* Light sweep gliding across the card surface. */
-.authCard::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -60%;
-  width: 45%;
-  height: 100%;
-  background: linear-gradient(
-    100deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.09) 50%,
-    transparent 100%
-  );
-  transform: skewX(-18deg);
-  animation: cardShine 7s ease-in-out infinite;
-  pointer-events: none;
+.portalBadge {
+  animation: pulseBadge 3.2s ease-in-out infinite;
 }
 
 @keyframes slideUp {
@@ -253,62 +270,14 @@
   }
 }
 
-.header {
-  text-align: center;
-  margin-bottom: 28px;
+:global(.label) {
+  color: #e2e8f0 !important;
+  font-weight: 500 !important;
+  font-size: 13.5px !important;
+  margin-bottom: 6px !important;
+  display: block;
 }
 
-.header h2 {
-  margin: 0 0 8px 0;
-  font-size: 30px;
-  font-weight: 800;
-  background: linear-gradient(135deg, var(--color-primary, #819E35), var(--base-gold, #E8D657));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: 2px;
-}
-
-.header p {
-  margin: 0;
-  font-size: 14px;
-  color: var(--color-text-on-dark, rgba(255, 255, 255, 0.85));
-  opacity: 0.8;
-  font-weight: 500;
-}
-
-.error {
-  background: rgba(175, 67, 30, 0.18);
-  border: 1px solid rgba(175, 67, 30, 0.4);
-  color: #ff7654;
-  padding: 12px 14px;
-  border-radius: var(--radius-sm, 8px);
-  font-size: 13px;
-  margin-bottom: 20px;
-  text-align: center;
-  animation: shake 0.45s ease-in-out;
-}
-
-/* Informational notice (e.g. "your account was deleted"). Unlike .error this
-   is not animated with a shake - nothing went wrong, the state is expected. */
-.notice {
-  background: rgba(129, 158, 53, 0.16);
-  border: 1px solid rgba(129, 158, 53, 0.4);
-  color: #b9d36a;
-  padding: 12px 14px;
-  border-radius: var(--radius-sm, 8px);
-  font-size: 13px;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-:global(.label),
 :global(.formGroup .label) {
   color: rgba(255, 255, 255, 0.8) !important;
 }
@@ -316,29 +285,6 @@
 :global(.label.required::after) {
   content: ' *';
   color: #e76f51 !important;
-}
-
-.submitBtn {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  background: var(--color-primary, #819E35);
-  color: var(--color-text-on-primary, #FFFFFF);
-  border: none;
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 0.03em;
-  border-radius: var(--radius-sm, 8px);
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-  box-shadow: 0 4px 16px rgba(129, 158, 53, 0.3);
-}
-
-.submitBtn:hover {
-  background: var(--base-gold, #E8D657);
-  color: var(--base-dark, #0c1a19);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(232, 214, 87, 0.4);
 }
 
 .submitBtn:active {
@@ -352,31 +298,82 @@
   transform: none;
 }
 
-/* "Dedicated Portal / Role-Guarded Access" chip */
-.portalBadge {
-  animation: pulseBadge 3.2s ease-in-out infinite;
+.authCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(129, 158, 53, 0.4);
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.65), 0 0 60px rgba(129, 158, 53, 0.18);
 }
 
-/* ==========================================================================
-   Reduced motion
+authCard::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    130deg,
+    transparent 0%,
+    rgba(129, 158, 53, 0.65) 35%,
+    rgba(232, 214, 87, 0.75) 50%,
+    transparent 80%
+  );
+  background-size: 250% 250%;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: borderSweep 6s ease-in-out infinite;
+  pointer-events: none;
+}
 
-   Users who ask the OS to limit animation get a static, fully legible screen.
-   ========================================================================== */
+authCard::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.09) 50%,
+    transparent 100%
+  );
+  transform: skewX(-18deg);
+  animation: cardShine 7s ease-in-out infinite;
+  pointer-events: none;
+}
 
-@media (prefers-reduced-motion: reduce) {
-  .authContainer *,
-  .authContainer *::before,
-  .authContainer *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
-  }
+.imsDemoList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
-  .authCard:hover,
-  .submitBtn:hover {
-    transform: none;
-  }
+.authCard :global(.label) {
+  color: #e2e8f0 !important;
+  font-weight: 500 !important;
+  font-size: 13.5px !important;
+  margin-bottom: 6px !important;
+  display: block;
+}
+
+.authCard :global(.passwordToggle) {
+  color: #94a3b8 !important;
+}
+
+.authCard :global(.inputField),
+.authCard input[type='text'],
+.authCard input[type='email'],
+.authCard input[type='password'] {
+  background: rgba(255, 255, 255, 0.07) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 10px !important;
+  padding: 12px 16px !important;
+  font-size: 14.5px !important;
+  color: #f8fafc !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25) !important;
+  transition: all 0.2s ease !important;
 }
 
 /* --- Opt-in enhancements (employee portal passes brandLogo / showPasswordToggle) --- */
@@ -859,6 +856,306 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
+.authCard :global(.inputField),
+.authCard input[type='text'],
+.authCard input[type='email'],
+.authCard input[type='password'] {
+  background: rgba(255, 255, 255, 0.07) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 10px !important;
+  padding: 12px 16px !important;
+  font-size: 14.5px !important;
+  color: #f8fafc !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25) !important;
+  transition: all 0.2s ease !important;
+}
+
+/* ==========================================================================
+   Polished sign-in card (opt-in via LoginPage's `variant="polished"`)
+
+   Only EmployeeLoginPage asks for this, so no other portal's sign-in screen
+   changes.
+
+   WHY THIS BLOCK HAS TO REPEAT SO MUCH
+   -----------------------------------
+   `src/styles/admin.css` sets, globally and with !important:
+
+     .label                     { color: #374151 }           (dark grey)
+     input[type=email|password] { background: #fff !important;
+                                  color: var(--color-text-main) !important }
+
+   Those were written for the light-background admin pages. On this dark card
+   they produced near-illegible labels and white input boxes. They cannot be
+   changed outright, because every admin page in the app depends on them.
+
+   So the sign-in card re-asserts the correct values, scoped to
+   `.authCard--polished`. Specificity does the work: `.authCard--polished
+   input[type='email']` (0,2,1) outranks the bare `input[type='email']` (0,1,1),
+   and both carry !important, so the more specific declaration wins without
+   admin.css being edited.
+   ========================================================================== */
+
+.authCard--polished {
+  padding: 38px 34px 32px;
+  max-width: 440px;
+}
+
+/* ---------- Header ---------- */
+
+.polishedHeader {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+/* The asset is a square lockup that already contains the wordmark, so it is
+   sized square and letterboxed with `contain` to avoid cropping. */
+.polishedLogo {
+  display: block;
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
+  margin: 0 auto 12px;
+}
+
+.polishedWordmark {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  background: linear-gradient(135deg, var(--color-primary, #819E35), var(--base-gold, #E8D657));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.polishedPortal {
+  margin: 6px 0 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* Neutral, readable on the dark card. The portal's brandColor is deliberately
+   NOT used for this text - the employee portal's #264653 measures 0.61:1 here. */
+.polishedBadge {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 5px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.07);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ---------- Labels (the contrast fix) ---------- */
+
+/* The global `.label` is #374151, which is roughly 2:1 against this card's
+   background. */
+.authCard--polished .label {
+  color: rgba(255, 255, 255, 0.88) !important;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* The required asterisk has no global rule at all, so it silently inherited the
+   dark grey along with the label. */
+.authCard--polished .label .required {
+  color: var(--base-gold, #E8D657);
+}
+
+/* ---------- Fields ---------- */
+
+.polishedField {
+  display: flex;
+  flex-direction: column;
+}
+
+.polishedControl {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.polishedIcon {
+  position: absolute;
+  left: 15px;
+  z-index: 1;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.42);
+  pointer-events: none;
+  transition: color 0.18s ease;
+}
+
+/* The icon adopts the focus colour so the control reads as active. */
+.polishedControl:focus-within .polishedIcon {
+  color: var(--base-gold, #E8D657);
+}
+
+/* The global rule forces `background: #fff !important` on every text input.
+   These selectors are more specific, so the dark treatment wins. */
+.authCard--polished input[type='email'],
+.authCard--polished input[type='password'],
+.authCard--polished input.inputField {
+  width: 100%;
+  padding: 12px 14px 12px 40px !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-radius: 10px !important;
+  color: #f1f5f9 !important;
+  font-size: 14px !important;
+  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease !important;
+}
+
+.authCard--polished input::placeholder {
+  color: rgba(255, 255, 255, 0.35) !important;
+}
+
+.authCard--polished input:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.authCard--polished input:focus {
+  background: rgba(255, 255, 255, 0.09) !important;
+  border-color: var(--base-gold, #E8D657) !important;
+  box-shadow: 0 0 0 3px rgba(232, 214, 87, 0.2) !important;
+}
+
+/* The reveal button shares the row with the leading icon, so the field needs
+   extra right padding or the typed password runs underneath it.
+
+   Applied via an explicit modifier class rather than `:has()`, because `:has()`
+   is ignored outright by older browsers, which would silently drop this rule
+   and let the text run under the button. */
+.authCard--polished .polishedControl--reveal input {
+  padding-right: 46px !important;
+}
+
+.polishedReveal {
+  position: absolute;
+  right: 8px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 15px;
+  cursor: pointer;
+  transition: color 0.18s ease, background 0.18s ease;
+}
+
+.polishedReveal:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.polishedReveal:focus-visible {
+  outline: 2px solid var(--base-gold, #E8D657);
+  outline-offset: 2px;
+}
+
+/* ---------- Caps Lock warning ---------- */
+
+.polishedCaps {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: -4px 0 0;
+  padding: 9px 12px;
+  border-radius: 9px;
+  background: rgba(232, 214, 87, 0.12);
+  border: 1px solid rgba(232, 214, 87, 0.38);
+  color: #f3e79a;
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+.polishedCaps i {
+  flex-shrink: 0;
+}
+
+/* ---------- Submit ---------- */
+
+.polishedSubmit {
+  margin-top: 6px;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border-radius: 10px;
+  font-size: 14.5px;
+}
+
+.polishedSubmit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ---------- Alerts ---------- */
+
+.polishedAlert {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  text-align: left;
+  line-height: 1.5;
+}
+
+.polishedAlert i {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* The recovery trigger was sized for the old card; a little more presence now
+   that it is the only secondary action. */
+.authCard--polished .recoveryTrigger {
+  margin-top: 20px;
+  padding: 11px 14px;
+  font-size: 13px;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 480px) {
+  .authCard--polished {
+    padding: 30px 20px 24px;
+  }
+
+  .polishedWordmark {
+    font-size: 22px;
+  }
+
+  .polishedLogo {
+    width: 62px;
+    height: 62px;
+  }
+}
+
+.authCard :global(.inputField),
+.authCard input[type='text'],
+.authCard input[type='email'],
+.authCard input[type='password'] {
+  background: rgba(255, 255, 255, 0.07) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 10px !important;
+  padding: 12px 16px !important;
+  font-size: 14.5px !important;
+  color: #f8fafc !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25) !important;
+  transition: all 0.2s ease !important;
+}
+
 /* ==========================================================================
    Intern portal sign-in
 
@@ -1269,13 +1566,6 @@
   margin-bottom: 12px;
 }
 
-/* Stack of quick-sign-in account buttons. */
-.imsDemoList {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
 .imsDemoTitle {
   display: inline-flex;
   align-items: center;
@@ -1435,56 +1725,5 @@
   }
 }
 
-/* ==========================================================================
-   Dark-Theme Input Surfaces for .authCard
-   Replaces stark white input boxes with sleek dark glass inputs
-   ========================================================================== */
-.authCard :global(.inputField),
-.authCard input[type='text'],
-.authCard input[type='email'],
-.authCard input[type='password'] {
-  background: rgba(255, 255, 255, 0.07) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  border-radius: 10px !important;
-  padding: 12px 16px !important;
-  font-size: 14.5px !important;
-  color: #f8fafc !important;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25) !important;
-  transition: all 0.2s ease !important;
-}
 
-.authCard :global(.inputField)::placeholder,
-.authCard input::placeholder {
-  color: rgba(255, 255, 255, 0.4) !important;
-}
-
-.authCard :global(.inputField):hover,
-.authCard input:hover {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border-color: rgba(255, 255, 255, 0.35) !important;
-}
-
-.authCard :global(.inputField):focus,
-.authCard input:focus {
-  background: rgba(255, 255, 255, 0.12) !important;
-  border-color: #819e35 !important;
-  box-shadow: 0 0 0 3px rgba(129, 158, 53, 0.35), inset 0 2px 4px rgba(0, 0, 0, 0.2) !important;
-  outline: none !important;
-}
-
-.authCard :global(.label) {
-  color: #e2e8f0 !important;
-  font-weight: 500 !important;
-  font-size: 13.5px !important;
-  margin-bottom: 6px !important;
-  display: block;
-}
-
-.authCard :global(.passwordToggle) {
-  color: #94a3b8 !important;
-}
-
-.authCard :global(.passwordToggle):hover {
-  color: #f8fafc !important;
-}
 

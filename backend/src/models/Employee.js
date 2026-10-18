@@ -5,8 +5,6 @@ import { encrypt, decrypt } from '../config/encryption.js';
 export default class Employee {
   static format(row) {
     if (!row) return null;
-    const fullName = row.full_name ? decrypt(row.full_name) : (row.name || null);
-    const email = row.email ? decrypt(row.email) : null;
     // Defence in depth: if `decrypt` ever throws (it currently swallows its own
     // errors and returns the input unchanged, which is what lets legacy plaintext
     // rows keep working), the profile request must still render rather than 500.
@@ -14,6 +12,8 @@ export default class Employee {
       if (!v) return null;
       try { return decrypt(v); } catch { return null; }
     };
+    const fullName = row.full_name ? safeDecrypt(row.full_name) : (row.name || null);
+    const email = row.email ? safeDecrypt(row.email) : null;
     return {
       ...row,
       full_name: fullName,

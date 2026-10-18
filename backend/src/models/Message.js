@@ -2,13 +2,22 @@ import crypto from 'crypto';
 import pool from '../config/database.js';
 import { decrypt } from '../config/encryption.js';
 
+/** Safely decrypt an encrypted value, returning null if decryption fails
+ *  (i.e. decrypt() returns the input unchanged). Prevents raw ciphertext
+ *  from leaking into the UI. */
+const safeDecryptName = (v) => {
+  if (!v) return null;
+  const decrypted = decrypt(v);
+  return decrypted === v ? null : decrypted;
+};
+
 export default class Message {
   static format(row) {
     if (!row) return null;
     return {
       ...row,
-      sender_name: row.sender_name ? decrypt(row.sender_name) : null,
-      recipient_name: row.recipient_name ? decrypt(row.recipient_name) : null
+      sender_name: row.sender_name ? safeDecryptName(row.sender_name) : null,
+      recipient_name: row.recipient_name ? safeDecryptName(row.recipient_name) : null
     };
   }
 

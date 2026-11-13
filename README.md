@@ -1,16 +1,36 @@
-# React Project Consolidation
+# Ethiroli Pvt Ltd — Unified Enterprise Educational & Media Platform
+
+[![Repository](https://img.shields.io/badge/GitHub-JeevananthanV%2FEthiroli__pvt-blue?logo=github)](https://github.com/JeevananthanV/Ethiroli_pvt)
+[![Frontend](https://img.shields.io/badge/Frontend-React%2019%20%2B%20Vite%20%2B%20Redux-61DAFB?logo=react&logoColor=white)](http://localhost:3000)
+[![Backend](https://img.shields.io/badge/Backend-Node.js%20%2B%20Express%20%2B%20Socket.IO-339933?logo=nodedotjs&logoColor=white)](http://localhost:5000)
+[![Database](https://img.shields.io/badge/Database-MySQL%208-4479A1?logo=mysql&logoColor=white)](https://www.mysql.com)
+
+A high-performance enterprise media and educational learning management ecosystem featuring multi-role portals (Student, Tutor, Admin, Super Admin), real-time Socket.IO collaboration, dynamic curriculum engines, and MySQL persistence.
+
+---
+
+## 🔗 Repository Links
+
+| Detail | Link |
+|---|---|
+| **GitHub Repository** | [https://github.com/JeevananthanV/Ethiroli_pvt](https://github.com/JeevananthanV/Ethiroli_pvt) |
+| **Author** | [Jeevananthan V](https://github.com/JeevananthanV) |
+| **Frontend Dev Server** | `http://localhost:3000` |
+| **Backend API** | `http://localhost:5000` |
+
+---
 
 ## Project Overview
 This project consolidates **5 distinct React project iterations** into a **single unified production codebase** located at:
 
-- `J:/eithiroli/ethiroli_react` (consolidated target)
+- `ethiroli_react` (consolidated target)
 
 ### Source Repositories:
-1. **J:/eithiroli/ethiroli_ert/ethiroli-react** - Modular architecture with feature-flag components
-2. **J:/eithiroli/ethiroli_4064_react/ethiroli-react** - Backend-focused with admin controllers
-3. **J:/eithiroli/ethiroli_ran/ethiroli-react** - Minimal frontend with test files
-4. **J:/eithiroli/ethiroli_rt/ethiroli-react** - Admin-centric React application
-5. **J:/eithiroli/ethiroli_406283/ethiroli-react** - Feature-rich frontend with extensive modules
+1. **ethiroli_ert/ethiroli-react** - Modular architecture with feature-flag components
+2. **ethiroli_4064_react/ethiroli-react** - Backend-focused with admin controllers
+3. **ethiroli_ran/ethiroli-react** - Minimal frontend with test files
+4. **ethiroli_rt/ethiroli-react** - Admin-centric React application
+5. **ethiroli_406283/ethiroli-react** - Feature-rich frontend with extensive modules
 
 ## Repository Structure
 
@@ -526,3 +546,14 @@ cp -r J:/eithiroli/ethiroli_react_backup_* J:/eithiroli/ethiroli_react
 - User acceptance testing
 
 This consolidation creates a **production-ready, maintainable, and scalable React ecosystem** that preserves all existing functionality while establishing a unified foundation for future development across the entire Ethiroli platform.
+
+---
+
+## 👨‍💻 Author
+
+**Jeevananthan V** — [@JeevananthanV](https://github.com/JeevananthanV)
+
+## License
+
+MIT
+
